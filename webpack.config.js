@@ -1,0 +1,20 @@
+const path = require('path');
+
+module.exports = { 
+    mode: 'development',
+    entry: './src/looker_hello_world.js',
+    devServer: {
+        https: {
+            https: {
+                key: fs.readFileSync()
+            }
+        },
+        contentBase: './dist',
+        // compress: true, 
+        port: 2525
+    },
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist')
+    }
+};
