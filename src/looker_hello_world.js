@@ -2,6 +2,7 @@ require('./d3v5.js');
 
 (function() {
     var d3 = d3v5;
+    debugger;
     console.log('this is d3', d3);
 
     /* Register a new custom visualization with loooker by calling the
@@ -67,9 +68,9 @@ require('./d3v5.js');
         // This helps us visualize the interactive data!
         // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
 
-        /***********************************
+        /**********************
          * Error Clauses 
-        ***********************************/
+        **********************/
             // You can clean up the error console as you iterate or even create custom errors
         // Clear any errors from previous updates.
         this.clearErrors();
@@ -83,7 +84,7 @@ require('./d3v5.js');
 
 
         /***********************************
-         * Update the Visualization
+         * Update the Visualization *
         ***********************************/
         console.log('Initialized...'); // just to see if it initialize
         // Grab the first row of data 
@@ -94,9 +95,9 @@ require('./d3v5.js');
         this._textElement.innerHTML = LookerCharts.Utils.htmlForCell(firstCell);
 
 
-        /***********************************
+        /**********************
          * Update the Options
-        ***********************************/
+        **********************/
         // Here's a check we add to the end of the update function to implement the options 
         if (config.font_size == "small") {
             this._textElement.className = "hello-world-text-small";
