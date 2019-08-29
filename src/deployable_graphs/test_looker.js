@@ -40,6 +40,9 @@ create: function(element, config) {
             .hello-world-text-large { 
                 font-size: 72px;
             }
+            .html {
+                background-color: gray;
+            }
         </style>
 
         <h1>Ready to render!</h1>
