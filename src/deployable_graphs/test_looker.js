@@ -46,7 +46,6 @@ create: function(element, config) {
         /*
         <svg class="container">
             <svg class="content">
-                <g class="data"></g>
             </svg>
         </svg>
         */
@@ -54,8 +53,6 @@ create: function(element, config) {
             .attr('class', 'container');
         d3.select('svg.container').append('svg')
             .attr('class', 'content');
-        d3.select('svg.content').append('g')
-            .attr('class', 'data');
             
 
     /* 
@@ -214,7 +211,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let width = element.clientWidth;
     let height = element.clientHeight;
     
-    let svg = d3.select(element).select('svg')
+    let svg = d3.select('svg.content')
         // .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
@@ -228,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('width', width)
         .attr('height', height);
 
-    container.call(zoom)
+    d3.select(element).call(zoom)
         .on('dblclick.zoom', null);
 
 
@@ -245,7 +242,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 return '#000';
             })
 
-    let group = svg.append('g')
+    let group = svg.append('g') // Holds respective text and circle for each node <neatly>
             .attr('class', 'node')
             .selectAll('g')
             .data(nodes)
