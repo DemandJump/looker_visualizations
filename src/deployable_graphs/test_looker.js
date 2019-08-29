@@ -50,7 +50,10 @@ create: function(element, config) {
         */
         d3.select(element).append('svg')
             .attr('class', 'container');
-        this._svg = d3.select('svg.container');
+        d3.select('svg.container').append('svg')
+            .attr('class', 'content');
+            
+        this._svg = d3.select('svg.content');
         // this._svg = d3.select(element).append('svg');
 
     /* 
@@ -216,7 +219,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let zoom = d3.zoom().on('zoom', () => {
         svg.attr('transform', d3.event.transform)
     });
-    svg.call(zoom)
+    let container = d3.select('svg.container');
+    container.call(zoom)
         .on('dblclick.zoom', null);
 
 
