@@ -249,15 +249,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('y2', d => d.target.data.data.y);
 
         node    
-            .attr('cx', d => {
-                console.log(`node values>>> d.x d.y`, d);
-                return d.x})
-            .attr('cy', d => d.y)
+            .attr('cx', d => d.data.data.x)
+            .attr('cy', d => d.data.data.y)
         d3.selectAll('text')
-            .attr('x', d => {
-                console.log(`text values d.x, d.y`, d);
-                return d.x})
-            .attr('y', d => d.y);
+            .attr('x', d => d.data.data.x)
+            .attr('y', d => d.data.data.y);
 
         // invalidation.then(() => simulation.stop()); // Deprecated ?
         return svg.node();
