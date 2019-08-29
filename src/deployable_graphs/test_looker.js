@@ -88,15 +88,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 			var cell = row[queryResponse.fields.dimensions[0].name];
 			html += LookerCharts.Utils.htmlForCell(cell);
 		}
-		// element.innerHTML = html; // This is to test the data 
+		element.innerHTML = html; // This is to test the data 
 
 
-    // Grab the first row of data 
-    let firstRow = data[0];
-    let firstCell  = firstRow[queryResponse.fields.dimensions[0].name];
-
-    // Insert the data into the page. 
-    this._textElement.innerHTML = LookerCharts.Utils.htmlForCell(firstCell);
 
 
     /**********************
