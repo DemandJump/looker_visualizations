@@ -177,7 +177,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .parentId(d => d["source"]);
     let stratified = stratify(mutadata);
     console.log('stratified data!', stratified);
-    console.log('mlinks', mlinks);
 
 
         // Now let's see what we can do with this data in d3 force
