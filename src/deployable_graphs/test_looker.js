@@ -193,8 +193,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let simulation = d3.forceSimulation(mutadata)
         .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
         .force('charge', d3.forceManyBody().strength(-250))
-        .foce('x', d3.forceX())
-        .foce('y', d3.forceY())
+        .force('x', d3.forceX())
+        .force('y', d3.forceY())
         .force('collision', d3.forceCollide().radius(10));
 
 
