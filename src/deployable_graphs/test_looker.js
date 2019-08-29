@@ -98,7 +98,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 			var cell = row[queryResponse.fields.dimensions[0].name];
 			html += LookerCharts.Utils.htmlForCell(cell);
         }
-		element.innerHTML = html; // This is to test the data 
+        element.innerHTML = html; // This is to test the data 
+        console.log('what is cell?', cell);
 
 
 
