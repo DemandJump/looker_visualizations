@@ -49,10 +49,8 @@ create: function(element, config) {
             </svg>
         </svg>
         */
-        d3.select(element).append('svg')
+       this._svg = d3.select(element).append('svg')
             .attr('class', 'container');
-            this._svg = d3.select('svg.container').append('svg')
-            .attr('class', 'content');
 
             
 
@@ -212,21 +210,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let width = element.clientWidth;
     let height = element.clientHeight;
     
-    let svg = this._svg
+    let container = this._svg
         .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
         .attr('height', height);
 
-        // This zoom stuff is a dawgone mess
-    let zoom = d3.zoom().on('zoom', () => {
-        svg.attr('transform', d3.event.transform)
-    });
-    let container = d3.select(element).select('svg.container')
-        .attr('width', width)
-        .attr('height', height);
-    container.call(zoom)
-        .on('dblclick.zoom', null);
+    // Before you build anything make a selector to hold everything
+    const svg = container.append('g')
+        .attr('class', 'everything');
+    // Zoom stuff // 
+    var zoom_handler = d3.zoom()
+        .on("zoom", zoom_actions);
+    zoom_handler(container); // Select the svg to do the zoom stuff
+    function zoom_actions(){ // The function itself (^:;
+    svg.attr("transform", d3.event.transform)
+
 
 
         // Links
