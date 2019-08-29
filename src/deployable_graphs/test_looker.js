@@ -243,16 +243,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             /*** Initialize the simulation's movement physics ***/
     simulation.on('tick', () => {
         link
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.x)
+            .attr('x1', d => {
+                console.log(`link's values>>> source{x1, y1} target{x2 y2}`, d);
+                return d.source.x
+            })
+            .attr('y1', d => d.source.y)
             .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.x);
+            .attr('y2', d => d.target.y);
 
         node    
-            .attr('cx', d => d.x)
+            .attr('cx', d => {
+                console.log(`node values>>> d.x d.y`, d);
+                return d.x})
             .attr('cy', d => d.y)
         d3.selectAll('text')
-            .attr('x', d => d.x)
+            .attr('x', d => {
+                console.log(`text values d.x, d.y`, d);
+                return d.x})
             .attr('y', d => d.y);
 
         // invalidation.then(() => simulation.stop()); // Deprecated ?
