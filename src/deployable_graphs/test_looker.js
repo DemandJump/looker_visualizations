@@ -19,7 +19,7 @@
 
     // Onto the create section 
 create: function(element, config) {
-    var d3 = d3v5; // Pull in d3 selector as it's normal reference
+    let d3 = d3v5; // Pull in d3 selector as it's normal reference
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -49,6 +49,8 @@ create: function(element, config) {
         <h1>Ready to render!</h1>
         `;
 
+        this._svg = d3.select(element).append('svg');
+
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
             Note: Create is a convenient place t o do setup that only needs to happen once 
@@ -58,7 +60,7 @@ create: function(element, config) {
 
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
-    var d3 = d3v5; // Pull in the d3 selector as it's normal reference 
+    let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
@@ -89,19 +91,201 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
         return;
     }
-    /***********************************
-     * Update the Visualization *
-    ***********************************/
-    var html = "";
-		for(var row of data) {
-			var cell = row[queryResponse.fields.dimensions[0].name];
-            html += LookerCharts.Utils.htmlForCell(cell);
-            console.log('iterated cell', cell);
+
+
+    /**********************************************************************
+                        * Update the Visualization *
+    **********************************************************************/
+    /* Object { // !!!Initial data given, we're gonna have to account for variation after this!!!
+            djb_scores.dj_score: { value: float, rendered:  num } // circle size 
+            djb_scores.phrase: { value: string } // child 
+            djb_scores.query_string: { value: string }  // parent
+    }
+    */
+
+        // First mutate the data/dimensions given to create a dataset 
+    let mutadata = data;
+    let rootChildren = []; // We may need to hold the root children 
+    let thisParent = ``; 
+    let initialIteration = 0; // for first iteration
+    mutadata.forEach(obj => {
+                // object's parent (source)
+        obj.source = obj.djb.scores.query_string.value;
+            delete obj.djb.scores.query_string;
+                // object value (target)
+        obj.target = obj.djb_scores.phrase.value;
+            delete obj.djb_scores.phrase;
+                // Dj score
+        obj.dj_score = obj.djb_scores.dj_score.rendered;
+            delete obj.djb_scores.dj_score
+                    /*
+                    // Now the returned data for each object should be 
+                        obj {
+                            source: djb_scores.query_string.value
+                            target: djb_scores.phrase.value
+                            dj_score: djb_scores.dj_score.rendered
+                        }
+                    */
+                // We need to create an index(id) for each and every one
+                // We must create objects(targets) for the query strings and have them link2root
+
+        // Problem is that there are multiple roots with no target for the parents
+
+        if (initialIteration == 0) {
+            initialIteration++; 
+            // Gotta initialize this by pulling in the first var around the logic
+            thisParent = obj.source;
+            rootChildren.push(thisParent); // Store it in rootChildren
         }
-        element.innerHTML = html; // This is to test the data 
-        console.log('The last cell given: ', cell);
+        if (thisParent != obj.source) {
+            thisParent = obj.source; 
+            rootChildren.push(thisParent);
+        }
+    });
+    console.log('mutadata without root and rootChildren', mutadata);
+    console.log('RootChildren data', rootChildren);
+    // Reverse the array to take into account how unshift works and how we iterated through before
+    rootChildren.reverse();
+    rootChildren.forEach(srcname => {
+        // On first iteration we're gonna add in the root to the beginning of mutadata
+        // At the same time we'll add the individual root children 
+        let current = { // Current object made to put into mutadata based on rootChildren~
+            source: "query strings",
+            target: srcname,
+            dj_score: "100"
+        };
+        mutadata.unshift(current);
+    });
+    // Then we'll add the root
+    mutadata.unshift(
+        {
+            source: "",
+            target: "query strings",
+            dj_score: "145"
+        }
+    );
+    console.log('finished mutadata', mutadata);
 
 
+        // Turning links into a hierarchy with stratify method
+    let stratify = d3
+        .stratify()
+        .id(d => d["target"])
+        .parentId(d => d["source"]);
+    let stratified = stratify(mutadata);
+    console.log('stratified data!', stratified);
+    console.log('mlinks', mlinks);
+
+
+        // Now let's see what we can do with this data in d3 force
+            /*** Create the hierarchy layout ***/
+    let root = d3.hierarchy(stratified);
+    let links = root.links();
+    let nodes = root.descendants();
+    console.log('root data', root);
+    console.log('link data', links);
+    console.log('node data', nodes);
+
+
+            /*** Initialize the simulation ***/
+    let simulation = d3.forceSimulation(mutadata)
+        .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
+        .force('charge', d3.forceManyBody().strength(-250))
+        .foce('x', d3.forceX())
+        .foce('y', d3.forceY())
+        .force('collision', d3.forceCollide().radius(10));
+
+
+            /*** Initialize the svg shapes's layout ***/
+    let width = element.clientWidth;
+    let height = element.clientWidth;
+    
+    let svg = this._svg
+        .attr('viewBox', [0 - width * 2, 0 - height * 2, width, height]);
+
+        // Links
+    let link = svg.append('g')
+            .attr('class', 'links')
+            .attr('stroke-opacity', '0.6')
+        .selectAll('line')
+        .data(links)
+        .enter().append('line')
+            .attr('stroke-width', '1')
+            .attr('stroke', d => {
+                // Maybe a scale from bad to good for it's color based on dj_score
+                return '#000';
+            })
+
+    let group = svg.append('g')
+            .attr('class', 'node')
+            .selectAll('g')
+            .data(nodes)
+            .enter().append('g');
+
+    let node = group
+            .attr('class', 'circle')
+            .attr('stroke', '#000')
+            .attr('stroke-width', 1.25)
+        .append('circle')
+            .attr('fill', "#008CCD")
+            .attr('stroke', d => d.children ? "#999999" : "#008CCD")
+            .attr('r', 10)
+            .call(drag(simulation));
+
+    let labels = group
+        .append('text')
+            .transition()
+            .duration(5000)
+            .attr('fill-opacity', 1)
+            .text(d => d.data.data.name)
+            .style("font-size", '1.25rem');
+
+
+            /*** Initialize the simulation's movement physics ***/
+    simulation.on('tick', () => {
+        link
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.x)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.x);
+
+        node    
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
+        d3.selectAll('text')
+            .attr('x', d => d.x)
+            .attr('y', d => d.y);
+
+        // invalidation.then(() => simulation.stop()); // Deprecated ?
+        return svg.node();
+    })
+
+            /* Section for all our functions */
+    // Drag node on click physics function
+    function drag(simulation) {
+  
+        function dragstarted(d) {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+    
+        function dragged(d) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+        }
+    
+        function dragended(d) {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+  }
 
 
     /**********************
@@ -125,6 +309,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 */
 
+/* 
+        // * Pulled out of update the visualization * // 
+    // Basic interaction of given data through iteration, console log data to further understand
+    var html = "";
+		for(var row of data) {
+			var cell = row[queryResponse.fields.dimensions[0].name];
+            html += LookerCharts.Utils.htmlForCell(cell);
+            console.log('iterated cell', cell);
+        }
+        element.innerHTML = html; // This is to test the data 
+        console.log('The last cell given: ', cell);
+
+*/
 
 
 
