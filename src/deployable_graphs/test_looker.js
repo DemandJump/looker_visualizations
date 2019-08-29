@@ -200,7 +200,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     let svg = this._svg
         .html('')
-        .attr('viewBox', [0 - width * 2, 0 - height * 2, width * 2, height * 2]);
+        .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
 
         // Links
     let link = svg.append('g')
@@ -233,11 +233,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let labels = group
         .append('text')
-            .transition()
-            .duration(5000)
-            .attr('fill-opacity', 1)
-            .text(d => d.data.data.name)
-            .style("font-size", '1.25rem');
+            // .transition()
+            // .duration(5000)
+            // .attr('fill-opacity', 1)
+            .text(d => d.data.data.target)
+            .style("font-size", '1rem');
 
 
             /*** Initialize the simulation's movement physics ***/
