@@ -44,8 +44,6 @@ create: function(element, config) {
 
         <h1>Ready to render!</h1>
         `;
-            // Then add the inline-styling with the h1 html to see it!
-        element.innerHTML = html;
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
