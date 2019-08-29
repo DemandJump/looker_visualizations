@@ -62,19 +62,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
-    /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to grab the updated server js file
+        /* CURRENT VERSION */ 
     console.log('Pulling in d3 by building it into the js file');
+        // Just comment what your doing becuase looker takes forever to update server js file
 
-    /****** Log all these functions to see what we're working with ******/
+        // Try implementing d3
+    console.log('d3v5 initialized', d3);
+        /****** Log all these functions to see what we're working with ******/
     console.log('\n\n\n\n\nUpdateAsync initialized');
     console.log('data', data);
     console.log('element', element);
     console.log('config', config);
     console.log('queryResponse', queryResponse);
     console.log('details', details);
-
-    // Try implementing d3
-    console.log('See if the d3 stuff works', d3);
 
     /**********************
      * Error Clauses 
