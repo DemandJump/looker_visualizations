@@ -243,13 +243,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             /*** Initialize the simulation's movement physics ***/
     simulation.on('tick', () => {
         link
-            .attr('x1', d => {
-                console.log(`link's values>>> source{x1, y1} target{x2 y2}`, d);
-                return d.source.x
-            })
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
+            .attr('x1', d => d.source.data.data.x)
+            .attr('y1', d => d.source.data.data.y)
+            .attr('x2', d => d.target.data.data.x)
+            .attr('y2', d => d.target.data.data.y);
 
         node    
             .attr('cx', d => {
