@@ -44,6 +44,7 @@ create: function(element, config) {
 
         <h1>Ready to render!</h1>
         `;
+        console.log('Create initialized: css', css);
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
