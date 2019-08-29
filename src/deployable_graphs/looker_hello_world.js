@@ -2,7 +2,6 @@ require('./d3v5.js');
 
 (function() {
     var d3 = d3v5;
-    debugger;
     console.log('this is d3', d3);
 
     /* Register a new custom visualization with loooker by calling the
