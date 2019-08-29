@@ -39,6 +39,8 @@ create: function(element, config) {
                 pointer-events: none; /* This hides the edit cursor when you hover over the labels */
                 font-family: 'Playfair Display', serif;
             }
+            body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+
         </style>
         `;
         /*
@@ -50,10 +52,10 @@ create: function(element, config) {
         */
         d3.select(element).append('svg')
             .attr('class', 'container');
-        d3.select('svg.container').append('svg')
-            .attr('class', 'content');
+        // d3.select('svg.container').append('svg')
+        //     .attr('class', 'content');
             
-        this._svg = d3.select('svg.content');
+        this._svg = d3.select('svg.container');
         // this._svg = d3.select(element).append('svg');
 
     /* 
@@ -207,24 +209,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             /*** Initialize the svg shapes's layout ***/
-    let width = element.clientWidth;
-    let height = element.clientHeight;
+    let width = document.body.clientWidth;
+    let height = document.body.clientHeight;
+    // let height = element.clientHeight;
     
     let svg = this._svg
         .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
-        .attr('height', height);
+        .attr('height', height)
+        .call(d3.zoom().on("zoom", function () {
+            svg.attr("transform", d3.event.transform)
+    }));
 
-    let zoom = d3.zoom().on('zoom', () => {
-        svg.attr('transform', d3.event.transform)
-    });
-    let container = d3.select('svg.container')
-        .attr('width', width)
-        .attr('height', height);
-        
-    container.call(zoom)
-        .on('dblclick.zoom', null);
+    // let zoom = d3.zoom().on('zoom', zoomed);
+    // let container = d3.select('svg.container')
+    //     .attr('width', width)
+    //     .attr('height', height);
+
+    // svg.call(zoom)
+    //     .on('dblclick.zoom', null);
 
 
         // Links
