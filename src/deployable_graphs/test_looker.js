@@ -71,7 +71,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     // Try implementing d3
     // console.log('See if the d3 stuff works', d3);
-    console.log('added in styling + called element');
+    console.log('Pulled in d3 script tag into innerhtml upon create');
 
     /**********************
      * Error Clauses 
