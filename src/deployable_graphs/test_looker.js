@@ -41,9 +41,6 @@ create: function(element, config) {
             .hello-world-text-large { 
                 font-size: 72px;
             }
-            div {
-                background-color: #d3d3f3;
-            }
         </style>
 
         <h1>Ready to render!</h1>
@@ -110,8 +107,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let initialIteration = 0; // for first iteration
     mutadata.forEach(obj => {
                 // object's parent (source)
-        obj.source = obj["djb.scores.query_string"]["value"];
-            delete obj["djb.scores.query_string"];
+        obj.source = obj["djb_scores.query_string"]["value"];
+            delete obj["djb_scores.query_string"];
                 // object value (target)
         obj.target = obj["djb_scores.phrase"]["value"];
             delete obj["djb_scores.phrase"];
