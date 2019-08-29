@@ -24,7 +24,7 @@ create: function(element, config) {
 // We're essentially using vanilla javascript to create a visualization for looker to append!
 
     // Insert a <style> tag with some styles we'll use later.
-    var css = element.innerHTML = `
+    element.innerHTML = `
         <style>
             .hello-world-vis { 
                 // Vertical centering
@@ -70,7 +70,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     // Try implementing d3
     // console.log('See if the d3 stuff works', d3);
-    console.log('added in styling');
+    console.log('added in styling + called element');
 
     /**********************
      * Error Clauses 
