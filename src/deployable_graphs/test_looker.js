@@ -1,3 +1,7 @@
+require('../d3_versions/d3v4');
+
+(function() {
+
 /* Register a new custom visualization with loooker by calling the
         * looker.plugins.visualizations.add ~ function and passing it a visualization object 
     */
@@ -19,6 +23,7 @@ looker.plugins.visualizations.add({
 
     // Onto the create section 
 create: function(element, config) {
+    var d3 = d3v4; // Pull in d3 selector as it's normal reference
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -44,7 +49,6 @@ create: function(element, config) {
                 background-color: gray;
             }
         </style>
-        <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
 
         <h1>Ready to render!</h1>
         `;
@@ -58,8 +62,12 @@ create: function(element, config) {
 
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
+    var d3 = d3v4; // Pull in the d3 selector as it's normal reference 
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
+    
+    /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to grab the updated server js file
+    console.log('Pulling in d3 by building it into the js file');
 
     /****** Log all these functions to see what we're working with ******/
     console.log('\n\n\n\n\nUpdateAsync initialized');
@@ -71,7 +79,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     // Try implementing d3
     console.log('See if the d3 stuff works', d3);
-    console.log('d3 referenced after being pulled into innerhtml');
 
     /**********************
      * Error Clauses 
@@ -124,3 +131,4 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     git status
 
 */
+}) 
