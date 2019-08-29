@@ -41,8 +41,17 @@ create: function(element, config) {
             }
         </style>
         `;
-
-        this._svg = d3.select(element).append('svg');
+        /*
+        <svg class="zoomContainer">
+            <svg>
+                <g class="data"></g>
+            </svg>
+        </svg>
+        */
+        d3.select(element).append('svg')
+            .attr('class', 'container');
+        this._svg = d3.select('svg.container');
+        // this._svg = d3.select(element).append('svg');
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -57,8 +66,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
-        /* CURRENT VERSION */ 
-    console.log('Finished simulation structure, now we gotta scale and optimize');
+                            /* CURRENT VERSION */ 
+    console.log('Adding zoom functionality, and working on scaling and fixing buggy hierarchy');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
@@ -196,11 +205,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /*** Initialize the svg shapes's layout ***/
     let width = element.clientWidth;
-    let height = element.clientWidth;
+    let height = element.clientHeight;
     
     let svg = this._svg
         .html('')
-        .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
+        // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
+        .attr('width', width)
+        .attr('height', height);
+
+    let zoom = d3.zoom().on('zoom', () => {
+        svg.attr('transform', d3.event.transform)
+    });
+    svg.call(zoom)
+        .on('dblclick.zoom', null);
+
 
         // Links
     let link = svg.append('g')
