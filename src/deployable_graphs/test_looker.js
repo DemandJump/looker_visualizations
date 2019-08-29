@@ -118,5 +118,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     git add . 
     git commit -m "experimenting"
     git push -u origin master 
+    git status
 
 */
