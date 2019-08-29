@@ -60,7 +60,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
 
     /****** Log all these functions to see what we're working with ******/
-    console.log('UpdateAsync initialized');
+    console.log('\n\n\n\n\nUpdateAsync initialized');
     console.log('data', data);
     console.log('element', element);
     console.log('config', config);
