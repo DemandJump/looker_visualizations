@@ -83,26 +83,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // this.clearErrors(); /* !!! Important try keeping this off for now !!!
 
 
-        // You can clean up the error console as you iterate and even create custom errors
-
         // Create different cases for potential errors that could occur
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (queryResponse.fields.dimensions.length == 0) {
         this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
         return;
     }
-
-
     /***********************************
      * Update the Visualization *
     ***********************************/
     var html = "";
 		for(var row of data) {
 			var cell = row[queryResponse.fields.dimensions[0].name];
-			html += LookerCharts.Utils.htmlForCell(cell);
+            html += LookerCharts.Utils.htmlForCell(cell);
+            console.log('iterated cell', cell);
         }
         element.innerHTML = html; // This is to test the data 
-        console.log('what is cell?', cell);
+        console.log('The last cell given: ', cell);
 
 
 
