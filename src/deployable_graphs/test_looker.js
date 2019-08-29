@@ -50,12 +50,12 @@ create: function(element, config) {
             </svg>
         </svg>
         */
-        d3.select(element).append('svg')
+        d3.select(element).append('div')
             .attr('class', 'container');
         // d3.select('svg.container').append('svg')
         //     .attr('class', 'content');
             
-        this._svg = d3.select('svg.container');
+        this._svg = d3.select('div.container');
         // this._svg = d3.select(element).append('svg');
 
     /* 
@@ -209,11 +209,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             /*** Initialize the svg shapes's layout ***/
-    let width = document.body.clientWidth;
-    let height = document.body.clientHeight;
-    // let height = element.clientHeight;
+    // let width = document.body.clientWidth;
+    // let height = document.body.clientHeight;
+    let width = element.clientWidth;
+    let height = element.clientHeight;
     
-    let svg = this._svg
+    let svg = this._svg.append('svg')
+        .attr('class')
         .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
