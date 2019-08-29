@@ -10456,7 +10456,7 @@
 	})
 });
 
-(function() {
+
 
 /* Register a new custom visualization with loooker by calling the
         * looker.plugins.visualizations.add ~ function and passing it a visualization object 
@@ -10587,4 +10587,3 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     git status
 
 */
-}) 
