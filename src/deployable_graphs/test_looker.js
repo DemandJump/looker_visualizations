@@ -64,7 +64,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('config', config);
     console.log('queryResponse', queryResponse);
     console.log('details', details);
-    console.log('doneRendering', doneRendering);
 
     // Try implementing d3
     console.log('See if the d3 stuff works', d3);
