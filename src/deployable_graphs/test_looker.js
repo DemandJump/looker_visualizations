@@ -27,20 +27,45 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
-            svg {
-                border: 1px solid black;
-            }
-            text { /* Cool trick to make the captions on the links more readable! */
-                text-shadow:
-                 -1px -1px 3px white,
-                 -1px  1px 3px white,
-                  1px -1px 3px white,
-                  1px  1px 3px white;
-                pointer-events: none; /* This hides the edit cursor when you hover over the labels */
-                font-family: 'Playfair Display', serif;
-            }
-            body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 3px;
+          }
+          
+          .node text {
+            font: 12px sans-serif;
+          }
+          
+          .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+          }
+          
+          /* Not needed, used to test svgs dimensions */
+          svg { border: 1px solid black; }
+          
+          body { /* this is used in all tidy svgs! */
+              position: fixed;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              margin: 0;
+              overflow: hidden;
+              display: block;
+          }
+          
+          text { /* Cool trick to make the captions on the links more readable! */
+              text-shadow:
+               -1px -1px 3px white,
+               -1px  1px 3px white,
+                1px -1px 3px white,
+                1px  1px 3px white;
+              pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+              font-family: 'Playfair Display', serif;
+          }
         </style>
         `;
         /*
@@ -50,8 +75,9 @@ create: function(element, config) {
         </svg>
         */
         d3.select(element).append('svg')
+            .attr('class', 'container');
+        d3.select('svg.container').append('svg')
             .attr('class', 'content');
-
 
         this._svg = d3.select('svg.content');
             
@@ -222,8 +248,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let zoom = d3.zoom().on('zoom', () => {
         svg.attr('transform', d3.event.transform)
     });
-
-    d3.select('svg').call(zoom)
+    let container = d3.select(element).select('svg.container')
+        .attr('width', width)
+        .attr('height', height);
+    container.call(zoom)
         .on('dblclick.zoom', null);
 
 
