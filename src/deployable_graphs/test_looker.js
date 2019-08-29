@@ -203,7 +203,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let height = element.clientWidth;
     
     let svg = this._svg
-        .attr('viewBox', [0 - width * 2, 0 - height * 2, width, height]);
+        .html('')
+        .attr('viewBox', [0 - width * 2, 0 - height * 2, width * 2, height * 2]);
 
         // Links
     let link = svg.append('g')
