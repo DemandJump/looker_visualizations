@@ -44,19 +44,19 @@ create: function(element, config) {
         </style>
         `;
         /*
-        <svg class="zoomContainer">
-            <svg>
+        <svg class="container">
+            <svg class="content">
                 <g class="data"></g>
             </svg>
         </svg>
         */
-        d3.select(element).append('div')
+        d3.select(element).append('svg')
             .attr('class', 'container');
-        // d3.select('svg.container').append('svg')
-        //     .attr('class', 'content');
+        d3.select('svg.container').append('svg')
+            .attr('class', 'content');
+        d3.select('svg.content').append('g')
+            .attr('class', 'data');
             
-        this._svg = d3.select('div.container');
-        // this._svg = d3.select(element).append('svg');
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -214,23 +214,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let width = element.clientWidth;
     let height = element.clientHeight;
     
-    let svg = this._svg.append('svg')
-        .attr('class', 'svg')
+    let svg = d3.select(element).select('svg')
         // .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
-        .attr('height', height)
-        .call(d3.zoom().on("zoom", function () {
-            svg.attr("transform", d3.event.transform)
-    }));
+        .attr('height', height);
 
-    // let zoom = d3.zoom().on('zoom', zoomed);
-    // let container = d3.select('svg.container')
-    //     .attr('width', width)
-    //     .attr('height', height);
+        // This zoom stuff is a dawgone mess
+    let zoom = d3.zoom().on('zoom', () => {
+        svg.attr('transform', d3.event.transform)
+    });
+    let container = d3.select('svg.container')
+        .attr('width', width)
+        .attr('height', height);
 
-    // svg.call(zoom)
-    //     .on('dblclick.zoom', null);
+    container.call(zoom)
+        .on('dblclick.zoom', null);
 
 
         // Links
