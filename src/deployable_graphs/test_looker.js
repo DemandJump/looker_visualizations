@@ -98,12 +98,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Update the Options
     **********************/
     // Here's a check we add to the end of the update function to implement the options 
-    if (config.font_size == "small") {
-        this._textElement.className = "hello-world-text-small";
-      }
-    if (config.font_size == "large") {
-        this._textElement.className = "hello-world-text-large";
-      }
 
 
     /**************** Done! *****************/
@@ -117,5 +111,5 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     git add . 
     git commit -m "experimenting"
     git push -u origin master 
-    
+
 */
