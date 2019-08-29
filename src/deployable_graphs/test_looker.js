@@ -126,9 +126,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // We need to create an index(id) for each and every one
                 // We must create objects(targets) for the query strings and have them link2root
 
-        // Problem is that there are multiple roots with no target for the parents
-
-        if (initialIteration == 0) {
+        /* 
+        if (initialIteration == 0) { // Rendered useless since the roots are connected to themselves, we just need to connect them to a single root called "query strings"
             initialIteration++; 
             // Gotta initialize this by pulling in the first var around the logic
             thisParent = obj.source;
@@ -138,14 +137,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             thisParent = obj.source; 
             rootChildren.push(thisParent);
         }
+        */
+
+        // Okay so we don't need to create root children because every query string is a phrase, and they put one phrase in with it's query string as the same. We just need to change it's source(once was query string) to root(varname: 'query string')
+        if (obj.source == obj.target) {
+            obj.source = "query strings"; // Wayy easier to do ;P
+        }
+
     });
     console.log('mutadata without root and rootChildren', mutadata);
+    /*
     console.log('RootChildren data', rootChildren);
     // Reverse the array to take into account how unshift works and how we iterated through before
     rootChildren.reverse();
     rootChildren.forEach(srcname => {
-        // On first iteration we're gonna add in the root to the beginning of mutadata
-        // At the same time we'll add the individual root children 
         let current = { // Current object made to put into mutadata based on rootChildren~
             source: "query strings",
             target: srcname,
@@ -153,6 +158,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         };
         mutadata.unshift(current);
     });
+    */
     // Then we'll add the root
     mutadata.unshift(
         {
