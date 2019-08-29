@@ -215,16 +215,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
-        .attr('height', height)
-        .append('g');
+        .attr('height', height);
 
         // This zoom stuff is a dawgone mess
     let zoom = d3.zoom().on('zoom', () => {
         svg.attr('transform', d3.event.transform)
     });
     let container = d3.select(element).select('svg.container')
-
-
+        .attr('width', width)
+        .attr('height', height);
     container.call(zoom)
         .on('dblclick.zoom', null);
 
@@ -265,6 +264,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // .attr('fill-opacity', 1)
             .text(d => d.data.data.target)
             .style("font-size", '1rem');
+
+        // Remove any extra exiting nodes
+    links.exit().remove();
+    node.exit().remove();
+    labels.exit().remove();         
 
 
             /*** Initialize the simulation's movement physics ***/
