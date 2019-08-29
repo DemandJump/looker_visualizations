@@ -45,11 +45,7 @@ create: function(element, config) {
         <h1>Ready to render!</h1>
         `;
             // Then add the inline-styling with the h1 html to see it!
-            element.innerHTML = html;
-            console.log('create: element', element);
-
-
-
+        element.innerHTML = html;
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -62,6 +58,15 @@ create: function(element, config) {
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
+
+    /****** Log all these functions to see what we're working with ******/
+    console.log('UpdateAsync initialized');
+    console.log('data', data);
+    console.log('element', element);
+    console.log('config', config);
+    console.log('queryResponse', queryResponse);
+    console.log('details', details);
+    console.log('doneRendering', doneRendering);
 
     /**********************
      * Error Clauses 
@@ -88,7 +93,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 			var cell = row[queryResponse.fields.dimensions[0].name];
 			html += LookerCharts.Utils.htmlForCell(cell);
         }
-        console.log('updateAsync: element', element);
 		element.innerHTML = html; // This is to test the data 
 
 
