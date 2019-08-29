@@ -27,23 +27,19 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
-            .hello-world-vis { 
-                // Vertical centering
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center; 
-                text-align: center;
+            svg {
+                border: 1px solid black;
             }
-            .hello-world-text-small {
-                font-size: 18px;
-            }
-            .hello-world-text-large { 
-                font-size: 72px;
+            text { /* Cool trick to make the captions on the links more readable! */
+                text-shadow:
+                 -1px -1px 3px white,
+                 -1px  1px 3px white,
+                  1px -1px 3px white,
+                  1px  1px 3px white;
+                pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+                font-family: 'Playfair Display', serif;
             }
         </style>
-
-        <h1>Ready to render!</h1>
         `;
 
         this._svg = d3.select(element).append('svg');
