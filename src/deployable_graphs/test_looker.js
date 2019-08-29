@@ -47,13 +47,6 @@ create: function(element, config) {
             // Then add the inline-styling with the h1 html to see it!
             element.innerHTML = html;
 
-    // Create a container element to let us center the text.
-    var container = element.appendChild(document.createElement('div'));
-    container.className = "hello-world-vis";
-
-    // Create an element to contain the text 
-        // -> This is a selector reference variable for updateASync
-    this._textElement = container.appendChild(document.createElement('div'));
 
 
 
@@ -123,3 +116,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     doneRendering() 
 }
 });
+
+/*
+    git status
+    git add . 
+    git commit -m "experimenting"
+    git push -u origin master 
+*/
