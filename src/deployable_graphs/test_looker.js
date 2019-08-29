@@ -40,10 +40,11 @@ create: function(element, config) {
             .hello-world-text-large { 
                 font-size: 72px;
             }
-            #vis {
+            div {
                 background-color: gray;
             }
         </style>
+        <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
 
         <h1>Ready to render!</h1>
         `;
@@ -56,7 +57,7 @@ create: function(element, config) {
 },
 
     // Onto the update async section
-updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
 
