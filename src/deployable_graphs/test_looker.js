@@ -110,14 +110,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let initialIteration = 0; // for first iteration
     mutadata.forEach(obj => {
                 // object's parent (source)
-        obj.source = obj.djb.scores.query_string.value;
-            delete obj.djb.scores.query_string;
+        obj.source = obj["djb.scores.query_string"]["value"];
+            delete obj["djb.scores.query_string"];
                 // object value (target)
-        obj.target = obj.djb_scores.phrase.value;
-            delete obj.djb_scores.phrase;
+        obj.target = obj["djb_scores.phrase"]["value"];
+            delete obj["djb_scores.phrase"];
                 // Dj score
-        obj.dj_score = obj.djb_scores.dj_score.rendered;
-            delete obj.djb_scores.dj_score
+        obj.dj_score = obj["djb_scores.dj_score"]["rendered"];
+            delete obj["djb_scores.dj_score"];
                     /*
                     // Now the returned data for each object should be 
                         obj {
