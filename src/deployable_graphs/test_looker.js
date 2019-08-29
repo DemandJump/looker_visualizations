@@ -90,6 +90,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Update the Visualization *
     ***********************************/
     console.log('Initialized...'); // just to see if it initialize
+    var html = "";
+		for(var row of data) {
+			var cell = row[queryResponse.fields.dimensions[0].name];
+			html += LookerCharts.Utils.htmlForCell(cell);
+		}
+		element.innerHTML = html; // This is to test the data 
+
+
     // Grab the first row of data 
     let firstRow = data[0];
     let firstCell  = firstRow[queryResponse.fields.dimensions[0].name];

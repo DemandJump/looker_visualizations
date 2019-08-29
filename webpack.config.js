@@ -2,7 +2,9 @@ const path = require('path');
 
 module.exports = { 
     mode: 'development',
-    entry: './src/looker_hello_world.js',
+
+            /*!!! Change the entry based on what you wanna build to give to looker !!!*/
+    entry: './src/deployable_graphs/test_looker.js',
     devServer: {
         contentBase: './dist',
         // compress: true, 
