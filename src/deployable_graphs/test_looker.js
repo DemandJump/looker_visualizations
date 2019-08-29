@@ -215,7 +215,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let height = element.clientHeight;
     
     let svg = this._svg.append('svg')
-        .attr('class')
+        .attr('class', 'svg')
         // .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
