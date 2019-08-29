@@ -225,6 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     zoom_handler(container); // Select the svg to do the zoom stuff
     function zoom_actions(){ // The function itself (^:;
     svg.attr("transform", d3.event.transform)
+    }
 
 
 
