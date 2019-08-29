@@ -70,8 +70,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('details', details);
 
     // Try implementing d3
-    // console.log('See if the d3 stuff works', d3);
-    console.log('Pulled in d3 script tag into innerhtml upon create');
+    console.log('See if the d3 stuff works', d3);
+    console.log('d3 referenced after being pulled into innerhtml');
 
     /**********************
      * Error Clauses 
