@@ -219,7 +219,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let zoom = d3.zoom().on('zoom', () => {
         svg.attr('transform', d3.event.transform)
     });
-    let container = d3.select('svg.container');
+    let container = d3.select('svg.container')
+        .attr('width', width)
+        .attr('height', height);
+        
     container.call(zoom)
         .on('dblclick.zoom', null);
 
