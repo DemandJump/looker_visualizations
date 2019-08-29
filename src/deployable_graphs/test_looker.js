@@ -265,12 +265,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // .attr('fill-opacity', 1)
             .text(d => d.data.data.target)
             .style("font-size", '1rem');
-
-        // Remove any extra exiting nodes
-    links.exit().remove();
-    node.exit().remove();
-    labels.exit().remove();         
-
+     
 
             /*** Initialize the simulation's movement physics ***/
     simulation.on('tick', () => {
@@ -290,6 +285,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // invalidation.then(() => simulation.stop()); // Deprecated ?
         return svg.node();
     })
+
 
             /* Section for all our functions */
     // Drag node on click physics function
