@@ -46,6 +46,7 @@ create: function(element, config) {
         `;
             // Then add the inline-styling with the h1 html to see it!
             element.innerHTML = html;
+            console.log('create: element', element);
 
 
 
@@ -82,12 +83,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***********************************
      * Update the Visualization *
     ***********************************/
-    console.log('Initialized...'); // just to see if it initialize
     var html = "";
 		for(var row of data) {
 			var cell = row[queryResponse.fields.dimensions[0].name];
 			html += LookerCharts.Utils.htmlForCell(cell);
-		}
+        }
+        console.log('updateAsync: element', element);
 		element.innerHTML = html; // This is to test the data 
 
 
