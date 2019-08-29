@@ -40,7 +40,7 @@ create: function(element, config) {
             .hello-world-text-large { 
                 font-size: 72px;
             }
-            .html {
+            #vis {
                 background-color: gray;
             }
         </style>
