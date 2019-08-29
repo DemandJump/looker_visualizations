@@ -51,9 +51,10 @@ create: function(element, config) {
         */
         d3.select(element).append('svg')
             .attr('class', 'container');
-            this._svg = d3.select('svg.container').append('svg')
+        d3.select('svg.container').append('svg')
             .attr('class', 'content');
 
+        this._svg = d3.select('svg.content');
             
 
     /* 
@@ -213,7 +214,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let height = element.clientHeight;
     
     let svg = this._svg
-        .html('')
+        // .html('')
         // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
         .attr('width', width)
         .attr('height', height);
