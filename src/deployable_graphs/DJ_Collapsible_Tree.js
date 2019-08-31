@@ -121,7 +121,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       html += LookerCharts.Utils.htmlForCell(cell);
       console.log(' cell d[0]: ', cell);
       console.log('of row: ', row);
-		}     
+      console.log('Checking out query resposne fields: ', row[queryResponse.fields]);
+    }     
+    
+
 		for(let row of data) {
 			let cell = row[queryResponse.fields.measure[0].name];
       html += LookerCharts.Utils.htmlForCell(cell);
