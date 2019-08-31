@@ -207,9 +207,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .distance(d => {
             // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.target.depth == 1 ? 5000 // This should be plenty of space for everything to breath, but we'll see
+            : d.target.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
             : d.target.depth == 2 ? 1200 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
-            : d.target.depth == 3 ? 50 // Hopefully this is alright, but we'll find a better way to scale later
+            : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         })
         .strength(1);
@@ -218,16 +218,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let simulation = d3.forceSimulation(nodes)
         // .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
         .force('link', forceLink)
-        .force('charge', d3.forceManyBody().strength(-250))
+        .force('charge', d3.forceManyBody().strength(-10000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
         .force('collision', d3.forceCollide().radius(d => {
             // return 64 - (d.depth * 5);
                 // console.log('find depth for collision! : d => ', d);
             return d.depth == 0 ? 0
-            : d.depth == 1 ? 600
+            : d.depth == 1 ? 300
             : d.depth == 2 ? 200
-            : d.target.depth;
+            : d.depth;
         }));
 
             /*** Initialize the svg shapes's layout ***/
@@ -255,7 +255,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-        // Links
+            // LINKS
     let link = svg.append('g')
             .attr('class', 'links')
             .attr('stroke-opacity', '0.6')
@@ -268,12 +268,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 return '#000';
             })
 
+            // NODE GROUPS
     let group = svg.append('g') // Holds respective text and circle for each node <neatly>
             .attr('class', 'node')
             .selectAll('g')
             .data(nodes)
             .enter().append('g');
 
+            // CIRCLES
     let node = group
             .attr('class', 'circle')
             .attr('stroke', '#000')
@@ -285,9 +287,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 : '#008CCD'
             })
             .attr('stroke', d => d.children ? "#999999" : "#008CCD")
-            .attr('r', 10)
+            .attr('r', d => d.data.data.dj_score * 2)
             .call(drag(simulation));
 
+            // TEXT
     let labels = group
         .append('text')
             // .transition()
