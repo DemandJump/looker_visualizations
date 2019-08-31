@@ -288,6 +288,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 : !d.data.children ? '#008CCD'
                 : '#999999'
             })
+            .attr('stroke-width', "4px")
             .attr('stroke', "#999999")
             .attr('r', d => d.data.data.dj_score * 4)
             .call(drag(simulation));
