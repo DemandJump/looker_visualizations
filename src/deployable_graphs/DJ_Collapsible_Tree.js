@@ -133,6 +133,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
   console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
 
+  console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
+  console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
+
 
 
 
