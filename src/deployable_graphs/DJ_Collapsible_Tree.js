@@ -28,11 +28,11 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
-            /*
+            /**/
             svg {
                 border: 1px solid black;
             }
-            */
+            /**/
             text { /* Cool trick to make the captions on the links more readable! */
                 text-shadow:
                  -1px -1px 3px white,
@@ -198,166 +198,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('node data', nodes);
 
 
-            /*** Initialize the simulation ***/
-    /* My own linkDistance setup */
-        // First Let's pull the max depth, and create a scale based on it 
-    var maxDepth = Math.max.apply(Math, links.map(function(o) { return o.target.depth; }));
-            /*!!! Can we make a dynamic amount for a ternary clause? Scaling this force graph will get hairy !!!*/
-        
-        // For now we're gonna make it easier by distancing the beginning and letting the rest be less spaced out
-    let forceLink = d3
-        .forceLink(links).id(d => d.data.id)
-        .distance(d => {
-            // console.log('d for distance ', d)
-            return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.target.depth == 1 ? 30000 // This should be plenty of space for everything to breath, but we'll see
-            : d.target.depth == 2 ? 3000 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
-            : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
-            : 11; 
-        })
-        .strength(1);
 
 
-    let simulation = d3.forceSimulation(nodes)
-        // .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
-        .force('link', forceLink)
-        .force('charge', d3.forceManyBody().strength(-25000))
-        .force('x', d3.forceX())
-        .force('y', d3.forceY())
-        .force('collision', d3.forceCollide().radius(d => {
-            // d.data.data.dj_score * 4
-            return d.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.depth == 1 ? 1000 // This should be plenty of space for everything to breath, but we'll see
-            : d.depth == 2 ? 450 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
-            : d.depth == 3 ? d.data.data.dj_score * 4.2 // Hopefully this is alright, but we'll find a better way to scale later
-            : 11; 
-        }));
-
-            /*** Initialize the svg shapes's layout ***/
-    // let width = document.body.clientWidth;
-    // let height = document.body.clientHeight;
-    let width = element.clientWidth;
-    let height = element.clientHeight;
     
-    let container = this._svg
-        .html('')
-        // .attr('viewBox', [0 - width, 0 - height * 2, width, height * 2]);
-        .attr('width', width)
-        .attr('height', height);
-
-    // Before you build anything make a selector to hold everything
-    const svg = container.append('g')
-        .attr('class', 'everything');
-    // Zoom stuff // 
-    var zoom_handler = d3.zoom()
-        .on("zoom", zoom_actions);
-    zoom_handler(container); // Select the svg to do the zoom stuff
-    function zoom_actions(){ // The function itself (^:;
-    svg.attr("transform", d3.event.transform)
-    }
-
-
-
-            // LINKS
-    let link = svg.append('g')
-            .attr('class', 'links')
-            .attr('stroke-opacity', '0.6')
-        .selectAll('line')
-        .data(links)
-        .enter().append('line')
-            .attr('stroke-width', '2.5')
-            .attr('stroke', d => {
-                // Maybe a scale from bad to good for it's color based on dj_score
-                return '#000';
-            })
-
-            // NODE GROUPS
-    let group = svg.append('g') // Holds respective text and circle for each node <neatly>
-            .attr('class', 'node')
-            .selectAll('g')
-            .data(nodes)
-            .enter().append('g');
-
-            // CIRCLES
-    let node = group
-            .attr('class', 'circle')
-            .attr('stroke-width', 1.25)
-        .append('circle')
-            .attr('fill', d => { // circle color
-                return d.data.depth == 0 ? '#FEBF43'
-                : !d.data.children ? '#008CCD'
-                : '#999999'
-            })
-            .attr('stroke-width', "4px")
-            .attr('stroke', "#999999")
-            .attr('r', d => d.data.data.dj_score * 4)
-            .call(drag(simulation));
-
-            // TEXT
-    let labels = group
-        .append('text')
-            // .transition()
-            // .duration(5000)
-            // .attr('fill-opacity', 1)
-            .text(d => d.data.data.target)
-            .style("text-anchor", "middle")
-            .style("font-family", "Palatino, Sans-serif")
-            .style("font-size", '1.6rem');
-     
-
-            /*** Initialize the simulation's movement physics ***/
-    simulation.on('tick', () => {
-        link
-            .attr('x1', d => d.source.x)
-            .attr('y1', d => d.source.y)
-            .attr('x2', d => d.target.x)
-            .attr('y2', d => d.target.y);
-
-        node    
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y)
-        d3.selectAll('text')
-            .attr('x', d => d.x)
-            .attr('y', d => d.y);
-
-        // invalidation.then(() => simulation.stop()); // Deprecated ?
-        return svg.node();
-    })
-
-
-            /* Section for all our functions */
-    // Drag node on click physics function
-    function drag(simulation) {
-  
-        function dragstarted(d) {
-            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-            d.fx = d.x;
-            d.fy = d.y;
-        }
-    
-        function dragged(d) {
-            d.fx = d3.event.x;
-            d.fy = d3.event.y;
-        }
-    
-        function dragended(d) {
-            if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
-    
-    return d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended);
-  }
-
             /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
         // Start by finding out how Looker pulls data /dimensions 
     console.log('\n\n\nCheck this stuff out');
     console.log('queryResponse: ', queryResponse);
     console.log(`LookerCharts`, LookerCharts);
             
+    var html = "";
+		for(var row of data) {
+			var cell = row[queryResponse.fields.dimensions[0].name];
+      html += LookerCharts.Utils.htmlForCell(cell);
+      console.log('\n\n cell: ', cell);
+      console.log('of row: ', row);
+		}
 
 
 
