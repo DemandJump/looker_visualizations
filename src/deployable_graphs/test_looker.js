@@ -10,6 +10,7 @@
             label: "Font Size",
             values: [
                 {"Large": "large"},
+                {"Medium": "medium"},
                 {"Small": "small"}
             ],
             display: "radio",
