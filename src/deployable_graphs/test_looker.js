@@ -223,10 +223,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('y', d3.forceY())
         .force('collision', d3.forceCollide().radius(d => {
             // d.data.data.dj_score * 4
-            return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.target.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
-            : d.target.depth == 2 ? 2100 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
-            : d.target.depth == 3 ? d.data.data.dj_score * 3 // Hopefully this is alright, but we'll find a better way to scale later
+            return d.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
+            : d.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
+            : d.depth == 2 ? 2100 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.depth == 3 ? d.data.data.dj_score * 3 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         }));
 
