@@ -207,7 +207,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .distance(d => {
             // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.target.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
+            : d.target.depth == 1 ? 20000 // This should be plenty of space for everything to breath, but we'll see
             : d.target.depth == 2 ? 1600 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
@@ -225,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // d.data.data.dj_score * 4
             return d.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
             : d.depth == 1 ? 1000 // This should be plenty of space for everything to breath, but we'll see
-            : d.depth == 2 ? 400 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.depth == 2 ? 200 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.depth == 3 ? d.data.data.dj_score * 3 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         }));
@@ -286,7 +286,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 : '#999999'
             })
             .attr('stroke', "#999999")
-            .attr('r', d => d.data.data.dj_score * 2.5)
+            .attr('r', d => d.data.data.dj_score * 2)
             .call(drag(simulation));
 
             // TEXT
@@ -296,7 +296,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // .duration(5000)
             // .attr('fill-opacity', 1)
             .text(d => d.data.data.target)
-            .style("font-size", '1rem');
+            .style("font-family", "Palatino, Sans-serif")
+            .style("font-size", '1.2rem');
      
 
             /*** Initialize the simulation's movement physics ***/
