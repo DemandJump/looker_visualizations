@@ -203,13 +203,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         
         // For now we're gonna make it easier by distancing the beginning and letting the rest be less spaced out
     let forceLink = d3
-        .forceLink(links).id(d => {
-            // Let's just see where this actually links to real quick because I'm unsure from how .stratify + .tree combined work like this 
-            console.log('find the forcelink id!  => d: ', d);
-            return d.target;
-        })
+        .forceLink(links).id(d => d.data.id)
         .distance(d => {
-            console.log('d for distance ', d)
+            // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
             : d.target.depth == 1 ? 5000 // This should be plenty of space for everything to breath, but we'll see
             : d.target.depth == 2 ? 1200 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
@@ -227,13 +223,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('y', d3.forceY())
         .force('collision', d3.forceCollide().radius(d => {
             // return 64 - (d.depth * 5);
-                // We need to find out what the depth is also
-                console.log('find depth for collision! : d => ', d);
-            return d.depth == 0 ? 0  
+                // console.log('find depth for collision! : d => ', d);
+            return d.depth == 0 ? 0
             : d.depth == 1 ? 600
             : d.depth == 2 ? 200
-            : d.target.depth;        
-        })); 
+            : d.target.depth;
+        }));
 
             /*** Initialize the svg shapes's layout ***/
     // let width = document.body.clientWidth;
