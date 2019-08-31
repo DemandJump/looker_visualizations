@@ -209,7 +209,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
             : d.target.depth == 1 ? 30000 // This should be plenty of space for everything to breath, but we'll see
-            : d.target.depth == 2 ? 2000 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.target.depth == 2 ? 1840 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         })
