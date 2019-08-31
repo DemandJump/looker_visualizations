@@ -316,7 +316,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('\n\n\nCheck this stuff out');
     console.log('queryResponse: ', queryResponse);
-    console.log(`row[queryResponse.fields.dimensions[0].name]`, row[queryResponse.fields.dimensions[0].name]);
+    console.log(`LookerCharts`, LookerCharts);
+    console.log(`LookerCharts.utils`, LookerCharts.utils);
     console.log(`LookerCharts.Utils.htmlForCell(cell)`, LookerCharts.Utils.htmlForCell(cell));
 
 
