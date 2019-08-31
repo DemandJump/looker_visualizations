@@ -224,7 +224,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('collision', d3.forceCollide().radius(d => {
             // d.data.data.dj_score * 4
             return d.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
+            : d.depth == 1 ? 1000 // This should be plenty of space for everything to breath, but we'll see
             : d.depth == 2 ? 400 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.depth == 3 ? d.data.data.dj_score * 3 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
