@@ -135,7 +135,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
   console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
+    // Dimension and Measure length 
+  let maxDimensions = queryResponse.fields.dimensions.length;
+  let maxMeasures = queryResponse.fields.measures.length;
 
+    // The selector references for dimensions and length 
+  let dimensions = queryResponse.fields.dimensions;
+  let measures = queryResponse.fields.measures;
+
+  let nested = burrow(data, queryResponse.fields.dimension_like)
+
+    // Burrow function for creating a hierarchy apparently!!!
+  function burrow(table, taxonomy) {
+    // create nested object
+    var obj = {};
+    table.forEach(function(row) {
+      // start at root
+      var layer = obj;
+
+      // create children as nested objects
+      taxonomy.forEach(function(t) {
+        var key = row[t.name].value;
+        layer[key] = key in layer ? layer[key] : {};
+        layer = layer[key];
+      });
+      layer.__data = row;
+    });
+    // Okay cool, let's play with the data
+
+      // Alright so let's grab the data and try and burrow into it
+    
 
 
 
