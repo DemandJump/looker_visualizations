@@ -68,17 +68,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Adding zoom functionality, and working on scaling and fixing buggy hierarchy');
+    console.log('Before we make this bad boy dynamic, run it with a dataset of 420 and make it scale!');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
     console.log('d3v5 initialized', d3);
         /****** Log all these functions to see what we're working with ******/
-    console.log('\n\n\n\n\nUpdateAsync initialized');
+    console.log(`\n\n\n\n\nUpdateAsync initialized, here is it's data: `);
     console.log('data', data);
     console.log('element', element);
     console.log('config', config);
-    // console.log('queryResponse', queryResponse);
+    console.log('queryResponse', queryResponse);
     console.log('details', details);
 
     /**********************
@@ -196,13 +196,43 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             /*** Initialize the simulation ***/
+    /* My own linkDistance setup */
+        // First Let's pull the max depth, and create a scale based on it 
+    var maxDepth = Math.max.apply(Math, links.map(function(o) { return o.target.depth; }));
+            /*!!! Can we make a dynamic amount for a ternary clause? Scaling this force graph will get hairy !!!*/
+        
+        // For now we're gonna make it easier by distancing the beginning and letting the rest be less spaced out
+    let forceLink = d3
+        .forceLink(links).id(d => {
+            // Let's just see where this actually links to real quick because I'm unsure from how .stratify + .tree combined work like this 
+            console.log('id => d: ', d);
+            return d.data.id;
+        })
+        .distance(d => {
+            return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
+            : d.target.depth == 1 ? 5000 // This should be plenty of space for everything to breath, but we'll see
+            : d.target.depth == 2 ? 1200 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.target.depth == 3 ? 50 // Hopefully this is alright, but we'll find a better way to scale later
+            : 11; 
+        })
+        .strength(1);
+
+
     let simulation = d3.forceSimulation(mutadata)
-        .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
+        // .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
+        .force('link', forceLink)
         .force('charge', d3.forceManyBody().strength(-250))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
-        .force('collision', d3.forceCollide().radius(10));
-
+        .force('collision', d3.forceCollide().radius(d => {
+            // return 64 - (d.depth * 5);
+                // We need to find out what the depth is also
+                console.log('find depth for collision! : d => ', d);
+            return d.depth == 0 ? 0  
+            : d.depth == 1 ? 600
+            : d.depth == 2 ? 200
+            : d.target.depth;        
+        })); 
 
             /*** Initialize the svg shapes's layout ***/
     // let width = document.body.clientWidth;
@@ -253,7 +283,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('stroke', '#000')
             .attr('stroke-width', 1.25)
         .append('circle')
-            .attr('fill', "#008CCD")
+            .attr('fill', d => { // circle color
+                return d.data.depth == 0 ? '#FEBF43'
+                : !d.data.children ? '#999999'
+                : '#008CCD'
+            })
             .attr('stroke', d => d.children ? "#999999" : "#008CCD")
             .attr('r', 10)
             .call(drag(simulation));
@@ -314,11 +348,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .on("end", dragended);
   }
 
+            /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
+        // Start by finding out how Looker pulls data /dimensions 
     console.log('\n\n\nCheck this stuff out');
     console.log('queryResponse: ', queryResponse);
     console.log(`LookerCharts`, LookerCharts);
-    console.log(`LookerCharts.utils`, LookerCharts.utils);
-    console.log(`LookerCharts.Utils.htmlForCell(cell)`, LookerCharts.Utils.htmlForCell(cell));
+            
+
+
 
 
     /**********************
