@@ -115,11 +115,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse: ', queryResponse);
     console.log(`LookerCharts`, LookerCharts);
             
-    var html = "";
-		for(var row of data) {
-			var cell = row[queryResponse.fields.dimensions[0].name];
+    let html = "";
+		for(let row of data) {
+			let cell = row[queryResponse.fields.dimensions[0].name];
       html += LookerCharts.Utils.htmlForCell(cell);
-      console.log('\n\n cell: ', cell);
+      console.log('\n\n cell d[0]: ', cell);
+      console.log('of row: ', row);
+		}
+    let html2 = "";
+		for(let row of data) {
+			let cell = row[queryResponse.fields.dimensions[1].name];
+      html += LookerCharts.Utils.htmlForCell(cell);
+      console.log('\n\n cell d[1]: ', cell);
+      console.log('of row: ', row);
+		}
+    let html3 = "";
+		for(let row of data) {
+			let cell = row[queryResponse.fields.dimensions[2].name];
+      html += LookerCharts.Utils.htmlForCell(cell);
+      console.log('\n\n cell d[2]: ', cell);
       console.log('of row: ', row);
 		}
 
