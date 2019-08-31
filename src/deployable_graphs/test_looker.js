@@ -221,7 +221,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let simulation = d3.forceSimulation(nodes)
         // .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
         .force('link', forceLink)
-        .force('charge', d3.forceManyBody().strength(-30000))
+        .force('charge', d3.forceManyBody().strength(-25000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
         .force('collision', d3.forceCollide().radius(d => {
@@ -302,7 +302,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .text(d => d.data.data.target)
             .style("text-anchor", "middle")
             .style("font-family", "Palatino, Sans-serif")
-            .style("font-size", '1.2rem');
+            .style("font-size", '1.6rem');
      
 
             /*** Initialize the simulation's movement physics ***/
