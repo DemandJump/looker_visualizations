@@ -221,7 +221,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('charge', d3.forceManyBody().strength(-10000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
-        .force('collision', d3.forceCollide().radius(d => d.data.data.dj_score * 2));
+        .force('collision', d3.forceCollide().radius(d => d.data.data.dj_score * 4 - 200));
 
             /*** Initialize the svg shapes's layout ***/
     // let width = document.body.clientWidth;
