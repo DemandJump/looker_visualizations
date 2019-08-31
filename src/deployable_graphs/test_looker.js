@@ -28,9 +28,11 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
+            /*
             svg {
                 border: 1px solid black;
             }
+            */
             text { /* Cool trick to make the captions on the links more readable! */
                 text-shadow:
                  -1px -1px 3px white,
@@ -263,7 +265,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .selectAll('line')
         .data(links)
         .enter().append('line')
-            .attr('stroke-width', '1')
+            .attr('stroke-width', '2.5')
             .attr('stroke', d => {
                 // Maybe a scale from bad to good for it's color based on dj_score
                 return '#000';
