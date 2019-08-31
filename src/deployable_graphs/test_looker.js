@@ -205,10 +205,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let forceLink = d3
         .forceLink(links).id(d => {
             // Let's just see where this actually links to real quick because I'm unsure from how .stratify + .tree combined work like this 
-            console.log('find the forcelink id! For link graph => d: ', d);
+            console.log('find the forcelink id!  => d: ', d);
             return d.target;
         })
         .distance(d => {
+            console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
             : d.target.depth == 1 ? 5000 // This should be plenty of space for everything to breath, but we'll see
             : d.target.depth == 2 ? 1200 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
@@ -218,7 +219,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .strength(1);
 
 
-    let simulation = d3.forceSimulation(mutadata)
+    let simulation = d3.forceSimulation(nodes)
         // .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
         .force('link', forceLink)
         .force('charge', d3.forceManyBody().strength(-250))
