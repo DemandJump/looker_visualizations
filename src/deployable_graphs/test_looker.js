@@ -300,19 +300,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             /*** Initialize the simulation's movement physics ***/
     simulation.on('tick', () => {
         link
-            .attr('x1', d => {
-                console.log('link d => ', d)
-                return d.source.data.data.x})
-            .attr('y1', d => d.source.data.data.y)
-            .attr('x2', d => d.target.data.data.x)
-            .attr('y2', d => d.target.data.data.y);
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y);
 
         node    
-            .attr('cx', d => d.data.data.x)
-            .attr('cy', d => d.data.data.y)
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
         d3.selectAll('text')
-            .attr('x', d => d.data.data.x)
-            .attr('y', d => d.data.data.y);
+            .attr('x', d => d.x)
+            .attr('y', d => d.y);
 
         // invalidation.then(() => simulation.stop()); // Deprecated ?
         return svg.node();
