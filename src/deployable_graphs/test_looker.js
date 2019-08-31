@@ -221,14 +221,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('charge', d3.forceManyBody().strength(-10000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
-        .force('collision', d3.forceCollide().radius(d => {
-            // return 64 - (d.depth * 5);
-                // console.log('find depth for collision! : d => ', d);
-            return d.depth == 0 ? 0
-            : d.depth == 1 ? 300
-            : d.depth == 2 ? 200
-            : d.depth;
-        }));
+        .force('collision', d3.forceCollide().radius(d => d.data.data.dj_score * 2));
 
             /*** Initialize the svg shapes's layout ***/
     // let width = document.body.clientWidth;
@@ -283,8 +276,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .append('circle')
             .attr('fill', d => { // circle color
                 return d.data.depth == 0 ? '#FEBF43'
-                : !d.data.children ? '#999999'
-                : '#008CCD'
+                : !d.data.children ? '#008CCD'
+                : '#999999'
             })
             .attr('stroke', d => d.children ? "#999999" : "#008CCD")
             .attr('r', d => d.data.data.dj_score * 2)
