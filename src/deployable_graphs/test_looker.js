@@ -208,7 +208,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
             : d.target.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
-            : d.target.depth == 2 ? 1643 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.target.depth == 2 ? 1600 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         })
@@ -221,7 +221,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('charge', d3.forceManyBody().strength(-10000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
-        .force('collision', d3.forceCollide().radius(d => d.data.data.dj_score * 3));
+        .force('collision', d3.forceCollide().radius(d => {
+            // d.data.data.dj_score * 4
+            return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
+            : d.target.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
+            : d.target.depth == 2 ? 2100 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.target.depth == 3 ? d.data.data.dj_score * 3 // Hopefully this is alright, but we'll find a better way to scale later
+            : 11; 
+        }));
 
             /*** Initialize the svg shapes's layout ***/
     // let width = document.body.clientWidth;
