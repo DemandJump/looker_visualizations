@@ -208,8 +208,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .distance(d => {
             // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
-            : d.target.depth == 1 ? 20000 // This should be plenty of space for everything to breath, but we'll see
-            : d.target.depth == 2 ? 1600 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.target.depth == 1 ? 30000 // This should be plenty of space for everything to breath, but we'll see
+            : d.target.depth == 2 ? 2000 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         })
@@ -219,7 +219,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let simulation = d3.forceSimulation(nodes)
         // .force('link', d3.forceLink(links).id(d => d.target).distance(125).strength(1))
         .force('link', forceLink)
-        .force('charge', d3.forceManyBody().strength(-20000))
+        .force('charge', d3.forceManyBody().strength(-30000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
         .force('collision', d3.forceCollide().radius(d => {
@@ -287,7 +287,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 : '#999999'
             })
             .attr('stroke', "#999999")
-            .attr('r', d => d.data.data.dj_score * 2)
+            .attr('r', d => d.data.data.dj_score * 4)
             .call(drag(simulation));
 
             // TEXT
@@ -297,6 +297,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // .duration(5000)
             // .attr('fill-opacity', 1)
             .text(d => d.data.data.target)
+            .style("text-anchor", "middle")
             .style("font-family", "Palatino, Sans-serif")
             .style("font-size", '1.2rem');
      
