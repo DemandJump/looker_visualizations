@@ -205,8 +205,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let forceLink = d3
         .forceLink(links).id(d => {
             // Let's just see where this actually links to real quick because I'm unsure from how .stratify + .tree combined work like this 
-            console.log('id => d: ', d);
-            return d.data.id;
+            console.log('find the forcelink id! For link graph => d: ', d);
+            return d.target;
         })
         .distance(d => {
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
