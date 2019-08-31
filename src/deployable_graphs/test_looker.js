@@ -78,7 +78,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('data', data);
     console.log('element', element);
     console.log('config', config);
-    console.log('queryResponse', queryResponse);
+    // console.log('queryResponse', queryResponse);
     console.log('details', details);
 
     /**********************
@@ -313,6 +313,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .on("drag", dragged)
         .on("end", dragended);
   }
+
+    console.log('\n\n\nCheck this stuff out');
+    console.log('queryResponse: ', queryResponse);
+    console.log(`row[queryResponse.fields.dimensions[0].name]`, row[queryResponse.fields.dimensions[0].name]);
+    console.log(`LookerCharts.Utils.htmlForCell(cell)`, LookerCharts.Utils.htmlForCell(cell));
 
 
     /**********************
