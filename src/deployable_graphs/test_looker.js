@@ -208,7 +208,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('d for distance ', d)
             return d.target.depth == 0 ? 0 // Root doesn't link to anything, and shouldn't have a distance
             : d.target.depth == 1 ? 13000 // This should be plenty of space for everything to breath, but we'll see
-            : d.target.depth == 2 ? 1200 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
+            : d.target.depth == 2 ? 1643 // 3 hierarchical steps out, root(1) > rootChildren(2) > rootGrandChildren(3)
             : d.target.depth == 3 ? 45 // Hopefully this is alright, but we'll find a better way to scale later
             : 11; 
         })
@@ -221,7 +221,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('charge', d3.forceManyBody().strength(-10000))
         .force('x', d3.forceX())
         .force('y', d3.forceY())
-        .force('collision', d3.forceCollide().radius(d => d.data.data.dj_score * 4 - 200));
+        .force('collision', d3.forceCollide().radius(d => d.data.data.dj_score * 3));
 
             /*** Initialize the svg shapes's layout ***/
     // let width = document.body.clientWidth;
@@ -271,7 +271,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // CIRCLES
     let node = group
             .attr('class', 'circle')
-            .attr('stroke', '#000')
             .attr('stroke-width', 1.25)
         .append('circle')
             .attr('fill', d => { // circle color
@@ -279,8 +278,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 : !d.data.children ? '#008CCD'
                 : '#999999'
             })
-            .attr('stroke', d => d.children ? "#999999" : "#008CCD")
-            .attr('r', d => d.data.data.dj_score * 2)
+            .attr('stroke', "#999999")
+            .attr('r', d => d.data.data.dj_score * 2.5)
             .call(drag(simulation));
 
             // TEXT
