@@ -119,21 +119,35 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 		for(let row of data) {
 			let cell = row[queryResponse.fields.dimensions[0].name];
       html += LookerCharts.Utils.htmlForCell(cell);
-      console.log('\n\n cell d[0]: ', cell);
+      console.log(' cell d[0]: ', cell);
       console.log('of row: ', row);
 		}
     let html2 = "";
 		for(let row of data) {
 			let cell = row[queryResponse.fields.dimensions[1].name];
       html += LookerCharts.Utils.htmlForCell(cell);
-      console.log('\n\n cell d[1]: ', cell);
+      console.log(' cell d[1]: ', cell);
       console.log('of row: ', row);
-		}
+    }
     let html3 = "";
 		for(let row of data) {
 			let cell = row[queryResponse.fields.dimensions[2].name];
       html += LookerCharts.Utils.htmlForCell(cell);
-      console.log('\n\n cell d[2]: ', cell);
+      console.log(' cell d[2]: ', cell);
+      console.log('of row: ', row);
+		}
+    let html4 = "";
+		for(let row of data) {
+			let cell = row[queryResponse.fields.dimensions[3].name];
+      html += LookerCharts.Utils.htmlForCell(cell);
+      console.log(' cell d[3]: ', cell);
+      console.log('of row: ', row);
+		}
+    let html5 = "";
+		for(let row of data) {
+			let cell = row[queryResponse.fields.dimensions[4].name];
+      html += LookerCharts.Utils.htmlForCell(cell);
+      console.log(' cell d[4]: ', cell);
       console.log('of row: ', row);
 		}
 
