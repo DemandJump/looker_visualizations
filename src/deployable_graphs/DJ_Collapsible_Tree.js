@@ -71,7 +71,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Before we make this bad boy dynamic, run it with a dataset of 420 and make it scale!');
+    console.log('Creating A way to take in dynamic data (varying dimensions)');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
@@ -109,98 +109,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     */
 
-        // First mutate the data/dimensions given to create a dataset 
-    let mutadata = data;
-    let rootChildren = []; // We may need to hold the root children 
-    let thisParent = ``; 
-    let initialIteration = 0; // for first iteration
-    mutadata.forEach(obj => {
-                // object's parent (source)
-        obj.source = obj["djb_scores.query_string"]["value"];
-            delete obj["djb_scores.query_string"];
-                // object value (target)
-        obj.target = obj["djb_scores.phrase"]["value"];
-            delete obj["djb_scores.phrase"];
-                // Dj score
-        obj.dj_score = obj["djb_scores.dj_score"]["rendered"];
-            delete obj["djb_scores.dj_score"];
-                    /*
-                    // Now the returned data for each object should be 
-                        obj {
-                            source: djb_scores.query_string.value
-                            target: djb_scores.phrase.value
-                            dj_score: djb_scores.dj_score.rendered
-                        }
-                    */
-                // We need to create an index(id) for each and every one
-                // We must create objects(targets) for the query strings and have them link2root
-
-        /* 
-        if (initialIteration == 0) { // Rendered useless since the roots are connected to themselves, we just need to connect them to a single root called "query strings"
-            initialIteration++; 
-            // Gotta initialize this by pulling in the first var around the logic
-            thisParent = obj.source;
-            rootChildren.push(thisParent); // Store it in rootChildren
-        }
-        if (thisParent != obj.source) {
-            thisParent = obj.source; 
-            rootChildren.push(thisParent);
-        }
-        */
-
-        // Okay so we don't need to create root children because every query string is a phrase, and they put one phrase in with it's query string as the same. We just need to change it's source(once was query string) to root(varname: 'query string')
-        if (obj.source == obj.target) {
-            obj.source = "query strings"; // Wayy easier to do ;P
-        }
-
-    });
-    console.log('mutadata without root and rootChildren', mutadata);
-    /*
-    console.log('RootChildren data', rootChildren);
-    // Reverse the array to take into account how unshift works and how we iterated through before
-    rootChildren.reverse();
-    rootChildren.forEach(srcname => {
-        let current = { // Current object made to put into mutadata based on rootChildren~
-            source: "query strings",
-            target: srcname,
-            dj_score: "100"
-        };
-        mutadata.unshift(current);
-    });
-    */
-    // Then we'll add the root
-    mutadata.unshift(
-        {
-            source: "",
-            target: "query strings",
-            dj_score: "145"
-        }
-    );
-    console.log('finished mutadata', mutadata);
-
-
-        // Turning links into a hierarchy with stratify method
-    let stratify = d3
-        .stratify()
-        .id(d => d["target"])
-        .parentId(d => d["source"]);
-    let stratified = stratify(mutadata);
-    console.log('stratified data!', stratified);
-
-
-        // Now let's see what we can do with this data in d3 force
-            /*** Create the hierarchy layout ***/
-    let root = d3.hierarchy(stratified);
-    let links = root.links();
-    let nodes = root.descendants();
-    console.log('root data', root);
-    console.log('link data', links);
-    console.log('node data', nodes);
-
-
-
-
-    
             /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
         // Start by finding out how Looker pulls data /dimensions 
     console.log('\n\n\nCheck this stuff out');
@@ -239,19 +147,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 */
 
-/* 
-        // * Pulled out of update the visualization * // 
-    // Basic interaction of given data through iteration, console log data to further understand
-    var html = "";
-		for(var row of data) {
-			var cell = row[queryResponse.fields.dimensions[0].name];
-            html += LookerCharts.Utils.htmlForCell(cell);
-            console.log('iterated cell', cell);
-        }
-        element.innerHTML = html; // This is to test the data 
-        console.log('The last cell given: ', cell);
 
-*/
+
+
 
 
 
