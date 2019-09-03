@@ -294,7 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       var dcx = (element.innerWidth/2-d.x*cScale);
       var dcy = (element.innerHeight/2-d.y*cScale);
       console.log(`This is dcx:${dcx}, dcy:${dcy}`);
-      zoom_handler.translate([dcx,dcy]);
+      zoom_handler.translateBy(d, dcx, dcy);
        pan.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + cScale + ")");
     });
 
