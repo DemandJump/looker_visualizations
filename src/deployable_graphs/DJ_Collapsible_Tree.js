@@ -235,14 +235,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
-  // root.children.forEach(collapse);
-  // function collapse(d) {
-  //   if(d.children) {
-  //     d._children = d.children
-  //     d._children.forEach(collapse)
-  //     d.children = null
-  //   }
-  // }
+  root.children.forEach(collapse);
+  function collapse(d) {
+    if(d.children) {
+      d._children = d.children
+      d._children.forEach(collapse)
+      d.children = null
+    }
+  }
   
 
 
@@ -287,19 +287,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .attr("transform", function(d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
     })
-    .on('click', click)
-    .on("dblclick.zoom", function(d) {
-      d3.event.stopPropagation();
-      console.log('this is d for node', d);
-      let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
-      var dcx = ((width / 2) - (d.x * cScale));
-      var dcy = ((height / 2) - (d.y * cScale));
-      console.log(`This is dcx:${dcx}, dcy:${dcy}`);
-      d3.zoom().translateBy(pan, dcx, dcy)
-      //  pan.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + cScale + ")");
-    });
-
-
+    .on('click', click);
 
      
   // Add Circle for the nodes
