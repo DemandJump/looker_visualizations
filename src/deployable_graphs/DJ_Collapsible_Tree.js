@@ -424,7 +424,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('this is cScale ', cScale);
     pan.transition().duration(1250)
-      .attr('transform', `translate(` + translate + `)`);
+      .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
   }
 }
 
