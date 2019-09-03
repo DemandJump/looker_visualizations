@@ -418,8 +418,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // We need to create a variable for where it's translating to 
         // let translate = [width / 2 - scale * x, height / 2 - scale * y];
     console.log('this is really pan!', pan);
-    console.log('this is parsed sorta into pan ', pan["_groups"][0]);
-    console.log('This is pan!', pan["_groups"][0]["transform"]["animVal"][1]["a"]);
+    console.log('This is pan!', pan["_groups"][0][0]["transform"]["animVal"][1]["a"]);
+    console.log('this is parsed sorta into pan ', pan["_groups"][0]['g']);
     let cScale = pan["_groups"][0]["transform"]["animVal"][1]["a"]; // Current Scale
     pan.transition().duration(1250)
       .attr('transform', `translate(` + [d.x, d.y] + `).scale(${cScale})`);
