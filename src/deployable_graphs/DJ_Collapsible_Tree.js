@@ -355,7 +355,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   var linkEnter = link.enter().insert('path', "g")
       .attr("class", "link")
       .attr("opacity", "0.6")
-      .style("stroke", "008CCD")
+      .style("stroke", "#008CCD")
       .attr('d', function(d){
         var o = {x: source.x0, y: source.y0}
         return diagonal(o, o)
