@@ -273,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
       .text(d => {
         console.log('d for text', d);
-        return data.data.name;
+        return d.data.name;
       });
 
   // UPDATE
