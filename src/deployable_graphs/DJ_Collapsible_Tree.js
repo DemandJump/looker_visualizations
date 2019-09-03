@@ -298,9 +298,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('text')
       .attr("dy", ".35em")
       .attr("x", function(d) {
-          return d.children || d._children ? "-26.4px" : "15px";
+          return d.children || d._children ? "-27.4px" : "-27.4px";
       })
-      .style("font-size", d => d.children || d._children ? "2rem" : "1.5rem" )
+      .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
       .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
       .text(d => d.data.name);
 
