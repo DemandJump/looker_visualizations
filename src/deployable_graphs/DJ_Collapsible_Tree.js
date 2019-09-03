@@ -302,10 +302,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
       .style("font-size", d => d.children || d._children ? "2rem" : "1.5rem" )
       .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
-      .text(d => {
-        console.log('d for text', d);
-        return d.data.name;
-      });
+      .text(d => d.data.name);
 
   // UPDATE
   var nodeUpdate = nodeEnter.merge(node);
