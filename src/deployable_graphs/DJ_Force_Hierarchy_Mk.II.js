@@ -223,7 +223,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .distance(d => {
             return d.target.depth == 0 ? 0 // center baby
             : d.target.depth == 1 ? 25000 // green 
-            : d.target.depth == 2 ? 1200 // blue
+            : d.target.depth == 2 ? 5000 // blue
             : 11 // purple 
         })
         .strength(1);
