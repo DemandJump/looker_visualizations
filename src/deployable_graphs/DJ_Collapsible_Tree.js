@@ -416,7 +416,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // d.y is the desired y coordinate
 
       // We need to create a variable for where it's translating to 
-        // let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
+    let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
     console.log('this is really pan!', pan);
     let parse = pan["_groups"][0];
     let cScale = parse[0]["transform"]["animVal"]["1"]["matrix"]["a"];
@@ -427,7 +427,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('this is cScale ', cScale);
     pan.transition().duration(1250)
-      .attr('transform', `translate(` + [d.x, d.y] + `)`);
+      .attr('transform', `translate(` + translate + `)`);
   }
 }
 
