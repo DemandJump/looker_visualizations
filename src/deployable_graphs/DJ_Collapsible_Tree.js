@@ -291,14 +291,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', '25px')
-      .style('fill', d => d.children ? "#a5a5a5" : "#008CCD")
+      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
 
 
   // Add labels for the nodes
   nodeEnter.append('text')
       .attr("dy", ".35em")
       .attr("x", function(d) {
-          return d.children || d._children ? "-27.4px" : "-27.4px";
+          return d.children || d._children ? "-31.4px" : "29.4px";
       })
       .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
       .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
