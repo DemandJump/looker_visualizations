@@ -237,8 +237,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('collision', d3.forceCollide().radius(d => {
             // return 64 - (d.depth * 5);
             return d.depth == 0 ? 0 // 50 
-            : d.depth == 1 ? 10000
-            : d.depth == 2 ? 600
+            : d.depth == 1 ? 4000
+            : d.depth == 2 ? 400
             : 11;        
         })); // 450 300 250 200
 
