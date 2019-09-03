@@ -420,7 +420,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     console.log('This is pan!', pan);
     pan.transition().duration(1250)
-      .attr('transform', `translate(` + [d.x, d.y] + `)scale(1)`);
+      .attr('transform', `translate(` + [d.x, d.y] + `)`);
   }
 }
 
