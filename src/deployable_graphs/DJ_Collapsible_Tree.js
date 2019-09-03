@@ -290,9 +290,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     .on('click', click)
     .on("dblclick.zoom", function(d) { console.log('this is d for node', d);
       d3.event.stopPropagation();
-      var dcx = (element.innerWidth/2-d.x*zoom.scale());
-      var dcy = (element.innerHeight/2-d.y*zoom.scale());
       let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
+      var dcx = (element.innerWidth/2-d.x*cScale);
+      var dcy = (element.innerHeight/2-d.y*cScale);
       console.log(`This is dcx:${dcx}, dcy:${dcy}`);
       zoom_handler.translate([dcx,dcy]);
        pan.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + cScale + ")");
