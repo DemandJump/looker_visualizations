@@ -418,9 +418,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // We need to create a variable for where it's translating to 
         // let translate = [width / 2 - scale * x, height / 2 - scale * y];
     
-    console.log('current zoom scale', d3.zoomTransform(pan).k);
-    // pan.transition().duration(1250)
-      // .attr('transform', `translate(` + [d.x, d.y] + `)scale(` + )
+    console.log('This is pan!', pan);
+    pan.transition().duration(1250)
+      .attr('transform', `translate(` + [d.x, d.y] + `)scale(1)`);
   }
 }
 
