@@ -318,7 +318,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('y', d => d.y)
 
         // invalidation.then(() => simulation.stop()); // Deprecated ?
-        return g.node();
+        return svg.node();
     })
 
 
