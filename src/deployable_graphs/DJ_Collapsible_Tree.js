@@ -395,6 +395,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     return path
   }
 
+    // We're gonna need to create a zoom function reference
+  var zoom = d3.zoom();
+
   // Toggle children on click.
   function click(d) {
     if (d.children) {
@@ -407,6 +410,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update(d);
     // Zoom to the selected node!
     console.log('this is the clicked node data', d);
+    zoom.translateTo(svg, d.x, d.y);
+
   }
 }
 
