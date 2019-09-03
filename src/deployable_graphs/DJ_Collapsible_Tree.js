@@ -293,7 +293,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', '25px')
-      .style('fill', d => d._children ? "#a5a5a5" : "#008CCD")
+      .style('fill', d => d._children ? "#008CCD" : "#a5a5a5")
 
 
   // Add labels for the nodes
@@ -322,7 +322,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    .style('fill', d => d._children ? "#a5a5a5" : "#008CCD")
+    .style('fill', d => d._children ? "#008CCD" : "#a5a5a5")
     .style('fill', d => {
         return d._children ? "#999999" :
         !d._children && !d.children ? "#FEBF43" :
