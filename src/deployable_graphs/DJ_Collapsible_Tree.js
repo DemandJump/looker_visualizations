@@ -292,8 +292,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       d3.event.stopPropagation();
       console.log('this is d for node', d);
       let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
-      var dcx = ((element.innerWidth) / 2 - (d.x * cScale));
-      var dcy = ((element.innerHeight) / 2 - (d.y * cScale));
+      var dcx = ((width / 2) - (d.x * cScale));
+      var dcy = ((height / 2) - (d.y * cScale));
       console.log(`This is dcx:${dcx}, dcy:${dcy}`);
       d3.zoom().translateBy(pan, dcx, dcy)
       //  pan.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + cScale + ")");
