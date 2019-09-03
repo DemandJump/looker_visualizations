@@ -209,8 +209,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   root.children.forEach(collapse);
   function collapse(d) {
     if(d.children) {
-      d._children = d.children._children.forEach(collapse);
-      d.children = null;
+      d._children = d.children
+      d._children.forEach(collapse)
+      d.children = null
     }
   }
   
