@@ -253,8 +253,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // Try changing the height of the viewport as you have more leaf nodes instantiated
   let leaves = root.leaves();
   console.log('leaves', leaves.length);
-  console.log('element height', element.clientHeight);
-  height = (element.clientHeight) * leaves;
+  height = (element.clientHeight) * leaves.length;
   console.log('new height ', height);
 
   d3.select('svg.container')
