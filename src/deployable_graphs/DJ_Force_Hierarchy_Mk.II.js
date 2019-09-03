@@ -167,10 +167,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           //*// Burrowing into the Data //*//
     let nested = this.burrow(data, queryResponse.fields.dimension_like);
     console.log('burrow function results on raw data: ', nested);
-
-        // Create the dimensions of the layout
-    let width = element.clientWidth;
-    let height = element.clientHeight;
+    
 
     let container = this._svg 
         .html('')
