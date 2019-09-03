@@ -294,6 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       var dcy = (element.innerHeight/2-d.y*zoom.scale());
       zoom_handler.translate([dcx,dcy]);
        svg.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + zoom.scale() + ")");
+    });
 
   // Add Circle for the nodes
   nodeEnter.append('circle')
