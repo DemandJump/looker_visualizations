@@ -248,14 +248,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Main functionality (^:;
   function update(source) {
-    // console.log('i', i) //
+    // console.log('i', i) // See how many times i's been reinstantiated
 
+    // Try changing the height of the viewport as you have more leaf nodes instantiated
+  let leaves = root.leaves();
+  height = element.clientHeight * leaves;
+
+  d3.select('svg.container')
+    .attr('height', height);
+  
 
   // Assigns the x and y position for the nodes
-  var treeData = treemap(root);
+  let treeData = treemap(root);
 
   // Compute the new tree layout.
-  var nodes = treeData.descendants(),
+  let nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
 
     console.log('nodes', nodes); //
