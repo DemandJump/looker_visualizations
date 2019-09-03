@@ -28,45 +28,22 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
-        .node circle {
-          fill: #fff;
-          stroke: steelblue;
-          stroke-width: 3px;
-        }
-        
-        .node text {
-          font: 12px sans-serif;
-        }
-        
-        .link {
-          fill: none;
-          stroke: #ccc;
-          stroke-width: 2px;
-        }
-        
-        /* Not needed, used to test svgs dimensions */
-        svg { border: 1px solid black; }
-        
-        body { /* this is used in all tidy svgs! */
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: 0;
-            overflow: hidden;
-            display: block;
-        }
-        
-        text { /* Cool trick to make the captions on the links more readable! */
-            text-shadow:
-             -1px -1px 3px white,
-             -1px  1px 3px white,
-              1px -1px 3px white,
-              1px  1px 3px white;
-            pointer-events: none; /* This hides the edit cursor when you hover over the labels */
-            font-family: 'Playfair Display', serif;
-        }
+            /*
+            svg {
+                border: 1px solid black;
+            }
+            */
+            text { /* Cool trick to make the captions on the links more readable! */
+                text-shadow:
+                 -1px -1px 3px white,
+                 -1px  1px 3px white,
+                  1px -1px 3px white,
+                  1px  1px 3px white;
+                pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+                font-family: 'Playfair Display', serif;
+            }
+            body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+
         </style>
         `;
         /*
@@ -128,7 +105,6 @@ burrow: function(table, taxonomy) {
     depth: 0
   };
 },
-
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
@@ -136,7 +112,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Creating A way to take in dynamic data (varying dimensions)');
+    console.log('D3 force with burrow and scaling ');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
@@ -167,271 +143,60 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**********************************************************************
                         * Update the Visualization *
     **********************************************************************/
-    /* Object { // !!!Initial data given, we're gonna have to account for variation after this!!!
-            djb_scores.dj_score: { value: float, rendered:  num } // circle size 
-            djb_scores.phrase: { value: string } // child 
-            djb_scores.query_string: { value: string }  // parent
-    }
-    */
+    
+        // Playing with dimensions and measures
+    console.log('Checking out query resposne dimension fields: ', 
+        queryResponse.fields.dimensions);
+    console.log('Checking out query resposne measure fields: ', 
+        queryResponse.fields.measures);
+    console.log('Checking out query resposne dimension fields: ',   
+        queryResponse.fields.dimensions.length);
+    console.log('Checking out query resposne measure fields: ',         
+        queryResponse.fields.measures.length);
 
-            /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
-        // Start by finding out how Looker pulls data /dimensions 
-    console.log('\n\n\ Noteworthy stuff for creating this jazz');
-    console.log(`LookerCharts`, LookerCharts);
-            
+        // Dimension and Measure length 
+    let maxDimensions = queryResponse.fields.dimensions.length;
+    let maxMeasures = queryResponse.fields.measures.length;
+        // The selector references for dimensions and length 
+    let dimensions = queryResponse.fields.dimensions;
+    let measures = queryResponse.fields.measures;
 
+    let duration = 1250;
 
-  console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-  console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-  console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-  console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
-    // Dimension and Measure length 
-  let maxDimensions = queryResponse.fields.dimensions.length;
-  let maxMeasures = queryResponse.fields.measures.length;
-    // The selector references for dimensions and length 
-  let dimensions = queryResponse.fields.dimensions;
-  let measures = queryResponse.fields.measures;
-
-
-  let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
-  let duration = 1250;
 
           //*// Burrowing into the Data //*//
-  let nested = this.burrow(data, queryResponse.fields.dimension_like);
-  console.log('burrow function results on raw data: ', nested);
+    let nested = this.burrow(data, queryResponse.fields.dimension_like);
+    console.log('burrow function results on raw data: ', nested);
 
-    // Create the dimensions of the layout
-  let width = element.clientWidth;
-  let height = element.clientHeight;
+        // Create the dimensions of the layout
+    let width = element.clientWidth;
+    let height = element.clientHeight;
 
-  let container = this._svg 
-    .html('')
-    .attr('width', width)
-    .attr('height', height);
+    let container = this._svg 
+        .html('')
+        .attr('width', width)
+        .attr('height', height);
 
-    // Selector to hold everything
-  let svg = container.append('g')
-    .attr('class', 'everything');
+        // Selector to hold everything
+    let svg = container.append('g')
+        .attr('class', 'everything');
 
-  // Zoom Stuff // 
-  let zoom_handler = d3.zoom()
-    .on('zoom', zoom_actions);
-  zoom_handler(container);
-  function zoom_actions() {
-    svg.attr('transform', d3.event.transform)
-  }
-    // Selector for panning functions
-  let pan = d3.select('g.everything');
-
-    // Initialize the tree layout!
-  let treemap = d3.tree().size([height, width]);
-  let root = d3.hierarchy(nested, function(d) { return d.children});
-    root.x0 = height / 2;
-    root.y0 = 0;
-
-  console.log('root', root);
-    // Collapse the nodes, or comment this out to see the whole layout
-  root.children.forEach(collapse);
-  function collapse(d) {
-    if(d.children) {
-      d._children = d.children
-      d._children.forEach(collapse)
-      d.children = null
+        // Zoom Stuff // 
+    let zoom_handler = d3.zoom()
+        .on('zoom', zoom_actions);
+    zoom_handler(container);
+    function zoom_actions() {
+        svg.attr('transform', d3.event.transform)
     }
-  }
-  
 
+        // Initialize the tree layout!
+      let treemap = d3.tree().size([height, width]);
+    let root = d3.hierarchy(nested, function(d) { return d.children});
+        root.x0 = height / 2;
+        root.y0 = 0;
 
-  update(root);
+    console.log('root', root);
 
-        // Main functionality (^:;
-  function update(source) {
-    // console.log('i', i) // See how many times i's been reinstantiated
-
-    // Try changing the height of the viewport as you have more leaf nodes instantiated
-  let leaves = root.leaves();
-  console.log('leaves', leaves.length);
-  height = 50 * leaves.length;
-  console.log('new height ', height);
-
-  treemap = d3.tree().size([height, width]);
-  
-
-  // Assigns the x and y position for the nodes
-  let treeData = treemap(root);
-
-  // Compute the new tree layout.
-  let nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
-
-    console.log('nodes', nodes); //
-    // console.log('links', links); // 
-
-  // Normalize for fixed-depth. because of collapse function 
-  nodes.forEach(function(d){ d.y = d.depth * 1450});
-//   console.log('new Nodes: ', nodes)
-
-  // ****************** Nodes section ***************************
-
-  // Update the nodes...
-  var node = svg.selectAll('g.node')
-      .data(nodes, function(d) {return d.id || (d.id = ++i); });
-
-  // Enter any new modes at the parent's previous position.
-  var nodeEnter = node.enter().append('g')
-      .attr('class', 'node')
-      .attr("transform", function(d) {
-        return "translate(" + source.y0 + "," + source.x0 + ")";
-    })
-    .on('click', click);
-
-     
-  // Add Circle for the nodes
-  nodeEnter.append('circle')
-      .attr('class', 'node')
-      .attr('r', '25px')
-      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
-
-
-  // Add labels for the nodes
-  nodeEnter.append('text')
-      .attr("dy", ".35em")
-      .attr("x", function(d) {
-          return d.children || d._children ? "-31.4px" : "29.4px";
-      })
-      .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
-      .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
-      .text(d => d.data.name);
-
-  // UPDATE
-  var nodeUpdate = nodeEnter.merge(node);
-
-  // Transition to the proper position for the node
-  nodeUpdate.transition()
-    .duration(duration)
-    .attr("transform", function(d) { 
-        return "translate(" + d.y + "," + d.x + ")";
-     });
-
-  // Update the node attributes and style
-  nodeUpdate.select('circle.node')
-    .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    .style('fill', d => {
-        return d._children ? "#008CCD" :
-        !d._children && !d.children ? "#FEBF43" :
-        "#999999"
-    })
-    .style('stroke', d => {
-        return d._children ? "#008CCD" :
-        "#999999"
-    })
-    .attr('cursor', 'pointer');
-
-
-  // Remove any exiting nodes
-  var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function(d) {
-          return "translate(" + source.y + "," + source.x + ")";
-      })
-      .remove();
-
-  // On exit reduce the node circles size to 0
-  nodeExit.select('circle')
-    .attr('r', 1e-6);
-
-  // On exit reduce the opacity of text labels
-  nodeExit.select('text')
-    .style('fill-opacity', 1e-6);
-
-  // ****************** links section ***************************
-
-  // Update the links...
-  var link = svg.selectAll('path.link')
-      .data(links, function(d) { return d.id; });
-
-  // Enter any new links at the parent's previous position.
-  var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "link")
-      .attr("opacity", "0.64")
-      .style("stroke", "#008CCD")
-      .attr('d', function(d){
-        var o = {x: source.x0, y: source.y0}
-        return diagonal(o, o)
-      });
-
-  // UPDATE
-  var linkUpdate = linkEnter.merge(link);
-
-  // Transition back to the parent element position
-  linkUpdate.transition()
-      .duration(duration)
-      .attr('d', function(d){ return diagonal(d, d.parent) });
-
-  // Remove any exiting links
-  var linkExit = link.exit().transition()
-      .duration(duration)
-      .attr('d', function(d) {
-        var o = {x: source.x, y: source.y}
-        return diagonal(o, o)
-      })
-      .remove();
-
-  // Store the old positions for transition.
-  nodes.forEach(function(d){
-    d.x0 = d.x;
-    d.y0 = d.y;
-  });
-
-//   Creates a curved (diagonal) path from parent to the child nodes
-  function diagonal(s, d) {
-
-    path = `M ${s.y} ${s.x}
-            C ${(s.y + d.y) / 2} ${s.x},
-              ${(s.y + d.y) / 2} ${d.x},
-              ${d.y} ${d.x}`
-
-    return path
-  }
-
-    // We're gonna need to create a zoom function reference
-  var zoom = d3.zoom();
-
-  // Toggle children on click.
-  function click(d) {
-    if (d.children) {
-        d._children = d.children;
-        d.children = null;
-      } else {
-        d.children = d._children;
-        d._children = null;
-      }
-    update(d);
-    // Zoom to the selected node!
-    console.log('this is the clicked node data', d);
-      // d.x is the desired x coordinate
-      // d.y is the desired y coordinate
-
-      // We need to create a variable for where it's translating to 
-    // console.log('this is really pan!', pan);
-    // let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
-    // let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
-    // console.log('translate: ', translate);
-    // console.log('this is cScale ', cScale);
-    // zoom_handler.transition().duration(1250)
-    //   .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
-  }
-}
-
-
-
-
-
-
-
-
-
-     
 
 
 
@@ -457,9 +222,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 */
 
+/* 
+        // * Pulled out of update the visualization * // 
+    // Basic interaction of given data through iteration, console log data to further understand
+    var html = "";
+		for(var row of data) {
+			var cell = row[queryResponse.fields.dimensions[0].name];
+            html += LookerCharts.Utils.htmlForCell(cell);
+            console.log('iterated cell', cell);
+        }
+        element.innerHTML = html; // This is to test the data 
+        console.log('The last cell given: ', cell);
 
-
-
+*/
 
 
 
@@ -18884,4 +18659,3 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     Object.defineProperty(exports, '__esModule', { value: true });
     
     }));
-    

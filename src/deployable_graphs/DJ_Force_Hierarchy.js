@@ -64,6 +64,49 @@ create: function(element, config) {
 
 },
 
+burrow: function(table, taxonomy) {
+  // create nested object
+  var obj = {};
+  table.forEach(function(row) {
+    // start at root
+    var layer = obj;
+
+    // create children as nested objects
+    taxonomy.forEach(function(t) {
+      var key = row[t.name].value;
+      layer[key] = key in layer ? layer[key] : {};
+      layer = layer[key];
+    });
+    layer.__data = row;
+  });
+
+  // recursively create children array
+  var descend = function(obj, depth) {
+    var arr = [];
+    var depth = depth || 0;
+    for (var k in obj) {
+      if (k == '__data') { continue; }
+      var child = {
+        name: k,
+        depth: depth,
+        children: descend(obj[k], depth+1)
+      };
+      if ('__data' in obj[k]) {
+        child.data = obj[k].__data;
+      }
+      arr.push(child);
+    }
+    return arr;
+  };
+
+  // use descend to create nested children arrys
+  return {
+    name: 'root',
+    children: descend(obj, 1),
+    depth: 0
+  };
+},
+
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
