@@ -420,7 +420,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('this is really pan!', pan);
     let parse = pan["_groups"][0];
     console.log('this is parsed sorta into pan ', parse[0]["transform"]);
-    let selector = parse[0]["transform"]["animVal"]["1"]["a"];
+    let selector = parse[0]["transform"]["animVal"]["1"]["matrix"]["a"];
     console.log('did we parse all the way in right yet );', selector);
 
 
