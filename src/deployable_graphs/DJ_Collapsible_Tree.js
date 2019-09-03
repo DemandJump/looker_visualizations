@@ -28,22 +28,45 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
-            /**/
-            svg {
-                border: 1px solid black;
-            }
-            /**/
-            text { /* Cool trick to make the captions on the links more readable! */
-                text-shadow:
-                 -1px -1px 3px white,
-                 -1px  1px 3px white,
-                  1px -1px 3px white,
-                  1px  1px 3px white;
-                pointer-events: none; /* This hides the edit cursor when you hover over the labels */
-                font-family: 'Playfair Display', serif;
-            }
-            body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-
+        .node circle {
+          fill: #fff;
+          stroke: steelblue;
+          stroke-width: 3px;
+        }
+        
+        .node text {
+          font: 12px sans-serif;
+        }
+        
+        .link {
+          fill: none;
+          stroke: #ccc;
+          stroke-width: 2px;
+        }
+        
+        /* Not needed, used to test svgs dimensions */
+        svg { border: 1px solid black; }
+        
+        body { /* this is used in all tidy svgs! */
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: 0;
+            overflow: hidden;
+            display: block;
+        }
+        
+        text { /* Cool trick to make the captions on the links more readable! */
+            text-shadow:
+             -1px -1px 3px white,
+             -1px  1px 3px white,
+              1px -1px 3px white,
+              1px  1px 3px white;
+            pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+            font-family: 'Playfair Display', serif;
+        }
         </style>
         `;
         /*
@@ -260,7 +283,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', '25px')
-      .style('fill', d => d._children ? "#a5a5a5" : "#008CCD")
+      .style('fill', d => d._children ? "#008CCD" : "#a5a5a5")
 
 
   // Add labels for the nodes
@@ -289,7 +312,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    // .style('fill', d => d._children ? "#0480BB" : "#a5a5a5")
+    .style('fill', d => d._children ? "#0480BB" : "#a5a5a5")
     .style('fill', d => {
         return d._children ? "#999999" :
         !d._children && !d.children ? "#FEBF43" :
