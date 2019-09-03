@@ -222,8 +222,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .distance(d => 2450 - (d.target.depth * 800)) // add 50 for base
         .distance(d => {
             return d.target.depth == 0 ? 0 // center baby
-            : d.target.depth == 1 ? 60000 // green 
-            : d.target.depth == 2 ? 20000 // blue
+            : d.target.depth == 1 ? 30000 // green 
+            : d.target.depth == 2 ? 10000 // blue
             : 100 // purple 
         })
         .strength(1);
