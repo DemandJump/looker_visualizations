@@ -195,8 +195,181 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         root.x0 = height / 2;
         root.y0 = 0;
 
-    console.log('root', root);
+    let links = root.links();
+    let nodes = root.descendants();
 
+    console.log('root data', root);
+    console.log('links', links);
+    console.log('nodes', nodes);
+
+/***** Initialize the Simulation *****/
+                /* Noteworthy force functions
+                    *   forceCenter (for setting the center of gravity of the system)
+                    *   forceManyBody (for making elements attract or repel one another)
+                    *   forceCollide (for preventing elements overlapping)
+                    *   forceX and forceY (for attracting elements to a given point) - parent_id x/y
+                    *   forceLink (for creating a fixed distance between connected elements)
+                */
+        // For Xscale, we need domain max of parent id value
+    // var max = Math.max.apply(Math, nodes.map(function(o) { return o.source; }))
+        // xScale needed for d3 simulation
+    // var xScale = d3.scaleLinear().domain([0, max]).range([-1000, width - 2200]);
+
+        // Scale for the link distance
+
+        // We want dynamic distances for each node based on depth, so create our own function
+        let forceLink = d3 
+        .forceLink(links).id(d => d.data.id)
+        // .distance(d => 2450 - (d.target.depth * 800)) // add 50 for base
+        .distance(d => {
+            return d.target.depth == 0 ? 0 // center baby
+            : d.target.depth == 1 ? 25000 // green 
+            : d.target.depth == 2 ? 1200 // blue
+            : 11 // purple 
+        })
+        .strength(1);
+
+    let simulation = d3.forceSimulation(nodes)
+        // .force('link', d3.forceLink(links).id(d => d.data.id).distance(125).strength(1))
+        .force('link', forceLink)
+        .force('charge', d3.forceManyBody().strength(-26000))
+        .force('x', d3.forceX())
+        .force('y', d3.forceY())
+        .force('collision', d3.forceCollide().radius(d => {
+            // return 64 - (d.depth * 5);
+            return d.depth == 0 ? 0 // 50 
+            : d.depth == 1 ? 1000
+            : d.depth == 2 ? 200
+            : 11;        
+        })); // 450 300 250 200
+
+
+    /***** Initial Dimensions *****/
+    let width = document.body.clientWidth;
+    let height = document.body.clientWidth; // Weird calculations without w & h being the same
+    const svg = d3.select('body').append('svg')
+        // .attr('viewBox', [0 - width * 20, 0 - height * 20, width * 40 , height * 40])
+        .attr('width', width)
+        .attr('height', height);
+
+    // Before you build anything make a selector to hold everything
+    const g = svg.append('g')
+        .attr('class', 'everything');
+    // Zoom stuff // 
+    var zoom_handler = d3.zoom()
+        .on("zoom", zoom_actions);
+    zoom_handler(svg); // Select the svg to do the zoom stuff
+    function zoom_actions(){ // The function itself (^:;
+    g.attr("transform", d3.event.transform)
+}  
+
+        
+        // Links
+    const link = g.append('g')
+            .attr('class', 'links')
+
+            .attr('stroke-opacity', '0.6')
+        .selectAll('line')
+        .data(links)
+        .enter().append('line')
+            .attr('stroke-width', d => {
+                    return d.target.depth == 0 ? '24'
+                    : d.target.depth == 1 ? '21'
+                    : d.target.depth == 2 ? '16.5'
+                    : '14';
+                })
+            .attr('stroke', d => {
+                    return d.target.depth == 0 ? '#000'
+                    : d.target.depth == 1 ? '#008000'
+                    : d.target.depth == 2 ? '#7fb4ff'
+                    : '#6546cb';
+                });
+
+        // Nodes
+    const group = g.append('g')
+                .attr('class', 'nodeGroup')
+                .selectAll('g')
+                .data(nodes)
+                .enter().append('g')
+
+    const node = group // .append('g')
+            .attr('class', 'nodes')
+            .attr('stroke', '#000')
+            .attr('stroke-width', 1.5)
+        // .selectAll('circle')
+        // .data(nodes)
+        .append('circle')
+            .attr('fill', d => { // circle color
+                return d.depth == 0 ? '#f3f3f3' 
+                : d.depth == 1 ? '#00b400'
+                : d.depth == 2 ? '#7ec0ee'
+                : '#6533cb'
+            })
+            .attr('stroke', d => d.children ? null : '#fff') // outer circle
+            .attr('r', d => { // circle width
+                return d.depth == 0 ? '450px' 
+                : d.depth == 1 ? '300px'
+                : d.depth == 2 ? '250px'
+                : '200px'
+            })
+            .call(drag(simulation))
+              
+        // Text labels
+    const labels = group.append('text')
+        // .transition()
+        // .duration(13000)
+        // .attr('fill-opacity', 1)
+        .text(d => d.data.name)
+        .style("font-size", '5rem');
+
+
+    simulation.on('tick', () => {
+        link
+            .attr('x1', d => d.source.x)
+            .attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x)
+            .attr('y2', d => d.target.y)
+
+        node
+            .attr('cx', d => d.x)
+            .attr('cy', d => d.y)
+
+        d3.selectAll('text')
+            .attr('x', d => d.x)
+            .attr('y', d => d.y)
+
+        // invalidation.then(() => simulation.stop()); // Deprecated ?
+        return g.node();
+    })
+
+
+
+    /* Section for all our functions */
+
+ function drag(simulation) {
+  
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
+  
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+  
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
+  
+  return d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
+}
 
 
 
