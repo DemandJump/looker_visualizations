@@ -419,12 +419,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // let translate = [width / 2 - scale * x, height / 2 - scale * y];
     console.log('this is really pan!', pan);
     let parse = pan["_groups"][0];
-    console.log('this is parsed sorta into pan ', parse[0]["transform"]);
-    let selector = parse[0]["transform"]["animVal"]["1"]["matrix"]["a"];
-    console.log('did we parse all the way in right yet );', selector);
+    let cScale = parse[0]["transform"]["animVal"]["1"]["matrix"]["a"];
+
+    let parse2 = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"]
+    console.log('parse2: ', parse2);
 
 
-    let cScale = parse[0]["transform"]["animVal"][1]["a"]; // Current Scale
     console.log('this is cScale ', cScale);
     pan.transition().duration(1250)
       .attr('transform', `translate(` + [d.x, d.y] + `).scale(${cScale})`);
