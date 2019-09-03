@@ -167,8 +167,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           //*// Burrowing into the Data //*//
     let nested = this.burrow(data, queryResponse.fields.dimension_like);
     console.log('burrow function results on raw data: ', nested);
-    
 
+
+    let width = element.clientWidth;
+    let height = element.clientHeight;
     let container = this._svg 
         .html('')
         .attr('width', width)
@@ -240,29 +242,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             : 11;        
         })); // 450 300 250 200
 
-
-    /***** Initial Dimensions *****/
-    let width = document.body.clientWidth;
-    let height = document.body.clientWidth; // Weird calculations without w & h being the same
-    const svg = d3.select('body').append('svg')
-        // .attr('viewBox', [0 - width * 20, 0 - height * 20, width * 40 , height * 40])
-        .attr('width', width)
-        .attr('height', height);
-
-    // Before you build anything make a selector to hold everything
-    const g = svg.append('g')
-        .attr('class', 'everything');
-    // Zoom stuff // 
-    var zoom_handler = d3.zoom()
-        .on("zoom", zoom_actions);
-    zoom_handler(svg); // Select the svg to do the zoom stuff
-    function zoom_actions(){ // The function itself (^:;
-    g.attr("transform", d3.event.transform)
-}  
-
         
         // Links
-    const link = g.append('g')
+    const link = svg.append('g')
             .attr('class', 'links')
 
             .attr('stroke-opacity', '0.6')
@@ -283,7 +265,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 });
 
         // Nodes
-    const group = g.append('g')
+    const group = svg.append('g')
                 .attr('class', 'nodeGroup')
                 .selectAll('g')
                 .data(nodes)
