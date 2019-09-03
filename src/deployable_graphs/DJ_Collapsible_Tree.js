@@ -186,6 +186,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let measures = queryResponse.fields.measures;
 
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
+  console.log('burrow function results on raw data: ', nested);
 
 
   
