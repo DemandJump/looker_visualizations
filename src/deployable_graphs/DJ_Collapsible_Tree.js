@@ -224,6 +224,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function zoom_actions() {
     svg.attr('transform', d3.event.transform)
   }
+    // Selector for panning functions
+  let pan = d3.select('g.everything');
 
     // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
@@ -410,8 +412,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update(d);
     // Zoom to the selected node!
     console.log('this is the clicked node data', d);
-    zoom.translateTo(svg, d.x, d.y);
-
+    pan.transition().duration(1250).call(zoom.transform, d3.zoomIdentity);
   }
 }
 
