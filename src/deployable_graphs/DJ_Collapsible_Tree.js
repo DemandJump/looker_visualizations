@@ -412,7 +412,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update(d);
     // Zoom to the selected node!
     console.log('this is the clicked node data', d);
-    pan.transition().duration(1250).call(zoom.transform, d3.zoomIdentity);
+      // d.x is the desired x coordinate
+      // d.y is the desired y coordinate
+
+      // We need to create a variable for where it's translating to 
+        // let translate = [width / 2 - scale * x, height / 2 - scale * y];
+    
+    console.log('current zoom scale', d3.zoomTransform(element).k);
+    // pan.transition().duration(1250)
+      // .attr('transform', `translate(` + [d.x, d.y] + `)scale(` + )
   }
 }
 
