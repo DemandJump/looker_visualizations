@@ -287,7 +287,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .attr("transform", function(d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
     })
-    .on('click', click);
+    .on('click', click)
+    .on("dblclick.zoom", function(d) { console.log('this is d for node', d);
+      d3.event.stopPropagation();
+      var dcx = (element.innerWidth/2-d.x*zoom.scale());
+      var dcy = (element.innerHeight/2-d.y*zoom.scale());
+      zoom_handler.translate([dcx,dcy]);
+       svg.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + zoom.scale() + ")");
 
   // Add Circle for the nodes
   nodeEnter.append('circle')
@@ -416,15 +422,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // d.y is the desired y coordinate
 
       // We need to create a variable for where it's translating to 
-    console.log('this is really pan!', pan);
-    let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
-    let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
-    console.log('translate: ', translate);
-
-
-    console.log('this is cScale ', cScale);
-    zoom_handler.transition().duration(1250)
-      .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
+    // console.log('this is really pan!', pan);
+    // let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
+    // let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
+    // console.log('translate: ', translate);
+    // console.log('this is cScale ', cScale);
+    // zoom_handler.transition().duration(1250)
+    //   .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
   }
 }
 
