@@ -153,24 +153,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
         // Start by finding out how Looker pulls data /dimensions 
-    console.log('\n\n\nCheck this stuff out');
-    console.log('queryResponse: ', queryResponse);
+    console.log('\n\n\ Noteworthy stuff for creating this jazz');
     console.log(`LookerCharts`, LookerCharts);
             
-    let html = "";
-		for(let row of data) {
-			let cell = row[queryResponse.fields.dimensions[0].name];
-      html += LookerCharts.Utils.htmlForCell(cell);
-      console.log(' cell d[0]: ', cell);
-      console.log('of row: ', row);
-    }     
-    
-		for(let row of data) {
-			let cell = row[queryResponse.fields.measures[0].name];
-      html += LookerCharts.Utils.htmlForCell(cell);
-      console.log(' cell d[0]: ', cell);
-      console.log('of row: ', row);
-		}
+
 
   console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
   console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
@@ -185,16 +171,215 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let dimensions = queryResponse.fields.dimensions;
   let measures = queryResponse.fields.measures;
 
+
+          //*// Burrowing into the Data //*//
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
   console.log('burrow function results on raw data: ', nested);
 
+  
+    // Create the dimensions of the layout
+  let width = element.clientWidth;
+  let height = element.clientHeight;
 
+  let container = this._svg 
+    .html('')
+    .attr('width', width)
+    .attr('height', height);
+
+    // Selector to hold everything
+  let svg = container.append('g')
+    .attr('class', 'everything');
+
+  // Zoom Stuff // 
+  let zoom_handler = d3.zoom()
+    .on('zoom', zoom_actions);
+  zoom_handler(container);
+  function zoom_actions() {
+    svg.attr('transform', d3.event.transform)
+  }
+
+    // Initialize the tree layout!
+  let tree = d3.tree().size([height, width]);
+  let root = d3.hierarchy(nested, d => d.children);
+    root.x0 = height / 2;
+    root.y0 = 0;
+
+
+    // Collapse the nodes, or comment this out to see the whole layout
+  root.children.forEach(collapse);
+  function collapse(d) {
+    if(d.children) {
+      d._children = d.children._children.forEach(collapse);
+      d.children = null;
+    }
+  }
   
 
+  
+  update(root);
 
-    // Okay cool, let's play with the data
+        // Main functionality (^:;
+  function update(source) {
+    // console.log('i', i) //
 
-      // Alright so let's grab the data and try and burrow into it
+
+  // Assigns the x and y position for the nodes
+  var treeData = treemap(root);
+
+  // Compute the new tree layout.
+  var nodes = treeData.descendants(),
+      links = treeData.descendants().slice(1);
+
+    console.log('nodes', nodes); //
+    // console.log('links', links); // 
+
+  // Normalize for fixed-depth. because of collapse function 
+  nodes.forEach(function(d){ d.y = d.depth * 1450});
+//   console.log('new Nodes: ', nodes)
+
+  // ****************** Nodes section ***************************
+
+  // Update the nodes...
+  var node = svg.selectAll('g.node')
+      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+  // Enter any new modes at the parent's previous position.
+  var nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr("transform", function(d) {
+        return "translate(" + source.y0 + "," + source.x0 + ")";
+    })
+    .on('click', click);
+
+  // Add Circle for the nodes
+  nodeEnter.append('circle')
+      .attr('class', 'node')
+      .attr('r', '25px')
+      .style('fill', d => d._children ? "#a5a5a5" : "#008CCD")
+
+
+  // Add labels for the nodes
+  nodeEnter.append('text')
+      .attr("dy", ".35em")
+      .attr("x", function(d) {
+          return d.children || d._children ? "-26.4px" : "15px";
+      })
+      .style("font-size", d => d.children || d._children ? "2rem" : "1.5rem" )
+      .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
+      .text(d => d.data.data.child_text);
+
+  // UPDATE
+  var nodeUpdate = nodeEnter.merge(node);
+
+  // Transition to the proper position for the node
+  nodeUpdate.transition()
+    .duration(duration)
+    .attr("transform", function(d) { 
+        return "translate(" + d.y + "," + d.x + ")";
+     });
+
+  // Update the node attributes and style
+  nodeUpdate.select('circle.node')
+    .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
+    // .style('fill', d => d._children ? "#0480BB" : "#a5a5a5")
+    .style('fill', d => {
+        return d._children ? "#999999" :
+        !d._children && !d.children ? "#FEBF43" :
+        "#008CCD"
+    })
+    .style('stroke', d => {
+        return d._children ? "#008CCD" :
+        "#999999"
+    })
+    .attr('cursor', 'pointer');
+
+
+  // Remove any exiting nodes
+  var nodeExit = node.exit().transition()
+      .duration(duration)
+      .attr("transform", function(d) {
+          return "translate(" + source.y + "," + source.x + ")";
+      })
+      .remove();
+
+  // On exit reduce the node circles size to 0
+  nodeExit.select('circle')
+    .attr('r', 1e-6);
+
+  // On exit reduce the opacity of text labels
+  nodeExit.select('text')
+    .style('fill-opacity', 1e-6);
+
+  // ****************** links section ***************************
+
+  // Update the links...
+  var link = svg.selectAll('path.link')
+      .data(links, function(d) { return d.id; });
+
+  // Enter any new links at the parent's previous position.
+  var linkEnter = link.enter().insert('path', "g")
+      .attr("class", "link")
+      .style("stroke", "black")
+      .attr('d', function(d){
+        var o = {x: source.x0, y: source.y0}
+        return diagonal(o, o)
+      });
+
+  // UPDATE
+  var linkUpdate = linkEnter.merge(link);
+
+  // Transition back to the parent element position
+  linkUpdate.transition()
+      .duration(duration)
+      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+  // Remove any exiting links
+  var linkExit = link.exit().transition()
+      .duration(duration)
+      .attr('d', function(d) {
+        var o = {x: source.x, y: source.y}
+        return diagonal(o, o)
+      })
+      .remove();
+
+  // Store the old positions for transition.
+  nodes.forEach(function(d){
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+
+//   Creates a curved (diagonal) path from parent to the child nodes
+  function diagonal(s, d) {
+
+    path = `M ${s.y} ${s.x}
+            C ${(s.y + d.y) / 2} ${s.x},
+              ${(s.y + d.y) / 2} ${d.x},
+              ${d.y} ${d.x}`
+
+    return path
+  }
+
+  // Toggle children on click.
+  function click(d) {
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+      } else {
+        d.children = d._children;
+        d._children = null;
+      }
+    update(d);
+  }
+}
+
+
+
+
+
+
+
+
+
      
 
 
