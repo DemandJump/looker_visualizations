@@ -163,6 +163,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
   console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
+
     // Dimension and Measure length 
   let maxDimensions = queryResponse.fields.dimensions.length;
   let maxMeasures = queryResponse.fields.measures.length;
@@ -171,6 +172,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let dimensions = queryResponse.fields.dimensions;
   let measures = queryResponse.fields.measures;
 
+
+  let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
 
           //*// Burrowing into the Data //*//
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
