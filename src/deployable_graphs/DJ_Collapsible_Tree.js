@@ -420,9 +420,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('this is really pan!', pan);
     let parse = pan["_groups"][0];
     console.log('this is parsed sorta into pan ', parse[0]);
-    console.log('this is parsed sorta into pan ', parse[0]["transform"]["animVal"]);
-    console.log('This is pan!', pan["_groups"][0]["transform"]["animVal"][1]["a"]);
-    let cScale = pan["_groups"][0]["transform"]["animVal"][1]["a"]; // Current Scale
+    let cScale = parse[0]["transform"]["animVal"][1]["a"]; // Current Scale
+    console.log('this is cScale ', cScale);
     pan.transition().duration(1250)
       .attr('transform', `translate(` + [d.x, d.y] + `).scale(${cScale})`);
   }
