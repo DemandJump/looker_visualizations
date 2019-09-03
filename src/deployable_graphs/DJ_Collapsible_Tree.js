@@ -354,7 +354,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Enter any new links at the parent's previous position.
   var linkEnter = link.enter().insert('path', "g")
       .attr("class", "link")
-      .style("stroke", "black")
+      .attr("opacity", "0.6")
+      .style("stroke", "008CCD")
       .attr('d', function(d){
         var o = {x: source.x0, y: source.y0}
         return diagonal(o, o)
