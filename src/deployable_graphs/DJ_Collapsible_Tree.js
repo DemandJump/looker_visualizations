@@ -174,6 +174,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
   let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
+  let duration = 1250;
 
           //*// Burrowing into the Data //*//
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
@@ -270,7 +271,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
       .style("font-size", d => d.children || d._children ? "2rem" : "1.5rem" )
       .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
-      .text(d => d.data.data.child_text);
+      .text(d => {
+        console.log('d for text', d);
+        return data.data.name;
+      });
 
   // UPDATE
   var nodeUpdate = nodeEnter.merge(node);
