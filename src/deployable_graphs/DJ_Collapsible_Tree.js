@@ -292,6 +292,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       d3.event.stopPropagation();
       var dcx = (element.innerWidth/2-d.x*zoom.scale());
       var dcy = (element.innerHeight/2-d.y*zoom.scale());
+      console.log(`This is dcx:${dcx}, dcy:${dcy}`);
       zoom_handler.translate([dcx,dcy]);
        svg.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + zoom.scale() + ")");
     });
