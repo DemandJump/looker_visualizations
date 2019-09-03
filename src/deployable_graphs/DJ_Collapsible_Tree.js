@@ -354,7 +354,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Enter any new links at the parent's previous position.
   var linkEnter = link.enter().insert('path', "g")
       .attr("class", "link")
-      .attr("opacity", "0.6")
+      .attr("opacity", "0.64")
       .style("stroke", "#008CCD")
       .attr('d', function(d){
         var o = {x: source.x0, y: source.y0}
@@ -405,6 +405,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d._children = null;
       }
     update(d);
+    // Zoom to the selected node!
+    console.log('this is the clicked node data', d);
   }
 }
 
