@@ -245,41 +245,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   console.log('new height ', height);
 
   treemap = d3.tree().size([height, width]);
-  
-
   // Assigns the x and y position for the nodes
   let treeData = treemap(root);
 
   // Compute the new tree layout.
   let nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
-
     console.log('nodes', nodes); //
-    // console.log('links', links); // 
+    console.log('links', links); // 
 
 
-    let i = 0; // Counter for data iteration 
-    let linkAddition = "";
-
+    let linkAddition = ""; // Saved longest string value 
     // Let's run through the data and pull out the longest string in the array
-          /* Then let's try to do it for everything but the leaf nodes.. I have a hunch (; */
-  console.log('This bit is for pulling out the longest string in our hierarchy');
-  console.log('Here is the data, lets eventually do this just for the hierarchy later maybe', data);
-
+          /* Maybe try to do it for everything but the leaf nodes.. I have a hunch (; */
   data.forEach(datum => {
-    console.log(`First layer of data, iteration ${i}`, datum);
-
     var keys = [];
     for (var key in datum) {      
         if (datum.hasOwnProperty(key)) keys.push(key);
     } // Put keys into an array then display them in the data set
-
     for (var k = 0 ; k<keys.length; k++) { 
-
-
-      console.log(keys[k], datum[keys[k]]);
-      // This is referencing the name key, then the value pair of each specific one!
-
+      // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
       let currentString = datum[keys[k]].value
 
       if(currentString != null) {
@@ -288,11 +273,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
         console.log(`Current longest string(${linkAddition.length})`, linkAddition);
       }
-
    }
    console.log('CalculatedLongest string!', linkAddition);
     i++;
-  })
+  });
 
 
 
@@ -302,7 +286,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       d.y = d.depth * (linkAddition.length * 20);
     } else {
       d.y = d.depth * 1450;
-      console.log('d.y = ', d.y);
+      // console.log('d.y = ', d.y);
     }
   });
 //   console.log('new Nodes: ', nodes)
