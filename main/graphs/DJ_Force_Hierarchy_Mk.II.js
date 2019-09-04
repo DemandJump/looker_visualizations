@@ -233,6 +233,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         })
         .strength(1);
 
+        
     let simulation = d3.forceSimulation(nodes)
         // .force('link', d3.forceLink(links).id(d => d.data.id).distance(125).strength(1))
         .force('link', forceLink)
