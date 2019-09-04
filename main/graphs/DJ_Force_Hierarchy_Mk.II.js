@@ -223,7 +223,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .distance(d => {
               // Testing scalability
             console.log('this is d for distance', d);
-            let desc_ctn = d.source.descendants;
+            let source = d.source 
+            let desc_ctn = source.descendants();
             console.log(`Descendants of current node ${i}: `, desc_ctn);
               // We wanna take in the amount of nodes that each is dealing with and distribute distance based on that, let's see how it goes!
               
