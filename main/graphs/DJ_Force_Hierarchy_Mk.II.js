@@ -358,11 +358,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d.fx = null;
     d.fy = null;
   }
+
+  function reset()
   
   return d3.drag()
       .on("start", dragstarted)
       .on("drag", dragged)
       // .on("end", dragended);
+      .on("click", function () {
+        if (d3.event.ctrlKey) {
+          dragended;
+        }
+      });
 }
 
 
