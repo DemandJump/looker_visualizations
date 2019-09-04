@@ -312,7 +312,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .attr('fill-opacity', 1)
         .text(d => d.data.name)
           .attr('text-anchor', 'middle')
-          .style("font-size", '2.5rem');
+          .style("font-size", '2.5rem')
+        .append('text')
+          .attr('text-anchor', 'middle')
+          .style('font-size', '2.5rem') 
 
 
     simulation.on('tick', () => {
@@ -360,7 +363,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   return d3.drag()
       .on("start", dragstarted)
       .on("drag", dragged)
-      .on("end", dragended);
+      // .on("end", dragended);
 }
 
 
