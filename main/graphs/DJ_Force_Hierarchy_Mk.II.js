@@ -222,7 +222,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .distance(d => 2450 - (d.target.depth * 800)) // add 50 for base
         .distance(d => {
               // Testing scalability
-            console.log('this is d for distance', distance);
+            console.log('this is d for distance', d);
             let desc_ctn = d.descendants;
             console.log(`Descendants of current node ${i}: `, desc_ctn);
 
