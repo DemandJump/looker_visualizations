@@ -363,11 +363,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // }
   function dragended(d) {
     if (d3.event.ctrlKey) {
-      if(!d3.event.active) {
+      if(!d3.event.active) simulation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
-      }
-      
     }
   }
 
