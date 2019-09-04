@@ -289,12 +289,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .append('circle')
             .style('fill', d => { // circle color
               return d.depth == 0 ? "#999999" : 
-              d.children ? "#008CCD" :
-              "#FEBF43"
+              d.children ? "#FEBF43" :
+              "#008CCD"
             })
             .style('stroke', d => {
-              return d.children ? "#999999" :
-              "#008CCD"
+              return d.children ? "#008CCD" :
+              "#999999"
             })
             .attr('r', d => { // circle width
                 return d.depth == 0 ? '450px' 
