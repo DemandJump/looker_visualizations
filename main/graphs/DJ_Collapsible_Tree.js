@@ -285,8 +285,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       } 
    }
    console.log('Longest string!', linkAddition);
-
-    
     i++;
   })
 
@@ -294,8 +292,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
-    d.y = d.depth * 1450;
-    console.log('d.y = ', d.y);
+    if(linkAddition.length >= 74) {
+      d.y = (d.depth * 1450) + linkAddition;
+    } else {
+      d.y = d.depth * 1450;
+      console.log('d.y = ', d.y);
+    }
   });
 //   console.log('new Nodes: ', nodes)
 
