@@ -292,7 +292,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
     d.y = d.depth * 1450;
-    console.log('d.y =  f', d.y);
+    console.log('d.y = ', d.y);
   });
 //   console.log('new Nodes: ', nodes)
 
