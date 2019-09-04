@@ -271,12 +271,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(linkAddition.length < currentString.length) {
           linkAddition = currentString;
         }
-        console.log(`Current longest string(${linkAddition.length})`, linkAddition);
+        // console.log(`Current longest string(${linkAddition.length})`, linkAddition);
       }
    }
-   console.log('CalculatedLongest string!', linkAddition);
-    i++;
+    i++; // Used to show current iteration we're on
   });
+  console.log('CalculatedLongest string!', linkAddition);
 
 
 
