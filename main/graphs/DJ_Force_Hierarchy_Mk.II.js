@@ -227,7 +227,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let desc_ctn = source.descendants();
             console.log(`Descendants of current node ${i}: `, desc_ctn);
               // We wanna take in the amount of nodes that each is dealing with and distribute distance based on that, let's see how it goes!
-              return 340 * desc_ctn.length; 
+              return 120 * desc_ctn.length; 
               
 
             // return d.target.depth == 0 ? 0 // center baby
