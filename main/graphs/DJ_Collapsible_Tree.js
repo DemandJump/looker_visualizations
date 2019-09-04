@@ -275,6 +275,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // Put keys into an array then display them in the data set
 
     for (var k = 0 ; k<keys.length; k++) { 
+
+
       console.log(keys[k], datum[keys[k]]);
       // This is referencing the name key, then the value pair of each specific one!
 
@@ -297,7 +299,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
     if(linkAddition.length >= 74) {
-      d.y = (d.depth * 1450) + linkAddition;
+      d.y = linkAddition.length * 10;
     } else {
       d.y = d.depth * 1450;
       console.log('d.y = ', d.y);
