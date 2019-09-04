@@ -283,13 +283,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .selectAll('circle')
         // .data(nodes)
         .append('circle')
-            .attr('fill', d => { // circle color
-                return d.depth == 0 ? '#f3f3f3' 
-                : d.depth == 1 ? '#00b400'
-                : d.depth == 2 ? '#7ec0ee'
-                : '#6533cb'
+            .style('fill', d => { // circle color
+              return d._children ? "#008CCD" :
+              !d._children && !d.children ? "#FEBF43" :
+              "#999999"
             })
-            .attr('stroke', d => d.children ? null : '#fff') // outer circle
+            .style('stroke', d => {
+              return d.children ? "#008CCD" :
+              "#999999"
+            })
             .attr('r', d => { // circle width
                 return d.depth == 0 ? '450px' 
                 : d.depth == 1 ? '300px'
