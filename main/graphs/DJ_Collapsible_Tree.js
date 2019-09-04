@@ -279,12 +279,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // This is referencing the name key, then the value pair of each specific one!
 
       let currentString = datum[keys[k]].value
-      if(linkAddition.length < currentString.length) {
-        linkAddition = currentString;
-        console.log('Calculated longest string', linkAddition);
-      } 
+
+      if(linkAddition != null) {
+        if(linkAddition.length < currentString.length) {
+          linkAddition = currentString;
+        }
+        console.log('Current longest string', linkAddition);
+      }
+
    }
-   console.log('Longest string!', linkAddition);
+   console.log('CalculatedLongest string!', linkAddition);
     i++;
   })
 
