@@ -325,8 +325,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         "#999999"
     })
     .style('stroke', d => {
-        return d._children ? "#008CCD" :
-        "#999999"
+        return d.children ? "#008CCD" :
+        "blue"
     })
     .attr('cursor', 'pointer');
 
