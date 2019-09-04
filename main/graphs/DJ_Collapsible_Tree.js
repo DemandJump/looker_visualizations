@@ -275,7 +275,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     for (var k = 0 ;k<keys.length; k++) { 
       console.log(keys[i], datum[keys[i]]);
-
    }
 
     
