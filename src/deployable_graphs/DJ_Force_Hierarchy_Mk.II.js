@@ -299,7 +299,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .duration(13000)
         // .attr('fill-opacity', 1)
         .text(d => d.data.name)
-        .style("font-size", '5rem');
+          .attr('text-anchor', 'middle')
+          .style("font-size", '5rem');
 
 
     simulation.on('tick', () => {
