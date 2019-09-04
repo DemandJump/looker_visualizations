@@ -273,8 +273,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (datum.hasOwnProperty(key)) keys.push(key);
     } // Put keys into an array then display them in the data set
 
-    for (var k = 0 ;k<keys.length; k++) { 
-      console.log(keys[i], datum[keys[i]]);
+    for (var k = 0 ; k<keys.length; k++) { 
+      console.log(keys[k], datum[keys[k]]);
    }
 
     
