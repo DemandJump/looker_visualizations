@@ -5,17 +5,7 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-        font_size: {
-            type: "string",
-            label: "Font Size",
-            values: [
-                {"Large": "large"},
-                {"Medium": "medium"},
-                {"Small": "small"}
-            ],
-            display: "radio",
-            default: "large"
-        }
+
     },
 
     // Onto the create section 
@@ -278,12 +268,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   data.forEach(datum => {
     console.log(`First layer of data, iteration ${i}`, datum);
 
-    let j = 0; // dimension and measure counter for each piece of the datum
-      // Parsing into these layers
-    datum.forEach(dnm => { // dimensions and measures 
-      console.log(`layer ${i} - dnm ${j}`);
-      j++;
-    })
+    var keys = [];
+    for (var key in datum) {      
+        if (datum.hasOwnProperty(key)) keys.push(key);
+    } // Put keys into an array then display them in the data set
+
+    for (var k = 0 ;k<keys.length; k++) { 
+      console.log(keys[i], datum[keys[i]]);
+
+   }
+
+    
     i++;
   })
 
