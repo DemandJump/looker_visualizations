@@ -285,7 +285,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .data(nodes)
         .append('circle')
             .style('fill', d => { // circle color
-              return d.depth == 0 : "#999999"
+              return d.depth == 0 ? "#999999" : 
               d.children ? "#008CCD" :
               "#FEBF43"
             })
