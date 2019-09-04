@@ -280,7 +280,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       let currentString = datum[keys[k]].value
 
-      if(linkAddition != null) {
+      if(currentString != null) {
         if(linkAddition.length < currentString.length) {
           linkAddition = currentString;
         }
