@@ -356,10 +356,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d.fy = d3.event.y;
   }
   
+  // function dragended(d) {
+  //   if (!d3.event.active) simulation.alphaTarget(0);
+  //   d.fx = null;
+  //   d.fy = null;
+  // }
   function dragended(d) {
-    if (!d3.event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
+    if (d3.event.ctrlKey) {
+      if(!d3.event.active) {
+        d.fx = null;
+        d.fy = null;
+      }
+      
+    }
   }
 
   function reset()
@@ -367,12 +376,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   return d3.drag()
       .on("start", dragstarted)
       .on("drag", dragged)
-      // .on("end", dragended);
-      .on("click", function () {
-        if (d3.event.ctrlKey) {
-          dragended;
-        }
-      });
+      .on("end", dragended);
+      // .on("click", dragended); // We're changing it up a bit
 }
 
 
