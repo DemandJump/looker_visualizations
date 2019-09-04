@@ -289,7 +289,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
     d.y = d.depth * 1450;
@@ -344,8 +343,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
     .style('fill', d => {
         return d._children ? "#008CCD" :
-        !d._children && !d.children ? "#999999" :
-        "#FEBF43"
+        !d._children && !d.children ? "#FEBF43" :
+        "#999999"
     })
     .style('stroke', d => {
         return d.children ? "#008CCD" :
