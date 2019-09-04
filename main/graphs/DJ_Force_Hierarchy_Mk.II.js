@@ -223,8 +223,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .distance(d => {
               // Testing scalability
             console.log('this is d for distance', d);
-            let desc_ctn = d.descendants;
+            let desc_ctn = d.source.descendants;
             console.log(`Descendants of current node ${i}: `, desc_ctn);
+              // We wanna take in the amount of nodes that each is dealing with and distribute distance based on that, let's see how it goes!
+              
 
             return d.target.depth == 0 ? 0 // center baby
             : d.target.depth == 1 ? 20000 // green 
@@ -308,7 +310,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .attr('fill-opacity', 1)
         .text(d => d.data.name)
           .attr('text-anchor', 'middle')
-          .style("font-size", '5rem');
+          .style("font-size", '2.5rem');
 
 
     simulation.on('tick', () => {
