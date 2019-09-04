@@ -268,13 +268,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('links', links); // 
 
 
+    let i = 0; // Counter for data iteration 
+
     // Let's run through the data and pull out the longest string in the array
           /* Then let's try to do it for everything but the leaf nodes.. I have a hunch (; */
   console.log('This bit is for pulling out the longest string in our hierarchy');
   console.log('Here is the data, lets eventually do this just for the hierarchy later maybe', data);
+
   data.forEach(data => {
-    console.log('data!', data);
+    console.log(`First layer of data, iteration ${i}`, data);
+
+    let j = 0; // dimension and measure counter for each piece of the data
+      // Parsing into these layers
+    data.forEach(dnm => { // dimensions and measures 
+      console.log(`layer ${i} - dnm ${j}`);
+      j++;
+    })
+    i++;
   })
+
+
 
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
