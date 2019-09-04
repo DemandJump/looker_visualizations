@@ -259,6 +259,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     let i = 0; // Counter for data iteration 
+    let linkAddition = "";
 
     // Let's run through the data and pull out the longest string in the array
           /* Then let's try to do it for everything but the leaf nodes.. I have a hunch (; */
@@ -275,7 +276,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     for (var k = 0 ; k<keys.length; k++) { 
       console.log(keys[k], datum[keys[k]]);
+      // This is referencing the name key, then the value pair of each specific one!
+
+      let currentString = datum[keys[k]].value
+      if(linkAddition.length < currentString.length) {
+        linkAddition = currentString;
+        console.log('Calculated longest string', linkAddition);
+      } 
    }
+   console.log('Longest string!', linkAddition);
 
     
     i++;
