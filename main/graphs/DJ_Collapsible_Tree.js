@@ -286,7 +286,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(linkAddition.length < currentString.length) {
           linkAddition = currentString;
         }
-        console.log('Current longest string', linkAddition);
+        console.log(`Current longest string(${linkAddition.length})`, linkAddition);
       }
 
    }
@@ -299,7 +299,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
     if(linkAddition.length >= 74) {
-      d.y = d.depth * (linkAddition.length * 10);
+      d.y = d.depth * (linkAddition.length * 20);
     } else {
       d.y = d.depth * 1450;
       console.log('d.y = ', d.y);
