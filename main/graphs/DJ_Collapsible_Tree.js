@@ -267,6 +267,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('nodes', nodes); //
     // console.log('links', links); // 
 
+
+    // Let's run through the data and pull out the longest string in the array
+          /* Then let's try to do it for everything but the leaf nodes.. I have a hunch (; */
+  console.log('This bit is for pulling out the longest string in our hierarchy');
+  console.log('Here is the data, lets eventually do this just for the hierarchy later maybe', data);
+  data.forEach(data => {
+    console.log('data!', data);
+  })
+
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ 
     d.y = d.depth * 1450;
@@ -326,7 +335,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
     .style('stroke', d => {
         return d.children ? "#008CCD" :
-        "blue"
+        "#999999"
     })
     .attr('cursor', 'pointer');
 
