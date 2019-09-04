@@ -247,7 +247,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // return 64 - (d.depth * 5);
             return d.depth == 0 ? 0 // 50 
             : d.depth == 1 ? 4000
-            : d.depth == 2 ? 400
+            : d.depth == 2 ? 500
             : 11;        
         })); // 450 300 250 200
 
