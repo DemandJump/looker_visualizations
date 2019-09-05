@@ -309,10 +309,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .transition()
         // .duration(13000)
         // .attr('fill-opacity', 1)
-        .text(d => {
-          console.log('This is the text data', d);
-          return d.data.name
-        })
+        .text(d => d.data.name)
           .attr('text-anchor', 'middle')
           .style("font-size", d => {
             return '2.5rem'
