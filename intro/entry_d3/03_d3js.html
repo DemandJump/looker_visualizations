@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3 intro example(s) and more</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+    <h1>Top Smartphones</h1>
+    <ul class="items">
+        <li>iPhone 6</li>
+        <li>Galaxy S6</li>
+        <li>LG G3</li>
+        <li>Windows Phone</li>
+        <li>HTC One</li>
+        <li>Anotha One</li>
+    </ul>
+    
+
+
+
+
+    <script>
+        var styles = [
+            {
+                'background':'red',
+                'color':'white',
+                'width':'35'
+            },
+            {
+                'background':'yellow',
+                'color':'black',
+                'width':'25'
+            },
+            {
+                'background':'green',
+                'color':'white',
+                'width':'20'
+            },
+            {
+                'background':'black',
+                'color':'white',
+                'width':'10'
+            },
+            {
+                'background':'orange',
+                'color':'white',
+                'width':'10',
+            },
+            {
+                'background':'blue',
+                'color':'white',
+                'width':'13',
+                'height':'34'
+            }
+        ];
+            
+        d3.selectAll('.items li')
+            .data(styles)
+            .style('font-size','18px')
+            .style('padding', '6px')
+            .style('margin', '4px')
+            .style('list-style', 'none')
+            .style('background', d => d.background)
+            .style('color', d => d.color)
+            .style('width', d => d.width + '%')
+            .style('height', d => d.height + 'px')
+            
+
+    </script>
+</body>
+</html>

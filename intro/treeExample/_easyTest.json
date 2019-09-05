@@ -1,0 +1,85 @@
+{ 
+    "name": "Root",
+    "id": "Root",
+    "children": [
+    { 
+        "name": "Solstices",
+        "id": "child_1",
+        "children": [ 
+            {
+                "name": "Summer",
+                "id": "c1_gc1"
+            },
+            {
+                "name": "Winter",
+                "id": "c1_gc2",
+                "children": [
+                    {
+                        "name": "November",
+                        "id": "c1_gc2_ggc1"
+                    },
+                    {
+                        "name": "December",
+                        "id": "c1_gc2_ggc2"
+                    },
+                    {
+                        "name": "January",
+                        "id": "c1_gc2_ggc3"
+                    }
+                    
+                ]
+            }
+        ]
+    },
+    { 
+        "name": "Celetsial",
+        "id": "child_2",
+        "children": [ 
+            {
+                "name": "Earth",
+                "id": "c2_gc1"
+            },
+            {
+                "name": "Sun",
+                "id": "c2_gc2"
+            },
+            {
+                "name": "Moon",
+                "id": "c2_gc3",
+                "children": [ 
+                    {
+                        "name": "Lunar First Quarter",
+                        "id": "c2_gc3_ggc1"
+                    },
+                    {
+                        "name": "Lunar Full Moon",
+                        "id": "c2_gc3_ggc2"
+                    },
+                    {
+                        "name": "Lunar Third Quarter",
+                        "id": "c2_gc3_ggc3"
+                    },
+                    {
+                        "name": "Lunar New Moon",
+                        "id": "c2_gc3_ggc4"
+                    }
+                ]
+            }
+        ]
+    },
+    { 
+        "name": "Seasons",
+        "id": "child_3", 
+        "children": [ 
+            {
+                "name": "Fall",
+                "id": "c3_gc1"
+            },
+            {
+                "name": "Spring",
+                "id": "c3_gc2"
+            }
+        ]
+    }
+    ]
+}

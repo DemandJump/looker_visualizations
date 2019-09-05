@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3 intro example(s) and more</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+    <h2>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem consequuntur obcaecati enim ipsam alias quae distinctio illum sequi atque molestiae odio maxime, autem, commodi quam! Sint exercitationem harum natus officiis.
+    </h2>
+    <ul></ul> <!-- We create a ul then use data to populate it with nodes(elements) via d3 -->
+    <svg width="500px" height="500px"></svg>
+
+    <script>
+        heroes = ['Hulk', 'Dr.Strange', 'Shaktiman', 'Capt. America', 'Tony Stark'];
+        d3.select('h2').style('font-size', '20px');
+
+        // Unordered list
+        d3.select('ul')
+            .selectAll('li')
+            .data(heroes) // So we're populating all list items with the specified data 
+            .enter() // This loops through each and every list item with d3 functions we give it 
+            .append('li') // We add in each and every list item
+            .text(name => name + '!');
+
+        // svg
+        var numbers = [20, 30, 50, 30, 10, 120];
+        var barHeight = 40;
+        d3.select('svg')
+            .selectAll('rect')
+            .data(numbers)
+            .enter()
+            .append('rect')
+            // We use the data that was given(numbers) to set the width 
+            .attr('width', data => data) 
+            .attr('height', barHeight - 4) // -4 gives nice spacing between each bar
+            // Transform rotates the graph so it's sideways, looping through using (data, index)
+            .attr( 'transform', (data, index) => "translate(100," + index * barHeight + ")" )
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
+    <title>Tree Intro</title>
+</head>
+<body>
+    
+    
+
+
+
+
+    <script>
+
+        treemap = d3.treemap();
+        // console.log('d3.treemap console log function return' treemap);
+
+        // Pass in a JSON of data into the array and it will attach the hierarchical data into the array 
+        var rawData = { // Start at the root, every element has data, and it's children
+            "name": "Root",
+            "id": "Root",
+            "children": [
+            { // First child of root
+                "name": "Solstices",
+                "id": "child_1",
+                "children": [ // Children of first child
+                    {
+                        "name": "Summer",
+                        "id": "c1_gc1"
+                    },
+                    {
+                        "name": "Winter",
+                        "id": "c1_gc2",
+                        "children": [
+                            {
+                                "name": "November",
+                                "id": "c1_gc2_ggc1"
+                            },
+                            {
+                                "name": "December",
+                                "id": "c1_gc2_ggc2"
+                            },
+                            {
+                                "name": "January",
+                                "id": "c1_gc2_ggc3"
+                            },
+                            
+                        ]
+                    }
+                ]
+            },
+            { // Second child of root
+                "name": "Celetsial",
+                "id": "child_2",
+                "children": [ // Children of second child
+                    {
+                        "name": "Earth",
+                        "id": "c2_gc1"
+                    },
+                    {
+                        "name": "Sun",
+                        "id": "c2_gc2"
+                    },
+                    {
+                        "name": "Moon",
+                        "id": "c2_gc3",
+                        "children": [ // Second child's third child's children
+                            {
+                                "name": "Lunar First Quarter",
+                                "id": "c2_gc3_ggc1"
+                            },
+                            {
+                                "name": "Lunar Full Moon",
+                                "id": "c2_gc3_ggc2"
+                            },
+                            {
+                                "name": "Lunar Third Quarter",
+                                "id": "c2_gc3_ggc3"
+                            },
+                            {
+                                "name": "Lunar New Moon",
+                                "id": "c2_gc3_ggc4"
+                            },
+                        ]
+                    },
+                ]
+            },
+            { // Third child of root
+                "name": "Seasons",
+                "id": "child_3", 
+                "children": [ // Third child's children 
+                    {
+                        "name": "Fall",
+                        "id": "c3_gc1"
+                    },
+                    {
+                        "name": "Spring",
+                        "id": "c3_gc2"
+                    }
+                ]
+            }
+            ]
+        }
+        var chart = d3.hierarchy(rawData);
+
+
+        console.log('Raw Family JSON data', rawData);
+        console.log('\n d3.hierarchy() return value', chart);
+        console.log('\n chart.data return value', chart.data);
+        console.log('\n chart.leaves return value', chart.leaves());
+
+        // console.log('Family path to grandchild #2', chart.path(BranchTwo));
+
+        childOne = chart.children[0];
+        // console.log('ChildOne', childOne);
+
+
+
+        // Creating instances of each of these nodes within the tree for handling data or navigation between each 
+        december = chart.children[0].children[1].children[1];
+        console.log('\n december node', december);
+        earth = chart.children[1].children[0];
+        console.log('\n earth node', earth);
+        newMoon = chart.children[1].children[2].children[3];
+        console.log('\n newMoon node', newMoon);
+        spring = chart.children[2].children[1];
+        console.log('\n spring node', spring);
+
+
+        // Use these in the specific nodes you've created instances of to interact with 
+        // console.log('\n chart.children return value', chart.children);
+        // console.log('\n chart.ancestors return value', chart.ancestors());
+        // console.log('\n chart.descendants return value', chart.descendants());
+        
+        moon = chart.children[1].children[2];
+            // DESCRIBING ANCESTORS AND DESCENDANTS 
+        console.log('\n moon node', moon);
+        // Gives all ancestors starting with the node 
+        console.log('\n moon ancestors', moon.ancestors());
+        // Gives all descendants starting with the node
+        console.log('\n moon descendants', moon.descendants());
+
+
+            // DESCRIBING PATHS
+        // New moon to earth
+        console.log('\n newMoon path to eart', newMoon.path(earth));
+        /*  Pathing never navigates between nodes in the same array. It goes back one then will parse into the desired node within that array: Lunar_New_Moon to Earth example > > > 
+                Lunar New Moon > Moon > Celestial > Earth 
+        */
+    
+        
+            // NODE LINKS
+        // These help create force directed trees if we ever need. 
+        // The source is the moon
+        // The target is all the descendants
+                // Note* this keeps the original root's depth and height
+        console.log('\n moon node links', moon.links());
+
+
+        celestial = chart.children[1];
+        console.log('\n celestial node links', celestial.links());
+
+
+            // NODE COPY
+        // Creates a copy of given node and it's descendants, returning a new detached subtree
+                // Note* this creates a new depth and height based on the root given
+        console.log('\n celestial node copy', celestial.copy());
+
+
+            // NODE COUNT 
+        // Gives a value for the nodes based on the descendant leaves that it holds
+                // Note* it holds the sum of the leaves within the parent, *keyword leaves*
+        celestialCount = celestial.count();
+        console.log('\n CelestialCount', celestialCount);
+        console.log('\n Celestial', celestial);
+
+
+
+        /********************************
+         * D3 Loading external JSON data 
+        ********************************/
+        /*
+            There is a way to externally load data into a tree you build with d3, 
+
+        */
+        /*****************************
+         * D3 Visulization ~
+        *****************************/
+        
+        // var canvas = d3.select('body').append('svg')
+        //     .attr('width', '500')
+        //     .attr('height', '500')
+        //     .append('g')
+        //         .attr('transform', 'translate(50, 50');
+
+        //     var tree = d3.layout.tree()
+        //         .size([400, 400]);
+
+
+        var data = {
+  "name": "Eve",
+  "children": [{
+    "name": "Cain"
+  }, {
+    "name": "Seth",
+    "children": [{
+      "name": "Enos"
+    }, {
+      "name": "Noam"
+    }]
+  }, {
+    "name": "Abel"
+  }, {
+    "name": "Awan",
+    "children": [{
+      "name": "Enoch"
+    }]
+  }, {
+    "name": "Azura"
+  }]
+};
+var hierarchy = d3.hierarchy(data);
+
+console.log('hierarchy', hierarchy);
+
+var tree = d3.tree();
+
+var links = tree(hierarchy).links(); // This is what gives our x and y pieces to our array 
+
+console.log('tree', tree);
+console.log('links', links);
+// So this gives out x and y coordinates, but i dunno why
+
+
+
+
+
+        console.log(' \n\n\n\n\n ');
+
+    </script>
+</body>
+</html>
+
+

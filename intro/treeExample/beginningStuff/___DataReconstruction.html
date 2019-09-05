@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<style>
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.node text {
+  font: 12px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+svg { border: 1px solid black; }
+
+body { /* this is used in all tidy svgs! */
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    overflow: hidden;
+    display: block;
+
+  }
+
+  text { /* Cool trick to make the captions on the links more readable! */
+    text-shadow:
+     -1px -1px 3px white,
+     -1px  1px 3px white,
+      1px -1px 3px white,
+      1px  1px 3px white;
+    pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+    font-family: 'Playfair Display', serif;
+  }
+
+</style>
+<body>
+    <svg class="zoomContainer">
+            <svg>
+                <g class="data"></g>
+            </svg>
+    </svg> 
+<!-- load the d3.js library -->	
+<script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+    <script> /*
+let cats = ['jeff', 'Jam', 'sparkles', 'bubbles', 'mordecai', ]; // Should be array 1 
+let dogs = ['jelly', 'jeremey', 'henry', 'morrison', 'happy']; // Should be array 2 
+console.log('cats', cats)
+console.log('dogs', dogs)
+
+function testOne(arr1, arr2) {
+    arr1.forEach(element => {
+        console.log(`we're on ${element} currently `);
+        if(element == 'bubbles') {
+            console.log('found and added bubbles to array 2!!');
+            arr2.push(element);
+            index = arr1.indexOf(element);
+            arr1.splice(index, 1)
+            console.log('new array 1(cats)', arr1)
+            console.log('new araray 2(doges)', arr2)
+        }
+    });
+}
+testOne(cats, dogs);
+console.log('\n\n\n\n\n finished cats', cats)
+console.log('finished dogs', dogs)
+ */
+
+// Let's do test two!
+let branches = [
+    {
+        "name" : "root",
+        "source" : null,
+        "type" : "something"
+    },
+    {
+        "name" : "r_a1",
+        "source" : "root",
+        "type" : "something",
+        "children": []
+    },
+    {
+        "name" : "r_a2",
+        "source" : "root",
+        "type" : "something",
+        "children": [
+            {
+                "name" : "r_a1",
+                "source" : "root",
+                "type" : "something",
+                "children": []
+            },
+            {
+                "name" : "r_a1",
+                "source" : "root",
+                "type" : "something",
+                "children": []
+            },
+        ]
+    },
+    {
+        "name" : "r_a1_b1",
+        "source" : "r_a1",
+        "type" : "something"
+    },
+    {
+        "name" : "r_a1_b1_c1",
+        "source" : "r_a1_b1",
+        "type" : "something"
+    }
+];
+console.log('Branches', branches);
+
+function getNestedChildren(arr, parent) {
+    var out = []
+    for(var i in arr) {
+        if(arr[i].source == parent) {
+            var children = getNestedChildren(arr, arr[i].name)
+
+            if(children.length) {
+                arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+    }
+    console.log('out', out);
+    return out
+}
+branches.forEach(node => {
+    // For each node, it finds it's children, and then populates the arrays within it!
+    getNestedChildren(branches, node.name);
+})
+console.log('out array', branches);
+
+    </script>
+</body>

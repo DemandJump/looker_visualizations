@@ -1,0 +1,26 @@
+body {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    overflow: hidden;
+    display: block;
+
+  }
+  
+  path {
+    fill: none; /* We need to remove fill so it doesn't fill out the polynomials */
+    stroke: #56c2a3; 
+  }
+  
+  text { /* Cool trick to make the captions on the links more readable! */
+    text-shadow:
+     -1px -1px 3px white,
+     -1px  1px 3px white,
+      1px -1px 3px white,
+      1px  1px 3px white;
+    pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+    font-family: 'Playfair Display', serif;
+  }

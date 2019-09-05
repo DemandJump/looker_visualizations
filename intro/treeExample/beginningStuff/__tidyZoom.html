@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TidyZoom</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+  </head>
+  <body>
+    <svg>
+      <g class="zoomBox">
+        <g class="links"></g>
+        <g class="nodes"></g>
+      </g>
+    </svg>
+    <!-- pack layout in d3indepth.com/layouts/ looked pretty interesting too -->
+    <!-- Don't forget to utilize d3 zoom, have it be collapsable, and looker oriented -->
+    <!-- Collision detecton d3 example may be somewhat useful! -->
+<!-- 
+    // When we create the svg we use the links to create the line segments between each point
+    // And we used nodes to create the shapes 
+    
+    // Nodes reference the descendants, and links reference the links
+    // You can reference the d3.hierarchy.descendants and skip the layout to parse through it easier, but tinker with it to figure out how it really works 
+-->
+
+
+
+
+
+
+<script>
+// Start by creating the framework for our data and the svg we're creating for it
+const width = document.body.clientWidth,
+    height = document.body.clientHeight,
+    margin = { top:0, right: 0, bottom: 0, left: 60 },
+    innerWidth = width - margin.left - margin.right,
+    innerHeight = height - margin.top - margin.bottom,
+
+    svg = d3.select('svg') // Original static svg
+        .attr('width', width) // You have to assign the w/h for the paths to work!
+        .attr('height', height); // Also these give you ability to zoom in your svg
+        
+    zoomBox = svg.select('g.zoomBox');
+
+svg.call(d3.zoom().on('zoom', () => {
+    zoomBox.attr('transform', d3.event.transform)
+}));
+var i; // Counter for the nodes, yay!
+
+
+d3.json('_data.json')
+    .then( data => {
+        /***** INITIALIZATION *****/
+        var treemap = d3.tree().size([innerHeight, innerWidth]); // Declaring size params for it 
+        // Stash the source in local variables to edit for collapse related functionality
+        var root = d3.hierarchy(data, function(d) { return d.children });
+            root.xPrev = height / 2;
+            root.yPrev = 0;
+        // console.log('root', root)
+        // console.log('d3 returned data', root)
+
+
+
+        // Collapse after the second level
+        root.children.forEach(collapse);
+
+        function collapse(d) {
+          if(d.children) {
+            d._children = d.children
+            d._children.forEach(collapse)
+            d.children = null
+          }
+        }
+
+
+        var diagonal = d3.linkHorizontal()
+            .x(d => d.y)
+            .y(d => d.x);
+            // .x(function(d) { return d.y; })
+            // .y(function(d) { return d.x; });
+
+
+    update(root)  
+    function update(source) {
+        var treeData = treemap(root);
+        /*************************
+         * Creation
+        *************************/
+        var nodes = treeData.descendants(); // Descendants for circles and pass cx, cy, r 
+        console.log('nodes', nodes); // g.nodes >[g.node{circle.cNode, text}, ...] 
+
+        var node = zoomBox.selectAll('.node')
+            .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+        // Normalize for fixed-depth. because of collapse function 
+        nodes.forEach(function(d){ d.y = d.depth * 180});
+
+        /************** Exit **************/
+        
+        // Pull everything to wherever you clicked, and remove them
+        node.exit().transition()
+            .duration(1250) // For this duration it translates ~to~ the new position
+            // .attr('transform', d => 'translate(' + source.y + ',' + source.x + ')')
+            .style('opacity', 0)
+            .remove(); 
+        
+
+        var enterANode = node.enter().append('g')
+            .attr('class', 'node')
+            .attr('transform', d => {
+                console.log('node d:', d);
+                return 'translate(' + d.y + ',' + d.x + ')'})
+            .style('opacity', 0);
+
+
+        /***** CIRCLE *****/    // Create the circles for the nodes
+        enterANode.append('circle') // dataPass > enter > adding(circle) 
+                .attr('class', 'cRadius, cNode') // Selecter for our mouse click function!
+        //         .attr('fill', "#d4d4d4"); //if null children : else
+        // enterANode.append('circle') // dataPass > enter > adding(circle) 
+        //         .attr('class', 'cInner, cNode') // Selecter for our mouse click function!
+        //         .attr('r', d => d.children ? '3' : '1') 
+                .attr('fill', d => d._children ? "#008CCD" : "#a5a5a5")
+                .attr('r', 10)
+                .attr('cursor', 'pointer')
+                .on('click', click);
+
+
+        /***** TEXT *****/      // Add some text to make it look nice and pretty ;p
+        enterANode.append('text')
+            .attr('x', d => d.children ? -5 : 3)
+            .attr('dy', '0.32em') // Vertical aligning text
+            .attr('text-anchor', d => d.children ? 'end' : 'start')
+            .attr('font-size', d => d.children ? '.45em' : '.21em')
+            .text(d => d.data.name) // Scaling font size and text
+
+
+        /*************************
+         * Circle Update & Exit
+        *************************/
+        // Transition nodes to their new position 
+        enterANode.transition()
+                .duration(1250)
+                .attr('transform', d => 'translate(' + d.y + ',' + d.x + ')' )
+                .style('opacity', 1)
+
+        
+
+        /*************************
+         * Path Update & Exit
+        *************************/
+        /************** Initialize **************/
+        var links = treeData.descendants().slice(1); // Links for linkHorizontal(passY, thenX)
+        console.log('links', links);
+
+        var link = zoomBox.select('g.links').selectAll('path.link') // Update the links ~
+            .data(links, function(d) { return d.id; })
+
+        /************** Enter **************/
+        link.enter().append('path', 'g') // This creates the paths
+                .attr('class', 'link')
+                .attr('d', d => {  // Initial position
+                    var o = {x: d.x, y: d.y};
+                    var p = {x: d.parent.x, y: d.parent.y};
+                    return diagonal({source: p, target: o}) 
+                }) // Function to map out our paths!
+
+
+        /************** Update **************/
+        link.transition()
+            .duration(1250)
+            .attr('d', diagonal);
+
+        /************** Exit **************/
+        link.exit()
+            // .duration(1250)
+            // .style('opacity', 0)
+            // .attr('d', d => {
+            //     console.log('exit transition data', d)
+            //     var o = {x: source.x, y: source.y}
+            //     return diagonal({source: o, target: o});
+            // })
+            .remove();
+
+
+        /*************************
+         * Function/clicks on exit
+        *************************/
+        // This one runs so that all the nodes have a previous position for proper transitions
+        // Store the old positions for transition.
+        root.each(function(d){ // This function is auto run, and is ESSENTIAL
+            d.xPrev = d.x;
+            d.yPrev = d.y;
+          });
+
+        function click(d) { // Hides children in array beside it, or vice verse on click
+            console.log('clicked on node ', d)
+            if(d.children) {
+                d._children = d.children;
+                d.children = null;
+            } else {
+                d.children = d._children;
+                d._children = null;
+            }
+            update(d);
+        }
+
+
+    }
+    })
+</script>
+  </body>
+</html>

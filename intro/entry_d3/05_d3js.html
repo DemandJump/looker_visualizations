@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3 intro example(s) and more</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+    <div id="chart"></div>
+    
+
+
+
+    <script>
+        var myData = [100, 125, 320, 440, 500, 250, 320, 120, 50, 100, 340, 225];
+
+        var height = 500;
+        var width = 500;
+        var barWidth = 35;
+        var barOffset = 5;
+
+        var myChart = d3.select('#chart').append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .style('background', '#f4f4f4')
+            .selectAll('rect')
+                .data(myData)
+                .enter().append('rect')
+                    .style('fill', 'lightgreen')
+                    .attr('width', barWidth)
+                    .attr('height', d => d)
+                    .attr('x', (d, i) => i * (barWidth + barOffset))
+                    .attr('y', d => height - d)
+
+    </script>
+</body>
+</html>
+
