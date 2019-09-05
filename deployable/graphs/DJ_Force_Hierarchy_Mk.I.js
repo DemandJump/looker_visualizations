@@ -163,11 +163,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Duration for animations
     let duration = 1250;
 
+                  // The stuff above is just a reference to how the dimensions and measures work // 
+    console.log('\n\n\n\n\n'); // Spacing out the data
+
           //*// Burrowing into the Data //*//
     let nested = this.burrow(data, queryResponse.fields.dimension_like);
     console.log('burrow function results on raw data: ', nested);
 
+    let nodes = flatten(nested);
+    let links = d3.layout.tree().links(nodes);
 
+    console.log('This is the Flattened nested data, nodes: ', nodes);
+    console.log('This is the link data from node, links: ', links);
+
+
+
+
+    /********************************************
+     * Functions section
+    ********************************************/
+        // Returns a list of all nodes under the root.
+    function flatten(root) {
+      var nodes = [], i = 0;
+
+      function recurse(node) {
+        if (node.children) node.children.forEach(recurse);
+        if (!node.id) node.id = ++i;
+        nodes.push(node);
+      }
+
+    recurse(root);
+    return nodes;
+    }
 
     /**********************
      * Update the Options
