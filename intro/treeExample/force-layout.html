@@ -212,7 +212,9 @@ d3.csv("swimming-pool-with-id.csv") .then(data => { // console.log('data', data)
         // .duration(13000)
         // .attr('fill-opacity', 1)
         .text(d => d.data.data.name)
-        .style("font-size", '5rem');
+            .style('font-family', 'Arial')
+            .style("text-anchor", "middle")
+            .style("font-size", '1rem');
 
 
     simulation.on('tick', () => {

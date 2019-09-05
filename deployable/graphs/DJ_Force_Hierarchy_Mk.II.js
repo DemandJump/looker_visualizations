@@ -218,16 +218,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let i = 0; // counter 
         // We want dynamic distances for each node based on depth, so create our own function
         let forceLink = d3 
-        .forceLink(links).id(d => d.data.id)
+        .forceLink(links).id(d => d.index)
         // .distance(d => 2450 - (d.target.depth * 800)) // add 50 for base
         .distance(d => {
               // Testing scalability
-            console.log('this is d for distance', d);
+            // console.log('this is d for distance', d);
             let source = d.source 
             let desc_ctn = source.descendants();
-            console.log(`Descendants of current node ${i}: `, desc_ctn);
+            // console.log(`Descendants of current node ${i}: `, desc_ctn);
               // We wanna take in the amount of nodes that each is dealing with and distribute distance based on that, let's see how it goes!
-              
 
             return d.target.depth == 0 ? 0 // center baby
             : d.target.depth == 1 ? 20000 + desc_ctn.length // green 
