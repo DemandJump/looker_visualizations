@@ -115,9 +115,9 @@ d3.csv("swimming-pool-with-id.csv") .then(data => { // console.log('data', data)
         // .distance(d => 2450 - (d.target.depth * 800)) // add 50 for base
         .distance(d => {
             return d.target.depth == 0 ? 0 // center baby
-            : d.target.depth == 1 ? 25000 // green 
-            : d.target.depth == 2 ? 1200 // blue
-            : 11 // purple 
+            : d.target.depth == 1 ? 12500 // green 
+            : d.target.depth == 2 ? 600 // blue
+            : 5 // purple 
         })
         .strength(1);
 
@@ -130,9 +130,9 @@ d3.csv("swimming-pool-with-id.csv") .then(data => { // console.log('data', data)
         .force('collision', d3.forceCollide().radius(d => {
             // return 64 - (d.depth * 5);
             return d.depth == 0 ? 0 // 50 
-            : d.depth == 1 ? 1000
-            : d.depth == 2 ? 200
-            : 11;        
+            : d.depth == 1 ? 500
+            : d.depth == 2 ? 100
+            : 5;        
         })); // 450 300 250 200
 
 
@@ -165,10 +165,10 @@ d3.csv("swimming-pool-with-id.csv") .then(data => { // console.log('data', data)
         .data(links)
         .enter().append('line')
             .attr('stroke-width', d => {
-                    return d.target.depth == 0 ? '24'
-                    : d.target.depth == 1 ? '21'
-                    : d.target.depth == 2 ? '16.5'
-                    : '14';
+                    return d.target.depth == 0 ? '12'
+                    : d.target.depth == 1 ? '11'
+                    : d.target.depth == 2 ? '8.25'
+                    : '7';
                 })
             .attr('stroke', d => {
                     return d.target.depth == 0 ? '#000'
@@ -199,10 +199,10 @@ d3.csv("swimming-pool-with-id.csv") .then(data => { // console.log('data', data)
             })
             .attr('stroke', d => d.children ? null : '#fff') // outer circle
             .attr('r', d => { // circle width
-                return d.depth == 0 ? '450px' 
-                : d.depth == 1 ? '300px'
-                : d.depth == 2 ? '250px'
-                : '200px'
+                return d.depth == 0 ? '225px' 
+                : d.depth == 1 ? '150px'
+                : d.depth == 2 ? '125px'
+                : '100px'
             })
             .call(drag(simulation))
               
