@@ -66,7 +66,7 @@ text { /* Cool trick to make the captions on the links more readable! */
 d3.csv('swimming-pool-with-id.csv') // Version 5 supports promises
     .then( data => {
         */
-d3.csv('swimming-pool-with-id.csv', function(error, data) { //v4 uses functions
+d3.csv('../data/swimming-pool-with-id.csv', function(error, data) { //v4 uses functions
         console.log('data', data)
 
             // Turning links into a hierarchy with stratify method
@@ -291,7 +291,7 @@ d3.csv('swimming-pool-with-id.csv', function(error, data) { //v4 uses functions
                 d.children = d._children;
                 d._children = null;
               }
-            update(d);
+            update();
           }
         }
 

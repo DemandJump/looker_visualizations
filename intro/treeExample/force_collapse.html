@@ -29,36 +29,68 @@ line.link {
 </head>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>
+      <!-- This version is outdated as heck, and needs to be ported over to a newer version after we figure this out -->
+
+
+
+
+
+
+
+
 
 <script>
-var width = 960,
-    height = 500,
+var width = window.innerWidth,
+    height = window.innerHeight,
     root;
 
 var force = d3.layout.force()
     .linkDistance(80)
-    .charge(-120)
+    .charge(-520)
     .gravity(.05)
     .size([width, height])
     .on("tick", tick);
 
-var svg = d3.select("body").append("svg")
+var container = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
+
+let svg = container.append('g')
+    .attr('class', 'everything');
+
+    // Zoom Stuff // 
+let zoom_handler = d3.behavior.zoom()
+    .on('zoom', zoom_actions);
+zoom_handler(container);
+function zoom_actions() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+}
+
 
 var link = svg.selectAll(".link"),
     node = svg.selectAll(".node");
 
-d3.json("force_collapse.json", function(error, json) {
-  if (error) throw error;
+
+d3.csv("../data/swimming-stripped.csv", function(error, csv) {
+  // if (error) throw error;
+  console.log('This is the raw csv file!', csv);
+  
+});
+d3.json("../data/_flare.json", function(error, json) {
+  // if (error) throw error;
 
   root = json;
   update();
 });
 
+
 function update() {
+  console.log('this is root: ', root);
   var nodes = flatten(root),
       links = d3.layout.tree().links(nodes);
+  // console.log(`This is the raw data, pulled from a json file`, root); // Root is a normal hierarchy layout!
+  console.log(`This is nodes, which is 'flatten(root)' : `, nodes);
+  console.log(`This is links, which is 'd3.layout.tree().links(nodes)' : `, links); // We usre the flatten layout to create links based on it
 
   // Restart the force layout.
   force
