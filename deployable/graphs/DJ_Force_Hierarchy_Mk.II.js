@@ -327,13 +327,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y)
 
-        node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y)
+        group
+          .attr('x', d => d.x)
+          .attrI('y', d => d.y);
 
-        d3.selectAll('text')
-            .attr('x', d => d.x)
-            .attr('y', d => d.y)
+        // node
+        //     .attr('cx', d => d.x)
+        //     .attr('cy', d => d.y)
+
+        // d3.selectAll('text')
+        //     .attr('x', d => d.x)
+        //     .attr('y', d => d.y)
 
         // invalidation.then(() => simulation.stop()); // Deprecated ?
         return svg.node();
@@ -357,11 +361,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
   function dragended(d) {
-    if (d3.event.ctrlKey) {
       if(!d3.event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
-    }
   }
   
   return d3.drag()
