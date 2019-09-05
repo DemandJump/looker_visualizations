@@ -20,7 +20,7 @@
 
     // Onto the create section 
 create: function(element, config) {
-    let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    // let d3 = d3v5; // Pull in d3 selector as it's normal reference
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
