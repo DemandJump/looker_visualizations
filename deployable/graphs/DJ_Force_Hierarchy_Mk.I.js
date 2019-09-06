@@ -43,7 +43,24 @@ create: function(element, config) {
                 font-family: 'Playfair Display', serif;
             }
             body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-
+              /* Specific to this layout */
+            .node circle {
+              cursor: pointer;
+              stroke: #3182bd;
+              stroke-width: 1.5px;
+            }
+            
+            .node text {
+              font: 10px sans-serif;
+              pointer-events: none;
+              text-anchor: middle;
+            }
+            
+            line.link {
+              fill: none;
+              stroke: #9ecae1;
+              stroke-width: 1.5px;
+            }
         </style>
         `;
         /*
@@ -125,6 +142,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse', queryResponse);
     console.log('details', details);
 
+            // Playing with dimensions and measures
+            console.log('Checking out query resposne dimension fields: ', 
+            queryResponse.fields.dimensions);
+        console.log('Checking out query resposne measure fields: ', 
+            queryResponse.fields.measures);
+        console.log('Checking out query resposne dimension fields: ',   
+            queryResponse.fields.dimensions.length);
+        console.log('Checking out query resposne measure fields: ',         
+            queryResponse.fields.measures.length);
+    
+            // Dimension and Measure length 
+        let maxDimensions = queryResponse.fields.dimensions.length;
+        let maxMeasures = queryResponse.fields.measures.length;
+            // The selector references for dimensions and length 
+        let dimensions = queryResponse.fields.dimensions;
+        let measures = queryResponse.fields.measures;
+            // Duration for animations
+        let duration = 1250;
+    
+                      // The stuff above is just a reference to how the dimensions and measures work // 
+        console.log('\n\n\n\n\n'); // Spacing out the data
+
     /**********************
      * Error Clauses 
     **********************/
@@ -143,38 +182,45 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**********************************************************************
                         * Update the Visualization *
     **********************************************************************/
-    
-        // Playing with dimensions and measures
-    console.log('Checking out query resposne dimension fields: ', 
-        queryResponse.fields.dimensions);
-    console.log('Checking out query resposne measure fields: ', 
-        queryResponse.fields.measures);
-    console.log('Checking out query resposne dimension fields: ',   
-        queryResponse.fields.dimensions.length);
-    console.log('Checking out query resposne measure fields: ',         
-        queryResponse.fields.measures.length);
-
-        // Dimension and Measure length 
-    let maxDimensions = queryResponse.fields.dimensions.length;
-    let maxMeasures = queryResponse.fields.measures.length;
-        // The selector references for dimensions and length 
-    let dimensions = queryResponse.fields.dimensions;
-    let measures = queryResponse.fields.measures;
-        // Duration for animations
-    let duration = 1250;
-
-                  // The stuff above is just a reference to how the dimensions and measures work // 
-    console.log('\n\n\n\n\n'); // Spacing out the data
-
-          //*// Burrowing into the Data //*//
+          //*// Burrowing into the raw Data //*//
     let nested = this.burrow(data, queryResponse.fields.dimension_like);
     console.log('burrow function results on raw data: ', nested);
 
-    let nodes = flatten(nested);
-    let links = d3.layout.tree().links(nodes);
+        // Onto creating the layout for the visual
+    var width = window.innerWidth,
+      height = window.innerHeight; 
 
-    console.log('This is the Flattened nested data, nodes: ', nodes);
-    console.log('This is the link data from node, links: ', links);
+    var force = d3.layout.force()
+      .linkDistance(80)
+      .charge(-520)
+      .gravity(.05)
+    .size([width, height])
+    .on("tick", tick);
+
+var container = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+let svg = container.append('g')
+    .attr('class', 'everything');
+
+    // Zoom Stuff // 
+let zoom_handler = d3.behavior.zoom()
+    .on('zoom', zoom_actions);
+zoom_handler(container);
+function zoom_actions() {
+  svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+}
+
+
+let link = svg.selectAll(".link"),
+    node = svg.selectAll(".node");
+
+
+
+ 
+
+    
 
 
 
