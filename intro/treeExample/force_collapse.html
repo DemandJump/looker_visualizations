@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
+html, body { margin: 0; padding: 0;}
 
-.node circle {
+.node, .node2, circle {
   cursor: pointer;
   stroke-width: 1.25px;
 }
 
-.node text {
+ text {
   font: 10px sans-serif;
   pointer-events: none;
   text-anchor: middle;
 }
 
-line.link {
+line.link, .link2 {
   fill: none;
   stroke: #9ecae1;
   stroke-width: 1.5px;
 }
+svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
 </style>
 
 <head>
@@ -44,8 +46,20 @@ line.link {
 
 
 <script>
+leftHalf();
+rightHalf();
+
+
+
+
+
+
+
+
+
+function leftHalf() {
     // Initial dimensions, plus instantiating some variables
-let width = window.innerWidth, // Dimensions w & h
+    let width = (window.innerWidth / 2) - 2, // Dimensions w & h
     height = window.innerHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     root; // Root of data
@@ -73,13 +87,14 @@ let link = svg.selectAll(".link"),
   // Predefined parameters for the forceSimulation
 let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
 let repelForce = d3.forceManyBody().strength(-140).distanceMax(50).distanceMin(10) 
-  // Initialize the simulation  
+  // Initialize the simulation //
 let simulation = d3.forceSimulation()
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
-    .alphaDecay(0.3) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
-    // .force('attractForce', attractForce)
-    .force('repelForce', repelForce)
+    // .alphaDecay(0.0) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+    .force('repelForce', repelForce) // This one is essential
+    // .force('attractForce', attractForce) // This one get's hairy
+
 
 d3.csv("../data/swimming-stripped.csv").then(csv => {  /* console.log('This is the raw csv file!', csv); */  }); // Our own data pulled locally
 d3.json("../data/force_collapse.json").then( json => {
@@ -108,16 +123,191 @@ function update() {
 
     // Update links.
   link = link.data(links, function(d) { return d.target.id; });
-  link.exit().remove();
-  link.enter().insert("line", ".node")
+  link.enter().merge(link).insert("line", ".node")
       .attr("class", "link");
+  d3.selectAll('.link').data(links).exit().remove();
 
     // Update nodes.
   node = node.data(nodes, function(d) { return d.id; });
-  node.exit().remove();
 
   var nodeEnter = node.enter().append("g") // NodeEnter is a group to put circle and text together, less tick calculations and neater structure
       .attr("class", "node")
+      .on("click", click)
+      .call(drag(simulation));
+  nodeEnter.append("circle").merge(nodeEnter) // NodeEnter > Circle
+      .attr('stroke', border)
+      .style("fill", color)
+      .attr("r", function(d) { return (Math.sqrt(d.size) / 10) /*+ 10*/ || 5/*20*/; });
+  nodeEnter.append("text").merge(nodeEnter) // NodeEnter > Text
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
+
+  d3.selectAll('.node').data(nodes).exit().remove();
+}
+/**************************************************************************************************
+ *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
+**************************************************************************************************/
+
+
+  /* Functions section */
+
+  // Simulation physics
+simulation.on('tick', () => { // On each tick, specifify these parameters for this stuff
+  d3.selectAll('.link').attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+  d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+});
+function drag(simulation) {
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+
+  return d3.drag()
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
+}
+
+  // Some styling functions for the circles
+function color(d) {
+  console.log('color function parse', d);
+  return d._children ? "#999999" // collapsed package => or try: "#3182db"
+      : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
+      : "#008CCD"; // leaf node => or try: "#FEBF43"
+}
+function border(d) {
+  return d._children ? "#fd8d3c" // collapsed node
+    : d.children ? "#008CCD" // expanded node
+    : "#fd8d3c" // leaf node
+}
+  // Toggle children on click.
+function click(d) {
+  if (d3.event.defaultPrevented) return; // ignore drag
+  if (d.children) {
+    d._children = d.children;
+    d.children = null;
+  } else {
+    d.children = d._children;
+    d._children = null;
+  }
+  update();
+}
+// Returns a list of all nodes under the root. => Stratified datum
+function flatten(root) {
+  var nodes = [], i = 0;
+
+  function recurse(node) {
+    if (node.children) node.children.forEach(recurse);
+    if (!node.id) node.id = ++i;
+    nodes.push(node);
+  }
+
+  recurse(root);
+  return nodes;
+}
+} // End of left half
+
+
+
+
+
+
+
+
+
+
+
+function rightHalf() {
+      // Initial dimensions, plus instantiating some variables
+let width = (window.innerWidth / 2) - 2, // Dimensions w & h
+    height = window.innerHeight,
+    treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    root; // Root of data
+
+    // Select the document and append the svg structure (container and svg group)
+let container2 = d3.select("body").append("svg")
+    .attr('class', 'righthalf')
+    .attr("width", width)
+    .attr("height", height);
+
+let svg = container2.append('g')
+    .attr('class', 'everything');
+
+  // Zoom Stuff // 
+let zoom_handler = d3.zoom()
+    .on('zoom', zoom_actions);
+zoom_handler(container2);
+function zoom_actions() {
+    svg.attr('transform', d3.event.transform)
+}
+
+  // Selectors to reference all the links and nodes 
+let link = svg.selectAll(".link2"),
+    node = svg.selectAll(".node2");
+
+  // Predefined parameters for the forceSimulation
+let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
+let repelForce = d3.forceManyBody().strength(-140).distanceMax(50).distanceMin(10) 
+  // Initialize the simulation //
+let simulation = d3.forceSimulation()
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
+    .alphaDecay(0.04) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+    .force('repelForce', repelForce) // This one is essential
+    // .force('attractForce', attractForce) // This one get's hairy
+
+
+d3.csv("../data/swimming-stripped.csv").then(csv => {  /* console.log('This is the raw csv file!', csv); */  }); // Our own data pulled locally
+d3.json("../data/force_collapse.json").then( json2 => {
+  // if (error) throw error;
+  root2 = d3.hierarchy(json2, d =>  d.children);
+  console.log('this is root2(hierarchy): ', root2);
+  update();
+});
+
+/**************************************************************************************************
+ * UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
+**************************************************************************************************/
+function update() {
+  let nodes2 = flatten(root2), // Reinitializes the data whenever the user interacts with the nodes
+  links2 = root2.links();
+    console.log('nodes2: ', nodes2);
+    console.log('links2: ', links2);
+
+    // Restart the force layout.
+  simulation // Give it the new nodes
+    .nodes(nodes2)
+  simulation.force("link")
+    .links(links2);
+  simulation    
+    .restart();
+
+    // Update links.
+  link = link.data(links2, function(d) { return d.target.id; });
+  link.exit().remove();
+  link.enter().insert("line", ".node")
+      .attr("class", "link2");
+
+    // Update nodes.
+  node = node.data(nodes2, function(d) { return d.id; });
+  node.exit().remove();
+
+  var nodeEnter = node.enter().append("g") // NodeEnter is a group to put circle and text together, less tick calculations and neater structure
+      .attr("class", "node2")
       .on("click", click)
       .call(drag(simulation));
   nodeEnter.append("circle") // NodeEnter > Circle
@@ -137,12 +327,13 @@ function update() {
 
   // Simulation physics
 simulation.on('tick', () => { // On each tick, specifify these parameters for this stuff
-  d3.selectAll('.link').attr("x1", function(d) { return d.source.x; })
+  d3.selectAll('.link2')
+      .attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; });
 
-  d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  d3.selectAll('.node2').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 });
 function drag(simulation) {
   function dragstarted(d) {
@@ -191,17 +382,18 @@ function click(d) {
 }
 // Returns a list of all nodes under the root. => Stratified datum
 function flatten(root) {
-  var nodes = [], i = 0;
+  var nodes2 = [], i = 0;
 
   function recurse(node) {
     if (node.children) node.children.forEach(recurse);
     if (!node.id) node.id = ++i;
-    nodes.push(node);
+    nodes2.push(node);
   }
 
-  recurse(root);
-  return nodes;
+  recurse(root2);
+  return nodes2;
 }
+} // End of right half
 
 </script>
 </body>
