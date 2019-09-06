@@ -82,8 +82,7 @@ d3.csv('../../intro/data/swimming-pool-with-id.csv').then(data => {
     // console.log('nodes', nodes);
 
         // Initialize the simulation
-    let forceLink = d3 
-        .forceLink(links).id(d => d.data.id)
+    let forceLink = d3.forceLink(links).id(d => d.data.id)
         .distance(d => {
             return d.target.depth == 0 ? 0 // center baby
             : d.target.depth == 1 ? 12500 // green 
