@@ -21,8 +21,8 @@ html, body { margin: 0; padding: 0;}
 
 line.link, .link2 {
   fill: none;
-  stroke: #9ecae1;
-  stroke-width: 1.5px;
+  /* stroke: #9ecae1; */
+  /* stroke-width: 1.5px; */
 }
 svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
 </style>
@@ -77,18 +77,18 @@ function zoom_actions() {
 
   // Predefined parameters for the forceSimulation
 let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
-let repelForce = d3.forceManyBody().strength(-140).distanceMax(500).distanceMin(100) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
+let repelForce = d3.forceManyBody().strength(-4040).distanceMax(5000).distanceMin(100) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
   // Initialize the simulation //
 let simulation = d3.forceSimulation()
     .force('center', d3.forceCenter(width / 2, height / 2))
     .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
-    // .alphaDecay(0.0) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+    // .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
     .force('repelForce', repelForce) // This one is essential
     // .force('attractForce', attractForce) // This one get's hairy
 
 
 // d3.csv("../data/swimming-stripped.csv").then(csv => {  /* console.log('This is the raw csv file!', csv); */  }); // Our own data pulled locally
-d3.json("../data/force_collapse.json").then( json => {
+d3.json("../data/_flare.json").then( json => {
   // if (error) throw error;
   root = d3.hierarchy(json, d =>  d.children);
   console.log('this is root(hierarchy): ', root);
@@ -129,9 +129,10 @@ node = node.data(nodes, function(d) { return d.id; });
   nodeEnter.append("circle") // NodeEnter > Circle
       .attr('stroke', border)
       .style("fill", color)
-      .attr("r", function(d) { return (Math.sqrt(d.size) / 5) + 10 || 20; });
+      .attr("r", '50px');
   nodeEnter.append("text") // NodeEnter > Text
       .attr("dy", ".35em")
+      .attr('font-size', '1rem')
       .text(function(d) { return d.data.name; });
 
 
@@ -140,7 +141,10 @@ node = node.data(nodes, function(d) { return d.id; });
   link = link.data(links, function(d) { return d.id; });
 
   link.enter().insert("line", ".node")
-      .attr("class", "link");
+      .attr("class", "link")
+      .attr('stroke', '#008CCD')
+      .attr('stroke-width', '2')
+      .attr("opacity", "0.52");
 
   node.exit().remove();
   link.exit().remove();
