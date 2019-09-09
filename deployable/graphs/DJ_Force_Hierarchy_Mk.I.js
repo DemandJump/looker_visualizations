@@ -34,6 +34,10 @@ create: function(element, config) {
                 border: 1px solid black;
             }
             */
+           .node, .node2, circle {
+            cursor: pointer;
+            stroke-width: 1.25px;
+            }
             text { /* Cool trick to make the captions on the links more readable! */
                 text-shadow:
                  -1px -1px 3px white,
@@ -213,7 +217,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Predefined parameters for the forceSimulation
     let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
-    let repelForce = d3.forceManyBody().strength(-4040).distanceMax(5000).distanceMin(100) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
+    let repelForce = d3.forceManyBody().strength(-6040).distanceMax(5000).distanceMin(250) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
         // Initialize the simulation //
     let simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
@@ -272,7 +276,7 @@ function update() {
     link.enter().insert("line", ".node")
         .attr("class", "link")
         .attr('stroke', '#008CCD')
-        .attr('stroke-width', '2')
+        .attr('stroke-width', '4')
         .attr("opacity", "0.52");
   
     node.exit().remove();
