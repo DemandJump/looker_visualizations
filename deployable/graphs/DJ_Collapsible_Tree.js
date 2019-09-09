@@ -35,8 +35,9 @@ create: function(element, config) {
         }
         
         /* Not needed, used to test svgs dimensions */
+        /* 
         svg { border: 1px solid black; }
-        
+        */
         body { /* this is used in all tidy svgs! */
             position: fixed;
             left: 0;
