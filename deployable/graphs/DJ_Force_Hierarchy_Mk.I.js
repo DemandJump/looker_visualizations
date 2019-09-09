@@ -223,7 +223,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .force('attractForce', attractForce) // This one get's hairy
 
 
-    
+update();
 /**************************************************************************************************
 * UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
 **************************************************************************************************/
