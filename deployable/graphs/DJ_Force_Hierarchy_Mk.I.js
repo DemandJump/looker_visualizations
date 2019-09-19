@@ -227,7 +227,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
-        // .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+        .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
         .force('repelForce', repelForce) // This one is essential
         // .force('attractForce', attractForce) // This one get's hairy
         .force('collision', collide)
@@ -262,7 +262,7 @@ function update() {
     node = node.data(nodes, function(d) { return d.id; });
     // monsoon, rooting for you, vacation, warm glow, epitaph, chateau, breathe, 
     // Always in my head - coldplay, way with words, float, scrawny, saw you in a dream, 
-    // orange juice - lostboycrow, baby blue - rence, crash my car - coin, 
+    // orange juice - lostboycrow, baby blue - rence, crash my car - coin, breakaway - love, me~, 
     
   
   
