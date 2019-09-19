@@ -225,6 +225,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
         .force('repelForce', repelForce) // This one is essential
         // .force('attractForce', attractForce) // This one get's hairy
+        .force('collision', d3.forceCollide().radius(d => {return 10;}))
+
 
 
 update();
