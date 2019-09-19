@@ -42,6 +42,10 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
 
 <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
 
+<!-- Add 2 buttons-->
+<button type="button" onclick="notchDown()">Prev</button>
+<button type="button" onclick="notchUp()">Next</button>
+
 
 
 
@@ -57,6 +61,16 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
     height = window.innerHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     root; // Root of data
+
+
+
+
+let notch = 0, // Notch is the counter for our good ol daters
+maxDepth = 0;
+
+
+
+
 
     // Select the document and append the svg structure (container and svg group)
 let container = d3.select("body").append("svg")
@@ -87,7 +101,7 @@ function zoom_actions() {
     let simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
-        .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+        .alphaDecay(0.0094) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
         .force('repelForce', repelForce) // This one is essential
         // .force('attractForce', attractForce) // This one get's hairy
         .force('collision', collide)
@@ -95,9 +109,46 @@ function zoom_actions() {
 
 // d3.csv("../data/swimming-stripped.csv").then(csv => {  /* console.log('This is the raw csv file!', csv); */  }); // Our own data pulled locally
 d3.json("../data/_flare.json").then( json => {
+  console.log('this is the raw json file', json);
   // if (error) throw error;
   root = d3.hierarchy(json, d =>  d.children);
   console.log('this is root(hierarchy): ', root);
+
+    // Before we update, let's calculate the max depth through a quick leaf node calculation
+  let finder = root.leaves();
+  finder.forEach(leaf => {
+    if (maxDepth < leaf.depth) {
+      maxDepth = leaf.depth;
+    }
+  })
+  console.log('MaxDepth', maxDepth);
+
+  let nodeSetup = root.descendants();
+  console.log('setup the node radiuses!', nodeSetup);
+  
+    // First we need to add in the min and max measures to calculate the radius for each
+
+
+
+  let minMeasure,
+  maxMeasure;
+
+  scaleA = d3.scaleLinear()
+    .domain([minMeasure, maxMeasure])
+    .range([1, 25]);
+  scaleB = d3.scaleLinear()
+    .domain([minMeasure, maxMeasure])
+    .range([30, 80]);
+  scaleC = d3.scaleLinear()
+    .domain([minMeasure, maxMeasure])
+    .range([90, 190]);
+
+
+
+
+
+
+
   update();
 });
 
@@ -109,6 +160,7 @@ function update() {
     links = root.links();
       console.log('nodes: ', nodes);
       console.log('links: ', links);
+      console.log('notch! ', notch);
   
       // Restart the force layout.
     simulation // Give it the new nodes
@@ -234,6 +286,22 @@ function flatten(root) {
 
   recurse(root);
   return nodes;
+}
+
+
+// Button functions
+function notchDown() {
+  if(notch != 0) {
+    notch --;
+    update();
+  }
+}
+
+function notchUp() {
+  if(notch < maxDepth) {
+    notch ++;
+    update(); 
+  }
 }
 
 

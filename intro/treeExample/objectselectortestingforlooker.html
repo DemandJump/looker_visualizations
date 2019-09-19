@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<style>
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.node text {
+  font: 12px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+
+svg { border: 1px solid black; }
+
+body { /* this is used in all tidy svgs! */
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    overflow: hidden;
+    display: block;
+
+  }
+
+  text { /* Cool trick to make the captions on the links more readable! */
+    text-shadow:
+     -1px -1px 3px white,
+     -1px  1px 3px white,
+      1px -1px 3px white,
+      1px  1px 3px white;
+    pointer-events: none; /* This hides the edit cursor when you hover over the labels */
+    font-family: 'Playfair Display', serif;
+  }
+
+</style>
+
+
+<body>
+
+
+
+
+
+
+<!-- load the d3.js library -->	
+<script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
+
+
+
+
+
+
+<script>
+  var treeData = { // Start at the root, every element has data, and it's children
+            "name": "Root",
+            "id": "Root",
+            "children": [
+            { // First child of root
+                "name": "Solstices",
+                "id": "child_1",
+                "children": [ // Children of first child
+                    {
+                        "name": "Summer",
+                        "id": "c1_gc1"
+                    },
+                    {
+                        "name": "Winter",
+                        "id": "c1_gc2",
+                        "children": [
+                            {
+                                "name": "November",
+                                "id": "c1_gc2_ggc1"
+                            },
+                            {
+                                "name": "December",
+                                "id": "c1_gc2_ggc2"
+                            },
+                            {
+                                "name": "January",
+                                "id": "c1_gc2_ggc3"
+                            },
+                            
+                        ]
+                    }
+                ]
+            },
+            { // Second child of root
+                "name": "Celetsial",
+                "id": "child_2",
+                "children": [ // Children of second child
+                    {
+                        "name": "Earth",
+                        "id": "c2_gc1"
+                    },
+                    {
+                        "name": "Sun",
+                        "id": "c2_gc2"
+                    },
+                    {
+                        "name": "Moon",
+                        "id": "c2_gc3",
+                        "children": [ // Second child's third child's children
+                            {
+                                "name": "Lunar First Quarter",
+                                "id": "c2_gc3_ggc1"
+                            },
+                            {
+                                "name": "Lunar Full Moon",
+                                "id": "c2_gc3_ggc2"
+                            },
+                            {
+                                "name": "Lunar Third Quarter",
+                                "id": "c2_gc3_ggc3"
+                            },
+                            {
+                                "name": "Lunar New Moon",
+                                "id": "c2_gc3_ggc4"
+                            },
+                        ]
+                    },
+                ]
+            },
+            { // Third child of root
+                "name": "Seasons",
+                "id": "child_3", 
+                "children": [ // Third child's children 
+                    {
+                        "name": "Fall",
+                        "id": "c3_gc1"
+                    },
+                    {
+                        "name": "Spring",
+                        "id": "c3_gc2"
+                    }
+                ]
+            }
+            ]
+        };
+
+  let maxDepth = 0;
+
+
+
+
+
+d3.json("../data/_flare.json").then( json => {
+  console.log('this is the raw json file', json);
+  // if (error) throw error;
+  root = d3.hierarchy(json, d =>  d.children);
+  console.log('this is root(hierarchy): ', root);
+
+    // Before we update, let's calculate the max depth through a quick leaf node calculation
+  let finder = root.leaves();
+  finder.forEach(leaf => {
+    if (maxDepth < leaf.depth) {
+      maxDepth = leaf.depth;
+    }
+  })
+  console.log('MaxDepth', maxDepth);
+
+  let nodeSetup = root.descendants();
+  console.log('setup the node radiuses!', nodeSetup);
+  
+    // First we need to add in the min and max measures to calculate the radius for each
+
+
+
+  let minMeasure,
+  maxMeasure;
+
+  scaleA = d3.scaleLinear()
+    .domain([minMeasure, maxMeasure])
+    .range([1, 25]);
+  scaleB = d3.scaleLinear()
+    .domain([minMeasure, maxMeasure])
+    .range([30, 80]);
+  scaleC = d3.scaleLinear()
+    .domain([minMeasure, maxMeasure])
+    .range([90, 190]);
+
+
+
+
+});
+
+</script>
+
+  </body>
+</html>
