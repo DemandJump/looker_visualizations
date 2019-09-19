@@ -217,9 +217,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Creating a force collision functionality: We need to create a collision that's based on the sizes of the circles
     let collide = d3.forceCollide().radius(d => {
       // Creating a calculation to give a collision radius for each node dynamically
-      return 10;
+      return '50px';
     })
-                      // monsoon, rooting for you, vacation
+                      // monsoon, rooting for you, vacation, warm glow 
         // Predefined parameters for the forceSimulation
     let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
     let repelForce = d3.forceManyBody().strength(-4040).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
