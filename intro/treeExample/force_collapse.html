@@ -74,21 +74,27 @@ function zoom_actions() {
     svg.attr('transform', d3.event.transform)
 }
 
+        // Creating a force collision functionality: We need to create a collision that's based on the sizes of the circles
+    let collide = d3.forceCollide().radius(d => {
+      // Creating a calculation to give a collision radius for each node dynamically
+      return 50;
+    })
 
-  // Predefined parameters for the forceSimulation
-// let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
-let repelForce = d3.forceManyBody().strength(-4040)/*.theta(.1)*/.distanceMax(4000).distanceMin(100) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
-  // Initialize the simulation //
-let simulation = d3.forceSimulation()
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
-    // .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
-    .force('repelForce', repelForce) // This one is essential
-    // .force('attractForce', attractForce) // This one get's hairy
+        // Predefined parameters for the forceSimulation
+    let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
+    let repelForce = d3.forceManyBody().strength(-4040).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
+        // Initialize the simulation // 
+    let simulation = d3.forceSimulation()
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
+        // .alphaDecay(0.01) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+        .force('repelForce', repelForce) // This one is essential
+        // .force('attractForce', attractForce) // This one get's hairy
+        .force('collision', collide)
 
 
 // d3.csv("../data/swimming-stripped.csv").then(csv => {  /* console.log('This is the raw csv file!', csv); */  }); // Our own data pulled locally
-d3.json("../data/force_collapse.json").then( json => {
+d3.json("../data/_flare.json").then( json => {
   // if (error) throw error;
   root = d3.hierarchy(json, d =>  d.children);
   console.log('this is root(hierarchy): ', root);
@@ -96,65 +102,69 @@ d3.json("../data/force_collapse.json").then( json => {
 });
 
 /**************************************************************************************************
- * UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
+* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
 **************************************************************************************************/
 function update() {
-  let nodes = root.descendants(),
-  links = root.links();
-    console.log('nodes: ', nodes);
-    console.log('links: ', links);
-
-    // Restart the force layout.
-  simulation // Give it the new nodes
-    .nodes(nodes)
-  simulation.force("link")
-    .links(links);
-  // simulation    
-  //   .restart();
-
-let node = svg.selectAll('.node')
-let link = svg.selectAll('.link')
-
-
-
-    // Update nodes.
-node = node.data(nodes, function(d) { return d.id; });
+    let nodes = root.descendants(),
+    links = root.links();
+      console.log('nodes: ', nodes);
+      console.log('links: ', links);
   
-
-
-  let nodeEnter = node.enter().append("g") // NodeEnter is a group to put circle and text together, less tick calculations and neater structure
-      .attr("class", "node")
-      .on("click", click)
-      .call(drag(simulation));
-  nodeEnter.append("circle") // NodeEnter > Circle
-      .attr('stroke', border)
-      .style("fill", color)
-      .attr("r", '5px');
-  nodeEnter.append("text") // NodeEnter > Text
-      .attr("dy", ".35em")
-      .attr('font-size', '1rem')
-      .text(function(d) { return d.data.name; });
-
-
-
-    // Update links.
-  link = link.data(links, function(d) { return d.id; });
-
-  link.enter().insert("line", ".node")
-      .attr("class", "link")
-      .attr('stroke', '#008CCD')
-      .attr('stroke-width', '2')
-      .attr("opacity", "0.52");
-
-  node.exit().remove();
-  link.exit().remove();
-}
+      // Restart the force layout.
+    simulation // Give it the new nodes
+      .nodes(nodes)
+    simulation.force("link")
+      .links(links);
+    // simulation    
+    //   .restart();
+  
+    let node = svg.selectAll('.node')
+    let link = svg.selectAll('.link')
+  
+  
+  
+      // Update nodes.
+    node = node.data(nodes, function(d) { return d.id; });
+    // monsoon, rooting for you, vacation, warm glow, epitaph, chateau, breathe, 
+    // Always in my head - coldplay, 
+    
+  
+  
+    let nodeEnter = node.enter().append("g") // NodeEnter is a group to put circle and text together, less tick calculations and neater structure
+        .attr("class", "node")
+        .on("click", click)
+        .call(drag(simulation));
+    nodeEnter.append("circle") // NodeEnter > Circle
+        .attr('stroke', border)
+        .style("fill", color)
+        .attr("r", '50px');
+    nodeEnter.append("text") // NodeEnter > Text
+        .attr("dy", ".35em")
+        .attr('font-size', '1rem')
+        .text(function(d) { return d.data.name; });
+  
+  
+  
+      // Update links.
+    link = link.data(links, function(d) { return d.id; });
+  
+    link.enter().insert("line", ".node")
+        .attr("class", "link")
+        .attr('stroke', '#008CCD')
+        .attr('stroke-width', '5')
+        .attr("opacity", "0.52");
+  
+    node.exit().remove();
+    link.exit().remove();
+  }
 /**************************************************************************************************
- *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
+*                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
 **************************************************************************************************/
-
-
-  /* Functions section */
+  
+    
+    /********************************************
+     * Functions section
+    ********************************************/
 
   // Simulation physics
 simulation.on('tick', () => { // On each tick, specifify these parameters for this stuff
@@ -189,7 +199,8 @@ function drag(simulation) {
 
   // Some styling functions for the circles
 function color(d) {
-  return d._children ? "#999999" // collapsed package => or try: "#3182db"
+  return d.depth == 0 ? "#c6dbef"
+      : d._children ? "#999999" // collapsed package => or try: "#3182db"
       : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
       : "#008CCD"; // leaf node => or try: "#FEBF43"
 }

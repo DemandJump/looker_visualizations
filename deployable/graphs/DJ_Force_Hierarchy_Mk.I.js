@@ -217,9 +217,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Creating a force collision functionality: We need to create a collision that's based on the sizes of the circles
     let collide = d3.forceCollide().radius(d => {
       // Creating a calculation to give a collision radius for each node dynamically
-      return '50px';
+      return 50; // current circle size (must calculate based on circle's current radius when we create a function to change the size dynamically)
     })
-                      // monsoon, rooting for you, vacation, warm glow 
+
         // Predefined parameters for the forceSimulation
     let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
     let repelForce = d3.forceManyBody().strength(-4040).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
@@ -260,6 +260,9 @@ function update() {
   
       // Update nodes.
     node = node.data(nodes, function(d) { return d.id; });
+    // monsoon, rooting for you, vacation, warm glow, epitaph, chateau, breathe, 
+    // Always in my head - coldplay, way with words, float, scrawny, saw you in a dream, 
+    // orange juice - lostboycrow, baby blue - rence, crash my car - coin, 
     
   
   
@@ -329,12 +332,14 @@ function update() {
       .on("end", dragended);
   }
   
-    // Some styling functions for the circles
-  function color(d) {
-    return d._children ? "#999999" // collapsed package => or try: "#3182db"
-        : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
-        : "#008CCD"; // leaf node => or try: "#FEBF43"
-  }
+
+  // Some styling functions for the circles
+function color(d) {
+  return d.depth == 0 ? "#c6dbef"
+      : d._children ? "#999999" // collapsed package => or try: "#3182db"
+      : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
+      : "#008CCD"; // leaf node => or try: "#FEBF43"
+}
   function border(d) {
     return d._children ? "#c6dbef" // collapsed node
       : d.children ? "#008CCD" // expanded node
