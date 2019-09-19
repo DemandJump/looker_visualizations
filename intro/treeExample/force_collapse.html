@@ -43,77 +43,58 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
 <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
 
 <!-- Add 2 buttons-->
-<button type="button" onclick="notchDown()">Prev</button>
-<button type="button" onclick="notchUp()">Next</button>
+<div style="display: inline;">
+  <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
+  <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
+  <p style="display: inline;" class="seeNotch">Press to focus!</p>
+</div>
 
 
 
 
-
-
-
-
-
-<script>;
-
-    // Initial dimensions, plus instantiating some variables
-    let width = window.innerWidth, // Dimensions w & h
+<script>
+       // Initial dimensions, plus instantiating some variables
+       let width = window.innerWidth, // Dimensions w & h
     height = window.innerHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
-    root; // Root of data
+    notch = 0, // Notch is the counter for our good ol daters
+    maxDepth = 0,
+    minMeasure = 100000000000,
+    maxMeasure = 0,
+    collisionInitialization = 0,
+      // This is for the scaling based on the data that is given
+    totalnodes = 100,
+    scaleFactor = 25,
+    root; // This determines the link length based on the data that's given
 
+          // Select the document and append the svg structure (container and svg group)
+    let container = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
 
+    let svg = container.append('g')
+        .attr('class', 'everything');
 
-
-let notch = 0, // Notch is the counter for our good ol daters
-maxDepth = 0;
-
-
-
-
-
-    // Select the document and append the svg structure (container and svg group)
-let container = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-let svg = container.append('g')
-    .attr('class', 'everything');
-
-  // Zoom Stuff // 
-let zoom_handler = d3.zoom()
-    .on('zoom', zoom_actions);
-zoom_handler(container);
-function zoom_actions() {
-    svg.attr('transform', d3.event.transform)
-}
-
-        // Creating a force collision functionality: We need to create a collision that's based on the sizes of the circles
-    let collide = d3.forceCollide().radius(d => {
-      // Creating a calculation to give a collision radius for each node dynamically
-      return 50;
-    })
-
-        // Predefined parameters for the forceSimulation
-    let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
-    let repelForce = d3.forceManyBody().strength(-4040).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
-        // Initialize the simulation // 
-    let simulation = d3.forceSimulation()
-        .force('center', d3.forceCenter(width / 2, height / 2))
-        .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
-        .alphaDecay(0.0094) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
-        .force('repelForce', repelForce) // This one is essential
-        // .force('attractForce', attractForce) // This one get's hairy
-        .force('collision', collide)
-
-
+      // Zoom Stuff // 
+    let zoom_handler = d3.zoom()
+        .on('zoom', zoom_actions);
+    zoom_handler(container);
+    function zoom_actions() {
+        svg.attr('transform', d3.event.transform)
+    }
+    
 // d3.csv("../data/swimming-stripped.csv").then(csv => {  /* console.log('This is the raw csv file!', csv); */  }); // Our own data pulled locally
 d3.json("../data/_flare.json").then( json => {
+
+
+
   console.log('this is the raw json file', json);
   // if (error) throw error;
   root = d3.hierarchy(json, d =>  d.children);
   console.log('this is root(hierarchy): ', root);
 
+  totalnodes = -1 * (root.descendants().length * scaleFactor);
+  
     // Before we update, let's calculate the max depth through a quick leaf node calculation
   let finder = root.leaves();
   finder.forEach(leaf => {
@@ -125,32 +106,47 @@ d3.json("../data/_flare.json").then( json => {
 
   let nodeSetup = root.descendants();
   console.log('setup the node radiuses!', nodeSetup);
-  
     // First we need to add in the min and max measures to calculate the radius for each
+  nodeSetup.forEach(node => {
+      // Math.floor((Math.random() * 100) + 1); - - - Calculating the size in place of looker's given measures!
+    node.size = Math.floor((Math.random() * 100) + 1);
+    // console.log('node size: ', node.size);
+
+    // While we're at it, lets find the min and max measure based on the data that's given to us!
+    if(node.size < minMeasure) { minMeasure = node.size; }
+    if(node.size > maxMeasure) { maxMeasure = node.size; }
+  });
+  console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
+
+
+ 
 
 
 
-  let minMeasure,
-  maxMeasure;
 
-  scaleA = d3.scaleLinear()
-    .domain([minMeasure, maxMeasure])
+
+
+
+
+  // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
+    // Let's go ahead and create the scale functions based on the notch focus   
+  scaleC = d3.scaleLinear()
+    .domain([1, 100])
     .range([1, 25]);
   scaleB = d3.scaleLinear()
-    .domain([minMeasure, maxMeasure])
-    .range([30, 80]);
-  scaleC = d3.scaleLinear()
-    .domain([minMeasure, maxMeasure])
-    .range([90, 190]);
+    .domain([1, 100])
+    .range([30, 60]);
+  scaleA = d3.scaleLinear()
+    .domain([1, 100])
+    .range([70, 120]);
 
-
-
-
-
-
-
-  update();
+update();
 });
+
+
+
+
+
 
 /**************************************************************************************************
 * UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
@@ -161,40 +157,82 @@ function update() {
       console.log('nodes: ', nodes);
       console.log('links: ', links);
       console.log('notch! ', notch);
-  
+    totalnodes = -1 * (scaleFactor * nodes.length);
+
+
+
+            // Creating a force collision functionality: We need to create a collision that's based on the sizes of the circles
+            let collide = d3.forceCollide().radius(d => {
+        return d.radius + 5; // This is based on the radius calculation!
+    });
+        // Predefined parameters for the forceSimulation
+    let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
+    let repelForce = d3.forceManyBody().strength(totalnodes).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
+        // Initialize the simulation // 
+    let simulation = d3.forceSimulation()
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force("link", d3.forceLink().id(function(d) { return d.index })) // Function for our links 
+        .alphaDecay(0.0094) // Slows the velocity of the nodes down over an iteration based on tick (default 1:1)
+        .force('repelForce', repelForce) // This one is essential
+        // .force('attractForce', attractForce) // This one get's hairy
+        .force('collision', collide)
+        .on('tick', ticked);
+      
+    
       // Restart the force layout.
     simulation // Give it the new nodes
       .nodes(nodes)
+      .force('collision')
     simulation.force("link")
       .links(links);
-    // simulation    
-    //   .restart();
+
+    if(collisionInitialization > 0) {
+      simulation
+        .alpha(1)
+        .alphaDecay(.1)
+        .restart()
+    }
+      // .on('tick', ticked);
+
+      
   
     let node = svg.selectAll('.node')
     let link = svg.selectAll('.link')
-  
-  
-  
       // Update nodes.
     node = node.data(nodes, function(d) { return d.id; });
     // monsoon, rooting for you, vacation, warm glow, epitaph, chateau, breathe, 
     // Always in my head - coldplay, 
     
-  
-  
     let nodeEnter = node.enter().append("g") // NodeEnter is a group to put circle and text together, less tick calculations and neater structure
         .attr("class", "node")
+        .attr('id', d => {  if(d.depth == 0) { return "root"; }  })
         .on("click", click)
         .call(drag(simulation));
     nodeEnter.append("circle") // NodeEnter > Circle
         .attr('stroke', border)
-        .style("fill", color)
-        .attr("r", '50px');
+        .attr("r", d => {
+            // Creating the size of each based on the notch
+          if(d.depth == notch) {
+            d.notch = 'a';
+            d.radius = scaleA(d.size);
+            return d.radius;
+          }
+          if(d.depth == (notch - 1) || d.depth == (notch + 1)) {
+            d.notch = 'b';
+            d.radius = scaleB(d.size);
+            return d.radius;
+          }
+          else {
+            d.notch = 'c';
+            d.radius = scaleC(d.size);
+            return d.radius;
+          }   console.log('radius', d);
+          })
+          .style("fill", color);
     nodeEnter.append("text") // NodeEnter > Text
         .attr("dy", ".35em")
         .attr('font-size', '1rem')
         .text(function(d) { return d.data.name; });
-  
   
   
       // Update links.
@@ -208,25 +246,31 @@ function update() {
   
     node.exit().remove();
     link.exit().remove();
+
+    collisionInitialization++; // For collision's first initialization
+
   }
 /**************************************************************************************************
 *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
 **************************************************************************************************/
   
-    
-    /********************************************
+
+
+
+
+  /********************************************
      * Functions section
     ********************************************/
 
   // Simulation physics
-simulation.on('tick', () => { // On each tick, specifify these parameters for this stuff
-  d3.selectAll('.link').attr("x1", function(d) { return d.source.x; })
+  function ticked() { // On each tick, specifify these parameters for this stuff
+  d3.selectAll('.link')
+      .attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; });
-
   d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-});
+};
 function drag(simulation) {
   function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -251,10 +295,17 @@ function drag(simulation) {
 
   // Some styling functions for the circles
 function color(d) {
+    // Old color function 
+  // return d.depth == 0 ? "#c6dbef" //
+  //     : d._children ? "#999999" // collapsed package => or try: "#3182db"
+  //     : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
+  //     : "#008CCD"; // leaf node => or try: "#FEBF43"
+
+    // Notch based color function 
   return d.depth == 0 ? "#c6dbef"
-      : d._children ? "#999999" // collapsed package => or try: "#3182db"
-      : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
-      : "#008CCD"; // leaf node => or try: "#FEBF43"
+    : d.notch == 'a' ? "#008CCD"
+    : d.notch == 'b' ? "#fd8d3c"
+    : "#999999"
 }
 function border(d) {
   return d._children ? "#c6dbef" // collapsed node
@@ -288,21 +339,49 @@ function flatten(root) {
   return nodes;
 }
 
-
 // Button functions
 function notchDown() {
   if(notch != 0) {
     notch --;
+    d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
     update();
+    eventFire(document.getElementById('root'), 'click');
+    eventFire(document.getElementById('root'), 'click');
   }
 }
-
 function notchUp() {
   if(notch < maxDepth) {
     notch ++;
+    d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
     update(); 
+    eventFire(document.getElementById('root'), 'click');
+    eventFire(document.getElementById('root'), 'click');
+
   }
 }
+
+  function eventFire(el, etype){
+  if (el.fireEvent) {
+    el.fireEvent('on' + etype);
+  } else {
+    var evObj = document.createEvent('MouseEvents');
+    evObj.initEvent(etype, true, false);
+    var canceled = !el.dispatchEvent(evObj);
+    if (canceled) {
+      // A handler called preventDefault.
+      console.log("automatic click canceled");
+    } else {
+      // None of the handlers called preventDefault.
+    } 
+  }
+}
+
+
+
+
+
+
+
 
 
 
