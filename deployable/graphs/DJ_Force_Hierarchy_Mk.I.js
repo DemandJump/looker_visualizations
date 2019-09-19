@@ -222,7 +222,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Predefined parameters for the forceSimulation
     let attractForce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60) // Physics for node interaction
-    let repelForce = d3.forceManyBody().strength(-4040).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
+    let repelForce = d3.forceManyBody().strength(-8040).distanceMax(4000).distanceMin(500) //.theta(.9) //*!Play with max depth and leaf nodes to determine the min/max maybe?!*
         // Initialize the simulation // 
     let simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
