@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+html, body { margin: 0; padding: 0;}
+
+.node, .node2, circle {
+  cursor: pointer;
+  stroke-width: 1.25px;
+}
+
+ text {
+  font: 10px sans-serif;
+  pointer-events: none;
+  text-anchor: middle;
+  text-shadow:
+     -1px -1px 3px white,
+     -1px  1px 3px white,
+      1px -1px 3px white,
+      1px  1px 3px white;
+}
+
+line.link, .link2 {
+  fill: none;
+  /* stroke: #9ecae1; */
+  /* stroke-width: 1.5px; */
+}
+svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
+</style>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+        <!-- This version is outdated as heck, and needs to be ported over to a newer version after we figure this out -->
+<!-- <script src="//d3js.org/d3.v3.min.js"></script> -->
+
+<script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.1.1/d3.min.js"></script>     -->
+
+<!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+
+<!-- Add 2 buttons-->
+<div style="display: inline;">
+  <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
+  <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
+  <p style="display: inline;" class="seeNotch">Press to focus!</p>
+</div>
+
+
+
+
+<script>
+    // Initial dimensions, plus instantiating some variables
+    let width = window.innerWidth, // Dimensions w & h
+    height = window.innerHeight,
+    treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    notch = 0, // Notch is the counter for our good ol daters
+    maxDepth = 0,
+    minMeasure = 100000000000,
+    maxMeasure = 0,
+    collisionInitialization = 0,
+    totalnodes = 100, // This is for the scaling based on the data that is given
+    scaleFactor = 05,
+    root; // This determines the link length based on the data that's given
+ 
+        // Select the document and append the svg structure (container and svg group)
+    let container = d3.select("body").append("svg")
+        .attr("width", width)
+        .attr("height", height);
+    let svg = container.append('g')
+        .attr('class', 'everything');
+ 
+        // Zoom Stuff // 
+    let zoom_handler = d3.zoom()
+        .on('zoom', zoom_actions);
+    zoom_handler(container);
+    function zoom_actions() {
+        svg.attr('transform', d3.event.transform)
+    }
+
+
+
+
+                    /* Loading the data locally to run into d3 promise function */
+d3.json('../data/_flare.json').then(json => { console.log('this is the raw json file', json);
+    root = d3.hierarchy(json, d =>  d.children);
+    console.log('this is root(hierarchy): ', root);
+
+
+        // Before we update, let's calculate the max depth through a quick leaf node calculation
+    let finder = root.leaves();
+    finder.forEach(leaf => {
+        if (maxDepth < leaf.depth) {
+            maxDepth = leaf.depth;
+        }
+    });  console.log('MaxDepth', maxDepth);
+
+    console.log('root descendants', root.descendants());
+    root.descendants().forEach(node => {
+        node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
+
+            // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
+        if(node.size < minMeasure) { minMeasure = node.size; }
+        if(node.size > maxMeasure) { maxMeasure = node.size; }
+    });   console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
+
+            // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
+        // Let's go ahead and create the scale functions based on the notch focus   
+    scaleC = d3.scaleLinear().domain([1, 100]).range([1, 25]);
+    scaleB = d3.scaleLinear().domain([1, 100]).range([30, 60]);
+    scaleA = d3.scaleLinear().domain([1, 100]).range([70, 120]);
+
+        // Then start the visualization up
+    update();
+});
+
+
+/**************************************************************************************************
+* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
+**************************************************************************************************/
+    function update() { /* Initialize some parameters that we will need for */
+let nodes = root.descendants(); console.log('Nodes: ', nodes);
+let links = root.links(); console.log('links: ', links);
+console.log('notch: ', notch);
+let totalnodes = -1 * (root.descendants().length * scaleFactor)
+
+
+        // Physics function section for the simulation layout
+let collision = d3.forceCollide().radius(d => {
+    console.log('this is d', d);
+    console.log('this is radius', d.radius);
+    return d.radius + 5});
+let repelforce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60)
+let attractforce = d3.forceManyBody().strength(totalnodes).distanceMax(4000).distanceMin(500)
+
+        // Initialize the simulation // 
+let simulation = d3.forceSimulation()
+    .force('center', d3.forceCenter(height / 2, width / 2))
+    .force('link', d3.forceLink().id(d => d.index))
+    .alphaDecay(0.0094) // This slows down the simulation over time (it's friction!)
+    .force('attract', attractforce) // This spaces things out, with repel it can be messy
+    // .force('repel', repelforce) // This pulls things in, Very useful!
+    .force('collision', collision) // This spaces out the nodes to give everything room to breathe
+    .on('tick', ticked)
+
+          // Restart the force layout: This what runs the data and reshapes it
+simulation // Give it the new nodes
+    .nodes(nodes)
+    // .force('collision')
+simulation.force("link")
+    .links(links)
+        
+        // After initial startup run this for quick movement
+if(collisionInitialization > 0) { simulation.alpha(1) .alphaDecay(.1) .restart() }
+
+
+            // Onto instantiating the nodes 
+        let node = svg.selectAll('.node')
+        let link = svg.selectAll('.link')
+    // Update nodes.
+node = node.data(nodes, d => d.id);
+let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
+    .attr('class', 'node')
+    .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
+    .on('click', click)
+    .call(drag(simulation));
+nodeEnter.append('circle') // Only edits the entering circles
+    .attr('border', border)
+    .attr('r', notchRadius)
+    .style('fill', color);
+nodeEnter.append('text')
+    .attr('dy', '.35em')
+    .attr('font-size', fontSize)
+    .text(d => d.data.name); // This inputs the text
+
+    //Update the links.
+link = link.data(links, d => d.id);
+link.enter().insert('line', '.node')
+    .attr('class', 'link')
+    .attr('stroke', '#008CCD')
+    .attr('stroke-width', '5')
+    .attr('opacity', '0.52')
+
+        //Exit Section
+    node.exit().remove();
+    link.exit().remove();
+
+    collisionInitialization++; // This is for the beginnging of the physics
+}/*************************************************************************************************
+*                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
+**************************************************************************************************/
+
+
+    /********************************************
+     * Functions section
+    ********************************************/
+// Simulation physics // 
+function ticked() { // On each tick, specifify these parameters for this stuff
+    d3.selectAll('.link')
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+    d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+};
+function drag(simulation) {
+    function dragstarted(d) { // On click to start the physics
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+    function dragged(d) { // While holding click and moving the mouse and node around
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+    function dragended(d) { // when you let go of the click
+        if (!d3.event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+
+    return d3.drag() // .on instantiates these functions
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+}
+
+/*********************
+ * Styling Functions    
+*********************/
+function color(d) { // Calculates the color 
+    // Old color function 
+    // return d.depth == 0 ? "#c6dbef" //
+    //     : d._children ? "#999999" // collapsed package => or try: "#3182db"
+    //     : d.children ? "#fd8d3c" // expanded package => or try: "#c6dbef"
+    //     : "#008CCD"; // leaf node => or try: "#FEBF43"
+
+    // Notch based color function 
+  return d.depth == 0 ? "#c6dbef"
+    : d.notch == 'a' ? "#008CCD"
+    : d.notch == 'b' ? "#fd8d3c"
+    : "#999999"
+}
+
+function border(d) {    // Calculates the border
+    return d._children ? "#c6dbef" // collapsed node
+        : d.children ? "#008CCD" // expanded node
+        : "#fd8d3c" // leaf node
+}
+
+function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on.
+    if(d.depth == notch) {
+        d.notch = 'a';
+        d.radius = scaleA(d.size);
+    } if(d.depth == notch -1 || d.depth == notch - 1) {
+        d.notch = 'b';
+        d.radius = scaleB(d.size);
+    } else {
+        d.notch = 'c';
+        d.radius = scaleC(d.size);
+    }
+    // console.log('end of notch radius', d);
+    return d.radius;
+}
+
+function fontSize(d) { // Calculate the font size based on the depth
+    //console.log('text stuff', d);
+    return d.notch == 'a' ? '3.4rem'
+    : d.notch == 'b' ? '2.5rem'
+    : '1.4rem'
+}
+
+
+
+/*********************
+ * Utility Functions    
+*********************/
+    // Toggle children on click.
+function click(d) {
+    console.log('d', d);
+    if (d3.event.defaultPrevented) return; // ignore drag
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+    } else {
+        d.children = d._children;
+        d._children = null;
+    }
+    update();
+}
+
+// Returns a list of all nodes under the root. => Stratified datum
+function flatten(root) {
+    var nodes = [], i = 0;
+
+    function recurse(node) {
+        if (node.children) node.children.forEach(recurse);
+        if (!node.id) node.id = ++i;
+        nodes.push(node);
+    }
+
+    recurse(root);
+    return nodes;
+}
+
+    // Button functions
+function notchDown() {
+    if(notch != 0) {
+        notch --; // To navigate the depth
+        d3.select('.seeNotch').text(d => { return `Focus: ${notch}`}); // Changes the text based on click 
+        update(); // Rerun the simulation (notch calculates node size)
+        eventFire(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+        eventFire(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+    }
+}
+function notchUp() {
+    if(notch < maxDepth) {
+        notch ++;
+        d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
+        update(); 
+        eventFire(document.getElementById('root'), 'click');
+        eventFire(document.getElementById('root'), 'click');
+    }
+}
+
+    // This is the function that simulates a click on a selected element
+function eventFire(el, etype){
+    if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+    } else {
+        var evObj = document.createEvent('MouseEvents');
+        evObj.initEvent(etype, true, false);
+        var canceled = !el.dispatchEvent(evObj);
+        if (canceled) { // A handler called preventDefault.
+            console.log("automatic click canceled");
+        } else {
+            // None of the handlers called preventDefault.
+        } 
+    }
+}
+
+
+
+
+</script>
+    </body>
+</html>

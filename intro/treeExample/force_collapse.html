@@ -64,7 +64,7 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
     collisionInitialization = 0,
       // This is for the scaling based on the data that is given
     totalnodes = 100,
-    scaleFactor = 20,
+    scaleFactor = 05,
     root; // This determines the link length based on the data that's given
 
           // Select the document and append the svg structure (container and svg group)
@@ -200,8 +200,6 @@ function update() {
     let link = svg.selectAll('.link')
       // Update nodes.
     node = node.data(nodes, function(d) { return d.id; });
-    // monsoon, rooting for you, vacation, warm glow, epitaph, chateau, breathe, 
-    // Always in my head - coldplay, 
     
     let nodeEnter = node.enter().append("g") // NodeEnter is a group to put circle and text together, less tick calculations and neater structure
         .attr("class", "node")
@@ -231,7 +229,12 @@ function update() {
           .style("fill", color);
     nodeEnter.append("text") // NodeEnter > Text
         .attr("dy", ".35em")
-        .attr('font-size', '1rem')
+        .attr('font-size', d => {
+          console.log('text stuff', d);
+          return d.notch == 'a' ? '3.4rem'
+          : d.notch == 'b' ? '2.5rem'
+          : '1.4rem'
+        })
         .text(function(d) { return d.data.name; });
   
   
