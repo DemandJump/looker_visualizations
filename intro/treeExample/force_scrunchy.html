@@ -63,7 +63,7 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
     maxMeasure = 0,
     collisionInitialization = 0,
     totalnodes = 100, // This is for the scaling based on the data that is given
-    scaleFactor = 05,
+    scaleFactor = 0.1,
     root; // This determines the link length based on the data that's given
  
         // Select the document and append the svg structure (container and svg group)
@@ -113,6 +113,14 @@ d3.json('../data/_flare.json').then(json => { console.log('this is the raw json 
     scaleB = d3.scaleLinear().domain([1, 100]).range([30, 60]);
     scaleA = d3.scaleLinear().domain([1, 100]).range([70, 120]);
 
+        // Take in the finished scale functions to calculate the radius before we calculate the simulation
+    root.descendants().forEach(node => {    // Scale in the size based on the depth = notch starts at zero
+            // So on d = 0 then scale a, d = 1 then scale b, else then d = scale c
+        if(node.depth == 0) { node.radius = scaleA(node.size); } 
+        if(node.depth == 1) { node.radius = scaleB(node.size); } 
+        else { node.radius = scaleC(node.size); }
+    })
+
         // Then start the visualization up
     update();
 });
@@ -129,18 +137,15 @@ let totalnodes = -1 * (root.descendants().length * scaleFactor)
 
 
         // Physics function section for the simulation layout
-let collision = d3.forceCollide().radius(d => {
-    console.log('this is d', d);
-    console.log('this is radius', d.radius);
-    return d.radius + 5});
+let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(2);
 let repelforce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60)
-let attractforce = d3.forceManyBody().strength(totalnodes).distanceMax(4000).distanceMin(500)
+let attractforce = d3.forceManyBody().strength(-140).distanceMax(50).distanceMin(20)
 
         // Initialize the simulation // 
 let simulation = d3.forceSimulation()
     .force('center', d3.forceCenter(height / 2, width / 2))
     .force('link', d3.forceLink().id(d => d.index))
-    .alphaDecay(0.0094) // This slows down the simulation over time (it's friction!)
+    .alphaDecay(0.05) // This slows down the simulation over time (it's friction!)
     .force('attract', attractforce) // This spaces things out, with repel it can be messy
     // .force('repel', repelforce) // This pulls things in, Very useful!
     .force('collision', collision) // This spaces out the nodes to give everything room to breathe
@@ -149,13 +154,12 @@ let simulation = d3.forceSimulation()
           // Restart the force layout: This what runs the data and reshapes it
 simulation // Give it the new nodes
     .nodes(nodes)
-    // .force('collision')
+    .force('collision')
 simulation.force("link")
     .links(links)
+simulation
+    .restart();
         
-        // After initial startup run this for quick movement
-if(collisionInitialization > 0) { simulation.alpha(1) .alphaDecay(.1) .restart() }
-
 
             // Onto instantiating the nodes 
         let node = svg.selectAll('.node')
@@ -173,7 +177,7 @@ nodeEnter.append('circle') // Only edits the entering circles
     .style('fill', color);
 nodeEnter.append('text')
     .attr('dy', '.35em')
-    .attr('font-size', fontSize)
+    .style('font-size', fontSize)
     .text(d => d.data.name); // This inputs the text
 
     //Update the links.
@@ -206,7 +210,7 @@ function ticked() { // On each tick, specifify these parameters for this stuff
         .attr("y2", function(d) { return d.target.y; });
     d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 };
-function drag(simulation) {
+function drag(simulation) { // This is for moving the nodes around with user input functions and events
     function dragstarted(d) { // On click to start the physics
         if (!d3.event.active) simulation.alphaTarget(0.3).restart();
         d.fx = d.x;
@@ -255,24 +259,25 @@ function notchRadius(d) {   // Calculates the radius based on the depth of the n
     if(d.depth == notch) {
         d.notch = 'a';
         d.radius = scaleA(d.size);
+        return d.radius;
     } if(d.depth == notch -1 || d.depth == notch - 1) {
         d.notch = 'b';
         d.radius = scaleB(d.size);
+        return d.radius;
     } else {
         d.notch = 'c';
         d.radius = scaleC(d.size);
+        return d.radius;
     }
     // console.log('end of notch radius', d);
-    return d.radius;
 }
 
 function fontSize(d) { // Calculate the font size based on the depth
     //console.log('text stuff', d);
-    return d.notch == 'a' ? '3.4rem'
-    : d.notch == 'b' ? '2.5rem'
-    : '1.4rem'
+    return d.notch == 'a' ? '2.1rem'
+    : d.notch == 'b' ? '1.4rem'
+    : '.2rem'
 }
-
 
 
 /*********************
