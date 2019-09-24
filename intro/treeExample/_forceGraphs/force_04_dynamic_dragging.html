@@ -1,30 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<style>
+<!DOCTYPE html> <html lang="en">
+    <style>
 html, body { margin: 0; padding: 0;}
-.node, .node2, circle {
-  cursor: pointer;
-  stroke-width: 1.25px;
-}
-text {
-  font: 10px sans-serif;
-  pointer-events: none;
-  text-anchor: middle;
-  text-shadow: /* Nice way to have breathable readable text */
-     -1px -1px 3px white,
-     -1px  1px 3px white,
-      1px -1px 3px white,
-      1px  1px 3px white;
-}
-line.link, .link2 {
-  fill: none;
-  /* stroke: #9ecae1; */
-  /* stroke-width: 1.5px; */
-}
+.node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
+text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+line.link, .link2 { fill: none;}
 svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
-</style>
-
+    </style>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +19,7 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
   <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
   <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
   <p style="display: inline;" class="seeNotch">Press to focus!</p>
-  <button style="display: inline;" type="button" onclick="resetNodes()">Reset/Center all Nodes</button>
+  <button style="display: inline;" type="button" onclick="resetNodes()">Pull nodes to center</button>
 
 </div>
 <!-- Svg will be placed here! -->
@@ -65,6 +46,11 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
     root,
     nodes,
     links,
+    dragNodes,
+    dragLinks,
+    dragABranch,
+    simulation,
+    reset = false,
     friction = .05; // This determines the link length based on the data that's given
  
         // Select the document and append the svg structure (container and svg group)
@@ -143,14 +129,14 @@ let totalnodes = -1 * (root.descendants().length * scaleFactor)
 
         // Physics function section for the simulation layout
 let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
-let repelforce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60)
+let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
 let attractforce = d3.forceManyBody().strength(-40).distanceMax(500000).distanceMin(20)
         // Initialize the simulation // 
 let simulation = d3.forceSimulation()
     .force('center', d3.forceCenter(height / 2, width / 2))
     .force('link', d3.forceLink().id(d => d.index))
     .force('attract', attractforce) // This spaces things out, with repel it can be messy
-    // .force('repel', repelforce) // This pulls things in, Very useful!
+    .force('repel', repelforce) // This pulls things in, Very useful!
     .force('collision', collision) // This spaces out the nodes to give everything room to breathe
         .alphaDecay(friction) // This slows down the simulation over time (it's friction!)
         // .alpha(1)
@@ -158,10 +144,15 @@ let simulation = d3.forceSimulation()
             .on('tick', ticked)
 
     // Restart the force layout: This what runs the data and reshapes it
+if (reset) {
+    simulation.restart();
+    reset = false;
+}
+    // Essential to update our data
 simulation // Give it the new nodes
     .nodes(nodes)
     .force('collision')
-simulation.force("link")
+simulation.force('link')
     .links(links)
 simulation
     .restart();
@@ -170,13 +161,18 @@ simulation
             // Onto instantiating the nodes 
         let node = svg.selectAll('.node')
         let link = svg.selectAll('.link')
+        let clickedBranch;
     // Then update the nodes.
 node = node.data(nodes, d => d.id);
 let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
     .attr('class', 'node')
     .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
+    .on('mouseover', d => dragNodes = d.descendants().map(map => d.index) )
+    .classed('selectedNodes', d => {
+        
+    }) 
     .on('click', click)
-    .call(drag(simulation));
+    // .call(drag(simulation));
 nodeEnter.append('circle') // Only edits the entering circles
     .attr('border', border)
     .attr('r', notchRadius)
@@ -196,20 +192,49 @@ link.enter().insert('line', '.node')
 
         //Exit Section
     node.exit().remove();
-    link.exit().remove();
+    link.exit().
+    remove();
 
+
+
+
+
+    // Drag Branch Section 
+// dragABranch = d3.selectAll('selectedNodes')
+//     .on('dblclick', d => {
+//         d3.event.defaultPrevented
+//         simulation.alphaTarget(0).restart()
+//         d.fx = d.fy = null;
+//     })
+//     .call(d3.drag(clickedBranch)
+//         .on('start', d => {
+//             let clickDate = new Date(); // This is to see if you double click for dragended
+//             let difference_ms;
+//             if (!d3.event.active) simulation.alphaTarget(0.05).restart();
+//             d.fx = d.x;
+//             d.fy = d.y;
+//         })
+//         .on('drag', d => {
+//             d.fx = d3.event.x;
+//             d.fy = d3.event.y;
+//         })
+//         .on('end', d => {
+//             if (!d3.event.active) simulation.alphaTarget(0);
+//         })
+// )
+
+
+        // Setup for future update functions
     collisionInitialization++; // This is for the beginnging of the physics
     friction = 0.1;
 }/*************************************************************************************************
 *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
 **************************************************************************************************/
 
+
     /********************************************
      * Functions section
     ********************************************/
-
-
-
 
 
 /*********************************************************************
@@ -227,9 +252,10 @@ function ticked() { // On each tick, specifify these parameters for this stuff
 }
 
 function drag(simulation) { // This is for moving the nodes around with user input functions and events
-    let clickDate = new Date();
+    let clickDate = new Date(); // This is to see if you double click for dragended
     let difference_ms;
     function dragstarted(d) { // On click to start the physics
+
         if (!d3.event.active) simulation.alphaTarget(0.05).restart();
         d.fx = d.x;
         d.fy = d.y;
@@ -237,8 +263,8 @@ function drag(simulation) { // This is for moving the nodes around with user inp
     function dragged(d) { // While holding click and moving the mouse and node around
         d.fx = d3.event.x;
         d.fy = d3.event.y;
-    }
-    function dragended() {
+    }  
+    function dragended(d) {
         if (!d3.event.active) simulation.alphaTarget(0);
             // Time between 2 ends of drag:
         difference_ms = (new Date()).getTime() - clickDate.getTime();
@@ -247,7 +273,7 @@ function drag(simulation) { // This is for moving the nodes around with user inp
             // it's considered a double click:
         if (difference_ms < 200) {
                 // And we can release the node:
-            simulation.alphaTarget(0.05).restart()
+            simulation.alphaTarget(0).restart()
             d3.event.subject.fx = null;
             d3.event.subject.fy = null;
         }
@@ -263,9 +289,12 @@ function resetNodes() {
     nodes.forEach(function(d) {
         d.fx = d.fy = null;
     });
+    collisionInitialization = 0;
+    // friction = .05;
+    reset = true;
     update();
-    eventFire(document.getElementById('root'), 'click');
-    eventFire(document.getElementById('root'), 'click');
+    // simulateClick(document.getElementById('root'), 'click');
+    // simulateClick(document.getElementById('root'), 'click');
 }
 
 
@@ -323,6 +352,7 @@ function fontSize(d) { // Calculate the font size based on the depth
     // Toggle children on click.
 function click(d) {
     console.log('d', d);
+    clickedBranch = dragNodes;
     if (d3.event.defaultPrevented) return; // ignore drag
     if (d.children) {
         d._children = d.children;
@@ -331,7 +361,9 @@ function click(d) {
         d.children = d._children;
         d._children = null;
     }
-    update();
+
+
+    update(); // Rerun the function with the new data
 }
 
     // Button functions
@@ -340,8 +372,8 @@ function notchDown() {
         notch --; // To navigate the depth
         d3.select('.seeNotch').text(d => { return `Focus: ${notch}`}); // Changes the text based on click 
         update(); // Rerun the simulation (notch calculates node size)
-        eventFire(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-        eventFire(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+        simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+        simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
     }
 }
 function notchUp() {
@@ -349,13 +381,13 @@ function notchUp() {
         notch ++;
         d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
         update(); 
-        eventFire(document.getElementById('root'), 'click');
-        eventFire(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
     }
 }
 
     // This is the function that simulates a click on a selected element
-function eventFire(el, etype){
+function simulateClick(el, etype){
     if (el.fireEvent) {
         el.fireEvent('on' + etype);
     } else {
