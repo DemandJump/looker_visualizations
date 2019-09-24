@@ -64,7 +64,8 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
     scaleFactor = 0.1,
     root,
     nodes,
-    links; // This determines the link length based on the data that's given
+    links,
+    friction = .05; // This determines the link length based on the data that's given
  
         // Select the document and append the svg structure (container and svg group)
     let container = d3.select("body").append("svg")
@@ -141,20 +142,22 @@ let totalnodes = -1 * (root.descendants().length * scaleFactor)
 
 
         // Physics function section for the simulation layout
-let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(2);
+let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
 let repelforce = d3.forceManyBody().strength(200).distanceMax(400).distanceMin(60)
-let attractforce = d3.forceManyBody().strength(-40).distanceMax(50).distanceMin(20)
+let attractforce = d3.forceManyBody().strength(-40).distanceMax(500000).distanceMin(20)
         // Initialize the simulation // 
 let simulation = d3.forceSimulation()
     .force('center', d3.forceCenter(height / 2, width / 2))
     .force('link', d3.forceLink().id(d => d.index))
-    .alphaDecay(0.05) // This slows down the simulation over time (it's friction!)
     .force('attract', attractforce) // This spaces things out, with repel it can be messy
     // .force('repel', repelforce) // This pulls things in, Very useful!
     .force('collision', collision) // This spaces out the nodes to give everything room to breathe
-    .on('tick', ticked)
+        .alphaDecay(friction) // This slows down the simulation over time (it's friction!)
+        // .alpha(1)
+        // .alphaTarget(.05)
+            .on('tick', ticked)
 
-          // Restart the force layout: This what runs the data and reshapes it
+    // Restart the force layout: This what runs the data and reshapes it
 simulation // Give it the new nodes
     .nodes(nodes)
     .force('collision')
@@ -167,7 +170,7 @@ simulation
             // Onto instantiating the nodes 
         let node = svg.selectAll('.node')
         let link = svg.selectAll('.link')
-    // Update nodes.
+    // Then update the nodes.
 node = node.data(nodes, d => d.id);
 let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
     .attr('class', 'node')
@@ -196,6 +199,7 @@ link.enter().insert('line', '.node')
     link.exit().remove();
 
     collisionInitialization++; // This is for the beginnging of the physics
+    friction = 0.1;
 }/*************************************************************************************************
 *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
 **************************************************************************************************/
@@ -226,7 +230,7 @@ function drag(simulation) { // This is for moving the nodes around with user inp
     let clickDate = new Date();
     let difference_ms;
     function dragstarted(d) { // On click to start the physics
-        if (!d3.event.active) simulation.alphaTarget(0.1).restart();
+        if (!d3.event.active) simulation.alphaTarget(0.05).restart();
         d.fx = d.x;
         d.fy = d.y;
     }
@@ -257,9 +261,11 @@ function drag(simulation) { // This is for moving the nodes around with user inp
 
 function resetNodes() {
     nodes.forEach(function(d) {
-    d.fx = d.fy = null;
- });
- update();
+        d.fx = d.fy = null;
+    });
+    update();
+    eventFire(document.getElementById('root'), 'click');
+    eventFire(document.getElementById('root'), 'click');
 }
 
 
