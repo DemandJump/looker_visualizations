@@ -125,6 +125,7 @@ nodes = root.descendants(); console.log('Nodes: ', nodes);
 links = root.links(); console.log('links: ', links);
 console.log('notch: ', notch);
 let totalnodes = -1 * (root.descendants().length * scaleFactor)
+dragNodes = root.descendants().map(map => map.index);
 
 
         // Physics function section for the simulation layout
@@ -167,12 +168,19 @@ node = node.data(nodes, d => d.id);
 let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
     .attr('class', 'node')
     .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
-    .on('mouseover', d => dragNodes = d.descendants().map(map => d.index) )
-    .classed('selectedNodes', d => {
-        
-    }) 
+    // .on('mouseover', d => dragNodes = d.descendants().map(map => d.index) )
+    // .classed('selectedNodes', d => {
+    //     let loopReturn = '';
+    //     for(let i = 0; i < dragNodes.length; i++) {
+    //         if(d.index == dragNodes[i]) {
+    //             loopReturn = 'true'
+    //             break;
+    //         } else { loopReturn = 'false' }
+    //     }
+    //     return loopReturn;
+    // }) 
     .on('click', click)
-    // .call(drag(simulation));
+    .call(drag(simulation));
 nodeEnter.append('circle') // Only edits the entering circles
     .attr('border', border)
     .attr('r', notchRadius)
@@ -192,21 +200,18 @@ link.enter().insert('line', '.node')
 
         //Exit Section
     node.exit().remove();
-    link.exit().
-    remove();
+    link.exit().remove();
 
 
 
-
-
-    // Drag Branch Section 
+//     // Drag Branch Section 
 // dragABranch = d3.selectAll('selectedNodes')
 //     .on('dblclick', d => {
 //         d3.event.defaultPrevented
 //         simulation.alphaTarget(0).restart()
 //         d.fx = d.fy = null;
 //     })
-//     .call(d3.drag(clickedBranch)
+//     .call(drag(clickedBranch)
 //         .on('start', d => {
 //             let clickDate = new Date(); // This is to see if you double click for dragended
 //             let difference_ms;
