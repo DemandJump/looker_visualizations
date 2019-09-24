@@ -224,16 +224,13 @@ link.enter().insert('line', '.node')
 *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
 **************************************************************************************************/
 
-
-    /********************************************
-     * Functions section
-    ********************************************/
-
+            /********************************************
+             * Functions section
+            ********************************************/
 
 /*********************************************************************
  * Simulation Physics 
 *********************************************************************/
-
 // Simulation physics // 
 function ticked() { // On each tick, specifify these parameters for this stuff
     d3.selectAll('.link')
@@ -354,8 +351,6 @@ function click(d) {
         d.children = d._children;
         d._children = null;
     }
-
-
     update(); // Rerun the function with the new data
 }
 
@@ -412,8 +407,6 @@ function flatten(root) {
     recurse(root);
     return nodes;
 }
-
-
 
 </script>
     </body>
