@@ -250,7 +250,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
-    let simulation = d3.forceSimulation()
+    simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(height / 2, width / 2))
         .force('link', d3.forceLink().id(d => d.index))
         .force('attract', attractforce) // This spaces things out, with repel it can be messy
