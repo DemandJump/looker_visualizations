@@ -21,27 +21,46 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
-    this._notch = 0;
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
 
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML =`
-        <style>
-            html, body { margin: 0; padding: 0;}
-            .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
-            text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
-            line.link, .link2 { fill: none;}
-            svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
-        </style>
-        <div style="display: inline;">
-            <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
-            <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
-            <p style="display: inline;" class="seeNotch">Start focusing on your data!</p>
-            <button style="display: inline;" type="button" onclick="resetNodes()">Pull nodes to center</button>
-        </div>
-    `;
+    <style>
+        html, body { margin: 0; padding: 0;}
+        .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
+        text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+        line, .link, .link2 { fill: none;}
+        svg { border: 1px solid rgba(0, 0, 0, 0.2);}
+        button { display: inline; }
+    </style> `;
+
+    this._uiContainer = d3.select(element).append('div')
+        .style('display', 'inline');
+
+    this._btnNotchDown = this._uiContainer.append('BUTTON')
+        .style('display', 'inline')
+        .attr('type', 'button')
+        .attr('onclick', 'notchDown()');
+    this._btnNotchDown.innerText = 'Prev';
+    this._btnNotchUp = this._uiContainer.append('BUTTON')
+        .style('display', 'inline')
+        .attr('type', 'button')
+        .attr('onclick', 'notchUp()');
+    this._btnNotchUp.innerText = 'Next';
+
+    this._para = this.uiContainer.append('p')
+        .style('display', 'inline')
+        .attr('class', 'seeNotch');
+    this._para.innerText('Start focusing on your data!');
+    this._btnNotchUp = this._uiContainer.append('BUTTON')
+        .style('display', 'inline')
+        .attr('type', 'button')
+        .attr('onclick', 'resetNodes()');
+    this._btnNotchUp.innerText = 'Next';
+    
+
     this._svg = d3.select(element).append('svg')
         .attr('class', 'container');
 
@@ -49,26 +68,6 @@ create: function(element, config) {
         So create is where you setup the visualization, then we render it in updateAsync
             Note: Create is a convenient place t o do setup that only needs to happen once 
     */
-
-        // Button functions
-        function notchDown() {
-            if(this._notch != 0) {
-                this._notch --; // To navigate the depth
-                d3.select('.seeNotch').text(d => { return `Focus: ${this._notch}`}); // Changes the text based on click 
-                update(); // Rerun the simulation (notch calculates node size)
-                simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-                simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
-            }
-        }
-        function notchUp() {
-            if(this._notch < maxDepth) {
-                this._notch ++;
-                d3.select('.seeNotch').text(d => { return `Focus: ${this._notch}`});
-                update(); 
-                simulateClick(document.getElementById('root'), 'click');
-                simulateClick(document.getElementById('root'), 'click');
-            }
-        }
 },
 burrow: function(table, taxonomy) {
   // create nested object
@@ -162,7 +161,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let measures = queryResponse.fields.measures;
 
 
-
     /****************************************************
               * Initialize the infrastructure *
     ****************************************************/
@@ -174,9 +172,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    notch = 0, // Notch is the counter for our good ol daters
     maxDepth = 0,
     minMeasure = 100000000000,
     maxMeasure = 0,
+    notch = 0,
     collisionInitialization = 0,
     scaleFactor = 0.1,
     root,
@@ -235,7 +235,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('class', 'everything');
         // Zoom Stuff // 
     let zoom_handler = d3.zoom()
-        .on('zoom', zoom_actions);
+        .on('zoom', zoom_actions)
+        .on('.dblclick.zoom', null);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
@@ -272,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 function update() { /* Initialize some parameters that we will need for */
     nodes = root.descendants(); console.log('Nodes: ', nodes);
     links = root.links(); console.log('links: ', links);
-    console.log('notch: ', this._notch);
+    console.log('notch: ', notch);
     dragNodes = root.descendants().map(map => map.index);
     
         // Setup the simulation based on user input and the everchanging data
@@ -414,11 +415,11 @@ function update() { /* Initialize some parameters that we will need for */
     }
     
     function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on.
-        if(d.depth == this._notch) {
+        if(d.depth == notch) {
             d.notch = 'a';
             d.radius = scaleA(d.size);
             return d.radius;
-        } if(d.depth == this._notch -1 || d.depth == this._notch - 1) {
+        } if(d.depth == notch -1 || d.depth == notch - 1) {
             d.notch = 'b';
             d.radius = scaleB(d.size);
             return d.radius;
@@ -463,25 +464,6 @@ function update() { /* Initialize some parameters that we will need for */
         update(); // Rerun the function with the new data
     }
     
-        // Button functions
-    function notchDown() {
-        if(this._notch != 0) {
-            this._notch --; // To navigate the depth
-            d3.select('.seeNotch').text(d => { return `Focus: ${this._notch}`}); // Changes the text based on click 
-            update(); // Rerun the simulation (notch calculates node size)
-            simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-            simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
-        }
-    }
-    function notchUp() {
-        if(this._notch < maxDepth) {
-            this._notch ++;
-            d3.select('.seeNotch').text(d => { return `Focus: ${this._notch}`});
-            update(); 
-            simulateClick(document.getElementById('root'), 'click');
-            simulateClick(document.getElementById('root'), 'click');
-        }
-    }
     
         // This is the function that simulates a click on a selected element
     function simulateClick(el, etype){
@@ -506,6 +488,25 @@ function update() { /* Initialize some parameters that we will need for */
     **********************/
     // Here's a check we add to the end of the update function to implement the options 
 
+        // Button functions
+        function notchDown() {
+            if(notch != 0) {
+                notch --; // To navigate the depth
+                d3.select('.seeNotch').text(d => { return `Focus: ${notch}`}); // Changes the text based on click 
+                update(); // Rerun the simulation (notch calculates node size)
+                simulateClick(element.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+                simulateClick(element.getElementById('root'), 'click'); // Double click to cancel the collapse
+            }
+        }
+        function notchUp() {
+            if(notch < maxDepth) {
+                notch ++;
+                d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
+                update(); 
+                simulateClick(element.getElementById('root'), 'click');
+                simulateClick(element.getElementById('root'), 'click');
+            }
+        }
 
 
 
