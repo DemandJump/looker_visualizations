@@ -112,7 +112,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('D3 force with burrow and scaling ');
+    console.log('Trying to get it to not break upon startup with a runtime hell loop, and instantiate the nodes in their proper positions ');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
@@ -131,7 +131,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Clear any errors from previous updates.
     // this.clearErrors(); /* !!! Important try keeping this off for now !!!
 
-
         // Create different cases for potential errors that could occur
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (queryResponse.fields.dimensions.length == 0) {
@@ -144,14 +143,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         * Update the Visualization *
     **********************************************************************/
         // Playing with dimensions and measures
-    console.log('Checking out query resposne dimension fields: ', 
-        queryResponse.fields.dimensions);
-    console.log('Checking out query resposne measure fields: ', 
-        queryResponse.fields.measures);
-    console.log('Checking out query resposne dimension fields: ',   
-        queryResponse.fields.dimensions.length);
-    console.log('Checking out query resposne measure fields: ',         
-        queryResponse.fields.measures.length);
+    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
+    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
+    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
         // Dimension and Measure length 
     let maxDimensions = queryResponse.fields.dimensions.length;
     let maxMeasures = queryResponse.fields.measures.length;
@@ -169,15 +164,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('burrow function results on raw data: ', nested);
 
         // Initial dimensions, plus instantiating some variables
-    let width = element.innerWidth, // Dimensions w & h
-    height = element.innerHeight,
+    let width = element.clientWidth, // Dimensions w & h
+    height = element.clientHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     notch = 0, // Notch is the counter for our good ol daters
     maxDepth = 0,
     minMeasure = 100000000000,
     maxMeasure = 0,
     collisionInitialization = 0,
-    totalnodes = 100, // This is for the scaling based on the data that is given
     scaleFactor = 0.1,
     root,
     nodes,
@@ -248,20 +242,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 * End of build *
     *****************************************/
 
-
-
-/**************************************************************************************************
-* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
-**************************************************************************************************/
-function update() { /* Initialize some parameters that we will need for */
-    nodes = root.descendants(); console.log('Nodes: ', nodes);
-    links = root.links(); console.log('links: ', links);
-    console.log('notch: ', notch);
-    let totalnodes = -1 * (root.descendants().length * scaleFactor)
-    dragNodes = root.descendants().map(map => map.index);
     
-    
-            // Physics function section for the simulation layout
+    /**************************************************
+              * Simulation Initialization *
+    **************************************************/
     let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
@@ -276,9 +260,19 @@ function update() { /* Initialize some parameters that we will need for */
             // .alpha(1)
             // .alphaTarget(.05)
                 .on('tick', ticked)
+
+
+/**************************************************************************************************
+* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
+**************************************************************************************************/
+function update() { /* Initialize some parameters that we will need for */
+    nodes = root.descendants(); console.log('Nodes: ', nodes);
+    links = root.links(); console.log('links: ', links);
+    console.log('notch: ', notch);
+    dragNodes = root.descendants().map(map => map.index);
     
-        // Restart the force layout: This what runs the data and reshapes it
-    if (reset) {
+        // Setup the simulation based on user input and the everchanging data
+    if (reset) {    // Restart the force layout: This what runs the data and reshapes it
         simulation.restart();
         reset = false;
     }
@@ -502,14 +496,12 @@ function update() { /* Initialize some parameters that we will need for */
 
 
 
-
-
-
-
     /**********************
      * Update the Options
     **********************/
     // Here's a check we add to the end of the update function to implement the options 
+
+
 
 
 
