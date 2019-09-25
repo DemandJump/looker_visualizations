@@ -309,7 +309,7 @@ function update() { /* Initialize some parameters that we will need for */
         .style('fill', color);
 // Create the text for the node
     nodeEnter.append('text')
-        .attr('dx', textSpacing)
+        // .attr('dx', textSpacing)
         .attr('dy', '.35em')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
