@@ -28,7 +28,7 @@ svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
 **************************************************************************************************/
     // Initial dimensions, plus instantiating some variables
     let width = window.innerWidth, // Dimensions w & h
-    height = window.innerHeight,
+    height = window.innerHeight - 20,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     notch = 0, // Notch is the counter for our good ol daters
     maxDepth = 0,
