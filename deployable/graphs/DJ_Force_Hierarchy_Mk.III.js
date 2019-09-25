@@ -181,7 +181,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     collisionInitialization = 0,
     totalnodes = 100, // This is for the scaling based on the data that is given
     scaleFactor = 0.1,
-    root,
     nodes,
     links,
     dragNodes,
