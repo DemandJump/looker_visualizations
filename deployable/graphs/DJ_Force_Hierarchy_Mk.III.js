@@ -412,7 +412,7 @@ function update() { /* Initialize some parameters that we will need for */
     }
     
     function textSpacing(d) { // This calculates the spacing based on the radius of each node
-        console.log('this is text spacing', d )
+        // console.log('this is text spacing', d )
         let spacing = 2 * d.r * Math.cos(Math.PI / 4),
         dx = d.r - spacing / 2; 
         return dx;
@@ -450,8 +450,8 @@ function update() { /* Initialize some parameters that we will need for */
             notch --; // To navigate the depth
             d3.select('.seeNotch').text(d => { return `Focus: ${notch}`}); // Changes the text based on click 
             update(); // Rerun the simulation (notch calculates node size)
-            simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-            simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+            simulateClick(element.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+            simulateClick(element.getElementById('root'), 'click'); // Double click to cancel the collapse
         }
     }
     function notchUp() {
@@ -459,8 +459,8 @@ function update() { /* Initialize some parameters that we will need for */
             notch ++;
             d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
             update(); 
-            simulateClick(document.getElementById('root'), 'click');
-            simulateClick(document.getElementById('root'), 'click');
+            simulateClick(element.getElementById('root'), 'click');
+            simulateClick(element.getElementById('root'), 'click');
         }
     }
     
