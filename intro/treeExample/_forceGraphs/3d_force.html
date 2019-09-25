@@ -1,0 +1,83 @@
+<!DOCTYPE html> <html lang="en">
+        <style>
+html, body { margin: 0; padding: 0;}
+text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+body {
+    text-align: center;
+    font-family: Sans-serif;
+    margin: 0;
+}
+
+.dimensions-selector, .graph-data {
+    position: absolute;
+    top: 0;
+    padding: 5px;
+    color: slategrey;
+}
+
+.dimensions-selector {
+    left: 0;
+}
+
+.graph-data {
+    right: 0;
+}
+
+.toggle-data-btn {
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+.toggle-data-btn:hover {
+    opacity: 1;
+}
+
+#graph-data-description {
+    font-size: 12px;
+    color: slategrey;
+}
+        </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>D3 3d force graph</title>
+  <!-- <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>  -->
+  <script src="//unpkg.com/3d-force-graph@1"></script>
+  <script src="//unpkg.com/d3-dsv"></script>
+  <script src="data-set-loader.js"></script>
+</head>
+<body>
+    <div id="3d-graph"></div>
+
+    <div class="dimensions-selector">
+        Dimensions:
+        <input type="radio" name="num-dimensions" onChange="toggleDimensions(1)"> 1D
+        <input type="radio" name="num-dimensions" onChange="toggleDimensions(2)" checked> 2D
+        <input type="radio" name="num-dimensions" onChange="toggleDimensions(3)"> 3D
+    </div>
+    <div class="graph-data">
+        <span id="graph-data-description"></span>
+        <button class="toggle-data-btn" onClick="toggleData()">Show me something else</button>
+    </div>
+
+
+    <script>
+ // Random tree
+ const N = 300;
+    const gData = {
+      nodes: [...Array(N).keys()].map(i => ({ id: i })),
+      links: [...Array(N).keys()]
+        .filter(id => id)
+        .map(id => ({
+          source: id,
+          target: Math.round(Math.random() * (id-1))
+        }))
+    };
+    const Graph = ForceGraph3D()
+      (document.getElementById('3d-graph'))
+        .graphData(gData);
+    </script>
+
+    </body>
+</html>
