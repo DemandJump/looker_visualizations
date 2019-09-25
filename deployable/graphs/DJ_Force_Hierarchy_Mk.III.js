@@ -192,7 +192,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
-    let root = d3.hierarchy(nested, d => d.children);
+    root = d3.hierarchy(nested, d => d.children);
     console.log('this is root(hierarchy): ', root);
 
     console.log('root descendants', root.descendants());
