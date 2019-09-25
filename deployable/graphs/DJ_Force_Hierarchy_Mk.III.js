@@ -38,6 +38,10 @@ create: function(element, config) {
         button { display: inline; }
     </style> `;    
 
+    this._holder = element.createElement('div');
+    holder.setAttribute('class', 'holder');
+    holder.setAttribute('style', 'display: inline;');
+
     this._svg = d3.select(element).append('svg')
         .attr('class', 'container');
 
@@ -202,6 +206,46 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*****************************************
                 * Build the svg *
     *****************************************/
+        // Create the ui for this 
+    let prev = element.createElement('button');
+    prev.setAttribute('class', 'prevBtn')
+    prev.setAttribute('style', 'display: inline;');
+    prev.addEventListener('click', function(event) {
+        notch --; // To navigate the 
+        update();
+        simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+        simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+    });
+    let next = element.createElement('button');
+    next.setAttribute('class', 'nextBtn')
+    next.setAttribute('style', 'display: inline;');
+    next.addEventListener('click', function(event) {
+        notch ++; // To navigate the 
+        update();
+        simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+        simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+    });
+    let reset = element.createElement('button');
+    reset.setAttribute('class', 'resetBtn')
+    reset.setAttribute('style', 'display: inline;');
+    reset.addEventListener('click', function(event) {
+        nodes.forEach(function(d) {
+            d.fx = d.fy = null;
+        });
+        collisionInitialization = 0;
+        // friction = .05;
+        reset = true;
+        update();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
+    });
+
+    this._holder.appendChild(prev)
+    this._holder.appendChild(next)
+    this._holder.appendChild(reset)
+
+
+        /*/ Then instantiate the groundwork for the visualization /*/
     let container = this._svg 
         .html('')
         .attr('width', width)
@@ -270,7 +314,6 @@ function update() { /* Initialize some parameters that we will need for */
         // Onto instantiating the nodes 
             let node = svg.selectAll('.node')
             let link = svg.selectAll('.link')
-            let clickedBranch;
 // Create and update the nodes
     node = node.data(nodes, d => d.id);
     let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
@@ -302,7 +345,6 @@ function update() { /* Initialize some parameters that we will need for */
             //Exit Section
         node.exit().remove();
         link.exit().remove();
-    
     
             // Setup for future update functions
         collisionInitialization++; // This is for the beginnging of the physics
@@ -462,37 +504,10 @@ function update() { /* Initialize some parameters that we will need for */
     /**********************
      * Update the Options
     **********************/
-        // Here's a check we add to the end of the update function to implement the options 
-    if(config.hierarchy_depth == "NotchOne") {
-        notch = 1;
-        update();
-        simulateClick(element.getElementById('root'), 'click');
-        simulateClick(element.getElementById('root'), 'click');
-    }
-    if(config.hierarchy_depth == "NotchTwo") {
-        notch = 2;
-        update();
-        simulateClick(element.getElementById('root'), 'click');
-        simulateClick(element.getElementById('root'), 'click');
-    }
-    if(config.hierarchy_depth == "NotchThree") {
-        notch = 3;
-        update();
-        simulateClick(element.getElementById('root'), 'click');
-        simulateClick(element.getElementById('root'), 'click');
-    }
-    if(config.hierarchy_depth == "NotchFour") {
-        notch = 4;
-        update();
-        simulateClick(element.getElementById('root'), 'click');
-        simulateClick(element.getElementById('root'), 'click');
-    }
-    if(config.hierarchy_depth == "NotchFive") {
-        notch = 5;
-        update();
-        simulateClick(element.getElementById('root'), 'click');
-        simulateClick(element.getElementById('root'), 'click');
-    }
+
+
+
+
 
 
     /**************** Done! *****************/
@@ -500,6 +515,16 @@ function update() { /* Initialize some parameters that we will need for */
     doneRendering() 
 }
 });
+
+
+
+
+
+
+
+
+
+
 
 
 
