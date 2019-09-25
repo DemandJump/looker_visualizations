@@ -234,10 +234,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
     }
-
-
-        /*/ When we're ready and have built the infrastructure, and formatted the data properly. /*/
-    update();
     /*****************************************
                 * End of build *
     *****************************************/
@@ -262,6 +258,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on('tick', ticked)
 
 
+            /*/ When we're ready and have built the infrastructure, and formatted the data properly. /*/
+        update();
 /**************************************************************************************************
 * UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
 **************************************************************************************************/
