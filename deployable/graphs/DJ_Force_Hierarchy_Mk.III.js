@@ -242,7 +242,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 * End of build *
     *****************************************/
 
-    
+
     /**************************************************
               * Simulation Initialization *
     **************************************************/
@@ -378,7 +378,7 @@ function update() { /* Initialize some parameters that we will need for */
             .on("end", dragended);
     }
     
-    function resetNodes() {
+    function resetNodes() { // Reset the nodes when you press the button (It pulls the stuff closer to the center, but not hard reset)
         nodes.forEach(function(d) {
             d.fx = d.fy = null;
         });
@@ -425,7 +425,7 @@ function update() { /* Initialize some parameters that we will need for */
         // console.log('end of notch radius', d);
     }
     
-    function textSpacing(d) {
+    function textSpacing(d) { // This calculates the spacing based on the radius of each node
         console.log('this is text spacing', d )
         let spacing = 2 * d.r * Math.cos(Math.PI / 4),
         dx = d.r - spacing / 2; 
