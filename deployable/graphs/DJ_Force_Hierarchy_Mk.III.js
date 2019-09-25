@@ -27,7 +27,7 @@ create: function(element, config) {
 // We're essentially using vanilla javascript to create a visualization for looker to append!
 
     // Insert a <style> tag with some styles we'll use later.
-    element.innerHTML = `
+    element.innerHTML =`
         <style>
             html, body { margin: 0; padding: 0;}
             .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
@@ -35,8 +35,6 @@ create: function(element, config) {
             line.link, .link2 { fill: none;}
             svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
         </style>
-        `;
-    element.innerHTML =`
         <div style="display: inline;">
             <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
             <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
