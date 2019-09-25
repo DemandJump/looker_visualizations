@@ -176,7 +176,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     maxDepth = 0,
     minMeasure = 100000000000,
     maxMeasure = 0,
-    notch = 0,
     collisionInitialization = 0,
     scaleFactor = 0.1,
     root,
