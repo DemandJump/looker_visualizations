@@ -225,10 +225,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
         simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
     });
-    let reset = element.createElement('button');
-    reset.setAttribute('class', 'resetBtn')
-    reset.setAttribute('style', 'display: inline;');
-    reset.addEventListener('click', function(event) {
+    let restart = element.createElement('button');
+    restart.setAttribute('class', 'restartBtn')
+    restart.setAttribute('style', 'display: inline;');
+    restart.addEventListener('click', function(event) {
         nodes.forEach(function(d) {
             d.fx = d.fy = null;
         });
@@ -242,7 +242,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     this._holder.appendChild(prev)
     this._holder.appendChild(next)
-    this._holder.appendChild(reset)
+    this._holder.appendChild(restart)
 
 
         /*/ Then instantiate the groundwork for the visualization /*/
