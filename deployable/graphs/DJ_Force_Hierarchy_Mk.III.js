@@ -164,8 +164,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /****************************************************
               * Initialize the infrastructure *
     ****************************************************/
-
-
           //*// Burrowing into the Data //*//
     let nested = this.burrow(data, queryResponse.fields.dimension_like);
     console.log('burrow function results on raw data: ', nested);
@@ -243,7 +241,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-        // When we're ready and have built the infrastructure, and formatted the data properly.
+        /*/ When we're ready and have built the infrastructure, and formatted the data properly. /*/
     update();
     /*****************************************
                 * End of build *
