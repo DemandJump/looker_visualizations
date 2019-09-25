@@ -5,13 +5,15 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-        font_size: {
+        hierachy_depth: {
             type: "string",
-            label: "Font Size",
+            label: "Hierarchy Depth",
             values: [
-                {"Large": "large"},
-                {"Medium": "medium"},
-                {"Small": "small"}
+                {"1": "NotchOne"},
+                {"2": "NotchTwo"},
+                {"3": "NotchThree"},
+                {"4": "NotchFour"},
+                {"5": "NotchFive"}
             ],
             display: "radio",
             default: "large"
@@ -34,32 +36,7 @@ create: function(element, config) {
         line, .link, .link2 { fill: none;}
         svg { border: 1px solid rgba(0, 0, 0, 0.2);}
         button { display: inline; }
-    </style> `;
-
-    this._uiContainer = d3.select(element).append('div')
-        .style('display', 'inline');
-
-    this._btnNotchDown = this._uiContainer.append('BUTTON')
-        .style('display', 'inline')
-        .attr('type', 'button')
-        .attr('onclick', 'notchDown()');
-    this._btnNotchDown.innerText = 'Prev';
-    this._btnNotchUp = this._uiContainer.append('BUTTON')
-        .style('display', 'inline')
-        .attr('type', 'button')
-        .attr('onclick', 'notchUp()');
-    this._btnNotchUp.innerText = 'Next';
-
-    this._para = this.uiContainer.append('p')
-        .style('display', 'inline')
-        .attr('class', 'seeNotch');
-    this._para.innerText('Start focusing on your data!');
-    this._btnNotchUp = this._uiContainer.append('BUTTON')
-        .style('display', 'inline')
-        .attr('type', 'button')
-        .attr('onclick', 'resetNodes()');
-    this._btnNotchUp.innerText = 'Next';
-    
+    </style> `;    
 
     this._svg = d3.select(element).append('svg')
         .attr('class', 'container');
@@ -485,31 +462,37 @@ function update() { /* Initialize some parameters that we will need for */
     /**********************
      * Update the Options
     **********************/
-    // Here's a check we add to the end of the update function to implement the options 
-
-        // Button functions
-        function notchDown() {
-            if(notch != 0) {
-                notch --; // To navigate the depth
-                d3.select('.seeNotch').text(d => { return `Focus: ${notch}`}); // Changes the text based on click 
-                update(); // Rerun the simulation (notch calculates node size)
-                simulateClick(element.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-                simulateClick(element.getElementById('root'), 'click'); // Double click to cancel the collapse
-            }
-        }
-        function notchUp() {
-            if(notch < maxDepth) {
-                notch ++;
-                d3.select('.seeNotch').text(d => { return `Focus: ${notch}`});
-                update(); 
-                simulateClick(element.getElementById('root'), 'click');
-                simulateClick(element.getElementById('root'), 'click');
-            }
-        }
-
-
-
-
+        // Here's a check we add to the end of the update function to implement the options 
+    if(config.hierarchy_depth == "NotchOne") {
+        notch = 1;
+        update();
+        simulateClick(element.getElementById('root'), 'click');
+        simulateClick(element.getElementById('root'), 'click');
+    }
+    if(config.hierarchy_depth == "NotchTwo") {
+        notch = 2;
+        update();
+        simulateClick(element.getElementById('root'), 'click');
+        simulateClick(element.getElementById('root'), 'click');
+    }
+    if(config.hierarchy_depth == "NotchThree") {
+        notch = 3;
+        update();
+        simulateClick(element.getElementById('root'), 'click');
+        simulateClick(element.getElementById('root'), 'click');
+    }
+    if(config.hierarchy_depth == "NotchFour") {
+        notch = 4;
+        update();
+        simulateClick(element.getElementById('root'), 'click');
+        simulateClick(element.getElementById('root'), 'click');
+    }
+    if(config.hierarchy_depth == "NotchFive") {
+        notch = 5;
+        update();
+        simulateClick(element.getElementById('root'), 'click');
+        simulateClick(element.getElementById('root'), 'click');
+    }
 
 
     /**************** Done! *****************/
