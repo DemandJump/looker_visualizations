@@ -37,10 +37,10 @@ create: function(element, config) {
         svg { border: 1px solid rgba(0, 0, 0, 0.2);}
         button { display: inline; }
     </style> `;    
-
-    this._holder = element.createElement('div');
-    holder.setAttribute('id', 'holder');
-    holder.setAttribute('style', 'display: inline;');
+    
+    this._holder = d3.select(element).append('div')
+        .attr('id', 'holder')
+        .style('display', 'inline')
 
     this._svg = d3.select(element).append('svg')
         .attr('class', 'container');
