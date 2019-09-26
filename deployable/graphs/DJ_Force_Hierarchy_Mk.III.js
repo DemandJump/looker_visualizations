@@ -23,7 +23,7 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
-    this._initialization = 0;
+    this._notch = 1;
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -40,7 +40,17 @@ create: function(element, config) {
     </style> `;    
 
     this._holder = d3.select(element).append('div')
-        .attr('id', 'holder')
+        .attr('class', 'holder')
+        .style('display', 'inline')
+
+    this._prevBtn = d3.select('.holder').append('button')
+        .attr('class', 'prev')
+        .style('display', 'inline')
+    this._nextBtn = d3.select('.holder').append('button')
+        .attr('class', 'next')
+        .style('display', 'inline')
+    this._resetBtn = d3.select('.holder').append('button')
+        .attr('class', 'reset')
         .style('display', 'inline')
 
     this._svg = d3.select(element).append('svg')
@@ -175,6 +185,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root = d3.hierarchy(nested, d => d.children);
     console.log('this is root(hierarchy): ', root);
 
+    let finder = root.leaves();
+    finder.forEach(leaf => {
+        if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
+    });  console.log('MaxDepth', maxDepth);
+
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
         node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
@@ -207,33 +222,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*****************************************
                 * Build the svg *
     *****************************************/
-    if(this._initialization == 0) {
                 // Create the ui for this 
-    let prev = document.createElement('button');
-    prev.setAttribute('class', 'prevBtn')
-    prev.setAttribute('style', 'display: inline;');
-    prev.innerHTML = 'Prev';
-    prev.addEventListener('click', function(event) {
-        notch --; // To navigate the 
-        update();
-        simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-        simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+
+    this._prevBtn.on('click', event => {
+        if(this._notch != 0) {
+            notch --; // To navigate the 
+            update();
+            simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+            simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+        }
     });
-    let next = document.createElement('button');
-    next.setAttribute('class', 'nextBtn')
-    next.setAttribute('style', 'display: inline;');
-    next.innerHTML = 'Next';
-    next.addEventListener('click', function(event) {
-        notch ++; // To navigate the 
-        update();
-        simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
-        simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+
+    this._nextBtn.on('click', event => {
+        if(this._notch < max.depth) {
+            notch ++; // To navigate the 
+            update();
+            simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+            simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+        }
     });
-    let restart = document.createElement('button');
-    restart.setAttribute('class', 'restartBtn')
-    restart.setAttribute('style', 'display: inline;');
-    restart.innerHTML = 'Pull nodes to center';
-    restart.addEventListener('click', function(event) {
+    
+    this._resetBtn.on('click', event => {
         nodes.forEach(function(d) {
             d.fx = d.fy = null;
         });
@@ -244,10 +253,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         simulateClick(document.getElementById('root'), 'click');
         simulateClick(document.getElementById('root'), 'click');
     });
-
-    document.getElementById('holder').appendChild(prev)
-    document.getElementById('holder').appendChild(next)
-    document.getElementById('holder').appendChild(restart)
 
 
         /*/ Then instantiate the groundwork for the visualization /*/
