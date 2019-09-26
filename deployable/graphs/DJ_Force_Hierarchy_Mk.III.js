@@ -5,18 +5,26 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-        hierachy_depth: {
+        hierarchy_instructions: {
             type: "string",
-            label: "Hierarchy Depth",
+            label: "Notes for the hierarchy visualization",
             values: [
-                {"1": "NotchOne"},
-                {"2": "NotchTwo"},
-                {"3": "NotchThree"},
-                {"4": "NotchFour"},
-                {"5": "NotchFive"}
+                {"Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info"},
+                {"By Default it will act as if all dimensions are part of the hierarchy, but if you have dimensions with unique types you can change the look of each based on that.": "Info1"},
+                {"Below you can set the option if you do have a type, just be sure to put it last when you stack the dimensions in your look": "Info2"}
             ],
-            display: "radio",
-            default: "large"
+            display: "Info",
+            default: "none"
+        },
+        add_type: {
+            type: "string",
+            label: "Select if there's a type with the data",
+            values: [
+                {"Added type to the end": "true"},
+                {"No type added yet": "false"}
+            ],
+            display: "Info",
+            default: "false"
         }
     },
 
@@ -140,6 +148,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+    /****************** * * * * * Update the Options
+    **************************************************/
+    let taxonomyPass = queryResponse.fields.dimension_like;
+    if(add_type == "true") {
+        taxonomyPass.pop();
+    }
+    if(add_type == "false") {
+        taxonomyPass = queryResponse.fields.dimension_like;
+    }
+    /**************************************************
+            End of Options * * * * * *****************/
+
     /**********************************************************************
                         * Update the Visualization *
     **********************************************************************/
@@ -160,7 +180,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               * Initialize the infrastructure *
     ****************************************************/
           //*// Burrowing into the Data //*//
-    let nested = this.burrow(data, queryResponse.fields.dimension_like);
+        // We need to pass the data into the burrow without putting the typing into it. So we'll pass in the taxonomy wihout adding typing into the hierarchy. If it's not put into the array then we'll pull out all the nodes, and match type for each of the values somehow
+    let nested = this.burrow(data, taxonomyPass);
     console.log('burrow function results on raw data: ', nested);
 
         // Initial dimensions, plus instantiating some variables
@@ -521,13 +542,34 @@ function update() { /* Initialize some parameters that we will need for */
         }
     }
 
+        // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
+    function LightenDarkenColor(col, amt) {
+        var usePound = false; // Determines path taken based on whether hash was used or not
+        if (col[0] == "#") {
+            col = col.slice(1);
+            usePound = true;
+        }
+     
+        var num = parseInt(col,16);
+        var r = (num >> 16) + amt;
+        if (r > 255) r = 255;
+        else if  (r < 0) r = 0;
+     
+        var b = ((num >> 8) & 0x00FF) + amt;
+        if (b > 255) b = 255;
+        else if  (b < 0) b = 0;
+     
+        var g = (num & 0x0000FF) + amt;
+        if (g > 255) g = 255;
+        else if (g < 0) g = 0;
+     
+        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+    } // HOWTO use the function: 
+        // Lighten
+    // var NewColor = LightenDarkenColor("#F06D06", 20); 
 
-
-    /**********************
-     * Update the Options
-    **********************/
-
-
+        // Darken
+    // var NewColor = LightenDarkenColor("#F06D06", -20); 
 
 
 
