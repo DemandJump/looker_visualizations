@@ -324,6 +324,7 @@ function update() { /* Initialize some parameters that we will need for */
     simulation.force('link')
         .links(links)
     simulation
+        .alphaDecay(friction)
         .restart();
             
     
