@@ -39,7 +39,7 @@ create: function(element, config) {
     </style> `;    
 
     this._holder = element.createElement('div');
-    holder.setAttribute('class', 'holder');
+    holder.setAttribute('id', 'holder');
     holder.setAttribute('style', 'display: inline;');
 
     this._svg = d3.select(element).append('svg')
@@ -240,9 +240,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         simulateClick(document.getElementById('root'), 'click');
     });
 
-    this._holder.appendChild(prev)
-    this._holder.appendChild(next)
-    this._holder.appendChild(restart)
+    document.getElementById('holder').appendChild(prev)
+    document.getElementById('holder').appendChild(next)
+    document.getElementById('holder').appendChild(restart)
 
 
         /*/ Then instantiate the groundwork for the visualization /*/
