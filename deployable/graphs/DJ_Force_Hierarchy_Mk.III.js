@@ -391,7 +391,7 @@ function update() { /* Initialize some parameters that we will need for */
         let difference_ms;
         function dragstarted(d) { // On click to start the physics
     
-            if (!d3.event.active) simulation.alphaTarget(0.2).restart();
+            if (!d3.event.active) simulation.alphaTarget(0.05).restart();
             d.fx = d.x;
             d.fy = d.y;
         }
