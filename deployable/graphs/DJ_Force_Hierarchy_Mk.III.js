@@ -207,7 +207,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*****************************************
                 * Build the svg *
     *****************************************/
-    if(initialization = 0) {
+    if(initialization == 0) {
                 // Create the ui for this 
     let prev = document.createElement('button');
     prev.setAttribute('class', 'prevBtn')
@@ -327,6 +327,7 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
+        .on('dblclick', resetNodes)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
