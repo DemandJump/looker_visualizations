@@ -294,9 +294,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('attract', attractforce) // This spaces things out, with repel it can be messy
         .force('repel', repelforce) // This pulls things in, Very useful!
         .force('collision', collision) // This spaces out the nodes to give everything room to breathe
-            .alphaDecay(friction) // This slows down the simulation over time (it's friction!)
-            .alpha(.1)
-            // .alphaTarget(.05)
+            .alphaDecay(friction) // This slows down the alpha(simulation) over time (it's friction!)
+            .alpha(1) // Set the alpha position
+            // .alphaTarget(.05) // Ease into desired alpha position
                 .on('tick', ticked)
 
 
@@ -324,7 +324,7 @@ function update() { /* Initialize some parameters that we will need for */
     simulation.force('link')
         .links(links)
     simulation
-        // .alpha(.1)
+        .alpha(.1)
         .alphaDecay(friction)
         .restart()
         .alphaTarget(0);
@@ -370,7 +370,7 @@ function update() { /* Initialize some parameters that we will need for */
     
             // Setup for future update functions
         collisionInitialization++; // This is for the beginnging of the physics
-        friction = 0.025;
+        friction = 0.034;
     }/*************************************************************************************************
     *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
     **************************************************************************************************/
@@ -395,7 +395,7 @@ function update() { /* Initialize some parameters that we will need for */
         let difference_ms;
         function dragstarted(d) { // On click to start the physics
     
-            if (!d3.event.active) simulation.alphaTarget(0.025).restart();
+            if (!d3.event.active) simulation.alphaTarget(0.020).restart();
             d.fx = d.x;
             d.fy = d.y;
         }
