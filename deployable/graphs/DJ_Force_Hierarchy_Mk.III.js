@@ -207,7 +207,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 * Build the svg *
     *****************************************/
         // Create the ui for this 
-    let prev = element.createElement('button');
+    let prev = document.createElement('button');
     prev.setAttribute('class', 'prevBtn')
     prev.setAttribute('style', 'display: inline;');
     prev.addEventListener('click', function(event) {
@@ -216,7 +216,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
         simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
     });
-    let next = element.createElement('button');
+    let next = document.createElement('button');
     next.setAttribute('class', 'nextBtn')
     next.setAttribute('style', 'display: inline;');
     next.addEventListener('click', function(event) {
@@ -225,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
         simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
     });
-    let restart = element.createElement('button');
+    let restart = document.createElement('button');
     restart.setAttribute('class', 'restartBtn')
     restart.setAttribute('style', 'display: inline;');
     restart.addEventListener('click', function(event) {
