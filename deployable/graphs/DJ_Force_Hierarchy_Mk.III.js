@@ -46,12 +46,15 @@ create: function(element, config) {
     this._prevBtn = d3.select('.holder').append('button')
         .attr('class', 'prev')
         .style('display', 'inline')
+        .html('Prev')
     this._nextBtn = d3.select('.holder').append('button')
         .attr('class', 'next')
         .style('display', 'inline')
+        .html('Next')
     this._resetBtn = d3.select('.holder').append('button')
         .attr('class', 'reset')
         .style('display', 'inline')
+        .html('Pull nodes to center')
 
     this._svg = d3.select(element).append('svg')
         .attr('class', 'container');
@@ -225,7 +228,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // Create the ui for this 
 
     this._prevBtn.on('click', event => {
-        if(this._notch != 0) {
+        if(this._notch > 0) {
             notch --; // To navigate the 
             update();
             simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
