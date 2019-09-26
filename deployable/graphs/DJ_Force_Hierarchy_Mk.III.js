@@ -263,6 +263,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
+        .on('.dblclick.zoom', null)
     }
     /*****************************************
                 * End of build *
