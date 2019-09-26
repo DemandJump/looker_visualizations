@@ -256,7 +256,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything');
-        // Zoom Stuff // 
+        // Zoom Stuff //
     let zoom_handler = d3.zoom()
         .on('zoom', zoom_actions);
     zoom_handler(container);
