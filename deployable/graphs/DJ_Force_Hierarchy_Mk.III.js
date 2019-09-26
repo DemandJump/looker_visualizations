@@ -325,9 +325,10 @@ function update() { /* Initialize some parameters that we will need for */
         .links(links)
     simulation
         // .alpha(.1)
-        .alphaTarget(0)
         .alphaDecay(friction)
-        .restart();
+        .restart()
+        .alphaTarget(0);
+
             
     
         // Onto instantiating the nodes 
