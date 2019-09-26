@@ -13,7 +13,7 @@
                 {"By Default it will act as if all dimensions are part of the hierarchy, but if you have dimensions with unique types you can change the look of each based on that.": "Info1"},
                 {"Below you can set the option if you do have a type, just be sure to put it last when you stack the dimensions in your look": "Info2"}
             ],
-            display: "Info",
+            display: "radio",
             default: "none"
         },
         add_type: {
@@ -23,7 +23,7 @@
                 {"Added type to the end": "true"},
                 {"No type added yet": "false"}
             ],
-            display: "Info",
+            display: "radio",
             default: "false"
         }
     },
