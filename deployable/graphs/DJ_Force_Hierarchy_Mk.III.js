@@ -181,7 +181,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     dragABranch,
     simulation,
     reset = false,
-    friction = .025; // This determines the link length based on the data that's given
+    friction = .01; // This determines the link length based on the data that's given
 
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
