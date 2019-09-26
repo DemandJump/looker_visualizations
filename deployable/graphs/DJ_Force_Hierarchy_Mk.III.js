@@ -343,7 +343,8 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('circle') // Only edits the entering circles
         .attr('border', border)
         .attr('r', notchRadius)
-        .style('fill', color);
+        .style('fill', color)
+        .on('.dblclick.zoom', null);
 // Create the text for the node
     nodeEnter.append('text')
         // .attr('dx', textSpacing)
