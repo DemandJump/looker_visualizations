@@ -325,6 +325,7 @@ function update() { /* Initialize some parameters that we will need for */
         .links(links)
     simulation
         .alphaTarget(0.025)
+        .alpha(0.5)
         .alphaDecay(friction)
         .restart();
             
@@ -369,7 +370,6 @@ function update() { /* Initialize some parameters that we will need for */
             // Setup for future update functions
         collisionInitialization++; // This is for the beginnging of the physics
         friction = 0.025;
-        simulation.alphaTarget(0);
     }/*************************************************************************************************
     *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
     **************************************************************************************************/
