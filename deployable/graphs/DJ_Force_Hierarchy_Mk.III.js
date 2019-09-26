@@ -323,7 +323,6 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
-        .on('.dblclick.zoom', null)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
