@@ -181,7 +181,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     dragABranch,
     simulation,
     reset = false,
-    friction = .05; // This determines the link length based on the data that's given
+    friction = .025; // This determines the link length based on the data that's given
 
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
@@ -284,33 +284,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**************************************************
               * Simulation Initialization *
     **************************************************/
-    // let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
-    // let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
-    // let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
-    //         // Initialize the simulation // 
-    // simulation = d3.forceSimulation()
-    //     .force('center', d3.forceCenter(height / 2, width / 2))
-    //     .force('link', d3.forceLink().id(d => d.index))
-    //     .force('attract', attractforce) // This spaces things out, with repel it can be messy
-    //     .force('repel', repelforce) // This pulls things in, Very useful!
-    //     .force('collision', collision) // This spaces out the nodes to give everything room to breathe
-    //         .alphaDecay(friction) // This slows down the simulation over time (it's friction!)
-    //         // .alpha(1)
-    //         // .alphaTarget(.05)
-    //             .on('tick', ticked)
-
-
-            /*/ When we're ready and have built the infrastructure, and formatted the data properly. /*/
-        update();
-/**************************************************************************************************
-* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
-**************************************************************************************************/
-function update() { /* Initialize some parameters that we will need for */
-    nodes = root.descendants(); console.log('Nodes: ', nodes);
-    links = root.links(); console.log('links: ', links);
-    console.log('notch: ', notch);
-    dragNodes = root.descendants().map(map => map.index);
-
     let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
@@ -325,6 +298,19 @@ function update() { /* Initialize some parameters that we will need for */
             // .alpha(1)
             // .alphaTarget(.05)
                 .on('tick', ticked)
+
+
+            /*/ When we're ready and have built the infrastructure, and formatted the data properly. /*/
+        update();
+/**************************************************************************************************
+* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
+**************************************************************************************************/
+function update() { /* Initialize some parameters that we will need for */
+    nodes = root.descendants(); console.log('Nodes: ', nodes);
+    links = root.links(); console.log('links: ', links);
+    console.log('notch: ', notch);
+    dragNodes = root.descendants().map(map => map.index);
+
     
         // Setup the simulation based on user input and the everchanging data
     if (reset) {    // Restart the force layout: This what runs the data and reshapes it
@@ -380,7 +366,7 @@ function update() { /* Initialize some parameters that we will need for */
     
             // Setup for future update functions
         collisionInitialization++; // This is for the beginnging of the physics
-        friction = 0.1;
+        friction = 0.05;
     }/*************************************************************************************************
     *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
     **************************************************************************************************/
@@ -405,7 +391,7 @@ function update() { /* Initialize some parameters that we will need for */
         let difference_ms;
         function dragstarted(d) { // On click to start the physics
     
-            if (!d3.event.active) simulation.alphaTarget(0.05).restart();
+            if (!d3.event.active) simulation.alphaTarget(0.2).restart();
             d.fx = d.x;
             d.fy = d.y;
         }
