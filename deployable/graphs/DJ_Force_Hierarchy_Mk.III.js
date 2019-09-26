@@ -256,7 +256,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ****************************************************/
 
 
-
     /*****************************************
                 * Build the svg *
     *****************************************/
