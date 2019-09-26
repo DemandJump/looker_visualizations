@@ -265,7 +265,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('height', height);
         // Selector to hold everything
     let svg = container.append('g')
-        .attr('class', 'everything');
+        .attr('class', 'everything')
+        .on('.dblclick.zoom', null);
         // Zoom Stuff //
     let zoom_handler = d3.zoom()
         .on('.dblclick.zoom', null)
