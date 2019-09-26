@@ -144,6 +144,9 @@ simulation // Give it the new nodes
 simulation.force('link')
     .links(links)
 simulation
+    .alpha(.5)
+    .alphaTarget(0)
+    .alphaDecay(.4)
     .restart();
         
 
@@ -215,7 +218,7 @@ function drag(simulation) { // This is for moving the nodes around with user inp
     let difference_ms;
     function dragstarted(d) { // On click to start the physics
 
-        if (!d3.event.active) simulation.alphaTarget(0.05).restart();
+        if (!d3.event.active) simulation.alpha(.1).alphaTarget(0.025).restart();
         d.fx = d.x;
         d.fy = d.y;
     }

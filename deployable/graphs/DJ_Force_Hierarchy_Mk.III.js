@@ -295,7 +295,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .force('repel', repelforce) // This pulls things in, Very useful!
         .force('collision', collision) // This spaces out the nodes to give everything room to breathe
             .alphaDecay(friction) // This slows down the simulation over time (it's friction!)
-            // .alpha(1)
+            .alpha(.1)
             // .alphaTarget(.05)
                 .on('tick', ticked)
 
@@ -324,7 +324,7 @@ function update() { /* Initialize some parameters that we will need for */
     simulation.force('link')
         .links(links)
     simulation
-        .alpha(0.1)
+        // .alpha(.1)
         .alphaTarget(0)
         .alphaDecay(friction)
         .restart();
