@@ -258,7 +258,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('class', 'everything');
         // Zoom Stuff // 
     let zoom_handler = d3.zoom()
-        .on('.dblclick.zoom', null)
         .on('zoom', zoom_actions);
     zoom_handler(container);
     function zoom_actions() {
@@ -324,6 +323,7 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
+        .on('.dblclick.zoom', null)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
