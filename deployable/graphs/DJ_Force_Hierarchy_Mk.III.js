@@ -476,7 +476,6 @@ function update() { /* Initialize some parameters that we will need for */
     *********************/
         // This give a unique color for each, and based on the notch we'll lighten or darken the color!
     function color(d) {
-        console.log('This is the node', d);
         if (config.add_type == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
             switch(uniqueTypeValues) {
