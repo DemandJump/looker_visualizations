@@ -326,8 +326,8 @@ function update() { /* Initialize some parameters that we will need for */
     simulation
         .alpha(.1)
         .alphaDecay(friction)
-        .restart()
-        .alphaTarget(0);
+        .alphaTarget(0)
+        .restart();
 
             
     
