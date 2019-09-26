@@ -23,6 +23,7 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    let initialization = 0;
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -206,7 +207,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*****************************************
                 * Build the svg *
     *****************************************/
-        // Create the ui for this 
+    if(initialization = 0) {
+                // Create the ui for this 
     let prev = document.createElement('button');
     prev.setAttribute('class', 'prevBtn')
     prev.setAttribute('style', 'display: inline;');
@@ -246,6 +248,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     document.getElementById('holder').appendChild(prev)
     document.getElementById('holder').appendChild(next)
     document.getElementById('holder').appendChild(restart)
+    initialization ++;
+    }
 
 
         /*/ Then instantiate the groundwork for the visualization /*/
