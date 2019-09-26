@@ -151,10 +151,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /****************** * * * * * Update the Options
     **************************************************/
     let taxonomyPass = queryResponse.fields.dimension_like;
-    if(add_type == "true") {
+    if(config.add_type == "true") {
         taxonomyPass.pop();
     }
-    if(add_type == "false") {
+    if(config.add_type == "false") {
         taxonomyPass = queryResponse.fields.dimension_like;
     }
     /**************************************************
