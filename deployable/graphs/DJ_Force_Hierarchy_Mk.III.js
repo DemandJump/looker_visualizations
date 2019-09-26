@@ -37,7 +37,7 @@ create: function(element, config) {
         svg { border: 1px solid rgba(0, 0, 0, 0.2);}
         button { display: inline; }
     </style> `;    
-    
+
     this._holder = d3.select(element).append('div')
         .attr('id', 'holder')
         .style('display', 'inline')
@@ -210,6 +210,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let prev = document.createElement('button');
     prev.setAttribute('class', 'prevBtn')
     prev.setAttribute('style', 'display: inline;');
+    prev.innerHTML('Prev');
     prev.addEventListener('click', function(event) {
         notch --; // To navigate the 
         update();
@@ -219,6 +220,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let next = document.createElement('button');
     next.setAttribute('class', 'nextBtn')
     next.setAttribute('style', 'display: inline;');
+    prev.innerHTML('Next');
     next.addEventListener('click', function(event) {
         notch ++; // To navigate the 
         update();
@@ -228,6 +230,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let restart = document.createElement('button');
     restart.setAttribute('class', 'restartBtn')
     restart.setAttribute('style', 'display: inline;');
+    prev.innerHTML('Pull nodes to center');
     restart.addEventListener('click', function(event) {
         nodes.forEach(function(d) {
             d.fx = d.fy = null;
@@ -255,8 +258,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('class', 'everything');
         // Zoom Stuff // 
     let zoom_handler = d3.zoom()
-        .on('zoom', zoom_actions)
-        .on('.dblclick.zoom', null);
+        .on('.dblclick.zoom', null)
+        .on('zoom', zoom_actions);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
