@@ -210,7 +210,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let prev = document.createElement('button');
     prev.setAttribute('class', 'prevBtn')
     prev.setAttribute('style', 'display: inline;');
-    prev.innerHTML('Prev');
+    prev.value = 'Prev';
     prev.addEventListener('click', function(event) {
         notch --; // To navigate the 
         update();
@@ -220,7 +220,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let next = document.createElement('button');
     next.setAttribute('class', 'nextBtn')
     next.setAttribute('style', 'display: inline;');
-    prev.innerHTML('Next');
+    prev.value = 'Next';
     next.addEventListener('click', function(event) {
         notch ++; // To navigate the 
         update();
@@ -230,7 +230,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let restart = document.createElement('button');
     restart.setAttribute('class', 'restartBtn')
     restart.setAttribute('style', 'display: inline;');
-    prev.innerHTML('Pull nodes to center');
+    prev.value = 'Pull nodes to center';
     restart.addEventListener('click', function(event) {
         nodes.forEach(function(d) {
             d.fx = d.fy = null;
