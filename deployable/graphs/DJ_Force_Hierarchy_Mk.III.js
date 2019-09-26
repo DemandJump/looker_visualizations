@@ -150,15 +150,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     /****************** * * * * * Update the Options
     **************************************************/
-    let taxonomyPass = queryResponse.fields.dimension_like;
+    let taxonomyPass = queryResponse.fields.dimension_like,
+    type = null, // This stores the key name for the dimension when we parse into the data
+    uniqueTypeValues; // Stored in an array to give unique colors for each
     if(config.add_type == "true") {
         taxonomyPass.pop();
+        let type = queryResponse['fields']['dimension_like'][queryResponse.fields.dimension_like.length - 1];
+        return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
     }
     if(config.add_type == "false") {
         taxonomyPass = queryResponse.fields.dimension_like;
     }
     /**************************************************
             End of Options * * * * * *****************/
+
 
     /**********************************************************************
                         * Update the Visualization *
@@ -189,6 +194,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     height = element.clientHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     notch = 0, // Notch is the counter for our good ol daters
+    currentValue = '',
     maxDepth = 0,
     minMeasure = 100000000000,
     maxMeasure = 0,
@@ -235,6 +241,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(node.depth == 0) { node.radius = scaleA(node.size); } 
         if(node.depth == 1) { node.radius = scaleB(node.size); } 
         else { node.radius = scaleC(node.size); }
+
+                // This is to calculate all teh uniqueTypeValues into a single array.
+        if(config.add_type == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
+            if(currentValue != d['data']['data'][queryResponse.fields.dimension_like.length - 1]['value']) {
+                currentValue = d['data']['data'][queryResponse.fields.dimension_like.length - 1]['value'];
+                uniqueTypeValues.push(currentValue);
+            }
+        }
     })
 
     /****************************************************
@@ -461,13 +475,57 @@ function update() { /* Initialize some parameters that we will need for */
     /*********************
      * Styling Functions    
     *********************/
-    function color(d) { // Calculates the color     
-        // Notch based color function 
-      return d.depth == 0 ? "#c6dbef"
-        : d.notch == 'a' ? "#008CCD"
-        : d.notch == 'b' ? "#fd8d3c"
-        : "#999999"
+        // This give a unique color for each, and based on the notch we'll lighten or darken the color!
+    function color(d) {
+        console.log('This is the node', d);
+        if (config.add_type == 'true') {
+                // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
+            switch(uniqueTypeValues) {
+                case uniqueTypeValues[0]: // #3498DB 
+                    lightenOrDarken(d, '#3498DB')
+                    break;
+
+                case uniqueTypeValues[1]: // #F39C12 
+                    lightenOrDarken(d, '#F39C12')
+                    break; 
+
+                case uniqueTypeValues[2]: // #2ECC71
+                    lightenOrDarken(d, '#2ECC71')
+                    break; 
+
+                case uniqueTypeValues[3]: // #8E44AD
+                    lightenOrDarken(d, '#8E44AD')
+                    break;
+                    
+                case uniqueTypeValues[4]: // #E74C3C
+                    lightenOrDarken(d, '#E74C3C')
+                    break;
+
+                case uniqueTypeValues[5]: // #00BCD4
+                    lightenOrDarken(d, '#00BCD4')
+                    break;
+
+                case uniqueTypeValues[6]: // #CDDC39
+                    lightenOrDarken(d, '#CDDC39')
+                    break;
+
+                case uniqueTypeValues[7]: // #F06292
+                    lightenOrDarken(d, '#F06292')
+                    break;
+
+                default: // #BDBDBD 
+                    lightenOrDarken(d, '#BDBDBD')
+                    break;
+
+            }
+        } else { // Do and return the normal color function! ~ This is if they don't give us a type!
+            return d.depth == 0 ? "#c6dbef"
+            : d.notch == 'a' ? "#008CCD"
+            : d.notch == 'b' ? "#fd8d3c"
+            : "#999999"
+        }
     }
+        
     
     function border(d) {    // Calculates the border
         return d._children ? "#c6dbef" // collapsed node
@@ -571,6 +629,28 @@ function update() { /* Initialize some parameters that we will need for */
         // Darken
     // var NewColor = LightenDarkenColor("#F06D06", -20); 
 
+    // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
+    function lightenOrDarken(d, caseColor) {
+        // Use d to find d.notch to see whether to lighten or darken the color
+        if(d.depth == notch) { 
+            return caseColor;
+        } else if(d.depth == notch + 1) {
+            LightenDarkenColor(caseColor, 20); 
+            return caseColor;
+        } else if(d.depth == notch - 1) {
+            LightenDarkenColor(caseColor, -20);
+            return caseColor;
+        } else if(d.depth <= notch - 2) {
+            lightenDarkenColor(caseColor, -40);
+            return caseColor;
+        } else if(d.depth >= notch + 2) {
+            lightenDarkenColor(caseColor, 40);
+            return caseColor;
+        } else { // To know if something went wrong
+            return '#F5F5F5'
+        }
+
+    }
 
 
 
