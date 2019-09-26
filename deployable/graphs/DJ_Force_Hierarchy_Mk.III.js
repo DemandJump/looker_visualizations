@@ -324,6 +324,7 @@ function update() { /* Initialize some parameters that we will need for */
     simulation.force('link')
         .links(links)
     simulation
+        .alphaTarget(0.025)
         .alphaDecay(friction)
         .restart();
             
@@ -338,7 +339,6 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
         .on('.dblclick.zoom', null)
-        .on('dblclick', resetNodes)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
@@ -368,7 +368,7 @@ function update() { /* Initialize some parameters that we will need for */
     
             // Setup for future update functions
         collisionInitialization++; // This is for the beginnging of the physics
-        friction = 0.05;
+        friction = 0.025;
     }/*************************************************************************************************
     *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
     **************************************************************************************************/
