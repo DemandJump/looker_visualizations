@@ -407,7 +407,7 @@ function update() { /* Initialize some parameters that we will need for */
                 d3.event.subject.fx = null;
                 d3.event.subject.fy = null;
             }
-        }
+        }   
     
         return d3.drag() // .on instantiates these functions
             .on("start", dragstarted)
@@ -526,7 +526,6 @@ function update() { /* Initialize some parameters that we will need for */
     /**************** Done! *****************/
     // Always call done to indicate a visualization has finished rendering
     doneRendering() 
-}
 });
 
 
