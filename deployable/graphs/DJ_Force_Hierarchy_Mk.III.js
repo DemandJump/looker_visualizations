@@ -234,7 +234,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
 
     this._nextBtn.on('click', event => {
-        if(this._notch < max.depth) {
+        if(this._notch < maxDepth) {
             notch ++; // To navigate the 
             update();
             simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
