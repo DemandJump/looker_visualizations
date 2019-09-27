@@ -58,7 +58,11 @@ const gData = {
 console.log('nodes: ', gData.nodes);
 console.log('nodes: ', gData.links);
 
-const Graph = ForceGraph3D()
+
+const elem = document.getElementById('3d-graph')
+const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
+(elem)
+
 (document.getElementById('3d-graph'))
   .graphData(gData)
   .nodeLabel('id') // This is the name when you hover over the label
@@ -80,13 +84,26 @@ const Graph = ForceGraph3D()
     // This add the link arrows, and then a curve to the links
   .linkDirectionalArrowLength(5) // The length of the arrow
   .linkDirectionalArrowRelPos(.125)
-  .linkCurvature(.25);
+  .linkCurvature(.25)
   
     // This is the link directional particle values: You can enter any particle value based on the data given : NOT IMPLEMENTING RIGHT
   // .linkDirectionalParticles('id')
   // .linkDirectionalParticleSpeed(.01);
   
   // Spread nodes a little wider
+
+  .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+        .onNodeClick(node => {
+          // Aim at node from outside it
+          const distance = 40;
+          const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+          Graph.cameraPosition(
+            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+          );
+        });
+  
   Graph.d3Force('charge').strength(-120);
 
 
