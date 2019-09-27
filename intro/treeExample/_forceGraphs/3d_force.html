@@ -16,9 +16,13 @@ body { text-align: center; font-family: Sans-serif; margin: 0; }
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>D3 3d force graph</title>
   <!-- <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>  -->
-  <script src="//unpkg.com/3d-force-graph@1"></script>
+
+  <!-- <script src="//unpkg.com/3d-force-graph@1"></script> Newer version we're using!
   <script src="//unpkg.com/d3-dsv"></script>
-  <script src="data-set-loader.js"></script>
+  <script src="data-set-loader.js"></script> -->
+
+  <script src="//unpkg.com/3d-force-graph"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
 </head>
 <body>
     <div id="3d-graph"></div>
@@ -61,8 +65,8 @@ const Graph = ForceGraph3D()
   .linkDirectionalArrowRelPos(.05)
   .linkCurvature(.25)
     // This is the link directional particle values: You can enter any particle value based on the data given
-  .linkDirectionalParticles('index')
-  .linkDirectionalParticleSpeed(d => d.index * 0.01);
+  .linkDirectionalParticles('id')
+  .linkDirectionalParticleSpeed(d => d.id * 0.01);
 
 
 
