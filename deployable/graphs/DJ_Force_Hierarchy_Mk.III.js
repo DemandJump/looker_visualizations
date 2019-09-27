@@ -155,6 +155,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // The selector references for dimensions and length 
             let dimensions = queryResponse.fields.dimensions;
             let measures = queryResponse.fields.measures;
+
         
 
     /**********************
@@ -175,8 +176,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     **************************************************/
             // Pull in the names of the type/measure dimensions
     let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
+    console.log('This is measureName ', measureName);
+
     let lastDimension = queryResponse.fields.dimension_like.length - 1;
     console.log('Last Dimension', lastDimension);
+
+    let typeTest = queryResponse.fields.measures;
+    console.log('Type name', typeTest[lastDimension]);
+    
     let typeName = queryResponse['fields']['measures'][lastDimension]['suggest_dimension'];
     console.log('this is teh measure name!', measureName);
     console.log('this is the type name!', typeName);
