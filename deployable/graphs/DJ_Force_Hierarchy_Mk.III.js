@@ -181,10 +181,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let lastDimension = queryResponse.fields.dimension_like.length - 1;
     console.log('Last Dimension', lastDimension);
 
-    let typeTest = queryResponse.fields.measures;
+    let typeTest = queryResponse.fields.dimension;
     console.log('Type name', typeTest[lastDimension]);
-    
-    let typeName = queryResponse['fields']['measures'][lastDimension]['suggest_dimension'];
+
+    let typeName = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
     console.log('this is teh measure name!', measureName);
     console.log('this is the type name!', typeName);
 
