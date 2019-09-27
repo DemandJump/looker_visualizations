@@ -150,6 +150,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     /****************** * * * * * Update the Options
     **************************************************/
+            // Pull in the names of the type/measure dimensions
+    let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
+    let typeName = queryResponse['fields']['measures'][queryResponse.fields.dimension_like.length - 1]['suggest_dimension'];
+    console.log('this is teh measure name!', measureName);
+    console.log('this is the type name!', typeName);
+
     let taxonomyPass = queryResponse.fields.dimension_like,
     type = null, // This stores the key name for the dimension when we parse into the data
     uniqueTypeValues; // Stored in an array to give unique colors for each
@@ -179,7 +185,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // The selector references for dimensions and length 
     let dimensions = queryResponse.fields.dimensions;
     let measures = queryResponse.fields.measures;
-
 
     /****************************************************
               * Initialize the infrastructure *
@@ -222,7 +227,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
-        node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
+        if (measureName != '') {
+            node.size = d['data']['data'][measureName];
+        } else {
+            node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
+        }
 
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
@@ -531,7 +540,7 @@ function update() { /* Initialize some parameters that we will need for */
             : "#fd8d3c" // leaf node
     }
     
-    function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on.
+    function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
         if(d.depth == notch) {
             d.notch = 'a';
             d.radius = scaleA(d.size);
@@ -561,6 +570,7 @@ function update() { /* Initialize some parameters that we will need for */
         : d.notch == 'b' ? '.5rem'
         : '.1rem'
     }
+
     
     
     /*********************
