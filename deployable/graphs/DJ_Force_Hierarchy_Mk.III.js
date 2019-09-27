@@ -152,7 +152,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     **************************************************/
             // Pull in the names of the type/measure dimensions
     let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
-    let typeName = queryResponse['fields']['measures'][queryResponse.fields.dimension_like.length - 1]['suggest_dimension'];
+    let lastDimension = queryResponse.fields.dimension_like.length - 1;
+    console.log('Last Dimension', lastDimension);
+    let typeName = queryResponse['fields']['measures'][lastDimension]['suggest_dimension'];
     console.log('this is teh measure name!', measureName);
     console.log('this is the type name!', typeName);
 
@@ -161,7 +163,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     uniqueTypeValues; // Stored in an array to give unique colors for each
     if(config.add_type == "true") {
         taxonomyPass.pop();
-        let type = queryResponse['fields']['dimension_like'][queryResponse.fields.dimension_like.length - 1];
+        let type = queryResponse['fields']['dimension_like'][lastDimension];
         return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
     }
     if(config.add_type == "false") {
@@ -228,6 +230,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.descendants().forEach(node => {
         if (measureName != '') {
             node.size = d['data']['data'][measureName];
+            console.log('this is the new calculated node size ', node.size);
         } else {
             node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
         }
