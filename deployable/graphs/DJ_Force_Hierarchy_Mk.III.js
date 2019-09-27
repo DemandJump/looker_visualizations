@@ -170,7 +170,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**************************************************
             End of Options * * * * * *****************/
 
-
     /**********************************************************************
                         * Update the Visualization *
     **********************************************************************/
@@ -322,7 +321,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*****************************************
                 * End of build *
     *****************************************/
-
 
     /**************************************************
               * Simulation Initialization *
