@@ -144,6 +144,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse', queryResponse);
     console.log('details', details);
 
+            // Playing with dimensions and measures
+            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
+            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
+            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
+                // Dimension and Measure length 
+            let maxDimensions = queryResponse.fields.dimensions.length;
+            let maxMeasures = queryResponse.fields.measures.length;
+                // The selector references for dimensions and length 
+            let dimensions = queryResponse.fields.dimensions;
+            let measures = queryResponse.fields.measures;
+        
+
     /**********************
      * Error Clauses 
     **********************/
@@ -193,18 +206,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**********************************************************************
                         * Update the Visualization *
     **********************************************************************/
-        // Playing with dimensions and measures
-    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
-        // Dimension and Measure length 
-    let maxDimensions = queryResponse.fields.dimensions.length;
-    let maxMeasures = queryResponse.fields.measures.length;
-        // The selector references for dimensions and length 
-    let dimensions = queryResponse.fields.dimensions;
-    let measures = queryResponse.fields.measures;
-
     /****************************************************
               * Initialize the infrastructure *
     ****************************************************/
