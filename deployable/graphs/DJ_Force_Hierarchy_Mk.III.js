@@ -25,7 +25,17 @@
             ],
             display: "radio",
             default: "false"
-        }
+        },
+        add_measure: {
+          type: "string",
+          label: "This will take the first measure and use it to calculate the node size.",
+          values: [
+              {"Use a measure": "true"},
+              {"Don't use a measure": "false"}
+          ],
+          display: "radio",
+          default: "false"
+      }
     },
 
     // Onto the create section 
@@ -169,6 +179,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if(config.add_type == "false") {
         taxonomyPass = queryResponse.fields.dimension_like;
     }
+
+    let useMeasure = 'false';
+    if(config.add_measure == 'true') {
+        useMeasure = 'true';
+    }
+    if(config.add_measure == 'false') {
+        useMeasure = 'false';
+    }
     /**************************************************
             End of Options * * * * * *****************/
 
@@ -228,7 +246,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
-        if (measureName != '') {
+        if (useMeasure == 'true') {
             node.size = d['data']['data'][measureName];
             console.log('this is the new calculated node size ', node.size);
         } else {
