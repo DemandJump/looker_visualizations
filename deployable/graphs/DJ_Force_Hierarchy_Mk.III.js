@@ -185,10 +185,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         taxonomyPass.pop();
         let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
-    }
-    if(config.add_type == "false") {
-        taxonomyPass = queryResponse.fields.dimension_like;
-    }
+    } else if(config.add_type == "false") { taxonomyPass = queryResponse.fields.dimension_like; }
     console.log('this is the measure name!', measureName);
     console.log('this is the type name!', type);
 
@@ -247,6 +244,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
         if (useMeasure == 'true') {
+            console.log('were in the root descendants, here is the useMeasure',  node);
+            console.log('this the meausre name within mutatint the data', measureName);
             node.size = node.data.data[measureName];
             console.log('this is the new calculated node size ', node.size);
         } else {
