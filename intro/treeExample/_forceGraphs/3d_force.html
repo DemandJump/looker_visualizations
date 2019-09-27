@@ -21,6 +21,9 @@ body { text-align: center; font-family: Sans-serif; margin: 0; }
   <script src="//unpkg.com/d3-dsv"></script>
   <script src="data-set-loader.js"></script> -->
 
+  <script src="//unpkg.com/three"></script>
+  <script src="//unpkg.com/three-spritetext"></script>
+
   <script src="//unpkg.com/3d-force-graph"></script>
   <!--<script src="../../dist/3d-force-graph.js"></script>-->
 </head>
@@ -60,16 +63,31 @@ const Graph = ForceGraph3D()
   .graphData(gData)
   .nodeLabel('id') // This is the name when you hover over the label
   .nodeAutoColorBy('id') // Pass in a value for the table to give a unique color for each unique value of that set of data
+  // .nodeThreeObject(node => { // This is to create the nodes as text instead of nodes!
+  //         // use a sphere as a drag handle
+  //         const obj = new THREE.Mesh(
+  //           new THREE.SphereGeometry(10),
+  //           new THREE.MeshBasicMaterial({ depthWrite: false, transparent: true, opacity: 0 })
+  //         );
+  //         // add text sprite as child
+  //         const sprite = new SpriteText(node.id);
+  //         sprite.color = node.color;
+  //         sprite.textHeight = 5;
+  //         obj.add(sprite);
+  //         return obj;
+  //       })
   .linkOpacity(0.34)
     // This add the link arrows, and then a curve to the links
   .linkDirectionalArrowLength(5) // The length of the arrow
   .linkDirectionalArrowRelPos(.125)
-  .linkCurvature(.25)
+  .linkCurvature(.25);
+  
     // This is the link directional particle values: You can enter any particle value based on the data given : NOT IMPLEMENTING RIGHT
   // .linkDirectionalParticles('id')
   // .linkDirectionalParticleSpeed(.01);
   
-  
+  // Spread nodes a little wider
+  Graph.d3Force('charge').strength(-120);
 
 
 

@@ -246,10 +246,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (useMeasure == 'true') {
             console.log('were in the root descendants, here is the useMeasure',  node);
             console.log('this the meausre name within mutatint the data', measureName);
-            node.size = node.data.data[measureName];
+            if (node.data.data[measureName]) {
+              node.size = node.data.data[measureName];
+            } 
             console.log('this is the new calculated node size ', node.size);
         } else {
-            node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
+            // node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
+            node.size = 140;
         }
 
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
