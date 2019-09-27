@@ -59,9 +59,10 @@ const Graph = ForceGraph3D()
     // This add the link arrows, and then a curve to the links
   .linkDirectionalArrowLength(5) // The length of the arrow
   .linkDirectionalArrowRelPos(.05)
-  .linkCurvature(5)
+  .linkCurvature(.25)
     // This is the link directional particle values: You can enter any particle value based on the data given
-
+  .linkDirectionalParticles('index')
+  .linkDirectionalParticleSpeed(d => d.index * 0.01);
 
 
 

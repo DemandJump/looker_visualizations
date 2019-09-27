@@ -255,7 +255,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
         if (useMeasure == 'true') {
-            node.size = d['data']['data'][measureName];
+            node.size = node['data']['data'][measureName];
             console.log('this is the new calculated node size ', node.size);
         } else {
             node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
