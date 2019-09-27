@@ -181,7 +181,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let lastDimension = queryResponse.fields.dimension_like.length - 1;
     console.log('Last Dimension', lastDimension);
 
-    let typeTest = queryResponse.fields.dimension;
+    let typeTest = queryResponse.fields.dimensions;
     console.log('Type name', typeTest[lastDimension]);
 
     let typeName = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];

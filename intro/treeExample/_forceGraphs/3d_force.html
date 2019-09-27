@@ -36,23 +36,46 @@ body { text-align: center; font-family: Sans-serif; margin: 0; }
 
 
     <script>
- // Random tree
- const N = 10;
-    const gData = {
-      nodes: [...Array(N).keys()].map(i => ({ id: i })),
-      links: [...Array(N).keys()]
-        .filter(id => id)
-        .map(id => ({
-          source: id,
-          target: Math.round(Math.random() * (id-1))
-        }))
-    };
-    console.log('nodes: ', gData.nodes);
-    console.log('nodes: ', gData.links);
+    // Random tree
+const N = 10;
+const gData = {
+  nodes: [...Array(N).keys()].map(i => ({ id: i })),
+  links: [...Array(N).keys()]
+    .filter(id => id)
+    .map(id => ({
+      source: id,
+      target: Math.round(Math.random() * (id-1))
+    }))
+};
 
-    const Graph = ForceGraph3D()
-      (document.getElementById('3d-graph'))
-        .graphData(gData);
+console.log('nodes: ', gData.nodes);
+console.log('nodes: ', gData.links);
+
+const Graph = ForceGraph3D()
+(document.getElementById('3d-graph'))
+  .graphData(gData)
+  .nodeLabel('id') // This is the name when you hover over the label
+  .nodeAutoColorBy('id') // Pass in a value for the table to give a unique color for each unique value of that set of data
+    // This add the link arrows, and then a curve to the links
+  .linkDirectionalArrowLength(5) // The length of the arrow
+  .linkDirectionalArrowRelPos(.05)
+  .linkCurvature(5)
+    // This is the link directional particle values: You can enter any particle value based on the data given
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 
     </body>
