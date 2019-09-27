@@ -175,30 +175,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /****************** * * * * * Update the Options
     **************************************************/
             // Pull in the names of the type/measure dimensions
-    let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
-    console.log('This is measureName ', measureName);
-
-    let lastDimension = queryResponse.fields.dimension_like.length - 1;
-    console.log('Last Dimension', lastDimension);
-
-    let typeTest = queryResponse.fields.dimensions;
-    console.log('Type name', typeTest[lastDimension]);
-
-    let typeName = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
-    console.log('this is teh measure name!', measureName);
-    console.log('this is the type name!', typeName);
-
-    let taxonomyPass = queryResponse.fields.dimension_like,
+    let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'],
+    taxonomyPass = queryResponse.fields.dimension_like,
+    lastDimension = queryResponse.fields.dimension_like.length - 1,
     type = null, // This stores the key name for the dimension when we parse into the data
     uniqueTypeValues; // Stored in an array to give unique colors for each
+    
     if(config.add_type == "true") {
         taxonomyPass.pop();
-        let type = queryResponse['fields']['dimension_like'][lastDimension];
+        let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
     }
     if(config.add_type == "false") {
         taxonomyPass = queryResponse.fields.dimension_like;
     }
+    console.log('this is the measure name!', measureName);
+    console.log('this is the type name!', type);
 
     let useMeasure = 'false';
     if(config.add_measure == 'true') {
@@ -281,8 +273,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // This is to calculate all teh uniqueTypeValues into a single array.
         if(config.add_type == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
-            if(currentValue != d['data']['data'][queryResponse.fields.dimension_like.length - 1]['value']) {
-                currentValue = d['data']['data'][queryResponse.fields.dimension_like.length - 1]['value'];
+            if(currentValue != d['data']['data'][type]['value']) {
+                currentValue = d['data']['data'][type]['value'];
                 uniqueTypeValues.push(currentValue);
             }
         }
@@ -317,9 +309,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
     
     this._resetBtn.on('click', event => {
-        nodes.forEach(function(d) {
-            d.fx = d.fy = null;
-        });
+        nodes.forEach(d => d.fx = d.fy = null);
         collisionInitialization = 0;
         // friction = .05;
         reset = true;
