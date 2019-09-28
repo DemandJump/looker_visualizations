@@ -84,7 +84,7 @@ const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
     // This add the link arrows, and then a curve to the links
   .linkDirectionalArrowLength(5) // The length of the arrow
   .linkDirectionalArrowRelPos(.125)
-  .linkCurvature(.25)
+  .linkCurvature(.25);
   
     // This is the link directional particle values: You can enter any particle value based on the data given : NOT IMPLEMENTING RIGHT
   // .linkDirectionalParticles('id')
@@ -92,15 +92,15 @@ const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
   
   // Spread nodes a little wider
 
-  .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+  Graph.onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
         .onNodeClick(node => {
           // Aim at node from outside it
           const distance = 40;
-          const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+          const distRatio = 3 + distance/Math.hypot(node.x, node.y, node.z);
           Graph.cameraPosition(
             { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
             node, // lookAt ({ x, y, z })
-            3000  // ms transition duration
+            1400  // ms transition duration
           );
         });
   
