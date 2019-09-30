@@ -24,7 +24,7 @@
                 {"No type added yet": "false"}
             ],
             display: "radio",
-            default: "true"
+            default: "false"
         },
         add_measure: {
           type: "string",
@@ -34,7 +34,7 @@
               {"Don't use a measure": "false"}
           ],
           display: "radio",
-          default: "true"
+          default: "false"
       }
     },
 
@@ -134,8 +134,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('Trying to get it to not break upon startup with a runtime hell loop, and instantiate the nodes in their proper positions ');
         // Just comment what your doing becuase looker takes forever to update server js file
 
-        // Try implementing d3
-    console.log('d3v5 initialized', d3);
         /****** Log all these functions to see what we're working with ******/
     console.log(`\n\n\n\n\nUpdateAsync initialized, here is it's data: `);
     console.log('data', data);
@@ -147,11 +145,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // Playing with dimensions and measures
             console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
             console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
-                // Dimension and Measure length 
-            let maxDimensions = queryResponse.fields.dimensions.length;
-            let maxMeasures = queryResponse.fields.measures.length;
                 // The selector references for dimensions and length 
             let dimensions = queryResponse.fields.dimensions;
             let measures = queryResponse.fields.measures;
@@ -179,17 +172,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     taxonomyPass = queryResponse.fields.dimension_like,
     lastDimension = queryResponse.fields.dimension_like.length - 1,
     type = null, // This stores the key name for the dimension when we parse into the data
+    useMeasure = 'false',
+    useType = 'false', 
     uniqueTypeValues; // Stored in an array to give unique colors for each
     
     if(config.add_type == "true") {
         taxonomyPass.pop();
         let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
+        console.log('this is the type name!', type);
+        useType = 'true';
         return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
-    } else if(config.add_type == "false") { taxonomyPass = queryResponse.fields.dimension_like; }
+    } 
+    if(config.add_type == "false") { 
+      taxonomyPass = queryResponse.fields.dimension_like; 
+      useType = 'false';
+    }
     console.log('this is the measure name!', measureName);
-    console.log('this is the type name!', type);
 
-    let useMeasure = 'false';
+    
     if(config.add_measure == 'true') {
         useMeasure = 'true';
     }
@@ -241,11 +241,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
     });  console.log('MaxDepth', maxDepth);
 
+    console.log(`This is useMeasure: ${useMeasure}, and this is useType: ${useType}`);
+
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
         if (useMeasure == 'true') {
             console.log('were in the root descendants, here is the useMeasure',  node);
             console.log('this the meausre name within mutatint the data', measureName);
+            console.log('this is node.data.data[measureName] ', node.data.data[measureName]);
             if (node.data.data[measureName] =! null) {
               node.size = node.data.data[measureName];
             } 
@@ -274,7 +277,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         else { node.radius = scaleC(node.size); }
 
                 // This is to calculate all teh uniqueTypeValues into a single array.
-        if(config.add_type == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
+        if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
             if(currentValue != d['data']['data'][type]['value']) {
                 currentValue = d['data']['data'][type]['value'];
                 uniqueTypeValues.push(currentValue);
