@@ -1,0 +1,103 @@
+<!DOCTYPE html> <html lang="en">
+        <style>
+html, body { margin: 0; padding: 0;}
+text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+body { text-align: center; font-family: Sans-serif; margin: 0; }
+.dimensions-selector, .graph-data { position: absolute; top: 0; padding: 5px; color: slategrey; } 
+.dimensions-selector { left: 0; }
+.graph-data { right: 0; }
+.toggle-data-btn { cursor: pointer; opacity: 0.85; }
+.toggle-data-btn:hover { opacity: 1; }
+#graph-data-description { font-size: 12px; color: slategrey; }
+        </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>D3 3d force graph</title>
+  <!-- <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>  -->
+
+  <!-- <script src="//unpkg.com/3d-force-graph@1"></script> Newer version we're using!
+  <script src="//unpkg.com/d3-dsv"></script>
+  <script src="data-set-loader.js"></script> -->
+
+  <script src="//unpkg.com/three"></script>
+  <script src="//unpkg.com/three-spritetext"></script>
+
+  <script src="//unpkg.com/3d-force-graph"></script>
+  <!--<script src="../../dist/3d-force-graph.js"></script>-->
+</head>
+<body>
+    <div id="3d-graph"></div>
+
+    <div class="dimensions-selector">
+        Dimensions:
+        <input type="radio" name="num-dimensions" onChange="toggleDimensions(1)"> 1D
+        <input type="radio" name="num-dimensions" onChange="toggleDimensions(2)" checked> 2D
+        <input type="radio" name="num-dimensions" onChange="toggleDimensions(3)"> 3D
+    </div>
+    <div class="graph-data">
+        <span id="graph-data-description"></span>
+        <button class="toggle-data-btn" onClick="toggleData()">Show me something else</button>
+    </div>
+
+
+    <script>
+    // Random tree
+const N = 10;
+const gData = {
+  nodes: [...Array(N).keys()].map(i => ({ id: i })),
+  links: [...Array(N).keys()]
+    .filter(id => id)
+    .map(id => ({
+      source: id,
+      target: Math.round(Math.random() * (id-1))
+    }))
+};
+console.log('nodes: ', gData.nodes);
+console.log('links: ', gData.links);
+
+
+
+    let highlightNodes = [];
+    let unhlt = null;
+    let highlightLink = null;
+    const Graph = ForceGraph3D()
+      (document.getElementById('3d-graph'))
+        .graphData(gData)
+        .nodeColor(node => highlightNodes.indexOf(node) === -1 ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
+        // .nodeColor(node => unhlt !== node ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
+        .linkWidth(link => link === highlightLink ? 4 : 1)
+        .linkDirectionalParticles(link => link === highlightLink ? 4 : 0)
+        .linkDirectionalParticleWidth(4)
+        .onNodeHover(node => {
+          // no state change
+          if ((!node && !highlightNodes.length) || (highlightNodes.length === 1 && highlightNodes[0] === node)) return ;
+          highlightNodes = node ? [node] : [];
+
+          unhlt = node; 
+          updateHighlight();
+        })
+        .onLinkHover(link => {
+          // no state change
+          if (highlightLink === link) return;
+          highlightLink = link;
+          highlightNodes = link ? [link.source, link.target] : [];
+          updateHighlight();
+        });
+
+
+
+
+
+    function updateHighlight() {
+      // trigger update of highlighted objects in scene
+      Graph
+        .nodeColor(Graph.nodeColor())
+        .linkWidth(Graph.linkWidth())
+        .linkDirectionalParticles(Graph.linkDirectionalParticles());
+    }
+        </script>
+
+    </body>
+</html>

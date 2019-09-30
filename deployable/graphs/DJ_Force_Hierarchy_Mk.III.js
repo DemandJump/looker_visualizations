@@ -270,8 +270,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             console.log('this is the new calculated node size ', node.size);
             } 
           console.log('calculated or not(if or preset), here is the value', node.size);
-    
-            // Now we must reinstantiate the min and max measures!
+        })
+        root.descendants().forEach(node => {  // Now we must reinstantiate the min and max measures!
           if(node.size < minMeasure) { minMeasure = node.size; }
           if(node.size > maxMeasure) { maxMeasure = node.size; }
         })
