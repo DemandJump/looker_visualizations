@@ -70,11 +70,11 @@ const Graph = ForceGraph3D()
         .linkOpacity(.34)
         .nodeColor(node => highlightNodes.indexOf(node) === -1 ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
         .linkWidth(link => link === highlightLink ? 4 : 1)
-        .linkDirectionalParticles(link => link === highlightLink ? 5 : 0)
-        .linkDirectionalParticleWidth(.64)
+        .linkDirectionalParticles(link => link === highlightLink ? 4 : 1)
+        .linkDirectionalParticleWidth(link => link === highlightLink ? 1.2 : .64)
         .linkDirectionalArrowLength(link => {
-            return link === highlightLink ? 10 
-            : highlightNodes.indexOf(link.source) != -1 ? 10 
+            return link === highlightLink ? 10
+            : highlightNodes.indexOf(link.source) != -1 ? 10
             : 4
         }) // The length of the arrow
         .linkDirectionalArrowRelPos(.125)
