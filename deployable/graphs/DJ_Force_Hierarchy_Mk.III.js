@@ -461,8 +461,8 @@ function update() { /* Initialize some parameters that we will need for */
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
-        .attr('border', border)
         .attr('r', notchRadius)
+        .attr('border', border)
         .style('fill', color)
         .on('.dblclick.zoom', null);
 // Create the text for the node
@@ -478,8 +478,8 @@ function update() { /* Initialize some parameters that we will need for */
     link.enter().insert('line', '.node')
         .attr('class', 'link')
         .attr('stroke', '#008CCD')
-        .attr('stroke-width', '5')
-        .attr('opacity', '0.52')
+        .attr('stroke-width', '2.5')
+        .attr('opacity', '0.45')
     
             //Exit Section
         node.exit().remove();
@@ -572,7 +572,7 @@ function update() { /* Initialize some parameters that we will need for */
             : d.data.data[type]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
             : d.data.data[type]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
             : lightenOrDarken(d, '#BDBDBD')
-          } else { lightenOrDarken(d, '#202020'); }
+          } else { lightenOrDarken(d, '#008CCD'); }
 
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? "#c6dbef"
@@ -585,9 +585,9 @@ function update() { /* Initialize some parameters that we will need for */
       // Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   
 
     function border(d) {    // Calculates the border
-        return d._children ? "#c6dbef" // collapsed node
+        return d._children ? "#fd8d3c" // collapsed node
             : d.children ? "#008CCD" // expanded node
-            : "#fd8d3c" // leaf node
+            : "#c6dbef" // leaf node
     }
     
     function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
