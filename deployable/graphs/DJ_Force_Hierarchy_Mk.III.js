@@ -183,6 +183,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     type = null, // This stores the key name for the dimension when we parse into the data
     useMeasure = 'false',
     useType = 'false', 
+    useCollapse = 'false';
     uniqueTypeValues = []; // Stored in an array to give unique colors for each
     console.log('this is the measure name!', measureName);
 
@@ -199,14 +200,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       useType = 'false';
     }
 
-    
-    if(config.add_measure == 'true') {
-        useMeasure = 'true';
-    }
-    if(config.add_measure == 'false') {
-        useMeasure = 'false';
-    }
+    if(config.add_measure == 'true') { useMeasure = 'true'; }
+    if(config.add_measure == 'false') { useMeasure = 'false'; }
     console.log(`Using type: ${useType}, and Using measure: ${useMeasure}`);
+
+    if(config.collapse == 'true') { useCollapse = 'true'; }
+    if(config.collapse == 'false') { useCollapse = 'false'; }
     /**************************************************
             End of Options * * * * * *****************/
 
@@ -328,6 +327,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is uniqueTypeValues', uniqueTypeValues);
 
 
+    if(useCollapse == 'true') {
+      root.children.forEach(collapse);
+      function collapse(d) {
+        if(d.children) {
+          d._children = d.children
+          d._children.forEach(collapse)
+          d.children = null
+        }
+      }
+    }
     /****************************************************
                  * End of Initialization *
     ****************************************************/
