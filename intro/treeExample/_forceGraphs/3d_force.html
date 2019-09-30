@@ -87,7 +87,7 @@ const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
 
     
   Graph // This add the link arrows, and then a curve to the links
-    .linkDirectionalArrowLength(changed) // The length of the arrow
+    .linkDirectionalArrowLength(link => changed) // The length of the arrow
     .linkDirectionalArrowRelPos(.125)
     .linkCurvature(.25);
   

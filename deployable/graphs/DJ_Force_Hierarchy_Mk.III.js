@@ -239,6 +239,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.leaves().forEach(leaf => {
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
         if (counter == 0) {
+          console.log('leaves', leaf);
           uniqueTypeValues.push(leaf.data.data[type]['value']);
           counter ++;
         }
