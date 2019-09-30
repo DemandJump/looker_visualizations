@@ -18,7 +18,7 @@
         },
         add_type: {
             type: "string",
-            label: "Select if there's a type with the data",
+            label: "Color nodes based on type(make it the final dimension you add in)",
             values: [
                 {"Added type to the end": "true"},
                 {"No type added yet": "false"}
@@ -28,7 +28,7 @@
         },
         add_measure: {
           type: "string",
-          label: "This will take the first measure and use it to calculate the node size.",
+          label: "This will take a measure and use it to calculate each of the node's size.",
           values: [
               {"Use a measure": "true"},
               {"Don't use a measure": "false"}
