@@ -173,7 +173,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     type = null, // This stores the key name for the dimension when we parse into the data
     useMeasure = 'false',
     useType = 'false', 
-    uniqueTypeValues; // Stored in an array to give unique colors for each
+    uniqueTypeValues = []; // Stored in an array to give unique colors for each
     console.log('this is the measure name!', measureName);
 
     
@@ -182,6 +182,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         console.log('this is the type name!', type);
         useType = 'true';
+         // Now we need to put the first type value in the array so it can run a for loop for us!
+
     } 
     if(config.add_type == "false") { 
       taxonomyPass = queryResponse.fields.dimension_like; 
@@ -273,11 +275,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(node.depth == 0) { node.radius = scaleA(node.size); } 
       if(node.depth == 1) { node.radius = scaleB(node.size); } 
       else { node.radius = scaleC(node.size); }
+      
             // This is to calculate all teh uniqueTypeValues into a single array.
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
-        if(currentValue != d['data']['data'][type]['value']) {
-          currentValue = d['data']['data'][type]['value'];
-          uniqueTypeValues.push(currentValue);
+        if(currentValue != node['data']['data'][type]['value'] && node['data']['data'][type]['value'] != null) {
+          currentValue = node['data']['data'][type]['value'];
+          let trueIfNewValue = true;
+          for(j = 0; j < uniqueTypeValues.length; j++) {
+            if(currentValue == node['data']['data'][type]['value']) { trueIfNewValue = 'false'; }
+          }
+          if(trueIfNewValue) { uniqueTypeValues.push(currentValue); }
         }
       }
     })
