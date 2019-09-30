@@ -130,7 +130,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Fixed isntantiating the typing in reference to the config.');
+    console.log('Fixed isntantiating the typing in reference to the config. Part two, fixing the coloring function!');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         /****** Log all these functions to see what we're working with ******/
@@ -174,6 +174,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     useMeasure = 'false',
     useType = 'false', 
     uniqueTypeValues; // Stored in an array to give unique colors for each
+    console.log('this is the measure name!', measureName);
+
     
     if(config.add_type == "true") {
         taxonomyPass.pop();
@@ -185,7 +187,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       taxonomyPass = queryResponse.fields.dimension_like; 
       useType = 'false';
     }
-    console.log('this is the measure name!', measureName);
 
     
     if(config.add_measure == 'true') {
@@ -231,29 +232,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
-      root = d3.hierarchy(nested, d => d.children);
-      console.log('this is root(hierarchy): ', root);
-    let finder = root.leaves();
-    finder.forEach(leaf => {
+      root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
+
+    root.leaves().forEach(leaf => {
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
     });  console.log('MaxDepth', maxDepth);
 
     console.log(`This is useMeasure: ${useMeasure}, and this is useType: ${useType}`);
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
-        if (useMeasure == 'true') {
-            console.log('were in the root descendants, here is the useMeasure',  node);
-            console.log('this the meausre name within mutatint the data', measureName);
-            node.size = 100;
+      if (useMeasure == 'true') {
+        console.log('were in the root descendants, here is the useMeasure',  node);
+        console.log('this the meausre name within mutatint the data', measureName);
+        node.size = 100;
 
-            if (node.data.data =! null) {
-              console.log('this is node.data.data[measureName] ', node.data.data);
-              node.size = node.data.data[measureName];
-            } 
-            console.log('this is the new calculated node size ', node.size);
+        if (node.data.data =! null) {
+          console.log('this is node.data.data[measureName] ', node.data.data);
+          node.size = node.data.data[measureName];
+        } console.log('this is the new calculated node size ', node.size);
         } else {
-            // node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
-            node.size = 140;
+          // node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
+          node.size = 140;
         }
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
@@ -270,17 +269,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Take in the finished scale functions to calculate the radius before we calculate the simulation
     root.descendants().forEach(node => {    // Scale in the size based on the depth = notch starts at zero
-            // So on d = 0 then scale a, d = 1 then scale b, else then d = scale c
-        if(node.depth == 0) { node.radius = scaleA(node.size); } 
-        if(node.depth == 1) { node.radius = scaleB(node.size); } 
-        else { node.radius = scaleC(node.size); }
-                // This is to calculate all teh uniqueTypeValues into a single array.
-        if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
-            if(currentValue != d['data']['data'][type]['value']) {
-                currentValue = d['data']['data'][type]['value'];
-                uniqueTypeValues.push(currentValue);
-            }
+        // So on d = 0 then scale a, d = 1 then scale b, else then d = scale c
+      if(node.depth == 0) { node.radius = scaleA(node.size); } 
+      if(node.depth == 1) { node.radius = scaleB(node.size); } 
+      else { node.radius = scaleC(node.size); }
+            // This is to calculate all teh uniqueTypeValues into a single array.
+      if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
+        if(currentValue != d['data']['data'][type]['value']) {
+          currentValue = d['data']['data'][type]['value'];
+          uniqueTypeValues.push(currentValue);
         }
+      }
     })
     console.log('This is uniqueTypeValues', uniqueTypeValues);
 
@@ -507,6 +506,7 @@ function update() { /* Initialize some parameters that we will need for */
         // This give a unique color for each, and based on the notch we'll lighten or darken the color!
     function color(d) {
         if (useType == 'true') {
+        console.log('unique type values', uniqueTypeValues);
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
             switch(uniqueTypeValues) {
                 case uniqueTypeValues[0]: // #3498DB 
