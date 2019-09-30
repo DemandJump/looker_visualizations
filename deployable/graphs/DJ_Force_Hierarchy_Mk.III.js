@@ -382,7 +382,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**************************************************
               * Simulation Initialization *
     **************************************************/
-    let collision = d3.forceCollide().radius(d => d.radius + 5).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
+    let collision = d3.forceCollide().radius(d => d.radius + 10).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
@@ -552,8 +552,8 @@ function update() { /* Initialize some parameters that we will need for */
             : d.data.data[type]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4')
             : d.data.data[type]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
             : d.data.data[type]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
-            : lightenOrDarken(d, '#202020	')
-          } else { lightenOrDarken(d, '#BDBDBD'); }
+            : lightenOrDarken(d, '#BDBDBD')
+          } else { lightenOrDarken(d, '#202020'); }
 
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? "#c6dbef"
@@ -563,7 +563,8 @@ function update() { /* Initialize some parameters that we will need for */
         }
     }
         
-    
+      // Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   
+
     function border(d) {    // Calculates the border
         return d._children ? "#c6dbef" // collapsed node
             : d.children ? "#008CCD" // expanded node
