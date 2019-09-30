@@ -284,7 +284,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (useMeasure == 'true') {
         minMeasure = 100000000000, maxMeasure = 0;
         console.log('this the meausre name within mutatint the data', measureName);
-        
+
         root.descendants().forEach(node => {
           node.size = 120;
           console.log('were in the root descendants, here is the useMeasure',  node);
@@ -308,8 +308,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([1, 25]);
     scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
     scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
-    
-
 
 
     /****************************************************
