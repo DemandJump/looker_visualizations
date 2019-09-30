@@ -545,39 +545,39 @@ function update() { /* Initialize some parameters that we will need for */
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
             switch(uniqueTypeValues) {
                 case uniqueTypeValues[0]: // #3498DB 
-                    lightenOrDarken(d, '#3498DB')
+                    return lightenOrDarken(d, '#3498DB')
                     break;
 
                 case uniqueTypeValues[1]: // #F39C12 
-                    lightenOrDarken(d, '#F39C12')
+                    return lightenOrDarken(d, '#F39C12')
                     break; 
 
                 case uniqueTypeValues[2]: // #2ECC71
-                    lightenOrDarken(d, '#2ECC71')
+                    return lightenOrDarken(d, '#2ECC71')
                     break; 
 
                 case uniqueTypeValues[3]: // #8E44AD
-                    lightenOrDarken(d, '#8E44AD')
+                    return lightenOrDarken(d, '#8E44AD')
                     break;
                     
                 case uniqueTypeValues[4]: // #E74C3C
-                    lightenOrDarken(d, '#E74C3C')
+                    return lightenOrDarken(d, '#E74C3C')
                     break;
 
                 case uniqueTypeValues[5]: // #00BCD4
-                    lightenOrDarken(d, '#00BCD4')
+                    return lightenOrDarken(d, '#00BCD4')
                     break;
 
                 case uniqueTypeValues[6]: // #CDDC39
-                    lightenOrDarken(d, '#CDDC39')
+                    return lightenOrDarken(d, '#CDDC39')
                     break;
 
                 case uniqueTypeValues[7]: // #F06292
-                    lightenOrDarken(d, '#F06292')
+                    return lightenOrDarken(d, '#F06292')
                     break;
 
                 default: // #BDBDBD 
-                    lightenOrDarken(d, '#BDBDBD')
+                    return lightenOrDarken(d, '#BDBDBD')
                     break;
 
             }
@@ -703,17 +703,13 @@ function update() { /* Initialize some parameters that we will need for */
         if(d.depth == notch) { 
             return caseColor;
         } else if(d.depth == notch + 1) {
-            LightenDarkenColor(caseColor, 20); 
-            return caseColor;
+            return LightenDarkenColor(caseColor, 20); 
         } else if(d.depth == notch - 1) {
-            LightenDarkenColor(caseColor, -20);
-            return caseColor;
+            return LightenDarkenColor(caseColor, -20);
         } else if(d.depth <= notch - 2) {
-            LightenDarkenColor(caseColor, -40);
-            return caseColor;
+            return LightenDarkenColor(caseColor, -40);
         } else if(d.depth >= notch + 2) {
-            LightenDarkenColor(caseColor, 40);
-            return caseColor;
+            return LightenDarkenColor(caseColor, 40);
         } else { // To know if something went wrong
             return '#F5F5F5'
         }
