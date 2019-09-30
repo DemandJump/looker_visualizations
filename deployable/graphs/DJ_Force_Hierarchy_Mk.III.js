@@ -182,7 +182,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         console.log('this is the type name!', type);
         useType = 'true';
-         // Now we need to put the first type value in the array so it can run a for loop for us!
 
     } 
     if(config.add_type == "false") { 
@@ -236,8 +235,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
 
+    let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
+        if (counter == 0) {
+          uniqueTypeValues.push(leaf['data']['data'][type]);
+          counter ++;
+        }
     });  console.log('MaxDepth', maxDepth);
 
     console.log(`This is useMeasure: ${useMeasure}, and this is useType: ${useType}`);
