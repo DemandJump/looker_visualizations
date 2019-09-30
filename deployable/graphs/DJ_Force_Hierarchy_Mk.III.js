@@ -36,7 +36,7 @@
           display: "radio",
           default: "false"
       },
-      collapse: {
+      add_collapse: {
         type: "string",
         label: "This will auto collapse the nodes when you initialize the visualizaiton",
         values: [
@@ -204,8 +204,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if(config.add_measure == 'false') { useMeasure = 'false'; }
     console.log(`Using type: ${useType}, and Using measure: ${useMeasure}`);
 
-    if(config.collapse == 'true') { useCollapse = 'true'; }
-    if(config.collapse == 'false') { useCollapse = 'false'; }
+    if(config.add_collapse == 'true') { useCollapse = 'true'; }
+    if(config.add_collapse == 'false') { useCollapse = 'false'; }
     /**************************************************
             End of Options * * * * * *****************/
 
