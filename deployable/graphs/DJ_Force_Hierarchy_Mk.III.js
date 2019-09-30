@@ -572,7 +572,7 @@ function update() { /* Initialize some parameters that we will need for */
             : d.data.data[type]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
             : d.data.data[type]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
             : lightenOrDarken(d, '#BDBDBD')
-          } else { lightenOrDarken(d, '#008CCD'); }
+          } else { return lightenOrDarken(d, '#008CCD'); }
 
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? "#c6dbef"
