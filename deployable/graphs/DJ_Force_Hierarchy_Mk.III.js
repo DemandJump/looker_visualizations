@@ -283,22 +283,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
     console.log('This is uniqueTypeValues', uniqueTypeValues);
 
-      // Let's calculate the node size for when we add a measure!
-      /*
-      if (useMeasure == 'true') {
-        console.log('were in the root descendants, here is the useMeasure',  node);
-        console.log('this the meausre name within mutatint the data', measureName);
-        node.size = 100;
 
-        if (node.data.data =! null) {
-          console.log('this is node.data.data[measureName] ', node.data.data);
-          node.size = node.data.data[measureName];
-        } console.log('this is the new calculated node size ', node.size);
-        } else {
-          // node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
-          node.size = 140;
-        }
-      */
+    
+      // Let's calculate the node size for when we add a measure!
+      if (useMeasure == 'true') {
+        console.log('this the meausre name within mutatint the data', measureName);
+        root.descendants().forEach(node => {
+          node.size = 120;
+          console.log('were in the root descendants, here is the useMeasure',  node);
+
+          if (node.data.data) {
+            console.log('this is node.data parse', node.data.data);
+            node.size = node.data.data[measureName];
+            console.log('this is the new calculated node size ', node.size);
+          } 
+          console.log('calculated or not(if or preset), here is the value', node.size);
+        })
+      }
+
+
+
 
     /****************************************************
                  * End of Initialization *
