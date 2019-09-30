@@ -543,44 +543,17 @@ function update() { /* Initialize some parameters that we will need for */
       console.log('This is the ligthen or darken function' );
         if (useType == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
-            switch(uniqueTypeValues) {
-                case uniqueTypeValues[0]: // #3498DB 
-                    return lightenOrDarken(d, '#3498DB')
-                    break;
-
-                case uniqueTypeValues[1]: // #F39C12 
-                    return lightenOrDarken(d, '#F39C12')
-                    break; 
-
-                case uniqueTypeValues[2]: // #2ECC71
-                    return lightenOrDarken(d, '#2ECC71')
-                    break; 
-
-                case uniqueTypeValues[3]: // #8E44AD
-                    return lightenOrDarken(d, '#8E44AD')
-                    break;
-                    
-                case uniqueTypeValues[4]: // #E74C3C
-                    return lightenOrDarken(d, '#E74C3C')
-                    break;
-
-                case uniqueTypeValues[5]: // #00BCD4
-                    return lightenOrDarken(d, '#00BCD4')
-                    break;
-
-                case uniqueTypeValues[6]: // #CDDC39
-                    return lightenOrDarken(d, '#CDDC39')
-                    break;
-
-                case uniqueTypeValues[7]: // #F06292
-                    return lightenOrDarken(d, '#F06292')
-                    break;
-
-                default: // #BDBDBD 
-                    return lightenOrDarken(d, '#BDBDBD')
-                    break;
-
-            }
+          if(d.data.data) {
+            return d.data.data[type]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB')
+            : d.data.data[type]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12')
+            : d.data.data[type]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71')
+            : d.data.data[type]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD')
+            : d.data.data[type]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#E74C3C')
+            : d.data.data[type]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4')
+            : d.data.data[type]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
+            : d.data.data[type]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
+            : lightenOrDarken(d, '#BDBDBD')
+          }
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? "#c6dbef"
             : d.notch == 'a' ? "#008CCD"
