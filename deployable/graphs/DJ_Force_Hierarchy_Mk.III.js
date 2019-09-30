@@ -130,7 +130,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Fixed instantiating uniqueTypeValue so now it should store unique values witihin the array before we start running the data!');
+    console.log('Fixed instantiating uniqueTypeValue so now it should store unique values witihin the array before we start running the data!!');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         /****** Log all these functions to see what we're working with ******/
