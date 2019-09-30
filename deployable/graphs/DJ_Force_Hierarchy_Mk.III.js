@@ -239,13 +239,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
-        if (counter == 0) {
-          console.log('leaves', leaf);
-          console.log('type: ', type)
-          let pass = leaf.data.data[type]['value'];
-          console.log('pass', pass);
-          uniqueTypeValues.push(pass);
-          counter ++;
+        if (useType == 'true') {
+          if (counter == 0) {
+            console.log('leaves', leaf);
+            console.log('type: ', type)
+            let pass = leaf.data.data[type]['value'];
+            console.log('pass', pass);
+            uniqueTypeValues.push(pass);
+            counter ++;
+          }
         }
     });  console.log('MaxDepth', maxDepth);
 

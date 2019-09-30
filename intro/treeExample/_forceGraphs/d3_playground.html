@@ -72,7 +72,11 @@ const Graph = ForceGraph3D()
         .linkWidth(link => link === highlightLink ? 4 : 1)
         .linkDirectionalParticles(link => link === highlightLink ? 5 : 0)
         .linkDirectionalParticleWidth(.64)
-        .linkDirectionalArrowLength(link => link === highlightLink ? 10 : 4) // The length of the arrow
+        .linkDirectionalArrowLength(link => {
+            return link === highlightLink ? 10 
+            : highlightNodes.indexOf(link.source) != -1 ? 10 
+            : 4
+        }) // The length of the arrow
         .linkDirectionalArrowRelPos(.125)
         .linkCurvature(.05)
         .onNodeHover(node => {
