@@ -463,6 +463,7 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('circle') // Only edits the entering circles
         .attr('r', notchRadius)
         .attr('stroke', border)
+        .attr('stroke-width', '2')
         .style('fill', color)
         .on('.dblclick.zoom', null);
 // Create the text for the node
@@ -559,7 +560,6 @@ function update() { /* Initialize some parameters that we will need for */
     *********************/
         // This give a unique color for each, and based on the notch we'll lighten or darken the color!
     function color(d) {
-      console.log('This is the ligthen or darken function' );
         if (useType == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
           if(d.data.data) {
