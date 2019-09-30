@@ -63,26 +63,28 @@ const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
 (elem)
 
 (document.getElementById('3d-graph'))
-  .graphData(gData)
+  .graphData(gData) // Pass in the graph data
   .nodeLabel('id') // This is the name when you hover over the label
   .nodeAutoColorBy('id') // Pass in a value for the table to give a unique color for each unique value of that set of data
   .linkOpacity(0.34) // Makes the links transparent
+  
+  Graph.d3Force('charge').strength(-120) // This spaces the nodes out more
 
     
-  Graph // This section makes the nodes text instead of circles
-    .nodeThreeObject(node => { // This is to create the nodes as text instead of nodes!
-        // use a sphere as a drag handle
-      const obj = new THREE.Mesh(
-        new THREE.SphereGeometry(10),
-        new THREE.MeshBasicMaterial({ depthWrite: false, transparent: true, opacity: 0 })
-      );
-        // add text sprite as child
-      const sprite = new SpriteText(node.id);
-      sprite.color = node.color;
-      sprite.textHeight = 5;
-      obj.add(sprite);
-      return obj;
-    });
+  // Graph // This section makes the nodes text instead of circles
+  //   .nodeThreeObject(node => { // This is to create the nodes as text instead of nodes!
+  //       // use a sphere as a drag handle
+  //     const obj = new THREE.Mesh(
+  //       new THREE.SphereGeometry(10),
+  //       new THREE.MeshBasicMaterial({ depthWrite: false, transparent: true, opacity: 0 })
+  //     );
+  //       // add text sprite as child
+  //     const sprite = new SpriteText(node.id);
+  //     sprite.color = node.color;
+  //     sprite.textHeight = 5;
+  //     obj.add(sprite);
+  //     return obj;
+  //   });
 
     
   Graph // This add the link arrows, and then a curve to the links
@@ -107,8 +109,12 @@ const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
         1400  // ms transition duration
       );
     });
+
   
-  Graph.d3Force('charge').strength(-120);
+  Graph // When you hover over a node this will highlight the links/nodes
+    .onNodeHover(node => {
+      Graph.linkDirectionalArrowLength(10);
+    })
 
 
 

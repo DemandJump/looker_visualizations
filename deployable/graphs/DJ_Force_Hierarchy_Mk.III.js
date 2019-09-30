@@ -255,11 +255,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });   console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
 
 
-            // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
-        // Let's go ahead and create the scale functions based on the notch focus   
-    scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([1, 25]);
-    scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
-    scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
 
 
         // Take in the finished scale functions to calculate the radius before we calculate the simulation
@@ -285,22 +280,35 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     
-      // Let's calculate the node size for when we add a measure!
+      // Let's calculate the node size for when we add a measure! Also recalculate the min and max measures for this conditional!
       if (useMeasure == 'true') {
+        minMeasure = 100000000000, maxMeasure = 0;
         console.log('this the meausre name within mutatint the data', measureName);
+        
         root.descendants().forEach(node => {
           node.size = 120;
           console.log('were in the root descendants, here is the useMeasure',  node);
 
           if (node.data.data) {
             console.log('this is node.data parse', node.data.data);
-            node.size = node.data.data[measureName];
+            node.size = node.data.data[measureName]['value'];
             console.log('this is the new calculated node size ', node.size);
           } 
           console.log('calculated or not(if or preset), here is the value', node.size);
+
+
+            // Now we must reinstantiate the min and max measures!
+          if(node.size < minMeasure) { minMeasure = node.size; }
+          if(node.size > maxMeasure) { maxMeasure = node.size; }
         })
       }
 
+            // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
+        // Let's go ahead and create the scale functions based on the notch focus   
+    scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([1, 25]);
+    scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
+    scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
+    
 
 
 
