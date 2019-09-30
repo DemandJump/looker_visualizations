@@ -59,26 +59,28 @@ console.log('links: ', gData.links);
 
 
 
-    let highlightNodes = [];
-    let unhlt = null;
-    let highlightLink = null;
-    const Graph = ForceGraph3D()
-      (document.getElementById('3d-graph'))
+let highlightNodes = [];
+let unhlt = null;
+let highlightLink = null;
+const elem = document.getElementById('3d-graph')
+const Graph = ForceGraph3D()
+(elem)(document.getElementById('3d-graph'))
         .graphData(gData)
+        .nodeLabel('id') // This is the name when you hover over the label
         .nodeColor(node => highlightNodes.indexOf(node) === -1 ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
-        // .nodeColor(node => unhlt !== node ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
         .linkWidth(link => link === highlightLink ? 4 : 1)
-        .linkDirectionalParticles(link => link === highlightLink ? 4 : 0)
-        .linkDirectionalParticleWidth(4)
+        .linkDirectionalParticles(link => link === highlightLink ? 5 : 0)
+        .linkDirectionalParticleWidth(.64)
         .onNodeHover(node => {
-          // no state change
-          if ((!node && !highlightNodes.length) || (highlightNodes.length === 1 && highlightNodes[0] === node)) return ;
-          highlightNodes = node ? [node] : [];
+            elem.style.cursor = node ? 'pointer' : null;
+            // no state change
+            if ((!node && !highlightNodes.length) || (highlightNodes.length === 1 && highlightNodes[0] === node)) return ;
+            highlightNodes = node ? [node] : [];
 
-          unhlt = node; 
-          updateHighlight();
+            updateHighlight();
         })
         .onLinkHover(link => {
+            elem.style.cursor = node ? 'pointer' : null;
             // no state change
           if (highlightLink === link) return;
           highlightLink = link;
@@ -87,6 +89,8 @@ console.log('links: ', gData.links);
           highlightNodes = link ? [link.source, link.target] : [];
           updateHighlight();
         });
+
+    Graph.d3Force('charge').strength(-120);
 
 
 

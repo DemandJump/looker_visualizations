@@ -240,6 +240,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
         if (counter == 0) {
           console.log('leaves', leaf);
+          console.log('type: ', type)
           let pass = leaf.data.data[type]['value'];
           console.log('pass', pass);
           uniqueTypeValues.push(pass);
