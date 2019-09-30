@@ -82,6 +82,8 @@ console.log('links: ', gData.links);
             // no state change
           if (highlightLink === link) return;
           highlightLink = link;
+          console.log('link', link);
+          console.log('Current highlight nodes', highlightNodes);
           highlightNodes = link ? [link.source, link.target] : [];
           updateHighlight();
         });
