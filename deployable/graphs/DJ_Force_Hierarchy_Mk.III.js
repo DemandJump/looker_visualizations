@@ -258,23 +258,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Let's calculate the node size for when we add a measure! Also recalculate the min and max measures for this conditional!
       if (useMeasure == 'true') {
         minMeasure = 100000000000, maxMeasure = 0;
-        console.log('this the meausre name within mutatint the data', measureName);
+        console.log('this the measure name within mutatint the data', measureName);
     
         root.descendants().forEach(node => {
           node.size = 120;
-          console.log('were in the root descendants, here is the useMeasure',  node);
-    
+          // console.log('were in the root descendants, here is the useMeasure',  node);
           if (node.data.data) {
-            console.log('this is node.data parse', node.data.data);
+            // console.log('this is node.data parse', node.data.data);
             node.size = node.data.data[measureName]['value'];
-            console.log('this is the new calculated node size ', node.size);
-            } 
+          } 
           console.log('calculated or not(if or preset), here is the value', node.size);
         })
+
         root.descendants().forEach(node => {  // Now we must reinstantiate the min and max measures!
           if(node.size < minMeasure) { minMeasure = node.size; }
           if(node.size > maxMeasure) { maxMeasure = node.size; }
         })
+        console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
       }
     
                 // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
@@ -294,6 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // This is to calculate all teh uniqueTypeValues into a single array.
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
+        console.log('node in this section!', node);
         if(node['data']['data'][type]['value']) {
           if (currentValue != node['data']['data'][type]['value']) {
             currentValue = node['data']['data'][type]['value'];
