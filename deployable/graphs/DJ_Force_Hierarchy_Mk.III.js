@@ -506,7 +506,7 @@ function update() { /* Initialize some parameters that we will need for */
     *********************/
         // This give a unique color for each, and based on the notch we'll lighten or darken the color!
     function color(d) {
-        if (useMeasure == 'true') {
+        if (useType == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
             switch(uniqueTypeValues) {
                 case uniqueTypeValues[0]: // #3498DB 
