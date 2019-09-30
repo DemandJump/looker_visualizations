@@ -41,7 +41,6 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
-    this._notch = 1;
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -214,7 +213,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
-    // notch = 0, // Notch is the counter for our good ol daters
+    notch = 0, // Notch is the counter for our good ol daters
     currentValue = '',
     maxDepth = 0,
     minMeasure = 100000000000,
@@ -295,8 +294,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // Create the ui for this 
 
     this._prevBtn.on('click', event => {
-        if(this._notch > 0) {
-            this._notch --; // To navigate the 
+        if(notch > 0) {
+            notch --; // To navigate the 
             update();
             simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
             simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
@@ -304,8 +303,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
 
     this._nextBtn.on('click', event => {
-        if(this._notch < maxDepth) {
-            this._notch ++; // To navigate the 
+        if(notch < maxDepth) {
+            notch ++; // To navigate the 
             update();
             simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
             simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
@@ -372,7 +371,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 function update() { /* Initialize some parameters that we will need for */
     nodes = root.descendants(); console.log('Nodes: ', nodes);
     links = root.links(); console.log('links: ', links);
-    console.log('notch: ', this._notch);
+    console.log('notch: ', notch);
     dragNodes = root.descendants().map(map => map.index);
 
     
@@ -562,11 +561,11 @@ function update() { /* Initialize some parameters that we will need for */
     }
     
     function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
-        if(d.depth == this._notch) {
+        if(d.depth == notch) {
             d.notch = 'a';
             d.radius = scaleA(d.size);
             return d.radius;
-        } if(d.depth == this._notch -1 || d.depth == this._notch - 1) {
+        } if(d.depth == notch -1 || d.depth == notch - 1) {
             d.notch = 'b';
             d.radius = scaleB(d.size);
             return d.radius;
