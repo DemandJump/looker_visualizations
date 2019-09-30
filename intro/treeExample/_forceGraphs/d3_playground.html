@@ -67,22 +67,20 @@ const Graph = ForceGraph3D()
 (elem)(document.getElementById('3d-graph'))
         .graphData(gData)
         .nodeLabel('id') // This is the name when you hover over the label
+        .linkOpacity(.34)
         .nodeColor(node => highlightNodes.indexOf(node) === -1 ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
         .linkWidth(link => link === highlightLink ? 4 : 1)
         .linkDirectionalParticles(link => link === highlightLink ? 5 : 0)
         .linkDirectionalParticleWidth(.64)
         .onNodeHover(node => {
-            elem.style.cursor = node ? 'pointer' : null;
-            // no state change
-            if ((!node && !highlightNodes.length) || (highlightNodes.length === 1 && highlightNodes[0] === node)) return ;
+            elem.style.cursor = node ? 'pointer' : null;    // no state change
+            if ((!node && !highlightNodes.length) || (highlightNodes.length === 1 && highlightNodes[0] === node)) return;
             highlightNodes = node ? [node] : [];
 
             updateHighlight();
         })
         .onLinkHover(link => {
-            elem.style.cursor = node ? 'pointer' : null;
-            // no state change
-          if (highlightLink === link) return;
+          if (highlightLink === link) return;   // no state change
           highlightLink = link;
           console.log('link', link);
           console.log('Current highlight nodes', highlightNodes);
@@ -90,7 +88,7 @@ const Graph = ForceGraph3D()
           updateHighlight();
         });
 
-    Graph.d3Force('charge').strength(-120);
+    // Graph.d3Force('charge').strength(-120);
 
 
 

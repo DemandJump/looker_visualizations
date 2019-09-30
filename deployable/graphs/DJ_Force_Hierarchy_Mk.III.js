@@ -196,6 +196,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if(config.add_measure == 'false') {
         useMeasure = 'false';
     }
+    console.log(`Using type: ${useType}, and Using measure: ${useMeasure}`);
     /**************************************************
             End of Options * * * * * *****************/
 
