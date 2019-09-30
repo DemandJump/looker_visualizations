@@ -72,6 +72,9 @@ const Graph = ForceGraph3D()
         .linkWidth(link => link === highlightLink ? 4 : 1)
         .linkDirectionalParticles(link => link === highlightLink ? 5 : 0)
         .linkDirectionalParticleWidth(.64)
+        .linkDirectionalArrowLength(link => link === highlightLink ? 10 : 4) // The length of the arrow
+        .linkDirectionalArrowRelPos(.125)
+        .linkCurvature(.05)
         .onNodeHover(node => {
             elem.style.cursor = node ? 'pointer' : null;    // no state change
             if ((!node && !highlightNodes.length) || (highlightNodes.length === 1 && highlightNodes[0] === node)) return;
@@ -99,7 +102,8 @@ const Graph = ForceGraph3D()
       Graph
         .nodeColor(Graph.nodeColor())
         .linkWidth(Graph.linkWidth())
-        .linkDirectionalParticles(Graph.linkDirectionalParticles());
+        .linkDirectionalParticles(Graph.linkDirectionalParticles())
+        .linkDirectionalArrowLength(Graph.linkDirectionalArrowLength());
     }
         </script>
 

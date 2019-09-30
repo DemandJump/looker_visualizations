@@ -539,7 +539,6 @@ function update() { /* Initialize some parameters that we will need for */
         // This give a unique color for each, and based on the notch we'll lighten or darken the color!
     function color(d) {
         if (useType == 'true') {
-        console.log('unique type values', uniqueTypeValues);
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
             switch(uniqueTypeValues) {
                 case uniqueTypeValues[0]: // #3498DB 
@@ -703,10 +702,10 @@ function update() { /* Initialize some parameters that we will need for */
             LightenDarkenColor(caseColor, -20);
             return caseColor;
         } else if(d.depth <= notch - 2) {
-            lightenDarkenColor(caseColor, -40);
+            LightenDarkenColor(caseColor, -40);
             return caseColor;
         } else if(d.depth >= notch + 2) {
-            lightenDarkenColor(caseColor, 40);
+            LightenDarkenColor(caseColor, 40);
             return caseColor;
         } else { // To know if something went wrong
             return '#F5F5F5'
