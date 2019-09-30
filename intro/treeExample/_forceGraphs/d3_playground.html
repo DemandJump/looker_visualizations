@@ -79,7 +79,7 @@ console.log('links: ', gData.links);
           updateHighlight();
         })
         .onLinkHover(link => {
-          // no state change
+            // no state change
           if (highlightLink === link) return;
           highlightLink = link;
           highlightNodes = link ? [link.source, link.target] : [];
