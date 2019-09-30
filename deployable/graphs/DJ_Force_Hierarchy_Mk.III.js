@@ -279,7 +279,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
                 // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
             // Let's go ahead and create the scale functions based on the notch focus   
-        scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([1, 25]);
+        scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([4, 25]);
         scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
         scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
 
@@ -294,7 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // This is to calculate all teh uniqueTypeValues into a single array.
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
-        if(currentValue != node['data']['data'][type]['value'] && node['data']['data'][type]['value'] != null) {
+        if(node['data']['data'][type]['value'] && currentValue != node['data']['data'][type]['value']) {
           currentValue = node['data']['data'][type]['value'];
           let trueIfNewValue = true;
           for(j = 0; j < uniqueTypeValues.length; j++) {

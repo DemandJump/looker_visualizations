@@ -120,6 +120,7 @@ const Graph = ForceGraph3D(/*{ controlType: 'fly' }*/)
 
 
   function runChange() {
+    console.log('change', changed);
     Graph
       .linkDirectionalArrowLength(Graph.linkDirectionalArrowLength());
   }
