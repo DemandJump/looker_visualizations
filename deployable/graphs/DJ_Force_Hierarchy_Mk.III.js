@@ -180,7 +180,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         console.log('this is the type name!', type);
         useType = 'true';
-        return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
     } 
     if(config.add_type == "false") { 
       taxonomyPass = queryResponse.fields.dimension_like; 
