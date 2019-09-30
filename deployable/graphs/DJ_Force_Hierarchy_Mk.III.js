@@ -462,7 +462,7 @@ function update() { /* Initialize some parameters that we will need for */
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
         .attr('r', notchRadius)
-        .attr('border', border)
+        .attr('stroke', border)
         .style('fill', color)
         .on('.dblclick.zoom', null);
 // Create the text for the node
