@@ -179,7 +179,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     if(config.add_type == "true") {
         taxonomyPass.pop();
-        let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
+        type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         console.log('this is the type name!', type);
         useType = 'true';
 
