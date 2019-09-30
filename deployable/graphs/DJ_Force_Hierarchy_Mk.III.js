@@ -245,6 +245,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (useMeasure == 'true') {
             console.log('were in the root descendants, here is the useMeasure',  node);
             console.log('this the meausre name within mutatint the data', measureName);
+            node.size = 100;
 
             if (node.data.data =! null) {
               console.log('this is node.data.data[measureName] ', node.data.data);
