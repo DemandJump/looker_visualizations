@@ -24,7 +24,7 @@
                 {"No type added yet": "false"}
             ],
             display: "radio",
-            default: "false"
+            default: "true"
         },
         add_measure: {
           type: "string",
@@ -34,7 +34,7 @@
               {"Don't use a measure": "false"}
           ],
           display: "radio",
-          default: "false"
+          default: "true"
       }
     },
 
