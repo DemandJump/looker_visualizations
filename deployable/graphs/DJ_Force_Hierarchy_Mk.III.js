@@ -35,7 +35,17 @@
           ],
           display: "radio",
           default: "false"
-      }
+      },
+      collapse: {
+        type: "string",
+        label: "This will auto collapse the nodes when you initialize the visualizaiton",
+        values: [
+            {"Auto Collapse": "true"},
+            {"Open it back up": "false"}
+        ],
+        display: "radio",
+        default: "false"
+    }
     },
 
     // Onto the create section 
