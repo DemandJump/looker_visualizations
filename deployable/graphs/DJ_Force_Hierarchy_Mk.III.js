@@ -595,7 +595,7 @@ function update() { /* Initialize some parameters that we will need for */
             d.notch = 'a';
             d.radius = scaleA(d.size);
             return d.radius;
-        } if(d.depth == notch -1 || d.depth == notch - 1) {
+        } if(d.depth == notch -1 || d.depth == notch + 1) {
             d.notch = 'b';
             d.radius = scaleB(d.size);
             return d.radius;
