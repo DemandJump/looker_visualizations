@@ -301,8 +301,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // This is to calculate all teh uniqueTypeValues into a single array.
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
-        console.log('node in this section!', node);
-        console.log('this is the current type', type);
+        // console.log('node in this section!', node);
+        // console.log('this is the current type', type);
         if(node.data.data) {
           if (currentValue != node.data.data[type]['value']) {
             currentValue = node['data']['data'][type]['value'];
@@ -540,6 +540,7 @@ function update() { /* Initialize some parameters that we will need for */
     *********************/
         // This give a unique color for each, and based on the notch we'll lighten or darken the color!
     function color(d) {
+      console.log('This is the ligthen or darken function' );
         if (useType == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
             switch(uniqueTypeValues) {
@@ -666,6 +667,8 @@ function update() { /* Initialize some parameters that we will need for */
         // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
     function LightenDarkenColor(col, amt) {
         var usePound = false; // Determines path taken based on whether hash was used or not
+        console.log('this is col', col);
+        console.log('this is amt', amt);
         if (col[0] == "#") {
             col = col.slice(1);
             usePound = true;
@@ -694,6 +697,8 @@ function update() { /* Initialize some parameters that we will need for */
 
     // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
     function lightenOrDarken(d, caseColor) {
+      console.log('lightenordarken this is d,', d);
+      console.log('this is casecolor', caseColor);
         // Use d to find d.notch to see whether to lighten or darken the color
         if(d.depth == notch) { 
             return caseColor;
