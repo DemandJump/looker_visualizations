@@ -296,8 +296,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
         console.log('node in this section!', node);
         console.log('this is the current type', type);
-        if(node['data']['data'][type]['value']) {
-          if (currentValue != node['data']['data'][type]['value']) {
+        if(node.data.data) {
+          if (currentValue != node.data.data[type]['value']) {
             currentValue = node['data']['data'][type]['value'];
             let trueIfNewValue = true;
             for(j = 0; j < uniqueTypeValues.length; j++) {
