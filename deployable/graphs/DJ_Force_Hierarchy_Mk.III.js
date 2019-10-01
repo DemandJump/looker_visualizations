@@ -381,19 +381,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .html('')
         .attr('width', width)
         .attr('height', height)
-        .on('.dblclick.zoom', null);
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything')
-        .on('.dblclick.zoom', null);
         // Zoom Stuff //
     let zoom_handler = d3.zoom()
-        .on('.dblclick.zoom', null)
-        .on('zoom', zoom_actions);
+        .on('zoom', zoom_actions)
+        .on('dblclick.zoom', null);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
-        .on('.dblclick.zoom', null)
+        .on('dblclick.zoom', null)
     }
     /*****************************************
                 * End of build *
@@ -465,11 +463,7 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
         .on('.dblclick.zoom', null)
-        .on('.dblclick', d => {
-          console.log('this is the node you double clicked', d);
-          notch = d.depth;
-          simulation.restart();
-        })
+        .on('dblclick', click2Focus)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
@@ -731,6 +725,12 @@ function update() { /* Initialize some parameters that we will need for */
             d._children = null;
         }
         update(); // Rerun the function with the new data
+    }
+    function click2Focus(d) {
+        console.log('this is the node you double clicked', d);
+        notch = d.depth;
+        update();
+        simulation.restart();
     }
     
     
