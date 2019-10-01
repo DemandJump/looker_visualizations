@@ -693,18 +693,32 @@ function update() { /* Initialize some parameters that we will need for */
         // console.log('end of notch radius', d);
     }
     
-    function textSpacing(d) { // This calculates the spacing based on the radius of each node
-        // console.log('this is text spacing', d )
-        let spacing = 2 * d.r * Math.cos(Math.PI / 4),
-        dx = d.r - spacing / 2; 
-        return dx;
+    function calcText(d) { // This calculates the spacing based on the radius of each node
+        console.log('Time to split the text in to many text nodes', d);
+        d.data.text1 = d.data.text2 = d.data.text3 = ' ';
+        let charLen = d.data.name.length;
+        let holder = d.data.name; // This will hold the text we splice and dice 
+        let count; // This holds the count of the data that we divide and floor to splice the data
+
+        if(charLen > 28) { // One circle of notch a or b hold 14 characters within it's radius!
+          count = Math.floot(charlen / 3);
+          console.log('This is the floored count of a 3 line comment!', count);
+            // Then we take text1: portion1 = slice(0, count), text2: portion2 = slice(count, count * 2), text3: portion3 = slice(count * 2)
+          d.data.text1 = holder.slice(0, count);
+          d.data.text2 = holder.slice(count, (count * 2));
+          d.data.text3 = holder.slice((count * 2));
+          d.data.textspaces = 3; // We're using three text spaces (This is to calculate the d.y of each in a function);
+        } else if (charLen > 14) {
+          
+        }
+
     }
     
     function fontSize(d) { // Calculate the font size based on the depth
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
         : d.notch == 'b' || 'z' ? '.5rem'
-        : '.11rem'
+        : '.45rem'
     }
     
     
