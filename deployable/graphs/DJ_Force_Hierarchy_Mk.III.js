@@ -593,7 +593,8 @@ function update() { /* Initialize some parameters that we will need for */
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? "#c6dbef"
             : d.notch == 'a' ? "#008CCD"
-            : d.notch == 'b' || 'z' ? "#fd8d3c"
+            : d.notch == 'b' ? "#fd8d3c"
+            : d.notch == 'z' ? "#0000ae"
             : "#999999"
         }
     }
