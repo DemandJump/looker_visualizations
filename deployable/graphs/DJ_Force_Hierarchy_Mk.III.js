@@ -386,7 +386,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('class', 'everything')
         // Zoom Stuff //
     let zoom_handler = d3.zoom()
-        .on('zoom', zoom_actions)
+        .call('zoom', zoom_actions)
         // .on('dblclick.zoom', null);
     zoom_handler(container);
     function zoom_actions() {
