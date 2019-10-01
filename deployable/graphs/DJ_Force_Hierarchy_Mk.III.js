@@ -472,7 +472,11 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke', border)
         .attr('stroke-width', '2')
         .style('fill', color)
-        .on('.dblclick', click2Focus);
+        .on('.dblclick', d => {
+          console.log('this is the node you double clicked', d);
+          notch = d.depth;
+          update();
+        });
         
 // Create the text for the node
     nodeEnter.append('text')
@@ -662,12 +666,6 @@ function update() { /* Initialize some parameters that we will need for */
             d._children = null;
         }
         update(); // Rerun the function with the new data
-    }
-
-    function click2Focus(d) {
-      console.log('this is the node you double clicked', d);
-      notch = d.depth;
-      update();
     }
     
     
