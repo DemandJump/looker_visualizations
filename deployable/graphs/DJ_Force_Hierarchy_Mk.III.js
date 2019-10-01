@@ -177,7 +177,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /****************** * * * * * Update the Options
     **************************************************/
             // Pull in the names of the type/measure dimensions
-    let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'],
+    let measureName = '',
     taxonomyPass = queryResponse.fields.dimension_like,
     lastDimension = queryResponse.fields.dimension_like.length - 1,
     type = null, // This stores the key name for the dimension when we parse into the data
@@ -185,7 +185,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     useType = 'false', 
     useCollapse = 'false',
     uniqueTypeValues = []; // Stored in an array to give unique colors for each
-    console.log('this is the measure name!', measureName);
+
+    if (queryResponse['fields']['measures'][0]) { // If there's measures, then calculate this data
+      measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
+    } console.log('this is the measure name!', measureName);
 
     
     if(config.add_type == "true") {
@@ -474,10 +477,25 @@ function update() { /* Initialize some parameters that we will need for */
 // Create the text for the node
     nodeEnter.append('text')
         // .attr('dx', textSpacing)
-        .attr('dy', '.35em')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .text(d => d.data.name); // This inputs the text
+        .text(d => calcText(d)) // This inputs the text
+        .attr('dy', spaceOne);
+// Second row of text
+    nodeEnter.append('text')
+        // .attr('dx', textSpacing)
+        .attr('text-anchor', 'middle')
+        .style('font-size', fontSize)
+        .text(d => calcT2(d)) // This inputs the text
+        .attr('dy', spaceTwo);
+// Third row of text
+    nodeEnter.append('text')
+        // .attr('dx', textSpacing)
+        .attr('text-anchor', 'middle')
+        .style('font-size', fontSize)
+        .text(d => calcT3(d)) // This inputs the text
+        .attr('dy', spaceThree);
+
     
 //Create and update the links 
     link = link.data(links, d => d.id);
@@ -487,6 +505,8 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke-width', '2.5')
         .attr('opacity', '0.45')
     
+
+
             //Exit Section
         node.exit().remove();
         link.exit().remove();
@@ -701,18 +721,49 @@ function update() { /* Initialize some parameters that we will need for */
         let count; // This holds the count of the data that we divide and floor to splice the data
 
         if(charLen > 28) { // One circle of notch a or b hold 14 characters within it's radius!
-          count = Math.floot(charlen / 3);
+          count = Math.floor(charLen / 3);
           console.log('This is the floored count of a 3 line comment!', count);
             // Then we take text1: portion1 = slice(0, count), text2: portion2 = slice(count, count * 2), text3: portion3 = slice(count * 2)
           d.data.text1 = holder.slice(0, count);
           d.data.text2 = holder.slice(count, (count * 2));
           d.data.text3 = holder.slice((count * 2));
           d.data.textspaces = 3; // We're using three text spaces (This is to calculate the d.y of each in a function);
+          console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}', Text3: '${d.data.text3}'.`);
         } else if (charLen > 14) {
-          
+          count = Math.floor(charLen / 2);
+          console.log('this is the floored count of a 2 line comment!', count);
+          d.data.text1 = holder.slice(0, count);
+          d.data.text2 = holder.slice(count);
+          d.data.textspaces = 2;
+          console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}'.`);
+        } else {
+          d.data.text1 = holder;
+          console.log('No floor needed here LOL KIDDO O^:;');
+          d.data.textspaces = 1; 
+          console.log(`Text1: '${d.data.text1}'`);
         }
-
+          // We just setup all teh functionality for the rest of the text node placements and what's placed in them 
+        return d.data.text1; // Return the node that is the same as all. The rest of the needed data is stored in there!
     }
+    function calcT2(d) { return d.data.text2; }
+    function calcT3(d) { return d.data.text3; }
+
+    function spaceOne(d) { // Spacing the first text element
+      return d.data.textspaces == 1 ? '.35em' 
+      : d.data.textspaces == 2 ? '.74em'
+      : '.113em'; // If textspaces = 3
+    }
+    function spaceTwo(d) { // Spacing the second text element
+      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textspaces == 2 ? '-.04em'
+      : '.35em' // If textspaces = 3
+    }
+    function spaceThree(d) { // Spacing the third text element
+      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textspaces == 2 ? '.35em' // This is an empty text element spaced to the middle!
+      : '-0.43em' // If textspaces = 3 
+    }
+
     
     function fontSize(d) { // Calculate the font size based on the depth
         //console.log('text stuff', d);
