@@ -183,7 +183,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     type = null, // This stores the key name for the dimension when we parse into the data
     useMeasure = 'false',
     useType = 'false', 
-    useCollapse = 'false';
+    useCollapse = 'false',
     uniqueTypeValues = []; // Stored in an array to give unique colors for each
     console.log('this is the measure name!', measureName);
 
@@ -193,7 +193,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
         console.log('this is the type name!', type);
         useType = 'true';
-
     } 
     if(config.add_type == "false") { 
       taxonomyPass = queryResponse.fields.dimension_like; 
@@ -380,7 +379,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let container = this._svg 
         .html('')
         .attr('width', width)
-        .attr('height', height);
+        .attr('height', height)
+        .on('.dblclick.zoom', null);
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything')
@@ -465,7 +465,8 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke', border)
         .attr('stroke-width', '2')
         .style('fill', color)
-        .on('.dblclick.zoom', null);
+        .on('.dblclick', click2Focus);
+        
 // Create the text for the node
     nodeEnter.append('text')
         // .attr('dx', textSpacing)
@@ -521,7 +522,7 @@ function update() { /* Initialize some parameters that we will need for */
             d.fx = d3.event.x;
             d.fy = d3.event.y;
         }  
-        function dragended(d) {
+        function dragended(d) { // This simulates a double click to move the node to the previous position
             if (!d3.event.active) simulation.alphaTarget(0);
                 // Time between 2 ends of drag:
             difference_ms = (new Date()).getTime() - clickDate.getTime();
@@ -539,7 +540,7 @@ function update() { /* Initialize some parameters that we will need for */
         return d3.drag() // .on instantiates these functions
             .on("start", dragstarted)
             .on("drag", dragged)
-            .on("end", dragended);
+            // .on("end", dragended);
     }
     
     function resetNodes() { // Reset the nodes when you press the button (It pulls the stuff closer to the center, but not hard reset)
@@ -620,7 +621,6 @@ function update() { /* Initialize some parameters that we will need for */
         : d.notch == 'b' ? '.5rem'
         : '.1rem'
     }
-
     
     
     /*********************
@@ -639,6 +639,12 @@ function update() { /* Initialize some parameters that we will need for */
             d._children = null;
         }
         update(); // Rerun the function with the new data
+    }
+
+    function click2Focus(d) {
+      console.log('this is the node you double clicked', d);
+      notch = d.depth;
+      update();
     }
     
     
