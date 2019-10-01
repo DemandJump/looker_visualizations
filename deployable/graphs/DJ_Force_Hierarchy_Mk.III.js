@@ -475,7 +475,7 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('circle') // Only edits the entering circles
         .attr('r', notchRadius)
         .attr('stroke', border)
-        .attr('stroke-width', '2')
+        .attr('stroke-width', borderWidth)
         .style('fill', color)
         
 // Create the text for the node
@@ -657,7 +657,12 @@ function update() { /* Initialize some parameters that we will need for */
             : d.children ? "#c6dbef" // expanded node
             : "#008CCD" // leaf node
     }
-    
+    function borderWidth(d) {
+      return d._children ? '5'
+        : d.children ? '2'
+        : '1.4'
+    }
+     
     // function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
     //     if(d.depth == notch) {
     //         d.notch = 'a';
@@ -706,7 +711,7 @@ function update() { /* Initialize some parameters that we will need for */
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
         : d.notch == 'b' || 'z' ? '.5rem'
-        : '.14rem'
+        : '.11rem'
     }
     
     
