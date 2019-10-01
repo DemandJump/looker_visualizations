@@ -387,12 +387,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Zoom Stuff //
     let zoom_handler = d3.zoom()
         .on('zoom', zoom_actions)
-        // .on('dblclick.zoom', null);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
-        .on('dblclick.zoom', null)
     }
+    svg.on('dblclick.zoom', null);
     /*****************************************
                 * End of build *
     *****************************************/
@@ -462,7 +461,6 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
-        .on('dblclick.zoom', null)
         .on('dblclick', click2Focus)
         .call(drag(simulation));
 // Create the circle
