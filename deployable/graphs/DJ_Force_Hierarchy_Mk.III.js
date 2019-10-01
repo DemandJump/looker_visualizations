@@ -692,8 +692,8 @@ function update() { /* Initialize some parameters that we will need for */
         // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
     function LightenDarkenColor(col, amt) {
         var usePound = false; // Determines path taken based on whether hash was used or not
-        console.log('this is col', col);
-        console.log('this is amt', amt);
+        // console.log('this is col', col);
+        // console.log('this is amt', amt);
         if (col[0] == "#") {
             col = col.slice(1);
             usePound = true;
@@ -722,8 +722,8 @@ function update() { /* Initialize some parameters that we will need for */
 
     // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
     function lightenOrDarken(d, caseColor) {
-      console.log('lightenordarken this is d,', d);
-      console.log('this is casecolor', caseColor);
+      // console.log('lightenordarken this is d,', d);
+      // console.log('this is casecolor', caseColor);
         // Use d to find d.notch to see whether to lighten or darken the color
         if(d.depth == notch) { 
             return caseColor;
