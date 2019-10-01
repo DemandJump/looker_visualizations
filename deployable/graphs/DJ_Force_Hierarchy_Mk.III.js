@@ -790,15 +790,18 @@ function update() { /* Initialize some parameters that we will need for */
             d.children = d._children;
             d._children = null;
         }
-        d.fx = d.fy = null;
-        update(); // Rerun the function with the new data
-    }
-    function click2Focus(d) {
-        d3.event.preventDefault();
-        console.log('this is the node you double clicked', d);
+
+
+        console.log('this is the node you clicked', d);
         notch = d.depth;
         update();
-        // simulation.restart();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
+    }
+    function click2Focus(d) {
+        // d3.event.preventDefault(); // Will never null out single click events \:
+        console.log('this is the node you double clicked', d);
+        d.fx = d.fy = null;
         simulateClick(document.getElementById('root'), 'click');
         simulateClick(document.getElementById('root'), 'click');
     }
