@@ -381,6 +381,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .html('')
         .attr('width', width)
         .attr('height', height)
+        .on('dbclick.zoom', null);
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything')
