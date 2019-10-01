@@ -597,6 +597,57 @@ function update() { /* Initialize some parameters that we will need for */
             : "#999999"
         }
     }
+
+        // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
+    function lightenOrDarken(d, caseColor) {
+      // console.log('lightenordarken this is d,', d);
+      // console.log('this is casecolor', caseColor);
+        // Use d to find d.notch to see whether to lighten or darken the color
+        if(d.depth == notch) { 
+            return caseColor;
+        } else if(d.depth == notch + 1) {
+            return LightenDarkenColor(caseColor, 20); 
+        } else if(d.depth == notch - 1) {
+            return LightenDarkenColor(caseColor, -20);
+        } else if(d.depth <= notch - 2) {
+            return LightenDarkenColor(caseColor, -40);
+        } else if(d.depth >= notch + 2) {
+            return LightenDarkenColor(caseColor, 40);
+        } else { // To know if something went wrong
+            return '#F5F5F5'
+        }
+    }
+        // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
+    function LightenDarkenColor(col, amt) {
+        var usePound = false; // Determines path taken based on whether hash was used or not
+        // console.log('this is col', col);
+        // console.log('this is amt', amt);
+        if (col[0] == "#") {
+            col = col.slice(1);
+            usePound = true;
+        }
+     
+        var num = parseInt(col,16);
+        var r = (num >> 16) + amt;
+        if (r > 255) r = 255;
+        else if  (r < 0) r = 0;
+     
+        var b = ((num >> 8) & 0x00FF) + amt;
+        if (b > 255) b = 255;
+        else if  (b < 0) b = 0;
+     
+        var g = (num & 0x0000FF) + amt;
+        if (g > 255) g = 255;
+        else if (g < 0) g = 0;
+     
+        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+    } // HOWTO use the function: 
+        // Lighten
+    // var NewColor = LightenDarkenColor("#F06D06", 20);
+        // Darken
+    // var NewColor = LightenDarkenColor("#F06D06", -20); 
+
+
         
       // Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   
 
@@ -631,6 +682,9 @@ function update() { /* Initialize some parameters that we will need for */
             d.notch = 'b';
             d.radius = scaleB(d.size);
             return d.radius;
+        } if(d.depth == notch - 1) {
+          d.notch = 'z';
+
         } else {
             d.notch = 'c';
             d.radius = scaleC(d.size);
@@ -650,7 +704,7 @@ function update() { /* Initialize some parameters that we will need for */
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
         : d.notch == 'b' ? '.5rem'
-        : '.1rem'
+        : '.25rem'
     }
     
     
@@ -687,58 +741,6 @@ function update() { /* Initialize some parameters that we will need for */
                 // None of the handlers called preventDefault.
             } 
         }
-    }
-
-        // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
-    function LightenDarkenColor(col, amt) {
-        var usePound = false; // Determines path taken based on whether hash was used or not
-        // console.log('this is col', col);
-        // console.log('this is amt', amt);
-        if (col[0] == "#") {
-            col = col.slice(1);
-            usePound = true;
-        }
-     
-        var num = parseInt(col,16);
-        var r = (num >> 16) + amt;
-        if (r > 255) r = 255;
-        else if  (r < 0) r = 0;
-     
-        var b = ((num >> 8) & 0x00FF) + amt;
-        if (b > 255) b = 255;
-        else if  (b < 0) b = 0;
-     
-        var g = (num & 0x0000FF) + amt;
-        if (g > 255) g = 255;
-        else if (g < 0) g = 0;
-     
-        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-    } // HOWTO use the function: 
-        // Lighten
-    // var NewColor = LightenDarkenColor("#F06D06", 20); 
-
-        // Darken
-    // var NewColor = LightenDarkenColor("#F06D06", -20); 
-
-    // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
-    function lightenOrDarken(d, caseColor) {
-      // console.log('lightenordarken this is d,', d);
-      // console.log('this is casecolor', caseColor);
-        // Use d to find d.notch to see whether to lighten or darken the color
-        if(d.depth == notch) { 
-            return caseColor;
-        } else if(d.depth == notch + 1) {
-            return LightenDarkenColor(caseColor, 20); 
-        } else if(d.depth == notch - 1) {
-            return LightenDarkenColor(caseColor, -20);
-        } else if(d.depth <= notch - 2) {
-            return LightenDarkenColor(caseColor, -40);
-        } else if(d.depth >= notch + 2) {
-            return LightenDarkenColor(caseColor, 40);
-        } else { // To know if something went wrong
-            return '#F5F5F5'
-        }
-
     }
 
 
