@@ -225,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     notch = 0, // Notch is the counter for our good ol daters
     currentValue = '',
-    maxDepth = 0,
+    maxDepth = 1,
     minMeasure = 100000000000,
     maxMeasure = 0,
     collisionInitialization = 0,
