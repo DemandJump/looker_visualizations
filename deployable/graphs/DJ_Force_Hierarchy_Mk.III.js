@@ -594,7 +594,7 @@ function update() { /* Initialize some parameters that we will need for */
             return d.depth == 0 ? lightenOrDarken(d, "#c6dbef")
             : d.notch == 'a' ? lightenOrDarken(d, "#008CCD")
             : d.notch == 'b' ? lightenOrDarken(d, "#fd8d3c")
-            : d.notch == 'z' ? lightenOrDarken(d, "#CDDC39") // #CDDC39 #0000ae
+            : d.notch == 'z' ? lightenOrDarken(d, "#2424c8")
             : lightenOrDarken(d, "#999999")
         }
     }
