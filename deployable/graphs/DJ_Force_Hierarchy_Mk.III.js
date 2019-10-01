@@ -728,7 +728,9 @@ function update() { /* Initialize some parameters that we will need for */
         console.log('this is the node you double clicked', d);
         notch = d.depth;
         update();
-        simulation.restart();
+        // simulation.restart();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
     }
     
     
