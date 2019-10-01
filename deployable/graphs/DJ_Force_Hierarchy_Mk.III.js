@@ -20,8 +20,8 @@
             type: "string",
             label: "This will color nodes based on type(make it the final dimension you add in)",
             values: [
-                {"Added type to the end": "true"},
-                {"No type added yet": "false"}
+                {"Added type dimension to the end": "true"},
+                {"No type dimension added": "false"}
             ],
             display: "radio",
             default: "false"
