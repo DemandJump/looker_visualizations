@@ -796,9 +796,9 @@ function update() { /* Initialize some parameters that we will need for */
 
 
         console.log('this is the node you clicked', d);
-        d.fx = d.fy = null;
-        simulateClick(document.getElementById('root'), 'click');
-        simulateClick(document.getElementById('root'), 'click');
+        // d.fx = d.fy = null;
+        // simulateClick(document.getElementById('root'), 'click');
+        // simulateClick(document.getElementById('root'), 'click');
     }
     function click2Focus(d) {
         // d3.event.preventDefault(); // Will never null out single click events \:
