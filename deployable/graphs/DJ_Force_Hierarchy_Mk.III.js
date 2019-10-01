@@ -186,6 +186,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     useCollapse = 'false',
     uniqueTypeValues = []; // Stored in an array to give unique colors for each
 
+    console.log('check to see if we can parse into measure!', queryResponse['fields']['measures'][0]);
+    console.log('parse into suggest_dimension!', queryResponse['fields']['measures'][0]['suggest_dimension']);
     if (queryResponse['fields']['measures'][0]) { // If there's measures, then calculate this data
       measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
     } console.log('this is the measure name!', measureName);
@@ -750,18 +752,18 @@ function update() { /* Initialize some parameters that we will need for */
 
     function spaceOne(d) { // Spacing the first text element
       return d.data.textspaces == 1 ? '.35em' 
-      : d.data.textspaces == 2 ? '.74em'
-      : '.113em'; // If textspaces = 3
+      : d.data.textspaces == 2 ? '-.04em'
+      : '-.43em'; // If textspaces = 3
     }
     function spaceTwo(d) { // Spacing the second text element
       return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
-      : d.data.textspaces == 2 ? '-.04em'
+      : d.data.textspaces == 2 ? '.74em'
       : '.35em' // If textspaces = 3
     }
     function spaceThree(d) { // Spacing the third text element
       return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
       : d.data.textspaces == 2 ? '.35em' // This is an empty text element spaced to the middle!
-      : '-0.43em' // If textspaces = 3 
+      : '1.13em' // If textspaces = 3 
     }
 
     
