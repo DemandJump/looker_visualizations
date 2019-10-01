@@ -5,7 +5,7 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-        hierarchy_instructions: {
+        _hierarchy_instructions: {
             type: "string",
             label: "Notes for the hierarchy visualization",
             values: [
