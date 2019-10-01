@@ -294,7 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
                 // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
             // Let's go ahead and create the scale functions based on the notch focus   
-        scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([4, 25]);
+        scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([9, 25]);
         scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
         scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
 
