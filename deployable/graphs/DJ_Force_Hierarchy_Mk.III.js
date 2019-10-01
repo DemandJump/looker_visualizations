@@ -722,6 +722,7 @@ function update() { /* Initialize some parameters that we will need for */
             d.children = d._children;
             d._children = null;
         }
+        d.fx = d.fy = null;
         update(); // Rerun the function with the new data
     }
     function click2Focus(d) {
