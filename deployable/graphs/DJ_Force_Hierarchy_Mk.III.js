@@ -594,7 +594,8 @@ function update() { /* Initialize some parameters that we will need for */
         if (useType == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
           if(d.data.data) {
-            return d.data.data[type]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB')
+            return d.depth == 0 ? lightenOrDarken(d, '#c6dbef')
+            : d.data.data[type]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB')
             : d.data.data[type]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12')
             : d.data.data[type]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71')
             : d.data.data[type]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD')
