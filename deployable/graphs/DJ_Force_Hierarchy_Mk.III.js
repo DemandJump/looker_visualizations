@@ -716,7 +716,7 @@ function update() { /* Initialize some parameters that we will need for */
     }
     
     function calcText(d) { // This calculates the spacing based on the radius of each node
-        console.log('Time to split the text in to many text nodes', d);
+        // console.log('Time to split the text in to many text nodes', d);
         d.data.text1 = d.data.text2 = d.data.text3 = ' ';
         let charLen = d.data.name.length;
         let holder = d.data.name; // This will hold the text we splice and dice 
@@ -724,25 +724,25 @@ function update() { /* Initialize some parameters that we will need for */
 
         if(charLen > 28) { // One circle of notch a or b hold 14 characters within it's radius!
           count = Math.floor(charLen / 3);
-          console.log('This is the floored count of a 3 line comment!', count);
+          // console.log('This is the floored count of a 3 line comment!', count);
             // Then we take text1: portion1 = slice(0, count), text2: portion2 = slice(count, count * 2), text3: portion3 = slice(count * 2)
           d.data.text1 = holder.slice(0, count);
           d.data.text2 = holder.slice(count, (count * 2));
           d.data.text3 = holder.slice((count * 2));
           d.data.textspaces = 3; // We're using three text spaces (This is to calculate the d.y of each in a function);
-          console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}', Text3: '${d.data.text3}'.`);
+          // console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}', Text3: '${d.data.text3}'.`);
         } else if (charLen > 14) {
           count = Math.floor(charLen / 2);
-          console.log('this is the floored count of a 2 line comment!', count);
+          // console.log('this is the floored count of a 2 line comment!', count);
           d.data.text1 = holder.slice(0, count);
           d.data.text2 = holder.slice(count);
           d.data.textspaces = 2;
-          console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}'.`);
+          // console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}'.`);
         } else {
           d.data.text1 = holder;
-          console.log('No floor needed here LOL KIDDO O^:;');
+          // console.log('No floor needed here LOL KIDDO O^:;');
           d.data.textspaces = 1; 
-          console.log(`Text1: '${d.data.text1}'`);
+          // console.log(`Text1: '${d.data.text1}'`);
         }
           // We just setup all teh functionality for the rest of the text node placements and what's placed in them 
         return d.data.text1; // Return the node that is the same as all. The rest of the needed data is stored in there!
