@@ -405,7 +405,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let collision = d3.forceCollide().radius(d => {
       let spacing = 1;
       if (d.notch == 'c') spacing = 4;
-      if (d.notch == 'b') spacing = 8;
+      if (d.notch == 'b' || 'z') spacing = 8;
       if (d.notch == 'a') spacing = 12;
       return d.radius + spacing;
     }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
@@ -593,7 +593,7 @@ function update() { /* Initialize some parameters that we will need for */
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? "#c6dbef"
             : d.notch == 'a' ? "#008CCD"
-            : d.notch == 'b' ? "#fd8d3c"
+            : d.notch == 'b' || 'z' ? "#fd8d3c"
             : "#999999"
         }
     }
@@ -683,8 +683,9 @@ function update() { /* Initialize some parameters that we will need for */
             d.radius = scaleB(d.size);
             return d.radius;
         } if(d.depth == notch - 1) {
-          d.notch = 'z';
-
+            d.notch = 'z';
+            d.radius = scaleB(d.size);
+            return d.radius;
         } else {
             d.notch = 'c';
             d.radius = scaleC(d.size);
@@ -703,7 +704,7 @@ function update() { /* Initialize some parameters that we will need for */
     function fontSize(d) { // Calculate the font size based on the depth
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
-        : d.notch == 'b' ? '.5rem'
+        : d.notch == 'b' || 'z' ? '.5rem'
         : '.25rem'
     }
     
