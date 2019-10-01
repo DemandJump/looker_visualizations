@@ -466,8 +466,8 @@ function update() { /* Initialize some parameters that we will need for */
     let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
-        .on('click', click)
         .on('dblclick', click2Focus)
+        .on('click', click)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
@@ -794,6 +794,7 @@ function update() { /* Initialize some parameters that we will need for */
         update(); // Rerun the function with the new data
     }
     function click2Focus(d) {
+        d3.event.preventDefault();
         console.log('this is the node you double clicked', d);
         notch = d.depth;
         update();
