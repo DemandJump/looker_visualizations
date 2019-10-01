@@ -71,7 +71,7 @@ create: function(element, config) {
         .style('display', 'inline')
 
     this._prevBtn = d3.select('.holder').append('button')
-        .attr('class', 'prev')
+        .attr('class', 'prev') 
         .style('display', 'inline')
         .html('Prev')
     this._nextBtn = d3.select('.holder').append('button')
@@ -306,6 +306,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(node.depth == 0) { node.radius = scaleA(node.size); } 
       if(node.depth == 1) { node.radius = scaleB(node.size); } 
       else { node.radius = scaleC(node.size); }
+      node.notch = 'b';
 
             // This is to calculate all teh uniqueTypeValues into a single array.
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
@@ -401,7 +402,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**************************************************
               * Simulation Initialization *
     **************************************************/
-    let collision = d3.forceCollide().radius(d => d.radius + 10).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
+    let collision = d3.forceCollide().radius(d => {
+      let spacing = 1;
+      if (d.notch == 'c') spacing = 4;
+      if (d.notch == 'b') spacing = 8;
+      if (d.notch == 'a') spacing = 12;
+      return d.radius + spacing;
+    }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
