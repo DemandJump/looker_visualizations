@@ -594,8 +594,8 @@ function update() { /* Initialize some parameters that we will need for */
 
     function border(d) {    // Calculates the border
         return d._children ? "#fd8d3c" // collapsed node
-            : d.children ? "#008CCD" // expanded node
-            : "#c6dbef" // leaf node
+            : d.children ? "#c6dbef" // expanded node
+            : "#008CCD" // leaf node
     }
     
     // function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
