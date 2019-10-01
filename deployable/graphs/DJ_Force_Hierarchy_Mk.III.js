@@ -546,12 +546,16 @@ function update() { /* Initialize some parameters that we will need for */
                 d3.event.subject.fx = null;
                 d3.event.subject.fy = null;
             }
-        }   
+        }
+        function stopMovement(d) {
+          simulation.alphaTarget(0).restart
+        }
     
         return d3.drag() // .on instantiates these functions
             .on("start", dragstarted)
             .on("drag", dragged)
             // .on("end", dragended);
+            .on("end", stopMovement);
     }
     
     function resetNodes() { // Reset the nodes when you press the button (It pulls the stuff closer to the center, but not hard reset)
