@@ -706,7 +706,7 @@ function update() { /* Initialize some parameters that we will need for */
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
         : d.notch == 'b' || 'z' ? '.5rem'
-        : '.25rem'
+        : '.14rem'
     }
     
     
