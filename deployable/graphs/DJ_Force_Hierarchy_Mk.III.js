@@ -18,7 +18,7 @@
         },
         add_type: {
             type: "string",
-            label: "Color nodes based on type(make it the final dimension you add in)",
+            label: "This will color nodes based on type(make it the final dimension you add in)",
             values: [
                 {"Added type to the end": "true"},
                 {"No type added yet": "false"}
@@ -282,7 +282,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('this is node.data parse', node.data.data);
             node.size = node.data.data[measureName]['value'];
           } 
-          console.log('calculated or not(if or preset), here is the value', node.size);
+          // console.log('calculated or not(if or preset), here is the value', node.size);
         })
 
         root.descendants().forEach(node => {  // Now we must reinstantiate the min and max measures!
@@ -465,6 +465,11 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
         .on('.dblclick.zoom', null)
+        .on('.dblclick', d => {
+          console.log('this is the node you double clicked', d);
+          notch = d.depth;
+          simulation.restart();
+        })
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
@@ -472,11 +477,6 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke', border)
         .attr('stroke-width', '2')
         .style('fill', color)
-        .on('.dblclick', d => {
-          console.log('this is the node you double clicked', d);
-          notch = d.depth;
-          simulation.restart();
-        });
         
 // Create the text for the node
     nodeEnter.append('text')

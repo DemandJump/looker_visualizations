@@ -42,7 +42,7 @@ body { text-align: center; font-family: Sans-serif; margin: 0; }
     </div>
 
 
-    <script>
+    <!-- <script>
     // Random tree
 const N = 10;
 const gData = {
@@ -68,6 +68,7 @@ const Graph = ForceGraph3D()
         .graphData(gData)
         .nodeLabel('id') // This is the name when you hover over the label
         .linkOpacity(.34)
+        // .nodeAutoColorBy('id')
         .nodeColor(node => highlightNodes.indexOf(node) === -1 ? 'rgba(0,255,255,0.6)' : 'rgb(255,0,0,1)')
         .linkWidth(link => link === highlightLink ? 4 : 1)
         .linkDirectionalParticles(link => link === highlightLink ? 4 : 1)
@@ -118,7 +119,69 @@ const Graph = ForceGraph3D()
         .linkDirectionalParticles(Graph.linkDirectionalParticles())
         .linkDirectionalArrowLength(Graph.linkDirectionalArrowLength());
     }
-        </script>
+        </!--> -->
+
+
+<script>
+    const initData = {
+      nodes: [ {id: 0 } ],
+      links: []
+    };
+    const elem = document.getElementById("3d-graph");
+    const Graph = ForceGraph3D()(elem)
+        .enableNodeDrag(false)
+        .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+        .onNodeClick(removeNode)
+        .graphData(initData);
+    setInterval(() => {
+      const { nodes, links } = Graph.graphData();
+      const id = nodes.length;
+      Graph.graphData({
+        nodes: [...nodes, { id }],
+        links: [...links, { source: id, target: Math.round(Math.random() * (id-1)) }]
+      });
+    }, 1000);
+    //
+    function removeNode(node) {
+      let { nodes, links } = Graph.graphData();
+      links = links.filter(l => l.source !== node && l.target !== node); // Remove links attached to node
+      nodes.splice(node.id, 1); // Remove node
+      nodes.forEach((n, idx) => { n.id = idx; }); // Reset node ids to array index
+      Graph.graphData({ nodes, links });
+    }
+  </script>
+
+
+<!--        If you wanna add more nodes into the graph, or figure out how to implement/delete nodes here's a good example
+      <script>
+    const initData = {
+      nodes: [ {id: 0 } ],
+      links: []
+    };
+    const elem = document.getElementById("3d-graph");
+    const Graph = ForceGraph3D()(elem)
+        .enableNodeDrag(false)
+        .onNodeHover(node => elem.style.cursor = node ? 'pointer' : null)
+        .onNodeClick(removeNode)
+        .graphData(initData);
+    setInterval(() => {
+      const { nodes, links } = Graph.graphData();
+      const id = nodes.length;
+      Graph.graphData({
+        nodes: [...nodes, { id }],
+        links: [...links, { source: id, target: Math.round(Math.random() * (id-1)) }]
+      });
+    }, 1000);
+    //
+    function removeNode(node) {
+      let { nodes, links } = Graph.graphData();
+      links = links.filter(l => l.source !== node && l.target !== node); // Remove links attached to node
+      nodes.splice(node.id, 1); // Remove node
+      nodes.forEach((n, idx) => { n.id = idx; }); // Reset node ids to array index
+      Graph.graphData({ nodes, links });
+    }
+  </script> 
+ -->
 
     </body>
 </html>
