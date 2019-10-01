@@ -228,6 +228,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    totalNodes,
     notch = 0, // Notch is the counter for our good ol daters
     currentValue = '',
     maxDepth = 1,
@@ -248,6 +249,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
+      totalNodes = -1 * (root.descendants().length);
 
     let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
@@ -413,7 +415,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       return d.radius + spacing;
     }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
-    let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
+    let attractforce = d3.forceManyBody().strength(totalNodes).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
     simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(height / 2, width / 2))
@@ -794,15 +796,15 @@ function update() { /* Initialize some parameters that we will need for */
 
 
         console.log('this is the node you clicked', d);
-        notch = d.depth;
-        update();
+        d.fx = d.fy = null;
         simulateClick(document.getElementById('root'), 'click');
         simulateClick(document.getElementById('root'), 'click');
     }
     function click2Focus(d) {
         // d3.event.preventDefault(); // Will never null out single click events \:
         console.log('this is the node you double clicked', d);
-        d.fx = d.fy = null;
+        notch = d.depth;
+        update();
         simulateClick(document.getElementById('root'), 'click');
         simulateClick(document.getElementById('root'), 'click');
     }
