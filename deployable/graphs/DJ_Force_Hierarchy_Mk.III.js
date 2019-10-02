@@ -427,8 +427,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(height / 2, width / 2))
         .force('link', d3.forceLink().id(d => d.index))
-        .force('attract', attractforce) // This spaces things out, with repel it can be messy
-        .force('repel', repelforce) // This pulls things in, Very useful!
+        // .force('attract', attractforce) // This spaces things out, with repel it can be messy
+        // .force('repel', repelforce) // This pulls things in, Very useful!
         .force('collision', collision) // This spaces out the nodes to give everything room to breathe
             .alphaDecay(friction) // This slows down the alpha(simulation) over time (it's friction!)
             .alpha(1) // Set the alpha position
