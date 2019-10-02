@@ -66,6 +66,7 @@ d3.json('_flare.json').then(data => {
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
       node.size = 100; 
+      node.froze = false;
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
         if(node.size > maxMeasure) { maxMeasure = node.size; }
@@ -144,7 +145,10 @@ d3.json('_flare.json').then(data => {
       .style('display', 'inline')
       .html('Reset all node positions')
       .on('click', event => {
-        nodes.forEach(d => d.fx = d.fy = null);
+        nodes.forEach(d => {
+          d.fx = d.fy = null;
+          d.froze = false;
+        });
         collisionInitialization = 0;
         // friction = .05;
         reset = true;
@@ -153,6 +157,17 @@ d3.json('_flare.json').then(data => {
         simulateClick(document.getElementById('root'), 'click');
       });
 
+  let _centerNodes = d3.select('.holder').append('button')
+      .attr('class', 'centerNodes')
+      .style('display', 'inline')
+      .html('Pull nodes in together')
+      .on('click', event => {
+        console.log('trying to pull them nodes in the center');
+        nodes.forEach(node => {
+          if(node.froze == false) { node.fx = node.fy = null; }
+        });
+        update();
+      });
 
 
       /*/ Then instantiate the groundwork for the visualization /*/
@@ -311,6 +326,7 @@ function update() { /* Initialize some parameters that we will need for */
             if (!d3.event.active) { simulation.alphaTarget(0.020).restart(); }
             d.fx = d.x;
             d.fy = d.y;
+            d.froze = true; 
         }
         function dragged(d) { // While holding click and moving the mouse and node around
             d.fx = d3.event.x;
@@ -517,8 +533,10 @@ function update() { /* Initialize some parameters that we will need for */
         // Toggle children on click.
     function click(d) {
         if(resetSingleNode) { 
-          d.fx = d.fy = null; 
+          d.fx = d.fy = null;
           resetSingleNode = false;
+          update();
+          return;
         }
 
         console.log('d', d);
