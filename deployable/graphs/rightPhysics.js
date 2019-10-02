@@ -13,7 +13,7 @@
                 {"By Default it will act as if all dimensions are part of the hierarchy, but if you have dimensions with unique types you can change the look of each based on that.": "Info1"},
                 {"Below you can set the option if you do have a type, just be sure to put it last when you stack the dimensions in your look": "Info2"}
             ],
-            display: "radio",
+            display: "Info",
             default: "none"
         },
         add_type: {
@@ -23,19 +23,9 @@
                 {"Added type to the end": "true"},
                 {"No type added yet": "false"}
             ],
-            display: "radio",
+            display: "Info",
             default: "false"
-        },
-        add_measure: {
-          type: "string",
-          label: "This will take the first measure and use it to calculate the node size.",
-          values: [
-              {"Use a measure": "true"},
-              {"Don't use a measure": "false"}
-          ],
-          display: "radio",
-          default: "false"
-      }
+        }
     },
 
     // Onto the create section 
@@ -131,7 +121,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Checking now');
+    console.log('Attempt 2 my dude');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
@@ -143,20 +133,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('config', config);
     console.log('queryResponse', queryResponse);
     console.log('details', details);
-
-            // Playing with dimensions and measures
-            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
-                // Dimension and Measure length 
-            let maxDimensions = queryResponse.fields.dimensions.length;
-            let maxMeasures = queryResponse.fields.measures.length;
-                // The selector references for dimensions and length 
-            let dimensions = queryResponse.fields.dimensions;
-            let measures = queryResponse.fields.measures;
-
-        
 
     /**********************
      * Error Clauses 
@@ -174,27 +150,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     /****************** * * * * * Update the Options
     **************************************************/
-            // Pull in the names of the type/measure dimensions
-    let measureName = queryResponse['fields']['measures'][0]['suggest_dimension'],
-    taxonomyPass = queryResponse.fields.dimension_like,
-    lastDimension = queryResponse.fields.dimension_like.length - 1,
-    type = null, // This stores the key name for the dimension when we parse into the data
-    uniqueTypeValues; // Stored in an array to give unique colors for each
-    
-    if(config.add_type == "true") {
+    let taxonomyPass = queryResponse.fields.dimension_like;
+    if(add_type == "true") {
         taxonomyPass.pop();
-        let type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
-        return type; // We'll use type to select the data, and find all the different values witihn it, run a for loop to give each val a color for nodes
-    } else if(config.add_type == "false") { taxonomyPass = queryResponse.fields.dimension_like; }
-    console.log('this is the measure name!', measureName);
-    console.log('this is the type name!', type);
-
-    let useMeasure = 'false';
-    if(config.add_measure == 'true') {
-        useMeasure = 'true';
     }
-    if(config.add_measure == 'false') {
-        useMeasure = 'false';
+    if(add_type == "false") {
+        taxonomyPass = queryResponse.fields.dimension_like;
     }
     /**************************************************
             End of Options * * * * * *****************/
@@ -202,6 +163,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**********************************************************************
                         * Update the Visualization *
     **********************************************************************/
+        // Playing with dimensions and measures
+    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
+    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
+    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
+        // Dimension and Measure length 
+    let maxDimensions = queryResponse.fields.dimensions.length;
+    let maxMeasures = queryResponse.fields.measures.length;
+        // The selector references for dimensions and length 
+    let dimensions = queryResponse.fields.dimensions;
+    let measures = queryResponse.fields.measures;
+
+
     /****************************************************
               * Initialize the infrastructure *
     ****************************************************/
@@ -215,7 +189,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     height = element.clientHeight,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     notch = 0, // Notch is the counter for our good ol daters
-    currentValue = '',
     maxDepth = 0,
     minMeasure = 100000000000,
     maxMeasure = 0,
@@ -243,17 +216,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
-        if (useMeasure == 'true') {
-            console.log('were in the root descendants, here is the useMeasure',  node);
-            console.log('this the meausre name within mutatint the data', measureName);
-            if (node.data.data[measureName] =! null) {
-              node.size = node.data.data[measureName];
-            } 
-            console.log('this is the new calculated node size ', node.size);
-        } else {
-            // node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
-            node.size = 140;
-        }
+        node.size = Math.floor((Math.random() * 100) + 1); // Calculating the size in place of looker's given measures!
 
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
@@ -272,19 +235,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(node.depth == 0) { node.radius = scaleA(node.size); } 
         if(node.depth == 1) { node.radius = scaleB(node.size); } 
         else { node.radius = scaleC(node.size); }
-
-                // This is to calculate all teh uniqueTypeValues into a single array.
-        if(config.add_type == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
-            if(currentValue != d['data']['data'][type]['value']) {
-                currentValue = d['data']['data'][type]['value'];
-                uniqueTypeValues.push(currentValue);
-            }
-        }
     })
 
     /****************************************************
                  * End of Initialization *
     ****************************************************/
+
 
 
     /*****************************************
@@ -311,7 +267,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
     
     this._resetBtn.on('click', event => {
-        nodes.forEach(d => d.fx = d.fy = null);
+        nodes.forEach(function(d) {
+            d.fx = d.fy = null;
+        });
         collisionInitialization = 0;
         // friction = .05;
         reset = true;
@@ -342,6 +300,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*****************************************
                 * End of build *
     *****************************************/
+
 
     /**************************************************
               * Simulation Initialization *
@@ -502,56 +461,13 @@ function update() { /* Initialize some parameters that we will need for */
     /*********************
      * Styling Functions    
     *********************/
-        // This give a unique color for each, and based on the notch we'll lighten or darken the color!
-    function color(d) {
-        if (config.add_type == 'true') {
-                // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
-            switch(uniqueTypeValues) {
-                case uniqueTypeValues[0]: // #3498DB 
-                    lightenOrDarken(d, '#3498DB')
-                    break;
-
-                case uniqueTypeValues[1]: // #F39C12 
-                    lightenOrDarken(d, '#F39C12')
-                    break; 
-
-                case uniqueTypeValues[2]: // #2ECC71
-                    lightenOrDarken(d, '#2ECC71')
-                    break; 
-
-                case uniqueTypeValues[3]: // #8E44AD
-                    lightenOrDarken(d, '#8E44AD')
-                    break;
-                    
-                case uniqueTypeValues[4]: // #E74C3C
-                    lightenOrDarken(d, '#E74C3C')
-                    break;
-
-                case uniqueTypeValues[5]: // #00BCD4
-                    lightenOrDarken(d, '#00BCD4')
-                    break;
-
-                case uniqueTypeValues[6]: // #CDDC39
-                    lightenOrDarken(d, '#CDDC39')
-                    break;
-
-                case uniqueTypeValues[7]: // #F06292
-                    lightenOrDarken(d, '#F06292')
-                    break;
-
-                default: // #BDBDBD 
-                    lightenOrDarken(d, '#BDBDBD')
-                    break;
-
-            }
-        } else { // Do and return the normal color function! ~ This is if they don't give us a type!
-            return d.depth == 0 ? "#c6dbef"
-            : d.notch == 'a' ? "#008CCD"
-            : d.notch == 'b' ? "#fd8d3c"
-            : "#999999"
-        }
+    function color(d) { // Calculates the color     
+        // Notch based color function 
+      return d.depth == 0 ? "#c6dbef"
+        : d.notch == 'a' ? "#008CCD"
+        : d.notch == 'b' ? "#fd8d3c"
+        : "#999999"
     }
-        
     
     function border(d) {    // Calculates the border
         return d._children ? "#c6dbef" // collapsed node
@@ -559,7 +475,7 @@ function update() { /* Initialize some parameters that we will need for */
             : "#fd8d3c" // leaf node
     }
     
-    function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
+    function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on.
         if(d.depth == notch) {
             d.notch = 'a';
             d.radius = scaleA(d.size);
@@ -589,7 +505,6 @@ function update() { /* Initialize some parameters that we will need for */
         : d.notch == 'b' ? '.5rem'
         : '.1rem'
     }
-
     
     
     /*********************
@@ -656,28 +571,6 @@ function update() { /* Initialize some parameters that we will need for */
         // Darken
     // var NewColor = LightenDarkenColor("#F06D06", -20); 
 
-    // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
-    function lightenOrDarken(d, caseColor) {
-        // Use d to find d.notch to see whether to lighten or darken the color
-        if(d.depth == notch) { 
-            return caseColor;
-        } else if(d.depth == notch + 1) {
-            LightenDarkenColor(caseColor, 20); 
-            return caseColor;
-        } else if(d.depth == notch - 1) {
-            LightenDarkenColor(caseColor, -20);
-            return caseColor;
-        } else if(d.depth <= notch - 2) {
-            lightenDarkenColor(caseColor, -40);
-            return caseColor;
-        } else if(d.depth >= notch + 2) {
-            lightenDarkenColor(caseColor, 40);
-            return caseColor;
-        } else { // To know if something went wrong
-            return '#F5F5F5'
-        }
-
-    }
 
 
 
