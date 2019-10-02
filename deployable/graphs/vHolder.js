@@ -548,7 +548,7 @@ function update() { /* Initialize some parameters that we will need for */
             }
         }
         function stopMovement(d) {
-          simulation.alphaTarget(0).restart
+          simulation.alphaTarget(0).restart();
         }
     
         return d3.drag() // .on instantiates these functions
