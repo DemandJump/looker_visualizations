@@ -404,7 +404,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let zoom = d3.zoom().on('zoom', () => {
       svg.attr('transform', d3.event.transform)
     });
-    g.call(zoom)
+    container.call(zoom)
       .on('dblclick.zoom', null);
       // .on('wheel.zoom', null);
 
