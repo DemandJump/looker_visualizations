@@ -53,13 +53,14 @@ d3.json('_flare.json').then(data => {
     simulation,
     uniqueTypeValues,
     reset = false,
+    resetSingleNode = false,
     friction = .1; // This determines the link length based on the data that's given
 
 
             // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
     root = d3.hierarchy(data, d => d.children); console.log('this is root(hierarchy): ', root);
     totalNodes = -1 * (root.descendants().length * 2.5);  console.log('this is total nodes', totalNodes);
-    root.leaves().forEach(leaf => { console.log('this is a leaft', leaf); if (maxDepth < leaf.depth) {maxDepth = leaf.depth;} });  console.log('MaxDepth', maxDepth);
+    root.leaves().forEach(leaf => { if (maxDepth < leaf.depth) {maxDepth = leaf.depth;} });  console.log('MaxDepth', maxDepth);
 
 
     console.log('root descendants', root.descendants());
@@ -129,11 +130,19 @@ d3.json('_flare.json').then(data => {
           simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
         }
       });
-    
+
+  let _resetSingleNode = d3.select('.holder').append('button')
+      .attr('class', 'resetSingleNode')
+      .style('display', 'inline')
+      .html(`Reset next clicked node's position`)
+      .on('click', event => {
+        resetSingleNode = true;        
+      });
+  
   let _resetBtn = d3.select('.holder').append('button')
       .attr('class', 'reset')
       .style('display', 'inline')
-      .html('Pull nodes to center')
+      .html('Reset all node positions')
       .on('click', event => {
         nodes.forEach(d => d.fx = d.fy = null);
         collisionInitialization = 0;
@@ -143,6 +152,7 @@ d3.json('_flare.json').then(data => {
         simulateClick(document.getElementById('root'), 'click');
         simulateClick(document.getElementById('root'), 'click');
       });
+
 
 
       /*/ Then instantiate the groundwork for the visualization /*/
@@ -506,6 +516,11 @@ function update() { /* Initialize some parameters that we will need for */
     *********************/
         // Toggle children on click.
     function click(d) {
+        if(resetSingleNode) { 
+          d.fx = d.fy = null; 
+          resetSingleNode = false;
+        }
+
         console.log('d', d);
         if (d3.event.defaultPrevented) return; // ignore drag
         if (d.children) {
@@ -515,7 +530,6 @@ function update() { /* Initialize some parameters that we will need for */
             d.children = d._children;
             d._children = null;
         }
-
         update();
     }
     function click2Focus(d) {
