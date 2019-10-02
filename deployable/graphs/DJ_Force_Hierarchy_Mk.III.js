@@ -388,18 +388,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .html('')
         .attr('width', width)
         .attr('height', height)
-        .on('dbclick.zoom', null);
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything')
         // Zoom Stuff //
     let zoom_handler = d3.zoom()
         .on('zoom', zoom_actions)
+        .on('dbclick.zoom', null);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
     }
-    svg.on('dblclick.zoom', null);
     /*****************************************
                 * End of build *
     *****************************************/
@@ -468,8 +467,8 @@ function update() { /* Initialize some parameters that we will need for */
     let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
-        .on('dblclick', click2Focus)
         .on('click', click)
+        .on('dblclick', click2Focus)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
@@ -480,21 +479,18 @@ function update() { /* Initialize some parameters that we will need for */
         
 // Create the text for the node
     nodeEnter.append('text')
-        // .attr('dx', textSpacing)
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
         .text(d => calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
 // Second row of text
     nodeEnter.append('text')
-        // .attr('dx', textSpacing)
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
         .text(d => calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
 // Third row of text
     nodeEnter.append('text')
-        // .attr('dx', textSpacing)
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
         .text(d => calcT3(d)) // This inputs the text
@@ -801,7 +797,7 @@ function update() { /* Initialize some parameters that we will need for */
         // simulateClick(document.getElementById('root'), 'click');
     }
     function click2Focus(d) {
-        // d3.event.preventDefault(); // Will never null out single click events \:
+        d3.event.preventDefault(); // Will never null out single click events \:
         console.log('this is the node you double clicked', d);
         notch = d.depth;
         update();
