@@ -393,13 +393,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = container.append('g')
         .attr('class', 'everything')
         // Zoom Stuff //
+    /* !Current zoom works!
     let zoom_handler = d3.zoom()
-        .on('zoom', zoom_actions)
-        .on('dbclick.zoom', null);
+        .on('zoom', zoom_actions);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
     }
+    */
+    let zoom = d3.zoom().on('zoom', () => {
+      svg.attr('transform', d3.event.transform)
+    });
+    g.call(zoom)
+      .on('dblclick.zoom', null);
+      // .on('wheel.zoom', null);
+
+
     /*****************************************
                 * End of build *
     *****************************************/
