@@ -798,8 +798,6 @@ function update() { /* Initialize some parameters that we will need for */
         }
 
         update();
-        simulateClick(document.getElementById('root'), 'click');
-        simulateClick(document.getElementById('root'), 'click');
     }
     function click2Focus(d) {
         d3.event.preventDefault(); // Will never null out single click events \:
