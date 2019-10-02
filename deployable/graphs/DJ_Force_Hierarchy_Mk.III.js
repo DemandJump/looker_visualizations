@@ -801,7 +801,7 @@ function update() { /* Initialize some parameters that we will need for */
         update();
     }
     function click2Focus(d) {
-        // d3.event.preventDefault(); // Will never null out single click events \:
+        d3.event.preventDefault(); // W ill never null out single click events \:
         console.log('this is the node you double clicked', d);
         notch = d.depth;
         update();
