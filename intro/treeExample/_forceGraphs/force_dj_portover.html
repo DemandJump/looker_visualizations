@@ -28,9 +28,13 @@ console.log('initialzied the html file;')
 d3.json('../../data/_flare.json').then(data => {
     console.log('raw data', data);
 
+
+    /****************************************************
+              * Initialize the infrastructure *
+    ****************************************************/
         // Initial dimensions, plus instantiating some variables
-    let width = document.body.clientWidth, // Dimensions w & h
-    height = document.body.clientHeight,
+    let width = window.innerWidth, // Dimensions w & h
+    height = window.innerHeight - 20,
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     totalNodes,
     notch = 0, // Notch is the counter for our good ol daters
@@ -90,16 +94,16 @@ d3.json('../../data/_flare.json').then(data => {
               * Build the svg *
   *****************************************/
 
-  this._holder = d3.select('body').append('div')
+  let _holder = d3.select('body').append('div')
       .attr('class', 'holder')
       .style('display', 'inline');
 
-  this._svg = d3.select('body').append('svg')
+  let _svg = d3.select('body').append('svg')
       .attr('class', 'container');
 
 
                 // Create the ui for this 
-  this._prevBtn = d3.select('.holder').append('button')
+  let _prevBtn = d3.select('.holder').append('button')
       .attr('class', 'prev') 
       .style('display', 'inline')
       .html('Prev')
@@ -112,7 +116,7 @@ d3.json('../../data/_flare.json').then(data => {
         }
       });
 
-  this._nextBtn = d3.select('.holder').append('button')
+  let _nextBtn = d3.select('.holder').append('button')
       .attr('class', 'next')
       .style('display', 'inline')
       .html('Next')
@@ -125,7 +129,7 @@ d3.json('../../data/_flare.json').then(data => {
         }
       });
     
-  this._resetBtn = d3.select('.holder').append('button')
+  let _resetBtn = d3.select('.holder').append('button')
       .attr('class', 'reset')
       .style('display', 'inline')
       .html('Pull nodes to center')
@@ -141,7 +145,7 @@ d3.json('../../data/_flare.json').then(data => {
 
 
       /*/ Then instantiate the groundwork for the visualization /*/
-  let container = this._svg 
+  let container = _svg 
       .html('')
       .attr('width', width)
       .attr('height', height)
@@ -172,7 +176,7 @@ d3.json('../../data/_flare.json').then(data => {
   }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
   let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
   let attractforce = d3.forceManyBody().strength(-120).distanceMax(500).distanceMin(20)
-          // Initialize the simulation // 
+        // Initialize the simulation // 
   simulation = d3.forceSimulation()
     .force('center', d3.forceCenter(height / 2, width / 2))
     .force('link', d3.forceLink().id(d => d.index))
@@ -194,7 +198,6 @@ function update() { /* Initialize some parameters that we will need for */
   nodes = root.descendants(); console.log('Nodes: ', nodes);
   links = root.links(); console.log('links: ', links);
   console.log('notch: ', notch);
-  dragNodes = root.descendants().map(map => map.index);
 
     
       // Setup the simulation based on user input and the everchanging data

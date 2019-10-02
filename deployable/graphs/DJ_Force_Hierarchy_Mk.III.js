@@ -143,6 +143,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('Fixed instantiating uniqueTypeValue so now it should store unique values witihin the array before we start running the data!!');
         // Just comment what your doing becuase looker takes forever to update server js file
 
+              /*//*///* Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   *///*//*/
+
+
         /****** Log all these functions to see what we're working with ******/
     console.log(`\n\n\n\n\nUpdateAsync initialized, here is it's data: `);
     console.log('data', data);
@@ -671,9 +674,6 @@ function update() { /* Initialize some parameters that we will need for */
         // Darken
     // var NewColor = LightenDarkenColor("#F06D06", -20); 
 
-
-        
-      // Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   
 
     function border(d) {    // Calculates the border
         return d._children ? "#fd8d3c" // collapsed node
