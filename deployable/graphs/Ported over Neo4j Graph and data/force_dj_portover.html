@@ -1,0 +1,553 @@
+<!DOCTYPE html> 
+<html lang="en">
+        <style>
+html, body { margin: 0; padding: 0;}
+.node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
+text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+line.link, .link2 { fill: none;}
+svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
+        </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dynamic force layout</title>
+</head>
+<body>
+<script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script> 
+<!-- Add 2 buttons-->
+<!-- <div style="display: inline;">
+  <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
+  <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
+  <p style="display: inline;" class="seeNotch">Start focusing on your data!</p>
+  <button style="display: inline;" type="button" onclick="resetNodes()">Pull nodes to center</button>
+</div> -->
+<!-- Svg will be placed here! -->
+<script>
+console.log('initialzied the html file;')
+d3.json('_flare.json').then(data => {
+    console.log('raw data', data);
+
+
+    /****************************************************
+              * Initialize the infrastructure *
+    ****************************************************/
+        // Initial dimensions, plus instantiating some variables
+    let width = window.innerWidth, // Dimensions w & h
+    height = window.innerHeight - 20,
+    treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    totalNodes,
+    notch = 0, // Notch is the counter for our good ol daters
+    currentValue = '',
+    maxDepth = 1,
+    minMeasure = 100000000000,
+    maxMeasure = 0,
+    collisionInitialization = 0,
+    scaleFactor = 0.1,
+    root,
+    nodes,
+    links,
+    dragNodes,
+    dragLinks,
+    dragABranch,
+    simulation,
+    uniqueTypeValues,
+    reset = false,
+    friction = .1; // This determines the link length based on the data that's given
+
+
+            // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
+    root = d3.hierarchy(data, d => d.children); console.log('this is root(hierarchy): ', root);
+    totalNodes = -1 * (root.descendants().length * 2.5);  console.log('this is total nodes', totalNodes);
+    root.leaves().forEach(leaf => { console.log('this is a leaft', leaf); if (maxDepth < leaf.depth) {maxDepth = leaf.depth;} });  console.log('MaxDepth', maxDepth);
+
+
+    console.log('root descendants', root.descendants());
+    root.descendants().forEach(node => {
+      node.size = 100; 
+            // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
+        if(node.size < minMeasure) { minMeasure = node.size; }
+        if(node.size > maxMeasure) { maxMeasure = node.size; }
+    });   console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
+
+    // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
+        // Let's go ahead and create the scale functions based on the notch focus   
+    scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([9, 25]);
+    scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
+    scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
+
+
+        // Take in the finished scale functions to calculate the radius before we calculate the simulation
+    root.descendants().forEach(node => {    // Scale in the size based on the depth = notch starts at zero
+        // So on d = 0 then scale a, d = 1 then scale b, else then d = scale c
+      if(node.depth == 0) { node.radius = scaleA(node.size); } 
+      if(node.depth == 1) { node.radius = scaleB(node.size); } 
+      else { node.radius = scaleC(node.size); }
+      node.notch = 'b';
+    });
+
+  /****************************************************
+                * End of Initialization *
+  ****************************************************/
+
+
+  /*****************************************
+              * Build the svg *
+  *****************************************/
+
+  let _holder = d3.select('body').append('div')
+      .attr('class', 'holder')
+      .style('display', 'inline');
+
+  let _svg = d3.select('body').append('svg')
+      .attr('class', 'container');
+
+
+                // Create the ui for this 
+  let _prevBtn = d3.select('.holder').append('button')
+      .attr('class', 'prev') 
+      .style('display', 'inline')
+      .html('Prev')
+      .on('click', event => {
+        if(notch > 0) {
+          notch --; // To navigate the 
+          update();
+          simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+          simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+        }
+      });
+
+  let _nextBtn = d3.select('.holder').append('button')
+      .attr('class', 'next')
+      .style('display', 'inline')
+      .html('Next')
+      .on('click', event => {
+        if(notch < maxDepth) {
+          notch ++; // To navigate the 
+          update();
+          simulateClick(document.getElementById('root'), 'click'); // Reset the collision physics by clicking the nodes
+          simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
+        }
+      });
+    
+  let _resetBtn = d3.select('.holder').append('button')
+      .attr('class', 'reset')
+      .style('display', 'inline')
+      .html('Pull nodes to center')
+      .on('click', event => {
+        nodes.forEach(d => d.fx = d.fy = null);
+        collisionInitialization = 0;
+        // friction = .05;
+        reset = true;
+        update();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
+      });
+
+
+      /*/ Then instantiate the groundwork for the visualization /*/
+  let container = _svg 
+      .html('')
+      .attr('width', width)
+      .attr('height', height)
+        // Selector to hold everything
+  let svg = container.append('g')
+      .attr('class', 'everything')
+        // Zoom Stuff //
+  let zoom_handler = d3.zoom()
+      .on('zoom', zoom_actions);
+  zoom_handler(container);
+  function zoom_actions() {
+      svg.attr('transform', d3.event.transform)
+  }
+
+  /*****************************************
+              * End of build *
+  *****************************************/
+
+  /**************************************************
+            * Simulation Initialization *
+  **************************************************/
+  let collision = d3.forceCollide().radius(d => {
+    let spacing = 1;
+    if (d.notch == 'c') spacing = 2;
+    if (d.notch == 'b' || 'z') spacing = 6;
+    if (d.notch == 'a') spacing = 12;
+    return d.radius + spacing;
+  }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
+  let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
+  let attractforce = d3.forceManyBody().strength(-120).distanceMax(500).distanceMin(20)
+        // Initialize the simulation // 
+  simulation = d3.forceSimulation()
+    .force('center', d3.forceCenter(height / 2, width / 2))
+    .force('link', d3.forceLink().id(d => d.index))
+    .force('attract', attractforce) // This spaces things out, with repel it can be messy
+    .force('repel', repelforce) // This pulls things in, Very useful!
+    .force('collision', collision) // This spaces out the nodes to give everything room to breathe
+      .alphaDecay(friction) // This slows down the alpha(simulation) over time (it's friction!)
+      .alpha(1) // Set the alpha position
+      // .alphaTarget(.05) // Ease into desired alpha position
+        .on('tick', ticked)
+
+
+      /*/ When we're ready and have built the infrastructure, and formatted the data properly. /*/
+  update();
+/**************************************************************************************************
+* UPDATE FUNCTION - Handles grabbing the user edited data and changing the visuals based on that
+**************************************************************************************************/
+function update() { /* Initialize some parameters that we will need for */
+  nodes = root.descendants(); console.log('Nodes: ', nodes);
+  links = root.links(); console.log('links: ', links);
+  console.log('notch: ', notch);
+
+    
+      // Setup the simulation based on user input and the everchanging data
+  if (reset) {    // Restart the force layout: This what runs the data and reshapes it
+    simulation.restart();
+    reset = false;
+  }
+        // Essential to update our data
+  simulation // Give it the new nodes
+    .nodes(nodes)
+    .force('collision', collision)
+  simulation.force('link')
+    .links(links)
+  simulation
+    .alpha(.1)
+    .alphaDecay(friction)
+    .alphaTarget(0)
+    .restart();
+
+            
+    
+      // Onto instantiating the nodes 
+  let node = svg.selectAll('.node')
+  let link = svg.selectAll('.link')
+      // Create and update the nodes
+  node = node.data(nodes, d => d.id);
+  let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
+    .attr('class', 'node')
+    .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
+    .on('click', click)
+    .on('dblclick', click2Focus)
+    .call(drag(simulation));
+// Create the circle
+  nodeEnter.append('circle') // Only edits the entering circles
+    .attr('r', notchRadius)
+    .attr('stroke', border)
+    .attr('stroke-width', borderWidth)
+    .style('fill', color)
+        
+// Create the text for the node
+  nodeEnter.append('text')
+    .attr('text-anchor', 'middle')
+    .style('font-size', fontSize)
+    .text(d => calcText(d)) // This inputs the text
+    .attr('dy', spaceOne);
+// Second row of text
+  nodeEnter.append('text')
+    .attr('text-anchor', 'middle')
+    .style('font-size', fontSize)
+    .text(d => calcT2(d)) // This inputs the text
+    .attr('dy', spaceTwo);
+// Third row of text
+  nodeEnter.append('text')
+    .attr('text-anchor', 'middle')
+    .style('font-size', fontSize)
+    .text(d => calcT3(d)) // This inputs the text
+    .attr('dy', spaceThree);
+
+    
+//Create and update the links 
+  link = link.data(links, d => d.id);
+  link.enter().insert('line', '.node')
+    .attr('class', 'link')
+    .attr('stroke', '#008CCD')
+    .attr('stroke-width', '2.5')
+    .attr('opacity', '0.45')
+    
+
+
+      //Exit Section
+    node.exit().remove();
+    link.exit().remove();
+    
+      // Setup for future update functions
+  collisionInitialization++; // This is for the beginnging of the physics
+  friction = 0.034;
+}/*************************************************************************************************
+  *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
+**************************************************************************************************/
+                                        /********************************************
+                                                                  Functions section *
+                                        ********************************************/
+    /*********************************************************************
+     * Simulation Physics 
+    *********************************************************************/
+    // Simulation physics // 
+    function ticked() { // On each tick, specifify these parameters for this stuff
+        d3.selectAll('.link')
+            .attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
+        d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    }
+    
+    function drag(simulation) { // This is for moving the nodes around with user input functions and events
+        let clickDate = new Date(); // This is to see if you double click for dragended
+        let difference_ms;
+        function dragstarted(d) { // On click to start the physics
+            if (!d3.event.active) { simulation.alphaTarget(0.020).restart(); }
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+        function dragged(d) { // While holding click and moving the mouse and node around
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+        }  
+        function dragended(d) { // This simulates a double click to move the node to the previous position
+            if (!d3.event.active) simulation.alphaTarget(0);
+                // Time between 2 ends of drag:
+            difference_ms = (new Date()).getTime() - clickDate.getTime();
+            clickDate = new Date();
+                // if the time between these 2 ends of drag is short enough, then
+                // it's considered a double click:
+            if (difference_ms < 400) {
+                    // And we can release the node:
+                simulation.alphaTarget(0).restart()
+                d3.event.subject.fx = null;
+                d3.event.subject.fy = null;
+            }
+        }
+        function stopMovement(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+
+          simulation.alphaTarget(0).restart();
+        }
+    
+        return d3.drag() // .on instantiates these functions
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            // .on("end", dragended);
+            .on("end", stopMovement);
+    }
+    
+    function resetNodes() { // Reset the nodes when you press the button (It pulls the stuff closer to the center, but not hard reset)
+        nodes.forEach(function(d) {
+            d.fx = d.fy = null;
+        });
+        collisionInitialization = 0;
+        // friction = .05;
+        reset = true;
+        update();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
+    }
+    
+    
+    /*********************
+     * Styling Functions    
+    *********************/
+        // This give a unique color for each, and based on the notch we'll lighten or darken the color!
+    function color(d) {
+            return d.depth == 0 ? lightenOrDarken(d, "#c6dbef")
+            : d.notch == 'a' ? lightenOrDarken(d, "#008CCD")
+            : d.notch == 'b' ? lightenOrDarken(d, "#fd8d3c")
+            : d.notch == 'z' ? lightenOrDarken(d, "#2424c8")
+            : lightenOrDarken(d, "#999999")
+    }
+
+        // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
+    function lightenOrDarken(d, caseColor) {
+      // console.log('lightenordarken this is d,', d);
+      // console.log('this is casecolor', caseColor);
+        // Use d to find d.notch to see whether to lighten or darken the color
+        if(d.depth == notch) { 
+            return caseColor;
+        } else if(d.depth == notch + 1) {
+            return LightenDarkenColor(caseColor, 20); 
+        } else if(d.depth == notch - 1) {
+            return LightenDarkenColor(caseColor, -20);
+        } else if(d.depth <= notch - 2) {
+            return LightenDarkenColor(caseColor, -40);
+        } else if(d.depth >= notch + 2) {
+            return LightenDarkenColor(caseColor, 40);
+        } else { // To know if something went wrong
+            return '#F5F5F5'
+        }
+    }
+        // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
+    function LightenDarkenColor(col, amt) {
+        var usePound = false; // Determines path taken based on whether hash was used or not
+        // console.log('this is col', col);
+        // console.log('this is amt', amt);
+        if (col[0] == "#") {
+            col = col.slice(1);
+            usePound = true;
+        }
+     
+        var num = parseInt(col,16);
+        var r = (num >> 16) + amt;
+        if (r > 255) r = 255;
+        else if  (r < 0) r = 0;
+     
+        var b = ((num >> 8) & 0x00FF) + amt;
+        if (b > 255) b = 255;
+        else if  (b < 0) b = 0;
+     
+        var g = (num & 0x0000FF) + amt;
+        if (g > 255) g = 255;
+        else if (g < 0) g = 0;
+     
+        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+    } // HOWTO use the function: 
+        // Lighten
+    // var NewColor = LightenDarkenColor("#F06D06", 20);
+        // Darken
+    // var NewColor = LightenDarkenColor("#F06D06", -20); 
+
+
+       
+    function border(d) {    // Calculates the border
+        return d._children ? "#fd8d3c" // collapsed node
+            : d.children ? "#c6dbef" // expanded node
+            : "#008CCD" // leaf node
+    }
+    function borderWidth(d) {
+      return d._children ? '5'
+        : d.children ? '2'
+        : '1.4'
+    }
+     
+    function notchRadius(d) {   // New notch radius function <==focus==> <=downOne=> <behind(depth1above)&down2>
+        if(d.depth == notch) {
+            d.notch = 'a';
+            d.radius = scaleA(d.size);
+            return d.radius;
+        } if(d.depth == notch + 1) {
+            d.notch = 'b';
+            d.radius = scaleB(d.size);
+            return d.radius;
+        } if(d.depth == notch - 1) {
+            d.notch = 'z';
+            d.radius = scaleB(d.size);
+            return d.radius;
+        } else {
+            d.notch = 'c';
+            d.radius = scaleC(d.size);
+            return d.radius;
+        }
+        // console.log('end of notch radius', d);
+    }
+    
+    function calcText(d) { // This calculates the spacing based on the radius of each node
+        // console.log('Time to split the text in to many text nodes', d);
+        d.data.text1 = d.data.text2 = d.data.text3 = ' ';
+        let charLen = d.data.name.length;
+        let holder = d.data.name; // This will hold the text we splice and dice 
+        let count; // This holds the count of the data that we divide and floor to splice the data
+
+        if(charLen > 28) { // One circle of notch a or b hold 14 characters within it's radius!
+          count = Math.floor(charLen / 3);
+          // console.log('This is the floored count of a 3 line comment!', count);
+            // Then we take text1: portion1 = slice(0, count), text2: portion2 = slice(count, count * 2), text3: portion3 = slice(count * 2)
+          d.data.text1 = holder.slice(0, count);
+          d.data.text2 = holder.slice(count, (count * 2));
+          d.data.text3 = holder.slice((count * 2));
+          d.data.textspaces = 3; // We're using three text spaces (This is to calculate the d.y of each in a function);
+          // console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}', Text3: '${d.data.text3}'.`);
+        } else if (charLen > 14) {
+          count = Math.floor(charLen / 2);
+          // console.log('this is the floored count of a 2 line comment!', count);
+          d.data.text1 = holder.slice(0, count);
+          d.data.text2 = holder.slice(count);
+          d.data.textspaces = 2;
+          // console.log(`Text1: '${d.data.text1}', Text2: '${d.data.text2}'.`);
+        } else {
+          d.data.text1 = holder;
+          // console.log('No floor needed here LOL KIDDO O^:;');
+          d.data.textspaces = 1; 
+          // console.log(`Text1: '${d.data.text1}'`);
+        }
+          // We just setup all teh functionality for the rest of the text node placements and what's placed in them 
+        return d.data.text1; // Return the node that is the same as all. The rest of the needed data is stored in there!
+    }
+    function calcT2(d) { return d.data.text2; }
+    function calcT3(d) { return d.data.text3; }
+
+    function spaceOne(d) { // Spacing the first text element
+      return d.data.textspaces == 1 ? '.35em' 
+      : d.data.textspaces == 2 ? '-.04em'
+      : '-.43em'; // If textspaces = 3
+    }
+    function spaceTwo(d) { // Spacing the second text element
+      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textspaces == 2 ? '.74em'
+      : '.35em' // If textspaces = 3
+    }
+    function spaceThree(d) { // Spacing the third text element
+      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textspaces == 2 ? '.35em' // This is an empty text element spaced to the middle!
+      : '1.13em' // If textspaces = 3 
+    }
+
+    
+    function fontSize(d) { // Calculate the font size based on the depth
+        //console.log('text stuff', d);
+        return d.notch == 'a' ? '1rem'
+        : d.notch == 'b' || 'z' ? '.5rem'
+        : '.0045rem'
+    }
+    
+    
+    /*********************
+     * Utility Functions    
+    *********************/
+        // Toggle children on click.
+    function click(d) {
+        console.log('d', d);
+        if (d3.event.defaultPrevented) return; // ignore drag
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
+        } else {
+            d.children = d._children;
+            d._children = null;
+        }
+
+        update();
+    }
+    function click2Focus(d) {
+        d3.event.preventDefault(); // W ill never null out single click events \:
+        console.log('this is the node you double clicked', d);
+        notch = d.depth;
+        update();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
+    }
+    
+    
+        // This is the function that simulates a click on a selected element
+    function simulateClick(el, etype){
+        if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+        } else {
+            var evObj = document.createEvent('MouseEvents');
+            evObj.initEvent(etype, true, false);
+            var canceled = !el.dispatchEvent(evObj);
+            if (canceled) { // A handler called preventDefault.
+                console.log("automatic click canceled");
+            } else {
+                // None of the handlers called preventDefault.
+            } 
+        }
+    }
+
+
+
+
+});
+</script>
+    </body>
+</html>
