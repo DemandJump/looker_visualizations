@@ -5,7 +5,7 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-        _hierarchy_instructions: {
+        hierarchy_instructions: {
             type: "string",
             label: "Notes for the hierarchy visualization",
             values: [
@@ -18,10 +18,10 @@
         },
         add_type: {
             type: "string",
-            label: "This will color nodes based on type(make it the final dimension you add in)",
+            label: "Color nodes based on type(make it the final dimension you add in)",
             values: [
-                {"Added type dimension to the end": "true"},
-                {"No type dimension added": "false"}
+                {"Added type to the end": "true"},
+                {"No type added yet": "false"}
             ],
             display: "radio",
             default: "false"
@@ -71,7 +71,7 @@ create: function(element, config) {
         .style('display', 'inline')
 
     this._prevBtn = d3.select('.holder').append('button')
-        .attr('class', 'prev') 
+        .attr('class', 'prev')
         .style('display', 'inline')
         .html('Prev')
     this._nextBtn = d3.select('.holder').append('button')
@@ -282,7 +282,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('this is node.data parse', node.data.data);
             node.size = node.data.data[measureName]['value'];
           } 
-          // console.log('calculated or not(if or preset), here is the value', node.size);
+          console.log('calculated or not(if or preset), here is the value', node.size);
         })
 
         root.descendants().forEach(node => {  // Now we must reinstantiate the min and max measures!
@@ -294,7 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
                 // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
             // Let's go ahead and create the scale functions based on the notch focus   
-        scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([9, 25]);
+        scaleC = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([4, 25]);
         scaleB = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([30, 60]);
         scaleA = d3.scaleLinear().domain([minMeasure, maxMeasure]).range([70, 120]);
 
@@ -306,7 +306,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(node.depth == 0) { node.radius = scaleA(node.size); } 
       if(node.depth == 1) { node.radius = scaleB(node.size); } 
       else { node.radius = scaleC(node.size); }
-      node.notch = 'b';
 
             // This is to calculate all teh uniqueTypeValues into a single array.
       if(useType == "true") { // This is for entering in the type values if we have a type. We'll change the coloring accordingly!
@@ -402,13 +401,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**************************************************
               * Simulation Initialization *
     **************************************************/
-    let collision = d3.forceCollide().radius(d => {
-      let spacing = 1;
-      if (d.notch == 'c') spacing = 4;
-      if (d.notch == 'b') spacing = 8;
-      if (d.notch == 'a') spacing = 12;
-      return d.radius + spacing;
-    }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
+    let collision = d3.forceCollide().radius(d => d.radius + 10).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
@@ -465,11 +458,6 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
         .on('.dblclick.zoom', null)
-        .on('.dblclick', d => {
-          console.log('this is the node you double clicked', d);
-          notch = d.depth;
-          simulation.restart();
-        })
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
@@ -477,6 +465,7 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke', border)
         .attr('stroke-width', '2')
         .style('fill', color)
+        .on('.dblclick', click2Focus);
         
 // Create the text for the node
     nodeEnter.append('text')
@@ -546,16 +535,12 @@ function update() { /* Initialize some parameters that we will need for */
                 d3.event.subject.fx = null;
                 d3.event.subject.fy = null;
             }
-        }
-        function stopMovement(d) {
-          simulation.alphaTarget(0).restart();
-        }
+        }   
     
         return d3.drag() // .on instantiates these functions
             .on("start", dragstarted)
             .on("drag", dragged)
-            .on("end", dragended);
-            // .on("end", stopMovement);
+            // .on("end", dragended);
     }
     
     function resetNodes() { // Reset the nodes when you press the button (It pulls the stuff closer to the center, but not hard reset)
@@ -602,32 +587,16 @@ function update() { /* Initialize some parameters that we will need for */
 
     function border(d) {    // Calculates the border
         return d._children ? "#fd8d3c" // collapsed node
-            : d.children ? "#c6dbef" // expanded node
-            : "#008CCD" // leaf node
+            : d.children ? "#008CCD" // expanded node
+            : "#c6dbef" // leaf node
     }
     
-    // function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
-    //     if(d.depth == notch) {
-    //         d.notch = 'a';
-    //         d.radius = scaleA(d.size);
-    //         return d.radius;
-    //     } if(d.depth == notch -1 || d.depth == notch + 1) {
-    //         d.notch = 'b';
-    //         d.radius = scaleB(d.size);
-    //         return d.radius;
-    //     } else {
-    //         d.notch = 'c';
-    //         d.radius = scaleC(d.size);
-    //         return d.radius;
-    //     }
-    //     // console.log('end of notch radius', d);
-    // }    
-    function notchRadius(d) {   // New notch radius function <==focus==> <=downOne=> <behind(depth1above)&down2>
+    function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
         if(d.depth == notch) {
             d.notch = 'a';
             d.radius = scaleA(d.size);
             return d.radius;
-        } if(d.depth == notch + 1) {
+        } if(d.depth == notch -1 || d.depth == notch + 1) {
             d.notch = 'b';
             d.radius = scaleB(d.size);
             return d.radius;
@@ -671,6 +640,12 @@ function update() { /* Initialize some parameters that we will need for */
         }
         update(); // Rerun the function with the new data
     }
+
+    function click2Focus(d) {
+      console.log('this is the node you double clicked', d);
+      notch = d.depth;
+      update();
+    }
     
     
         // This is the function that simulates a click on a selected element
@@ -692,8 +667,8 @@ function update() { /* Initialize some parameters that we will need for */
         // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
     function LightenDarkenColor(col, amt) {
         var usePound = false; // Determines path taken based on whether hash was used or not
-        // console.log('this is col', col);
-        // console.log('this is amt', amt);
+        console.log('this is col', col);
+        console.log('this is amt', amt);
         if (col[0] == "#") {
             col = col.slice(1);
             usePound = true;
@@ -722,8 +697,8 @@ function update() { /* Initialize some parameters that we will need for */
 
     // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
     function lightenOrDarken(d, caseColor) {
-      // console.log('lightenordarken this is d,', d);
-      // console.log('this is casecolor', caseColor);
+      console.log('lightenordarken this is d,', d);
+      console.log('this is casecolor', caseColor);
         // Use d to find d.notch to see whether to lighten or darken the color
         if(d.depth == notch) { 
             return caseColor;
@@ -748,7 +723,6 @@ function update() { /* Initialize some parameters that we will need for */
     doneRendering() 
 }
 });
-
 
 
 
