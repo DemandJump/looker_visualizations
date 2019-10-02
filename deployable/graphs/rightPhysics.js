@@ -131,7 +131,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
                             /* CURRENT VERSION */ 
-    console.log('Trying to get it to not break upon startup with a runtime hell loop, and instantiate the nodes in their proper positions ');
+    console.log('Checking now');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         // Try implementing d3
