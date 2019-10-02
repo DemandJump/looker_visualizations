@@ -427,8 +427,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(height / 2, width / 2))
         .force('link', d3.forceLink().id(d => d.index))
-        // .force('attract', attractforce) // This spaces things out, with repel it can be messy
-        .force('repel', repelforce) // This pulls things in, Very useful!
+        .force('attract', attractforce) // This spaces things out, with repel it can be messy
+        // .force('repel', repelforce) // This pulls things in, Very useful!
         .force('collision', collision) // This spaces out the nodes to give everything room to breathe
             .alphaDecay(friction) // This slows down the alpha(simulation) over time (it's friction!)
             .alpha(1) // Set the alpha position
@@ -485,24 +485,24 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke-width', borderWidth)
         .style('fill', color)
         
-// Create the text for the node
-    nodeEnter.append('text')
-        .attr('text-anchor', 'middle')
-        .style('font-size', fontSize)
-        .text(d => calcText(d)) // This inputs the text
-        .attr('dy', spaceOne);
-// Second row of text
-    nodeEnter.append('text')
-        .attr('text-anchor', 'middle')
-        .style('font-size', fontSize)
-        .text(d => calcT2(d)) // This inputs the text
-        .attr('dy', spaceTwo);
-// Third row of text
-    nodeEnter.append('text')
-        .attr('text-anchor', 'middle')
-        .style('font-size', fontSize)
-        .text(d => calcT3(d)) // This inputs the text
-        .attr('dy', spaceThree);
+// // Create the text for the node
+//     nodeEnter.append('text')
+//         .attr('text-anchor', 'middle')
+//         .style('font-size', fontSize)
+//         .text(d => calcText(d)) // This inputs the text
+//         .attr('dy', spaceOne);
+// // Second row of text
+//     nodeEnter.append('text')
+//         .attr('text-anchor', 'middle')
+//         .style('font-size', fontSize)
+//         .text(d => calcT2(d)) // This inputs the text
+//         .attr('dy', spaceTwo);
+// // Third row of text
+//     nodeEnter.append('text')
+//         .attr('text-anchor', 'middle')
+//         .style('font-size', fontSize)
+//         .text(d => calcT3(d)) // This inputs the text
+//         .attr('dy', spaceThree);
 
     
 //Create and update the links 
