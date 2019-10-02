@@ -416,8 +416,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     **************************************************/
     let collision = d3.forceCollide().radius(d => {
       let spacing = 1;
-      if (d.notch == 'c') spacing = 4;
-      if (d.notch == 'b' || 'z') spacing = 8;
+      if (d.notch == 'c') spacing = 2;
+      if (d.notch == 'b' || 'z') spacing = 6;
       if (d.notch == 'a') spacing = 12;
       return d.radius //+ spacing;
     }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
