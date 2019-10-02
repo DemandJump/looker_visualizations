@@ -249,7 +249,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
-      totalNodes = -1 * (root.descendants().length * 5);
+      totalNodes = -1 * (root.descendants().length * 2.5);
       console.log('this is total nodes', totalNodes);
 
     let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
@@ -422,13 +422,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       return d.radius + spacing;
     }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
-    let attractforce = d3.forceManyBody().strength(-120).distanceMax(500).distanceMin(20)
+    let attractforce = d3.forceManyBody().strength(totalNodes).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
     simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(height / 2, width / 2))
         .force('link', d3.forceLink().id(d => d.index))
         .force('attract', attractforce) // This spaces things out, with repel it can be messy
-        .force('repel', repelforce) // This pulls things in, Very useful!
+        // .force('repel', repelforce) // This pulls things in, Very useful!
         .force('collision', collision) // This spaces out the nodes to give everything room to breathe
             .alphaDecay(friction) // This slows down the alpha(simulation) over time (it's friction!)
             .alpha(1) // Set the alpha position
@@ -545,7 +545,6 @@ function update() { /* Initialize some parameters that we will need for */
         let clickDate = new Date(); // This is to see if you double click for dragended
         let difference_ms;
         function dragstarted(d) { // On click to start the physics
-    
             if (!d3.event.active) simulation.alphaTarget(0.020).restart();
             d.fx = d.x;
             d.fy = d.y;
