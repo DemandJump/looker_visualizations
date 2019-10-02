@@ -267,7 +267,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     });  console.log('MaxDepth', maxDepth);
 
-    console.log(`This is useMeasure: ${useMeasure}, and this is useType: ${useType}`);
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
       node.size = 100; 
@@ -393,19 +392,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = container.append('g')
         .attr('class', 'everything')
         // Zoom Stuff //
-    /* !Current zoom works!
     let zoom_handler = d3.zoom()
         .on('zoom', zoom_actions);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
     }
-    */
-    let zoom = d3.zoom().on('zoom', () => {
-      svg.attr('transform', d3.event.transform)
-    });
-    container.call(zoom)
-      .on('dblclick.zoom', null);
+
+    // let zoom = d3.zoom().on('zoom', () => {
+    //   svg.attr('transform', d3.event.transform)
+    // });
+    // container.call(zoom)
+    //   .on('dblclick.zoom', null);
       // .on('wheel.zoom', null);
 
 
