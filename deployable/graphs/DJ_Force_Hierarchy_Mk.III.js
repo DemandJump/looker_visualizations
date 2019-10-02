@@ -250,6 +250,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
       totalNodes = -1 * (root.descendants().length);
+      console.log('this is total nodes', totalNodes);
 
     let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
@@ -780,7 +781,6 @@ function update() { /* Initialize some parameters that we will need for */
         // Toggle children on click.
     function click(d) {
         console.log('d', d);
-        clickedBranch = dragNodes;
         if (d3.event.defaultPrevented) return; // ignore drag
         if (d.children) {
             d._children = d.children;
@@ -790,11 +790,9 @@ function update() { /* Initialize some parameters that we will need for */
             d._children = null;
         }
 
-
-        console.log('this is the node you clicked', d);
-        // d.fx = d.fy = null;
-        // simulateClick(document.getElementById('root'), 'click');
-        // simulateClick(document.getElementById('root'), 'click');
+        update();
+        simulateClick(document.getElementById('root'), 'click');
+        simulateClick(document.getElementById('root'), 'click');
     }
     function click2Focus(d) {
         d3.event.preventDefault(); // Will never null out single click events \:
