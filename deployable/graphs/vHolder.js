@@ -225,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     notch = 0, // Notch is the counter for our good ol daters
     currentValue = '',
-    maxDepth = 1,
+    maxDepth = 0,
     minMeasure = 100000000000,
     maxMeasure = 0,
     collisionInitialization = 0,
@@ -381,18 +381,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .html('')
         .attr('width', width)
         .attr('height', height)
-        .on('dbclick.zoom', null);
+        .on('.dblclick.zoom', null);
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything')
+        .on('.dblclick.zoom', null);
         // Zoom Stuff //
     let zoom_handler = d3.zoom()
-        .on('zoom', zoom_actions)
+        .on('.dblclick.zoom', null)
+        .on('zoom', zoom_actions);
     zoom_handler(container);
     function zoom_actions() {
         svg.attr('transform', d3.event.transform)
+        .on('.dblclick.zoom', null)
     }
-    svg.on('dblclick.zoom', null);
     /*****************************************
                 * End of build *
     *****************************************/
@@ -403,7 +405,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let collision = d3.forceCollide().radius(d => {
       let spacing = 1;
       if (d.notch == 'c') spacing = 4;
-      if (d.notch == 'b' || 'z') spacing = 8;
+      if (d.notch == 'b') spacing = 8;
       if (d.notch == 'a') spacing = 12;
       return d.radius + spacing;
     }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
@@ -462,13 +464,18 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
-        .on('dblclick', click2Focus)
+        .on('.dblclick.zoom', null)
+        .on('.dblclick', d => {
+          console.log('this is the node you double clicked', d);
+          notch = d.depth;
+          simulation.restart();
+        })
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
         .attr('r', notchRadius)
         .attr('stroke', border)
-        .attr('stroke-width', borderWidth)
+        .attr('stroke-width', '2')
         .style('fill', color)
         
 // Create the text for the node
@@ -584,33 +591,104 @@ function update() { /* Initialize some parameters that we will need for */
           } else { return lightenOrDarken(d, '#008CCD'); }
 
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
-            return d.depth == 0 ? lightenOrDarken(d, "#c6dbef")
-            : d.notch == 'a' ? lightenOrDarken(d, "#008CCD")
-            : d.notch == 'b' ? lightenOrDarken(d, "#fd8d3c")
-            : d.notch == 'z' ? lightenOrDarken(d, "#2424c8")
-            : lightenOrDarken(d, "#999999")
+            return d.depth == 0 ? "#c6dbef"
+            : d.notch == 'a' ? "#008CCD"
+            : d.notch == 'b' ? "#fd8d3c"
+            : "#999999"
+        }
+    }
+        
+      // Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   
+
+    function border(d) {    // Calculates the border
+        return d._children ? "#fd8d3c" // collapsed node
+            : d.children ? "#c6dbef" // expanded node
+            : "#008CCD" // leaf node
+    }
+    
+    // function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
+    //     if(d.depth == notch) {
+    //         d.notch = 'a';
+    //         d.radius = scaleA(d.size);
+    //         return d.radius;
+    //     } if(d.depth == notch -1 || d.depth == notch + 1) {
+    //         d.notch = 'b';
+    //         d.radius = scaleB(d.size);
+    //         return d.radius;
+    //     } else {
+    //         d.notch = 'c';
+    //         d.radius = scaleC(d.size);
+    //         return d.radius;
+    //     }
+    //     // console.log('end of notch radius', d);
+    // }    
+    function notchRadius(d) {   // New notch radius function <==focus==> <=downOne=> <behind(depth1above)&down2>
+        if(d.depth == notch) {
+            d.notch = 'a';
+            d.radius = scaleA(d.size);
+            return d.radius;
+        } if(d.depth == notch + 1) {
+            d.notch = 'b';
+            d.radius = scaleB(d.size);
+            return d.radius;
+        } else {
+            d.notch = 'c';
+            d.radius = scaleC(d.size);
+            return d.radius;
+        }
+        // console.log('end of notch radius', d);
+    }
+    
+    function textSpacing(d) { // This calculates the spacing based on the radius of each node
+        // console.log('this is text spacing', d )
+        let spacing = 2 * d.r * Math.cos(Math.PI / 4),
+        dx = d.r - spacing / 2; 
+        return dx;
+    }
+    
+    function fontSize(d) { // Calculate the font size based on the depth
+        //console.log('text stuff', d);
+        return d.notch == 'a' ? '1rem'
+        : d.notch == 'b' ? '.5rem'
+        : '.1rem'
+    }
+    
+    
+    /*********************
+     * Utility Functions    
+    *********************/
+        // Toggle children on click.
+    function click(d) {
+        console.log('d', d);
+        clickedBranch = dragNodes;
+        if (d3.event.defaultPrevented) return; // ignore drag
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
+        } else {
+            d.children = d._children;
+            d._children = null;
+        }
+        update(); // Rerun the function with the new data
+    }
+    
+    
+        // This is the function that simulates a click on a selected element
+    function simulateClick(el, etype){
+        if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+        } else {
+            var evObj = document.createEvent('MouseEvents');
+            evObj.initEvent(etype, true, false);
+            var canceled = !el.dispatchEvent(evObj);
+            if (canceled) { // A handler called preventDefault.
+                console.log("automatic click canceled");
+            } else {
+                // None of the handlers called preventDefault.
+            } 
         }
     }
 
-        // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
-    function lightenOrDarken(d, caseColor) {
-      // console.log('lightenordarken this is d,', d);
-      // console.log('this is casecolor', caseColor);
-        // Use d to find d.notch to see whether to lighten or darken the color
-        if(d.depth == notch) { 
-            return caseColor;
-        } else if(d.depth == notch + 1) {
-            return LightenDarkenColor(caseColor, 20); 
-        } else if(d.depth == notch - 1) {
-            return LightenDarkenColor(caseColor, -20);
-        } else if(d.depth <= notch - 2) {
-            return LightenDarkenColor(caseColor, -40);
-        } else if(d.depth >= notch + 2) {
-            return LightenDarkenColor(caseColor, 40);
-        } else { // To know if something went wrong
-            return '#F5F5F5'
-        }
-    }
         // This is the function that creates a lighter or darker color based on the hexadecimal value given to it with or without the hash sign
     function LightenDarkenColor(col, amt) {
         var usePound = false; // Determines path taken based on whether hash was used or not
@@ -637,119 +715,30 @@ function update() { /* Initialize some parameters that we will need for */
         return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
     } // HOWTO use the function: 
         // Lighten
-    // var NewColor = LightenDarkenColor("#F06D06", 20);
+    // var NewColor = LightenDarkenColor("#F06D06", 20); 
+
         // Darken
     // var NewColor = LightenDarkenColor("#F06D06", -20); 
 
+    // This is a utility function to lighten or darken the color based on the node's depth in reference to the current notch!
+    function lightenOrDarken(d, caseColor) {
+      // console.log('lightenordarken this is d,', d);
+      // console.log('this is casecolor', caseColor);
+        // Use d to find d.notch to see whether to lighten or darken the color
+        if(d.depth == notch) { 
+            return caseColor;
+        } else if(d.depth == notch + 1) {
+            return LightenDarkenColor(caseColor, 20); 
+        } else if(d.depth == notch - 1) {
+            return LightenDarkenColor(caseColor, -20);
+        } else if(d.depth <= notch - 2) {
+            return LightenDarkenColor(caseColor, -40);
+        } else if(d.depth >= notch + 2) {
+            return LightenDarkenColor(caseColor, 40);
+        } else { // To know if something went wrong
+            return '#F5F5F5'
+        }
 
-        
-      // Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   
-
-    function border(d) {    // Calculates the border
-        return d._children ? "#fd8d3c" // collapsed node
-            : d.children ? "#c6dbef" // expanded node
-            : "#008CCD" // leaf node
-    }
-    function borderWidth(d) {
-      return d._children ? '5'
-        : d.children ? '2'
-        : '1.4'
-    }
-     
-    // function notchRadius(d) {   // Calculates the radius based on the depth of the node and the current notch you're on. 
-    //     if(d.depth == notch) {
-    //         d.notch = 'a';
-    //         d.radius = scaleA(d.size);
-    //         return d.radius;
-    //     } if(d.depth == notch -1 || d.depth == notch + 1) {
-    //         d.notch = 'b';
-    //         d.radius = scaleB(d.size);
-    //         return d.radius;
-    //     } else {
-    //         d.notch = 'c';
-    //         d.radius = scaleC(d.size);
-    //         return d.radius;
-    //     }
-    //     // console.log('end of notch radius', d);
-    // }    
-    function notchRadius(d) {   // New notch radius function <==focus==> <=downOne=> <behind(depth1above)&down2>
-        if(d.depth == notch) {
-            d.notch = 'a';
-            d.radius = scaleA(d.size);
-            return d.radius;
-        } if(d.depth == notch + 1) {
-            d.notch = 'b';
-            d.radius = scaleB(d.size);
-            return d.radius;
-        } if(d.depth == notch - 1) {
-            d.notch = 'z';
-            d.radius = scaleB(d.size);
-            return d.radius;
-        } else {
-            d.notch = 'c';
-            d.radius = scaleC(d.size);
-            return d.radius;
-        }
-        // console.log('end of notch radius', d);
-    }
-    
-    function textSpacing(d) { // This calculates the spacing based on the radius of each node
-        // console.log('this is text spacing', d )
-        let spacing = 2 * d.r * Math.cos(Math.PI / 4),
-        dx = d.r - spacing / 2; 
-        return dx;
-    }
-    
-    function fontSize(d) { // Calculate the font size based on the depth
-        //console.log('text stuff', d);
-        return d.notch == 'a' ? '1rem'
-        : d.notch == 'b' || 'z' ? '.5rem'
-        : '.11rem'
-    }
-    
-    
-    /*********************
-     * Utility Functions    
-    *********************/
-        // Toggle children on click.
-    function click(d) {
-        console.log('d', d);
-        clickedBranch = dragNodes;
-        if (d3.event.defaultPrevented) return; // ignore drag
-        if (d.children) {
-            d._children = d.children;
-            d.children = null;
-        } else {
-            d.children = d._children;
-            d._children = null;
-        }
-        d.fx = d.fy = null;
-        update(); // Rerun the function with the new data
-    }
-    function click2Focus(d) {
-        console.log('this is the node you double clicked', d);
-        notch = d.depth;
-        update();
-        // simulation.restart();
-        simulateClick(document.getElementById('root'), 'click');
-        simulateClick(document.getElementById('root'), 'click');
-    }
-    
-    
-        // This is the function that simulates a click on a selected element
-    function simulateClick(el, etype){
-        if (el.fireEvent) {
-            el.fireEvent('on' + etype);
-        } else {
-            var evObj = document.createEvent('MouseEvents');
-            evObj.initEvent(etype, true, false);
-            var canceled = !el.dispatchEvent(evObj);
-            if (canceled) { // A handler called preventDefault.
-                console.log("automatic click canceled");
-            } else {
-                // None of the handlers called preventDefault.
-            } 
-        }
     }
 
 
@@ -759,6 +748,7 @@ function update() { /* Initialize some parameters that we will need for */
     doneRendering() 
 }
 });
+
 
 
 
