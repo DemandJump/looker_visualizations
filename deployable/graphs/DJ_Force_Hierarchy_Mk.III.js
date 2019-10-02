@@ -568,6 +568,8 @@ function update() { /* Initialize some parameters that we will need for */
             }
         }
         function stopMovement(d) {
+          if (!d3.event.active) simulation.alphaTarget(0);
+          
           simulation.alphaTarget(0).restart();
         }
     
