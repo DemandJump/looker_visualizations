@@ -419,7 +419,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (d.notch == 'c') spacing = 2;
       if (d.notch == 'b' || 'z') spacing = 6;
       if (d.notch == 'a') spacing = 12;
-      return d.radius //+ spacing;
+      return d.radius + spacing;
     }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
     let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
     let attractforce = d3.forceManyBody().strength(-120).distanceMax(500).distanceMin(20)
