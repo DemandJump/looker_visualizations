@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html lang="en">
+        <style>
+html, body { margin: 0; padding: 0;}
+.node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
+text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+line.link, .link2 { fill: none;}
+svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
+        </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dynamic force layout</title>
+</head>
+<body>
+<script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script> 
+<!-- Add 2 buttons-->
+<!-- <div style="display: inline;">
+  <button style="display: inline;" type="button" onclick="notchDown()">Prev</button>
+  <button style="display: inline;" type="button" onclick="notchUp()">Next</button>
+  <p style="display: inline;" class="seeNotch">Start focusing on your data!</p>
+  <button style="display: inline;" type="button" onclick="resetNodes()">Pull nodes to center</button>
+</div> -->
+<!-- Svg will be placed here! -->
+<script>
+
+d3.json('../../data/_flare.json').then(data => {
+    console.log('raw data', data);
+
+
+});
+</script>
+    </body>
+</html>
