@@ -12,8 +12,9 @@ div { overflow-wrap: break-word; }
 
 
 .slider {
+  box-sizing: border-box;
   -webkit-appearance: none;
-  width: 70%;
+  width: 100%;
   height: 15px;
   border-radius: 5px;
   background: #d3d3d3;
@@ -99,7 +100,9 @@ d3.json('_flare.json').then(data => {
     uniqueTypeValues,
     reset = false,
     resetSingleNode = false,
-    friction = .1; // This determines the link length based on the data that's given
+    friction = .1,
+    linkDistance,
+    depthSelect = 0; // This determines the link length based on the data that's given
 
 
 
@@ -113,6 +116,7 @@ d3.json('_flare.json').then(data => {
     root.descendants().forEach(node => {
       node.size = 100; 
       node.froze = false;
+      node.distance = 25;
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
         if(node.size > maxMeasure) { maxMeasure = node.size; }
@@ -175,39 +179,144 @@ d3.json('_flare.json').then(data => {
       .style('height', interfaceh)
       .style('box-sizing', 'border-box')
       .style('margin', 'auto')
+      .style('background-color', '#f5f5f5')
       // .style('text-align', 'center')
 
   let infoSettingsh = height / 3,
   infoDatah = infoSettingsh * 2;
   infoDatah = infoDatah + 'px'; infoSettingsh = infoSettingsh + 'px';
-  let _infoData = d3.select('.infoBar').append('div')
-      .attr('class', 'infoData')
-      .style('width', infow)
-      .style('height', infoDatah)
 
   let _infoSettings = d3.select('.infoBar').append('div')
       .attr('class', 'infoSettings')
       .style('width', infow)
       .style('height', infoSettingsh)
-      .style('background-color', '#f5f5f5')
+      .style('border-bottom', '1px solid black')
 
-  let setLinkDistance = d3.select('.infoSettings').append('input')
-      .attr('type', 'range')
-      .attr('class', 'slider')
-      .attr('min', 1)
-      .attr('max', 100)
-      .attr('value', 50)
+  let _infoData = d3.select('.infoBar').append('div')
+      .attr('class', 'infoData')
+      .style('width', infow)
+      .style('height', infoDatah)
+
+
+
+  let sliderBox = d3.select('.infoSettings').append('div')
+      .attr('class', 'sliderBox')
+      .style('width', '90%')
+      .style('padding', '.5rem')
       .style('display', 'inline-block')
+      .style('box-sizing', 'border-box')
 
+
+  let linkSlider = d3.select('.sliderBox').append('input')
+      .attr('class', 'slider')
+      .attr('id', 'linkSlider')
+      .attr('type', 'range')
+      .attr('min', 1)
+      .attr('max', 2500)
+      .attr('value', 50)
+      .style('display', 'inline-block') 
+
+  linkSlider.on("input", event => {
+      linkDistance = linkSlider.property('value');
+      d3.select('.linkInfo').html(linkDistance);
+      console.log('Link slider value', linkDistance);
+      nodes.forEach(node => {
+        if (node.depth == depthSelect) node.distance = linkDistance;  
+      })
+
+      simulation.force('link').distance(d => {
+          console.log('this is a node! ', d);
+          return d.source.distance;
+      }).strength(1);
+      simulation.alpha(1).alphaDecay(.125).restart();
+      update();
+  })
+
+    // The div to show the current link distance of the selected depth
   let linkDistanceVis = d3.select('.infoSettings').append('div')
-      .attr('class', 'setLink')
-      .style('width', '25%')
+      .attr('class', 'linkInfo').attr('id', 'linkInfo')
+      .style('box-sizing', 'border-box')
+      .style('width', '10%')
       .style('height', '25px')
       .style('display', 'inline-block')
       .style('margin', 'auto')
-      .style('padding', 'none')
-      
-      
+      .style('padding-left', '5px')
+      .html('50')
+
+    // The button to select the prev set of links to edit based on depth
+  let selectPrevDepth = d3.select('.infoSettings').append('button')
+      .attr('class', 'prevDepthSelect')
+      .style('margin-left', '1rem')
+      .html('Edit previous link')
+      .on('click', event => {
+        if(depthSelect > 0) {depthSelect --;}
+        nodes.forEach(init => { if(init.depth == depthSelect) { 
+          document.getElementById('linkSlider').value = init.distance; 
+          d3.select('.linkInfo').html(init.distance); 
+        } }) 
+        currentDepth.html(`Selected Link Depth: ${depthSelect}`)
+      });
+    // The button to select the next set of links to edit based on depth
+  let selectNextDepth = d3.select('.infoSettings').append('button')
+      .attr('class', 'nextDepthSelect')
+      .html('Edit next links')
+      .on('click', event => {
+        if(depthSelect < maxDepth) {depthSelect ++;}
+        nodes.forEach(init => { if(init.depth == depthSelect) { 
+          document.getElementById('linkSlider').value = init.distance;
+          d3.select('.linkInfo').html(init.distance);
+        } })  
+        currentDepth.html(`Selected Link Depth: ${depthSelect}`)
+      });
+    // The div to show the current selected depth
+  let currentDepth = d3.select('.infoSettings').append('div')
+      .attr('class', 'currentDepth').attr('id', 'currentDepth')
+      .style('box-sizing', 'border-box')
+      .style('width', '50%')
+      .style('height', '25px')
+      .style('display', 'inline-block')
+      .style('margin', 'auto')
+      .style('padding-left', '10px')
+      .style('line-height', '1.25')
+      .html(`Selected Link Depth: ${depthSelect}`)
+
+  
+
+  function nodeData(d) {
+    console.log('Node data', d);
+    let datum = [
+      {
+        value: d.depth,
+        lookerdefinedLabel: 'Depth'
+      },
+      {
+        value: d.depth,
+        lookerdefinedLabel: 'Depth'
+      },
+      {
+        value: d.data.name,
+        lookerdefinedLabel: 'Name'
+      }
+    ];
+
+    d3.select('.infoData')
+      .selectAll('div')
+      .data(datum)
+      .exit()
+      .remove();
+
+    d3.select('.infoData')
+      .selectAll('div')
+      .data(datum)
+      .enter()
+      .append('div')
+        .attr('class', 'info')
+        .style('text-align', 'center')
+        .html(d => `${d.lookerdefinedLabel}: ${d.value}`);
+
+  }
+  
+ 
       
 
 
@@ -215,20 +324,13 @@ d3.json('_flare.json').then(data => {
   let string1 = `<div style='overflow: hidden;'> 
     asd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjal
   </div>`;
-  let string = `<div style='overflow: hidden;'> 
-    asd;aldjaljasdlkajdsjksalkda adsasasdasda
-  </div>`;
+  let string = `<h2 style='overflow: hidden; text-align: center;'>Node Data</h2>`;
   console.log('this is teh height of the svg!', height);
 
   let _information = d3.select('.infoData').append('div')
     .attr('class', 'info')
     .attr('id', 'infoBar')
-    .style('overflow', 'hidden')
-    .html(string);
-
-  let _information2 = d3.select('.infoData').append('div')
-    .attr('class', 'info')
-    .attr('id', 'infoBar2')
+    // .style('overflow', 'scroll')
     .html(string);
 
 
@@ -271,7 +373,7 @@ d3.json('_flare.json').then(data => {
   let _resetBtn = d3.select('.navbar').append('button')
       .attr('class', 'reset')
       .style('display', 'inline')
-      .html('Reset all node positions')
+      .html('RESET ALL NODE POSITIONS')
       .on('click', event => {
         nodes.forEach(d => {
           d.fx = d.fy = null;
@@ -699,6 +801,7 @@ function update() { /* Initialize some parameters that we will need for */
             d.children = d._children;
             d._children = null;
         }
+        nodeData(d);
         update();
     }
     function click2Focus(d) {
