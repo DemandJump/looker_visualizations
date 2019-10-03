@@ -1,11 +1,52 @@
 <!DOCTYPE html> 
 <html lang="en">
         <style>
-html, body { margin: 0; padding: 0;}
+html, body { margin: 0; padding: 0; box-sizing: border-box;}
 .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
 text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
 line.link, .link2 { fill: none;}
-svg{ border: 1px solid rgba(0, 0, 0, 0.2);}
+/* svg { border: 1px solid rgba(0, 0, 0, 0.2);} */
+button{padding: 4px; margin: 1px; border-radius: 5px; background-color: #c6dbef  }
+.infoBar { display: inline-block; overflow: scroll; margin: auto; }
+div { overflow-wrap: break-word; }
+
+
+.slider {
+  -webkit-appearance: none;
+  width: 70%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  display: inline-block;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+
         </style>
 <head>
   <meta charset="UTF-8">
@@ -33,9 +74,13 @@ d3.json('_flare.json').then(data => {
               * Initialize the infrastructure *
     ****************************************************/
         // Initial dimensions, plus instantiating some variables
-    let width = window.innerWidth, // Dimensions w & h
-    height = window.innerHeight - 20,
-    treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    let ww = window.innerWidth, wh = window.innerHeight,   // Dimensions w & h
+    initWidth = ww + 'px', initHeight = wh + 'px',
+          svgWidth = ww * .7, infoWidth = ww * .3,
+          svgw = svgWidth + 'px', infow = infoWidth + 'px',
+                height = wh - 35, 
+                interfaceh = height + 'px',
+    treemap = d3.tree().size([interfaceh, initWidth]), // Tree layout (hierarchy must be applied to data before this will work)
     totalNodes,
     notch = 0, // Notch is the counter for our good ol daters
     currentValue = '',
@@ -55,6 +100,7 @@ d3.json('_flare.json').then(data => {
     reset = false,
     resetSingleNode = false,
     friction = .1; // This determines the link length based on the data that's given
+
 
 
             // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
@@ -97,16 +143,98 @@ d3.json('_flare.json').then(data => {
               * Build the svg *
   *****************************************/
 
-  let _holder = d3.select('body').append('div')
-      .attr('class', 'holder')
-      .style('display', 'inline');
+  let _visualization = d3.select('body').append('div')
+      .attr('class', 'visualization')
+      .style('width', initWidth)
+      .style('height', initHeight)
+      .style('display', 'inline-block')
 
-  let _svg = d3.select('body').append('svg')
-      .attr('class', 'container');
+
+      // This is the navbar that stretches across the top of the visualization
+  let _navbar = d3.select('.visualization').append('div')
+      .attr('class', 'navbar')
+      .style('width', initWidth)
+      .style('height', 25)
+      .style('display', 'block')
+      .style('background-color', '#f5f5f5');
+
+      // This is the interface on the left, holds the svg and info bar on the right
+  let _interface = d3.select('.visualization').append('div')
+      .attr('class', 'interface')
+      .style('width', initWidth)
+
+
+      // The svg diagram, where all the tough code goes
+  let _svg = d3.select('.interface').append('svg')
+      .attr('class', 'container')
+      .style('display', 'inline-block');
+      // The info panel that will give settings for the visualizaiton, and show info of each node you select within the svg
+  let _infoPanel = d3.select('.interface').append('div')
+      .attr('class', 'infoBar')
+      .style('width', infow)
+      .style('height', interfaceh)
+      .style('box-sizing', 'border-box')
+      .style('margin', 'auto')
+      // .style('text-align', 'center')
+
+  let infoSettingsh = height / 3,
+  infoDatah = infoSettingsh * 2;
+  infoDatah = infoDatah + 'px'; infoSettingsh = infoSettingsh + 'px';
+  let _infoData = d3.select('.infoBar').append('div')
+      .attr('class', 'infoData')
+      .style('width', infow)
+      .style('height', infoDatah)
+
+  let _infoSettings = d3.select('.infoBar').append('div')
+      .attr('class', 'infoSettings')
+      .style('width', infow)
+      .style('height', infoSettingsh)
+      .style('background-color', '#f5f5f5')
+
+  let setLinkDistance = d3.select('.infoSettings').append('input')
+      .attr('type', 'range')
+      .attr('class', 'slider')
+      .attr('min', 1)
+      .attr('max', 100)
+      .attr('value', 50)
+      .style('display', 'inline-block')
+
+  let linkDistanceVis = d3.select('.infoSettings').append('div')
+      .attr('class', 'setLink')
+      .style('width', '25%')
+      .style('height', '25px')
+      .style('display', 'inline-block')
+      .style('margin', 'auto')
+      .style('padding', 'none')
+      
+      
+      
+
+
+
+  let string1 = `<div style='overflow: hidden;'> 
+    asd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasd;aldjaljasdlkajdsjksalkdakljakdkjslkadkjskalklsjalasdlkajdsjksalkdakljakdkjslkadkjskalklsjal
+  </div>`;
+  let string = `<div style='overflow: hidden;'> 
+    asd;aldjaljasdlkajdsjksalkda adsasasdasda
+  </div>`;
+  console.log('this is teh height of the svg!', height);
+
+  let _information = d3.select('.infoData').append('div')
+    .attr('class', 'info')
+    .attr('id', 'infoBar')
+    .style('overflow', 'hidden')
+    .html(string);
+
+  let _information2 = d3.select('.infoData').append('div')
+    .attr('class', 'info')
+    .attr('id', 'infoBar2')
+    .html(string);
+
 
 
                 // Create the ui for this 
-  let _prevBtn = d3.select('.holder').append('button')
+  let _prevBtn = d3.select('.navbar').append('button')
       .attr('class', 'prev') 
       .style('display', 'inline')
       .html('Prev')
@@ -119,7 +247,7 @@ d3.json('_flare.json').then(data => {
         }
       });
 
-  let _nextBtn = d3.select('.holder').append('button')
+  let _nextBtn = d3.select('.navbar').append('button')
       .attr('class', 'next')
       .style('display', 'inline')
       .html('Next')
@@ -132,15 +260,15 @@ d3.json('_flare.json').then(data => {
         }
       });
 
-  let _resetSingleNode = d3.select('.holder').append('button')
+  let _resetSingleNode = d3.select('.navbar').append('button')
       .attr('class', 'resetSingleNode')
       .style('display', 'inline')
-      .html(`Reset next clicked node's position`)
+      .html(`Reset selected node's position`)
       .on('click', event => {
         resetSingleNode = true;        
       });
   
-  let _resetBtn = d3.select('.holder').append('button')
+  let _resetBtn = d3.select('.navbar').append('button')
       .attr('class', 'reset')
       .style('display', 'inline')
       .html('Reset all node positions')
@@ -157,7 +285,7 @@ d3.json('_flare.json').then(data => {
         simulateClick(document.getElementById('root'), 'click');
       });
 
-  let _centerNodes = d3.select('.holder').append('button')
+  let _centerNodes = d3.select('.navbar').append('button')
       .attr('class', 'centerNodes')
       .style('display', 'inline')
       .html('Pull nodes in together')
@@ -166,15 +294,38 @@ d3.json('_flare.json').then(data => {
         nodes.forEach(node => {
           if(node.froze == false) { node.fx = node.fy = null; }
         });
-        update();
+        simulation.alpha(1).alphaDecay(.125).restart();
       });
+    
+    let panelSwitch = 'on';
+  let _testViewPort = d3.select('.navbar').append('button')
+      .attr('class', 'changeView')
+      .style('display', 'inline')
+      .html('Close Viewport')
+      .on('click', event => {
+        console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
+        if(panelSwitch == 'on') {
+          d3.select('.infoBar').style('display', 'none');
+          _svg.style('width', initWidth)
+          _testViewPort.html('Open Viewport')
+          panelSwitch = 'off';
+        } else {
+          d3.select('.infoBar').style('display', 'inline-block');
+          _svg.style('width', svgw)
+          _testViewPort.html('Close Viewport')
+          panelSwitch = 'on';
+          
+        }
+      })
+
+
 
 
       /*/ Then instantiate the groundwork for the visualization /*/
   let container = _svg 
       .html('')
-      .attr('width', width)
-      .attr('height', height)
+      .style('width', svgw)
+      .style('height', height)
         // Selector to hold everything
   let svg = container.append('g')
       .attr('class', 'everything')
@@ -201,12 +352,12 @@ d3.json('_flare.json').then(data => {
     return d.radius + spacing;
   }).iterations(5); // The iterations smooth out the collision's rendering (it's very useful)
   let repelforce = d3.forceManyBody().strength(30).distanceMax(55).distanceMin(110)
-  let attractforce = d3.forceManyBody().strength(-120).distanceMax(500).distanceMin(20)
+  let attractforce = d3.forceManyBody().strength(-40).distanceMax(500).distanceMin(20)
         // Initialize the simulation // 
   simulation = d3.forceSimulation()
-    .force('center', d3.forceCenter(height / 2, width / 2))
+    .force('center', d3.forceCenter(height / 2, svgWidth / 2))
     .force('link', d3.forceLink().id(d => d.index))
-    .force('attract', attractforce) // This spaces things out, with repel it can be messy
+    .force('attract   ', attractforce) // This spaces things out, with repel it can be messy
     .force('repel', repelforce) // This pulls things in, Very useful!
     .force('collision', collision) // This spaces out the nodes to give everything room to breathe
       .alphaDecay(friction) // This slows down the alpha(simulation) over time (it's friction!)
