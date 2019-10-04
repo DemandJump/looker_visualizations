@@ -2,12 +2,13 @@ looker.plugins.visualizations.add({
     options: {
         font_size: {
             type: "string",
-            label: "Font Size",
+            label: "Testing selection w/font",
             values: [
                 {"Large": "large"},
+                {"Medium": "medium"},
                 {"Small": "small"}
             ],
-            display: "radio",
+            display: "select",
             default: "large"
         }
     },
