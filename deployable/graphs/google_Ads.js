@@ -15,6 +15,7 @@ looker.plugins.visualizations.add({
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    this._counter = 0;
 
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
@@ -151,8 +152,10 @@ console.log('details', details);
     })
     
 
-
-    this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
+    if(this._counter == 0) {
+        counter ++;
+        this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
+    }
 /*************************************************************************************************************
                                                                             * End of Dimension Options Setup
 *************************************************************************************************************/
@@ -167,6 +170,15 @@ console.log(`this is the config.label:`, config.label)
 console.log(`this is the config.description:`, config.description)
 
 
+/****************************************************************
+                            * End of Options Update
+****************************************************************/
+
+
+/******************************************************************************************************************************************
+    * Main Functionalty
+******************************************************************************************************************************************/
+    //  When they start the visualization, we'll pull these together to rename the data's keynames to build the visualizaiton!
 if(config.Deploy_Vis == "on") {
         // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
 
@@ -176,16 +188,6 @@ if(config.Deploy_Vis == "on") {
     update();
 }
 
-    //  On the radio button clicked on, we'll pull these together to rename the data's keynames to build the visualizaiton!
-
-/****************************************************************
-                            * End of Options Update
-****************************************************************/
-
-
-/******************************************************************************************************************************************
-    * Main Functionalty
-******************************************************************************************************************************************/
 function update() {
     console.log('This is the update function!')
     console.log('This is the raw data', data)
