@@ -134,7 +134,7 @@ console.log('details', details);
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
-let visdata = data,
+let visdata = data;
 
         // So we'll be taking in mutated data and replicating google ads with it. We're focusing on styling, and inputing 4 main pieces of data
             // link, domain, label, and description
@@ -150,7 +150,7 @@ let visdata = data,
     
 
     /**************** Done! *****************/
-    // doneRendering()     // Always call done to indicate a visualization has finished rendering
+    doneRendering()     // Always call done to indicate a visualization has finished rendering
 }
 });
 
