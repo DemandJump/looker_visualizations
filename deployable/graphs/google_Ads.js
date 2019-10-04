@@ -138,7 +138,7 @@ console.log('details', details);
             {
                 label: 'A Quick Guide',
                 type: 'string',
-                display: 'text',
+                display: 'radio',
                 values: [
                     {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
                     {"Label is the title of the Ad": "1"},
@@ -162,12 +162,26 @@ console.log('details', details);
 /****************************************************************
         * Update the Options
 ****************************************************************/
-let visdata = data; // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
+let visdata = data, // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
+link = config.link,
+domain = config.domain,
+label = config.label,
+description = config.description;
 
-console.log(`\nthis is the config.link:`, config.link)
-console.log(`this is the config.domain:`, config.domain)
-console.log(`this is the config.label:`, config.label)
-console.log(`this is the config.description:`, config.description)
+console.log(`\nthis is the config.link:`, link)
+console.log(`this is the config.domain:`, domain)
+console.log(`this is the config.label:`, label)
+console.log(`this is the config.description:`, description)
+
+    //  When they start the visualization, we'll pull these together to rename the data's keynames to build the visualizaiton!
+if(config.Deploy_Vis == "on") {
+        // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
+
+
+
+
+    update();
+}
 
 
 /****************************************************************
@@ -178,15 +192,6 @@ console.log(`this is the config.description:`, config.description)
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
-    //  When they start the visualization, we'll pull these together to rename the data's keynames to build the visualizaiton!
-if(config.Deploy_Vis == "on") {
-        // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
-
-
-
-
-    update();
-}
 
 function update() {
     console.log('This is the update function!')
