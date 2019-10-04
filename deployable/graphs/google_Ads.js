@@ -136,7 +136,7 @@ console.log('details', details);
         if (adIteration == adPieces.length) {
             dimension_options['notes'] = 
             {
-                label: 'Guide',
+                label: 'A Quick Guide',
                 type: 'string',
                 display: 'radio',
                 values: [
