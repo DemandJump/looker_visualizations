@@ -132,6 +132,7 @@ console.log('details', details);
 
             dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
         })
+        console.log('This is the dimension_options', dimension_options);
 
 
 
