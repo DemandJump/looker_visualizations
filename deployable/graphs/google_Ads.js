@@ -106,7 +106,7 @@ console.log('details', details);
                 display: 'radio',
                 values: [
                     {"Turn the visualization on": "on"},
-                    {"Don't start the visualization yet": "off"}
+                    {"Turn the visualization off": "off"}
                 ],
                 default: "off"
             }
