@@ -157,7 +157,7 @@ console.log('details', details);
     
 
 
-    this.trigger('registerOptions', options) // register options with parent page to update visConfig
+    this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
 /*************************************************************************************************************
                                                                             * End of Dimension Options Setup
 *************************************************************************************************************/
