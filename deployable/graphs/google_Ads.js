@@ -136,7 +136,12 @@ console.log('details', details);
 ****************************************************************/
 let visdata = data; // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
 
+console.log(`this is the config.link: ${config.link}`)
+console.log(`this is the config.domain: ${config.domain}`)
+console.log(`this is the config.label: ${config.label}`)
+console.log(`this is the config.description: ${config.description}`)
 
+    //  On the radio button clicked on, we'll pull these together to rename the data's keynames to build the visualizaiton!
 
 /****************************************************************
                             * End of Options Update
