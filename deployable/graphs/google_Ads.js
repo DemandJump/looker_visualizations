@@ -153,7 +153,7 @@ console.log('details', details);
     
 
     if(this._counter == 0) {
-        counter ++;
+        this._counter ++;
         this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
     }
 /*************************************************************************************************************
