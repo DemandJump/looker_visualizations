@@ -59,10 +59,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*************************************
      * Setting up the Dimension Options
     *************************************/
-    let options = {};
+    let adPieces = ['link', 'domain', 'label', 'description'],
+    dimension_names = [],
+    options = {};
         // Create an option for each measure in your query
     queryResponse.fields.dimensions.foreach(field =>  {
-        id = 'Id_' + field.name;
+            // This sets up the options selections so they can choose each dimension they put in for the visualization
+        id = field.name;
         options[id] = 
         {
             type: 'string',
@@ -70,8 +73,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             default: '#887DAB',
             display: 'color'
         }
+
+            // Then we're pulling out the names of each of the dimensions to select them based on which the user selects
+        dimension_names.push(field.name); // We'll use these to 
+
     })
     this.trigger('registerOptions', options) // register options with parent page to update visConfig
+
+
+
 
 
 
@@ -110,11 +120,10 @@ console.log('queryResponse', queryResponse);
 console.log('details', details);
 
     // Playing with dimensions and measures
-    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-        // The selector references for dimensions and length 
     let dimensions = queryResponse.fields.dimensions;
     let measures = queryResponse.fields.measures;
+    console.log('Checking out query resposne dimension fields: ', dimensions);
+    console.log('Checking out query resposne measure fields: ', measures);
 
 
     /**********************
