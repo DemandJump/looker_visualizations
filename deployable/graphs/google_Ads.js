@@ -84,7 +84,7 @@
 
 
     /****** Log all these functions to see what we're working with ******/
-console.log(`\n ...UpdateAsync initialized, here is it's data: `);
+console.log(` ...UpdateAsync initialized, here is it's data: \n`);
 console.log('data', data);
 console.log('element', element);
 console.log('config', config);
