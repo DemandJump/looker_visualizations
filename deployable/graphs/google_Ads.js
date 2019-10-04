@@ -114,6 +114,7 @@ console.log('details', details);
         dimension_options[field] = 
         {
             label: adLabels[adIteration],
+            type: 'string',
             values: [],
             display: 'select'
         }
