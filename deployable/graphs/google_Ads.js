@@ -95,7 +95,7 @@ console.log('details', details);
     * Setting up the Dimension Options
 ******************************************************************************************************************************************/
         // Create an option for each measure in your query
-    queryResponse.fields.dimensions.forEach(field =>  { // Sets up options selections so they can choose each dimension they put in for the visualization
+    dimensions.forEach(field =>  { // Sets up options selections so they can choose each dimension they put in for the visualization
         id = field.name;
         options[id] = 
         {
@@ -114,7 +114,7 @@ console.log('details', details);
             display: 'select'
         }
 
-        queryResponse.fields.dimensions.forEach(dimension => {
+        dimensions.forEach(dimension => {
             let description = dimension.label_short; // Key of value pair
             let valuepair = dimension.name; // value of value pair
             let val = { description: valuepair } // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
