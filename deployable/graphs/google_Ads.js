@@ -123,7 +123,7 @@ console.log('details', details);
             console.log('This is the valuepair', valuepair)
             console.log('This is the val', val)
 
-            dimension_options[field].values.push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
+            dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
         })
 
         adIteration++; // This is for each of the option labels
