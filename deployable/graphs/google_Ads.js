@@ -138,7 +138,7 @@ console.log('details', details);
             {
                 label: 'A Quick Guide',
                 type: 'string',
-                display: 'radio',
+                display: 'text',
                 values: [
                     {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
                     {"Label is the title of the Ad": "1"},
