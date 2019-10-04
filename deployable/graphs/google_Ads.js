@@ -98,19 +98,16 @@ console.log('details', details);
 
     adPieces.forEach(field => {
         if(adIteration == 0) {
-            dimension_options['notes'] = 
+            dimension_options["Deploy_Vis"] = 
             {
-                label: 'Guide',
+                label: 'Start the Visualization',
                 type: 'string',
-                display: 'text',
+                display: 'radio',
                 values: [
-                    {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
-                    {"Label is the title of the Ad": "1"},
-                    {"Description is the description of the ad": "3"},
-                    {"Link is the link that brings you to the site": "4"},
-                    {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
-                    {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
-                ]
+                    {"Turn the visualization on": "on"},
+                    {"Don't start the visualization yet": "off"}
+                ],
+                default: "off"
             }
         }
 
@@ -140,16 +137,20 @@ console.log('details', details);
 
         adIteration++; // This is for each of the option labels
         if (adIteration == adPieces.length) {
-            dimension_options["Deploy_Vis"] = 
+            dimension_options['notes'] = 
             {
-                label: 'Start the Visualization',
+                label: 'Guide',
                 type: 'string',
                 display: 'radio',
                 values: [
-                    {"Turn the visualization on": "on"},
-                    {"Don't start the visualization yet": "off"}
+                    {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
+                    {"Label is the title of the Ad": "1"},
+                    {"Description is the description of the ad": "3"},
+                    {"Link is the link that brings you to the site": "4"},
+                    {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
+                    {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
                 ],
-                default: "off"
+                default: "6"
             }
         }
     })
