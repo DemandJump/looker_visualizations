@@ -122,11 +122,13 @@ console.log('details', details);
         }
 
         dimensions.forEach(dimension => {
-            let description = dimension.label_short; // Key of value pair
+            let key = dimension.label_short; // Key of value pair
             let valuepair = dimension.name; // value of value pair
-            let val = { description: valuepair } // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+            let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+            val[key] = valuepair;
 
-            console.log('This is the description', description)
+
+            console.log('This is the key', key)
             console.log('This is the valuepair', valuepair)
             console.log('This is the val', val)
 
