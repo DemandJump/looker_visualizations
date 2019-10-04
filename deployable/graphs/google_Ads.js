@@ -136,10 +136,7 @@ console.log('details', details);
 ****************************************************************/
 let visdata = data; // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
 
-    // Here's a check we add to the end of the update function to implement the options 
-    if (config.font_size == "small") {
-        this._textElement.className = "hello-world-text-small";
-    }
+
 
 /****************************************************************
                             * End of Options Update
