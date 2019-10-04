@@ -829,8 +829,7 @@ function update() { /* Initialize some parameters that we will need for */
 
 
     /**************** Done! *****************/
-    // Always call done to indicate a visualization has finished rendering
-    doneRendering() 
+    doneRendering() // Always call done to indicate a visualization has finished rendering
 }
 });
 
