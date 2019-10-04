@@ -119,6 +119,10 @@ console.log('details', details);
             let valuepair = dimension.name; // value of value pair
             let val = { description: valuepair } // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
 
+            console.log('This is the description', description)
+            console.log('This is the valuepair', valuepair)
+            console.log('This is the val', val)
+
             dimension_options[field].values.push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
         })
 
