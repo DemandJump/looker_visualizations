@@ -63,7 +63,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     dimension_names = [],
     options = {};
         // Create an option for each measure in your query
-    queryResponse.fields.dimensions.foreach(field =>  {
+    queryResponse.fields.dimensions.forEach(field =>  {
             // This sets up the options selections so they can choose each dimension they put in for the visualization
         id = field.name;
         options[id] = 
