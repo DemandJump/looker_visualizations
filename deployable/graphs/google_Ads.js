@@ -150,7 +150,7 @@ let visdata = data,
     
 
     /**************** Done! *****************/
-    doneRendering()     // Always call done to indicate a visualization has finished rendering
+    // doneRendering()     // Always call done to indicate a visualization has finished rendering
 }
 });
 
