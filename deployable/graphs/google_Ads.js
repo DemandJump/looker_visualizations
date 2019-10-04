@@ -75,8 +75,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                                 /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
     /****** Log all these functions to see what we're working with ******/
-console.log(` ...UpdateAsync initialized, here is it's data: \n`);
-console.log('data', data);
+console.log(` ...UpdateAsync initialized, here is it's data:`);
+console.log('\n data', data);
 console.log('element', element);
 console.log('config', config);
 console.log('queryResponse', queryResponse);
