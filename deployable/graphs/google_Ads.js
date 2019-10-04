@@ -124,11 +124,6 @@ console.log('details', details);
             let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
             val[key] = valuepair;
 
-
-            console.log('This is the key', key)
-            console.log('This is the valuepair', valuepair)
-            console.log('This is the val', val)
-
             dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
         })
         console.log('This is the dimension_options', dimension_options);
@@ -141,7 +136,7 @@ console.log('details', details);
             {
                 label: 'Guide',
                 type: 'string',
-                display: 'radio',
+                display: 'text',
                 values: [
                     {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
                     {"Label is the title of the Ad": "1"},
@@ -150,7 +145,6 @@ console.log('details', details);
                     {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
                     {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
                 ],
-                default: "6"
             }
         }
     })
