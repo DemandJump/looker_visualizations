@@ -34,22 +34,12 @@ create: function(element, config) {
                 font-size: 72px;
             }
         </style>
-        `;
+    `;
 
-    // Create a container element to let us center the text.
-    var container = element.appendChild(document.createElement('div'));
-    container.className = "hello-world-vis";
-
-    // Create an element to contain the text 
-        // -> This is a selector reference variable for updateASync
-    this._textElement = container.appendChild(document.createElement('div'));
-
-
-
-    /* 
-        So create is where you setup the visualization, then we render it in updateAsync
-            Note: Create is a convenient place t o do setup that only needs to happen once 
-    */
+    this._container = d3.select(element).append('div')
+        .attr('class', 'container')
+        .attr('id', 'container');
+    
 
 },
     // Onto the update async section
@@ -75,7 +65,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     * Initialization / Setup
 ******************************************************************************************************************************************/
     let adPieces = ['link', 'domain', 'label', 'description'],
+    adLabels = ['Choose the link dimension', 'Choose the domain dimension', 'Choose the label dimension', 'Choose the description dimension'],
+    adIteration = 0, 
     dimension_names = [],
+    dimension_options = {},
     options = {};
 
 
@@ -109,11 +102,31 @@ console.log('details', details);
             type: 'string',
             label: field.label_short,
             default: '#887DAB',
-            display: 'color'
+            display: 'select'
         }
-            // Then we're pulling out the names of each of the dimensions to select them based on which the user selects
-        dimension_names.push(field.name); // We'll use these to 
     })
+
+    adPieces.forEach(field => {
+        dimension_options[field] = 
+        {
+            label: adLabels[adIteration],
+            values: [],
+            display: 'select'
+        }
+
+        queryResponse.fields.dimensions.forEach(dimension => {
+            let description = dimension.label_short; // Key of value pair
+            let valuepair = dimension.name; // value of value pair
+            let val = { description: valuepair } // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+
+            dimension_options[field].values.push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
+        })
+
+        adIteration++; // This is for each of the option labels
+    })
+    
+
+
     this.trigger('registerOptions', options) // register options with parent page to update visConfig
 /*************************************************************************************************************
                                                                             * End of Dimension Options Setup
@@ -121,6 +134,8 @@ console.log('details', details);
 /****************************************************************
         * Update the Options
 ****************************************************************/
+let visdata = data; // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
+
     // Here's a check we add to the end of the update function to implement the options 
     if (config.font_size == "small") {
         this._textElement.className = "hello-world-text-small";
@@ -134,12 +149,12 @@ console.log('details', details);
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
-let visdata = data;
 
         // So we'll be taking in mutated data and replicating google ads with it. We're focusing on styling, and inputing 4 main pieces of data
             // link, domain, label, and description
         
     // There will be conditionals to rename the data into what the visualization build will read!
+
 
 
 
