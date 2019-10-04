@@ -99,7 +99,6 @@ console.log('details', details);
         let measures = queryResponse.fields.measures;
 
 
-
         /**********************
          * Update the Options
         **********************/
