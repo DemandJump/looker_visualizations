@@ -165,6 +165,16 @@ console.log(`this is the config.domain:`, config.domain)
 console.log(`this is the config.label:`, config.label)
 console.log(`this is the config.description:`, config.description)
 
+
+if(config.Deploy_Vis == "on") {
+        // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
+
+
+
+
+    update();
+}
+
     //  On the radio button clicked on, we'll pull these together to rename the data's keynames to build the visualizaiton!
 
 /****************************************************************
@@ -175,12 +185,11 @@ console.log(`this is the config.description:`, config.description)
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
-
-        // So we'll be taking in mutated data and replicating google ads with it. We're focusing on styling, and inputing 4 main pieces of data
-            // link, domain, label, and description
-        
-    // There will be conditionals to rename the data into what the visualization build will read!
-
+function update() {
+    console.log('This is the update function!')
+    console.log('This is the raw data', data)
+    console.log('This is the augmented data for the visualization', visdata)
+}
 
 
 
