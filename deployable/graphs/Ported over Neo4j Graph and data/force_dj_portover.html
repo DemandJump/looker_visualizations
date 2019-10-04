@@ -6,7 +6,7 @@ html, body { margin: 0; padding: 0; box-sizing: border-box;}
 text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
 line.link, .link2 { fill: none;}
 /* svg { border: 1px solid rgba(0, 0, 0, 0.2);} */
-button{padding: 4px; margin: 1px; border-radius: 5px; background-color: #c6dbef  }
+button{padding: 4px; margin: 1px; border-radius: 5px; background-color: #c6dbef; margin-left: 2.5px; padding-right: 2.5px; }
 .infoBar { display: inline-block; overflow: scroll; margin: auto; }
 div { overflow-wrap: break-word; }
 
@@ -373,6 +373,7 @@ d3.json('_flare.json').then(data => {
   let _resetBtn = d3.select('.navbar').append('button')
       .attr('class', 'reset')
       .style('display', 'inline')
+      .style('color', 'red')
       .html('RESET ALL NODE POSITIONS')
       .on('click', event => {
         nodes.forEach(d => {
