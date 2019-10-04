@@ -95,18 +95,25 @@ console.log('details', details);
     * Setting up the Dimension Options
 ******************************************************************************************************************************************/
         // Create an option for each measure in your query
-    dimensions.forEach(field =>  { // Sets up options selections so they can choose each dimension they put in for the visualization
-        id = field.name;
-        options[id] = 
-        {
-            type: 'string',
-            label: field.label_short,
-            default: '#887DAB',
-            display: 'select'
-        }
-    })
 
     adPieces.forEach(field => {
+        if(adIteration == 0) {
+            dimension_options['notes'] = 
+            {
+                label: 'Guide',
+                type: 'string',
+                display: 'text',
+                values: [
+                    {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
+                    {"Label is the title of the Ad": "1"},
+                    {"Description is the description of the ad": "3"},
+                    {"Link is the link that brings you to the site": "4"},
+                    {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
+                    {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
+                ]
+            }
+        }
+
         dimension_options[field] = 
         {
             label: adLabels[adIteration],
@@ -126,7 +133,22 @@ console.log('details', details);
             dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
         })
 
+
+
         adIteration++; // This is for each of the option labels
+        if (adIteration == adPieces.length) {
+            dimension_options["Deploy_Vis"] = 
+            {
+                label: 'Start the Visualization',
+                type: 'string',
+                display: 'radio',
+                values: [
+                    {"Turn the visualization on": "on"},
+                    {"Don't start the visualization yet": "off"}
+                ],
+                default: "off"
+            }
+        }
     })
     
 
