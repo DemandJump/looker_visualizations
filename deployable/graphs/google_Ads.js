@@ -136,7 +136,7 @@ console.log('details', details);
             {
                 label: 'Guide',
                 type: 'string',
-                display: 'text',
+                display: 'radio',
                 values: [
                     {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
                     {"Label is the title of the Ad": "1"},
@@ -160,10 +160,10 @@ console.log('details', details);
 ****************************************************************/
 let visdata = data; // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
 
-console.log(`\nthis is the config.link: ${config.link}`)
-console.log(`this is the config.domain: ${config.domain}`)
-console.log(`this is the config.label: ${config.label}`)
-console.log(`this is the config.description: ${config.description}`)
+console.log(`\nthis is the config.link:`, config.link)
+console.log(`this is the config.domain:`, config.domain)
+console.log(`this is the config.label:`, config.label)
+console.log(`this is the config.description:`, config.description)
 
     //  On the radio button clicked on, we'll pull these together to rename the data's keynames to build the visualizaiton!
 
