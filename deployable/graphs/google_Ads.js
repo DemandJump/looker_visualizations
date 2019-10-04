@@ -177,7 +177,16 @@ console.log(`this is the config.description:`, description)
     //  When they start the visualization, we'll pull these together to rename the data's keynames to build the visualizaiton!
 if(config.Deploy_Vis == "on") {
         // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
-
+    visdata.forEach(ad => {
+        ad.link = link
+        ad.domain = domain
+        ad.label = label
+        ad.description = description
+        delete ad[link]
+        delete ad[domain]
+        delete ad[label]
+        delete ad[description]
+    })
 
 
 
