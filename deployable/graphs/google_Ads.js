@@ -229,12 +229,12 @@ function update() {
         .attr('width', width)
         .attr('height', height);
     
-    let ads = container.selectAll('.ad')
+    let adEnter = container.selectAll('.ad')
         .data(visdata, d => d.id);
-
+    let ads = adEnter.enter();
 
         // This is the class that holds the ad, 
-    ads.enter().append('div')
+    ads.append('div')
         .attr('class', 'ad')
         .attr('width', '632px')
         .attr('height', '222px')
