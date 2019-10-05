@@ -195,10 +195,10 @@ console.log(`this is the config.description:`, description)
 if(config.Deploy_Vis == "on") {
         // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
     visdata.forEach(ad => {
-        ad.link = link
-        ad.domain = domain
-        ad.label = label
-        ad.description = description
+        ad.link = link.value
+        ad.domain = domain.value
+        ad.label = label.value
+        ad.description = description.value
         delete ad[link]
         delete ad[domain]
         delete ad[label]
@@ -238,23 +238,60 @@ function update() {
         .attr('class', 'ad')
         .attr('width', '632px')
         .attr('height', '222px')
-        .attr('margin', '10px 0 0 0')
-        .attr('padding', '0 20px 0 20px');
+        .attr('margin', '7px 0 0 0')
+        .attr('padding', '0 16px 0 16px');
 
 
         // This is the Title, or the Label
     ads.append('h3')
         .attr('class', 'label')
+        .attr('display', 'inline-block')
         .attr('font-size', '20px')
         .attr('line-height', '20px')
         .attr('text-decoration', 'underline solid rgb(26, 13, 171')
         .attr('text-align', 'left')
-        .attr('word-spacing: 0px')
+        .attr('word-spacing', '0px')
         .attr('color', '#1A0DAB')
         .html(d => {
           console.log('This is the ad data ran through d3 selections', d)
-          return 'ayyyy wutup snow(doc)!?!';
+          return '<a>'+  +'</a>';
         });
+
+        // This is the Ad icon to the left of the domain link.
+    let linkContainer = ads.append('div')
+        .attr('class', 'link-section')
+        .attr('text-align', 'left')
+        .attr('height', '24px')
+        .attr('width', 'auto')
+        .attr('padding', '1px 0 0 0')
+      
+      linkContainer.append('span')
+          .attr('class', 'icon')
+          .attr('width', '14.6px')
+          .attr('height' , '11px')
+          .attr('display','inline')
+          .attr('font-size', '12px')
+          .attr('line-height', '11px')
+          .attr('text-decoration', 'none solid rgb(0, 102, 33)')
+          .attr('text-align', 'left')
+          .attr('white-spacing', 'nowrap')
+          .attr('word-spacing', '0px')
+          .attr('border', '1px solid #06621')
+          .attr('margin', '0 7px 0 0')
+          .attr('padding', '1px 3px 0 2px');
+
+      linkContainer.append('cite')
+          .attr('class', 'domain')
+          .attr('height', '24px')
+          .attr('display', 'inline-block')
+          .attr('font-size', '16px')
+          .attr('text-align', 'left')
+          .attr('vertical-align', 'bottom')
+          .attr('text-decoration', 'none solid rgb(0, 102, 33)')
+          .attr('color', '#006621')
+          .html('one second!')
+    
+
         
 
 
