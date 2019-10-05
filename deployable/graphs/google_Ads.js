@@ -266,6 +266,7 @@ function update() {
         .attr('width', 'auto')
         .attr('padding', '1px 0 0 0')
       
+          // This is the icon for the ad
       linkContainer.append('span')
           .attr('class', 'icon')
           .attr('width', '14.6px')
@@ -279,8 +280,9 @@ function update() {
           .attr('word-spacing', '0px')
           .attr('border', '1px solid #06621')
           .attr('margin', '0 7px 0 0')
-          .attr('padding', '1px 3px 0 2px');
+          .attr('padding', '1px 3px 0 2px')
 
+          // This is the domain link
       linkContainer.append('cite')
           .attr('class', 'domain')
           .attr('height', '24px')
@@ -292,7 +294,17 @@ function update() {
           .attr('color', '#006621')
           .html('one second!')
     
+    ad.append('div')
+        .attr('width', '600px')
+        .attr('height', '66px')
+        .attr('font-size', '14px')
+        .attr('line-height', '22px')
+        .attr('text-decoration', 'none solid rgb(84, 84, 84)')
+        .attr('text-align', 'left')
+        .attr('color', '#545454')
+        .attr('overflow', 'hidden')
 
+        
         
 
 
