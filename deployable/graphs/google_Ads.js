@@ -231,10 +231,9 @@ function update() {
     
     let adEnter = container.selectAll('.ad')
         .data(visdata, d => d.id);
-    let ads = adEnter.enter();
 
         // This is the class that holds the ad, 
-    ads.append('div')
+    let ads = adEnter.enter().append('div')
         .attr('class', 'ad')
         .attr('width', '632px')
         .attr('height', '222px')
@@ -299,6 +298,7 @@ function update() {
         .attr('text-align', 'left')
         .attr('color', '#545454')
         .attr('overflow', 'hidden')
+        .attr('overflow-wrap', 'break-word')
         .html(d => d.description);
 
 
