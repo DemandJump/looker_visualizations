@@ -51,6 +51,10 @@ div {
   text-align: center;
   margin: auto; 
 }
+h3:hover {
+  text-decoration: underline solid rgb(26, 13, 171);
+}
+
 </style>
     `;
 
@@ -244,10 +248,9 @@ function update() {
         // This is the Title, or the Label
     ads.append('h3')
         .attr('class', 'label')
-        .attr('display', 'inline-block')
+        .attr('display', 'block')
         .attr('font-size', '20px')
         .attr('line-height', '20px')
-        .attr('text-decoration', 'underline solid rgb(26, 13, 171')
         .attr('text-align', 'left')
         .attr('word-spacing', '0px')
         .attr('color', '#1A0DAB')
@@ -266,10 +269,10 @@ function update() {
                   .attr('class', 'icon')
                   .attr('width', '14.6px')
                   .attr('height' , '11px')
-                  .attr('display','inline')
+                  .attr('display','inline-block')
                   .attr('font-size', '12px')
                   .attr('line-height', '11px')
-                  .attr('text-decoration', 'none solid rgb(0, 102, 33)')
+                  // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
                   .attr('text-align', 'left')
                   .attr('white-spacing', 'nowrap')
                   .attr('word-spacing', '0px')
@@ -286,7 +289,7 @@ function update() {
                       .attr('font-size', '16px')
                       .attr('text-align', 'left')
                       .attr('vertical-align', 'bottom')
-                      .attr('text-decoration', 'none solid rgb(0, 102, 33)')
+                      // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
                       .attr('color', '#006621')
                       .html(d => d.domain)
     
@@ -294,9 +297,10 @@ function update() {
                       .append('div')
                           .attr('width', '600px')
                           .attr('height', '66px')
+                          .attr('display', 'block')
                           .attr('font-size', '14px')
                           .attr('line-height', '22px')
-                          .attr('text-decoration', 'none solid rgb(84, 84, 84)')
+                          // .attr('text-decoration', 'none solid rgb(84, 84, 84)')
                           .attr('text-align', 'left')
                           .attr('color', '#545454')
                           .attr('overflow', 'hidden')
