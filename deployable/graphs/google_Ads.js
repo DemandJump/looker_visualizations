@@ -50,18 +50,70 @@ a {
   font-size: 72px;
 }
 
+.ad {
+  width: 632px;
+  height: 222px;
+}
+
+.container {
+  padding: 1rem 2rem 1rem 2rem;
+}
+
 .holder { 
   overflow: scroll;
   text-align: center;
   margin: auto; 
 }
 
+.label {
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: left;
+  word-spacing: 0px;
+  color: #1A0DAB;
+}
 .label:hover {
   text-decoration: underline solid rgb(26, 13, 171);
 }
 
-.container {
-  padding: 1rem 2rem 1rem 2rem;
+.icon {
+  width: 14.6px;
+  height: 11px;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 11px;
+  text-decoration: none solid rgb(1, 102, 33);
+  text-align: left;
+  white-spacing: nowrap;
+  word-spacing: 0px
+  border: 1px solid #006621;
+  margin: 0 7px 0 0;
+  padding: 1px 3px 0 2px;
+}
+
+.domain {
+  width: auto;
+  height: 24px;
+  display: inline-block;
+  font-size: 16px;
+  text-align: left;
+  vertical-align: bottom;
+  text-decortation: rgb(0, 102, 33);
+  color: #006621;
+}
+
+.description {
+  width: 600px;
+  height: 66px;
+  display: block;
+  font-size: 14px;
+  line-height: 22px;
+  text-decoration: none solid rgb(84, 84, 84);
+  text-align: left;
+  color: #545454;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }
 
 
@@ -290,7 +342,7 @@ function update() {
                   .attr('margin', '0 7px 0 0')
                   .attr('padding', '1px 3px 0 2px')
                   .html('Ad')
-
+                
                       // This is the domain link
                   .append('cite')
                       .attr('class', 'domain')
@@ -305,6 +357,7 @@ function update() {
     
                           // This is the description
                       .append('div')
+                          .attr('class', 'description')
                           .attr('width', '600px')
                           .attr('height', '66px')
                           .attr('display', 'block')
@@ -319,8 +372,6 @@ function update() {
 
 
     ads.exit().remove();
-        
-
 }
 /******************************************************************************************************************************************
                                                                                                                 * End of Main Functionalty
