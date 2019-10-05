@@ -196,10 +196,10 @@ if(config.Deploy_Vis == "on") {
         // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
     visdata.forEach(ad => {
       console.log('ad', ad);
-        ad.link = ad.link.value
-        ad.domain = ad.domain.value
-        ad.label = ad.label.value
-        ad.description = ad.description.value
+        ad.link = ad[link].value
+        ad.domain = ad[domain].value
+        ad.label = ad[label].value
+        ad.description = ad[description].value
         delete ad[link]
         delete ad[domain]
         delete ad[label]
