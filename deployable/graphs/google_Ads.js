@@ -51,9 +51,10 @@ div {
   text-align: center;
   margin: auto; 
 }
-h3:hover {
+.label:hover {
   text-decoration: underline solid rgb(26, 13, 171);
 }
+a { text-decoration: none; }
 
 </style>
     `;
