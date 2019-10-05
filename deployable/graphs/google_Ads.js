@@ -230,7 +230,7 @@ function update() {
         .attr('height', height);
     
     let ads = container.selectAll('div.ad')
-        .data(visdata, d => d.index);
+        .data(visdata, d => d.id);
 
 
         // This is the class that holds the ad, 
@@ -304,7 +304,7 @@ function update() {
         .attr('overflow', 'hidden')
 
 
-    ads.exit().remove()
+    // ads.exit().remove()
         
         
 
