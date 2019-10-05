@@ -20,7 +20,22 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
 <style>
-  .hello-world-vis { 
+html, body { 
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
+  font-family: Roboto;
+}
+
+div {
+  overflow-wrap: break-word;
+}
+
+a { 
+  text-decoration: none; 
+}
+
+.hello-world-vis { 
   // Vertical centering
   height: 100%;
   display: flex;
@@ -35,26 +50,20 @@ create: function(element, config) {
   font-size: 72px;
 }
 
-
-html {
-  margin: 0;
-  padding: 0;
-  font-family: Roboto;
-}
-
-div {
-  overflow-wrap: break-word;
-}
-
 .holder { 
   overflow: scroll;
   text-align: center;
   margin: auto; 
 }
+
 .label:hover {
   text-decoration: underline solid rgb(26, 13, 171);
 }
-a { text-decoration: none; }
+
+.container {
+  padding: 1rem 2rem 1rem 2rem;
+}
+
 
 </style>
     `;
