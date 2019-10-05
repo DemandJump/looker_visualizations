@@ -225,8 +225,7 @@ function update() {
     console.log('This is the augmented data for the visualization', visdata)
 
 
-    let container = this._container.append('div')
-        .attr('class', 'holder')
+    let container = d3.select('.container').append('div')
         .attr('width', width)
         .attr('height', height);
     
