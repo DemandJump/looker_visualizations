@@ -202,12 +202,31 @@ if(config.Deploy_Vis == "on") {
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
-
 function update() {
+    let width = element.clientWidth, // Dimensions w & h
+    height = element.clientHeight;
+
     console.log('This is the update function!')
     console.log('This is the raw data', data)
     console.log('This is the augmented data for the visualization', visdata)
+
+
+    let container = this._container.append('div')
+        .attr('class', 'holder')
+        .attr('width', width)
+        .attr('height', height);
+    
+    
+
+
+
+
+
+
 }
+/******************************************************************************************************************************************
+                                                                                                                * End of Main Functionalty
+******************************************************************************************************************************************/
 
 
 

@@ -387,7 +387,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         /*/ Then instantiate the groundwork for the visualization /*/
-    let container = this._svg 
+    let container = this._svg  
         .html('')
         .attr('width', width)
         .attr('height', height)
