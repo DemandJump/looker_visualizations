@@ -19,22 +19,39 @@ create: function(element, config) {
 
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-        <style>
-            .hello-world-vis { 
-                // Vertical centering
-                height: 100%;
-                display: flex;
-                flex-direction: column;
-                justify-content: center; 
-                text-align: center;
-            }
-            .hello-world-text-small {
-                font-size: 18px;
-            }
-            .hello-world-text-large { 
-                font-size: 72px;
-            }
-        </style>
+<style>
+  .hello-world-vis { 
+  // Vertical centering
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  text-align: center;
+}
+.hello-world-text-small {
+  font-size: 18px;
+}
+.hello-world-text-large { 
+  font-size: 72px;
+}
+
+
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto;
+}
+
+div {
+  overflow-wrap: break-word;
+}
+
+.holder { 
+  overflow: scroll;
+  text-align: center;
+  margin: auto; 
+}
+</style>
     `;
 
     this._container = d3.select(element).append('div')
@@ -192,8 +209,6 @@ if(config.Deploy_Vis == "on") {
 
     update();
 }
-
-
 /****************************************************************
                             * End of Options Update
 ****************************************************************/
@@ -206,8 +221,7 @@ function update() {
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight;
 
-    console.log('This is the update function!')
-    console.log('This is the raw data', data)
+    console.log('\nThis is the update function!')
     console.log('This is the augmented data for the visualization', visdata)
 
 
@@ -216,6 +230,35 @@ function update() {
         .attr('width', width)
         .attr('height', height);
     
+    let ads = container.selectAll('div.ad')
+        .data(visdata, d => d.index);
+
+
+        // This is the class that holds the ad, 
+    ads.enter().append('div')
+        .attr('class', 'ad')
+        .attr('width', '632px')
+        .attr('height', '222px')
+        .attr('margin', '10px 0 0 0')
+        .attr('padding', '0 20px 0 20px');
+
+
+        // This is the Title, or the Label
+    ads.append('h3')
+        .attr('class', 'label')
+        .attr('font-size', '20px')
+        .attr('line-height', '20px')
+        .attr('text-decoration', 'underline solid rgb(26, 13, 171')
+        .attr('text-align', 'left')
+        .attr('word-spacing: 0px')
+        .attr('color', '#1A0DAB')
+        .html(d => {
+          console.log('This is the ad data ran through d3 selections', d)
+          return 'ayyyy wutup snow(doc)!?!';
+        });
+        
+
+
     
 
 
