@@ -229,7 +229,7 @@ function update() {
         .attr('width', width)
         .attr('height', height);
     
-    let ads = container.selectAll('div.ad')
+    let ads = container.selectAll('.ad')
         .data(visdata, d => d.id);
 
 
@@ -252,10 +252,7 @@ function update() {
         .attr('text-align', 'left')
         .attr('word-spacing', '0px')
         .attr('color', '#1A0DAB')
-        .html(d => {
-          console.log('This is the ad data ran through d3 selections', d)
-          return '<a>'+  +'</a>';
-        });
+        .html(`<a href="${d.link}">`+ d.label +'</a>');
 
         // This is the Ad icon to the left of the domain link.
     let linkContainer = ads.append('div')
@@ -263,7 +260,7 @@ function update() {
         .attr('text-align', 'left')
         .attr('height', '24px')
         .attr('width', 'auto')
-        .attr('padding', '1px 0 0 0')
+        .attr('padding', '1px 0 0 0');
       
           // This is the icon for the ad
       linkContainer.append('span')
@@ -279,7 +276,7 @@ function update() {
           .attr('word-spacing', '0px')
           .attr('border', '1px solid #06621')
           .attr('margin', '0 7px 0 0')
-          .attr('padding', '1px 3px 0 2px')
+          .attr('padding', '1px 3px 0 2px');
 
           // This is the domain link
       linkContainer.append('cite')
@@ -291,7 +288,7 @@ function update() {
           .attr('vertical-align', 'bottom')
           .attr('text-decoration', 'none solid rgb(0, 102, 33)')
           .attr('color', '#006621')
-          .html('one second!')
+          .html(d.domain);
     
     ads.append('div')
         .attr('width', '600px')
@@ -302,19 +299,11 @@ function update() {
         .attr('text-align', 'left')
         .attr('color', '#545454')
         .attr('overflow', 'hidden')
+        .html(d.description);
 
 
-    ads.exit().remove()
+    ads.exit().remove();
         
-        
-
-
-    
-
-
-
-
-
 
 }
 /******************************************************************************************************************************************
