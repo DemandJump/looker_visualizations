@@ -252,7 +252,7 @@ function update() {
         .attr('text-align', 'left')
         .attr('word-spacing', '0px')
         .attr('color', '#1A0DAB')
-        .html(`<a href="${d.link}">`+ d.label +'</a>');
+        .html(d => `<a href="${d.link}">`+ d.label +'</a>');
 
         // This is the Ad icon to the left of the domain link.
     let linkContainer = ads.append('div')
@@ -288,7 +288,7 @@ function update() {
           .attr('vertical-align', 'bottom')
           .attr('text-decoration', 'none solid rgb(0, 102, 33)')
           .attr('color', '#006621')
-          .html(d.domain);
+          .html(d => d.domain);
     
     ads.append('div')
         .attr('width', '600px')
@@ -299,7 +299,7 @@ function update() {
         .attr('text-align', 'left')
         .attr('color', '#545454')
         .attr('overflow', 'hidden')
-        .html(d.description);
+        .html(d => d.description);
 
 
     ads.exit().remove();
