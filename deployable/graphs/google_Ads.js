@@ -304,7 +304,7 @@ function update() {
         .attr('overflow', 'hidden')
 
 
-    // ads.exit().remove()
+    ads.exit().remove()
         
         
 
