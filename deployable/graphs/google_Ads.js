@@ -207,7 +207,6 @@ if(config.Deploy_Vis == "on") {
     })
 
 
-
     update();
 }
 /****************************************************************
@@ -294,7 +293,7 @@ function update() {
           .attr('color', '#006621')
           .html('one second!')
     
-    ad.append('div')
+    ads.append('div')
         .attr('width', '600px')
         .attr('height', '66px')
         .attr('font-size', '14px')
@@ -304,6 +303,8 @@ function update() {
         .attr('color', '#545454')
         .attr('overflow', 'hidden')
 
+
+    ads.exit().remove()
         
         
 
