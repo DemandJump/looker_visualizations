@@ -276,6 +276,7 @@ function update() {
                   .attr('border', '1px solid #06621')
                   .attr('margin', '0 7px 0 0')
                   .attr('padding', '1px 3px 0 2px')
+                  .html('Ad')
 
                       // This is the domain link
                   .append('cite')
