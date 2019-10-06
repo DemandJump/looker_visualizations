@@ -272,7 +272,7 @@ console.log(`this is the config.description:`, description)
 if(config.Deploy_Vis == "on") {
         // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
     visdata.forEach(ad => {
-      console.log('ad', ad);
+      // console.log('ad', ad);
         ad.link = ad[link].value
         ad.domain = ad[domain].value
         ad.label = ad[label].value
