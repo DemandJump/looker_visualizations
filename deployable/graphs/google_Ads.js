@@ -35,6 +35,10 @@ a {
   text-decoration: none; 
 }
 
+h3 {
+  font-weight: normal;
+}
+
 .hello-world-vis { 
   // Vertical centering
   height: 100%;
@@ -53,6 +57,8 @@ a {
 .ad {
   width: 632px;
   height: 222px;
+  margin: 7px 0 0 0;
+  padding: 0 16px 0 16px;
 }
 
 .container {
@@ -301,21 +307,21 @@ function update() {
         // This is the class that holds the ad, 
     let ads = adEnter.enter().append('div')
         .attr('class', 'ad')
-        .attr('width', '632px')
-        .attr('height', '222px')
-        .attr('margin', '7px 0 0 0')
-        .attr('padding', '0 16px 0 16px');
+        // .attr('width', '632px')
+        // .attr('height', '222px')
+        // .attr('margin', '7px 0 0 0')
+        // .attr('padding', '0 16px 0 16px');
 
 
         // This is the Title, or the Label
     ads.append('h3')
-        .attr('class', 'label')
-        .attr('display', 'block')
-        .attr('font-size', '20px')
-        .attr('line-height', '20px')
-        .attr('text-align', 'left')
-        .attr('word-spacing', '0px')
-        .attr('color', '#1A0DAB')
+        // .attr('class', 'label')
+        // .attr('display', 'block')
+        // .attr('font-size', '20px')
+        // .attr('line-height', '20px')
+        // .attr('text-align', 'left')
+        // .attr('word-spacing', '0px')
+        // .attr('color', '#1A0DAB')
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
         //   // This is the Ad icon to the left of the domain link.
@@ -329,45 +335,45 @@ function update() {
                   // This is the icon for the ad
               .append('span')
                   .attr('class', 'icon')
-                  .attr('width', '14.6px')
-                  .attr('height' , '11px')
-                  .attr('display','inline-block')
-                  .attr('font-size', '12px')
-                  .attr('line-height', '11px')
-                  // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
-                  .attr('text-align', 'left')
-                  .attr('white-spacing', 'nowrap')
-                  .attr('word-spacing', '0px')
-                  .attr('border', '1px solid #06621')
-                  .attr('margin', '0 7px 0 0')
-                  .attr('padding', '1px 3px 0 2px')
+                  // .attr('width', '14.6px')
+                  // .attr('height' , '11px')
+                  // .attr('display','inline-block')
+                  // .attr('font-size', '12px')
+                  // .attr('line-height', '11px')
+                  // // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
+                  // .attr('text-align', 'left')
+                  // .attr('white-spacing', 'nowrap')
+                  // .attr('word-spacing', '0px')
+                  // .attr('border', '1px solid #06621')
+                  // .attr('margin', '0 7px 0 0')
+                  // .attr('padding', '1px 3px 0 2px')
                   .html('Ad')
                 
                       // This is the domain link
                   .append('cite')
                       .attr('class', 'domain')
-                      .attr('height', '24px')
-                      .attr('display', 'inline-block')
-                      .attr('font-size', '16px')
-                      .attr('text-align', 'left')
-                      .attr('vertical-align', 'bottom')
-                      // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
-                      .attr('color', '#006621')
+                      // .attr('height', '24px')
+                      // .attr('display', 'inline-block')
+                      // .attr('font-size', '16px')
+                      // .attr('text-align', 'left')
+                      // .attr('vertical-align', 'bottom')
+                      // // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
+                      // .attr('color', '#006621')
                       .html(d => d.domain)
     
                           // This is the description
                       .append('div')
                           .attr('class', 'description')
-                          .attr('width', '600px')
-                          .attr('height', '66px')
-                          .attr('display', 'block')
-                          .attr('font-size', '14px')
-                          .attr('line-height', '22px')
-                          // .attr('text-decoration', 'none solid rgb(84, 84, 84)')
-                          .attr('text-align', 'left')
-                          .attr('color', '#545454')
-                          .attr('overflow', 'hidden')
-                          .attr('overflow-wrap', 'break-word')
+                          // .attr('width', '600px')
+                          // .attr('height', '66px')
+                          // .attr('display', 'block')
+                          // .attr('font-size', '14px')
+                          // .attr('line-height', '22px')
+                          // // .attr('text-decoration', 'none solid rgb(84, 84, 84)')
+                          // .attr('text-align', 'left')
+                          // .attr('color', '#545454')
+                          // .attr('overflow', 'hidden')
+                          // .attr('overflow-wrap', 'break-word')
                           .html(d => d.description)
 
 
