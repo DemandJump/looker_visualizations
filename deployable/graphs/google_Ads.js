@@ -356,7 +356,7 @@ function update() {
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('span')
                   .attr('class', 'icon')
-                  .attr('width', '14.6px')
+                  .attr('width', '20px')
                   .attr('height' , '11px')
                   .attr('display','inline-block')
                   .attr('font-size', '12px')
@@ -365,7 +365,7 @@ function update() {
                   .attr('text-align', 'left')
                   .attr('white-spacing', 'nowrap')
                   .attr('word-spacing', '0px')
-                  .attr('border', '1px solid #06621')
+                  .attr('border', '1px solid #06621 !important')
                   .attr('margin', '0 7px 0 0')
                   .attr('padding', '1px 3px 0 2px')
                   .html('Ad')
