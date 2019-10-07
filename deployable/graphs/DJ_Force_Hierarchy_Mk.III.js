@@ -68,8 +68,8 @@ create: function(element, config) {
         button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
             /* This is for the node data inputs */
-        .infoLabel { font-size: 1.4rem; margin: auto; padding: 1rem 1rem 0 1rem; }
-        .infoData { font-size: 1rem; margin: auto: padding: 0 1rem 0 1rem; }
+        .infoLabel { font-size: 1.2rem; font-weight: normal; margin: auto; padding: 1rem 1rem 0 1rem; }
+        .infoData { font-size: 1rem; margin: auto: margin-left: 1rem; padding: 0 1rem 0 1rem; }
     </style> `;    
 
         /*************** Holder is the navbar for the buttons  ***************/
@@ -169,7 +169,6 @@ create: function(element, config) {
         .style('display', 'block')
         .style('text-align', 'center')
         .style('margin', 'auto')
-        .style('padding-top', '2rem')
         .html('Node Data')
 
     this._nodeDataContainer = d3.select('.infoBar').append('div')
@@ -1033,7 +1032,7 @@ function update() { /* Initialize some parameters that we will need for */
       if(d.data.data) { // Parse through the node's data (dimensions and measures and put it in the infoBar)
         queryCounter = 0
         nodeDimensions.forEach(dimension => {
-          d3.select('.dataContainer').append('h4')
+          d3.select('.dataContainer').append('h5')
             .attr('class', 'infoLabel')
             .html(dimensionLabels[queryCounter]);
 
@@ -1045,7 +1044,7 @@ function update() { /* Initialize some parameters that we will need for */
         })
         queryCounter = 0
         nodeMeasures.forEach(measure => {
-          d3.select('.dataContainer').append('h4')
+          d3.select('.dataContainer').append('h5')
             .attr('class', 'infoLabel')
             .html(measureLabels[queryCounter]);
 
@@ -1056,7 +1055,7 @@ function update() { /* Initialize some parameters that we will need for */
           queryCounter++
         })
       } else { // Otherwise return d.data.name 
-        d3.select('.dataContainer').append('h4')
+        d3.select('.dataContainer').append('h5')
           .attr('class', 'infoLabel')
           .html('Name');
         d3.select('.dataContainer').append('div')
