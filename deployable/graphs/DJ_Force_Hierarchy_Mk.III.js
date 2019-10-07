@@ -64,7 +64,7 @@ create: function(element, config) {
         .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
         line, .link, .link2 { fill: none;}
         text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
-        #root { color: #fd8d3c; }
+        circle.root, #root { fill: #fd8d3c; }
 
         button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
