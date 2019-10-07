@@ -1019,50 +1019,46 @@ function update() { /* Initialize some parameters that we will need for */
   })
 
     function nodeData(d) {
-      console.log('This is the function that grabs the node data and puts it in the sidebar viewport we named PanelSwitch')
-      console.log('This is the node data', d)
-      console.log('Query Response data for both dimensions and measures')
-      console.log('Query Dimension stuff', queryResponse.fields.dimensions)
-      console.log('Query Measure stuff', queryResponse.fields.measures)
-          // Before we go into the datasets let's clear out the data in the vis(dataContainer)
-      d3.select('.dataContainer').selectAll("*").remove();
-
-        
-        // Then we go in and build all the newly clicked stuff!
-      if(d.data.data) { // Parse through the node's data (dimensions and measures and put it in the infoBar)
-        queryCounter = 0
-        nodeDimensions.forEach(dimension => {
+      if(d.data.name != 'root') {
+            // Before we go into the datasets let's clear out the data in the vis(dataContainer)
+        d3.select('.dataContainer').selectAll("*").remove();
+  
+          
+          // Then we go in and build all the newly clicked stuff!
+        if(d.data.data) { // Parse through the node's data (dimensions and measures and put it in the infoBar)
+          queryCounter = 0
+          nodeDimensions.forEach(dimension => {
+            d3.select('.dataContainer').append('h6')
+              .attr('class', 'infoLabel')
+              .html(dimensionLabels[queryCounter]);
+  
+            d3.select('.dataContainer').append('div')
+              .attr('class', 'infoData')
+              .html(d.data.data[dimension].value);
+  
+            queryCounter++
+          })
+          queryCounter = 0
+          nodeMeasures.forEach(measure => {
+            d3.select('.dataContainer').append('h6')
+              .attr('class', 'infoLabel')
+              .html(measureLabels[queryCounter]);
+  
+            d3.select('.dataContainer').append('div')
+              .attr('class', 'infoData')
+              .html(d.data.data[measure].value);
+  
+            queryCounter++
+          })
+        } else { // Otherwise return d.data.name 
           d3.select('.dataContainer').append('h6')
             .attr('class', 'infoLabel')
-            .html(dimensionLabels[queryCounter]);
-
+            .html('Name');
           d3.select('.dataContainer').append('div')
             .attr('class', 'infoData')
-            .html(d.data.data[dimension].value);
-
-          queryCounter++
-        })
-        queryCounter = 0
-        nodeMeasures.forEach(measure => {
-          d3.select('.dataContainer').append('h6')
-            .attr('class', 'infoLabel')
-            .html(measureLabels[queryCounter]);
-
-          d3.select('.dataContainer').append('div')
-            .attr('class', 'infoData')
-            .html(d.data.data[measure].value);
-
-          queryCounter++
-        })
-      } else { // Otherwise return d.data.name 
-        d3.select('.dataContainer').append('h6')
-          .attr('class', 'infoLabel')
-          .html('Name');
-        d3.select('.dataContainer').append('div')
-          .attr('class', 'infoData')
-          .html(d.data.name);
-      } 
-
+            .html(d.data.name);
+        } 
+      }
     }
     
     
