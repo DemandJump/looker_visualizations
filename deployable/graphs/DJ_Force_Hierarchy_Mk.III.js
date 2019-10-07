@@ -107,6 +107,7 @@ create: function(element, config) {
         .attr('class', 'slider').attr('id', 'linkSlider')
         .attr('display', 'inline')
         .attr('type', 'range')
+        .style('margin-left', '1rem')
         .attr('min', '1')
         .attr('max', '2500')
         .attr('value', 50)
@@ -114,7 +115,7 @@ create: function(element, config) {
     this._selectPrevDepth = d3.select('.holder').append('button')
         .attr('class', 'prevDepthSelect')
         .attr('display', 'inline')
-        .style('margin-left', '1rem')
+        .style('margin-left', '.5rem')
         .html('Edit prev link')
 
     this._selectNextDepth = d3.select('.holder').append('button')    
@@ -125,7 +126,7 @@ create: function(element, config) {
     this._currentLinkDepth = d3.select('.holder').append('div')
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
         .style('display', 'inline')
-        .style('font-size', '5px')
+        .style('font-size', '12px')
         .html('Link: 0')
         
 
