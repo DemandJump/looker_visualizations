@@ -296,9 +296,11 @@ if(config.Deploy_Vis == "on") {
         delete ad[label]
         delete ad[description]
     })
-
-
     update();
+}
+
+if(config.Deploy_Vis == "off") {
+  this._container.selectAll("*").remove();
 }
 /****************************************************************
                             * End of Options Update
