@@ -66,7 +66,10 @@ create: function(element, config) {
         text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
 
         button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
-        .infoBar { display: inline-block; overflow: scroll; margin: auto; }
+        .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
+            /* This is for the node data inputs */
+        .infoLabel { font-size: 1.4rem; margin: auto; padding: 1rem 1rem 0 1rem; }
+        .infoData { font-size: 1rem; margin: auto: padding: 0 1rem 0 1rem; }
     </style> `;    
 
         /*************** Holder is the navbar for the buttons  ***************/
@@ -160,7 +163,17 @@ create: function(element, config) {
         .style('margin', 'auto')
         .style('background-color', '#f5f5f5')
         // .style('text-align', 'center')
-        .html('<h3>Node Data</h3>')
+
+    this._nodeDataTitle = d3.select('.infoBar').append('h3')
+        .attr('class', 'infoTitle')
+        .style('display', 'block')
+        .style('text-align', 'center')
+        .style('margin', 'auto')
+
+    this._nodeDataContainer = d3.select('.infoBar').append('div')
+        .attr('class', 'dataContainer')
+        .style('display', 'block')
+        .style('margin', 'auto')
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -1009,9 +1022,43 @@ function update() { /* Initialize some parameters that we will need for */
       console.log('Query Response data for both dimensions and measures')
       console.log('Query Dimension stuff', queryResponse.fields.dimensions)
       console.log('Query Measure stuff', queryResponse.fields.measures)
+          // Before we go into the datasets let's clear out the data in the vis(dataContainer)
+      d3.select('.dataContainer').selectAll("*").remove();
 
-      if(d.data.data) {
         
+        // Then we go in and build all the newly clicked stuff!
+      if(d.data.data) { // Parse through the node's data (dimensions and measures and put it in the infoBar)
+        queryCounter = 0
+        nodeDimensions.forEach(dimension => {
+          d3.select('.dataContainer').append('h4')
+            .attr('class', 'infoLabel')
+            .html(dimensionLabels[queryCounter]);
+
+          d3.select('.dataContainer').append('div')
+            .attr('class', 'infoData')
+            .html(d.data.data[dimension]);
+
+          queryCounter++
+        })
+        queryCounter = 0
+        nodeMeasures.forEach(measure => {
+          d3.select('.dataContainer').append('h4')
+            .attr('class', 'infoLabel')
+            .html(measureLabels[queryCounter]);
+
+          d3.select('.dataContainer').append('div')
+            .attr('class', 'infoData')
+            .html(d.data.data[measure]);
+
+          queryCounter++
+        })
+      } else { // Otherwise return d.data.name 
+        d3.select('.dataContainer').append('h4')
+          .attr('class', 'infoLabel')
+          .html('Name');
+        d3.select('.dataContainer').append('div')
+          .attr('class', 'infoData')
+          .html(d.data.name);
       }
 
     }
