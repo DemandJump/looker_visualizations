@@ -311,18 +311,20 @@ function update() {
         .data(visdata, d => d.id);
 
         // This is the class that holds the ad, 
-    let ads = adEnter.enter().html(d => 
-        `
-        <div class="ad">
-          <h3 class="label"> <a href="${link}">${label}</a> </h3>
-          <div class="icon-and-domain">
-            <span class="icon">Ad</span>
-            <cite class="domain">${domain}</cite>
-          </div>
-          <div class="description">${description}</div>
-        </div>
-        `
-    )
+    let ads = adEnter.enter()
+        .append(div)
+        .html(d => 
+            `
+            <div class="ad">
+              <h3 class="label"> <a href="${d.link}">${d.label}</a> </h3>
+              <div class="icon-and-domain">
+                <span class="icon">Ad</span>
+                <cite class="domain">${d.domain}</cite>
+              </div>
+              <div class="description">${d.description}</div>
+            </div>
+            `
+        )
 
 
     ads.exit().remove();
