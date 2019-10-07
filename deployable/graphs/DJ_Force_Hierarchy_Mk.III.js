@@ -109,7 +109,7 @@ create: function(element, config) {
         .attr('class', 'changeView')
         .attr('display', 'inline')
         .style('padding', '5px auto')
-        .html('Node Data')
+        .html('Open Viewport')
 
 
     this._linkSettings = d3.select('.holder').append('div')
@@ -162,7 +162,7 @@ create: function(element, config) {
         .style('margin', 'auto')
         .style('background-color', '#f5f5f5')
         // .style('text-align', 'center')
-        .html('&nbsp;')
+        .html('Node Data')
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -512,7 +512,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
 
       simulation.force('link').distance(d => {
-          console.log('this is a node! ', d);
+          // console.log('this is a node! ', d);
           return d.source.distance;
       }).strength(1);
       simulation.alpha(1).alphaDecay(.125).restart();
@@ -974,12 +974,32 @@ function update() { /* Initialize some parameters that we will need for */
         simulateClick(document.getElementById('root'), 'click');
     }
 
+      // We need to grab the values to iterate through the clicked node's dimensions
+    let nodeDimensions = []; 
+    let nodeMeasures = []; 
+    
+    let dimensionLabels = [];
+    let measureLabels = []; 
+
+    dimensions.forEach(dimension => {
+      nodeDimensions.push(dimension.name)
+      dimensionLabels.push(dimension.label_short)
+    });
+    measures.forEach(measure => {
+      nodeMeasures.push(measure.name)
+      measureLabels.push(measure.label_short)
+  })
+
     function nodeData(d) {
       console.log('This is the function that grabs the node data and puts it in the sidebar viewport we named PanelSwitch')
       console.log('This is the node data', d)
       console.log('Query Response data for both dimensions and measures')
       console.log('Query Dimension stuff', queryResponse.fields.dimensions)
       console.log('Query Measure stuff', queryResponse.fields.measures)
+
+      if(d.data.data) {
+        
+      }
 
     }
     
