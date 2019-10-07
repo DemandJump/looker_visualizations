@@ -475,7 +475,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
 
     this._slider.on("input", event => {
-      linkDistance = linkSlider.property('value');
+      linkDistance = this._slider.property('value');
       // d3.select('.linkInfo').html(linkDistance);  // This is for the panelswitch vis
       console.log('Link slider value', linkDistance);
       nodes.forEach(node => {
