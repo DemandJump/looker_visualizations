@@ -79,16 +79,6 @@ h3 {
   text-decoration: underline solid rgb(26, 13, 171);
 }
 
-/*
-.label {
-  display: block;
-  font-size: 20px;
-  line-height: 20px;
-  text-align: left;
-  word-spacing: 0px;
-  color: #1A0DAB;
-}
-
 .icon {
   width: 14.6px;
   height: 11px;
@@ -102,6 +92,16 @@ h3 {
   border: 1px solid #006621;
   margin: 0 7px 0 0;
   padding: 1px 3px 0 2px;
+}
+
+/*
+.label {
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: left;
+  word-spacing: 0px;
+  color: #1A0DAB;
 }
 
 .domain {
