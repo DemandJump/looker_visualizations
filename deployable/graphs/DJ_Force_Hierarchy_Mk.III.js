@@ -168,6 +168,7 @@ create: function(element, config) {
         .style('display', 'block')
         .style('text-align', 'center')
         .style('margin', 'auto')
+        .style('padding-top', '2rem')
         .html('Node Data')
 
     this._nodeDataContainer = d3.select('.infoBar').append('div')
