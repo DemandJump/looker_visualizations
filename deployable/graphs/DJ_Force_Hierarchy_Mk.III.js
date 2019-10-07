@@ -66,6 +66,7 @@ create: function(element, config) {
         button { display: inline; }
     </style> `;    
 
+        /*************** Holder is the navbar for the buttons  ***************/
     this._holder = d3.select(element).append('div')
         .attr('class', 'holder')
         .style('display', 'inline')
@@ -99,6 +100,17 @@ create: function(element, config) {
         .attr('class', 'changeView')
         .attr('display', 'inline')
         .html('Close Viewport')
+
+
+
+    this._slider = d3.select('.holder').append('input')
+        .attr('class', 'slider').attr('id', 'linkSlider')
+        .attr('type', 'range')
+        .attr('min', '1')
+        .attr('max', '2500')
+        .attr('value', 50)
+
+        /*************** End of holder (Navbar) ***************/
 
 
     this._svg = d3.select(element).append('svg')
@@ -265,7 +277,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root,
     nodes,
     links,
-    dragNodes,
+    // dragNodes,
     simulation,
     reset = false,
     resetSingleNode = false,
@@ -440,13 +452,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         panelSwitch = 'on';
         
       }
-    })
+    });
+
+    this._slider.on("input", event => {
+      linkDistance = linkSlider.property('value');
+      d3.select('.linkInfo').html(linkDistance);
+      console.log('Link slider value', linkDistance);
+      nodes.forEach(node => {
+        if (node.depth == depthSelect) node.distance = linkDistance;  
+      })
+
+      simulation.force('link').distance(d => {
+          console.log('this is a node! ', d);
+          return d.source.distance;
+      }).strength(1);
+      simulation.alpha(1).alphaDecay(.125).restart();
+      update();
+    });
 
 
         /*/ Then instantiate the groundwork for the visualization /*/
     let container = this._svg  
         .html('')
-        .attr('width', svgw)
+        .attr('width', initWidth)
         .attr('height', interfaceHeight)
         // Selector to hold everything
     let svg = container.append('g')
@@ -505,7 +533,7 @@ function update() { /* Initialize some parameters that we will need for */
     nodes = root.descendants(); console.log('Nodes: ', nodes);
     links = root.links(); console.log('links: ', links);
     console.log('notch: ', notch);
-    dragNodes = root.descendants().map(map => map.index);
+    // dragNodes = root.descendants().map(map => map.index); 
 
     
         // Setup the simulation based on user input and the everchanging data
