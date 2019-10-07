@@ -156,7 +156,7 @@ create: function(element, config) {
     this._nodeDataBar = d3.select('.content').append('div')
         .attr('class', 'infoBar')
         .style('display', 'none')
-        .style('width', infow)
+        .style('width', infoWidth)
         .style('height', interfaceh)
         .style('box-sizing', 'border-box')
         .style('margin', 'auto')
