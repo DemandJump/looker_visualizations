@@ -136,7 +136,7 @@ create: function(element, config) {
         .style('display', 'inline')
         .style('padding', '5px auto')
         .style('font-size', '16px')
-        .html('Link: 0')
+        .html('Edit Link: 0')
         
 
         /*************** End of holder (Navbar) ***************/
@@ -510,7 +510,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       }) 
-      this._currentLinkDepth.html(`Link: ${depthSelect}`)
+      this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
     });
 
     this._selectNextDepth.on('click', event => {
@@ -521,7 +521,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       })  
-      this._currentLinkDepth.html(`Link: ${depthSelect}`)
+      this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
     });
 
 
