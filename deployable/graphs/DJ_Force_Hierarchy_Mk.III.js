@@ -68,7 +68,7 @@ create: function(element, config) {
         button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
             /* This is for the node data inputs */
-        .infoLabel { font-size: 1.2rem; font-weight: normal; margin: auto; padding: 1rem 1rem 0 1rem; }
+        .infoLabel { font-size: 1.3rem; font-weight: normal; margin: auto; margin-left: 1rem; padding: 1rem 1rem 0 1rem; }
         .infoData { font-size: 1rem; margin: auto: margin-left: 1rem; padding: 0 1rem 0 1rem; }
     </style> `;    
 
