@@ -65,7 +65,7 @@ create: function(element, config) {
         line, .link, .link2 { fill: none;}
         text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
 
-        button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
+        button { display: inline; margin: 1px; margin-bottom: 10px; border-radius: 5px; background-color: #c6dbef; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; }
     </style> `;    
 
