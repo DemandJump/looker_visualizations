@@ -313,8 +313,8 @@ function update() {
     let ads = adEnter.enter().append('div')
         .attr('class', 'ad')
         .attr('width', '632px')
-        .attr('height', '222px')
-        .attr('margin', '7px 0 0 0')
+        .attr('height', 'auto')
+        .attr('margin', '2rem 0 0 0')
         .attr('padding', '0 16px 0 16px');
 
 
