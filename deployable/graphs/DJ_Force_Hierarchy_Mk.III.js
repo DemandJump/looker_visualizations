@@ -58,12 +58,15 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML =`
     <style>
-        html, body { margin: 0; padding: 0;}
-        .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
-        text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
-        line, .link, .link2 { fill: none;}
+        html, body { margin: 0; padding: 0; font-family: Roboto; }
+
         svg { border: 1px solid rgba(0, 0, 0, 0.2);}
+        .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
+        line, .link, .link2 { fill: none;}
+        text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+
         button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
+        .infoBar { display: inline-block; overflow: scroll; margin: auto; }
     </style> `;    
 
         /*************** Holder is the navbar for the buttons  ***************/
