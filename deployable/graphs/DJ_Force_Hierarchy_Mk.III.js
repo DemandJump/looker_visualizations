@@ -440,7 +440,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       } else {
         d3.select('.infoBar').style('display', 'inline-block');
         this._svg.style('width', svgw)
-        this.panelSwitch.html('Close Viewport')
+        this._panelSwitch.html('Close Viewport')
         panelSwitch = 'on';
         
       }
