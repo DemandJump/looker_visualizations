@@ -169,6 +169,7 @@ create: function(element, config) {
         .style('display', 'block')
         .style('text-align', 'center')
         .style('margin', 'auto')
+        .html('Node Data')
 
     this._nodeDataContainer = d3.select('.infoBar').append('div')
         .attr('class', 'dataContainer')
@@ -1030,6 +1031,9 @@ function update() { /* Initialize some parameters that we will need for */
       if(d.data.data) { // Parse through the node's data (dimensions and measures and put it in the infoBar)
         queryCounter = 0
         nodeDimensions.forEach(dimension => {
+          console.log('This is the current dimension', dimension)
+          console.log('This is parsing into the stuff', d.data.data)
+          console.log('This is trying to drill into the dern dimension', d.data.data[dimension])
           d3.select('.dataContainer').append('h4')
             .attr('class', 'infoLabel')
             .html(dimensionLabels[queryCounter]);
