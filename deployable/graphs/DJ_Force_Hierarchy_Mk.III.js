@@ -109,7 +109,7 @@ create: function(element, config) {
         .attr('class', 'changeView')
         .attr('display', 'inline')
         .style('padding', '5px auto')
-        .html('Close Viewport')
+        .html('Node Data')
 
 
     this._linkSettings = d3.select('.holder').append('div')
