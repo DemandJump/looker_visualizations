@@ -102,13 +102,30 @@ create: function(element, config) {
         .html('Close Viewport')
 
 
-
     this._slider = d3.select('.holder').append('input')
         .attr('class', 'slider').attr('id', 'linkSlider')
+        .attr('display', 'inline')
         .attr('type', 'range')
         .attr('min', '1')
         .attr('max', '2500')
         .attr('value', 50)
+
+    this._selectPrevDepth = d3.select('.holder').append('button')
+        .attr('class', 'prevDepthSelect')
+        .attr('display', 'inline')
+        .style('margin-left', '1rem')
+        .html('Edit previous link')
+
+    this._selectNextDepth = d3.select('.holder').append('button')    
+        .attr('class', 'nextDepthSelect')
+        .attr('display', 'inline')
+        .html('Edit next link')
+
+    this._currentLinkDepth = d3.select('.holder').append('div')
+        .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
+        .attr('display', 'inline')
+        .html('Selected Link Depth: 0')
+        
 
         /*************** End of holder (Navbar) ***************/
 
@@ -281,7 +298,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     simulation,
     reset = false,
     resetSingleNode = false,
+    linkDistance,
     panelSwitch = 'on',
+    depthSelect = 0,
     friction = .1; // This determines the link length based on the data that's given
 
 
@@ -456,7 +475,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     this._slider.on("input", event => {
       linkDistance = linkSlider.property('value');
-      d3.select('.linkInfo').html(linkDistance);
+      // d3.select('.linkInfo').html(linkDistance);  // This is for the panelswitch vis
       console.log('Link slider value', linkDistance);
       nodes.forEach(node => {
         if (node.depth == depthSelect) node.distance = linkDistance;  
@@ -469,6 +488,32 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       simulation.alpha(1).alphaDecay(.125).restart();
       update();
     });
+
+
+    this._selectPrevDepth.on('click', event => {
+      if(depthSelect > 0) {depthSelect --;}
+      nodes.forEach(init => { 
+        if(init.depth == depthSelect) { 
+          document.getElementById('linkSlider').value = init.distance; 
+          // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
+        } 
+      }) 
+      this._currentLinkDepth.html(`Selected Link Depth: ${depthSelect}`)
+    });
+
+    this._selectNextDepth.on('click', event => {
+      if(depthSelect < maxDepth) {depthSelect ++;}
+      nodes.forEach(init => { 
+        if(init.depth == depthSelect) { 
+          document.getElementById('linkSlider').value = init.distance;
+          // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
+        } 
+      })  
+      this._currentLinkDepth.html(`Selected Link Depth: ${depthSelect}`)
+    });
+
+    this._currentLinkDepth.on()
+
 
 
         /*/ Then instantiate the groundwork for the visualization /*/

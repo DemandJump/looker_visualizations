@@ -254,7 +254,7 @@ d3.json('_flare.json').then(data => {
           d3.select('.linkInfo').html(init.distance); 
         } }) 
         currentDepth.html(`Selected Link Depth: ${depthSelect}`)
-      });
+      }); 
     // The button to select the next set of links to edit based on depth
   let selectNextDepth = d3.select('.infoSettings').append('button')
       .attr('class', 'nextDepthSelect')
