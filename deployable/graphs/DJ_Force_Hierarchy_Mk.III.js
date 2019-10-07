@@ -1032,7 +1032,7 @@ function update() { /* Initialize some parameters that we will need for */
       if(d.data.data) { // Parse through the node's data (dimensions and measures and put it in the infoBar)
         queryCounter = 0
         nodeDimensions.forEach(dimension => {
-          d3.select('.dataContainer').append('h5')
+          d3.select('.dataContainer').append('h6')
             .attr('class', 'infoLabel')
             .html(dimensionLabels[queryCounter]);
 
