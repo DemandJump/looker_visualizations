@@ -156,8 +156,6 @@ create: function(element, config) {
     this._nodeDataBar = d3.select('.content').append('div')
         .attr('class', 'infoBar')
         .style('display', 'none')
-        .style('width', infoWidth)
-        .style('height', interfaceh)
         .style('box-sizing', 'border-box')
         .style('margin', 'auto')
         .style('background-color', '#f5f5f5')
@@ -574,6 +572,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // container.call(zoom)
     //   .on('dblclick.zoom', null);
       // .on('wheel.zoom', null);
+
+
+    this._nodeDataBar
+        .style('width', infow)
+        .style('height', interfaceh)
 
 
     /*****************************************
