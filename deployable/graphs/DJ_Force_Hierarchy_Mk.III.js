@@ -70,6 +70,7 @@ create: function(element, config) {
     this._holder = d3.select(element).append('div')
         .attr('class', 'holder')
         .style('display', 'inline')
+        .style('width', '100%')
 
     this._prevBtn = d3.select('.holder').append('button')
         .attr('class', 'prev') 
@@ -114,7 +115,7 @@ create: function(element, config) {
         .attr('class', 'prevDepthSelect')
         .attr('display', 'inline')
         .style('margin-left', '1rem')
-        .html('Edit previous link')
+        .html('Edit prev link')
 
     this._selectNextDepth = d3.select('.holder').append('button')    
         .attr('class', 'nextDepthSelect')
