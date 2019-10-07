@@ -1059,7 +1059,7 @@ function update() { /* Initialize some parameters that we will need for */
         d3.select('.dataContainer').append('div')
           .attr('class', 'infoData')
           .html(d.data.name);
-      }
+      } 
 
     }
     
