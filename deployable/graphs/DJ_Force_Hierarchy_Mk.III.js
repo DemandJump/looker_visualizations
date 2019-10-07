@@ -164,11 +164,12 @@ create: function(element, config) {
         .style('background-color', '#f5f5f5')
         // .style('text-align', 'center')
 
-    this._nodeDataTitle = d3.select('.infoBar').append('h3')
+    this._nodeDataTitle = d3.select('.infoBar').append('h2')
         .attr('class', 'infoTitle')
         .style('display', 'block')
         .style('text-align', 'center')
         .style('margin', 'auto')
+        .style('padding-top', '2rem')
         .html('Node Data')
 
     this._nodeDataContainer = d3.select('.infoBar').append('div')
