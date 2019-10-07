@@ -160,7 +160,7 @@ create: function(element, config) {
         .style('margin', 'auto')
         .style('background-color', '#f5f5f5')
         // .style('text-align', 'center')
-        .html('Node Data')
+        .html('<h3>Node Data</h3>')
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
