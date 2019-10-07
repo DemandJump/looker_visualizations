@@ -38,6 +38,8 @@ a {
 
 h3 {
   font-weight: normal;
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .hello-world-vis { 
@@ -126,6 +128,18 @@ h3 {
   overflow-wrap: break-word;
 }
 */
+
+
+
+<div class="ad">
+  <h3 class="label"> <a href="{link}">{label}</a> </h3>
+  <div class="icon-and-domain">
+    <span class="icon">Ad</span>
+    <cite class="domain">{domain}</cite>
+  </div>
+  <div class="description">{description}</div>
+</div>
+
 
 
 </style>
@@ -314,7 +328,7 @@ function update() {
         .attr('class', 'ad')
         .attr('width', '632px')
         .attr('height', 'auto')
-        .attr('margin', '2rem 0 0 0')
+        .attr('margin', '1rem 0 0 0')
         .attr('padding', '0 16px 0 16px');
 
 
