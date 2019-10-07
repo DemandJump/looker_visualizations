@@ -1051,6 +1051,7 @@ function update() { /* Initialize some parameters that we will need for */
             .attr('class', 'infoData')
             .html(d.data.data[measure].value);
 
+          d3.select('.dataContainer').append('hr')
           queryCounter++
         })
       } else { // Otherwise return d.data.name 
