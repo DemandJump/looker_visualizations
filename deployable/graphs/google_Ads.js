@@ -149,6 +149,8 @@ h3 {
         .attr('class', 'container')
         .attr('id', 'container');
     
+        // Clear out all the data upon startup! 
+    this._container.selectAll("*").remove();
 
 },
     // Onto the update async section

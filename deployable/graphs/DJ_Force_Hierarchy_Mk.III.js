@@ -141,12 +141,18 @@ create: function(element, config) {
         .style('font-size', '16px')
         .html('Edit Link: 0')
         
-
         /*************** End of holder (Navbar) ***************/
 
+    this._content = d3.select(element).append('div')
+        .attr('class', 'content')
 
-    this._svg = d3.select(element).append('svg')
-        .attr('class', 'container');
+
+    this._svg = d3.select('.content').append('svg')
+        .attr('class', 'container')
+
+    this._nodeDataBar = d3.select('.content').append('div')
+        .attr('class', 'infoBar')
+        .style('display', 'none')
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -526,7 +532,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })  
       this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
     });
-
 
 
 
