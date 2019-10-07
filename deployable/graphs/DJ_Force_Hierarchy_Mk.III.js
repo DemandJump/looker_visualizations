@@ -1050,9 +1050,10 @@ function update() { /* Initialize some parameters that we will need for */
 
           d3.select('.dataContainer').append('div')
             .attr('class', 'infoData')
-            .html(d.data.data[measure].value);
+            .html(d.data.data[measure].value)
+              .append('hr')
+              .style('padding', '0 1rem 0 1rem');
 
-          d3.select('.dataContainer').append('hr')
           queryCounter++
         })
       } else { // Otherwise return d.data.name 
@@ -1061,7 +1062,9 @@ function update() { /* Initialize some parameters that we will need for */
           .html('Name');
         d3.select('.dataContainer').append('div')
           .attr('class', 'infoData')
-          .html(d.data.name);
+          .html(d.data.name)
+          .append('hr')
+          .style('padding', '0 1rem 0 1rem');
       } 
 
     }
