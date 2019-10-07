@@ -248,9 +248,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Initial dimensions, plus instantiating some variables
     let ww = element.clientWidth, // Dimensions w & h
     wh = element.clientHeight,
-      initWidth = ww + 'px', initHeight = wh + 'px',
-      svgWidth = ww * .7, infoWidth = ww * .3,
-      svgw = svgWidth + 'px', infow = infoWidth + 'px',
+        initWidth = ww + 'px', initHeight = wh + 'px',
+        svgWidth = ww * .7, infoWidth = ww * .3,
+        svgw = svgWidth + 'px', infow = infoWidth + 'px',
             interfaceHeight = wh - 35, 
             interfaceh = interfaceHeight + 'px',
     treemap = d3.tree().size([interfaceh, initWidth]), // Tree layout (hierarchy must be applied to data before this will work)
