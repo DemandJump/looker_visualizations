@@ -354,7 +354,7 @@ function update() {
             .attr('padding', '1px 0 0 0')
       
                   // This is the icon for the ad
-              .select(function() { return this.parentNode; }).append('span')
+              .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
                   .attr('width', '20px')
                   .attr('height' , '11px')
