@@ -400,11 +400,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     });
 
-    this._resetSingleNode = d3.select('.navbar').append('button')
-      .attr('class', 'resetSingleNode')
-      .style('display', 'inline')
-      .html(`Reset selected node's position`)
-      .on('click', event => {
+    this._resetSingleNode.on('click', event => {
         resetSingleNode = true;        
       });
     
