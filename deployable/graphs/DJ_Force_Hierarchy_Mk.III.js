@@ -156,6 +156,13 @@ create: function(element, config) {
     this._nodeDataBar = d3.select('.content').append('div')
         .attr('class', 'infoBar')
         .style('display', 'none')
+        .style('width', infow)
+        .style('height', interfaceh)
+        .style('box-sizing', 'border-box')
+        .style('margin', 'auto')
+        .style('background-color', '#f5f5f5')
+        // .style('text-align', 'center')
+        .html('&nbsp;')
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
