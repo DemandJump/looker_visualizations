@@ -330,7 +330,7 @@ function update() {
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
         //   // This is the Ad icon to the left of the domain link.
-        .append('div')
+        .select('div.ad').append('div')
             .attr('class', 'link-section')
             .attr('text-align', 'left')
             .attr('height', '24px')
@@ -338,7 +338,7 @@ function update() {
             .attr('padding', '1px 0 0 0')
       
                   // This is the icon for the ad
-              .append('span')
+              .select('div.ad').append('span')
                   .attr('class', 'icon')
                   .attr('width', '14.6px')
                   .attr('height' , '11px')
@@ -355,7 +355,7 @@ function update() {
                   .html('Ad')
                 
                       // This is the domain link
-                  .append('cite')
+                  .select('div.ad').append('cite')
                       .attr('class', 'domain')
                       .attr('height', '24px')
                       .attr('display', 'inline-block')
@@ -367,7 +367,7 @@ function update() {
                       .html(d => d.domain)
     
                           // This is the description
-                      .append('div')
+                      .select('div.ad').append('div')
                           .attr('class', 'description')
                           .attr('width', '600px')
                           .attr('height', '66px')
