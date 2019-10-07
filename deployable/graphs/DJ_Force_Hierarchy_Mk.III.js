@@ -135,7 +135,7 @@ create: function(element, config) {
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .style('font-size', '12px')
+        .style('font-size', '16px')
         .html('Link: 0')
         
 
