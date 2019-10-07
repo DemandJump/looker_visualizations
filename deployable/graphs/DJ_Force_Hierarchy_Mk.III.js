@@ -109,20 +109,23 @@ create: function(element, config) {
         .html('Close Viewport')
 
 
-    
-    this._selectPrevDepth = d3.select('.holder').append('button')
+    this._linkSettings = d3.select('.holder').append('div')
+        .attr('class', 'linkSettings')
+        .style('display', 'inline-block')
+
+    this._selectPrevDepth = d3.select('.linkSettings').append('button')
         .attr('class', 'prevDepthSelect')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .style('margin-left', '.5rem')
         .html('Edit prev link')
-    this._selectNextDepth = d3.select('.holder').append('button')    
+    this._selectNextDepth = d3.select('.linkSettings').append('button')    
         .attr('class', 'nextDepthSelect')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Edit next link')
 
-    this._slider = d3.select('.holder').append('input')
+    this._slider = d3.select('.linkSettings').append('input')
         .attr('class', 'slider').attr('id', 'linkSlider')
         .attr('display', 'inline')
         .attr('type', 'range')
@@ -131,7 +134,7 @@ create: function(element, config) {
         .attr('max', '2500')
         .attr('value', 50)
 
-    this._currentLinkDepth = d3.select('.holder').append('div')
+    this._currentLinkDepth = d3.select('.linkSettings').append('div')
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
         .style('display', 'inline')
         .style('padding', '5px auto')
