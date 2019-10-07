@@ -263,7 +263,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     lastDimension = queryResponse.fields.dimension_like.length - 1,
     type = null, // This stores the key name for the dimension when we parse into the data
     useMeasure = 'false',
-    useType = 'false', 
+    useType = 'false',
     useCollapse = 'false',
     uniqueTypeValues = []; // Stored in an array to give unique colors for each
 
@@ -330,7 +330,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     reset = false,
     resetSingleNode = false,
     linkDistance,
-    panelSwitch = 'on',
+    panelSwitch = 'off',
     depthSelect = 0,
     friction = .1; // This determines the link length based on the data that's given
 
@@ -506,7 +506,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     this._slider.on("input", event => {
       linkDistance = this._slider.property('value');
-      // d3.select('.linkInfo').html(linkDistance);  // This is for the panelswitch vis
       console.log('Link slider value', linkDistance);
       nodes.forEach(node => {
         if (node.depth == depthSelect) node.distance = linkDistance;  
@@ -526,7 +525,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       nodes.forEach(init => { 
         if(init.depth == depthSelect) { 
           document.getElementById('linkSlider').value = init.distance; 
-          // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       }) 
       this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
@@ -537,7 +535,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       nodes.forEach(init => { 
         if(init.depth == depthSelect) { 
           document.getElementById('linkSlider').value = init.distance;
-          // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       })  
       this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
