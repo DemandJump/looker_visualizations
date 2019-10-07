@@ -246,14 +246,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('burrow function results on raw data: ', nested);
 
         // Initial dimensions, plus instantiating some variables
-    let width = element.clientWidth, // Dimensions w & h
-    height = element.clientHeight,
+    let ww = element.clientWidth, // Dimensions w & h
+    wh = element.clientHeight,
       initWidth = ww + 'px', initHeight = wh + 'px',
       svgWidth = ww * .7, infoWidth = ww * .3,
       svgw = svgWidth + 'px', infow = infoWidth + 'px',
             interfaceHeight = wh - 35, 
             interfaceh = height + 'px',
-    treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
+    treemap = d3.tree().size([interfaceh, initWidth]), // Tree layout (hierarchy must be applied to data before this will work)
     totalNodes,
     notch = 0, // Notch is the counter for our good ol daters
     currentValue = '',
@@ -489,7 +489,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let attractforce = d3.forceManyBody().strength(-120).distanceMax(500).distanceMin(20)
             // Initialize the simulation // 
     simulation = d3.forceSimulation()
-        .force('center', d3.forceCenter(height / 2, width / 2))
+        .force('center', d3.forceCenter(interfaceHeight / 2, svgWidth / 2))
         .force('link', d3.forceLink().id(d => d.index))
         .force('attract', attractforce) // This spaces things out, with repel it can be messy
         .force('repel', repelforce) // This pulls things in, Very useful!
