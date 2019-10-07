@@ -307,7 +307,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let ww = element.clientWidth, // Dimensions w & h
     wh = element.clientHeight,
         initWidth = ww + 'px', initHeight = wh + 'px',
-        svgWidth = ww * .7, infoWidth = ww * .3,
+        svgWidth = ww * .7, infoWidth = ww * .3 - 4,
         svgw = svgWidth + 'px', infow = infoWidth + 'px',
             interfaceHeight = wh - 35, 
             interfaceh = interfaceHeight + 'px',
