@@ -88,7 +88,7 @@ create: function(element, config) {
         .attr('class', 'reset')
         .style('display', 'inline')
         .style('color', 'red')
-        .html('Pull nodes to center')
+        .html('RESET ALL NODES')
 
     this._centerNodes = d3.select('.holder').append('button')
         .attr('class', 'center')
@@ -252,7 +252,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       svgWidth = ww * .7, infoWidth = ww * .3,
       svgw = svgWidth + 'px', infow = infoWidth + 'px',
             interfaceHeight = wh - 35, 
-            interfaceh = height + 'px',
+            interfaceh = interfaceHeight + 'px',
     treemap = d3.tree().size([interfaceh, initWidth]), // Tree layout (hierarchy must be applied to data before this will work)
     totalNodes,
     notch = 0, // Notch is the counter for our good ol daters
