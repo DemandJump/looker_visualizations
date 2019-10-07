@@ -1044,27 +1044,23 @@ function update() { /* Initialize some parameters that we will need for */
         })
         queryCounter = 0
         nodeMeasures.forEach(measure => {
-          d3.select('.dataContainer').append('h5')
+          d3.select('.dataContainer').append('h6')
             .attr('class', 'infoLabel')
             .html(measureLabels[queryCounter]);
 
           d3.select('.dataContainer').append('div')
             .attr('class', 'infoData')
-            .html(d.data.data[measure].value)
-              .append('hr')
-              .style('padding', '0 1rem 0 1rem');
+            .html(d.data.data[measure].value);
 
           queryCounter++
         })
       } else { // Otherwise return d.data.name 
-        d3.select('.dataContainer').append('h5')
+        d3.select('.dataContainer').append('h6')
           .attr('class', 'infoLabel')
           .html('Name');
         d3.select('.dataContainer').append('div')
           .attr('class', 'infoData')
-          .html(d.data.name)
-          .append('hr')
-          .style('padding', '0 1rem 0 1rem');
+          .html(d.data.name);
       } 
 
     }
