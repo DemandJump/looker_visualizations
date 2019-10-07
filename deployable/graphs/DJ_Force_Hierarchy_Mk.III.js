@@ -123,8 +123,8 @@ create: function(element, config) {
 
     this._currentLinkDepth = d3.select('.holder').append('div')
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
-        .attr('display', 'inline')
-        .attr('font-size', '5px')
+        .style('display', 'inline')
+        .style('font-size', '5px')
         .html('Link: 0')
         
 
