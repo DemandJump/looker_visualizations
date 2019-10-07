@@ -63,7 +63,7 @@ create: function(element, config) {
         text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
         line, .link, .link2 { fill: none;}
         svg { border: 1px solid rgba(0, 0, 0, 0.2);}
-        button { display: inline; }
+        button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
     </style> `;    
 
         /*************** Holder is the navbar for the buttons  ***************/
