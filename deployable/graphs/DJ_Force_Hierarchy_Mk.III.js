@@ -78,10 +78,28 @@ create: function(element, config) {
         .attr('class', 'next')
         .style('display', 'inline')
         .html('Next')
+
+    this._resetSingleNode = d3.select('.holder').append('button')
+        .attr('class', 'resetSingleNode')
+        .style('display', 'inline')
+        .html(`Reset selected node's position`)
+
     this._resetBtn = d3.select('.holder').append('button')
         .attr('class', 'reset')
         .style('display', 'inline')
+        .style('color', 'red')
         .html('Pull nodes to center')
+
+    this._centerNodes = d3.select('.holder').append('button')
+        .attr('class', 'center')
+        .style('display', 'inline')
+        .html('Pull nodes together')
+
+    this._panelSwitch = d3.select('.holder').append('button')
+        .attr('class', 'changeView')
+        .attr('display', 'inline')
+        .html('Close Viewport')
+
 
     this._svg = d3.select(element).append('svg')
         .attr('class', 'container');
@@ -230,6 +248,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Initial dimensions, plus instantiating some variables
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight,
+      initWidth = ww + 'px', initHeight = wh + 'px',
+      svgWidth = ww * .7, infoWidth = ww * .3,
+      svgw = svgWidth + 'px', infow = infoWidth + 'px',
+            interfaceHeight = wh - 35, 
+            interfaceh = height + 'px',
     treemap = d3.tree().size([height, width]), // Tree layout (hierarchy must be applied to data before this will work)
     totalNodes,
     notch = 0, // Notch is the counter for our good ol daters
@@ -243,10 +266,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes,
     links,
     dragNodes,
-    dragLinks,
-    dragABranch,
     simulation,
     reset = false,
+    resetSingleNode = false,
+    panelSwitch = 'on',
     friction = .1; // This determines the link length based on the data that's given
 
 
@@ -273,6 +296,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
       node.size = 100; 
+      node.froze = false;
+      node.distance = 25;
 
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
@@ -374,9 +399,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             simulateClick(document.getElementById('root'), 'click'); // Double click to cancel the collapse
         }
     });
+
+    this._resetSingleNode = d3.select('.navbar').append('button')
+      .attr('class', 'resetSingleNode')
+      .style('display', 'inline')
+      .html(`Reset selected node's position`)
+      .on('click', event => {
+        resetSingleNode = true;        
+      });
     
     this._resetBtn.on('click', event => {
-        nodes.forEach(d => d.fx = d.fy = null);
+        nodes.forEach(d => {
+          d.fx = d.fy = null;
+          d.froze = false;
+        });
         collisionInitialization = 0;
         // friction = .05;
         reset = true;
@@ -385,12 +421,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         simulateClick(document.getElementById('root'), 'click');
     });
 
+    this._centerNodes.on('click', event => {
+      console.log('trying to pull them nodes in the center');
+      nodes.forEach(node => {
+        if(node.froze == false) { node.fx = node.fy = null; }
+      });
+      simulation.alpha(1).alphaDecay(.125).restart();
+    });
+
+    
+    this._panelSwitch.on('click', event => {
+      console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
+      if(panelSwitch == 'on') {
+        d3.select('.infoBar').style('display', 'none');
+        this._svg.style('width', initWidth)
+        this._panelSwitch.html('Open Viewport')
+        panelSwitch = 'off';
+      } else {
+        d3.select('.infoBar').style('display', 'inline-block');
+        this._svg.style('width', svgw)
+        this.panelSwitch.html('Close Viewport')
+        panelSwitch = 'on';
+        
+      }
+    })
+
 
         /*/ Then instantiate the groundwork for the visualization /*/
     let container = this._svg  
         .html('')
-        .attr('width', width)
-        .attr('height', height)
+        .attr('width', svgw)
+        .attr('height', interfaceHeight)
         // Selector to hold everything
     let svg = container.append('g')
         .attr('class', 'everything')
@@ -551,6 +612,7 @@ function update() { /* Initialize some parameters that we will need for */
             if (!d3.event.active) { simulation.alphaTarget(0.020).restart(); }
             d.fx = d.x;
             d.fy = d.y;
+            d.froze = true;
         }
         function dragged(d) { // While holding click and moving the mouse and node around
             d.fx = d3.event.x;
@@ -788,6 +850,13 @@ function update() { /* Initialize some parameters that we will need for */
     *********************/
         // Toggle children on click.
     function click(d) {
+        if(resetSingleNode) {
+          d.fx = d.fy = null;
+          resetSingleNode = false;
+          update();
+          return;
+        }
+
         console.log('d', d);
         if (d3.event.defaultPrevented) return; // ignore drag
         if (d.children) {
@@ -798,6 +867,7 @@ function update() { /* Initialize some parameters that we will need for */
             d._children = null;
         }
 
+        nodeData(d);
         update();
     }
     function click2Focus(d) {
@@ -807,6 +877,10 @@ function update() { /* Initialize some parameters that we will need for */
         update();
         simulateClick(document.getElementById('root'), 'click');
         simulateClick(document.getElementById('root'), 'click');
+    }
+
+    function nodeData(d) {
+      console.log('This is the function that grabs the node data and puts it in the sidebar viewport we named PanelSwitch');
     }
     
     

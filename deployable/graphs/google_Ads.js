@@ -86,8 +86,10 @@ h3 {
   line-height: 20px;
   text-align: left;
   word-spacing: 0px;
-  color: #1A0DAB;
+  color: #1A0DAB !important;
 }
+
+*/
 
 .icon {
   width: 14.6px;
@@ -99,10 +101,12 @@ h3 {
   text-align: left;
   white-spacing: nowrap;
   word-spacing: 0px
-  border: 1px solid #006621;
+  border: 1px solid #006621 !important;
   margin: 0 7px 0 0;
   padding: 1px 3px 0 2px;
 }
+
+/*
 
 .domain {
   width: auto;
@@ -112,7 +116,7 @@ h3 {
   text-align: left;
   vertical-align: bottom;
   text-decortation: rgb(0, 102, 33);
-  color: #006621;
+  color: #006621 !important;
 }
 
 .description {
@@ -123,7 +127,7 @@ h3 {
   line-height: 22px;
   text-decoration: none solid rgb(84, 84, 84);
   text-align: left;
-  color: #545454;
+  color: #545454 !important;
   overflow: hidden;
   overflow-wrap: break-word;
 }
@@ -363,7 +367,7 @@ function update() {
                   .attr('text-align', 'left')
                   .attr('white-spacing', 'nowrap')
                   .attr('word-spacing', '0px')
-                  .attr('border', '1px solid #06621')
+                  .attr('border', '1px solid #06621 !important')
                   .attr('margin', '0 7px 0 0')
                   .attr('padding', '1px 3px 0 2px')
                   .html('Ad')
@@ -377,7 +381,7 @@ function update() {
                       .attr('text-align', 'left')
                       .attr('vertical-align', 'bottom')
                       // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
-                      .attr('color', '#006621')
+                      .attr('color', '#006621 !important')
                       .html(d => d.domain)
     
                           // This is the description
@@ -390,7 +394,7 @@ function update() {
                           .attr('line-height', '22px')
                           // .attr('text-decoration', 'none solid rgb(84, 84, 84)')
                           .attr('text-align', 'left')
-                          .attr('color', '#545454')
+                          .attr('color', '#545454 !important')
                           .attr('overflow', 'hidden')
                           .attr('overflow-wrap', 'break-word')
                           .html(d => d.description)
