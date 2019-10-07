@@ -176,6 +176,7 @@ create: function(element, config) {
         .attr('class', 'dataContainer')
         .style('display', 'block')
         .style('margin', 'auto')
+        .style('text-align', 'left')
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
