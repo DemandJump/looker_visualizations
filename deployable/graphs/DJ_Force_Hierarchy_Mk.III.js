@@ -124,8 +124,8 @@ create: function(element, config) {
     this._currentLinkDepth = d3.select('.holder').append('div')
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
         .attr('display', 'inline')
-        .attr('font-size', '.5rem')
-        .html('Link Depth: 0')
+        .attr('font-size', '5px')
+        .html('Link: 0')
         
 
         /*************** End of holder (Navbar) ***************/
@@ -499,18 +499,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       }) 
-      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link: ${depthSelect}`)
     });
 
     this._selectNextDepth.on('click', event => {
       if(depthSelect < maxDepth) {depthSelect ++;}
       nodes.forEach(init => { 
-        if(init.depth == depthSelect) { 
+        if(init.depth ==) { 
           document.getElementById('linkSlider').value = init.distance;
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       })  
-      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link: ${depthSelect}`)
     });
 
 
