@@ -968,7 +968,12 @@ function update() { /* Initialize some parameters that we will need for */
     }
 
     function nodeData(d) {
-      console.log('This is the function that grabs the node data and puts it in the sidebar viewport we named PanelSwitch');
+      console.log('This is the function that grabs the node data and puts it in the sidebar viewport we named PanelSwitch')
+      console.log('This is the node data', d)
+      console.log('Query Response data for both dimensions and measures')
+      console.log('Query Dimension stuff', queryResponse.fields.dimensions)
+      console.log('Query Measure stuff', queryResponse.fields.measures)
+
     }
     
     
