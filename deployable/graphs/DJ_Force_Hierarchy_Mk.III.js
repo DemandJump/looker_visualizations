@@ -332,12 +332,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     linkDistance,
     panelSwitch = 'off',
     depthSelect = 0,
+    maxLinkScale, // This is the number of descendants based on the root
     friction = .1; // This determines the link length based on the data that's given
 
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
+      maxLinkScale = root.descendants().length;
       totalNodes = -1 * (root.descendants().length * 2.5);
+
       console.log('this is total nodes', totalNodes);
 
     let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
@@ -508,7 +511,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       linkDistance = this._slider.property('value');
       console.log('Link slider value', linkDistance);
       nodes.forEach(node => {
-        if (node.depth == depthSelect) node.distance = linkDistance;  
+          // The distance is nulled or amplified based on the number of descendants
+        let descendants = node.descendants().length;
+ 
+        if (node.depth == depthSelect) {
+          if (descendants < 5) { node.distance = 10 }
+          else if (descendants < 10) { node.distance = 100 }
+          else { node.distance = linkDistance }
+        }
       })
 
       simulation.force('link').distance(d => {
