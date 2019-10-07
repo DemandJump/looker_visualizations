@@ -505,7 +505,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     this._selectNextDepth.on('click', event => {
       if(depthSelect < maxDepth) {depthSelect ++;}
       nodes.forEach(init => { 
-        if(init.depth ==) { 
+        if(init.depth == depthSelect) { 
           document.getElementById('linkSlider').value = init.distance;
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
