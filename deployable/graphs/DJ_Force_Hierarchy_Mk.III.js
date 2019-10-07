@@ -124,7 +124,8 @@ create: function(element, config) {
     this._currentLinkDepth = d3.select('.holder').append('div')
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
         .attr('display', 'inline')
-        .html('Selected Link Depth: 0')
+        .attr('font-size', '.5rem')
+        .html('Link Depth: 0')
         
 
         /*************** End of holder (Navbar) ***************/
@@ -498,7 +499,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       }) 
-      this._currentLinkDepth.html(`Selected Link Depth: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
     });
 
     this._selectNextDepth.on('click', event => {
@@ -509,10 +510,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // d3.select('.linkInfo').html(init.distance);  // This is for the panelswitch vis
         } 
       })  
-      this._currentLinkDepth.html(`Selected Link Depth: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
     });
 
-    this._currentLinkDepth.on()
 
 
 
