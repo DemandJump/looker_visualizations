@@ -402,7 +402,7 @@ function update() {
                           .select(function() { return this.parentNode; }).append('div')
                               .attr('class', 'index')
                               .html(d => {
-                                console.log('This is the encapsulated data', d);
+                                console.log('This is the encapsulated data', d)
                                 return `This is the index of the data ${d.id}`
                               })
 
