@@ -64,7 +64,7 @@ create: function(element, config) {
         .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
         line, .link, .link2 { fill: none;}
         text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
-        circle.root { fill: #fd8d3c !important; }
+        #root circle { fill: #fd8d3c !important; }
 
         button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
@@ -663,7 +663,6 @@ function update() { /* Initialize some parameters that we will need for */
     let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
         .attr('class', 'node')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
-        .attr('class', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
         .on('dblclick', click2Focus)
         .call(drag(simulation));
