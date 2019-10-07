@@ -312,7 +312,7 @@ function update() {
 
         // This is the class that holds the ad, 
     let ads = adEnter.enter()
-        .append(div)
+        .append('div')
         .html(d => 
             `
             <div class="ad">
