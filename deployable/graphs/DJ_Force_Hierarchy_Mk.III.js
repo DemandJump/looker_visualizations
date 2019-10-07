@@ -516,7 +516,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
  
         if (node.depth == depthSelect) {
           if (descendants < 5) { node.distance = 10 }
-          else if (descendants < 10) { node.distance = 100 }
+          else if (descendants < 10) { node.distance = 50 }
           else { node.distance = linkDistance }
         }
       })
