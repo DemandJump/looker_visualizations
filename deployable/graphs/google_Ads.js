@@ -59,7 +59,7 @@ h3 {
 
 .ad {
   width: 632px;
-  height: 222px;
+  height: 120px;
   margin: 7px 0 0 0;
   padding: 0 16px 0 16px;
 }
@@ -84,6 +84,7 @@ h3 {
   height: 11px;
   display: inline-block;
   font-size: 12px;
+  font-style: none;
   line-height: 11px;
   text-decoration: none solid rgb(1, 102, 33);
   text-align: left;
@@ -130,7 +131,7 @@ h3 {
 */
 
 
-
+/*
 <div class="ad">
   <h3 class="label"> <a href="{link}">{label}</a> </h3>
   <div class="icon-and-domain">
@@ -139,7 +140,7 @@ h3 {
   </div>
   <div class="description">{description}</div>
 </div>
-
+*/
 
 
 </style>
