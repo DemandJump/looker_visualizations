@@ -354,7 +354,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
       maxLinkScale = root.descendants().length;
       function nodeMax() {
-        let linkSliderMax = maxLinkScale * 10;
+        let linkSliderMax = maxLinkScale * 20;
         if (linkSliderMAx < 1000) {
           return 1000;
         } else {
