@@ -67,6 +67,8 @@ console.log('details', details);
     let measures = queryResponse.fields.measures;
     console.log('Checking out query resposne dimension fields: ', dimensions);
     console.log('Checking out query resposne measure fields: ', measures);
+
+    console.log('config', this.options);
 /**************************************************************************************************************************************
                                                                                                     * End of Dimension Initialization
 **************************************************************************************************************************************/

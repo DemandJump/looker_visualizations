@@ -137,7 +137,7 @@ create: function(element, config) {
         .attr('type', 'range')
         .style('margin-left', '1rem')
         .attr('min', '1')
-        .attr('max', nodeMax)
+        .attr('max', 2500)
         .attr('value', 50)
 
     this._currentLinkDepth = d3.select('.linkSettings').append('div')
@@ -269,6 +269,76 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+/******************************************************************************************************************************************
+    * Setting up the Dimension Options
+******************************************************************************************************************************************/
+        // Create an option for each measure in your query
+
+        adPieces.forEach(field => {
+          if(adIteration == 0) {
+              dimension_options["Deploy_Vis"] = 
+              {
+                  label: 'Start the Visualization',
+                  type: 'string',
+                  display: 'radio',
+                  values: [
+                      {"Turn the visualization on": "on"},
+                      {"Turn the visualization off": "off"}
+                  ],
+                  default: "off"
+              }
+          }
+  
+          dimension_options[field] = 
+          {
+              label: adLabels[adIteration],
+              type: 'string',
+              values: [],
+              display: 'select'
+          }
+  
+          dimensions.forEach(dimension => {
+              let key = dimension.label_short; // Key of value pair
+              let valuepair = dimension.name; // value of value pair
+              let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+              val[key] = valuepair;
+  
+              dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
+          })
+          console.log('This is the dimension_options', dimension_options);
+  
+  
+  
+          adIteration++; // This is for each of the option labels
+          if (adIteration == adPieces.length) {
+              dimension_options['notes'] = 
+              {
+                  label: 'A Quick Guide',
+                  type: 'string',
+                  display: 'radio',
+                  values: [
+                      {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
+                      {"Label is the title of the Ad": "1"},
+                      {"Description is the description of the ad": "3"},
+                      {"Link is the link that brings you to the site": "4"},
+                      {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
+                      {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
+                  ],
+                  default: '6'
+              }
+
+          }
+      })
+      
+  
+      if(this._counter == 0) {
+          this._counter ++;
+          this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
+      }
+  /*************************************************************************************************************
+                                                                              * End of Dimension Options Setup
+  *************************************************************************************************************/
+  
     /****************** * * * * * Update the Options
     **************************************************/
             // Pull in the names of the type/measure dimensions
@@ -353,14 +423,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
       maxLinkScale = root.descendants().length;
-      function nodeMax() {
-        let linkSliderMax = maxLinkScale * 20;
-        if (linkSliderMAx < 1000) {
-          return 1000;
-        } else {
-          return linkSliderMax;
-        }
-      }
       totalNodes = -1 * (root.descendants().length * 2.5);
 
       console.log('this is total nodes', totalNodes);
@@ -602,6 +664,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style('width', infow)
         .style('height', interfaceh)
 
+        // This is to edit the attribute for the slider
+    this._slider.attr('max', nodeMax);
 
     /*****************************************
                 * End of build *
@@ -968,12 +1032,21 @@ function update() { /* Initialize some parameters that we will need for */
       : '1.13em' // If textspaces = 3 
     }
 
-    
     function fontSize(d) { // Calculate the font size based on the depth
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
         : d.notch == 'b' || 'z' ? '.5rem'
         : '2px'
+    }
+
+
+    function nodeMax() {
+      let linkSliderMax = maxLinkScale * 20;
+      if (linkSliderMAx < 1000) {
+        return 1000;
+      } else {
+        return linkSliderMax;
+      }
     }
     
     
