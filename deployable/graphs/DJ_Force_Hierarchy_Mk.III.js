@@ -321,7 +321,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(adIteration == optionConfigName.length - 1) { 
             // This adds to the end of the options list 
 
-        dimension_options['_notes'] = 
+        dimension_options['__Znotes'] = 
             {
                 label: 'A Quick Guide',
                 type: 'string',
@@ -338,8 +338,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   {"Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
                   {"Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
                   {"Don'y be afraid to SPAM that pull nodes together button, it works wonders.. (;": "Info11"},
-                  {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"}
-                  
+                  {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"} 
                 ],
                 default: 'Info10'
             }
