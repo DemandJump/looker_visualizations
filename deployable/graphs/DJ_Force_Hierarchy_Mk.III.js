@@ -280,11 +280,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     optionConfigName = ['add_type', 'add_measure'], // add_collapse
     optionLabels = ["This will color nodes based on type(make it the final dimension you add in)", "Use a measure to see it's influence in the hierarchy"],
     adIteration = 0; // We need to add static options at the beginning and the ending of the settings
-
+     
+      
         // Loops through and creates different config options!
     optionConfigName.forEach(configOptionName => {
       if(adIteration == 0) { 
         console.log('This adds to the end of the options list');
+        dimension_options['null_type'] = 
+            {
+              label: "Use Type dimension in the visualization",
+              type: "string",
+              display: "radio",
+              values: [
+                {"Yes": "false"},
+                {"No": "true"}
+              ],
+              default: "false"
+            }
+
+        dimension_options['null_measure'] = 
+            {
+              label: "Use Measure dimension(if it's a dimension) in the visualization",
+              type: "string",
+              display: "radio",
+              values: [
+                {"Yes": "false"},
+                {"No": "true"}
+              ],
+              default: "false"
+            }
+
         dimension_options['notes'] = 
             {
                 label: 'A Quick Guide',
@@ -383,10 +408,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       //   default: "false"
       // }
 
-          }
-      })
-      
-
   /*************************************************************************************************************
                                                                               * End of Dimension Options Setup
   *************************************************************************************************************/
@@ -395,38 +416,84 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     **************************************************/
             // Pull in the names of the type/measure dimensions
     let measureName = '',
-    taxonomyPass = queryResponse.fields.dimension_like,
-    lastDimension = queryResponse.fields.dimension_like.length - 1,
+    lastDimension = queryResponse.fields.dimensions.length - 1,
     type = null, // This stores the key name for the dimension when we parse into the data
+    uniqueTypeValues = [], // Stored in an array to give unique colors for each
+
+
+        // These are for the visualization!
     useMeasure = 'false',
     useType = 'false',
     useCollapse = 'false',
-    uniqueTypeValues = []; // Stored in an array to give unique colors for each
+    taxonomyPass = queryResponse.fields.dimensions; // This reinitializes every time, you just gotta edit it based on the settings given in each look
 
-    console.log('check to see if we can parse into measure!', queryResponse['fields']['measures'][0]);
-    console.log('parse into suggest_dimension!', queryResponse['fields']['measures'][0]['suggest_dimension']);
-    if (queryResponse['fields']['measures'][0]) { // If there's measures, then calculate this data
-      measureName = queryResponse['fields']['measures'][0]['suggest_dimension'];
-    } console.log('this is the measure name!', measureName);
 
+        // We gotta pull in the values that will be in add_type, and add_measure /*/!!! Used for the config conditionals !!!/*/
+    let currentType,
+    currentMeasure,
+    typeValues = [],
+    measureValuesM = [],
+    measureValuesD = [];
+    dimensions.forEach(dimension => {
+      typeValues.push(dimension.name)
+      measureValuesD.push(dimension.name)
+    });
+    measures.forEach(measure => measureValuesM.push(measure.name));
     
-    if(config.add_type == "true") {
-        taxonomyPass.pop();
-        type = queryResponse['fields']['dimensions'][lastDimension]['suggest_dimension'];
-        console.log('this is the type name!', type);
-        useType = 'true';
-    } 
-    if(config.add_type == "false") { 
-      taxonomyPass = queryResponse.fields.dimension_like; 
+
+
+          // Conditional Settings dynamically pulled in from settings ~ dimension.name is config[varReference]
+        
+      /*/ Settings for add_type /*/
+    if (config.add_type == 'none') { // turn off the conditionals, and then default the taxonomy back to the beginning
       useType = 'false';
     }
 
-    if(config.add_measure == 'true') { useMeasure = 'true'; }
-    if(config.add_measure == 'false') { useMeasure = 'false'; }
+
+    typeValues.forEach(value => { // Check all the possible dimension they chose to create dynamic typing, and whether to pull it out of the taxonomy or not
+      if(config.add_type == value) {
+            // If it found this particular value, go through the dimensions and find which name matches this one and pull it from the taxonomy
+        useType = 'true'
+        taxonomyPass.forEach( (dimension, index) => {
+          if (dimension.name == value) {
+            currentType = value;
+            if (config.null_type == "true") { delete taxonomyPass[index] }
+          }
+        });
+      
+      }
+    });
+
+
+
+      /*/ Settings for add_measure /*/
+    if (config.add_measure == 'none') {
+      useMeasure = 'false';
+    }
+
+    measureValuesM.forEach(value => { // Checks all the measures!
+      if (config.add_measure == value) {
+        useMeasure = 'true'
+        taxonomyPass.forEach( (dimension, index) => {  if (dimension.name == value ) { measureName = value }  })
+      }
+    })
+    measureValuesD.forEach(value => { // Check all the dimensions! and pull out the used ond
+      if (config.add_measure == value) {
+        useMeasure = 'true'
+        taxonomyPass.forEach( (dimension, index) => {
+          if (dimension.name == value) { 
+            measureName = value
+            if (config.null_measure == "true") { delete taxonomyPass[index] }
+          }
+        });
+      }
+    });
+
+
     console.log(`Using type: ${useType}, and Using measure: ${useMeasure}`);
 
-    if(config.add_collapse == 'true') { useCollapse = 'true'; }
-    if(config.add_collapse == 'false') { useCollapse = 'false'; }
+    // if(config.add_collapse == 'true') { useCollapse = 'true'; }
+    // if(config.add_collapse == 'false') { useCollapse = 'false'; }
     /**************************************************
             End of Options * * * * * *****************/
 
@@ -479,14 +546,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       console.log('this is total nodes', totalNodes);
 
-    let counter = 0; // We're using this to pull on of the typ values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
+    let counter = 0; // We're using this to pull one of the type values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
         if (useType == 'true') {
           if (counter == 0) {
             console.log('leaves', leaf);
             console.log('type: ', type)
-            let pass = leaf.data.data[type]['value'];
+            let pass = leaf.data.data[currentType]['value'];
             console.log('pass', pass);
             uniqueTypeValues.push(pass);
             counter ++;
@@ -549,11 +616,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // console.log('node in this section!', node);
         // console.log('this is the current type', type);
         if(node.data.data) {
-          if (currentValue != node.data.data[type]['value']) {
-            currentValue = node['data']['data'][type]['value'];
+          if (currentValue != node.data.data[currentType]['value']) {
+            currentValue = node['data']['data'][currentType]['value'];
             let trueIfNewValue = true;
             for(j = 0; j < uniqueTypeValues.length; j++) {
-              if(currentValue == node['data']['data'][type]['value']) { trueIfNewValue = 'false'; }
+              if(currentValue == node['data']['data'][currentType]['value']) { trueIfNewValue = 'false'; }
             }
             if(trueIfNewValue) { uniqueTypeValues.push(currentValue); }
           }
@@ -915,14 +982,14 @@ function update() { /* Initialize some parameters that we will need for */
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
           if(d.data.data) {
             return d.depth == 0 ? lightenOrDarken(d, '#c6dbef')
-            : d.data.data[type]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB')
-            : d.data.data[type]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12')
-            : d.data.data[type]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71')
-            : d.data.data[type]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD')
-            : d.data.data[type]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#E74C3C')
-            : d.data.data[type]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4')
-            : d.data.data[type]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
-            : d.data.data[type]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#E74C3C')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
             : lightenOrDarken(d, '#BDBDBD')
           } else { return lightenOrDarken(d, '#008CCD'); }
 
