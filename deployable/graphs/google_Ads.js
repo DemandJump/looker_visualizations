@@ -100,6 +100,18 @@ cite {
   padding: 1px 3px 0 2px;
 }
 
+.description {
+  display: block;
+  font-size: 14px;
+  line-height: 22px;
+  text-decoration: none solid rgb(84, 84, 84);
+  text-align: left;
+  color: #545454;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+
 /*
 .label {
   display: block;
@@ -123,18 +135,6 @@ cite {
 
 
 */
-.description {
-  width: 600px;
-  height: 66px;
-  display: block;
-  font-size: 14px;
-  line-height: 22px;
-  text-decoration: none solid rgb(84, 84, 84);
-  text-align: left;
-  color: #545454;
-  overflow: hidden;
-  overflow-wrap: break-word;
-}
 
 
 /*
@@ -360,7 +360,6 @@ function update() {
             .attr('text-align', 'left')
             .attr('height', '24px')
             .attr('width', 'auto')
-            .attr('padding', '1px 0 0 0')
       
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
@@ -383,12 +382,12 @@ function update() {
                   .select(function() { return this.parentNode; }).append('cite')
                       .attr('class', 'domain')
                       .attr('height', '24px')
-                      .attr('display', 'inline-block')
-                      .attr('font-size', '16px')
-                      .attr('text-align', 'left')
-                      .attr('vertical-align', 'bottom')
-                      // .attr('text-decoration', 'none solid rgb(0, 102, 33)')
-                      .attr('color', '#006621')
+                      .style('display', 'inline-block')
+                      .style('font-size', '16px')
+                      .style('text-align', 'left')
+                      .style('vertical-align', 'bottom')
+                      // .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                      .style('color', '#006621')
                       .html(d => d.domain)
     
                           // This is the description
@@ -396,14 +395,14 @@ function update() {
                           .attr('class', 'description')
                           .attr('width', '600px')
                           .attr('height', '66px')
-                          .attr('display', 'block')
-                          .attr('font-size', '14px')
-                          .attr('line-height', '22px')
-                          // .attr('text-decoration', 'none solid rgb(84, 84, 84)')
-                          .attr('text-align', 'left')
-                          .attr('color', '#545454')
-                          .attr('overflow', 'hidden')
-                          .attr('overflow-wrap', 'break-word')
+                          .style('display', 'block')
+                          .style('font-size', '14px')
+                          .style('line-height', '22px')
+                          // .style('text-decoration', 'none solid rgb(84, 84, 84)')
+                          .style('text-align', 'left')
+                          .style('color', '#545454')
+                          .style('overflow', 'hidden')
+                          .style('overflow-wrap', 'break-word')
                           .html(d => d.description)
 
 
