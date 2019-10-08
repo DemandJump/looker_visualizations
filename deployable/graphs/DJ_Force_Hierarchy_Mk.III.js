@@ -284,6 +284,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       
         // Loops through and creates different config options!
     optionConfigName.forEach(configOptionName => {
+        // Structure for add_type and add_measure
+      dimension_options[configOptionName] = 
+      {
+        label: optionLabels[adIteration],
+        display: "select",
+        type: "string",
+        values: [
+          {"None": "none"}
+        ],
+        default: "none"
+      }
+
+        // Now parse through each of the nodes and add every dimension/measure to choose from (Only dimensions for the add_type)
+      dimensions.forEach(dimension => {
+        let key = dimension.label_short; // Key of value pair
+        let valuepair = dimension.name; // value of value pair
+        let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+        val[key] = valuepair;
+
+        dimension_options[configOptionName]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
+      })
+
+      if(configOptionName == 'add_measure') { // We want them to choose any of the measures 
+        measures.forEach(measure => {
+          let key = measure.label_short;
+          let valuepair = measure.name;
+          let val = {};
+          val[key] = valuepair;
+
+          dimension_options[configOptionName]['values'].push(val);
+        })
+      }
+
+
       if(adIteration == optionConfigName.length - 1) { 
         console.log('This adds to the end of the options list');
         dimension_options['null_type'] = 
@@ -331,42 +365,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 default: 'Info10'
             }
       }
-
-
-      dimension_options[configOptionName] = 
-      {
-        label: optionLabels[adIteration],
-        display: "select",
-        type: "string",
-        values: [
-          {"None": "none"}
-        ],
-        default: "none"
-      }
-
-        // Now parse through each of the nodes and add every dimension/measure to choose from (Only dimensions for the add_type)
-      dimensions.forEach(dimension => {
-        let key = dimension.label_short; // Key of value pair
-        let valuepair = dimension.name; // value of value pair
-        let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-        val[key] = valuepair;
-
-        dimension_options[configOptionName]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
-      })
-
-      if(configOptionName == 'add_measure') { // We want them to choose any of the measures 
-        measures.forEach(measure => {
-          let key = measure.label_short;
-          let valuepair = measure.name;
-          let val = {};
-          val[key] = valuepair;
-
-          dimension_options[configOptionName]['values'].push(val);
-        })
-      }
-      console.log('This is the dimension_options', dimension_options);
     });
 
+    console.log('This is the dimension_options', dimension_options);
     if(this._counter == 0) {
       this._counter ++;
       this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
