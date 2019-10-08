@@ -365,6 +365,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 default: 'Info10'
             }
       }
+
+    adIteration++;
     });
 
     console.log('This is the dimension_options', dimension_options);
