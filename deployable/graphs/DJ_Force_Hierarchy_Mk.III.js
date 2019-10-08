@@ -51,6 +51,8 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    this._counter = 0;
+
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -272,93 +274,119 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /******************************************************************************************************************************************
     * Setting up the Dimension Options
 ******************************************************************************************************************************************/
-        // Create an option for each measure in your query 
+    // Create an option for each measure in your query 
+    let dimension_options = {},
+    options = ['Choose Color by type', 'Choose Field as a Measure'], // Collapse the data
+    optionConfigName = ['add_type', 'add_measure'], // add_collapse
+    optionLabels = ["This will color nodes based on type(make it the final dimension you add in)", "Use a measure to see it's influence in the hierarchy"],
+    adIteration = 0; // We need to add static options at the beginning and the ending of the settings
 
-/*
-
-      adPieces.forEach(field => {
-        if(adIteration == 0) {
-          dimension_options["Deploy_Vis"] = 
+        // Loops through and creates different config options!
+    optionConfigName.forEach(configOptionName => {
+      if(adIteration == 0) { 
+        console.log('This adds to the end of the options list');
+        dimension_options['notes'] = 
             {
-              label: 'Start the Visualization',
-              type: 'string',
-              display: 'radio',
-              values: [
-                {"Turn the visualization on": "on"},
-                {"Turn the visualization off": "off"}
-              ],
-              default: "off"
+                label: 'A Quick Guide',
+                type: 'string',
+                display: 'radio',
+                values: [
+                  {"Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
+                  {"You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
+                  {"There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what": "Info2"},
+                  {"Here's a list of what all the buttons do:": "Info3"},
+                  {"This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy": "Info4"},
+                  {"Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy.": "Info5"},
+                  {"When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset": "Info6"},
+                  {"Reset all nodes resets all nodes, so be careful": "Info7"},
+                  {"Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
+                  {"Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
+                  {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"}
+                ],
+                default: 'Info10'
             }
-        }
-  
-        dimension_options[field] = 
-          {
-            label: adLabels[adIteration],
-            type: 'string',
-            values: [],
-            display: 'select'
-          }
-  
-          dimensions.forEach(dimension => {
-            let key = dimension.label_short; // Key of value pair
-            let valuepair = dimension.name; // value of value pair
-            let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-            val[key] = valuepair;
-  
-            dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
-          })
-          console.log('This is the dimension_options', dimension_options);
-  
-  
-  
-          adIteration++; // This is for each of the option labels
-          if (adIteration == adPieces.length) {
-            dimension_options['add_type'] = 
-            {
-              label: "This will color nodes based on type(make it the final dimension you add in)",
-              display: "radio",
-              type: "string",
-              values: [
-                {"Added type dimension to the end": "true"},
-                {"No type dimension added": "false"}
-              ],
-              default: "false"
-            };
-            dimension_options["add_measure"] =
-            {
-              label: "This will take a measure and use it to calculate each of the node's size.",
-              display: "radio",
-              type: "string",
-              value: [
-                {"Use a measure": "true"},
-                {"Don't use a measure": "false"}
-              ],
-              default: "false"
-            };
+      }
 
 
-            // dimension_options['add_collapse'] = 
-            // {
-            //   label: "This will auto collapse the nodes when you initialize the visualization",
-            //   display: "radio",
-            //   type: "string",
-            //   value: [
-            //     {"Auto Collapse": "true"},
-            //     {"Open it back up": "false"}
-            //   ],
-            //   default: "false"
-            // }
+      dimension_options[configOptionName] = 
+      {
+        label: optionLabels[adIteration],
+        display: "select",
+        type: "string",
+        values: [
+          {"None": "none"}
+        ],
+        default: "none"
+      }
+
+        // Now parse through each of the nodes and add every dimension/measure to choose from (Only dimensions for the add_type)
+      dimensions.forEach(dimension => {
+        let key = dimension.label_short; // Key of value pair
+        let valuepair = dimension.name; // value of value pair
+        let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+        val[key] = valuepair;
+
+        dimension_options[configOptionName]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
+      })
+
+      if(configOptionName == 'add_measure') { // We want them to choose any of the measures 
+        measures.forEach(measure => {
+          let key = measure.label_short;
+          let valuepair = measure.name;
+          let val = {};
+          val[key] = valuepair;
+
+          dimension_options[configOptionName]['values'].push(val);
+        })
+      }
+      console.log('This is the dimension_options', dimension_options);
+      if(this._counter == 0) {
+        this._counter ++;
+        this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
+      }
+    });
+
+
+
+    // dimension_options['add_type'] = 
+    //   {
+    //     label: "This will color nodes based on type(make it the final dimension you add in)",
+    //     display: "radio",
+    //     type: "string",
+    //     values: [
+    //       {"Added type dimension to the end": "true"},
+    //       {"No type dimension added": "false"}
+    //     ],
+    //     default: "false"
+    //   };
+    //   dimension_options["add_measure"] =
+    //   {
+    //     label: "This will take a measure and use it to calculate each of the node's size.",
+    //     display: "radio",
+    //     type: "string",
+    //     value: [
+    //     {"Use a measure": "true"},
+    //       {"Don't use a measure": "false"}
+    //   ],
+    //   default: "false"
+    //   };
+            // Add this in optionally ~
+      // dimension_options['add_collapse'] = 
+      // {
+      //   label: "This will auto collapse the nodes when you initialize the visualization",
+      //   display: "radio",
+      //   type: "string",
+      //   value: [
+      //     {"Auto Collapse": "true"},
+      //     {"Open it back up": "false"}
+      //   ],
+      //   default: "false"
+      // }
 
           }
       })
       
-  
-      if(this._counter == 0) {
-          this._counter ++;
-          this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
-      }
 
-*/
   /*************************************************************************************************************
                                                                               * End of Dimension Options Setup
   *************************************************************************************************************/
@@ -1066,7 +1094,7 @@ function update() { /* Initialize some parameters that we will need for */
 
     function nodeMax() {
       let linkSliderMax = maxLinkScale * 20;
-      if (linkSliderMAx < 1000) {
+      if (linkSliderMax < 1000) {
         return 1000;
       } else {
         return linkSliderMax;
