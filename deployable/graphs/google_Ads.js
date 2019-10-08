@@ -64,6 +64,11 @@ h3 {
   padding: 0 16px 0 16px;
 }
 
+cite {
+  border-radius: 5px;
+  border: 1px solid #006621;
+}
+
 .container {
   padding: 1rem 2rem 1rem 2rem;
 }
@@ -116,6 +121,8 @@ h3 {
   color: #006621;
 }
 
+
+*/
 .description {
   width: 600px;
   height: 66px;
@@ -128,7 +135,6 @@ h3 {
   overflow: hidden;
   overflow-wrap: break-word;
 }
-*/
 
 
 /*
