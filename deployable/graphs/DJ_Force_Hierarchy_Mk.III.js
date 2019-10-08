@@ -137,7 +137,7 @@ create: function(element, config) {
         .attr('type', 'range')
         .style('margin-left', '1rem')
         .attr('min', '1')
-        .attr('max', '2500')
+        .attr('max', nodeMax)
         .attr('value', 50)
 
     this._currentLinkDepth = d3.select('.linkSettings').append('div')
@@ -353,6 +353,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
       maxLinkScale = root.descendants().length;
+      function nodeMax() {
+        let linkSliderMax = maxLinkScale * 10;
+        if (linkSliderMAx < 1000) {
+          return 1000;
+        } else {
+          return linkSliderMax;
+        }
+      }
       totalNodes = -1 * (root.descendants().length * 2.5);
 
       console.log('this is total nodes', totalNodes);
@@ -965,7 +973,7 @@ function update() { /* Initialize some parameters that we will need for */
         //console.log('text stuff', d);
         return d.notch == 'a' ? '1rem'
         : d.notch == 'b' || 'z' ? '.5rem'
-        : '.0045rem'
+        : '2px'
     }
     
     
