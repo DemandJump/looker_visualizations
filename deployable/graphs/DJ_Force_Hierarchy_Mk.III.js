@@ -1018,13 +1018,13 @@ function update() { /* Initialize some parameters that we will need for */
         if(d.depth == notch) { 
             return caseColor;
         } else if(d.depth == notch + 1) {
-            return LightenDarkenColor(caseColor, 20); 
+            return LightenDarkenColor(caseColor, 10); 
         } else if(d.depth == notch - 1) {
-            return LightenDarkenColor(caseColor, -20);
+            return LightenDarkenColor(caseColor, -10);
         } else if(d.depth <= notch - 2) {
-            return LightenDarkenColor(caseColor, -40);
+            return LightenDarkenColor(caseColor, -20);
         } else if(d.depth >= notch + 2) {
-            return LightenDarkenColor(caseColor, 40);
+            return LightenDarkenColor(caseColor, 20);
         } else { // To know if something went wrong
             return '#F5F5F5'
         }
