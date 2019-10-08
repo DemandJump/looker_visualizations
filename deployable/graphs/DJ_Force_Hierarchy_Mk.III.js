@@ -321,7 +321,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(adIteration == optionConfigName.length - 1) { 
             // This adds to the end of the options list 
 
-        dimension_options['__Znotes'] = 
+        dimension_options['z_notes'] = 
             {
                 label: 'A Quick Guide',
                 type: 'string',
