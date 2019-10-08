@@ -284,7 +284,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       
         // Loops through and creates different config options!
     optionConfigName.forEach(configOptionName => {
-      if(adIteration == 0) { 
+      if(adIteration == optionConfigName.length) { 
         console.log('This adds to the end of the options list');
         dimension_options['null_type'] = 
             {
@@ -310,7 +310,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               default: "false"
             }
 
-        dimension_options['notes'] = 
+        dimension_options['z_notes'] = 
             {
                 label: 'A Quick Guide',
                 type: 'string',
@@ -365,11 +365,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         })
       }
       console.log('This is the dimension_options', dimension_options);
-      if(this._counter == 0) {
-        this._counter ++;
-        this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
-      }
     });
+
+    if(this._counter == 0) {
+      this._counter ++;
+      this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
+    }
 
 
 
