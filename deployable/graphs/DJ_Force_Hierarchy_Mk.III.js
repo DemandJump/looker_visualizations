@@ -147,7 +147,7 @@ create: function(element, config) {
         .style('display', 'inline')
         .style('padding', '5px auto')
         .style('font-size', '16px')
-        .html('Edit Link: 0')
+        .html('Link Depth: 0')
         
         /*************** End of holder (Navbar) ***************/
 
@@ -747,7 +747,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           document.getElementById('linkSlider').value = init.distance; 
         } 
       }) 
-      this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
     });
 
     this._selectNextDepth.on('click', event => {
@@ -757,7 +757,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           document.getElementById('linkSlider').value = init.distance;
         } 
       })  
-      this._currentLinkDepth.html(`Edit Link: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
     });
 
 
