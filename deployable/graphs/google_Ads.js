@@ -379,7 +379,7 @@ function update() {
                   .html('Ad')
                 
                       // This is the domain link
-                  .select(function() { return this.parentNode; }).append('cite')
+                  .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'domain')
                       .attr('height', '24px')
                       .style('display', 'inline-block')
