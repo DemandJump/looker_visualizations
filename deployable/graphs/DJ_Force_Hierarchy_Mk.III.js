@@ -278,7 +278,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimension_options = {},
     options = ['Choose Color by type', 'Choose Field as a Measure'], // Collapse the data
     optionConfigName = ['add_type', 'add_measure'], // add_collapse
-    optionLabels = ["This will color nodes based on type(make it the final dimension you add in)", "Use a measure to see it's influence in the hierarchy"],
+    optionLabels = ["This will color nodes based on type", "Use a measure to see it's influence in the hierarchy"],
     adIteration = 0; // We need to add static options at the beginning and the ending of the settings
      
       
@@ -337,7 +337,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   {"Reset all nodes resets all nodes, so be careful": "Info7"},
                   {"Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
                   {"Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
+                  {"Don'y be afraid to SPAM that pull nodes together button, it works wonders.. (;": "Info11"},
                   {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"}
+                  
                 ],
                 default: 'Info10'
             }
