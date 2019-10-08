@@ -59,8 +59,8 @@ h3 {
 
 .ad {
   width: 632px;
-  height: 120px;
-  margin: 7px 0 0 0;
+  // height: 120px;
+  margin: 2rem 0 0 0;
   padding: 0 16px 0 16px;
 }
 
