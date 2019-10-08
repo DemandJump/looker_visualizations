@@ -990,14 +990,14 @@ function update() { /* Initialize some parameters that we will need for */
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
           if(d.data.data) {
             return d.depth == 0 ? lightenOrDarken(d, '#c6dbef')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#F39C12') // #3498DB 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#2ECC71') // #F39C12 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#8E44AD') // #2ECC71 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#E74C3C') // #8E44AD 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#00BCD4') // #E74C3C 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#CDDC39') // #00BCD4 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#F06292') // #CDDC39 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#2424c8') // #F06292
+            : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB') // #F39C12 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12') // #2ECC71 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71') // #8E44AD 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD') // #E74C3C 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#E74C3C') // #00BCD4 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4') // #CDDC39 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39') // #F06292 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292') // #2424c8
             : lightenOrDarken(d, '#BDBDBD')
           } else { return lightenOrDarken(d, '#008CCD'); }
 
