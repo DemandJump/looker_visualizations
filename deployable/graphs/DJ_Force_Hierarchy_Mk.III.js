@@ -319,7 +319,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
       if(adIteration == optionConfigName.length - 1) { 
-        console.log('This adds to the end of the options list');
+            // This adds to the end of the options list 
+
+        dimension_options['_notes'] = 
+            {
+                label: 'A Quick Guide',
+                type: 'string',
+                display: 'radio',
+                values: [
+                  {"Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
+                  {"You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
+                  {"There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what": "Info2"},
+                  {"Here's a list of what all the buttons do:": "Info3"},
+                  {"This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy": "Info4"},
+                  {"Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy.": "Info5"},
+                  {"When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset": "Info6"},
+                  {"Reset all nodes resets all nodes, so be careful": "Info7"},
+                  {"Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
+                  {"Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
+                  {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"}
+                ],
+                default: 'Info10'
+            }
+
         dimension_options['null_type'] = 
             {
               label: "Use Type dimension in the visualization",
@@ -344,26 +366,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               default: "false"
             }
 
-        dimension_options['z_notes'] = 
-            {
-                label: 'A Quick Guide',
-                type: 'string',
-                display: 'radio',
-                values: [
-                  {"Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
-                  {"You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
-                  {"There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what": "Info2"},
-                  {"Here's a list of what all the buttons do:": "Info3"},
-                  {"This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy": "Info4"},
-                  {"Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy.": "Info5"},
-                  {"When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset": "Info6"},
-                  {"Reset all nodes resets all nodes, so be careful": "Info7"},
-                  {"Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
-                  {"Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
-                  {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"}
-                ],
-                default: 'Info10'
-            }
       }
 
     adIteration++;
@@ -986,14 +988,14 @@ function update() { /* Initialize some parameters that we will need for */
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
           if(d.data.data) {
             return d.depth == 0 ? lightenOrDarken(d, '#c6dbef')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#E74C3C')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39')
-            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292')
+            : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#F39C12') // #3498DB 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#2ECC71') // #F39C12 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#8E44AD') // #2ECC71 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#E74C3C') // #8E44AD 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#00BCD4') // #E74C3C 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#CDDC39') // #00BCD4 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#F06292') // #CDDC39 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#2424c8') // #F06292
             : lightenOrDarken(d, '#BDBDBD')
           } else { return lightenOrDarken(d, '#008CCD'); }
 
