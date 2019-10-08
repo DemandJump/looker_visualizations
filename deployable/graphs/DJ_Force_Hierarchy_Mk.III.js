@@ -272,38 +272,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /******************************************************************************************************************************************
     * Setting up the Dimension Options
 ******************************************************************************************************************************************/
-        // Create an option for each measure in your query
+        // Create an option for each measure in your query 
 
-        adPieces.forEach(field => {
-          if(adIteration == 0) {
-              dimension_options["Deploy_Vis"] = 
-              {
-                  label: 'Start the Visualization',
-                  type: 'string',
-                  display: 'radio',
-                  values: [
-                      {"Turn the visualization on": "on"},
-                      {"Turn the visualization off": "off"}
-                  ],
-                  default: "off"
-              }
-          }
-  
-          dimension_options[field] = 
-          {
-              label: adLabels[adIteration],
+/*
+
+      adPieces.forEach(field => {
+        if(adIteration == 0) {
+          dimension_options["Deploy_Vis"] = 
+            {
+              label: 'Start the Visualization',
               type: 'string',
-              values: [],
-              display: 'select'
+              display: 'radio',
+              values: [
+                {"Turn the visualization on": "on"},
+                {"Turn the visualization off": "off"}
+              ],
+              default: "off"
+            }
+        }
+  
+        dimension_options[field] = 
+          {
+            label: adLabels[adIteration],
+            type: 'string',
+            values: [],
+            display: 'select'
           }
   
           dimensions.forEach(dimension => {
-              let key = dimension.label_short; // Key of value pair
-              let valuepair = dimension.name; // value of value pair
-              let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-              val[key] = valuepair;
+            let key = dimension.label_short; // Key of value pair
+            let valuepair = dimension.name; // value of value pair
+            let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+            val[key] = valuepair;
   
-              dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
+            dimension_options[field]['values'].push(val); // This puts each of the dimension(Titles) tied to looker's given name to the options for the use
           })
           console.log('This is the dimension_options', dimension_options);
   
@@ -311,21 +313,41 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   
           adIteration++; // This is for each of the option labels
           if (adIteration == adPieces.length) {
-              dimension_options['notes'] = 
-              {
-                  label: 'A Quick Guide',
-                  type: 'string',
-                  display: 'radio',
-                  values: [
-                      {"To build these ads, choose which dimension is which piece of the ad that. There is Label, Description, Link Domain, and Link.": "0"},
-                      {"Label is the title of the Ad": "1"},
-                      {"Description is the description of the ad": "3"},
-                      {"Link is the link that brings you to the site": "4"},
-                      {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
-                      {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
-                  ],
-                  default: '6'
-              }
+            dimension_options['add_type'] = 
+            {
+              label: "This will color nodes based on type(make it the final dimension you add in)",
+              display: "radio",
+              type: "string",
+              values: [
+                {"Added type dimension to the end": "true"},
+                {"No type dimension added": "false"}
+              ],
+              default: "false"
+            };
+            dimension_options["add_measure"] =
+            {
+              label: "This will take a measure and use it to calculate each of the node's size.",
+              display: "radio",
+              type: "string",
+              value: [
+                {"Use a measure": "true"},
+                {"Don't use a measure": "false"}
+              ],
+              default: "false"
+            };
+
+
+            // dimension_options['add_collapse'] = 
+            // {
+            //   label: "This will auto collapse the nodes when you initialize the visualization",
+            //   display: "radio",
+            //   type: "string",
+            //   value: [
+            //     {"Auto Collapse": "true"},
+            //     {"Open it back up": "false"}
+            //   ],
+            //   default: "false"
+            // }
 
           }
       })
@@ -335,6 +357,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           this._counter ++;
           this.trigger('registerOptions', dimension_options) // register options with parent page to update visConfig
       }
+
+*/
   /*************************************************************************************************************
                                                                               * End of Dimension Options Setup
   *************************************************************************************************************/
