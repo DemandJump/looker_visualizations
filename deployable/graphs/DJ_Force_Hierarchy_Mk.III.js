@@ -284,7 +284,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       
         // Loops through and creates different config options!
     optionConfigName.forEach(configOptionName => {
-      if(adIteration == optionConfigName.length) { 
+      if(adIteration == optionConfigName.length - 1) { 
         console.log('This adds to the end of the options list');
         dimension_options['null_type'] = 
             {
