@@ -98,67 +98,14 @@ console.log('showComparison data', config.showComparison);
 
 
             /*/ Onto building the settings of the visualization /*/
-// if(config.showComparison == true) {
-//     let settings = {
-//         showComparison: {
-//             label: "Use field comparison",
-//             type: "boolean",
-//             section: "Value",
-//             default: false,
-//         },
-//         zmaxValue: {
-//             label: "Max value",
-//             min: 0,
-//             default: 100,
-//             section: "Value",
-//             type: "number",
-//             placeholder: "Any positive number",
-//             hidden: function(options) {
-//               return options.showComparison
-//             }
-//         },
-//         font_size: {
-//             label: "Testing selection w/font",
-//             type: "string",
-//             section: "Style",
-//             display: "select",
-//             values: [
-//                 {"Large": "large"},
-//                 {"Medium": "medium"},
-//                 {"Small": "small"}
-//             ],
-//             default: "large",
-//         }
-//     };
-//     this.trigger('registerOptions', settings)
-// }
+console.log('Pulling out the options object itself', this.options);
 
-//         // Hide the options pertaining to the boolean clickable!
-// if(config.showComparison == false) {
-//     let settings = {
-//         showComparison: {
-//             label: "Use field comparison",
-//             type: "boolean",
-//             section: "Value",
-//             default: false,
-//         },
-//         font_size: {
-//             label: "Testing selection w/font",
-//             type: "string",
-//             section: "Style",
-//             display: "select",
-//             values: [
-//                 {"Large": "large"},
-//                 {"Medium": "medium"},
-//                 {"Small": "small"}
-//             ],
-//             default: "large",
-//         }
-//     }
-
-//     this.trigger
-//     this._counter = 0;
-// }
+if(config.showComparison == false) {
+    this.options.zmaxValue.hidden = false
+}
+if(config.showComparison == true) {
+    this.options.zmaxValue.hidden = true
+}
 
 
 
