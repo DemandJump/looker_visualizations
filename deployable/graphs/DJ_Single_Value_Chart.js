@@ -28,6 +28,7 @@ looker.plugins.visualizations.add({
                     {"Small": "small"}
                 ],
                 default: "large",
+            }
     },
 
         // Onto the create section 
