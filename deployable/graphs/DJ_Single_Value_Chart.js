@@ -1,6 +1,5 @@
 looker.plugins.visualizations.add({
     options: {
-        let settings = {
             showComparison: {
                 label: "Use field comparison",
                 type: "boolean",
