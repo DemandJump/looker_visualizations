@@ -148,6 +148,8 @@ if(config.showComparison == 'false') {
             default: "large",
         }
     }
+
+    this._counter = 0;
 }
 
 
@@ -156,6 +158,9 @@ if(config.showComparison == 'false') {
 
 
 
+
+/**************** Done! *****************/
+    doneRendering()     // Always call done to indicate a visualization has finished rendering
     }
 });
 
