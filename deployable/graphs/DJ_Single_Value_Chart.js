@@ -68,7 +68,8 @@ console.log('details', details);
     console.log('Checking out query resposne dimension fields: ', dimensions);
     console.log('Checking out query resposne measure fields: ', measures);
 
-    console.log('config', this.options);
+    console.log('referencing the options', this.options);
+    console.log('This is the config itself', config);
 /**************************************************************************************************************************************
                                                                                                     * End of Dimension Initialization
 **************************************************************************************************************************************/
