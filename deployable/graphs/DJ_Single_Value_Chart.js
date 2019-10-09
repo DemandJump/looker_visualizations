@@ -4,7 +4,7 @@ looker.plugins.visualizations.add({
                 label: "Use field comparison",
                 type: "boolean",
                 section: "Value",
-                default: false,
+                default: true,
             },
             zmaxValue: {
                 label: "Max value",
@@ -14,7 +14,8 @@ looker.plugins.visualizations.add({
                 type: "number",
                 placeholder: "Any positive number",
                 hidden: function(options) {
-                  return options.showComparison
+                    console.log('This is options', options)
+                  return options.showComparison;
                 }
             },
             font_size: {
