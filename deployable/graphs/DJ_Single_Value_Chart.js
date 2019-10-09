@@ -1,5 +1,25 @@
 looker.plugins.visualizations.add({
-    options: {},
+    options: {
+        let settings = {
+            showComparison: {
+                label: "Use field comparison",
+                type: "boolean",
+                section: "Value",
+                default: false,
+            },
+            font_size: {
+                label: "Testing selection w/font",
+                type: "string",
+                section: "Style",
+                display: "select",
+                values: [
+                    {"Large": "large"},
+                    {"Medium": "medium"},
+                    {"Small": "small"}
+                ],
+                default: "large",
+            }
+    },
 
         // Onto the create section 
 create: function(element, config) {
