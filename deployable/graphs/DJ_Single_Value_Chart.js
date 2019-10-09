@@ -1,5 +1,11 @@
 looker.plugins.visualizations.add({
     options: {
+        showComparison: {
+            label: "Use field comparison",
+            default: false,
+            section: "Value",
+            type: "boolean"
+          },
         font_size: {
             type: "string",
             label: "Testing selection w/font",
