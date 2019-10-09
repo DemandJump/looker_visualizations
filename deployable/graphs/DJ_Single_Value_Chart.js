@@ -1,34 +1,6 @@
 looker.plugins.visualizations.add({
-    options: {
-        showComparison: {
-            label: "Use field comparison",
-            default: false,
-            section: "Value",
-            type: "boolean"
-        },
-        maxValue: {
-            label: "Max value",
-            min: 0,
-            default: 100,
-            section: "Value",
-            type: "number",
-            placeholder: "Any positive number",
-            hidden: function(options) {
-              return options.showComparison
-            }
-        },
-        font_size: {
-            type: "string",
-            label: "Testing selection w/font",
-            values: [
-                {"Large": "large"},
-                {"Medium": "medium"},
-                {"Small": "small"}
-            ],
-            display: "select",
-            default: "large"
-        }
-    },
+    options: {},
+
         // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
@@ -95,14 +67,69 @@ console.log('details', details);
     * Setting up the Configuration Settings
 *********************************************************************************************************************************/
             /*/ Onto building the settings of the visualization /*/
+if(config.showComparison == true) {
     let settings = {
         showComparison: {
             label: "Use field comparison",
-            default: false,
+            type: "boolean",
             section: "Value",
-            type: "boolean"
-          }
+            default: false,
+        },
+        zmaxValue: {
+            label: "Max value",
+            min: 0,
+            default: 100,
+            section: "Value",
+            type: "number",
+            placeholder: "Any positive number",
+            hidden: function(options) {
+              return options.showComparison
+            }
+        },
+        font_size: {
+            label: "Testing selection w/font",
+            type: "string",
+            section: "Style",
+            display: "select",
+            values: [
+                {"Large": "large"},
+                {"Medium": "medium"},
+                {"Small": "small"}
+            ],
+            default: "large",
+        }
     };
+
+
+    if(this._counter == 0){ this._counter ++; this.trigger('registerOptions', settings) } 
+}
+
+        // Hide the options pertaining to the boolean clickable!
+if(config.showComparison == false) {
+    let settings = {
+        showComparison: {
+            label: "Use field comparison",
+            type: "boolean",
+            section: "Value",
+            default: false,
+        },
+        font_size: {
+            label: "Testing selection w/font",
+            type: "string",
+            section: "Style",
+            display: "select",
+            values: [
+                {"Large": "large"},
+                {"Medium": "medium"},
+                {"Small": "small"}
+            ],
+            default: "large",
+        }
+    }
+}
+
+
+
 
 
 
