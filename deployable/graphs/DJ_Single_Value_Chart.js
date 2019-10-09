@@ -85,8 +85,11 @@ console.log('details', details);
 /*********************************************************************************************************************************
     * Setting up the Configuration Settings
 *********************************************************************************************************************************/
+console.log('showComparison data', config.showComparison);
+
+
             /*/ Onto building the settings of the visualization /*/
-if(config.showComparison == true) {
+if(config.showComparison == 'true') {
     let settings = {
         showComparison: {
             label: "Use field comparison",
@@ -124,7 +127,7 @@ if(config.showComparison == true) {
 }
 
         // Hide the options pertaining to the boolean clickable!
-if(config.showComparison == false) {
+if(config.showComparison == 'false') {
     let settings = {
         showComparison: {
             label: "Use field comparison",
