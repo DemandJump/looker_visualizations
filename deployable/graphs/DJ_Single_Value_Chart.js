@@ -100,11 +100,18 @@ console.log('showComparison data', config.showComparison);
             /*/ Onto building the settings of the visualization /*/
 console.log('Pulling out the options object itself', this.options);
 
-if(config.showComparison == false) {
-    this.options.zmaxValue.hidden = false
+if(config.showComparison == false) { // If it's set to false, update the settings and rerender the settings
+    if(this.options.zmaxValue.hidden == true) {
+        this.options.zmaxValue.hidden = false // Show the value
+        this.trigger('registerOptions', this.options)
+    }
 }
-if(config.showComparison == true) {
-    this.options.zmaxValue.hidden = true
+
+if(config.showComparison == true) { // If it's set to true, update the settings and rerender the settings
+    if(this.options.zmaxValue.hidden == false) { 
+        this.options.zmaxValue.hidden = true // Hide the value
+        this.trigger('registerOptions', this.options);
+    }
 }
 
 
