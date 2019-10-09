@@ -1,5 +1,17 @@
 looker.plugins.visualizations.add({
-    options: {},
+    options: {
+        font_size: {
+            type: "string",
+            label: "Testing selection w/font",
+            values: [
+                {"Large": "large"},
+                {"Medium": "medium"},
+                {"Small": "small"}
+            ],
+            display: "select",
+            default: "large"
+        }
+    },
         // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
