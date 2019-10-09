@@ -5,7 +5,18 @@ looker.plugins.visualizations.add({
             default: false,
             section: "Value",
             type: "boolean"
-          },
+        },
+        maxValue: {
+            label: "Max value",
+            min: 0,
+            default: 100,
+            section: "Value",
+            type: "number",
+            placeholder: "Any positive number",
+            hidden: function(options) {
+              return options.showComparison
+            }
+        },
         font_size: {
             type: "string",
             label: "Testing selection w/font",
