@@ -6,6 +6,17 @@ looker.plugins.visualizations.add({
                 section: "Value",
                 default: false,
             },
+            zmaxValue: {
+                label: "Max value",
+                min: 0,
+                default: 100,
+                section: "Value",
+                type: "number",
+                placeholder: "Any positive number",
+                hidden: function(options) {
+                  return options.showComparison
+                }
+            },
             font_size: {
                 label: "Testing selection w/font",
                 type: "string",
@@ -17,7 +28,6 @@ looker.plugins.visualizations.add({
                     {"Small": "small"}
                 ],
                 default: "large",
-            }
     },
 
         // Onto the create section 
@@ -89,68 +99,67 @@ console.log('showComparison data', config.showComparison);
 
 
             /*/ Onto building the settings of the visualization /*/
-if(config.showComparison == true) {
-    let settings = {
-        showComparison: {
-            label: "Use field comparison",
-            type: "boolean",
-            section: "Value",
-            default: false,
-        },
-        zmaxValue: {
-            label: "Max value",
-            min: 0,
-            default: 100,
-            section: "Value",
-            type: "number",
-            placeholder: "Any positive number",
-            hidden: function(options) {
-              return options.showComparison
-            }
-        },
-        font_size: {
-            label: "Testing selection w/font",
-            type: "string",
-            section: "Style",
-            display: "select",
-            values: [
-                {"Large": "large"},
-                {"Medium": "medium"},
-                {"Small": "small"}
-            ],
-            default: "large",
-        }
-    };
+// if(config.showComparison == true) {
+//     let settings = {
+//         showComparison: {
+//             label: "Use field comparison",
+//             type: "boolean",
+//             section: "Value",
+//             default: false,
+//         },
+//         zmaxValue: {
+//             label: "Max value",
+//             min: 0,
+//             default: 100,
+//             section: "Value",
+//             type: "number",
+//             placeholder: "Any positive number",
+//             hidden: function(options) {
+//               return options.showComparison
+//             }
+//         },
+//         font_size: {
+//             label: "Testing selection w/font",
+//             type: "string",
+//             section: "Style",
+//             display: "select",
+//             values: [
+//                 {"Large": "large"},
+//                 {"Medium": "medium"},
+//                 {"Small": "small"}
+//             ],
+//             default: "large",
+//         }
+//     };
+//     this.trigger('registerOptions', settings)
+// }
 
+//         // Hide the options pertaining to the boolean clickable!
+// if(config.showComparison == false) {
+//     let settings = {
+//         showComparison: {
+//             label: "Use field comparison",
+//             type: "boolean",
+//             section: "Value",
+//             default: false,
+//         },
+//         font_size: {
+//             label: "Testing selection w/font",
+//             type: "string",
+//             section: "Style",
+//             display: "select",
+//             values: [
+//                 {"Large": "large"},
+//                 {"Medium": "medium"},
+//                 {"Small": "small"}
+//             ],
+//             default: "large",
+//         }
+//     }
 
-    if(this._counter == 0){ this._counter ++; this.trigger('registerOptions', settings) } 
-}
-
-        // Hide the options pertaining to the boolean clickable!
-if(config.showComparison == false) {
-    let settings = {
-        showComparison: {
-            label: "Use field comparison",
-            type: "boolean",
-            section: "Value",
-            default: false,
-        },
-        font_size: {
-            label: "Testing selection w/font",
-            type: "string",
-            section: "Style",
-            display: "select",
-            values: [
-                {"Large": "large"},
-                {"Medium": "medium"},
-                {"Small": "small"}
-            ],
-            default: "large",
-        }
-    }
-
-    this._counter = 0;
-}
+//     this.trigger
+//     this._counter = 0;
+// }
 
 
 
