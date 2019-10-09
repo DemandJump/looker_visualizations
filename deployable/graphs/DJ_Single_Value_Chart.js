@@ -17,7 +17,7 @@ create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
 
-    // Insert a <style> tag with some styles we'll use later.
+        // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = ``;
 
 
@@ -28,7 +28,6 @@ create: function(element, config) {
     
         // Clear out all the data upon startup! 
     this._container.selectAll("*").remove();
-
 },
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5; // Important!
@@ -71,19 +70,27 @@ console.log('details', details);
     console.log('referencing the options', this.options);
     console.log('This is the config itself', config);
 
-    console.log('This is looker charts', LookerCharts);
-    console.log('This is lookerCharts.Utils', LookerCharts.Utils);
-/**************************************************************************************************************************************
-                                                                                                    * End of Dimension Initialization
-**************************************************************************************************************************************/
+    console.log('This is looker charts Utils', LookerCharts);
+/****************************************************************************************************************************
+                                                                                        * End of Dimension Initialization
+****************************************************************************************************************************/    
+/*********************************************************************************************************************************
+    * Setting up the Configuration Settings
+*********************************************************************************************************************************/
+            /*/ Onto building the settings of the visualization /*/
+    let settings = {
+        showComparison: {
+            label: "Use field comparison",
+            default: false,
+            section: "Value",
+            type: "boolean"
+          }
+    };
 
-    
-/**************************************************************************************************************************************
-    * Setting up the Dimension Options
-**************************************************************************************************************************************/
 
-}
 
+
+    }
 });
 
 
