@@ -13,10 +13,7 @@ looker.plugins.visualizations.add({
                 section: "Value",
                 type: "number",
                 placeholder: "Any positive number",
-                hidden: function(options) {
-                    console.log('This is options', options)
-                  return options.showComparison;
-                }
+                hidden: true
             },
             font_size: {
                 label: "Testing selection w/font",
