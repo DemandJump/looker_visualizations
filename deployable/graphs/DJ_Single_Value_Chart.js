@@ -70,6 +70,9 @@ console.log('details', details);
 
     console.log('referencing the options', this.options);
     console.log('This is the config itself', config);
+
+    console.log('This is looker charts', LookerCharts);
+    console.log('This is lookerCharts.Utils', LookerCharts.Utils);
 /**************************************************************************************************************************************
                                                                                                     * End of Dimension Initialization
 **************************************************************************************************************************************/
