@@ -1,31 +1,42 @@
 looker.plugins.visualizations.add({
     options: {
-            showComparison: {
-                label: "Use field comparison",
-                type: "boolean",
-                section: "Value",
-                default: true,
-            },
-            zmaxValue: {
-                label: "Max value",
-                min: 0,
-                default: 100,
-                section: "Value",
-                type: "number",
-                placeholder: "Any positive number",
-                hidden: true
-            },
-            font_size: {
-                label: "Testing selection w/font",
+            color: {
+                label: "Value Color",
                 type: "string",
                 section: "Style",
-                display: "select",
+                display: "color",
+                default: "#3A4245"
+            },
+            showTitle: {
+                label: "Show Title",
+                type: "boolean",
+                section: "Style",
+                default: false,
+            },
+            valueTitle: {
+                label: "Title Override",
+                type: "string",
+                section: "Style",
+                placeholder: "Leave blank for contextual title",
+                hidden: true
+            },
+            valueFormat: {
+                label: "Value Format",
+                type: "string",
+                section: "Style",
+                placeholder: "Spreadsheet style format code"
+            },
+
+            text_spacing: {
+                label: "Font Settings",
+                type: "string",
+                section: "Font",
+                display: "radio",
                 values: [
-                    {"Large": "large"},
-                    {"Medium": "medium"},
-                    {"Small": "small"}
+                    {"Dynamic font based on element space": "Dynamic_size"},
+                    {"Word Break on text overflow": "word_break"},
                 ],
-                default: "large",
+                default: "word_break"
             }
     },
 
@@ -94,22 +105,22 @@ console.log('details', details);
 /*********************************************************************************************************************************
     * Setting up the Configuration Settings
 *********************************************************************************************************************************/
-console.log('showComparison data', config.showComparison);
+console.log('showTitle data', config.showTitle);
 
 
             /*/ Onto building the settings of the visualization /*/
 console.log('Pulling out the options object itself', this.options);
 
-if(config.showComparison == false) { // If it's set to false, update the settings and rerender the settings
-    if(this.options.zmaxValue.hidden == true) {
-        this.options.zmaxValue.hidden = false // Show the value
-        this.trigger('registerOptions', this.options)
+if(config.showTitle == false) { // If they want to hide the title
+    if(this.options.valueTitle.hidden == false) { // Check if it's not hidden
+        this.options.valueTitle.hidden = true // Then set it to hidden
+        this.trigger('registerOptions', this.options) // send the updated settings to the system
     }
 }
 
-if(config.showComparison == true) { // If it's set to true, update the settings and rerender the settings
-    if(this.options.zmaxValue.hidden == false) { 
-        this.options.zmaxValue.hidden = true // Hide the value
+if(config.showTitle == true) { // Touche vice versa ~ ;p
+    if(this.options.valueTitle.hidden == true) { 
+        this.options.valueTitle.hidden = false 
         this.trigger('registerOptions', this.options);
     }
 }
