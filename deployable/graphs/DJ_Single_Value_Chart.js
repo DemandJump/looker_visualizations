@@ -120,6 +120,7 @@ console.log('details', details);
 
         /*/ Here's where we instantiate all the variables /*/
     let value = queryResponse.fields.measures[0].value
+    console.log('This is the value', value)
 
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
