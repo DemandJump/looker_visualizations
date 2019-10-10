@@ -1,12 +1,6 @@
 looker.plugins.visualizations.add({
     options: {
-            Zcolor: {
-                label: "Value Color",
-                type: "string",
-                section: "Style",
-                display: "color",
-                default: "#3A4245"
-            },
+
             showTitle: {
                 label: "Show Title",
                 type: "boolean",
@@ -37,6 +31,13 @@ looker.plugins.visualizations.add({
                     {"Word Break on text overflow": "word_break"},
                 ],
                 default: "word_break"
+            },
+            color: {
+                label: "Value Color",
+                type: "string",
+                section: "Style",
+                display: "color",
+                default: "#3A4245"
             }
     },
 
