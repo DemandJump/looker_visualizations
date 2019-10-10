@@ -28,7 +28,7 @@ looker.plugins.visualizations.add({
             },
 
             text_spacing: {
-                label: "Font Settings",
+                label: "Dynamic font types. Change the styling to fit your needs",
                 type: "string",
                 section: "Font",
                 display: "radio",
@@ -46,7 +46,22 @@ create: function(element, config) {
     this._counter = 0;
 
         // Insert a <style> tag with some styles we'll use later.
-    element.innerHTML = ``;
+    element.innerHTML = `
+    .container {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        text-align: center;
+        width: ${element.clientWidth};
+        height: ${element.clientHeight};
+    }
+
+    .value {
+        font-family: Roboto;
+        width: auto;
+        height: auto;
+    }
+    `;
 
 
 
@@ -99,12 +114,19 @@ console.log('details', details);
     console.log('This is the config itself', config);
 
     console.log('This is looker charts Utils', LookerCharts);
-/****************************************************************************************************************************
-                                                                                        * End of Dimension Initialization
-****************************************************************************************************************************/    
-/*********************************************************************************************************************************
+
+
+        /*/ Here's where we instantiate all the variables /*/
+    let value = queryResponse.fields.measures[0].value
+
+/*********************************************************************************************************************
+                                                                                * End of Dimension Initialization
+*********************************************************************************************************************/    
+/**************************************************************************************************************************
     * Setting up the Configuration Settings
-*********************************************************************************************************************************/
+**************************************************************************************************************************/
+
+
 console.log('showTitle data', config.showTitle);
 
 
@@ -126,9 +148,276 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
 }
 
 
+/**************************************************************************************************************************
+                                                                                    * End of the Configuration Settings
+**************************************************************************************************************************/
+
+/*********************************************************************************************************
+    * Instatiation and Functions
+*********************************************************************************************************/
+
+    /*/ Instantiate the value /*/
+container = this._container.append('div')
+    .attr('class', 'value')
+    .html(value);
 
 
 
+
+
+
+    
+
+function valueFormat(format, string) {
+    stringRes = string
+    let tf = false
+
+
+        /***** If it's just 0: To remove all periods and decimals *****/
+    if(format == '0') {
+            // Pull out all the decimals and commas out of the string ~
+        stringRes = stringRes.replace(".", "")
+        stringRes = stringRes.replace(",", "")
+    }
+
+
+        /***** If it's all 0s and the last is a hash: Zero padded to however many places they instructed *****/
+    if (format[format.length - 1] == '#') { tf = true }
+    for(i = 0; i < format.length - 1; i++) {
+        if (format[i] != '0') { 
+            tf = false
+            break 
+        }
+    }
+    if (tf == true) {   // Create the Zero padded data 
+        let strLength = stringRes.length
+        let formatLength = format.length // number of 0's (exclude the hash)
+
+        if (strLength > formatLength) { return stringRes }
+        else if (stringLength < formatLength) {
+                // Find the difference in chararcters, then add that many 0's with a for loop 
+            let difference = formatLength - stringLength
+            for(i = 0; i < difference; i++) {
+                stringRes = '0' + stringRes
+            }
+            return stringRes
+        }
+
+    }
+
+
+        /***** If it's 0 "String": Integer followed by a string (Let's do before or after) *****/
+    let iterationLog
+    let charAfterFirstQuote
+    let tf = false
+    if (format.includes('"')) { // Looks if it's including quotes > Couls be "String" or "K" or "M"
+            // Now find the first quote to see what's inside ~
+        for(i = 0; i < format.length; i++) {
+            if (format[i] == '"') {
+                charAfterFirstQuote = i + 1 // The iteration after the first quote
+                break
+            }
+        }
+
+
+            // Now we have the first quote's iteration, let's see what's in the quotes to choose the different return for the function
+        if (format.includes('"', charAfterFirstQuote)) { // If it includes double quote then run the rest of this, otherwise it's an error!
+                /**** This is the 0.000,, "M" format ****/
+            if (format[charAfterFirstQuote] == 'M' && format[charAfterFirstQuote + 1] == '"') {   // Check it it's m ending quote: if(">M && M>")
+            
+                for(i = 0; i < format.length; i++) { // Check if it has two commas!
+                    if (format[i] == ',') { // If they found a comma
+                        if (format[i + 1] == ',') { // They found a comma after the comma
+                            tf = true // This is setting it to 1.000 M reference and lets end the loop and start that functionality
+                            break
+                        }
+                    }
+                    if(i == format.length - 1) { // Clause for if you go through the entire loop without finding a comma
+                        this.addError({title: "No commas", message: "You must include two commas after the desired number of decimal places."})
+                        return
+                    }
+                }
+
+                    // If tf is true right now, then format it to M, else we'll check if it's "K" format
+                if (tf) { // Take in stringRes, find the iteration the . is on, then pull in all the 0's after the decimal(up to 6) and return this new string
+                    if ( !(format.includes('.')) ) { // If there is no period, then throw an error clause
+                        this.addError({title: "No decimal", message: "You must include a period to denote how many decimal places you want."})
+                        return
+                    } else { // If it includes all the proper things for this format
+                        let decimalAmount = 0 // Stores how many decimal places the user desired
+                        let finStr = ''
+                        for(i = 0; i < format.length; i++) { // Find the decimal point
+                            if (format[i] == '.') {
+                                iterationLog = i + 1 // Log the iteration afte the decimal point
+                                break
+                            }
+                        }
+                        for(i = iterationLog; i < format.length; i++) { // Starting from right after the decimal point, count the 0s there are until another character is present
+                            if (format[i] != '0') { break }
+                            decimalAmount ++
+                        }
+                            // Now we know how many decimal places they want, change the string to setup the proper '1.234 M' value format 
+                        // So we take the first number, add a decimal after it, and then keep any extra numbers past the desired decimal amount 
+                            // Strip out all the periods and decimals before we rework it
+                        stringRes = string.replace(".", "")
+                        stringRes = stringRes.replace(",", "")
+
+                            // Use substr to build this jazz right
+                        finStr = stringRes.substr(0, 1)
+                        if (decimalAmount != 0) { finStr = finStr + '.' } // If there are decimal places, add a decimal point
+                        finStr = finStr + stringRes.substr(1, decimalAmount) // Add the rest of the decimalAmount after the decimal point(will add nothing if no decimal amount)
+                        return finStr + ' M'
+                    }
+                // If it didn't include a period looker gave an error notifying, otherwise it built the 0.000 "M" Format for the user to use 
+                } // This checked it it's "M" format contianed a double comma   
+            } // End of ~ 0.000,, "M" ~ format
+
+
+                /**** This is the 0.000, "K" format ****/
+            tf = false // Reset tf for precautions, then check in this statement (to use it safely)
+            if (format[charAfterFirstQuote] == "K" && format[charAfterFirstQuote + 1] == '"') { // Check it it's m with two commas: if(">K && K>")
+                if ( !(format.includes(',')) ) { // If there is no comma, then throw an error clause
+                    this.addError({title: "No comma", message: "You must include a comma after your desired amount of decimal places."})
+                    return
+                } else if ( !(format.includes('.')) ) { // If there is no period, then throw an error clause
+                    this.addError({title: "No decimal", message: "You must include a period to denote how many decimal places you want."})
+                    return
+                } else { tf = true }
+
+                if (tf) { // Build the final string return
+                    let decimalAmount = 0
+                    let finStr = ''
+                        // This is adding the same code pieces, I know that's bad my bad guys!
+                    for(i = 0; i < format.length; i++) { // Find the decimal point
+                        if (format[i] == '.') {
+                            iterationLog = i + 1
+                            break
+                        }
+                    }
+                    for(i = iterationLog; i < format.length; i++) { // Count how many decimals they want after the decimal point
+                        if (format[i] != '0') { break }
+                        decimalAmount ++
+                    }
+
+                        // Rebuild the desired string return
+                    stringRes = string.replace(".", "")
+                    stringRes = stringRes.replace(",", "")
+
+                        // Use substr to build the jazz properly (^:;
+                    finStr = stringRes.substr(0, 1)
+                    if (decimalAmount != 0) { finStr = finStr + '.' }
+                    finStr = finStr + stringRes.substr(1, decimalAmount)
+                    return finStr + ' K'
+                } // If it passed all the built error clauses
+            } // End of ~ 0.000, "K" ~ format
+
+                // Error if commas outside of quotes, pass string in after value
+            else {
+                    // Pull out the string value that's in the value format
+                let quote = ''
+                let secondQuote = 0 // Find the second quote
+                for(i = charAfterFirstQuote; i < format.length; i++) {
+                    if (format[i] == '"') { 
+                        secondQuote = i
+                        break 
+                    }
+                    quote = quote + format[i] // Add the string into a var to be added to the value 
+                }
+
+                    // look for numbers before and after the quote
+                before = false
+                after = false
+                for(i = 0; i < charAfterFirstQuote - 1; i++) { // if STRING is After the quotes
+                    if (format[i] == '0') {
+                        after = true
+                        break
+                    }
+                }
+                for(i = secondQuote + 1; i < format.length; i++) { // If STRING is Before the quotes
+                    if (format[i] == '0') {
+                        before = true
+                        break
+                    }
+                }
+                
+                    // Now if it's before put text before, if after put text after, if both are true throw an error
+                if(before == true && after == true) {
+                    this.addError({title: "Value before and after", message: "Put your quotes before or after the string, not both."})
+                    return 
+                }
+                    // Calculate the final return for the value
+                if(before) {
+                    stringRes = quote + ' ' + string 
+                    return stringRes
+                }
+                if(after) {
+                    stringRes = string + ' ' + quote
+                    return stringRes
+                }       
+            } // End of string calculation to the value
+
+        } else { // If they don't have two double quotes in their response then it will throw this error
+            this.addError({title: "No enclosing double quotes", message: "If you're formatting a string, or for number in M or K, then have enclosing quotes to denote which of these you're formatting."})
+            return
+        }
+    }    /**///* Ends of the  :: '0 "String"' : '0.000,, "M"' : '0.000, "K"' :: formats and checked for some formatting errors for each *///**/
+
+
+        /***** If it's 0.## formatting *****/ // This is for formatting values that have decimals, so the string will have decimals built in ~
+    tf = false // To be safe, reset tf to false 
+    hashCount = 0
+    if (format[format.length - 1]== "#") { // Ends in a hash
+        if (format[0] == '0') { // If it starts with 0
+            if (format[1] == '.') { // The followed by a period
+                tf = true // Set to true, and will be falsed if it's not formatted correctly for this value format type
+                for(i = 2; i < format.length; i++) {
+                    if (format[i] != '#') {  // Break and null the calculation return(using tf) if they aren't properly formatting it
+                        tf = false 
+                        break 
+                    }
+                    hashCount ++
+                }
+            }
+        }
+    }
+
+        // If it's true, calculate like so, if not then continue on through all the different formats we can use
+    if (tf) {
+            // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
+        let decimalPlace = 0
+        stringRes = string
+
+        for(i = 0; i < string.length; i++) { // Find decimal place and store it
+            if (string[i] == '.') { // If the decimal place is found, store it for calculation
+                decimalPlace = i
+                break
+            }
+        }
+
+        // If the string has less decimals points than the desired hash count, then return the value as it is, otherwise find the difference and remove the extra decimal points
+        if (decimalPlace + hashCount > string.length) { // If the hash count is higher than the string length
+            return string
+        } else if (decimalPlace + hashCount < string.length) { // If the has count is less then the string, pull out the extra decimals characters
+            let difference = stringRes.length - decimalPlace - hashCount // How many characters to pull out of the string at the end
+                // Differerence determines how many times we're gonna slice off the final character of the string return
+            for(i = 0; i < difference; i++) { // For however many extra decimal places the string has (difference) we slice off the last char of the value
+                stringRes.slice(0, -1) // This slices off the final value of the stringRes
+            }
+            return stringRes
+        } // End sliced string
+    }
+            
+            /***** End of the  0.## formatting *****/ 
+
+
+
+
+
+} // End of valueFormat Function 
+
+/*********************************************************************************************************
+                                                                    * End ofInstatiation and Functions
+*********************************************************************************************************/
 
 
 
