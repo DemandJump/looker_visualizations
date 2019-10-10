@@ -172,7 +172,7 @@ container = this._container.append('div')
 
 function valueFormat(format, string) {
     stringRes = string
-    tf = false
+    let tf = false
 
 
         /***** If it's just 0: To remove all periods and decimals *****/
@@ -211,7 +211,7 @@ function valueFormat(format, string) {
         /***** If it's 0 "String": Integer followed by a string (Let's do before or after) *****/
     let iterationLog
     let charAfterFirstQuote
-    let tf = false
+    tf = false
     if (format.includes('"')) { // Looks if it's including quotes > Couls be "String" or "K" or "M"
             // Now find the first quote to see what's inside ~
         for(i = 0; i < format.length; i++) {
