@@ -1,6 +1,6 @@
 looker.plugins.visualizations.add({
     options: {
-            color: {
+            Zcolor: {
                 label: "Value Color",
                 type: "string",
                 section: "Style",
