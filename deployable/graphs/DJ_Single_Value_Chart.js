@@ -170,7 +170,7 @@ container = this._container.append('div')
 
 function valueFormat(format, string) {
     stringRes = string
-    let tf = false
+    tf = false
 
 
         /***** If it's just 0: To remove all periods and decimals *****/
