@@ -66,6 +66,9 @@ h3 {
 
 cite {
   border-radius: 3px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
   border: 1px solid #006621;
 }
 
@@ -367,7 +370,7 @@ function update() {
                   .attr('width', '20px')
                   .attr('height' , '11px')
                   .style('display','inline-block')
-                  .style('font-size', '12px')
+                  .style('font-size', '11px')
                   .style('line-height', '11px')
                   .style('text-decoration', 'none solid rgb(0, 102, 33)')
                   .style('text-align', 'left')
