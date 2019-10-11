@@ -344,16 +344,15 @@ if(config.Deploy_Vis == "off") {
 ******************************************************************************************************************************************/
 console.log('config switch', config.switch);
 if (config.switch.value == true) {
-  update();
-} else { organic(); }
+    this._container.selectAll("*").remove(); // Clear out all the data upon startup! 
+    update();
+} else { 
+    this._container.selectAll("*").remove(); // Clear out all the data upon startup! 
+    organic(); 
+}
 
-let visClear = this._container
 
 function update() {
-        // Clear out all the data upon startup! 
-    visClear.selectAll("*").remove();
-
-
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight;
 
@@ -444,10 +443,6 @@ function update() {
 
 
 function organic() {
-      // Clear out all the data upon startup! 
-  visClear.selectAll("*").remove();
-
-
   let width = element.clientWidth, // Dimensions w & h
   height = element.clientHeight;
 
