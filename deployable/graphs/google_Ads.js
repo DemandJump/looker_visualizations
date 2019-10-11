@@ -347,10 +347,11 @@ if (config.switch.value == true) {
   update();
 } else { organic(); }
 
+let visualization = this._container
 
 function update() {
         // Clear out all the data upon startup! 
-    this._container.selectAll("*").remove();
+    visualization.selectAll("*").remove();
 
 
     let width = element.clientWidth, // Dimensions w & h
@@ -444,7 +445,7 @@ function update() {
 
 function organic() {
       // Clear out all the data upon startup! 
-  this._container.selectAll("*").remove();
+  visualization.selectAll("*").remove();
 
 
   let width = element.clientWidth, // Dimensions w & h
