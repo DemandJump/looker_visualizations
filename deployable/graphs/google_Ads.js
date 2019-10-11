@@ -66,10 +66,7 @@ h3 {
 
 cite {
   border-radius: 3px;
-  font-style: normal;
-  font-weight: normal;
   border: 1px solid #006621;
-  overflow-wrap: none !important;
 }
 
 .container {
@@ -367,8 +364,8 @@ function update() {
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
-                  .attr('width', '40px')
-                  .attr('height' , '24px')
+                  .attr('width', '20px')
+                  .attr('height' , '11px')
                   .style('display','inline-block')
                   .style('font-size', '12px')
                   .style('line-height', '11px')
