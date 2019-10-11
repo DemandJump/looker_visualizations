@@ -232,7 +232,7 @@ console.log('details', details);
             }
             dimension_options["switch"] = 
             {
-                label: 'Organic or Paid',
+                label: 'Organic or Paid Ad Visual',
                 type: 'boolean', 
                 section: 'Components',
                 default: true
@@ -343,7 +343,7 @@ if(config.Deploy_Vis == "off") {
     * Main Functionalty
 ******************************************************************************************************************************************/
 console.log('config switch', config.switch);
-if (config.switch.value == true) {
+if (config.switch == false) {
     this._container.selectAll("*").remove(); // Clear out all the data upon startup! 
     update();
 } else { 
