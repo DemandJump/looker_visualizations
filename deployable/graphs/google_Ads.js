@@ -347,7 +347,8 @@ visdata.forEach(ad => {
     delete ad[description]
 })
 
-if (config.switch == true) {
+console.log('config switch', config.switch);
+if (config.switch.value == true) {
   update();
 } else { organic(); }
 
