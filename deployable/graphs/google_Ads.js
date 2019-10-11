@@ -227,7 +227,8 @@ console.log('details', details);
                     {"Turn the visualization on": "on"},
                     {"Turn the visualization off": "off"}
                 ],
-                default: "off"
+                default: "off",
+                hidden: true
             }
         }
 
@@ -321,6 +322,20 @@ if(config.Deploy_Vis == "off") {
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
+visdata.forEach(ad => {
+  // console.log('ad', ad);
+    ad.link = ad[link].value
+    ad.domain = ad[domain].value
+    ad.label = ad[label].value
+    ad.description = ad[description].value
+    delete ad[link]
+    delete ad[domain]
+    delete ad[label]
+    delete ad[description]
+})
+update();
+
+
 function update() {
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight;
