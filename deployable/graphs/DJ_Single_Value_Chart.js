@@ -995,17 +995,21 @@ function valueFormat(format, string) {
 
             // Find the first 2 decimal places, then return those with a percent 
         stringRes = string
-        let decimalPull = 0
+        let decimalPull = ''
         for(i = 0; i < stringRes.length; i++) {
             if(stringRes[i] == '.') { 
-                decimalPull = stringRes[i + 1]
                 let counter = 2
-                for(j = i; j < stringRes.length; i++)
+                for(j = i; j < stringRes.length; i++) {
+                    if (counter != 0) {
+                      decimalPull = decimalPull + stringRes[j] 
+                      counter --
+                    }
+                }
                 break
             }
         }
         return decimalPull + '%'
-    }
+    } // End of the 0%
 
         /***** End of the  0% formatting! *****/
 
@@ -1022,12 +1026,31 @@ function valueFormat(format, string) {
             // Now we're taking in the first 4 values after the period
         stringRes = string
         let decimalPull = 0
+        let decimalPlace = -1
+        let beforeDecimal = ''
         for(i = 0; i < stringRes.length; i++) {
-            if(stringRes[i] == '.') {
-              decimalPull = stringRes[]
+            if (stringRes[i] == '.') {
+                decimalPlace = i
+                let counter = 4
+                for(j = i; j < stringRes.length; i++) {
+                    if (counter != 0) {
+                        decimalPull = decimalPull + stringRes[j] 
+                        if (counter == 3) { // If we have put in two numbers already, run this
+                            decimalPull = decimalPull + '.'
+                        }
+                        counter --
+                    }
+                }
+                break
+            }
+            if (decimalPlace == -1) { // While we haven't found the string yet, grab the whole numbers! :p
+                beforeDecimal = beforeDecimal + stringRes[i]
             }
         }
-    }
+
+            // Now we've calculated the numbers before the decimal, and pulled in the last 4 numbers including the decimal place, put em together, slap on a percent and run it
+        return beforeDecimal + decimalPull + '%'
+    } // End of the 0.00%
 
 
 
