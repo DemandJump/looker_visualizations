@@ -382,7 +382,7 @@ function update() {
               .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
                   .attr('width', '20px')
-                  .attr('height' , '11px')
+                  .attr('height' , '10px')
                   .style('display','inline-block')
                   .style('font-size', '11px')
                   .style('line-height', '11px')
