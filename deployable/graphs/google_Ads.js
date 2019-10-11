@@ -67,7 +67,6 @@ h3 {
 cite {
   border-radius: 3px;
   font-style: normal;
-  font-weight: normal;
   font-size: 11px;
   border: 1px solid #006621;
 }
