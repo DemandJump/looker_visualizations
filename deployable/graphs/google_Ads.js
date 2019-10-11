@@ -234,6 +234,7 @@ console.log('details', details);
             {
                 label: 'Organic or Paid',
                 type: 'boolean', 
+                section: 'Components',
                 default: false
             }
         }
