@@ -368,7 +368,7 @@ function update() {
               .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
                   .attr('width', '28px')
-                  .attr('height' , '11px')
+                  .attr('height' , '13px')
                   .style('display','inline-block')
                   .style('font-size', '12px')
                   .style('line-height', '11px')
