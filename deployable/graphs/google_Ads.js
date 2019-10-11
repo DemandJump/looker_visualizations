@@ -283,6 +283,10 @@ console.log('details', details);
 /****************************************************************
         * Update the Options
 ****************************************************************/
+    // Clear out all the data upon startup! 
+this._container.selectAll("*").remove();
+
+
 let visdata = data, // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
 link = config.link,
 domain = config.domain,
@@ -392,7 +396,7 @@ function update() {
                   .style('word-spacing', '0px')
                   .style('border', '1px solid #06621 !important')
                   .style('margin', '0 7px 0 0')
-                  .style('padding', '1px 3px 0 2px')
+                  .style('padding', '0px 2px 1px 2px')
                   .html('Ad')
                 
                       // This is the domain link
