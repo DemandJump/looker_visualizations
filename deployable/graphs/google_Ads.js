@@ -396,7 +396,7 @@ function update() {
                   .style('word-spacing', '0px')
                   .style('border', '1px solid #06621 !important')
                   .style('margin', '0 7px 0 0')
-                  .style('padding', '0px 2px 1px 2px')
+                  .style('padding', '0px 2px 1px 3px')
                   .html('Ad')
                 
                       // This is the domain link
