@@ -235,7 +235,7 @@ console.log('details', details);
                 label: 'Organic or Paid',
                 type: 'boolean', 
                 section: 'Components',
-                default: false
+                default: true
             }
         }
 
@@ -347,7 +347,7 @@ visdata.forEach(ad => {
     delete ad[description]
 })
 
-if (config.switch == false) {
+if (config.switch == true) {
   update();
 } else { organic(); }
 
