@@ -367,8 +367,8 @@ function update() {
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
-                  .attr('width', '28px')
-                  .attr('height' , '13px')
+                  .attr('width', '40px')
+                  .attr('height' , '24px')
                   .style('display','inline-block')
                   .style('font-size', '12px')
                   .style('line-height', '11px')
