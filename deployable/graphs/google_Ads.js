@@ -69,6 +69,7 @@ cite {
   font-style: normal;
   font-weight: normal;
   border: 1px solid #006621;
+  overflow-wrap: none;
 }
 
 .container {
