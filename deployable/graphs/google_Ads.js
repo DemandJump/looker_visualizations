@@ -303,10 +303,6 @@ console.log('details', details);
 /****************************************************************
         * Update the Options
 ****************************************************************/
-    // Clear out all the data upon startup! 
-this._container.selectAll("*").remove();
-
-
 let visdata = data, // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
 link = config.link,
 domain = config.domain,
@@ -353,6 +349,10 @@ if (config.switch.value == true) {
 
 
 function update() {
+        // Clear out all the data upon startup! 
+    this._container.selectAll("*").remove();
+
+
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight;
 
@@ -443,6 +443,10 @@ function update() {
 
 
 function organic() {
+      // Clear out all the data upon startup! 
+  this._container.selectAll("*").remove();
+
+
   let width = element.clientWidth, // Dimensions w & h
   height = element.clientHeight;
 
