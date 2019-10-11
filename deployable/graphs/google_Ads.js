@@ -230,6 +230,12 @@ console.log('details', details);
                 default: "off",
                 hidden: true
             }
+            dimension_options["switch"] = 
+            {
+                label: 'Organic or Paid',
+                type: 'boolean', 
+                default: false
+            }
         }
 
         dimension_options[field] = 
@@ -339,7 +345,10 @@ visdata.forEach(ad => {
     delete ad[label]
     delete ad[description]
 })
-update();
+
+if (config.switch == false) {
+  update();
+} else { organic(); }
 
 
 function update() {
@@ -385,21 +394,21 @@ function update() {
             .attr('width', 'auto')
       
                   // This is the icon for the ad
-              // .select(function() { return this.parentNode; }).append('cite')
-              //     .attr('class', 'icon')
-              //     .attr('width', '20px')
-              //     .attr('height' , '10px')
-              //     .style('display','inline-block')
-              //     .style('font-size', '11px')
-              //     .style('line-height', '11px')
-              //     .style('text-decoration', 'none solid rgb(0, 102, 33)')
-              //     .style('text-align', 'left')
-              //     .style('white-spacing', 'nowrap')
-              //     .style('word-spacing', '0px')
-              //     .style('border', '1px solid #06621 !important')
-              //     .style('margin', '0 7px 0 0')
-              //     .style('padding', '0px 2px 1px 3px')
-              //     .html('Ad')
+              .select(function() { return this.parentNode; }).append('cite')
+                  .attr('class', 'icon')
+                  .attr('width', '20px')
+                  .attr('height' , '10px')
+                  .style('display','inline-block')
+                  .style('font-size', '11px')
+                  .style('line-height', '11px')
+                  .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                  .style('text-align', 'left')
+                  .style('white-spacing', 'nowrap')
+                  .style('word-spacing', '0px')
+                  .style('border', '1px solid #06621 !important')
+                  .style('margin', '0 7px 0 0')
+                  .style('padding', '0px 2px 1px 3px')
+                  .html('Ad')
                 
                       // This is the domain link
                   .select(function() { return this.parentNode; }).append('div')
@@ -428,10 +437,80 @@ function update() {
                           .style('overflow-wrap', 'break-word')
                           .html(d => d.description)
 
-
-
-
     ads.exit().remove();
+}
+
+
+function organic() {
+  let width = element.clientWidth, // Dimensions w & h
+  height = element.clientHeight;
+
+  console.log('\nThis is the update function!')
+  console.log('This is the augmented data for the visualization', visdata)
+
+
+  let container = d3.select('.container').append('div')
+      .attr('width', width)
+      .attr('height', height);
+  
+  let adEnter = container.selectAll('.ad')
+      .data(visdata, d => d.id);
+
+      // This is the class that holds the ad, 
+  let ads = adEnter.enter().append('div')
+      .attr('class', 'ad')
+      .attr('width', '632px')
+      .attr('height', 'auto')
+      .attr('margin', '1rem 0 0 0')
+      .attr('padding', '0 16px 0 16px');
+
+
+      // This is the Title, or the Label
+  ads.append('h3')
+      .attr('class', 'label')
+      .attr('display', 'block')
+      .attr('font-size', '20px')
+      .attr('line-height', '20px')
+      .attr('text-align', 'left')
+      .attr('word-spacing', '0px')
+      .attr('color', '#1A0DAB')
+      .html(d => `<a href="${d.link}">`+ d.label +'</a>')
+
+      //   // This is the Ad icon to the left of the domain link.
+      .select(function() { return this.parentNode; }).append('div')
+          .attr('class', 'link-section')
+          .attr('text-align', 'left')
+          .attr('height', '24px')
+          .attr('width', 'auto')
+              
+                    // This is the domain link
+                .select(function() { return this.parentNode; }).append('div')
+                    .attr('class', 'domain')
+                    .attr('height', '24px')
+                    .style('display', 'inline-block')
+                    .style('font-size', '16px')
+                    .style('text-align', 'left')
+                    .style('vertical-align', 'bottom')
+                    // .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                    .style('color', '#006621')
+                    .html(d => d.domain)
+  
+                        // This is the description
+                    .select(function() { return this.parentNode; }).append('div')
+                        .attr('class', 'description')
+                        .attr('width', '600px')
+                        .attr('height', '66px')
+                        .style('display', 'block')
+                        .style('font-size', '14px')
+                        .style('line-height', '22px')
+                        // .style('text-decoration', 'none solid rgb(84, 84, 84)')
+                        .style('text-align', 'left')
+                        .style('color', '#545454')
+                        .style('overflow', 'hidden')
+                        .style('overflow-wrap', 'break-word')
+                        .html(d => d.description)
+
+  ads.exit().remove();
 }
 /******************************************************************************************************************************************
                                                                                                                 * End of Main Functionalty
