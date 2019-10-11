@@ -236,6 +236,7 @@ console.log('details', details);
         {
             label: adLabels[adIteration],
             type: 'string',
+            section: 'Components'
             values: [],
             display: 'select'
         }
@@ -267,7 +268,8 @@ console.log('details', details);
                     {"Domain is the link's domain. It's the homepage of the site and is the ad link's title": "5"},
                     {"Once you've selected which dimensions go where, then turn on the visualization": "6"}
                 ],
-                default: '6'
+                default: '6',
+                hidden: true
             }
         }
     })
