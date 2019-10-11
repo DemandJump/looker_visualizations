@@ -236,7 +236,7 @@ console.log('details', details);
         {
             label: adLabels[adIteration],
             type: 'string',
-            section: 'Components'
+            section: 'Components',
             values: [],
             display: 'select'
         }
