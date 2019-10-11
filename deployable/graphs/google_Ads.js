@@ -245,10 +245,21 @@ console.log('details', details);
             type: 'string',
             section: 'Components',
             values: [],
-            display: 'select'
+            display: 'select',
+            default: 'null'
         }
 
+        let counter = 0
         dimensions.forEach(dimension => {
+            if(counter == 0) {
+                let key = 'None';
+                let valuepair = 'null';
+                let val = {};
+                val[key] = valuepair;
+                dimension_options[field]['values'].push(val);
+                counter++;
+            }
+
             let key = dimension.label_short; // Key of value pair
             let valuepair = dimension.name; // value of value pair
             let val = {} // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
@@ -335,18 +346,6 @@ if(config.Deploy_Vis == "off") {
 /******************************************************************************************************************************************
     * Main Functionalty
 ******************************************************************************************************************************************/
-visdata.forEach(ad => {
-  // console.log('ad', ad);
-    ad.link = ad[link].value
-    ad.domain = ad[domain].value
-    ad.label = ad[label].value
-    ad.description = ad[description].value
-    delete ad[link]
-    delete ad[domain]
-    delete ad[label]
-    delete ad[description]
-})
-
 console.log('config switch', config.switch);
 if (config.switch.value == true) {
   update();
