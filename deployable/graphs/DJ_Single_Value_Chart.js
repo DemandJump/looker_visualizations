@@ -172,6 +172,9 @@ container = this._container.append('div')
 
     
 
+
+    
+
 function valueFormat(format, string) {
     stringRes = string
     let tf = false
@@ -1053,14 +1056,7 @@ function valueFormat(format, string) {
     } // End of the 0.00%
 
 
-
-
-} // End of valueFormat Function 
-
-
-
-
-
+} // End of valueFormat Function // 
 
 
     // Some kickbutt functions to use (I really should probably use more functions throughout this, but oh well (^:;

@@ -185,7 +185,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     * Initialization / Setup
 ******************************************************************************************************************************************/
     let adPieces = ['link', 'domain', 'label', 'description'],
-    adLabels = ['Choose the link dimension', 'Choose the domain dimension', 'Choose the label dimension', 'Choose the description dimension'],
+    adLabels = ['Choose the Final URL dimension', 'Choose the Display URL dimension', 'Choose the Headline dimension', 'Choose the Description dimension'],
     adIteration = 0, 
     dimension_names = [],
     dimension_options = {},
