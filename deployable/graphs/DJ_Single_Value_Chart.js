@@ -896,11 +896,43 @@ function formatValue(formatData, string) {
                         // Rebuild the desired string return
                    stringRes = string.replace(",", "")
 
-                        // Use substr to build the jazz properly (^:;
-                    finStr = stringRes.substr(0, 1)
-                    if (decimalAmount != 0) { finStr = finStr + '.' }
-                    finStr = finStr + stringRes.substr(1, decimalAmount)
-                    return finStr + ' K'
+                    //     // Use substr to build the jazz properly (^:;
+                    // finStr = stringRes.substr(0, 1)
+                    // if (decimalAmount != 0) { finStr = finStr + '.' }
+                    // finStr = finStr + stringRes.substr(1, decimalAmount)
+                    // return finStr + ' K'
+
+                    console.log('This is the current String Response', stringRes)
+                    console.log('This is the decimal amount', decimalAmount)
+                    let thouDiv = stringRes / 1000;
+                    console.log('mil Division (thouDiv):', thouDiv)
+
+                    let decimalPoint = -1 // This is thouDiv's decimal point
+                    let stringDecimal = '' // This logs all the values after the decimal point
+                    let strBeforeDecimal = '' // This logs all before (1)
+                    for(i = 0; i < thouDiv.length; i++) {
+                        if (decimalPoint != -1) { stringDecimal = stringDecimal + thouDiv[i] }
+                        if (thouDiv[i] == '.') { decimalPoint = i }
+                        if (decimalPoint == -1) { strBeforeDecimal = strBeforeDecimal + thouDiv[i] }
+                    }
+                    console.log('This is the decimal point for thouDiv for loop calculations', decimalPoint)
+
+                    console.log('These are the values before the decimal', strBeforeDecimal)
+                    console.log('These are the values after the decimal point', stringDecimal)
+
+                        // Then check and see if the length is more or less than the desired amount
+                    if (stringDecimal.length < decimalAmount) { // Add 0's based on missing vars
+                        let difference = decimalAmount - stringDecimal.length
+                        for(i = 0; i < difference; i++) { stringDecimal = stringDecimal + '0' }
+                    }
+                    if (stringDecimal.length > decimalAmount) { // Chop off all the extra vars!
+                        let difference = stringDecimal.length - decimalAmount
+                        for(i = 0; i < difference; i++) { stringDecimal = stringDecimal.slice(0, -1) }
+                    }
+                        
+                    return strBeforeDecimal + '.' + stringDecimal + " K"
+
+
                 } // If it passed all the built error clauses
             } // End of ~ 0.000, "K" ~ format 
 
