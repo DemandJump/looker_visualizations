@@ -47,7 +47,6 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-    /*
     <style>
     .container1 {
         margin: 0;
@@ -67,6 +66,7 @@ create: function(element, config) {
         width: auto;
         height: auto;
     }
+    
     .title1 { 
         display: block;
         text-align: center;
@@ -74,9 +74,7 @@ create: function(element, config) {
         width: auto;
         height: auto;
     }
-
     </style>
-    */
     `;
 
 
