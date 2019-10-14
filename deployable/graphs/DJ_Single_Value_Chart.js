@@ -80,13 +80,14 @@ create: function(element, config) {
     element.innerHTML = `
       <style>
       .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        display: inline-block;
+        position: relative;
       }
 
       .value {
-        display: flex;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
         font-size: 1.6rem;
       }
       </style>
