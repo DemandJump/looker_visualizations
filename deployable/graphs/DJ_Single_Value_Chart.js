@@ -288,7 +288,7 @@ function formatValue(formatData, string) {
         // This is for if there are decimal values.. we should plan for even positive numbers 
 
         if ( !(string.includes('.')) ) {
-          this.addError({title: "Not a decimal value", message: "This format is for decimal values up to two places to convert as a percent."})
+          this.this.addError({title: "Not a decimal value", message: "This format is for decimal values up to two places to convert as a percent."})
           return
         }
 
@@ -317,40 +317,42 @@ function formatValue(formatData, string) {
         /***** This is the  0.00% formatting! *****/
 
     if (format == '0.00%') {
+        tf = true
       
-        if ( !(string.includes('.')) ) {
-            this.this.addError({title: "Not a decimal value", message: "This format is for decimal values up to two palces to convert as a percent."})
-            return
-        }
+        if ( !(string.includes('.')) ) { // Continue to the next iteration if it's not a
+            tf = false 
+        } 
 
-        console.log('This is the 0.00% format!');    
-            // Now we're taking in the first 4 values after the period
-        stringRes = string
-        let decimalPull = 0
-        let decimalPlace = -1
-        let beforeDecimal = ''
-        for(i = 0; i < stringRes.length; i++) {
-            if (stringRes[i] == '.') {
-                decimalPlace = i
-                let counter = 4
-                for(j = i; j < stringRes.length; i++) {
-                    if (counter != 0) {
-                        decimalPull = decimalPull + stringRes[j] 
-                        if (counter == 3) { // If we have put in two numbers already, run this
-                            decimalPull = decimalPull + '.'
+        if (tf) {
+            console.log('This is the 0.00% format!');    
+              // Now we're taking in the first 4 values after the period
+            stringRes = string
+            let decimalPull = 0
+            let decimalPlace = -1
+            let beforeDecimal = ''
+            for(i = 0; i < stringRes.length; i++) {
+                if (stringRes[i] == '.') {
+                    decimalPlace = i
+                    let counter = 4
+                    for(j = i; j < stringRes.length; i++) {
+                        if (counter != 0) {
+                            decimalPull = decimalPull + stringRes[j] 
+                            if (counter == 3) { // If we have put in two numbers already, run this
+                                decimalPull = decimalPull + '.'
+                            }
+                            counter --
                         }
-                        counter --
                     }
+                    break
                 }
-                break
+                if (decimalPlace == -1) { // While we haven't found the string yet, grab the whole numbers! :p
+                    beforeDecimal = beforeDecimal + stringRes[i]
+                }
             }
-            if (decimalPlace == -1) { // While we haven't found the string yet, grab the whole numbers! :p
-                beforeDecimal = beforeDecimal + stringRes[i]
-            }
-        }
 
-            // Now we've calculated the numbers before the decimal, and pulled in the last 4 numbers including the decimal place, put em together, slap on a percent and run it
-        return beforeDecimal + decimalPull + '%'
+                // Now we've calculated the numbers before the decimal, and pulled in the last 4 numbers including the decimal place, put em together, slap on a percent and run it
+            return beforeDecimal + decimalPull + '%'
+        }
     } // End of the 0.00%
 
         /***** This is the  0.00% formatting! *****/
