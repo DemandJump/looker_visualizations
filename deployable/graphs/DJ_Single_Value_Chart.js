@@ -49,18 +49,22 @@ create: function(element, config) {
     element.innerHTML = `
     <style>
     .container {
+        /*
         margin: 0;
         padding: 0;
+        */
         display: inline-block;
         text-align: center;
+        /*
         width: ${element.clientWidth};
         height: ${element.clientHeight};
+        */
     }
 
     .value {
         font-family: Roboto;
         text-align:center; 
-
+        display: inline-block;
         margin: auto;
         padding: auto; 
         width: auto;
