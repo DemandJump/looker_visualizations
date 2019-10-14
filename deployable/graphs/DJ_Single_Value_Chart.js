@@ -494,7 +494,7 @@ function formatValue(formatData, string) {
 
             
         for(i = 0; i < format.length; i++) { // Find the decimal, then start adding the format until there's no more 0's
-            if (format[i] == '.') { formatPlace = i } // Find the period 
+            if (format[i] == '.') { formatPlace = i; break } // Find the period 
         }
         for(i = formatPlace + 1; i < format.length; i++) {
             if (format[i] != '0') { break } // If it stopped counting the decimal points stop the loop to not count extra 0's in the formatting
