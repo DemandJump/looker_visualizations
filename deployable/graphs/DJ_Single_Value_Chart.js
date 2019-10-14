@@ -169,12 +169,6 @@ if (config.text_spacing == "ellipsis") {
 }
 
 
-    // This is to add in a format for the value, if the user entered any
-if (config.valueFormat != '') {
-      // Pass in the value and return a new one
-    valueReturn = formatValue(config.valueFormat, value)
-    console.log('This is the returned value from the formatValue function', valueReturn)
-}
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
@@ -182,9 +176,23 @@ if (config.valueFormat != '') {
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
-d3.select('div.value')
-    .style('font-size', '4.5rem')
-    .html(valueReturn);
+
+    // This is to add in a format for the value, if the user entered any
+if (config.valueFormat != '') {
+      // Pass in the value and return a new one
+    valueReturn = formatValue(config.valueFormat, value)
+    console.log('This is the returned value from the formatValue function', valueReturn)
+
+    console.log('This is teh valueReturn passed in', valueReturn)
+    d3.select('div.value')
+        .style('font-size', '4.5rem')
+        .html(valueReturn);
+} else {
+    console.log('This is teh valueReturn passed in', valueReturn)
+    d3.select('div.value')
+        .style('font-size', '4.5rem')
+        .html(valueReturn);
+}
 
 
     
@@ -202,7 +210,7 @@ function titleOverride(title) {
 
 function formatValue(format, string) {
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
-    console.log('format', format)
+    console.log('\nformat', format)
     console.log('string', string)
     format = format.toString() 
     stringRes = string
