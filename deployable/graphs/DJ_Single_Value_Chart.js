@@ -127,14 +127,12 @@ console.log('details', details);
 
 
         /*/ Here's where we instantiate all the variables /*/
-    let value = queryResponse.fields.measures[0].value_format
-    console.log(queryResponse.fields.measures[0])
+    let value = queryResponse.fields.measures[0].name // This is the name of the value, used to pull out the count from the data
     console.log('This is the value', value)
-    console.log('This is the data', data)
 
 
     console.log("This is the value format's value.", config.valueFormat)
-    console.log("This is the value that was given",)
+    console.log("This is the value that was given", data[value])
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
