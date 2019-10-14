@@ -30,7 +30,7 @@ looker.plugins.visualizations.add({
             text_spacing: {
                 label: "Dynamic font types. Change the styling to fit your needs",
                 type: "string",
-                section: "Font",
+                section: "Word Spacing",
                 display: "radio",
                 values: [
                     {"Dynamic font based on element space": "dynamic_size"},
