@@ -264,9 +264,9 @@ function formatValue(formatData, string) {
         let formatLength = format.length // number of 0's (exclude the hash)
 
         if (strLength > formatLength) { return stringRes }
-        else if (stringLength < formatLength) {
+        else if (strLength < formatLength) {
                 // Find the difference in chararcters, then add that many 0's with a for loop 
-            let difference = formatLength - stringLength
+            let difference = formatLength - strLength
             for(i = 0; i < difference; i++) {
                 stringRes = '0' + stringRes
             }
