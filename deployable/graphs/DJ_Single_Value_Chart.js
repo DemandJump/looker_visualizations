@@ -783,6 +783,7 @@ function formatValue(formatData, string) {
 
             // Now we have the first quote's iteration, let's see what's in the quotes to choose the different return for the function
         if (format.includes('"', charAfterFirstQuote)) { // If it includes double quote then run the rest of this, otherwise it's an error!
+
                 /**** This is the 0.000,, "M" format ****/
             if (format[charAfterFirstQuote] == 'M' && format[charAfterFirstQuote + 1] == '"') {   // Check it it's m ending quote: if(">M && M>")
                 console.log('This is the 0.000,, "M" format!');
@@ -824,10 +825,17 @@ function formatValue(formatData, string) {
                         stringRes = string.replace(",", "")
 
                             // Use substr to build this jazz right
-                        finStr = stringRes.substr(0, 1)
-                        if (decimalAmount != 0) { finStr = finStr + '.' } // If there are decimal places, add a decimal point
-                        finStr = finStr + stringRes.substr(1, decimalAmount) // Add the rest of the decimalAmount after the decimal point(will add nothing if no decimal amount)
-                        return finStr + ' M'
+                        // finStr = stringRes.substr(0, 1)
+                        // if (decimalAmount != 0) { finStr = finStr + '.' } // If there are decimal places, add a decimal point
+                        // finStr = finStr + stringRes.substr(1, decimalAmount) // Add the rest of the decimalAmount after the decimal point(will add nothing if no decimal amount)
+                        // return finStr + ' M'
+
+                                  //*// Actually let's just divide this by 1million.. then cut out all the extra decimal places! //*//
+                        console.log('This is the current String Response', stringRes)
+                        console.log('This is the decimal amount', decimalAmount)
+                        console.log('This is the iteration after the decimal point', iterationLog)
+                          
+
                     }
                 // If it didn't include a period looker gave an error notifying, otherwise it built the 0.000 "M" Format for the user to use 
                 } // This checked it it's "M" format contianed a double comma   
