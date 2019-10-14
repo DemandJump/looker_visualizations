@@ -49,8 +49,9 @@ create: function(element, config) {
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
           <style>  .value:hover { text-decoration: underline; }  </style>
-          <div class="value" style="margin: auto;  resize: vertical;  font-size: 2rem;"></div>
-          <div class="title" style="margin: auto;  color: #3A4245;  font-size: 1rem;"></div>
+          <div class="value" style="margin: auto;  resize: vertical;  font-size: 4.5rem;">
+                    <div class="title" style="margin: auto;  color: #3A4245;  font-size: 1rem;"></div>
+          </div>
           <div class="header" style="align-self: flex-end;  margin: auto; #3A4245;"></div>
     `;
 
@@ -185,14 +186,10 @@ if (config.valueFormat != '') {
     console.log('This is the returned value from the formatValue function', valueReturn)
 
     console.log('This is teh valueReturn passed in', valueReturn)
-    d3.select('div.value')
-        .style('font-size', '4.5rem')
-        .html(valueReturn);
+    d3.select('div.value').html(valueReturn);
 } else {
     console.log('This is teh valueReturn passed in', valueReturn)
-    d3.select('div.value')
-        .style('font-size', '4.5rem')
-        .html(valueReturn);
+    d3.select('div.value').html(valueReturn);
 }
 
 
