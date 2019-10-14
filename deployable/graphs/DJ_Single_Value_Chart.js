@@ -201,8 +201,13 @@ function titleOverride(title) {
 
 
 function formatValue(format, string) {
+    string = string.toString()
     stringRes = string
     let tf = false
+
+
+        // Some stuff to stop the format from throwing errors
+
 
 
         /***** If it's just 0: To remove all periods and decimals *****/
