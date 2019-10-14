@@ -487,69 +487,6 @@ function formatValue(formatData, string) {
 
 
 
-        /***** Onto the  0.00 formatting! *****/ // This brings numbers with exactly this many decimals.. So we'll slice the extras, and add 0's if it's less than
-            // if format[0] = '0', and format[1] = '.', and the rest are 0's
-
-    if (format[0] == '0' && format[1] == '.' && format[format.length - 1] == '0') { // If it starts with 0, followed by a decimal, and ends with a 0
-        tf = true
-        decimalAmount = 0
-
-            // Check and see if the rest are 0's
-        for(i = 2; i < format.length; i++) {
-            if(format[i] != '0') { tf = false }
-            decimalAmount ++ // Calculating the set number of decimal places 
-        } 
-
-            // If there is no period, auto set number of decimal places and the decimal point
-        if ( !(string.includes('.')) ) {
-            stringRes = string + '.'
-            for(i = 0; i < decimalAmount; i++) {
-                stringRes = stringRes + '0'
-            }
-            return stringRes
-        }
-        
-
-        if (tf) {
-                // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
-            let decimalPlace = 0
-            stringRes = string
-
-            for(i = 0; i < string.length; i++) { // Find decimal place and store it
-                if (string[i] == '.') { // If the decimal place is found, store it for calculation
-                    decimalPlace = i
-                    break
-                }
-            }
-
-                // Found the decimal place of the string, add the decimalamount and compare to add or remove decimal points
-            let setAmount = decimalPlace + decimalAmount
-            
-            if (setAmount > string.length) { // Add the missing 0's to the end based on the missing amount
-                let difference = setAmount - string.length
-
-                for(i = 0; i < difference; i++) { // Add a 0 to the end for each missing amount
-                    stringRes = stringRes + '0'
-                }
-                return stringRes
-            }
-            if (setAmount < string.length) { // Remove the extra decimal points
-                let difference = string.length - setAmount
-
-                for(i = 0; i < difference; i++) {
-                    stringRes.slice(0, -1)
-                }
-                return stringRes
-            }
-
-        } // End of it the format was correct (tf)
-
-    } // End of this format function
-        
-        /***** End of the  0.00 formatting! *****/
-        
-
-
         /***** Onto the  00#.00 formatting! *****/ // So we're zero padding before the decimal, and setting the decimal places up for the value
 
     if (format.includes('.') && !(format.includes(',')) && format[0] == '0' && format[format.length - 1] == '0' && format.includes('#')) {  // Soooo... if it includes a period & no comma, start & ends with 0, lets dig in, this might be it!
@@ -641,6 +578,70 @@ function formatValue(formatData, string) {
     } // End of the 00#.00 formatter
         /***** End of the  00#.00 formatting! *****/
 
+
+
+
+        /***** Onto the  0.00 formatting! *****/ // This brings numbers with exactly this many decimals.. So we'll slice the extras, and add 0's if it's less than
+            // if format[0] = '0', and format[1] = '.', and the rest are 0's
+
+    if (format[0] == '0' && format[1] == '.' && format[format.length - 1] == '0') { // If it starts with 0, followed by a decimal, and ends with a 0
+        tf = true
+        decimalAmount = 0
+
+            // Check and see if the rest are 0's
+        for(i = 2; i < format.length; i++) {
+            if(format[i] != '0') { tf = false }
+            decimalAmount ++ // Calculating the set number of decimal places 
+        } 
+
+            // If there is no period, auto set number of decimal places and the decimal point
+        if ( !(string.includes('.')) ) {
+            stringRes = string + '.'
+            for(i = 0; i < decimalAmount; i++) {
+                stringRes = stringRes + '0'
+            }
+            return stringRes
+        }
+        
+
+        if (tf) {
+                // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
+            let decimalPlace = 0
+            stringRes = string
+
+            for(i = 0; i < string.length; i++) { // Find decimal place and store it
+                if (string[i] == '.') { // If the decimal place is found, store it for calculation
+                    decimalPlace = i
+                    break
+                }
+            }
+
+                // Found the decimal place of the string, add the decimalamount and compare to add or remove decimal points
+            let setAmount = decimalPlace + decimalAmount
+            
+            if (setAmount > string.length) { // Add the missing 0's to the end based on the missing amount
+                let difference = setAmount - string.length
+
+                for(i = 0; i < difference; i++) { // Add a 0 to the end for each missing amount
+                    stringRes = stringRes + '0'
+                }
+                return stringRes
+            }
+            if (setAmount < string.length) { // Remove the extra decimal points
+                let difference = string.length - setAmount
+
+                for(i = 0; i < difference; i++) {
+                    stringRes.slice(0, -1)
+                }
+                return stringRes
+            }
+
+        } // End of it the format was correct (tf)
+
+    } // End of this format function
+        
+        /***** End of the  0.00 formatting! *****/
+        
 
 
         /***** This is the  #,##0 formatting! *****/
