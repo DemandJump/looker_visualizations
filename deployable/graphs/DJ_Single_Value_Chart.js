@@ -905,7 +905,7 @@ function formatValue(formatData, string) {
 
                     console.log('This is the current String Response', stringRes)
                     console.log('This is the decimal amount', decimalAmount)
-                    let thouDiv = stringRes / 1000;
+                    let thouDivCalc = stringRes / 1000;
                     let thouDiv = thouDivCalc.toString()
                     console.log('mil Division (thouDiv):', thouDiv)
 
