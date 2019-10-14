@@ -86,6 +86,7 @@ create: function(element, config) {
       }
 
       .value {
+        display: flex;
         font-size: 1.6rem;
       }
       </style>
