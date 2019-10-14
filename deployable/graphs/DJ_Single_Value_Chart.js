@@ -5,7 +5,7 @@ looker.plugins.visualizations.add({
                 type: "string",
                 section: "Style",
                 display: "color",
-                default: "#3A4245"
+                default: "#000000"
             },
             showTitle: {
                 label: "Show Title",
@@ -33,10 +33,11 @@ looker.plugins.visualizations.add({
                 section: "Font",
                 display: "radio",
                 values: [
-                    {"Dynamic font based on element space": "Dynamic_size"},
+                    {"Dynamic font based on element space": "dynamic_size"},
                     {"Word Break on text overflow": "word_break"},
+                    {"Ellipsis": "ellipsis"}
                 ],
-                default: "word_break"
+                default: "ellipsis"
             }
     },
 
@@ -47,7 +48,7 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-          <div class="value" style="margin: auto; resize: vertical"></div>
+          <div class="value" style="margin: auto;  resize: vertical;  font-size: 2rem;"></div>
     `;
 
     d3.select(element)
@@ -56,7 +57,7 @@ create: function(element, config) {
       .style('justify-content', 'center');
     
 },
-    // Onto the update async section
+    /// Onto the update async section /// 
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5; // Important!
 /**************************************************************************************************************************************
     * Error Clauses 
@@ -96,8 +97,8 @@ console.log('\n data', data);
     let measures = queryResponse.fields.measures;
     console.log('Checking out query resposne dimension fields: ', dimensions);
     console.log('Checking out query resposne measure fields: ', measures);
-
     console.log('referencing the options', this.options);
+
     // console.log('This is the config itself', config);
     // console.log('This is looker charts Utils', LookerCharts);
 
@@ -105,8 +106,11 @@ console.log('\n data', data);
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
 
+    console.log("\nThis is the value that was given", value);
     console.log("This is the value format's value.", config.valueFormat);
-    console.log("This is the value that was given", value);
+    console.log("This is the title's given value", config.valueTitle);
+    console.log("This is the selected color of the text", config.color);
+    console.log("This is the text_spacing (Font-styling) settings", config.text_spacing);
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
@@ -114,23 +118,50 @@ console.log('\n data', data);
     * Setting up the Configuration Settings
 **************************************************************************************************************************/
             /*/ Onto building the settings of the visualization /*/
-console.log('Pulling out the options object itself', this.options);
 
-
+    // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
-if(config.showTitle == false) { // If they want to hide the title
+if (config.showTitle == false) { // If they want to hide the title
     if(this.options.valueTitle.hidden == false) { // Check if it's not hidden
         this.options.valueTitle.hidden = true // Then set it to hidden
         this.trigger('registerOptions', this.options) // send the updated settings to the system
     }
 }
-if(config.showTitle == true) { // Touche vice versa ~ ;p
+if (config.showTitle == true) { // Touche vice versa ~ ;p
     if(this.options.valueTitle.hidden == true) { 
         this.options.valueTitle.hidden = false 
-        this.trigger('registerOptions', this.options);
+        this.trigger('registerOptions', this.options)
     }
 }
 
+
+    // This is for the title element based on the user input
+if (config.valueTitle != '') {
+    d3.select(element).append('div')
+        .attr('class', 'title')
+        .style('align-self','flex-end');
+}
+
+
+    // This colors the text based on the option given
+d3.select('div.value').style('color', config.color);
+
+
+    // This is for the font-styling radio buttons
+if (config.text_spacing == "dynamic_size") {
+      // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
+    console.log('This is the current size of the value element', d3.select('div.value').clientWidth)
+}
+if (config.text_spacing == "word_break") {
+      // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
+    d3.select('div.value').style('overflow-wrap', 'break-word')
+    if (config.valueTitle != '') { d3.select('div.title').style('overflow-wrap', 'break-word') } // If there's a title
+}
+if (config.text_spacing == "ellipsis") {
+      // The original styling for the text and stuff
+    d3.select('div.value').style('text-overflow', 'ellipsis')
+    if (config.valueTitle != '') { d3.select('div.title').style('text-overflow', 'ellipsis') } // If there's a title
+}
 
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
@@ -139,37 +170,13 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
-    // This only centers the element horizontally
-// d3.select('div.container')
-//     .style('text-align', 'center')
-//     .style('display', 'block');
-
-//     /*/ Instantiate the value /*/
-// container = this._container.append('div')
-//     .attr('class', 'value')
-//     .style('display', 'inline-block')
-//     .style('height', element.clientHeight)
-//     .style('width', element.clientWidth)
-//     .style('margin', 'auto')
-//     .html(value);
-
-
-  // This isn't centering it properly
-// d3.select('div.container')
-//     .style('display', 'flex')
-//     .style('flex-direction', 'column')
-//     .style('justify-content', 'center');
-
-// container = this._container.append('div')
-//     .attr('class', 'value')
-//     .html(value);
-
-
 d3.select('div.value')
+    .style('font-size', '1.6rem')
     .html(value);
 
 
     
+
 
 
 
@@ -180,7 +187,6 @@ function titleOverride(title) {
     .attr('class', 'title')
 }
 
-    
 
 function valueFormat(format, string) {
     stringRes = string
@@ -1062,6 +1068,13 @@ function valueFormat(format, string) {
         return beforeDecimal + decimalPull + '%'
     } // End of the 0.00%
 
+        /***** This is the  0.00% formatting! *****/
+
+    else {
+      // They went through all the formatting to edit the data and it didn't find any
+      console.log("We couldn't find the format you were looking for, so we returned the value as is")
+      return string
+    }
 
 } // End of valueFormat Function // 
 
