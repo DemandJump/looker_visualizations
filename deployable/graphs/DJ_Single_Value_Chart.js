@@ -57,10 +57,17 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-          <style>  .value:hover { text-decoration: underline; }  </style>
+          <style>  
+            .value:hover { text-decoration: underline; }  
+
+            #vis { 
+              padding: 0;
+              margin: 0;
+              }
+          </style>
           <div class="container" style="margin: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="value" style="margin: auto;  text-align: center;  font-size: 4.5rem; font-style: normal; font-weight: 100;  "></div>
-              <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
+              <div class="value" style="margin: auto;  text-align: center;  font-size: 4.5rem; font-style: normal; font-weight: 100;"></div>
+              <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1.4rem;"></div>
           </div>
           
           <div class="header" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;  position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">footer.dimension thingyma</div>
