@@ -59,7 +59,7 @@ create: function(element, config) {
     d3.select(element)
       .style('display', 'flex')
       .style('flex-direction', 'column')
-      .style('justify-content', 'center');
+      .style('justify-content', 'flext-start');
     
 },
     /// Onto the update async section /// 
