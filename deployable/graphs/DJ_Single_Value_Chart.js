@@ -49,18 +49,20 @@ create: function(element, config) {
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
           <style>  .value:hover { text-decoration: underline; }  </style>
-          <div class="container" style="margin: auto;  resize: vertical;">
-              <div class="value" style="margin: auto;  font-size: 4.5rem; font-style: normal;  font-weight: 100;  padding-top: 1rem;"></div>
+          <div class="container" style="margin: auto;">
+              <div class="value" style="margin: auto;  text-align: center;  font-size: 4.5rem; font-style: normal; font-weight: 100;  position: absolute; top: 50%; transform: translateY(-50%);"></div>
               <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
           </div>
           
-          <div class="header" style="align-self: flex-end;  margin: auto; color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
+          <div class="header" style="margin: auto; color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
     `;
 
     d3.select(element)
-      .style('display', 'flex')
-      .style('flex-direction', 'column')
-      .style('justify-content', 'center');
+      .style('display', 'inline-block')
+      .style('text-align', 'center')
+      .style('margin', 'auto')
+      .style('position', 'relative')
+      .style('box-sizing', 'border-box');
     
 },
     /// Onto the update async section /// 
