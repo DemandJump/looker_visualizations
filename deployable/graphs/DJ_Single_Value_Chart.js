@@ -833,7 +833,8 @@ function formatValue(formatData, string) {
                                   //*// Actually let's just divide this by 1million.. then cut out all the extra decimal places! //*//
                         console.log('This is the current String Response', stringRes)
                         console.log('This is the decimal amount', decimalAmount)
-                        let milDiv = stringRes / 1000000;
+                        let milDivCalc = stringRes / 1000000;
+                        let milDiv = milDivCalc.toString()
                         console.log('mil Division (milDiv):', milDiv)
 
                         let decimalPoint = -1 // This is milDiv's decimal point
