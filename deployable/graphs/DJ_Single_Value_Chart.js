@@ -49,7 +49,7 @@ create: function(element, config) {
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
           <style>  .value:hover { text-decoration: underline; }  </style>
-          <div class="container" style="margin: 0 auto;  position: absolute; top: 50%; transform: translateY(-50%); min-width: 25px;">
+          <div class="container" style="margin: auto;  position: absolute; top: 50%; transform: translateY(-50%); width: ${element.clientWidth};">
               <div class="value" style="margin: auto;  text-align: center;  font-size: 4.5rem; font-style: normal; font-weight: 100;  "></div>
               <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
           </div>
