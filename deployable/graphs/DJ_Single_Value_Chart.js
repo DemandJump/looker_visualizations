@@ -127,7 +127,8 @@ console.log('details', details);
 
 
         /*/ Here's where we instantiate all the variables /*/
-    let value = queryResponse.fields.measures[0].name // This is the name of the value, used to pull out the count from the data
+    let valueName = queryResponse.fields.measures[0].name // This is the name of the value, used to pull out the count from the data
+    let value = data[0][value]["value"]
     console.log('This is the value', value)
 
 
