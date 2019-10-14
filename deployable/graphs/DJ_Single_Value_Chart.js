@@ -62,6 +62,14 @@ create: function(element, config) {
         width: auto;
         height: auto;
     }
+    .title { 
+        display: block;
+        text-align: center;
+        font-size: 2rem;
+        width: auto;
+        height: auto;
+    }
+
     </style>
     `;
 
@@ -165,6 +173,8 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
     /*/ Instantiate the value /*/
 container = this._container.append('div')
     .attr('class', 'value')
+    .style('height', element.clientHeight)
+    .style('width', element.clientWidth)
     .html(value);
 
 
@@ -173,6 +183,14 @@ container = this._container.append('div')
 
     
 
+
+
+
+
+function titleOverride(title) {
+  d3.select('.container').append('div')
+    .attr('class', 'title')
+}
 
     
 
@@ -907,7 +925,7 @@ function valueFormat(format, string) {
 
             stringRes = '$' + stringRes
             if(stringRes.includes('-')) {
-                return '(' + stringRes ')'
+                return '(' + stringRes + ')'
             } else { return stringRes }
         }
 
