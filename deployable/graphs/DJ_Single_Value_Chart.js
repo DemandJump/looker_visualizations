@@ -178,7 +178,7 @@ if (config.valueFormat != '') {
     * Instatiation and Functions
 *********************************************************************************************************/
 d3.select('div.value')
-    .style('font-size', '1.6rem')
+    .style('font-size', '4.5rem')
     .html(valueReturn);
 
 
