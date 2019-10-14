@@ -240,10 +240,22 @@ function formatValue(formatData, string) {
     if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {
         console.log('This is the 0.00\\% format!'); 
         stringRes = string
+        let decimalAmount = 0
 
-        if( !(stringRes.includes('.')) ) { stringRes = stringRes + '.00%'; return stringRes }
+        for(i = 2; i < format.length; i++) { // Start after the period, stop at the %
+            if (i == '0') {
+                decimalAmount ++ 
+            } else { break } // Stop when the decimals run out
+        }
 
-            // Calculate the string's decimal point and places, and size it to 2 places
+
+        if( !(stringRes.includes('.')) ) { // If there's no decimal point add the set amount of decimal points
+            stringRes = stringRes + '.'
+            for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0' }
+            return stringRes + '%'
+        } 
+
+            // Calculate the string's decimal point and places, and size it to dynamically
         stringpoint = -1
         stringplaces = 0
         for(i = 0; i < stringRes.length; i++) {
@@ -251,13 +263,13 @@ function formatValue(formatData, string) {
             if(stringRes[i] == '.') { stringpoint = i }
         }
 
-        if (stringplaces < 2) {
-            let difference = 2 - stringplaces
+        if (stringplaces < decimalAmount) {
+            let difference = decimalAmount - stringplaces
             for(i = 0; i < difference; i++) {
                 stringRes = stringRes + '0'
             }
-        } else if(stringplace > 2) {
-            let difference = stringplaces - 2
+        } else if(stringplace > decimalAmount) {
+            let difference = stringplaces - decimalAmount
             for(i = 0; o < difference; i++) {
                 stringRes = stringRes.slice(0, -1)
             }
