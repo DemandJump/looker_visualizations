@@ -243,7 +243,7 @@ function formatValue(formatData, string) {
         let decimalAmount = 0
 
         for(i = 2; i < format.length; i++) { // Start after the period, stop at the %
-            if (i == '0') {
+            if (format[i] == '0') {
                 decimalAmount ++ 
             } else { break } // Stop when the decimals run out
         }
