@@ -52,8 +52,6 @@ create: function(element, config) {
           <div class="container" style="margin: auto;  resize: vertical;">
               <div class="value" style="margin: auto;  font-size: 4.5rem; font-style: normal;  font-weight: 100;  padding-top: 1rem;"></div>
           </div>
-          <div class="title" style="display: block;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
-
           <div class="header" style="align-self: flex-end;  margin: auto; #3A4245;"></div>
     `;
 
@@ -130,13 +128,19 @@ console.log('\n data', data);
 // d3.select(element).selectAll("*").remove();
 
 
+    // This is for the title element based on the user input
+if (config.valueTitle != '') {
+    d3.select('.title').html(config.valueTitle)
+} else { d3.select('.title').html(' ') }
+
+
     // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
 if (config.showTitle == false) { // If they want to hide the title
     if(this.options.valueTitle.hidden == false) { // Check if it's not hidden
         this.options.valueTitle.hidden = true // Then set it to hidden
         this.trigger('registerOptions', this.options) // send the updated settings to the system
-        config.valueTitle = ' '
+        d3.select('.title').html('')
     }
 }
 if (config.showTitle == true) { // Touche vice versa ~ ;p
@@ -145,12 +149,6 @@ if (config.showTitle == true) { // Touche vice versa ~ ;p
         this.trigger('registerOptions', this.options)
     }
 }
-
-
-    // This is for the title element based on the user input
-if (config.valueTitle != '') {
-    d3.select('.title').html(config.valueTitle)
-} else { d3.select('.title').html(' ') }
 
 
     // This colors the text based on the option given
