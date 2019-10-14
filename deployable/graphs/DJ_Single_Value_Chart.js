@@ -284,30 +284,30 @@ function formatValue(formatData, string) {
         /***** This is the  0% formatting! *****/
 
     if (format == '0%') {
+        tf = true 
         console.log('This is the 0% format!');    
         // This is for if there are decimal values.. we should plan for even positive numbers 
 
-        if ( !(string.includes('.')) ) {
-          this.this.addError({title: "Not a decimal value", message: "This format is for decimal values up to two places to convert as a percent."})
-          return
-        }
+        if ( !(string.includes('.')) ) { tf = false  }
 
-            // Find the first 2 decimal places, then return those with a percent 
-        stringRes = string
-        let decimalPull = ''
-        for(i = 0; i < stringRes.length; i++) {
-            if(stringRes[i] == '.') { 
-                let counter = 2
-                for(j = i; j < stringRes.length; i++) {
-                    if (counter != 0) {
-                      decimalPull = decimalPull + stringRes[j] 
-                      counter --
+        if (tf) {
+                // Find the first 2 decimal places, then return those with a percent 
+            stringRes = string
+            let decimalPull = ''
+            for(i = 0; i < stringRes.length; i++) {
+                if(stringRes[i] == '.') { 
+                    let counter = 2
+                    for(j = i; j < stringRes.length; i++) {
+                        if (counter != 0) {
+                          decimalPull = decimalPull + stringRes[j] 
+                          counter --
+                        }
                     }
+                    break
                 }
-                break
             }
+            return decimalPull + '%'
         }
-        return decimalPull + '%'
     } // End of the 0%
 
         /***** End of the  0% formatting! *****/
