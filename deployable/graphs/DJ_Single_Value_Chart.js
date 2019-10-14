@@ -132,7 +132,7 @@ console.log('details', details);
 
 
     console.log("This is the value format's value.", config.valueFormat)
-    console.log("This is the value that was given", data[value])
+    console.log("This is the value that was given", data[0][value])
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
