@@ -106,7 +106,7 @@ console.log('\n data', data);
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
 
-    console.log("\nThis is the value that was given", value);
+    console.log("\nThis is the original value looker passed us", value);
     console.log("This is the value format's value.", config.valueFormat);
     console.log("This is the title's given value", config.valueTitle);
     console.log("This is the selected color of the text", config.color);
