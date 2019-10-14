@@ -110,14 +110,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     this._container.selectAll("*").remove();
 
                 /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
-    console.log('\n\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
+    console.log('\n\n\n\n\n Working on the styling of the elements and all that jazz');
     /****** Log all these functions to see what we're working with ******/
-console.log(` ...UpdateAsync initialized, here is it's data:`);
-console.log('\n data', data);
-console.log('element', element);
-console.log('config', config);
-console.log('queryResponse', queryResponse);
-console.log('details', details);
+// console.log(` ...UpdateAsync initialized, here is it's data:`);
+// console.log('\n data', data);
+// console.log('element', element);
+// console.log('config', config);
+// console.log('queryResponse', queryResponse);
+// console.log('details', details);
+
     // Playing with dimensions and measures
     let dimensions = queryResponse.fields.dimensions;
     let measures = queryResponse.fields.measures;
@@ -125,19 +126,17 @@ console.log('details', details);
     console.log('Checking out query resposne measure fields: ', measures);
 
     console.log('referencing the options', this.options);
-    console.log('This is the config itself', config);
-
-    console.log('This is looker charts Utils', LookerCharts);
-
+    // console.log('This is the config itself', config);
+    // console.log('This is looker charts Utils', LookerCharts);
 
         /*/ Here's where we instantiate all the variables /*/
-    let valueName = queryResponse.fields.measures[0].name // This is the name of the value, used to pull out the count from the data
-    let value = data[0][value]["value"]
-    console.log('This is the value', value)
+    let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
+    let value = data[0][value]["value"]; // This is the data we're passing into the visual
+    console.log('This is the value', value);
 
 
-    console.log("This is the value format's value.", config.valueFormat)
-    console.log("This is the value that was given", data[0][value])
+    console.log("This is the value format's value.", config.valueFormat);
+    console.log("This is the value that was given", data[0][value]);
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
