@@ -483,7 +483,7 @@ function formatValue(formatData, string) {
         /***** This is the  '$#.00; ($#.00)' formatting! *****/
 
         // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
-    if (format.includes('$') && format.includes('#') && format.includes('.') && format.includes(';') && format.includes('(') && format.include(')') && format.includes('0') ) {
+    if (format.includes('$') && format.includes('#') && format.includes('.') && format.includes(';') && format.includes('(') && format.includes(')') && format.includes('0') ) {
         console.log('This is the $#.00; ($#.00) format!');    
         stringRes = string
             // Calculate the decimal amount from the first decimal place stop it at the colon
