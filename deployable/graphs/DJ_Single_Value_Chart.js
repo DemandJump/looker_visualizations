@@ -210,9 +210,9 @@ function titleOverride(title) {
 
 function formatValue(formatData, string) {
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
-    console.log('\nformat', format)
-    console.log('string', string)
     let format = formatData.toString() 
+    console.log('\nformat', formatData)
+    console.log('string', string)
     stringRes = string
     let tf = false
 
