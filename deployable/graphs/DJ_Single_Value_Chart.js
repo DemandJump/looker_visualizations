@@ -151,8 +151,6 @@ console.log('\n data', data);
         /*/ Here's where we instantiate all the variables /*/
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
-    console.log('This is the value', value);
-
 
     console.log("This is the value format's value.", config.valueFormat);
     console.log("This is the value that was given", value);
@@ -162,20 +160,17 @@ console.log('\n data', data);
 /**************************************************************************************************************************
     * Setting up the Configuration Settings
 **************************************************************************************************************************/
-    // This is the title data 
-console.log('showTitle data', config.showTitle);
-
-
             /*/ Onto building the settings of the visualization /*/
 console.log('Pulling out the options object itself', this.options);
 
+
+// console.log('showTitle data', config.showTitle); // This is the title data 
 if(config.showTitle == false) { // If they want to hide the title
     if(this.options.valueTitle.hidden == false) { // Check if it's not hidden
         this.options.valueTitle.hidden = true // Then set it to hidden
         this.trigger('registerOptions', this.options) // send the updated settings to the system
     }
 }
-
 if(config.showTitle == true) { // Touche vice versa ~ ;p
     if(this.options.valueTitle.hidden == true) { 
         this.options.valueTitle.hidden = false 
