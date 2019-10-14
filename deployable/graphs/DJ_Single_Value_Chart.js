@@ -99,7 +99,7 @@ create: function(element, config) {
       }
       </style>
 
-          <div class="value"></div>
+          <div class="value" style="margin: auto; resize: vertical"></div>
     `;
 
 
