@@ -80,6 +80,8 @@ create: function(element, config) {
     element.innerHTML = `
       <style>
       .container {
+        width: ${element.clientWidth};
+        height: ${element.clientHeight};
         display: inline-block;
         position: relative;
       }
