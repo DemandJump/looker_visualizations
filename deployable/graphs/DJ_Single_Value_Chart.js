@@ -50,6 +50,7 @@ create: function(element, config) {
     element.innerHTML = `
           <style>  .value:hover { text-decoration: underline; }  </style>
           <div class="value" style="margin: auto;  resize: vertical;  font-size: 2rem;"></div>
+          <div class="title" style="align-self: flex-end;"></div>
     `;
 
     d3.select(element)
@@ -121,6 +122,10 @@ console.log('\n data', data);
 **************************************************************************************************************************/
             /*/ Onto building the settings of the visualization /*/
 
+    // Before we start the visualization, remove all the stuff currently in the vis
+d3.select(element).selectAll("*").remove();
+
+
     // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
 if (config.showTitle == false) { // If they want to hide the title
@@ -139,10 +144,8 @@ if (config.showTitle == true) { // Touche vice versa ~ ;p
 
     // This is for the title element based on the user input
 if (config.valueTitle != '') {
-    d3.select(element).append('div')
-        .attr('class', 'title')
-        .style('align-self','flex-end');
-}
+    d3.select('.title').html(config.valueTitle)
+} else { d3.select('.title').html(' ') }
 
 
     // This colors the text based on the option given
