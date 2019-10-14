@@ -172,7 +172,7 @@ if (config.text_spacing == "ellipsis") {
     // This is to add in a format for the value, if the user entered any
 if (config.valueFormat != '') {
       // Pass in the value and return a new one
-    let valueReturn = formatValue(config.valueFormat, value)
+    valueReturn = formatValue(config.valueFormat, value)
     console.log('This is the returned value from the formatValue function', valueReturn)
 }
 /**************************************************************************************************************************
@@ -202,6 +202,8 @@ function titleOverride(title) {
 
 function formatValue(format, string) {
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
+    console.log('format', format)
+    console.log('string', string)
     format = format.toString() 
     stringRes = string
     let tf = false
