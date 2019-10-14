@@ -319,7 +319,7 @@ function formatValue(formatData, string) {
     if (format == '0.00%') {
       
         if ( !(string.includes('.')) ) {
-            this.addError({title: "Not a decimal value", message: "This format is for decimal values up to two palces to convert as a percent."})
+            this.this.addError({title: "Not a decimal value", message: "This format is for decimal values up to two palces to convert as a percent."})
             return
         }
 
