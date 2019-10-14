@@ -54,7 +54,7 @@ create: function(element, config) {
               <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
           </div>
           
-          <div class="header" style="margin: auto; color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
+          <div class="header" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem; padding: 1rem;"></div>
     `;
 
     d3.select(element)
