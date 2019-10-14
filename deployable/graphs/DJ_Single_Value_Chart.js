@@ -47,61 +47,48 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     // element.innerHTML = `
-    // <style>
-    // .container1 {
-    //     margin: 0;
-    //     padding: 0;
-    //     display: inline-block;
-    //     text-align: center;
+    //   <style>
+    //   .container1 {
     //     width: ${element.clientWidth};
     //     height: ${element.clientHeight};
-    // }
-
-    // .value1 {
-    //     font-family: Roboto;
-    //     text-align:center; 
     //     display: inline-block;
-    //     margin: auto;
-    //     padding: auto; 
-    //     width: auto;
-    //     height: auto;
-    // }
+    //     position: relative;
+    //   }
 
-    // .title1 { 
-    //     display: block;
-    //     text-align: center;
-    //     font-size: 2rem;
-    //     width: auto;
-    //     height: auto;
-    // }
-    // </style>
+    //   .value1 {
+    //     position: absolute;
+    //     top: 50%;
+    //     transform: translateY(-50%);
+    //     font-size: 1.6rem;
+    //   }
+    //   </style>
+
+    //       <div class="value" style="margin: auto; resize: vertical"></div>
     // `;
-    d3.select(element)
-      .style('display', 'flex')
-      .style('flex-direction', 'column')
-      .style('justify-content', 'center');
 
+    // d3.select(element)
+    //   .style('display', 'flex')
+    //   .style('flex-direction', 'column')
+    //   .style('justify-content', 'center');
 
     element.innerHTML = `
       <style>
-      .container1 {
-        width: ${element.clientWidth};
-        height: ${element.clientHeight};
-        display: inline-block;
-        position: relative;
-      }
-
-      .value1 {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1.6rem;
-      }
+        .container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+         
+        .value {
+          margin: auto;
+          resize: vertical;
+        }
       </style>
 
-          <div class="value" style="margin: auto; resize: vertical"></div>
+      <div class="container">
+        <div class="value"></div>
+      </div>
     `;
-
 
     // this._container = d3.select(element).append('div')
     //     .attr('class', 'container')
