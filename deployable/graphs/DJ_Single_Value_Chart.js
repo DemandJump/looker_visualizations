@@ -54,8 +54,8 @@ create: function(element, config) {
           </div>
           
           <!--
-          <div class="title" style="display: block;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
-          <div class="header" style="align-self: flex-end;  margin: auto; #3A4245;"></div>
+          <div class="title" style="align-self: flex-start;  margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
+          <div class="header" style="align-self: flex-end;  margin: auto; color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
           -->
     `;
 
