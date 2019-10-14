@@ -76,6 +76,11 @@ create: function(element, config) {
     // }
     // </style>
     // `;
+    element 
+      .style('display', 'flex')
+      .style('flex-direction', 'column')
+      .style('justify-content', 'center');
+
 
     element.innerHTML = `
       <style>
@@ -94,9 +99,7 @@ create: function(element, config) {
       }
       </style>
 
-      <div class="container" style="display: flex; flex-direction: column; justify-content: center;">
-          <div class="value" style="background: grey; overflow: auto;"></div>
-      </div>
+          <div class="value"></div>
     `;
 
 
