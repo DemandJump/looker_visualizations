@@ -50,7 +50,7 @@ create: function(element, config) {
     element.innerHTML = `
           <style>  .value:hover { text-decoration: underline; }  </style>
           <div class="value" style="margin: auto;  resize: vertical;  font-size: 2rem;"></div>
-          <div class="title" style="align-self: flex-end;  text-align: center;  color: #3A4245";  font-size: 1rem;"></div>
+          <div class="title" style="align-self: flex-end;  text-align: center;  color: #3A4245;  font-size: 1rem;"></div>
     `;
 
     d3.select(element)
