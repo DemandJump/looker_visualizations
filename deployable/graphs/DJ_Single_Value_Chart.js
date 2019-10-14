@@ -124,7 +124,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     * Initialization / Setup
 **************************************************************************************************************************************/
         // Clear out all the data upon startup! 
-    this._container.selectAll("*").remove();
+    // this._container.selectAll("*").remove();
 
                 /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\n\n Working on the styling of the elements and all that jazz');
