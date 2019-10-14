@@ -48,7 +48,7 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-          <style>  .container:hover { text-decoration: underline; }  </style>
+          <style>  .value:hover { text-decoration: underline; }  </style>
           <div class="container" style="margin: auto;  resize: vertical;">
               <div class="value" style="margin: auto;  font-size: 4.5rem;"></div>
               <div class="title" style="margin: auto;  color: #3A4245;  font-size: 1rem;"></div>
