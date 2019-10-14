@@ -833,9 +833,33 @@ function formatValue(formatData, string) {
                                   //*// Actually let's just divide this by 1million.. then cut out all the extra decimal places! //*//
                         console.log('This is the current String Response', stringRes)
                         console.log('This is the decimal amount', decimalAmount)
-                        console.log('This is the iteration after the decimal point', iterationLog)
-                          
+                        let milDiv = stringRes / 1000000;
+                        console.log('mil Division (milDiv):', milDiv)
 
+                        let decimalPoint = -1 // This is milDiv's decimal point
+                        let stringDecimal = '' // This logs all the values after the decimal point
+                        let strBeforeDecimal = '' // This logs all before (1)
+                        for(i = 0; i < milDiv.length; i++) {
+                            if (decimalPoint != -1) { stringDecimal = stringDecimal + milDiv[i] }
+                            if (milDiv[i] == '.') { decimalPoint = i }
+                            if (decimalPoint == -1) { strBeforeDecimal = strBeforeDecimal + milDiv[i] }
+                        }
+                        console.log('This is the decimal point for milDiv for loop calculations', decimalPoint)
+
+                        console.log('These are the values before the decimal', strBeforeDecimal)
+                        console.log('These are the values after the decimal point', stringDecimal)
+
+                            // Then check and see if the length is more or less than the desired amount
+                        if (stringDecimal.length < decimalAmount) { // Add 0's based on missing vars
+                            let difference = decimalAmount - stringDecimal.length
+                            for(i = 0; i < difference; i++) { stringDecimal = stringDecimal + '0' }
+                        }
+                        if (stringDecimal.length > decimalAmount) { // Chop off all the extra vars!
+                            let difference = stringDecimal.length - decimalAmount
+                            for(i = 0; i < difference; i++) { stringDecimal = stringDecimal.slice(0, -1) }
+                        }
+                        
+                        return strBeforeDecimal + '.' + stringDecimal + " M" 
                     }
                 // If it didn't include a period looker gave an error notifying, otherwise it built the 0.000 "M" Format for the user to use 
                 } // This checked it it's "M" format contianed a double comma   
