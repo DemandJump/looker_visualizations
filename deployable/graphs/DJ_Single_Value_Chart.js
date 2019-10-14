@@ -683,7 +683,7 @@ function formatValue(formatData, string) {
             }
             formatAmount++
         }
-        console.log('This is format length!', formatAmount)
+        // console.log('This is format length!', formatAmount)
 
         if (tf) { // If it's formatted right tf = true, then calculate the jazz
             
@@ -695,7 +695,7 @@ function formatValue(formatData, string) {
                     stringPoint = i
                 }
             }
-            console.log('StringPoint location ', stringPoint)
+            // console.log('StringPoint location ', stringPoint)
 
             if (stringPoint == -1) { // If stringPoint is still -1 (then there was no decimal point!)  
                 if(string.includes(',')) { // Add the decimal stuff then return it as is
@@ -710,9 +710,8 @@ function formatValue(formatData, string) {
             // For values with decimals, here's the calculations
             beforeDecimal = string.slice(0, stringPoint)
             decimalPointAndOn = string.slice(stringPoint)
-
-            console.log('beforeDecimal', beforeDecimal)
-            console.log('decimalPointAndOn', decimalPointAndOn)
+            // console.log('beforeDecimal', beforeDecimal)
+            // console.log('decimalPointAndOn', decimalPointAndOn)
 
 
                 // Then add teh commas(if there aren't any already)
