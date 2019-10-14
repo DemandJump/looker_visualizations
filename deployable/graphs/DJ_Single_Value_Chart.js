@@ -66,7 +66,7 @@ create: function(element, config) {
         width: auto;
         height: auto;
     }
-    
+
     .title1 { 
         display: block;
         text-align: center;
@@ -180,8 +180,9 @@ d3.select('div.container')
 container = this._container.append('div')
     .attr('class', 'value')
     .style('display', 'inline-block')
-    // .style('height', element.clientHeight)
-    // .style('width', element.clientWidth)
+    .style('height', element.clientHeight)
+    .style('width', element.clientWidth)
+    .style('margin', 'auto')
     .html(value);
 
 
