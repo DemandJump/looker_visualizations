@@ -166,7 +166,7 @@ container = this._container.append('div')
     .html(value);
 
 
-
+console.log("This is the value format's value.", config.valueFormat)
 
 
 
