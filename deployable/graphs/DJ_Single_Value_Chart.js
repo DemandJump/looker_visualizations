@@ -59,6 +59,10 @@ create: function(element, config) {
 
     .value {
         font-family: Roboto;
+        text-align:center; 
+
+        margin: auto;
+        padding: auto; 
         width: auto;
         height: auto;
     }
@@ -79,8 +83,6 @@ create: function(element, config) {
         .attr('class', 'container')
         .attr('id', 'container');
     
-        // Clear out all the data upon startup! 
-    this._container.selectAll("*").remove();
 },
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5; // Important!
@@ -104,6 +106,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /**************************************************************************************************************************************
     * Initialization / Setup
 **************************************************************************************************************************************/
+        // Clear out all the data upon startup! 
+    this._container.selectAll("*").remove();
 
                 /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
