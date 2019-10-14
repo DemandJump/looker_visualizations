@@ -172,20 +172,27 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
-d3.select('div.container')
-    .style('text-align', 'center')
-    .style('display', 'block');
+// d3.select('div.container')
+//     .style('text-align', 'center')
+//     .style('display', 'block');
 
-    /*/ Instantiate the value /*/
+//     /*/ Instantiate the value /*/
+// container = this._container.append('div')
+//     .attr('class', 'value')
+//     .style('display', 'inline-block')
+//     .style('height', element.clientHeight)
+//     .style('width', element.clientWidth)
+//     .style('margin', 'auto')
+//     .html(value);
+
+d3.select('div.container')
+    .style('display', 'flex')
+    .style('flex-direction', 'column')
+    .style('justify-content', 'center');
+
 container = this._container.append('div')
     .attr('class', 'value')
-    .style('display', 'inline-block')
-    .style('height', element.clientHeight)
-    .style('width', element.clientWidth)
-    .style('margin', 'auto')
     .html(value);
-
-
 
 
 
