@@ -142,6 +142,26 @@ console.log('\n data', data);
 // d3.select(element).selectAll("*").remove();
 
 
+    // This colors the text based on the option given
+d3.select('div.value').style('color', config.color);
+
+
+    // This is for the font-styling radio buttons
+if (config.text_spacing == "dynamic_size") {
+      // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
+    console.log('This is the current size of the value element', d3.select('div.value').clientWidth)
+}
+if (config.text_spacing == "word_break") {
+      // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
+    d3.select('div.value').style('overflow-wrap', 'break-word')
+    if (config.valueTitle != '') { d3.select('div.title').style('overflow-wrap', 'break-word') } // If there's a title
+}
+if (config.text_spacing == "ellipsis") {
+      // The original styling for the text and stuff
+    d3.select('div.value').style('text-overflow', 'ellipsis')
+    if (config.valueTitle != '') { d3.select('div.title').style('text-overflow', 'ellipsis') } // If there's a title
+}
+
     // This is for the title element based on the user input
 if (config.valueTitle != '') {
     d3.select('.title').html(config.valueTitle)
@@ -162,27 +182,6 @@ if (config.showTitle == true) { // Touche vice versa ~ ;p
         this.options.valueTitle.hidden = false 
         this.trigger('registerOptions', this.options)
     }
-}
-
-
-    // This colors the text based on the option given
-d3.select('div.value').style('color', config.color);
-
-
-    // This is for the font-styling radio buttons
-if (config.text_spacing == "dynamic_size") {
-      // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
-    console.log('This is the current size of the value element', d3.select('div.value').clientWidth)
-}
-if (config.text_spacing == "word_break") {
-      // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-    d3.select('div.value').style('overflow-wrap', 'break-word')
-    if (config.valueTitle != '') { d3.select('div.title').style('overflow-wrap', 'break-word') } // If there's a title
-}
-if (config.text_spacing == "ellipsis") {
-      // The original styling for the text and stuff
-    d3.select('div.value').style('text-overflow', 'ellipsis')
-    if (config.valueTitle != '') { d3.select('div.title').style('text-overflow', 'ellipsis') } // If there's a title
 }
 
 
