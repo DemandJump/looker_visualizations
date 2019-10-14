@@ -131,12 +131,12 @@ console.log('\n data', data);
 
         /*/ Here's where we instantiate all the variables /*/
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
-    let value = data[0][value]; // This is the data we're passing into the visual
+    let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
     console.log('This is the value', value);
 
 
     console.log("This is the value format's value.", config.valueFormat);
-    console.log("This is the value that was given", value.value);
+    console.log("This is the value that was given", value);
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
