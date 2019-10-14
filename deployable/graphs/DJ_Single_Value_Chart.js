@@ -76,7 +76,7 @@ create: function(element, config) {
     // }
     // </style>
     // `;
-    element 
+    d3.select(element)
       .style('display', 'flex')
       .style('flex-direction', 'column')
       .style('justify-content', 'center');
