@@ -79,14 +79,14 @@ create: function(element, config) {
 
     element.innerHTML = `
       <style>
-      .container {
+      .container1 {
         width: ${element.clientWidth};
         height: ${element.clientHeight};
         display: inline-block;
         position: relative;
       }
 
-      .value {
+      .value1 {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -94,8 +94,8 @@ create: function(element, config) {
       }
       </style>
 
-      <div class="container">
-          <div class="value"></div>
+      <div class="container" style="display: flex; flex-direction: column; justify-content: center;">
+          <div class="value" style="background: grey; overflow: auto;"></div>
       </div>
     `;
 
