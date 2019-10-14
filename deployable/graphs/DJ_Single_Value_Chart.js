@@ -676,7 +676,7 @@ function formatValue(formatData, string) {
 
 
             // Calculate the number of zeros after the period, and falsify it if it contains anything other than a zero
-        for(i = 5; i < format.length; i++) {
+        for(i = 6; i < format.length; i++) {
             if (i != '0') { 
                 tf = false
                 break
