@@ -163,6 +163,13 @@ if (config.text_spacing == "ellipsis") {
     if (config.valueTitle != '') { d3.select('div.title').style('text-overflow', 'ellipsis') } // If there's a title
 }
 
+
+    // This is to add in a format for the value, if the user entered any
+if (config.valueFormat != '') {
+      // Pass in the value and return a new one
+    let valueReturn = formatValue(config.valueFormat, value)
+    console.log('This is the returned value from the formatValue function', valueReturn)
+}
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
@@ -172,7 +179,7 @@ if (config.text_spacing == "ellipsis") {
 *********************************************************************************************************/
 d3.select('div.value')
     .style('font-size', '1.6rem')
-    .html(value);
+    .html(valueReturn);
 
 
     
@@ -188,7 +195,7 @@ function titleOverride(title) {
 }
 
 
-function valueFormat(format, string) {
+function formatValue(format, string) {
     stringRes = string
     let tf = false
 
@@ -1073,7 +1080,7 @@ function valueFormat(format, string) {
     else {
       // They went through all the formatting to edit the data and it didn't find any
       console.log("We couldn't find the format you were looking for, so we returned the value as is")
-      return string
+      return value
     }
 
 } // End of valueFormat Function // 
