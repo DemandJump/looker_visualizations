@@ -46,53 +46,14 @@ create: function(element, config) {
     this._counter = 0;
 
         // Insert a <style> tag with some styles we'll use later.
-    // element.innerHTML = `
-    //   <style>
-    //   .container1 {
-    //     width: ${element.clientWidth};
-    //     height: ${element.clientHeight};
-    //     display: inline-block;
-    //     position: relative;
-    //   }
-
-    //   .value1 {
-    //     position: absolute;
-    //     top: 50%;
-    //     transform: translateY(-50%);
-    //     font-size: 1.6rem;
-    //   }
-    //   </style>
-
-    //       <div class="value" style="margin: auto; resize: vertical"></div>
-    // `;
-
-    // d3.select(element)
-    //   .style('display', 'flex')
-    //   .style('flex-direction', 'column')
-    //   .style('justify-content', 'center');
-
     element.innerHTML = `
-      <style>
-        .container {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-         
-        .value {
-          margin: auto;
-          resize: vertical;
-        }
-      </style>
-
-      <div class="container">
-        <div class="value"></div>
-      </div>
+          <div class="value" style="margin: auto; resize: vertical"></div>
     `;
 
-    // this._container = d3.select(element).append('div')
-    //     .attr('class', 'container')
-    //     .attr('id', 'container');
+    d3.select(element)
+      .style('display', 'flex')
+      .style('flex-direction', 'column')
+      .style('justify-content', 'center');
     
 },
     // Onto the update async section
