@@ -995,6 +995,7 @@ function formatValue(formatData, string) {
                 if (format[i - 1] == '#') {
                     tf = true 
                     formatPeriod = i
+                    console.log('this is the formatPeriod', formatPeriod)
                 }
             }
         }
@@ -1004,13 +1005,15 @@ function formatValue(formatData, string) {
             for(i = 0; i < formatPeriod -1; i++) { // Check up to the hash, if any of those aren't a zero, skip the result for this case. They need to go through every iteration to really see, but they have to go through it all without being nulled ;p
                 if (format[i] != '0') { 
                     tf = false 
+                    console.log('finding the padding amount, this is i: ' + format[i] + ' on iteration ' + i)
                     break
                 } 
                 paddingAmount ++
             }
             for(i = formatPeriod + 1; i < format.length; i++) { // Start after decimal point, then go through the decimal places
                 if(format[i] != '0') { 
-                    tf = false // tf is falsified if it isn't 0 
+                    tf = false // tf is falsified if it isn't 0
+                    console.log('finding the decimal amount, this is i: ' + format[i] + ' on iteration ' + i) 
                     break
                 } 
                 decimalAmount ++
@@ -1024,6 +1027,7 @@ function formatValue(formatData, string) {
                         break
                     }
                 }
+                console.log('string decimal place', stringPeriod)
 
 
                     // So there's one possible error, the string variable didn't have a period! ~ Here's the quick edit for it now :P
@@ -1043,6 +1047,10 @@ function formatValue(formatData, string) {
                 decimal = string.slice(stringPeriod + 1) // This returns the string decimals after the period
                 stringRes = string // This is the string response
                         // Onto the two functions editing the padding and decimal places then concatenating with a period again (^:;
+                console.log('This is padded', padded)
+                console.log('Padding Amount', paddingAmount)
+                console.log('This is decimal', decimal)
+                console.log('Decimal Amount', decimalAmount)
 
                     // If there's more or equal to the numbers than the desired padding, let it alone, and continue on 
                 if (padded.length < paddingAmount) { // But if there's extra padding room, add 0s to the beginning based on the difference
