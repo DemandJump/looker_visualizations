@@ -989,6 +989,7 @@ function formatValue(formatData, string) {
         let decimalAmount = 0 // This is the number of decimal places after period (This is exact)
         let formatPeriod = 0 // Position of period (hash SHOULD be right before this)
         let stringPeriod = 0 // Position of string period 
+        stringRes = string.replace(",", "")
 
         for(i = 0; i < format.length; i++) { // find the position of the period (^:;
             if (format[i] == '.') { // Find the period, then check if a hash is before it 
@@ -1031,8 +1032,9 @@ function formatValue(formatData, string) {
 
 
                     // So there's one possible error, the string variable didn't have a period! ~ Here's the quick edit for it now :P
-                if (stringPeriod == 0) { stringRes = string
-                    if(stringRes < paddingAmount) {
+                if (stringPeriod == 0) { 
+                    stringRes = string
+                    if(stringRes.length < paddingAmount) {
                         let difference = paddingAmount - stringRes.length
                         for(i = 0; i < difference; i++) { stringRes = '0' + stringRes }
                     }
