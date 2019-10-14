@@ -676,7 +676,7 @@ function formatValue(formatData, string) {
 
 
             // Calculate the number of zeros after the period, and falsify it if it contains anything other than a zero
-        for(i = 0; i < format.length; i++) {
+        for(i = 5; i < format.length; i++) {
             if (i != '0') { 
                 tf = false
                 break
@@ -710,7 +710,7 @@ function formatValue(formatData, string) {
             // For values with decimals, here's the calculations
             beforeDecimal = string.slice(0, stringPoint)
             decimalPointAndOn = string.slice(stringPoint)
-            
+
             console.log('beforeDecimal', beforeDecimal)
             console.log('decimalPointAndOn', decimalPointAndOn)
 
