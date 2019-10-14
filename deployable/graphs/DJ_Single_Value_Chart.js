@@ -46,42 +46,59 @@ create: function(element, config) {
     this._counter = 0;
 
         // Insert a <style> tag with some styles we'll use later.
+    // element.innerHTML = `
+    // <style>
+    // .container1 {
+    //     margin: 0;
+    //     padding: 0;
+    //     display: inline-block;
+    //     text-align: center;
+    //     width: ${element.clientWidth};
+    //     height: ${element.clientHeight};
+    // }
+
+    // .value1 {
+    //     font-family: Roboto;
+    //     text-align:center; 
+    //     display: inline-block;
+    //     margin: auto;
+    //     padding: auto; 
+    //     width: auto;
+    //     height: auto;
+    // }
+
+    // .title1 { 
+    //     display: block;
+    //     text-align: center;
+    //     font-size: 2rem;
+    //     width: auto;
+    //     height: auto;
+    // }
+    // </style>
+    // `;
+
     element.innerHTML = `
-    <style>
-    .container1 {
-        margin: 0;
-        padding: 0;
-        display: inline-block;
-        text-align: center;
-        width: ${element.clientWidth};
-        height: ${element.clientHeight};
-    }
+      <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
 
-    .value1 {
-        font-family: Roboto;
-        text-align:center; 
-        display: inline-block;
-        margin: auto;
-        padding: auto; 
-        width: auto;
-        height: auto;
-    }
+      .value {
+        font-size: 1.6rem;
+      }
+      </style>
 
-    .title1 { 
-        display: block;
-        text-align: center;
-        font-size: 2rem;
-        width: auto;
-        height: auto;
-    }
-    </style>
+      <div class="container">
+          <div class="value"></div>
+      </div>
     `;
 
 
-
-    this._container = d3.select(element).append('div')
-        .attr('class', 'container')
-        .attr('id', 'container');
+    // this._container = d3.select(element).append('div')
+    //     .attr('class', 'container')
+    //     .attr('id', 'container');
     
 },
     // Onto the update async section
@@ -172,6 +189,7 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
+    // This only centers the element horizontally
 // d3.select('div.container')
 //     .style('text-align', 'center')
 //     .style('display', 'block');
@@ -185,15 +203,20 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
 //     .style('margin', 'auto')
 //     .html(value);
 
-d3.select('div.container')
-    .style('display', 'flex')
-    .style('flex-direction', 'column')
-    .style('justify-content', 'center');
 
-container = this._container.append('div')
-    .attr('class', 'value')
+  // This isn't centering it properly
+// d3.select('div.container')
+//     .style('display', 'flex')
+//     .style('flex-direction', 'column')
+//     .style('justify-content', 'center');
+
+// container = this._container.append('div')
+//     .attr('class', 'value')
+//     .html(value);
+
+
+d3.select('div.value')
     .html(value);
-
 
 
     
