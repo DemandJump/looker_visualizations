@@ -47,6 +47,7 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
+    /*
     <style>
     .container {
         /*
@@ -79,6 +80,7 @@ create: function(element, config) {
     }
 
     </style>
+    */
     `;
 
 
@@ -176,12 +178,16 @@ if(config.showTitle == true) { // Touche vice versa ~ ;p
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
+d3.select('div.container')
+    .style('text-align', 'center')
+    .style('display', 'block');
 
     /*/ Instantiate the value /*/
 container = this._container.append('div')
     .attr('class', 'value')
-    .style('height', element.clientHeight)
-    .style('width', element.clientWidth)
+    .style('display', 'inline-block')
+    // .style('height', element.clientHeight)
+    // .style('width', element.clientWidth)
     .html(value);
 
 
