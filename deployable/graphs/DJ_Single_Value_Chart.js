@@ -878,7 +878,7 @@ function valueFormat(format, string) {
         let formatAmount = 0
 
             
-        for(i = 0; i < format.length) { // Find the decimal, then start adding the format until there's no more 0's
+        for(i = 0; i < format.length; i++) { // Find the decimal, then start adding the format until there's no more 0's
             if (formatPlace != -1 && format[i] == '0') {
                 formatAmount++ // Add to the format after you find the period > until you run out of zeros
             }
