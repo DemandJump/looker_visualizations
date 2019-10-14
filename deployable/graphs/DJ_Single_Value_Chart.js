@@ -123,7 +123,7 @@ console.log('\n data', data);
             /*/ Onto building the settings of the visualization /*/
 
     // Before we start the visualization, remove all the stuff currently in the vis
-d3.select(element).selectAll("*").remove();
+// d3.select(element).selectAll("*").remove();
 
 
     // This hides/shows the title's input bar
