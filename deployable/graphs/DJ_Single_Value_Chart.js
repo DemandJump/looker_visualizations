@@ -51,8 +51,9 @@ create: function(element, config) {
           <style>  .value:hover { text-decoration: underline; }  </style>
           <div class="container" style="margin: auto;  resize: vertical;">
               <div class="value" style="margin: auto;  font-size: 4.5rem; font-style: normal;  font-weight: 100;  padding-top: 1rem;"></div>
-              <div class="title" style="display: block;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
           </div>
+          <div class="title" style="display: block;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;"></div>
+
           <div class="header" style="align-self: flex-end;  margin: auto; #3A4245;"></div>
     `;
 
