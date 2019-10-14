@@ -44,7 +44,16 @@ looker.plugins.visualizations.add({
         // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
-    this._counter = 0;
+
+
+    d3.select(element)
+      .style('display', 'inline-block')
+      .style('text-align', 'center')
+      .style('margin', 'auto')
+      .style('padding', '0')
+      .style('position', 'relative')
+      .style('box-sizing', 'border-box');
+
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
@@ -57,13 +66,6 @@ create: function(element, config) {
           <div class="header" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem; padding: 1rem;  position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">footer.dimension thingyma</div>
     `;
 
-    d3.select(element)
-      .style('display', 'inline-block')
-      .style('text-align', 'center')
-      .style('margin', 'auto')
-      .style('padding', '0')
-      .style('position', 'relative')
-      .style('box-sizing', 'border-box');
     
 },
     /// Onto the update async section /// 
