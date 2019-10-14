@@ -237,8 +237,8 @@ function formatValue(formatData, string) {
 
             /***** This is the  0.00\% formatting! *****/
 
-    if (format == '0.00\\%') {
-        console.log('This is the 0.00\\% format!');    
+    if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {
+        console.log('This is the 0.00\\% format!'); 
         stringRes = string
 
         if( !(stringRes.includes('.')) ) { stringRes = stringRes + '.00%'; return stringRes }
