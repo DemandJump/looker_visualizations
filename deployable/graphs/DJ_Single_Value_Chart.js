@@ -229,7 +229,7 @@ function formatValue(formatData, string) {
 
 
         // Some stuff to stop the format from throwing errors
-    if(format == '') { return string }
+    if(format == '' || format == ' ') { return string }
 
 
         /***** If it's just 0: To remove all periods and decimals *****/
