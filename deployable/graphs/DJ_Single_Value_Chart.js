@@ -201,7 +201,8 @@ function titleOverride(title) {
 
 
 function formatValue(format, string) {
-    string = string.toString()
+    string = string.toString() // These need to be stringified for all the different text editing functions won't work
+    format = format.toString() 
     stringRes = string
     let tf = false
 
