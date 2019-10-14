@@ -62,13 +62,13 @@ create: function(element, config) {
             #vis { padding: 0; margin: 0; }
             iframe { padding: 0; margin: 0; }
           </style>
-          
+
           <div class="container" style="margin: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="value" style="margin: auto;  text-align: center;  font-size: 4.5rem; font-style: normal; font-weight: 100;"></div>
-              <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1.4rem;"></div>
+              <div class="value" style="margin: auto;  text-align: center;  font-size: 4.5rem; font-style: normal; font-weight: lighter;"></div>
+              <div class="title" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.5);  font-size: 1.6rem; font-weight: lighter;"></div>
           </div>
           
-          <div class="header" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.65);  font-size: 1rem;  position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">footer.dimension thingyma</div>
+          <div class="header" style="margin: auto;  text-align: center;  color: rgba(58, 66, 69, 0.5);  font-size: 1.4rem; font-weight: lighter;  position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">footer.dimension thingyma</div>
     `;
 
     
