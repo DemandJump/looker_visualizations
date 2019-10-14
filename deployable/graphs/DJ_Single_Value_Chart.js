@@ -674,6 +674,7 @@ function formatValue(formatData, string) {
         let beforeDecimal = '' // This is up to the decimal point
         let decimalPointAndOn = '' // This is teh decimal point an all the places beyond
 
+        console.log('This is the passed in format', format)
 
             // Calculate the number of zeros after the period, and falsify it if it contains anything other than a zero
         for(i = 6; i < format.length; i++) {
