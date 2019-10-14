@@ -123,14 +123,16 @@ console.log('details', details);
     console.log(queryResponse.fields.measures[0]
     console.log('This is the value', value)
 
+
+    console.log("This is the value format's value.",   config.valueFormat)
+    console.log("This is the value that was given",)
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
 /**************************************************************************************************************************
     * Setting up the Configuration Settings
 **************************************************************************************************************************/
-
-
+    // This is the title data 
 console.log('showTitle data', config.showTitle);
 
 
@@ -166,7 +168,6 @@ container = this._container.append('div')
     .html(value);
 
 
-console.log("This is the value format's value.", config.valueFormat)
 
 
 
