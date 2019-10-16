@@ -35,11 +35,13 @@ looker.plugins.visualizations.add({
                 values: [
                     {"Dynamic font based on element space": "dynamic_size"},
                     {"Word Break on text overflow": "word_break"},
-                    {"Ellipsis": "ellipsis"}
                 ],
                 default: "ellipsis"
             }
     },
+
+    // I took out ellipsis from text_spacing: they can use normal s_chart value for it if they need ->  {"Ellipsis": "ellipsis"}
+
 
         // Onto the create section 
 create: function(element, config) {
