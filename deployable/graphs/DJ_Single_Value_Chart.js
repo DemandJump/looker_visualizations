@@ -69,7 +69,7 @@ create: function(element, config) {
               <div class="title" style="margin: auto;  font-size: 1.6rem;  color: rgba(58, 66, 69, 0.5);"></div>
           </div>
           
-          <div class="header" style="margin: auto;  font-size: 1.4rem;  color: rgba(58, 66, 69, 0.5); position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">footer.dimension thingydude</div>
+          <div class="header" style="margin: auto;  font-size: 1.4rem;  color: rgba(58, 66, 69, 0.5); position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">selected dimension</div>
     `;
 
     
@@ -123,6 +123,9 @@ console.log('\n data', data);
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
     let valueReturn = value;
+
+    let headerName = queryResponse.fields.dimensions[0].name;
+    let hValue = data[0][headerName]["label"];
 
     console.log("\nThis is the original value looker passed us", value);
     console.log("This is the value format's value.", config.valueFormat);
@@ -215,9 +218,11 @@ if (config.valueFormat != '') {
 
     console.log('This is teh valueReturn passed in', valueReturn)
     d3.select('div.value').html(valueReturn);
+    d3.select('div.header').html(hValue);
 } else {
     console.log('This is teh valueReturn passed in', valueReturn)
     d3.select('div.value').html(valueReturn);
+    d3.select('div.header').html(hValue);
 }
 
 
