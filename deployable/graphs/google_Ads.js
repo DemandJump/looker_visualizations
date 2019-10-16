@@ -104,7 +104,6 @@ a:hover {
 }
 
 
-
           /* These are the specific styling for each of the classes */
 
 .icon {
@@ -362,22 +361,12 @@ if(config.Deploy_Vis == "off") {
     * Main Functionalty
 ******************************************************************************************************************************************/
 console.log('config switch', config.switch);
-if (config.switch == false) {
-    this._container.selectAll("*").remove(); // Clear out all the data upon startup! 
-    update();
-} else { 
-    this._container.selectAll("*").remove(); // Clear out all the data upon startup! 
-    organic(); 
-}
-
-
-
+if (config.switch == false) { this._container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
+else { this._container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
 
 function update() {
-    let width = element.clientWidth, // Dimensions w & h
-    height = element.clientHeight;
-    console.log('\nThis is the update function!')
-    console.log('This is the augmented data for the visualization', visdata)
+    let width = element.clientWidth; console.log('\nThis is the update function!') // Dimensions w & h
+    height = element.clientHeight; console.log('This is the augmented data for the visualization', visdata)
 
 
     let container = d3.select('.container').append('div')
@@ -426,10 +415,8 @@ function update() {
 
 
 function organic() {
-  let width = element.clientWidth, // Dimensions w & h
-  height = element.clientHeight;
-  console.log('\nThis is the update function!')
-  console.log('This is the augmented data for the visualization', visdata)
+  let width = element.clientWidth; console.log('\nThis is the update function!') // Dimensions w & h
+  let height = element.clientHeight; console.log('This is the augmented data for the visualization', visdata)
 
 
   let container = d3.select('.container').append('div')
