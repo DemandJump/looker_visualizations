@@ -35,6 +35,14 @@ div {
 a { 
   text-decoration: none; 
 }
+a:active,
+a:visited {
+  cursor: pointer;
+}
+a:visited {
+  color: #609;
+}
+
 
 h3 {
   font-weight: normal;
