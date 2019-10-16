@@ -427,9 +427,10 @@ function update() {
                       .style('color', '#006621')
                       .html(d => d.domain)
 
+                      // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
-                      .attr('height', '24px')
+                      .style('height', '12px')
                       .style('display', 'inline-block')
                       .style('font-size', '8px')
                       .style('text-align', 'left')
@@ -511,9 +512,10 @@ function organic() {
                     .style('color', '#006621')
                     .html(d => d.domain)
   
+                      // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
-                      .attr('height', '24px')
+                      .style('height', '12px')
                       .style('display', 'inline-block')
                       .style('font-size', '8px')
                       .style('text-align', 'left')
@@ -521,7 +523,7 @@ function organic() {
                       .style('text-decoration', 'none solid rgb(0, 102, 33)')
                       .style('color', '#006621')
                       .html('&#9660;')
-                      
+
                         // This is the description
                     .select(function() { return this.parentNode; }).append('div')
                         .attr('class', 'description')
