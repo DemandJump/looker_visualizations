@@ -153,13 +153,22 @@ if (config.text_spacing == "dynamic_size") {
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
     d3.select('div.value').style('overflow-wrap', 'break-word')
-    if (config.valueTitle != '') { d3.select('div.title').style('overflow-wrap', 'break-word') } // If there's a title
+    if (config.valueTitle != '') {  // If there's a title
+      d3.select('div.title')
+          .style('overflow-wrap', 'break-word') 
+          .style('text-overflow', 'clip')
+    }
 }
 if (config.text_spacing == "ellipsis") {
       // The original styling for the text and stuff
     d3.select('div.value').style('text-overflow', 'ellipsis')
-    if (config.valueTitle != '') { d3.select('div.title').style('text-overflow', 'ellipsis') } // If there's a title
+    if (config.valueTitle != '') {  // If there's a title
+      d3.select('div.title')
+          .style('text-overflow', 'ellipsis') 
+          .style('overflow-wrap', 'normal')
+    }
 }
+
 
     // This is for the title element based on the user input
 if (config.valueTitle != '') {
