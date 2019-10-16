@@ -32,12 +32,6 @@ div {
   overflow-wrap: break-word;
 }
 
-a { 
-  text-decoration: none; 
-}
-
-
-
 h3 {
   font-weight: normal;
   margin-block-start: 0;
@@ -84,10 +78,20 @@ cite {
 }
 
 
-.label:hover {
-  text-decoration: underline solid rgb(26, 13, 171);
+a { 
+  text-decoration: none; 
+}
+a:hover {
+  text-decoration: underline solid rgb(26, 13, 171) !important;
   color: #1A0DAB;
 }
+
+.label:hover {
+  text-decoration: underline solid rgb(26, 13, 171) !important;
+  color: #1A0DAB;
+}
+
+
 
 .icon {
   width: 14.6px;
@@ -117,31 +121,6 @@ cite {
 }
 
 
-/*
-.label {
-  display: block;
-  font-size: 20px;
-  line-height: 20px;
-  text-align: left;
-  word-spacing: 0px;
-  text-decoration: underline solid rgb(26, 13, 171);
-  color: #1A0DAB;
-}
-
-.domain {
-  width: auto;
-  height: 24px;
-  display: inline-block;
-  font-size: 16px;
-  text-align: left;
-  vertical-align: bottom;
-  text-decortation: rgb(0, 102, 33);
-  color: #006621;
-}
-
-
-*/
-
 
 /*
 <div class="ad">
@@ -153,7 +132,6 @@ cite {
   <div class="description">{description}</div>
 </div>
 */
-
 
 </style>
     `;
