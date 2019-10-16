@@ -151,30 +151,35 @@ d3.select('div.value').style('color', config.color);
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
-    console.log('This is the current size of the value element', d3.select('div.value').clientWidth)
+    if (config.valueTitle != '') {
+        d3.select('div.value')
+            .style('overflow-wrap', 'normal')
+            .style('text-overflow', 'clip')
+        d3.select('div.title')
+            .style('overflow-wrap', 'normal')
+            .style('text-overflow', 'clip')
+    }    
 }
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-    d3.select('div.value').style('overflow-wrap', 'break-word')
     if (config.valueTitle != '') {  // If there's a title
-      d3.select('div.title')
-          .style('overflow-wrap', 'break-word') 
-          .style('text-overflow', 'clip')
-      d3.select('div.value')
-          .style('overflow-wrap', 'break-word') 
-          .style('text-overflow', 'clip')
+        d3.select('div.title')
+            .style('overflow-wrap', 'break-word') 
+            .style('text-overflow', 'clip')
+        d3.select('div.value')
+            .style('overflow-wrap', 'break-word') 
+            .style('text-overflow', 'clip')
     }
 }
 if (config.text_spacing == "ellipsis") {
       // The original styling for the text and stuff
-    d3.select('div.value').style('text-overflow', 'ellipsis')
     if (config.valueTitle != '') {  // If there's a title
-      d3.select('div.title')
-          .style('text-overflow', 'ellipsis') 
-          .style('overflow-wrap', 'normal')
-      d3.select('div.value')
-          .style('text-overflow', 'ellipsis') 
-          .style('overflow-wrap', 'normal')
+        d3.select('div.title')
+            .style('text-overflow', 'ellipsis') 
+            .style('overflow-wrap', 'normal')
+        d3.select('div.value')
+            .style('text-overflow', 'ellipsis') 
+            .style('overflow-wrap', 'normal')
     }
 }
 
