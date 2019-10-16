@@ -24,7 +24,7 @@ html, body {
   margin: 0;
   padding: 0; 
   box-sizing: border-box;
-  font-family:'Roboto', 'Arial';
+  font-family: 'Arial';
   display: block; 
 }
 
@@ -52,25 +52,18 @@ h3 {
 .hello-world-text-large { 
   font-size: 72px;
 }
-
 .ad {
   width: 632px;
-  // height: 120px;
+  /*
+  height: 120px;
   margin: 2rem 0 0 0;
   padding: 0 16px 0 16px;
+  */
 }
-
-cite {
-  border-radius: 3px;
-  font-style: normal;
-  font-size: 11px;
-  border: 1px solid #006621;
-}
-
 .container {
   padding: 1rem 2rem 1rem 2rem;
+  font-family: 'Roboto'; /* We need to see if all elements will inherit this stuff, or if we need to add all this stuff to each class for the single stylesheet we'll be using from now on */
 }
-
 .holder { 
   overflow: scroll;
   text-align: center;
@@ -85,41 +78,64 @@ a:hover {
   text-decoration: underline solid rgb(26, 13, 171) !important;
   color: #1A0DAB;
 }
-
 .label:hover {
   text-decoration: underline solid rgb(26, 13, 171) !important;
   color: #1A0DAB;
 }
 
 
+          /* These are the specific styling for each of the classes */
 
 .icon {
   width: 14.6px;
   height: 11px;
   display: inline-block;
-  font-size: 12px;
-  font-style: none;
+  font-size: 11px;
   line-height: 11px;
   text-decoration: none solid rgb(1, 102, 33);
   text-align: left;
-  white-spacing: nowrap;
   word-spacing: 0px
   border: 1px solid #006621;
   margin: 0 7px 0 0;
-  padding: 1px 3px 0 2px;
+  padding: 0px 2px 1px 3px;
+}
+cite {
+  border-radius: 3px;
+  font-style: normal;
+  border: 1px solid #006621;
+}
+
+.domain {
+  display: inline-block;
+  font-size: 16px;
+  text-align: left;
+  vertical-align: bottom;
+  text-decoration: none solid rgb(0, 102, 33);
+  /* color: #006621; */
+}
+
+.dropdown {
+  height: 13.5px;
+  display: inline-block;
+  font-size: 9px; 
+  text-align: left;
+  vertical-align: bottom;
+  padding-left: 4px;
+  text-decoration: none solid rgb(0, 102, 33);
+  /* color: #006621; */
 }
 
 .description {
   display: block;
   font-size: 14px;
   line-height: 22px;
-  text-decoration: none solid rgb(84, 84, 84);
   text-align: left;
-  color: #545454;
   overflow: hidden;
   overflow-wrap: break-word;
+  margin-top: 4px;
+  text-decoration: none solid rgb(84, 84, 84);
+  /* color: #545454; */
 }
-
 
 
 /*
@@ -380,60 +396,21 @@ function update() {
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
-                  // .attr('width', '20px')
-                  // .attr('height' , '10px')
-                  .style('display','inline-block')
-                  .style('font-size', '11px')
-                  .style('line-height', '11px')
-                  .style('text-decoration', 'none solid rgb(0, 102, 33)')
-                  .style('text-align', 'left')
-                  .style('white-spacing', 'nowrap')
-                  .style('word-spacing', '0px')
-                  .style('border', '1px solid #06621 !important')
-                  .style('color', '#006621')
-                  .style('margin', '0 7px 0 0')
-                  .style('padding', '0px 2px 1px 3px')
                   .html('Ad')
                 
                       // This is the domain link
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'domain')
-                      // .attr('height', '24px')
-                      .style('display', 'inline-block')
-                      .style('font-size', '16px')
-                      .style('text-align', 'left')
-                      .style('vertical-align', 'bottom')
-                      .style('text-decoration', 'none solid rgb(0, 102, 33)')
-                      .style('color', '#006621')
                       .html(d => d.domain)
 
                       // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
-                      .style('height', '13.5px')
-                      .style('padding-left', '4px')
-                      .style('display', 'inline-block')
-                      .style('font-size', '9px')
-                      .style('text-align', 'left')
-                      .style('vertical-align', 'bottom')
-                      .style('text-decoration', 'none solid rgb(0, 102, 33)')
-                      .style('color', '#006621')
                       .html('&#9660;')
     
                           // This is the description
                       .select(function() { return this.parentNode; }).append('div')
                           .attr('class', 'description')
-                          // .attr('width', '600px')
-                          // .attr('height', '66px')
-                          .style('display', 'block')
-                          .style('font-size', '14px')
-                          .style('line-height', '22px')
-                          .style('text-decoration', 'none solid rgb(84, 84, 84)')
-                          .style('text-align', 'left')
-                          .style('color', '#545454')
-                          .style('overflow', 'hidden')
-                          .style('overflow-wrap', 'break-word')
-                          .style('margin-top', '4px')
                           .html(d => d.description)
 
 
