@@ -381,8 +381,8 @@ function update() {
         // This is the class that holds the ad, 
     let ads = adEnter.enter().append('div')
         .attr('class', 'ad')
-        .attr('width', '632px')
-        .attr('height', 'auto')
+        // .attr('width', '632px')
+        // .attr('height', 'auto')
         .style('margin', '1rem 0 0 0')
         .style('padding', '0 16px 0 16px');
 
@@ -408,8 +408,8 @@ function update() {
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
                   .attr('class', 'icon')
-                  .attr('width', '20px')
-                  .attr('height' , '10px')
+                  // .attr('width', '20px')
+                  // .attr('height' , '10px')
                   .style('display','inline-block')
                   .style('font-size', '11px')
                   .style('line-height', '11px')
@@ -426,7 +426,7 @@ function update() {
                       // This is the domain link
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'domain')
-                      .attr('height', '24px')
+                      // .attr('height', '24px')
                       .style('display', 'inline-block')
                       .style('font-size', '16px')
                       .style('text-align', 'left')
@@ -451,8 +451,8 @@ function update() {
                           // This is the description
                       .select(function() { return this.parentNode; }).append('div')
                           .attr('class', 'description')
-                          .attr('width', '600px')
-                          .attr('height', '66px')
+                          // .attr('width', '600px')
+                          // .attr('height', '66px')
                           .style('display', 'block')
                           .style('font-size', '14px')
                           .style('line-height', '22px')
@@ -486,8 +486,8 @@ function organic() {
       // This is the class that holds the ad, 
   let ads = adEnter.enter().append('div')
       .attr('class', 'ad')
-      .attr('width', '632px')
-      .attr('height', 'auto')
+      // .attr('width', '632px')
+      // .attr('height', 'auto')
       .style('margin', '1rem 0 0 0')
       .style('padding', '0 16px 0 16px');
 
@@ -513,7 +513,7 @@ function organic() {
                     // This is the domain link
                 .select(function() { return this.parentNode; }).append('div')
                     .attr('class', 'domain')
-                    .attr('height', '24px')
+                    // .attr('height', '24px')
                     .style('display', 'inline-block')
                     .style('font-size', '16px')
                     .style('text-align', 'left')
@@ -538,8 +538,8 @@ function organic() {
                         // This is the description
                     .select(function() { return this.parentNode; }).append('div')
                         .attr('class', 'description')
-                        .attr('width', '600px')
-                        .attr('height', '66px')
+                        // .attr('width', '600px')
+                        // .attr('height', '66px')
                         .style('display', 'block')
                         .style('font-size', '14px')
                         .style('line-height', '22px')
