@@ -383,8 +383,9 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
             let newWord = '<strong>' + word + '</strong>';
             console.log('This is the word', word)
             console.log('New word', newWord)
-            ad.description.replace(word, newWord)
-            console.log('This is bold description', ad.description)
+            let desc = ad.description 
+            desc.replace(word, newWord)
+            console.log('This is new bold description', desc)
         })
 
     })
