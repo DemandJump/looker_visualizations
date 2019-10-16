@@ -227,6 +227,28 @@ console.log('details', details);
 
 
 console.log('looking for the sql within queryResponse', queryResponse.sql);
+let sqlq = queryResponse.sql;
+let quotationSearch = false;
+let extractString = false;
+let searchTerms = '';
+    // We need to grab the string within the quotations after the WHERE clause of this sql statement 
+for(i = 0; i < sqlq.length; i++) {
+    if( sqlq[i] == 'W' && sqlq[i + 1] == 'H' && sqlq[i + 2] == 'E' && sqlq[i + 3] == 'R' && sqlq[i + 4] == 'E') { // If we find where, start to search for the quotations
+        quotationSearch = true // Lets go ahead and log this part, then search for the query
+    }
+    if (quotationSearch) { // Turn this next part on and off based on when we find the filter quote
+        if (sqlq[i] == "'") { 
+          extractString = !extractString 
+        } 
+    }
+    if (extractString) { // While this is true, catalog the values, and remove the initial extracted string (it's a quote)
+        extractString = extractString + sqlq[i]
+    }
+} searchTerms = searchTerms.substr(1) // This is teh finished version of substr
+
+    // Then let's log each individual word to input into the description and bold each term that's found
+let boldWords = [];
+boldWords = searchTerms.trim().split(" ");
 /******************************************************************************************************************************************
                                                                                                     * End of Dimension Initialization
 ******************************************************************************************************************************************/
@@ -339,6 +361,7 @@ console.log(`this is the config.description:`, description)
 if(config.link != "null" && config.domain != "null" && config.title != "null" && config.description != "null") {
         // Rebuild the data renaming the keys to suit the chosen dimensions to link to the user 
     visdata.forEach(ad => {
+            // This is important to rename the selected user dimensions to these static names for easier readability and for easy access to select these values in instantiation
       // console.log('ad', ad);
         ad.link = ad[link].value
         ad.domain = ad[domain].value
@@ -348,6 +371,32 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
         delete ad[domain]
         delete ad[label]
         delete ad[description]
+
+            // !<b></b>! Go through every description and add bold to all the search term values
+        // Remember we're running through description and boldWords
+        for(i = 0; i < ad.description.length; i++) { // Parsing through description
+            for(j = 0; j < boldWords.length; j++) { // Parsing through each bold word
+                if (ad.description[i] == boldWords[j][0]) { // If the current letter in description matches the first letter in each(checking every) of the bold words
+                      // Run through the word, and see if it matches the letters in description, run a tf value: if tf ends up true run bold for that word
+                    let tf = true // Start as true, null it if one letter is wrong!
+                    for(k = 0; k < boldWords[j].length; k++) { // Parsing through the current word, check if each letter matches each of the next word in the description
+                        if (boldWords[j][k] != description[i + k]) {
+                            tf = false 
+                        }
+                    }
+
+                        // For each true match, we're still on the starting letter of the description[i] with the matching bold word[j], add <b></b> to it!
+                    let newDescription = '';
+                    let strBefLtr = ad.description.substr(0, i) + '<b>' // String all the way up to the current letter
+                    let word = ad.description.substr(i, j) // Pull out the word (which is identical in description)
+                    let strAftrLtr = '</b>' + ad.description.substr(i)
+                    let newString = strBefLtr + word + strAftrLtr
+                    ad.description = newString
+                    i = i + j + 6 // I plus the word's length -1, and the length of the bold characters
+                }
+            }
+        }
+        console.log('This is the ad description', ad.description)
     })
     update();
 }
