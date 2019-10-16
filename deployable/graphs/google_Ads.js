@@ -139,7 +139,7 @@ cite {
 .dropdown {
   height: 13.5px;
   display: inline-block;
-  font-size: 9px; 
+  font-size: 8.5px; 
   text-align: left;
   vertical-align: bottom;
   padding-left: 4px;
