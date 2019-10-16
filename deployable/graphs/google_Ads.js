@@ -32,20 +32,7 @@ div {
   overflow-wrap: break-word;
 }
 
-a { 
-  text-decoration: none; 
-}
-a:active,
-a:visited {
-  cursor: pointer;
-}
-a:visited {
-  color: #609;
-}
-.a:hover {
-  text-decoration: underline solid rgb(26, 13, 171);
-  color: #1A0DAB;
-}
+
 
 
 h3 {
@@ -94,6 +81,10 @@ cite {
 }
 
 
+.label:hover {
+  text-decoration: underline solid rgb(26, 13, 171);
+  color: #1A0DAB;
+}
 
 .icon {
   width: 14.6px;
@@ -394,7 +385,7 @@ function update() {
         .style('line-height', '20px')
         .style('text-align', 'left')
         .style('word-spacing', '0px')
-        // .style('text-decoration', 'none solid rgb(26, 13, 171)')
+        .style('text-decoration', 'none solid rgb(26, 13, 171)')
         .style('color', '#1A0DAB')
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
@@ -499,7 +490,7 @@ function organic() {
       .style('line-height', '20px')
       .style('text-align', 'left')
       .style('word-spacing', '0px')
-      // .style('text-decoration', 'none solid rgb(26, 13, 171)')
+      .style('text-decoration', 'none solid rgb(26, 13, 171)')
       .style('color', '#1A0DAB')
       .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
