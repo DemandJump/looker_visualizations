@@ -84,7 +84,8 @@ cite {
 
 .label:hover {
   text-decoration: underline solid rgb(26, 13, 171);
-}
+  color: #1A0DAB;
+} /* rgb(26, 13, 171) */
 
 .icon {
   width: 14.6px;
@@ -121,6 +122,7 @@ cite {
   line-height: 20px;
   text-align: left;
   word-spacing: 0px;
+  text-decoration: underline solid rgb(26, 13, 171);
   color: #1A0DAB;
 }
 
@@ -352,10 +354,11 @@ if (config.switch == false) {
 }
 
 
+
+
 function update() {
     let width = element.clientWidth, // Dimensions w & h
     height = element.clientHeight;
-
     console.log('\nThis is the update function!')
     console.log('This is the augmented data for the visualization', visdata)
 
@@ -372,25 +375,25 @@ function update() {
         .attr('class', 'ad')
         .attr('width', '632px')
         .attr('height', 'auto')
-        .attr('margin', '1rem 0 0 0')
-        .attr('padding', '0 16px 0 16px');
-
+        .style('margin', '1rem 0 0 0')
+        .style('padding', '0 16px 0 16px');
 
         // This is the Title, or the Label
     ads.append('h3')
         .attr('class', 'label')
-        .attr('display', 'block')
-        .attr('font-size', '20px')
-        .attr('line-height', '20px')
-        .attr('text-align', 'left')
-        .attr('word-spacing', '0px')
-        .attr('color', '#1A0DAB')
+        .style('display', 'block')
+        .style('font-size', '20px')
+        .style('line-height', '20px')
+        .style('text-align', 'left')
+        .style('word-spacing', '0px')
+        .style('text-decoration', 'underline solid rgb(26, 13, 171)')
+        .style('color', '#1A0DAB')
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
         //   // This is the Ad icon to the left of the domain link.
         .select(function() { return this.parentNode; }).append('div')
             .attr('class', 'link-section')
-            .attr('text-align', 'left')
+            .style('text-align', 'left')
             .attr('height', '24px')
             .attr('width', 'auto')
       
@@ -407,6 +410,7 @@ function update() {
                   .style('white-spacing', 'nowrap')
                   .style('word-spacing', '0px')
                   .style('border', '1px solid #06621 !important')
+                  .style('color', '#006621')
                   .style('margin', '0 7px 0 0')
                   .style('padding', '0px 2px 1px 3px')
                   .html('Ad')
@@ -419,7 +423,7 @@ function update() {
                       .style('font-size', '16px')
                       .style('text-align', 'left')
                       .style('vertical-align', 'bottom')
-                      // .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                      .style('text-decoration', 'none solid rgb(0, 102, 33)')
                       .style('color', '#006621')
                       .html(d => d.domain)
     
@@ -431,12 +435,13 @@ function update() {
                           .style('display', 'block')
                           .style('font-size', '14px')
                           .style('line-height', '22px')
-                          // .style('text-decoration', 'none solid rgb(84, 84, 84)')
+                          .style('text-decoration', 'none solid rgb(84, 84, 84)')
                           .style('text-align', 'left')
                           .style('color', '#545454')
                           .style('overflow', 'hidden')
                           .style('overflow-wrap', 'break-word')
                           .html(d => d.description)
+
 
     ads.exit().remove();
 }
@@ -445,7 +450,6 @@ function update() {
 function organic() {
   let width = element.clientWidth, // Dimensions w & h
   height = element.clientHeight;
-
   console.log('\nThis is the update function!')
   console.log('This is the augmented data for the visualization', visdata)
 
@@ -462,25 +466,25 @@ function organic() {
       .attr('class', 'ad')
       .attr('width', '632px')
       .attr('height', 'auto')
-      .attr('margin', '1rem 0 0 0')
-      .attr('padding', '0 16px 0 16px');
-
+      .style('margin', '1rem 0 0 0')
+      .style('padding', '0 16px 0 16px');
 
       // This is the Title, or the Label
   ads.append('h3')
       .attr('class', 'label')
-      .attr('display', 'block')
-      .attr('font-size', '20px')
-      .attr('line-height', '20px')
-      .attr('text-align', 'left')
-      .attr('word-spacing', '0px')
-      .attr('color', '#1A0DAB')
+      .style('display', 'block')
+      .style('font-size', '20px')
+      .style('line-height', '20px')
+      .style('text-align', 'left')
+      .style('word-spacing', '0px')
+      .style('text-decoration', 'underline solid rgb(26, 13, 171)')
+      .style('color', '#1A0DAB')
       .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
       //   // This is the Ad icon to the left of the domain link.
       .select(function() { return this.parentNode; }).append('div')
           .attr('class', 'link-section')
-          .attr('text-align', 'left')
+          .style('text-align', 'left')
           .attr('height', '24px')
           .attr('width', 'auto')
               
@@ -492,7 +496,7 @@ function organic() {
                     .style('font-size', '16px')
                     .style('text-align', 'left')
                     .style('vertical-align', 'bottom')
-                    // .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                    .style('text-decoration', 'none solid rgb(0, 102, 33)')
                     .style('color', '#006621')
                     .html(d => d.domain)
   
@@ -504,12 +508,13 @@ function organic() {
                         .style('display', 'block')
                         .style('font-size', '14px')
                         .style('line-height', '22px')
-                        // .style('text-decoration', 'none solid rgb(84, 84, 84)')
+                        .style('text-decoration', 'none solid rgb(84, 84, 84)')
                         .style('text-align', 'left')
                         .style('color', '#545454')
                         .style('overflow', 'hidden')
                         .style('overflow-wrap', 'break-word')
                         .html(d => d.description)
+
 
   ads.exit().remove();
 }
