@@ -65,7 +65,7 @@ create: function(element, config) {
           </style>
 
           <div class="container" style="margin: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="value" style="margin: auto;  font-size: 4.5rem;  font-style: normal;"></div>
+              <div class="value" style="margin: auto;  font-size: font-size: 9vw;  font-style: normal;  max-width: 344px;"></div>
               <div class="title" style="margin: auto;  font-size: 1.6rem;  color: rgba(58, 66, 69, 0.5);"></div>
           </div>
           
