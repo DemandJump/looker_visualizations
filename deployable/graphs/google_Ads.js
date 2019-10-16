@@ -426,6 +426,17 @@ function update() {
                       .style('text-decoration', 'none solid rgb(0, 102, 33)')
                       .style('color', '#006621')
                       .html(d => d.domain)
+
+                  .select(function() { return this.parentNode; }).append('div')
+                      .attr('class', 'dropdown')
+                      .attr('height', '24px')
+                      .style('display', 'inline-block')
+                      .style('font-size', '8px')
+                      .style('text-align', 'left')
+                      .style('vertical-align', 'bottom')
+                      .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                      .style('color', '#006621')
+                      .html('&#9660;')
     
                           // This is the description
                       .select(function() { return this.parentNode; }).append('div')
@@ -477,7 +488,7 @@ function organic() {
       .style('line-height', '20px')
       .style('text-align', 'left')
       .style('word-spacing', '0px')
-      .style('text-decoration', 'underline solid rgb(26, 13, 171)')
+      .style('text-decoration', 'none solid rgb(26, 13, 171)')
       .style('color', '#1A0DAB')
       .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
@@ -500,6 +511,17 @@ function organic() {
                     .style('color', '#006621')
                     .html(d => d.domain)
   
+                  .select(function() { return this.parentNode; }).append('div')
+                      .attr('class', 'dropdown')
+                      .attr('height', '24px')
+                      .style('display', 'inline-block')
+                      .style('font-size', '8px')
+                      .style('text-align', 'left')
+                      .style('vertical-align', 'bottom')
+                      .style('text-decoration', 'none solid rgb(0, 102, 33)')
+                      .style('color', '#006621')
+                      .html('&#9660;')
+                      
                         // This is the description
                     .select(function() { return this.parentNode; }).append('div')
                         .attr('class', 'description')
