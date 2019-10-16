@@ -376,24 +376,33 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
             // !<b></b>! Go through every description and add bold to all the search term values
         // Remember we're running through description and boldWords
         for(i = 0; i < ad.description.length; i++) { // Parsing through description
+            console.log('this is the current ad description', ad.description)
             for(j = 0; j < boldWords.length; j++) { // Parsing through each bold word
+                console.log('This is the current bold word', boldWords[j])
                 if (ad.description[i] == boldWords[j][0]) { // If the current letter in description matches the first letter in each(checking every) of the bold words
                       // Run through the word, and see if it matches the letters in description, run a tf value: if tf ends up true run bold for that word
+
                     let tf = true // Start as true, null it if one letter is wrong!
                     for(k = 0; k < boldWords[j].length; k++) { // Parsing through the current word, check if each letter matches each of the next word in the description
-                        if (boldWords[j][k] != description[i + k]) {
+                        console.log('This is the current bold word letter', boldWord[j][k])
+                        console.log('This is the current description letter', ad.description[i + k])
+                        if (boldWords[j][k] != ad.description[i + k]) {
                             tf = false 
                         }
                     }
 
-                        // For each true match, we're still on the starting letter of the description[i] with the matching bold word[j], add <b></b> to it!
-                    let newDescription = '';
-                    let strBefLtr = ad.description.substr(0, i) + '<b>' // String all the way up to the current letter
-                    let word = ad.description.substr(i, j) // Pull out the word (which is identical in description)
-                    let strAftrLtr = '</b>' + ad.description.substr(i)
-                    let newString = strBefLtr + word + strAftrLtr
-                    ad.description = newString
-                    i = i + j + 6 // I plus the word's length -1, and the length of the bold characters
+
+                    if (tf) {
+                            // For each true match, we're still on the starting letter of the description[i] with the matching bold word[j], add <b></b> to it!
+                        let newDescription = '';
+                        let strBefLtr = ad.description.substr(0, i) + '<b>' // String all the way up to the current letter
+                        let word = ad.description.substr(i, j) // Pull out the word (which is identical in description)
+                        let strAftrLtr = '</b>' + ad.description.substr(i)
+                        let newString = strBefLtr + word + strAftrLtr
+                        ad.description = newString
+                        i = i + j + 6 // I plus the word's length -1, and the length of the bold characters
+                    }
+
                 }
             }
         }
