@@ -22,7 +22,7 @@ create: function(element, config) {
 <style>
   @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); /* Manually import the Roboto font style */
 
-span.bold {
+.bold {
   font-weight: bold;
 }
 
@@ -380,7 +380,7 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
         let boldDescription = ad.description 
         boldWords.forEach(word => {
               // Replace every matching word with
-            let newWord = '<span class="bold">' + word + '</span>';
+            let newWord = '<div class="bold">' + word + '</div>';
             console.log('This is the word', word)
             console.log('New word', newWord)
             let desc = ad.description 
