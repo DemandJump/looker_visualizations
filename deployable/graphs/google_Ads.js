@@ -462,42 +462,17 @@ function organic() {
                     // This is the domain link
                 .select(function() { return this.parentNode; }).append('div')
                     .attr('class', 'domain')
-                    // .attr('height', '24px')
-                    .style('display', 'inline-block')
-                    .style('font-size', '16px')
-                    .style('text-align', 'left')
-                    .style('vertical-align', 'bottom')
-                    .style('text-decoration', 'none solid rgb(0, 102, 33)')
-                    .style('color', '#006621')
                     .html(d => d.domain)
   
                       // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
-                      .style('height', '13.5px')
-                      .style('padding-left', '4px')
-                      .style('display', 'inline-block')
-                      .style('font-size', '9px')
-                      .style('text-align', 'left')
-                      .style('vertical-align', 'bottom')
-                      .style('text-decoration', 'none solid rgb(0, 102, 33)')
-                      .style('color', '#006621')
                       .html('&#9660;')
 
                         // This is the description
                     .select(function() { return this.parentNode; }).append('div')
                         .attr('class', 'description')
-                        // .attr('width', '600px')
-                        // .attr('height', '66px')
-                        .style('display', 'block')
-                        .style('font-size', '14px')
-                        .style('line-height', '22px')
-                        .style('text-decoration', 'none solid rgb(84, 84, 84)')
-                        .style('text-align', 'left')
-                        .style('color', '#545454')
-                        .style('overflow', 'hidden')
-                        .style('overflow-wrap', 'break-word')
-                        .style('margin-top', '4px')
+
                         .html(d => d.description)
 
 
