@@ -247,10 +247,10 @@ for(i = 0; i < sqlq.length; i++) {
         } 
     }
     if (extractString) { // While this is true, catalog the values, and remove the initial extracted string (it's a quote)
-        extractString = extractString + sqlq[i]
+        searchTerms = searchTerms + sqlq[i]
     }
 } searchTerms = searchTerms.substr(1) // This is teh finished version of substr
-
+console.log('Search Terms', searchTerms)
     // Then let's log each individual word to input into the description and bold each term that's found
 let boldWords = [];
 boldWords = searchTerms.trim().split(" ");
@@ -385,7 +385,7 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
             boldDescription = boldDescription.replace(word, newWord)
             console.log('This is bold description', boldDescription)
         })
-        
+
     })
 }
 /****************************************************************
