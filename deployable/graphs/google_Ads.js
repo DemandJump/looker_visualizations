@@ -20,7 +20,7 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
 <style>
-
+  @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); /* Manually import the Roboto font style */
 
 html, body { 
   margin: 0;
