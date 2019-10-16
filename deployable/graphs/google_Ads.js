@@ -32,9 +32,7 @@ div {
   overflow-wrap: break-word;
 }
 
-a { 
-  text-decoration: none; 
-}
+
 a:active,
 a:visited {
   cursor: pointer;
@@ -42,6 +40,7 @@ a:visited {
 a:visited {
   color: #609;
 }
+
 
 
 h3 {
@@ -93,7 +92,7 @@ cite {
 .label:hover {
   text-decoration: underline solid rgb(26, 13, 171);
   color: #1A0DAB;
-} /* rgb(26, 13, 171) */
+}
 
 .icon {
   width: 14.6px;
