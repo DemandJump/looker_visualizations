@@ -438,7 +438,7 @@ function update() {
                       // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
-                      .style('height', '12px')
+                      .style('height', '12.5px')
                       .style('padding-left', '4px')
                       .style('display', 'inline-block')
                       .style('font-size', '8px')
@@ -525,7 +525,7 @@ function organic() {
                       // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
-                      .style('height', '12px')
+                      .style('height', '12.5px')
                       .style('padding-left', '4px')
                       .style('display', 'inline-block')
                       .style('font-size', '8px')
