@@ -433,6 +433,7 @@ function organic() {
       // This is the Title, or the Label
   ads.append('h3')
       .attr('class', 'label')
+      .style('margin-bottom', '6px')
       .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
       //   // This is the Ad icon to the left of the domain link.
