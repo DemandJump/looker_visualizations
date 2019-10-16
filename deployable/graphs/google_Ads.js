@@ -224,6 +224,9 @@ console.log('details', details);
     let measures = queryResponse.fields.measures;
     console.log('Checking out query resposne dimension fields: ', dimensions);
     console.log('Checking out query resposne measure fields: ', measures);
+
+
+console.log('looking for the sql within queryResponse', queryResponse.sql);
 /******************************************************************************************************************************************
                                                                                                     * End of Dimension Initialization
 ******************************************************************************************************************************************/
