@@ -380,11 +380,11 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
         let boldDescription = ad.description 
         boldWords.forEach(word => {
               // Replace every matching word with
-            let newWord = '!!!!!!!!!!!!!!!!!!!!!';
+            let newWord = '<strong>' + word + '</strong>';
             console.log('This is the word', word)
             console.log('New word', newWord)
             let desc = ad.description 
-            ad.description = desc.replace('Beer', newWord)
+            ad.description = desc.replace(word, newWord)
             console.log('This is new bold description', ad.description)
         })
 
