@@ -352,16 +352,13 @@ console.log('These are the search terms! ', boldWords);
 /****************************************************************
         * Update the Options
 ****************************************************************/
-let visdata = data, // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
-link = config.link,
-domain = config.domain,
-label = config.label,
-description = config.description;
+    // Here is what we use to re render the data dynamically for our visualization based on what the user chooses
+let visdata = data; 
+let link = config.link; console.log(`\nthis is the config.link:`, link)
+let domain = config.domain; console.log(`this is the config.domain:`, domain)
+let label = config.label; console.log(`this is the config.label:`, label)
+let description = config.description; console.log(`this is the config.description:`, description)
 
-console.log(`\nthis is the config.link:`, link)
-console.log(`this is the config.domain:`, domain)
-console.log(`this is the config.label:`, label)
-console.log(`this is the config.description:`, description)
 
     //  When they start the visualization, we'll pull these together to rename the data's keynames to build the visualizaiton!
 if(config.link != "null" && config.domain != "null" && config.title != "null" && config.description != "null") {
@@ -386,10 +383,6 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
         })
         console.log('This is the new description', ad.description)
     })
-}
-
-if(config.Deploy_Vis == "off") {
-  this._container.selectAll("*").remove();
 }
 /****************************************************************
                             * End of Options Update
