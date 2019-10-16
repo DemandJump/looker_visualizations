@@ -366,15 +366,17 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
     visdata.forEach(ad => {
             // This is important to rename the selected user dimensions to these static names for easier readability and for easy access to select these values in instantiation
       // console.log('ad', ad);
-        ad.link = ad[link].value
+        ad.link = ad[link].value 
         ad.domain = ad[domain].value
         ad.label = ad[label].value
         ad.description = ad[description].value
-        delete ad[link]
+        delete ad[link] // Deleting complex looker names we just copied
         delete ad[domain]
         delete ad[label]
         delete ad[description]
 
+        console.log('ad.description', ad.description)
+        console.log(' ')
             // !<b></b>! Go through every description and add bold to all the search term values
         // Remember we're running through description and boldWords
         boldWords.forEach(word => {
