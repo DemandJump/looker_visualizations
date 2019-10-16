@@ -394,8 +394,8 @@ function update() {
         .select(function() { return this.parentNode; }).append('div')
             .attr('class', 'link-section')
             .style('text-align', 'left')
-            .attr('height', '24px')
-            .attr('width', 'auto')
+            .style('height', '6px')
+            .style('width', 'auto')
       
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
@@ -431,6 +431,7 @@ function update() {
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
                       .style('height', '12px')
+                      .style('padding-left', '4px')
                       .style('display', 'inline-block')
                       .style('font-size', '8px')
                       .style('text-align', 'left')
@@ -452,6 +453,7 @@ function update() {
                           .style('color', '#545454')
                           .style('overflow', 'hidden')
                           .style('overflow-wrap', 'break-word')
+                          .style('margin-top', '4px')
                           .html(d => d.description)
 
 
@@ -497,8 +499,8 @@ function organic() {
       .select(function() { return this.parentNode; }).append('div')
           .attr('class', 'link-section')
           .style('text-align', 'left')
-          .attr('height', '24px')
-          .attr('width', 'auto')
+          .style('height', '6px')
+          .style('width', 'auto')
               
                     // This is the domain link
                 .select(function() { return this.parentNode; }).append('div')
@@ -516,6 +518,7 @@ function organic() {
                   .select(function() { return this.parentNode; }).append('div')
                       .attr('class', 'dropdown')
                       .style('height', '12px')
+                      .style('padding-left', '4px')
                       .style('display', 'inline-block')
                       .style('font-size', '8px')
                       .style('text-align', 'left')
@@ -537,6 +540,7 @@ function organic() {
                         .style('color', '#545454')
                         .style('overflow', 'hidden')
                         .style('overflow-wrap', 'break-word')
+                        .style('margin-top', '4px')
                         .html(d => d.description)
 
 
