@@ -375,16 +375,17 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
         delete ad[label]
         delete ad[description]
 
-        // description = ad.description
             // !<b></b>! Go through every description and add bold to all the search term values
         // Remember we're running through description and boldWords
+        let boldDescription = ad.description 
         boldWords.forEach(word => {
               // Replace every matching word with
             let newWord = '<strong>' + word + '</strong>'
-            ad.description.replace(word, newWord)
+            let boldDescription = ad.description
+            boldDescription = boldDescription.replace(word, newWord)
+            console.log('This is bold description', boldDescription)
         })
-        console.log('This is the new description', ad.description)
-        // ad.description = description
+        
     })
 }
 /****************************************************************
