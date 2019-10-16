@@ -152,12 +152,18 @@ d3.select('div.value').style('color', config.color);
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
     if (config.valueTitle != '') {
-        d3.select('div.value')
-            .style('overflow-wrap', 'normal')
-            .style('text-overflow', 'clip')
         d3.select('div.title')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
+            .style('font-size', '3vw')
+        d3.select('div.value')
+            .style('overflow-wrap', 'normal')
+            .style('text-overflow', 'clip')
+            .style('font-size', '9vw')
+        d3.select('div.header')
+            .style('overflow-wrap', 'normal')
+            .style('overflow-wrap', 'clip')
+            .style('font-size', '3vw')
     }    
 }
 if (config.text_spacing == "word_break") {
@@ -166,9 +172,15 @@ if (config.text_spacing == "word_break") {
         d3.select('div.title')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
+            .style('font-size', '1.6rem')
         d3.select('div.value')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
+            .style('font-size', '4.5rem')
+        d3.select('div.header')
+            .style('overflow-wrap', 'normal')
+            .style('overflow-wrap', 'clip')
+            .style('font-size', '1.4rem')
     }
 }
 if (config.text_spacing == "ellipsis") {
@@ -177,9 +189,16 @@ if (config.text_spacing == "ellipsis") {
         d3.select('div.title')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
+            .style('font-size', '1.6rem')
         d3.select('div.value')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
+            .style('font-size', '4.5rem')
+        d3.select('div.header')
+            .style('overflow-wrap', 'normal')
+            .style('overflow-wrap', 'clip')
+            .style('font-size', '1.4rem')
+
     }
 }
 
