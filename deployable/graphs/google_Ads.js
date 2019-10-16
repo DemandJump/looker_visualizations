@@ -32,6 +32,9 @@ div {
   overflow-wrap: break-word;
 }
 
+a { 
+  text-decoration: none; 
+}
 
 
 
