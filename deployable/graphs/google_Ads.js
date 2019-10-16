@@ -23,7 +23,7 @@ create: function(element, config) {
   @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap'); /* Manually import the Roboto font style */
 
 strong {
-  font-style: bold
+  font-weight: bold;
 }
 
 html, body { 
