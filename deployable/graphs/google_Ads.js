@@ -24,7 +24,7 @@ html, body {
   margin: 0;
   padding: 0; 
   box-sizing: border-box;
-  font-family: Arial, Roboto;
+  font-family:'Roboto', 'Arial';
   display: block; 
 }
 
@@ -47,7 +47,7 @@ h3 {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
   text-align: center;
 }
 .hello-world-text-small {
