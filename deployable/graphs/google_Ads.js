@@ -52,14 +52,6 @@ h3 {
 .hello-world-text-large { 
   font-size: 72px;
 }
-.ad {
-  width: 632px;
-  /*
-  height: 120px;
-  margin: 2rem 0 0 0;
-  padding: 0 16px 0 16px;
-  */
-}
 .container {
   padding: 1rem 2rem 1rem 2rem;
   font-family: Roboto, 'Roboto'; /* We need to see if all elements will inherit this stuff, or if we need to add all this stuff to each class for the single stylesheet we'll be using from now on */
@@ -82,6 +74,33 @@ a:hover {
   text-decoration: underline solid rgb(26, 13, 171) !important;
   color: #1A0DAB;
 }
+
+.ad {
+  width: 632px;
+  margin: 1rem 0 0 0;
+  padding 0 16px 0 16px;
+  /*
+  height: 120px; or auto
+  margin: 2rem 0 0 0;
+  */
+}
+
+.label {
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: left;
+  word-spacing: 0px;
+  text-decoration: none solid rgb(26, 13, 171);
+  /* color: #1A0DAB; */
+}
+
+.linkSection {
+  text-align: left;
+  height: 6px;
+  width: auto;
+}
+
 
 
           /* These are the specific styling for each of the classes */
@@ -369,29 +388,15 @@ function update() {
         // This is the class that holds the ad, 
     let ads = adEnter.enter().append('div')
         .attr('class', 'ad')
-        // .attr('width', '632px')
-        // .attr('height', 'auto')
-        .style('margin', '1rem 0 0 0')
-        .style('padding', '0 16px 0 16px');
 
         // This is the Title, or the Label
     ads.append('h3')
         .attr('class', 'label')
-        .style('display', 'block')
-        .style('font-size', '20px')
-        .style('line-height', '20px')
-        .style('text-align', 'left')
-        .style('word-spacing', '0px')
-        .style('text-decoration', 'none solid rgb(26, 13, 171)')
-        .style('color', '#1A0DAB')
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
         //   // This is the Ad icon to the left of the domain link.
         .select(function() { return this.parentNode; }).append('div')
-            .attr('class', 'link-section')
-            .style('text-align', 'left')
-            .style('height', '6px')
-            .style('width', 'auto')
+            .attr('class', 'linkSection')
       
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
@@ -435,29 +440,15 @@ function organic() {
       // This is the class that holds the ad, 
   let ads = adEnter.enter().append('div')
       .attr('class', 'ad')
-      // .attr('width', '632px')
-      // .attr('height', 'auto')
-      .style('margin', '1rem 0 0 0')
-      .style('padding', '0 16px 0 16px');
 
       // This is the Title, or the Label
   ads.append('h3')
       .attr('class', 'label')
-      .style('display', 'block')
-      .style('font-size', '20px')
-      .style('line-height', '20px')
-      .style('text-align', 'left')
-      .style('word-spacing', '0px')
-      .style('text-decoration', 'none solid rgb(26, 13, 171)')
-      .style('color', '#1A0DAB')
       .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
       //   // This is the Ad icon to the left of the domain link.
       .select(function() { return this.parentNode; }).append('div')
           .attr('class', 'link-section')
-          .style('text-align', 'left')
-          .style('height', '6px')
-          .style('width', 'auto')
               
                     // This is the domain link
                 .select(function() { return this.parentNode; }).append('div')
@@ -472,7 +463,6 @@ function organic() {
                         // This is the description
                     .select(function() { return this.parentNode; }).append('div')
                         .attr('class', 'description')
-
                         .html(d => d.description)
 
 
