@@ -170,8 +170,8 @@ if (config.text_spacing == "ellipsis") {
           .style('text-overflow', 'ellipsis') 
           .style('overflow-wrap', 'normal')
       d3.select('div.value')
-          .style('overflow-wrap', 'ellipsis') 
-          .style('text-overflow', 'normal')
+          .style('text-overflow', 'ellipsis') 
+          .style('overflow-wrap', 'normal')
     }
 }
 
