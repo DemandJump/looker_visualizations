@@ -24,7 +24,7 @@ html, body {
   margin: 0;
   padding: 0; 
   box-sizing: border-box;
-  font-family: 'Arial';
+  font-family: 'Roboto';
   display: block; 
 }
 
@@ -62,7 +62,7 @@ h3 {
 }
 .container {
   padding: 1rem 2rem 1rem 2rem;
-  font-family: 'Roboto'; /* We need to see if all elements will inherit this stuff, or if we need to add all this stuff to each class for the single stylesheet we'll be using from now on */
+  font-family: Roboto, 'Roboto'; /* We need to see if all elements will inherit this stuff, or if we need to add all this stuff to each class for the single stylesheet we'll be using from now on */
 }
 .holder { 
   overflow: scroll;
