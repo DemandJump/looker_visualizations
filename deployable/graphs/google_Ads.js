@@ -93,8 +93,8 @@ a:hover {
   line-height: 20px;
   text-align: left;
   word-spacing: 0px;
-  text-decoration: none solid rgb(26, 13, 171);
-  /* color: #1A0DAB; */
+  /* text-decoration: none solid rgb(26, 13, 171); */
+  color: #1A0DAB;
 }
 
 .linkSection {
@@ -112,9 +112,10 @@ a:hover {
   display: inline-block;
   font-size: 11px;
   line-height: 11px;
-  text-decoration: none solid rgb(1, 102, 33);
+  /* text-decoration: none solid rgb(1, 102, 33); */
+  color: #006621;
   text-align: left;
-  word-spacing: 0px
+  word-spacing: 0px;
   border: 1px solid #006621;
   margin: 0 7px 0 0;
   padding: 0px 2px 1px 3px;
@@ -130,8 +131,8 @@ cite {
   font-size: 16px;
   text-align: left;
   vertical-align: bottom;
-  text-decoration: none solid rgb(0, 102, 33);
-  /* color: #006621; */
+  /* text-decoration: none solid rgb(0, 102, 33); */
+  color: #006621;
 }
 
 .dropdown {
@@ -141,8 +142,8 @@ cite {
   text-align: left;
   vertical-align: bottom;
   padding-left: 4px;
-  text-decoration: none solid rgb(0, 102, 33);
-  /* color: #006621; */
+  /* text-decoration: none solid rgb(0, 102, 33); */
+  color: #006621;
 }
 
 .description {
@@ -153,8 +154,8 @@ cite {
   overflow: hidden;
   overflow-wrap: break-word;
   margin-top: 4px;
-  text-decoration: none solid rgb(84, 84, 84);
-  /* color: #545454; */
+  /* text-decoration: none solid rgb(84, 84, 84); */
+  color: #545454;
 }
 
 
