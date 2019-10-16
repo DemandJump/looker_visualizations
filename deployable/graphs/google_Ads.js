@@ -380,7 +380,8 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
         // Remember we're running through description and boldWords
         boldWords.forEach(word => {
               // Replace every matching word with
-            ad.description.replace(word, '<strong>' + word + '</strong>')
+            let newWord = '<strong>' + word + '</strong>'
+            ad.description.replace(word, newWord)
         })
         console.log('This is the new description', ad.description)
         // ad.description = description
