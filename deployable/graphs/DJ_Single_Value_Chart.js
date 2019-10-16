@@ -157,6 +157,9 @@ if (config.text_spacing == "word_break") {
       d3.select('div.title')
           .style('overflow-wrap', 'break-word') 
           .style('text-overflow', 'clip')
+      d3.select('div.value')
+          .style('overflow-wrap', 'break-word') 
+          .style('text-overflow', 'clip')
     }
 }
 if (config.text_spacing == "ellipsis") {
@@ -166,6 +169,9 @@ if (config.text_spacing == "ellipsis") {
       d3.select('div.title')
           .style('text-overflow', 'ellipsis') 
           .style('overflow-wrap', 'normal')
+      d3.select('div.value')
+          .style('overflow-wrap', 'ellipsis') 
+          .style('text-overflow', 'normal')
     }
 }
 
