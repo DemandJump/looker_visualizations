@@ -115,7 +115,7 @@ a:hover {
   width: 14.6px;
   height: 11px;
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 11px;
   /* text-decoration: none solid rgb(1, 102, 33); */
   color: #006621;
@@ -123,7 +123,7 @@ a:hover {
   word-spacing: 0px;
   border: 1px solid #006621;
   margin: 0 7px 0 0;
-  padding: 0px 2px 1px 3px;
+  padding: 1px 3px 0px 3px;
 }
 cite {
   border-radius: 3px;
