@@ -386,7 +386,7 @@ function update() {
         .style('line-height', '20px')
         .style('text-align', 'left')
         .style('word-spacing', '0px')
-        .style('text-decoration', 'underline solid rgb(26, 13, 171)')
+        .style('text-decoration', 'none solid rgb(26, 13, 171)')
         .style('color', '#1A0DAB')
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
