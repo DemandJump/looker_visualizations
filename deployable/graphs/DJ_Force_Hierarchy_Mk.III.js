@@ -482,6 +482,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (config.add_measure == value) {
         useMeasure = 'true'
         taxonomyPass.forEach( (dimension, index) => {  if (dimension.name == value ) { measureName = value }  })
+        measures.forEach(meausre => {  if(measure.name == value) {measureName = value }   })
       }
     })
     measureValuesD.forEach(value => { // Check all the dimensions! and pull out the used ond
