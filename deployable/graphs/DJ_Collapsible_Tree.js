@@ -290,12 +290,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // childeren object for this jazz
       let newDepth = leaf.depth + 1
       let mNodeObj = {
-        name: mNodeLabel[mCounter],
+        mCount: mNodeLabel[mCounter], 
         data: leaf.data.data[mnode],
         depth: newDepth,
         parent: leaf
       }
-      mNodeObj.data["name"] = mNodeObj.name;
+      mNodeObj.data["name"] = mNodeObj.data.value;
         // Pass it into leaf children as collapsed descendants
       newChildren.push(mNodeObj)
       mCounter++
@@ -403,12 +403,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Add labels for the nodes
   nodeEnter.append('text')
       .attr("dy", ".35em")
-      .attr("x", function(d) {
-          return d.children || d._children ? "-31.4px" : "29.4px";
+      .attr("x", d => {
+        if(d.mCount) { return "-31.4px" }
+        else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
       .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
-      .attr("text-anchor", d => d.children || d._children ? "end" : "start" )
+      .attr("text-anchor", d => {
+        if(d.mCount) { return "end" }
+        else { return d.children || d._children ? "end" : "start" }
+      })
       .text(d => d.data.name);
+
+  nodeEnter.append('text')
+      .attr('dy', '.35em')
+      .attr('x', d => d.children || d._children ? "26.5px" : "-31.4px" )
+      .style('font-size', d => d.children || d._children ? "2.25rem" : "2rem" )
+      .attr('text-anchor', d => d.children || d._children ? "end" : "start" )
+      .text(d => {
+        if (d.mCount) { // If this is a looker measure, then we're appending this
+          return d.mCount
+        }
+      })
 
   // UPDATE
   var nodeUpdate = nodeEnter.merge(node);
