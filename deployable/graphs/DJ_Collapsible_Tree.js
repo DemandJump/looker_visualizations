@@ -187,6 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
   let duration = 1250;
 
+
           //*// Burrowing into the Data //*//
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
   console.log('burrow function results on raw data: ', nested);
@@ -214,11 +215,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // Selector for panning functions
   let pan = d3.select('g.everything');
 
+
+  
     // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
   let root = d3.hierarchy(nested, function(d) { return d.children});
-    root.x0 = height / 2;
-    root.y0 = 0;
+    // root.x0 = height / 2;
+    // root.y0 = 0;
 
   console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
@@ -231,8 +234,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   //   }
   // }
   
+
+  
+
+
       // Add all the measures as nodes within the visualization!
-       
     // so first find all the names of the measures so we can reference them
   let mNodeRef = [];
   let mNodeLabel = [];
@@ -242,13 +248,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     mNodeLabel.push(measure.label_short)
   })
   console.log('These are the measure reference names', mNodeRef);
-  
       // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
-
   root.leaves().forEach(leaf => {
         // All the leaves have the measure data attached to them, and it's where we wanna instantiate the data
       let newChildren = [];
-      
       mNodeRef.forEach(mnode => { // We're replicating the node within the node!
           // childeren object for this jazz
         let newDepth = leaf.depth + 1
@@ -257,20 +260,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           data: leaf.data.data[mnode],
           depth: newDepth
         }
-
           // Pass it into leaf children as collapsed descendants
         newChildren.push(mNodeObj)
-
         mCounter++
       })
-
       leaf.children = null
       leaf._children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
       mCounter = 0 // Reset the counter for the next leaf node
   })
 
+  let newRoot = d3.hierarchy(root, d => d.children)
+  newRoot.x0 = height / 2;
+  newRoot.y0 = 0;
 
-  update(root);
+  console.log('This is the new root!', newRoot)
+
+
+  update(newRoot);
 
         // Main functionality (^:;
   function update(source) {
