@@ -185,7 +185,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
   let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
-  let duration = 1250;
+  let duration = 500;
 
 
           //*// Burrowing into the Data //*//
@@ -261,6 +261,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         depth: newDepth,
         parent: leaf
       }
+      mNodeObj.data["name"] = mNodeObj.name;
         // Pass it into leaf children as collapsed descendants
       newChildren.push(mNodeObj)
       mCounter++
