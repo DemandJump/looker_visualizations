@@ -404,7 +404,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('text')
       .attr("dy", ".35em")
       .attr("x", d => {
-        if(d.mCount) { return "-31.4px" }
+        if(d.mCount) { return "-14px" }
         else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
       .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
@@ -414,16 +414,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
       .text(d => d.data.name);
 
-  nodeEnter.append('text')
+  if(measures[0] != null) {
+         // Second label for measure leaf nodes only
+    nodeEnter.append('text')
       .attr('dy', '.35em')
-      .attr('x', d => d.children || d._children ? "26.5px" : "-31.4px" )
-      .style('font-size', d => d.children || d._children ? "2.25rem" : "2rem" )
-      .attr('text-anchor', d => d.children || d._children ? "end" : "start" )
+      .attr('x', d => {
+        if (d.mCount) { return "14px" }
+        d.children || d._children ? "29.4px" : "-31.4px" 
+      })
+      .style('font-size', d => d.children || d._children ? "2rem" : "2.25rem" )
+      .attr('text-anchor', d => {
+        if (d.mCount) { return "start"}
+        else { return d.children || d._children ? "start" : "end" }
+      })
       .text(d => {
         if (d.mCount) { // If this is a looker measure, then we're appending this
           return d.mCount
         }
       })
+  }
+
 
   // UPDATE
   var nodeUpdate = nodeEnter.merge(node);
