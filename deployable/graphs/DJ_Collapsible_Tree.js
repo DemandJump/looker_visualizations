@@ -277,10 +277,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       // Now we gotta go to the new leaves and go switch to _children 
   let maxDepth = 0
-  newRoot.nodes().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
+  newRoot.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
   console.log('This is the new max depth', maxDepth)
 
-  newRoot.nodes().forEach(node => {
+  newRoot.descendants().forEach(node => {
     if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
       node._children = node.children
       node.children = null 
