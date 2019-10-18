@@ -236,6 +236,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   
 
   
+
+
+  //     // We need a function to pass nested into to add these differently than burrow. All the measures are a descendant of the last burrow dimension
+  // function warren(burrow) { console.log("This is the warren function, much cuter than the warden's that is. It adds all the meausres to the leaf nodes respectively. ")
+  //         // It's gonna parse itself into the function and find the leaf nodes to add the data we give it to the function
+
+  //     // First we need to grab all the measures and their names for the object's we're adding
+  //   let mNodeRef = []; // Add all the measures as nodes within the visualization!
+  //   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
+  //   let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
+  //   measures.forEach(measure => {
+  //     mNodeRef.push(measure.name)
+  //     mNodeLabel.push(measure.label_short)
+  //   })
+  //   console.log('These are the measure reference names', mNodeRef);
+
+  //     // check if the burrow has children, go parse down to the leaves from there
+  //   if (burrow.children) {
+  //     let stopper = false 
+  //     let parser = ''; // This is the parser 
+
+
+  //     burrow.children.forEach(node => {
+
+  //     })
+  //   }
+
+  // }
+  // let newNest = warren(burrow);
+
+
+
+
+
       // First we need to grab all the measures and their names for the object's we're adding
     let mNodeRef = []; // Add all the measures as nodes within the visualization!
     let mNodeLabel = []; // so first find all the names of the measures so we can reference them
@@ -272,41 +306,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   })
 
 
-  //     // We need a function to pass nested into to add these differently than burrow. All the measures are a descendant of the last burrow dimension
-  // function warren(burrow) { console.log("This is the warren function, much cuter than the warden's that is. It adds all the meausres to the leaf nodes respectively. ")
-  //         // It's gonna parse itself into the function and find the leaf nodes to add the data we give it to the function
-
-  //     // First we need to grab all the measures and their names for the object's we're adding
-  //   let mNodeRef = []; // Add all the measures as nodes within the visualization!
-  //   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
-  //   let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-  //   measures.forEach(measure => {
-  //     mNodeRef.push(measure.name)
-  //     mNodeLabel.push(measure.label_short)
-  //   })
-  //   console.log('These are the measure reference names', mNodeRef);
-
-  //     // check if the burrow has children, go parse down to the leaves from there
-  //   if (burrow.children) {
-  //     let stopper = false 
-  //     let parser = ''; // This is the parser 
-
-
-  //     burrow.children.forEach(node => {
-
-  //     })
-  //   }
-
-  // }
-  // let newNest = warren(burrow);
-
 
       // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
   let maxDepth = 0
   root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
+  root.descendants().forEach(node => {
+    if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+      node._children = node.children
+      node.children = null 
+    }
+  })
   // console.log('This is the new max depth', maxDepth)
 
-      let initializationCounter = 0;
       update(root);
 
         // Main functionality (^:;
@@ -315,23 +326,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // Try changing the height of the viewport as you have more leaf nodes instantiated
   let leaves = root.leaves();
   console.log('leaves', leaves.length);
-  height = 50 * leaves.length;
+  height = 52 * leaves.length; // This calculates the space between the nodes!
   console.log('new height ', height);
 
   treemap = d3.tree().size([height, width]);
   // Assigns the x and y position for the nodes
   let treeData = treemap(root);
 
-
-  if (initializationCounter == 0) { // Run this to remove the leaf node data that we added onto the hierarchy right before we ran the visualization
-    initializationCounter++
-    treeData.descendants().forEach(node => {
-      if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-        node._children = node.children
-        node.children = null 
-      }
-    }) 
-  }
 
 
   // Compute the new tree layout.
@@ -367,7 +368,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
   // Normalize for fixed-depth. because of collapse function 
-  nodes.forEach(function(d){ 
+  nodes.forEach(function(d){ // This calculates the depth between the nodes!
     if(linkAddition.length >= 74) {
       d.y = d.depth * (linkAddition.length * 20);
     } else {
