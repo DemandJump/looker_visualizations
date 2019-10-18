@@ -264,8 +264,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         newChildren.push(mNodeObj)
         mCounter++
       })
-      leaf.children = null
-      leaf._children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
+      leaf._children = null
+      leaf.children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
       mCounter = 0 // Reset the counter for the next leaf node
   })
 
@@ -275,6 +275,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   console.log('This is the new root!', newRoot)
 
+      // Now we gotta go to the new leaves and go switch to _children 
+  let maxDepth = 0
+  newRoot.nodes().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
+  console.log('This is the new max depth', maxDepth)
+
+  newRoot.nodes().forEach(node => {
+    if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+      node._children = node.children
+      node.children = null 
+    }
+  })
+    // Now we're passing in the root with calculated data, and added measure data with them collapsed!
 
   update(newRoot);
 
