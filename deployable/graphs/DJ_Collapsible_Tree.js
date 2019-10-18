@@ -168,14 +168,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
         // Start by finding out how Looker pulls data /dimensions 
     console.log('\n\n\ Noteworthy stuff for creating this jazz');
-    console.log(`LookerCharts`, LookerCharts);
+    // console.log(`LookerCharts`, LookerCharts);
             
 
 
   console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
   console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-  console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-  console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
+  // console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
+  // console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
     // Dimension and Measure length 
   let maxDimensions = queryResponse.fields.dimensions.length;
   let maxMeasures = queryResponse.fields.measures.length;
@@ -231,6 +231,43 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   //   }
   // }
   
+      // Add all the measures as nodes within the visualization!
+       
+    // so first find all the names of the measures so we can reference them
+  let mNodeRef = [];
+  let mNodeLabel = [];
+  let mCounter = 0;
+  measures.forEach(measure => {
+    mNodeRef.push(measure.name)
+    mNodeLabel.push(measure.label_short)
+  })
+  console.log('These are the measure reference names', mNodeRef);
+  
+      // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
+
+  root.leaves().forEach(leaf => {
+        // All the leaves have the measure data attached to them, and it's where we wanna instantiate the data
+      let newChildren = [];
+      
+      mNodeRef.forEach(mnode => { // We're replicating the node within the node!
+          // childeren object for this jazz
+        let newDepth = leaf.depth + 1
+        let mNodeObj = {
+          name: mNodeLabel[mCounter],
+          data: leaf.data.data[mnode],
+          depth: newDepth
+        }
+
+          // Pass it into leaf children as collapsed descendants
+        newChildren.push(mNodeObj)
+
+        mCounter++
+      })
+
+      leaf.children = null
+      leaf._children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
+      mCounter = 0 // Reset the counter for the next leaf node
+  })
 
 
   update(root);
