@@ -236,65 +236,82 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   
 
   
+      // First we need to grab all the measures and their names for the object's we're adding
+    let mNodeRef = []; // Add all the measures as nodes within the visualization!
+    let mNodeLabel = []; // so first find all the names of the measures so we can reference them
+    let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
+    measures.forEach(measure => {
+      mNodeRef.push(measure.name)
+      mNodeLabel.push(measure.label_short)
+    })
+  //   console.log('These are the measure reference names', mNodeRef);
 
 
-      // Add all the measures as nodes within the visualization!
-    // so first find all the names of the measures so we can reference them
-  let mNodeRef = [];
-  let mNodeLabel = [];
-  let mCounter = 0;
-  measures.forEach(measure => {
-    mNodeRef.push(measure.name)
-    mNodeLabel.push(measure.label_short)
-  })
-  console.log('These are the measure reference names', mNodeRef);
+
       // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
   root.leaves().forEach(leaf => {
-        // All the leaves have the measure data attached to them, and it's where we wanna instantiate the data
-      let newChildren = [];
-      mNodeRef.forEach(mnode => { // We're replicating the node within the node!
-          // childeren object for this jazz
-        let newDepth = leaf.depth + 1
-        let mNodeObj = {
-          name: mNodeLabel[mCounter],
-          data: leaf.data.data[mnode],
-          depth: newDepth
-        }
-          // Pass it into leaf children as collapsed descendants
-        newChildren.push(mNodeObj)
-        mCounter++
-      })
-      leaf._children = null
-      leaf.children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
-      mCounter = 0 // Reset the counter for the next leaf node
+      // All the leaves have the measure data attached to them, and it's where we wanna instantiate the data
+    let newChildren = [];
+    mNodeRef.forEach(mnode => { // We're replicating the node within the node!
+      // childeren object for this jazz
+      let newDepth = leaf.depth + 1
+      let mNodeObj = {
+        name: mNodeLabel[mCounter],
+        data: leaf.data.data[mnode],
+        depth: newDepth,
+        parent: leaf
+      }
+        // Pass it into leaf children as collapsed descendants
+      newChildren.push(mNodeObj)
+      mCounter++
+    })
+    leaf._children = null
+    leaf.children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
+    mCounter = 0 // Reset the counter for the next leaf node
   })
 
-  let newRoot = d3.hierarchy(root, d => d.children)
-  newRoot.x0 = height / 2;
-  newRoot.y0 = 0;
 
-  console.log('This is the new root!', newRoot)
+  //     // We need a function to pass nested into to add these differently than burrow. All the measures are a descendant of the last burrow dimension
+  // function warren(burrow) { console.log("This is the warren function, much cuter than the warden's that is. It adds all the meausres to the leaf nodes respectively. ")
+  //         // It's gonna parse itself into the function and find the leaf nodes to add the data we give it to the function
 
-      // Now we gotta go to the new leaves and go switch to _children 
+  //     // First we need to grab all the measures and their names for the object's we're adding
+  //   let mNodeRef = []; // Add all the measures as nodes within the visualization!
+  //   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
+  //   let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
+  //   measures.forEach(measure => {
+  //     mNodeRef.push(measure.name)
+  //     mNodeLabel.push(measure.label_short)
+  //   })
+  //   console.log('These are the measure reference names', mNodeRef);
+
+  //     // check if the burrow has children, go parse down to the leaves from there
+  //   if (burrow.children) {
+  //     let stopper = false 
+  //     let parser = ''; // This is the parser 
+
+
+  //     burrow.children.forEach(node => {
+
+  //     })
+  //   }
+
+  // }
+  // let newNest = warren(burrow);
+
+
+      // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
   let maxDepth = 0
-  newRoot.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
-  console.log('This is the new max depth', maxDepth)
+  root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
+  // console.log('This is the new max depth', maxDepth)
 
-  newRoot.descendants().forEach(node => {
-    if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-      node._children = node.children
-      node.children = null 
-    }
-  })
-    // Now we're passing in the root with calculated data, and added measure data with them collapsed!
-
-  update(newRoot);
+      let initializationCounter = 0;
+      update(root);
 
         // Main functionality (^:;
   function update(source) {
     // console.log('i', i) // See how many times i's been reinstantiated
-
-    // Try changing the height of the viewport as you have more leaf nodes instantiated
+      // Try changing the height of the viewport as you have more leaf nodes instantiated
   let leaves = root.leaves();
   console.log('leaves', leaves.length);
   height = 50 * leaves.length;
@@ -303,6 +320,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   treemap = d3.tree().size([height, width]);
   // Assigns the x and y position for the nodes
   let treeData = treemap(root);
+
+
+  if (initializationCounter == 0) { // Run this to remove the leaf node data that we added onto the hierarchy right before we ran the visualization
+    initializationCounter++
+    treeData.descendants().forEach(node => {
+      if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+        node._children = node.children
+        node.children = null 
+      }
+    }) 
+  }
+
 
   // Compute the new tree layout.
   let nodes = treeData.descendants(),
