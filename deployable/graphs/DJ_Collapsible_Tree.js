@@ -404,12 +404,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('text')
       .attr("dy", ".35em")
       .attr("x", d => {
-        if(d.mCount) { return "-14px" }
+        if(d.mCount) { return "14px" }
         else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
       .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
       .attr("text-anchor", d => {
-        if(d.mCount) { return "end" }
+        if(d.mCount) { return "start" }
         else { return d.children || d._children ? "end" : "start" }
       })
       .text(d => d.data.name);
@@ -419,12 +419,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodeEnter.append('text')
       .attr('dy', '.35em')
       .attr('x', d => {
-        if (d.mCount) { return "14px" }
+        if (d.mCount) { return "-14px" }
         d.children || d._children ? "29.4px" : "-31.4px" 
       })
       .style('font-size', d => d.children || d._children ? "2rem" : "2.25rem" )
       .attr('text-anchor', d => {
-        if (d.mCount) { return "start"}
+        if (d.mCount) { return "end"}
         else { return d.children || d._children ? "start" : "end" }
       })
       .text(d => {
