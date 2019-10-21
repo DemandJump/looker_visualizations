@@ -165,9 +165,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // Lets grab all the dimensions and measure
     let dimensions = queryResponse.fields.dimensions
     let measures = queryResponse.fields.measures
-    let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
+    let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#FFE09B', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
-    let settings
+    let settings = []
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
     settings['autoColor'] = {
       label: 'Autocolor Dimensions',
