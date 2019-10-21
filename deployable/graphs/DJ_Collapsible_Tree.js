@@ -214,6 +214,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this._counter ++
       }
     }
+
+    console.log('This is the configuration menu', settings)
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
