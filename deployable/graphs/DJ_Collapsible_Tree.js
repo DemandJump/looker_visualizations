@@ -25,6 +25,12 @@ create: function(element, config) {
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
         <style>
+        /* Import the Roboto font for us to use. */
+        @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+        html {
+          font-family: 'Roboto';
+        }
+        
         .node circle {
           fill: #fff;
           stroke: steelblue;
@@ -255,7 +261,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
     }
     function textSize(d) {
-      
+          // We need dynamic text size based on the depth of the hierarchy
+          /* 
+          0: 8rem
+          1: 4.5rem
+          2: 4rem
+          3: 3.4rem
+          4: 2rem
+          */
+      return d.depth == 0 ? '8rem'
+      : d.depth == 1 ? '4.5rem'
+      : d.depth == 2 ? '4rem'
+      : d.depth == 3 ? '3.4rem'
+      : '2.25rem'
     }
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
       let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
@@ -491,7 +509,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(d.mCount) { return "20px" }
         else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
-      .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
+      .style("font-size", d => d.children || d._children ? textSize : "2rem" )
       .attr("text-anchor", d => {
         if(d.mCount) { return "start" }
         else { return d.children || d._children ? "end" : "start" }

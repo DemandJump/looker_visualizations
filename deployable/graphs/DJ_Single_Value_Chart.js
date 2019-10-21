@@ -59,7 +59,10 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-          <style>  
+          <style> 
+          /* Import the Roboto font for us to use. */
+          @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+          
             html { font-family: Roboto; font-weight: lighter; text-align: center; }
             .value:hover { text-decoration: underline; }  
             #vis { padding: 0; margin: 0; }
