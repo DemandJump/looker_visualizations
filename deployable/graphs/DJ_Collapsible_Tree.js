@@ -4,6 +4,14 @@
    looker.plugins.visualizations.add({
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
+    options: {
+      autoColor: {
+        label: 'Autocolor Dimensions',
+        type: 'boolean',
+        section: 'Styling',
+        default: true
+      }
+    },
 
     // Onto the create section 
 create: function(element, config) {
@@ -173,12 +181,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let settings = []
     let hiddenValue = this._hidden
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
-    this.options['autoColor'] = {
-      label: 'Autocolor Dimensions',
-      type: 'boolean',
-      section: 'Styling',
-      default: true
-    }
+
 
       // This is a loop for all the dimensions to color 
     dimensions.forEach(dimension => {
