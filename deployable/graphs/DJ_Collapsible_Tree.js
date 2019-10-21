@@ -188,7 +188,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         section: 'Styling',
         display: 'color',
         default: defaultColors[colorCounter],
-        hideen: true
+        hidden: true
       }
       colorCounter++
     })
