@@ -124,6 +124,9 @@ burrow: function(table, taxonomy) {
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
+    if (this.options == {}) {
+      this._counter = 0;
+    }
     // This helps us visualize the interactive data!
     // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
     
