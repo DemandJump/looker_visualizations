@@ -179,7 +179,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let setColors = ['#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
     let settings = []
-    let hiddenValue = this._hidden
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
 
 
@@ -191,7 +190,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         section: 'Styling',
         display: 'color',
         default: defaultColors[colorCounter],
-        hidden: hiddenValue
+        hidden: this.hidden
       }
       colorCounter++
     })
@@ -203,7 +202,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       section: 'Styling', 
       display: 'color',
       default: '#FFE09B',
-      hidden: hiddenValue
+      hidden: this.hidden
     }
 
     console.log('this._counter', this._counter)
