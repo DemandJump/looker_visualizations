@@ -250,42 +250,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Check the settings and apply dynamically
       dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
         if (i == 0) {
-          if (config['djdh_measures']['hidden'] == false) { // If the settings are currently false, then set the settings to true
-            settings['djdh_measures']['hidden'] = true
+          if (config['djdh_measures']['hidden'] == true) { // If the settings are currently false, then set the settings to true
+            settings['djdh_measures']['hidden'] = false
             this.trigger('registerOptions', settings)
           }
         }
 
-        if (config[dimension.name]['hidden'] == false) {
-          settings[dimension.name]['hidden'] = true
+        if (config[dimension.name]['hidden'] == true) {
+          settings[dimension.name]['hidden'] = false
           this.trigger('registerOptions', settings)
         }
-        
+
       })
     }
 
 
 
 
-
-    // if (config.autoColor == false) {
-    //   console.log('Switching autocolor to false')
-    //   dimensions.forEach(dimension => {
-    //     let update = false
-    //     if (settings[dimension.name]["hidden"] == true) {
-    //       console.log('settings were true, setting it to false now ')
-    //       settings[dimension.name]["hidden"] = false
-    //       console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
-    //       console.log('settings[dimension.name] ', settings[dimension.name])
-    //       update = true
-    //     }
-    //   })
-
-    //   console.log('Update started as false, and the function set it to ', update)
-    //   if (update) {
-    //     this.trigger('registerOptions', settings)
-    //   }
-    // }
 
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
