@@ -173,7 +173,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let settings = []
     let hiddenValue = this._hidden
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
-    settings['autoColor'] = {
+    this.options['autoColor'] = {
       label: 'Autocolor Dimensions',
       type: 'boolean',
       section: 'Styling',
@@ -182,7 +182,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       // This is a loop for all the dimensions to color 
     dimensions.forEach(dimension => {
-      settings[dimension.name] = {
+      this.options[dimension.name] = {
         label: dimension.name, 
         type: 'string',
         section: 'Styling',
@@ -194,7 +194,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
 
       // This is the color for the measures altogether
-    settings['djdh_measures'] = {
+    this.options['djdh_measures'] = {
       label: 'measures',
       type: 'string',
       section: 'Styling', 
@@ -206,7 +206,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('this._counter', this._counter)
     if (this._counter == 0) {
       this._counter ++
-      this.trigger('registerOptions', settings)
+      this.trigger('registerOptions', this.options)
     }
 /****************************************************************
         * Update the Options
@@ -222,18 +222,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       dimensions.forEach( (dimension, i) => {
         if (i == 0) {
           if (this._hidden == false) { // If the settings are currently false, then set the settings to true
-            settings['djdh_measures']['hidden'] = true
+            this.options['djdh_measures']['hidden'] = true
           }
         }
 
         if (this._hidden == false) {
-          settings[dimension.name]['hidden'] = true
+          this.options[dimension.name]['hidden'] = true
         }
 
       }) 
       if (this._hidden == false) { 
         this._hidden == true 
-        this.trigger('registerOptions', settings)
+        this.trigger('registerOptions', this.options)
       }
     }
 
@@ -242,24 +242,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
         if (i == 0) {
           if (this._hidden == true) { // If the settings are currently false, then set the settings to true
-            settings['djdh_measures']['hidden'] = false
+            this.options['djdh_measures']['hidden'] = false
           }
         }
 
         if (this._hidden == true) {
-          settings[dimension.name]['hidden'] = false
+          this.options[dimension.name]['hidden'] = false
         }
 
       })
       if (this._hidden == true) { 
         this._hidden == false
-        this.trigger('registerOptions', settings) 
+        this.trigger('registerOptions', this.options) 
       }
     }
 
 
 
-    console.log('These are the settings', settings)
+    // console.log('These are the settings', settings)
     console.log('These are the current config instantiated', this.options)
 
     
