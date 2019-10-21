@@ -221,7 +221,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (config.autoColor == false) {
       console.log('Switching autocolor to false')
       dimensions.forEach(dimension => {
-        let update = formatMilliseconds
+        let update = false
         console.log('settings[dimension.name] ', settings[dimension.name])
         console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
         console.log('These are the current configuration settings', this.options)
