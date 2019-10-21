@@ -337,8 +337,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
   let root = d3.hierarchy(nested, function(d) { return d.children});
-    // root.x0 = height / 2;
-    // root.y0 = 0;
+    root.x0 = height / 2;
+    root.y0 = 0;
 
   // console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
