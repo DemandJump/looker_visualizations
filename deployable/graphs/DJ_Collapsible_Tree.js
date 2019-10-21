@@ -224,7 +224,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('settings[dimension.name] ', settings[dimension.name])
         console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
         console.log('These are the current configuration settings', this.options)
-        if (this.options[dimension.name]["hidden"] == false) {
+        if (settings[dimension.name]["hidden"] == true) {
           settings[dimension.name].hidden = false
           this.trigger('registerOptions', settings)
         }
@@ -238,7 +238,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('settings[dimension.name] ', settings[dimension.name])
         console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
         console.log('These are the current configuration settings', this.options)
-        if (this.options[dimension.name]["hidden"] == false) {
+        if (settings[dimension.name]["hidden"] == false) {
           settings[dimension.name].hidden = true
           this.trigger('registerOptions', settings)
         }
@@ -249,8 +249,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
-    let settings1 = settings
-    settings1.forEach(config => {
+    settings.forEach(config => {
       console.log(`This is the config setting name`, config.name)
       console.log(`These are the config settings`, config)
       console.log(`Default setting: ${config.default}`)
