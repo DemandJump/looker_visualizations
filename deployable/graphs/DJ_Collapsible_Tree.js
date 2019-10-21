@@ -169,7 +169,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // Lets grab all the dimensions and measure
     let dimensions = queryResponse.fields.dimensions
     let measures = queryResponse.fields.measures
-    let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#FFE09B', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
+    let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
     let settings = []
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
@@ -190,9 +190,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         default: defaultColors[colorCounter],
         hideen: true
       }
-
       colorCounter++
     })
+
+      // This is the color for the measures altogether
+    settings['measures'] = {
+      label: 'measures',
+      type: 'string',
+      section: 'Styling', 
+      display: 'color',
+      default: '#FFE09B',
+      hidden: true
+    }
+
 
 
         //*// Above initializes the config, and then we instantiate it here. Then we run the settings ~ //*//
@@ -202,7 +212,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this._counter ++
       }
 
-
+/****************************************************************
+        * Update the Options
+****************************************************************/
     
     if (config.autoColor == 'false') {
       console.log('Switching autocolor to false')
@@ -218,6 +230,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
       this.trigger('registerOptions', settings)
     }
+
+
+    console.log('Settings initialized, here are each')
+      // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
+    settings.forEach( (config, iteration) => {
+      console.log(`Config setting number ${iteration}: `, config) // This will show each config setting, and the default value associated
+      console.log(`Default setting: ${config.default}`)
+    })
 
 
     /***************************************************************************************************************************
