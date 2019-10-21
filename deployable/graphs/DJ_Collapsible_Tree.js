@@ -215,8 +215,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         * Update the Options
 ****************************************************************/
     console.log('This is autoColor', config.autoColor)
-    
-    if (config.autoColor == 'false') {
+
+    if (config.autoColor == false) {
       console.log('Switching autocolor to false')
       dimensions.forEach(dimension => {
         console.log('settings[dimension.name] ', settings[dimension.name])
@@ -229,7 +229,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
     }
 
-    if (config.autoColor == 'true') {
+    if (config.autoColor == true) {
       console.log('Switching autocolor to true')
       dimensions.forEach(dimension => {
         console.log('settings[dimension.name] ', settings[dimension.name])
