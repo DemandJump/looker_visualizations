@@ -4,9 +4,7 @@
    looker.plugins.visualizations.add({
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
-    options: {
-
-    },
+    options: {},
 
     // Onto the create section 
 create: function(element, config) {
