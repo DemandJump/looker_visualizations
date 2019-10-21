@@ -5,12 +5,12 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-      autoColor: {
-        label: 'Autocolor Dimensions',
-        type: 'boolean',
-        section: 'Styling',
-        default: true
-      }
+      // autoColor: {
+      //   label: 'Autocolor Dimensions',
+      //   type: 'boolean',
+      //   section: 'Styling',
+      //   default: true
+      // },
     },
 
     // Onto the create section 
@@ -176,7 +176,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimensions = queryResponse.fields.dimensions
     let measures = queryResponse.fields.measures
     let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
-    let setColors = ['#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
     let settings = []
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
@@ -214,59 +213,59 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         * Update the Options
 ****************************************************************/
     console.log('This is config', config)
-    console.log('This is autoColor', config.autoColor)
 
+    // console.log('This is autoColor', config.autoColor)
+    //     // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
+    // if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
+    //     // Check the current settings and update then apply if they're not up to date 
+    //   dimensions.forEach( (dimension, i) => {
+    //     if (i == 0) { if (this._hidden == false) this.options['djdh_measures']['hidden'] = true }
+    //     if (this._hidden == false) this.options[dimension.name]['hidden'] = true
+    //   }) 
+    //   if (this._hidden == false) { 
+    //     this._hidden == true 
+    //     this.trigger('registerOptions', this.options)
+    //   }
+    // }
 
+    // if (config.autoColor == false) {
+    //     // Check the settings and apply dynamically
+    //   dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
+    //     if (i == 0) {
+    //       if (this._hidden == true) this.options['djdh_measures']['hidden'] = false }
+    //     if (this._hidden == true) this.options[dimension.name]['hidden'] = false
+    //   })
+    //   if (this._hidden == true) { 
+    //     this._hidden == false
+    //     this.trigger('registerOptions', this.options) 
+    //   }
+    // }
 
-        // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
-    if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
-        // Check the current settings and update then apply if they're not up to date 
-      dimensions.forEach( (dimension, i) => {
-        if (i == 0) {
-          if (this._hidden == false) { // If the settings are currently false, then set the settings to true
-            this.options['djdh_measures']['hidden'] = true
-          }
-        }
-
-        if (this._hidden == false) {
-          this.options[dimension.name]['hidden'] = true
-        }
-
-      }) 
-      if (this._hidden == false) { 
-        this._hidden == true 
-        this.trigger('registerOptions', this.options)
-      }
-    }
-
-    if (config.autoColor == false) {
-        // Check the settings and apply dynamically
-      dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
-        if (i == 0) {
-          if (this._hidden == true) { // If the settings are currently false, then set the settings to true
-            this.options['djdh_measures']['hidden'] = false
-          }
-        }
-
-        if (this._hidden == true) {
-          this.options[dimension.name]['hidden'] = false
-        }
-
-      })
-      if (this._hidden == true) { 
-        this._hidden == false
-        this.trigger('registerOptions', this.options) 
-      }
-    }
-
-
-
-    // console.log('These are the settings', settings)
     console.log('These are the current config instantiated', this.options)
 
     
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
-
+    function colorCircles(d) {
+        // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
+            // Start from d level 1, 0 can have a unique styling
+      for(i = 0; i < maxDepth; i++) {
+        if (i == d.depth) {
+          return chosenColors[i]
+        }
+      }
+    }
+            /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
+      let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
+      dimensions.forEach(dim => {
+        let currentDim = dim.name
+          // Find the current dim's color value through config!
+        let currentColor = config[currentDim]
+        chosenColors.push(currentColor)
+      })
+        // then at the end of the array we add measure's color
+      chosenColors.push(config['djdh_measures'])
+          // Now we have a full array of the colors in order by depth, and it is accurate
+            /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
 
 
     /***************************************************************************************************************************
@@ -479,7 +478,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', '25px')
-      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
+      .style('fill', d => d.children ? chosenColors : "#a1a1a1")
 
 
   // Add labels for the nodes
