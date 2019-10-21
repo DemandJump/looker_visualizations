@@ -27,9 +27,7 @@ create: function(element, config) {
         <style>
         /* Import the Roboto font for us to use. */
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-        html {
-          font-family: 'Roboto';
-        }
+
         
         .node circle {
           fill: #fff;
