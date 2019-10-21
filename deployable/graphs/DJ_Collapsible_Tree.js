@@ -223,17 +223,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (i == 0) {
           if (this._hidden == false) { // If the settings are currently false, then set the settings to true
             settings['djdh_measures']['hidden'] = true
-            this.trigger('registerOptions', settings)
           }
         }
 
         if (this._hidden == false) {
           settings[dimension.name]['hidden'] = true
-          this.trigger('registerOptions', settings)
         }
 
       }) 
-      if (this._hidden == false) { this._hidden == true }
+      if (this._hidden == false) { 
+        this._hidden == true 
+        this.trigger('registerOptions', settings)
+      }
     }
 
     if (config.autoColor == false) {
@@ -242,17 +243,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (i == 0) {
           if (this._hidden == true) { // If the settings are currently false, then set the settings to true
             settings['djdh_measures']['hidden'] = false
-            this.trigger('registerOptions', settings)
           }
         }
 
         if (this._hidden == true) {
           settings[dimension.name]['hidden'] = false
-          this.trigger('registerOptions', settings)
         }
 
       })
-      if (this._hidden == true) { this._hidden == false }
+      if (this._hidden == true) { 
+        this._hidden == false
+        this.trigger('registerOptions', settings) 
+      }
     }
 
 
@@ -262,7 +264,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
     settings.forEach(setting => {
-      console.log(`This is the setting setting name`, setting.name)
+      console.log(`This is the setting setting name`, setting.label)
       console.log(`These are the setting settings`, setting)
       console.log(`Default setting: ${setting.default}`)
     })
