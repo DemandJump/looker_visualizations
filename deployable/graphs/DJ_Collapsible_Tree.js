@@ -14,7 +14,7 @@
       aResetColors: {
         label: 'aResetColors',
         type: 'boolean', 
-        section: 'styling',
+        section: 'Styling',
         default: true
       }
     },
