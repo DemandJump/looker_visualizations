@@ -294,16 +294,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         chosenColors.push(currentColor)
       })
         // then at the end of the array we add measure's color
-      console.log('config djdh measures', config['djdh_measures'])
+      // console.log('config djdh measures', config['djdh_measures'])
       chosenColors.push(config['djdh_measures'])
-          // Now we have a full array of the colors in order by depth, and it is accurate
+      // Now we have a full array of the colors in order by depth, and it is accurate
 
             /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
 
 
     if (config.aResetColors == true) {
         chosenColors = defaultColors 
-     }
+     } console.log('chosen colors', chosenColors)
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
