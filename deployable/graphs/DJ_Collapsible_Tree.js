@@ -226,7 +226,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
         console.log('These are the current configuration settings', this.options)
         if (settings[dimension.name]["hidden"] == true) {
-          settings[dimension.name].hidden = false
+          settings[dimension.name]["hidden"] = false
           update = true
         }
       })
@@ -244,7 +244,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
         console.log('These are the current configuration settings', this.options)
         if (settings[dimension.name]["hidden"] == false) {
-          settings[dimension.name].hidden = true
+          settings[dimension.name]["hidden"] = true
           update = true
         }
       })
