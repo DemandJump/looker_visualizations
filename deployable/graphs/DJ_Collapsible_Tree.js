@@ -258,29 +258,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (config.aResetColors == true) {
       if (this._resetColors == false) {
         console.log('this is options', this.options)
+        dimensions.forEach(dim => {
+          console.log('This is the color value', this.options[dim.name])
+          this.options[dim.name] = this.options[dim.name]["default"]
+        })
+        this.options['djdh_measures']['value'] = this.options['djdh_measures']["default"]
+        console.log('These are the new options!', this.options)
 
         this._resetColors = true
-        resetColors()
       }
     }
     if (config.aResetColors == false) {
       if (this._resetColors == true) {
         console.log('this is options', this.options)
+        dimensions.forEach(dim => {
+          console.log('This is the color value', this.options[dim.name])
+          this.options[dim.name] = this.options[dim.name]["default"]
+        })
+        this.options['djdh_measures']['value'] = this.options['djdh_measures']["default"]
+        console.log('These are the new options!', this.options)
 
         this._resetColors = false
-        
-        resetColors()
       }
-    }
-
-    function resetColors() {
-      dimensions.forEach(dim => {
-        console.log('This is the color value', config[dim.name])
-        config[dim.name] = this['options'][dim.name]["default"]
-      })
-      config['djdh_measures']['value'] = this['options']['djdh_measures']["default"]
-      console.log('These are the new options!', config)
-      // this.trigger('registerOptions', this.options)
     }
 
 
