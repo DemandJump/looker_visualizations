@@ -254,7 +254,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
       }
     }
-    function 
+    function textSize(d) {
+      
+    }
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
       let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
       dimensions.forEach(dim => {
