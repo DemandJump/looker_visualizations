@@ -392,7 +392,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Compute the new tree layout.
   let nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
-    console.log('nodes', nodes); //
+    console.log('\n\nnodes', nodes); //
     console.log('links', links); // 
 
 
