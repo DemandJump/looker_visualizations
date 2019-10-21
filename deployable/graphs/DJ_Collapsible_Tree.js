@@ -195,24 +195,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       dimensions.forEach(dimension => {
         settings[dimension.name].hidden = false
       })
+      this.trigger('registerOptions', settings)
 
-      if (counter == 0) {
-          // This will reset the dataa   
-        this.trigger('registerOptions', settings)
-        this._counter ++
-      }
+
+      // if (counter == 0) {
+      //     // This will reset the dataa   
+      //   this.trigger('registerOptions', settings)
+      //   this._counter ++
+      // }
     }
 
     if (config.autoColor == 'true') {
       dimension.forEach(dimension => {
         settings[dimension.name].hidden = true
       })
+      this.trigger('registerOptions', settings)
 
-      if (counter == 0) {
-          // This will reset the dataa
-        this.trigger('registerOptions', settings)
-        this._counter ++
-      }
+
+      // if (counter == 0) {
+      //     // This will reset the dataa
+      //   this.trigger('registerOptions', settings)
+      //   this._counter ++
+      // }
     }
 
     console.log('This is the configuration menu', settings)
