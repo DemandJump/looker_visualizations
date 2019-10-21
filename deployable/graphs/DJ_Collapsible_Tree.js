@@ -273,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('This is the color value', config[dim.name]["value"])
         config[dim.name]["value"] = config[dim.name]["default"]
       })
-      config['djdh_measures']['value'] = config[dim.name]["default"]
+      config['djdh_measures']['value'] = config['djdh_measures']["default"]
       console.log('These are the new options!', config)
       // this.trigger('registerOptions', this.options)
     }
