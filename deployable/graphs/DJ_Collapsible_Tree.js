@@ -221,24 +221,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (config.autoColor == false) {
       console.log('Switching autocolor to false')
       dimensions.forEach(dimension => {
-        let update = false
         if (settings[dimension.name]["hidden"] == true) {
           console.log('settings were true, setting it to false now ')
-          settings[dimension.name]["hidden"] = false
+          settings[dimension.name]["hidden"] = false 
           console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
           console.log('settings[dimension.name] ', settings[dimension.name])
-          update = true
+          this.trigger('registerOptions', settings)
+
         }
       })
-
-      console.log('Update started as false, and the function set it to ', update)
-      if (update) {
-        this.trigger('registerOptions', settings)
-      }
     }
 
     if (config.autoColor == true) {
-      let update = false
       console.log('Switching autocolor to true')
       dimensions.forEach(dimension => {
         if (settings[dimension.name]["hidden"] == false) {
@@ -246,15 +240,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           settings[dimension.name]["hidden"] = true
           console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
           console.log('settings[dimension.name] ', settings[dimension.name])
-          update = true
+          this.trigger('registerOptions', settings)
+
         }
-
       })
-
-      console.log('Update started as false, and the function set it to ', update)
-      if (update) {
-        this.trigger('registerOptions', settings)
-      }
     }
 
 
