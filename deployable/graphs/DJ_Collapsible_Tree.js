@@ -141,6 +141,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse', queryResponse);
     console.log('details', details);
 
+    
+    console.log('Checking out query resposne dimension fields: ', dimensions);
+    console.log('Checking out query resposne measure fields: ', measures);
+
     /**********************
      * Error Clauses 
     **********************/
@@ -190,7 +194,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       colorCounter++
     })
 
-    
+
+        //*// Above initializes the config, and then we instantiate it here. Then we run the settings ~ //*//
+    console.log('This is the configuration menu', settings)
+    if (this._counter == 0) { // This will reset the dataa
+        this.trigger('registerOptions', settings)
+        this._counter ++
+      }
+
+
     
     if (config.autoColor == 'false') {
       console.log('Switching autocolor to false')
@@ -208,11 +220,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    console.log('This is the configuration menu', settings)
-    if (this._counter == 0) { // This will reset the dataa
-        this.trigger('registerOptions', settings)
-        this._counter ++
-      }
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
@@ -225,13 +232,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
         // Start by finding out how Looker pulls data /dimensions 
-    console.log('\n\n\ Noteworthy stuff for creating this jazz');
+    console.log('\n\n\ Initializing the node visual stuff');
     // console.log(`LookerCharts`, LookerCharts);
             
 
-
-  console.log('Checking out query resposne dimension fields: ', dimensions);
-  console.log('Checking out query resposne measure fields: ', measures);
   // console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
   // console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
     // Dimension and Measure length 
@@ -246,7 +250,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
           //*// Burrowing into the Data //*//
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
-  console.log('burrow function results on raw data: ', nested);
+  // console.log('burrow function results on raw data: ', nested);
 
     // Create the dimensions of the layout
   let width = element.clientWidth;
@@ -279,7 +283,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // root.x0 = height / 2;
     // root.y0 = 0;
 
-  console.log('root', root);
+  // console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
   // root.children.forEach(collapse);
   // function collapse(d) {
@@ -290,39 +294,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   //   }
   // }
   
-
-  
-
-
-  //     // We need a function to pass nested into to add these differently than burrow. All the measures are a descendant of the last burrow dimension
-  // function warren(burrow) { console.log("This is the warren function, much cuter than the warden's that is. It adds all the meausres to the leaf nodes respectively. ")
-  //         // It's gonna parse itself into the function and find the leaf nodes to add the data we give it to the function
-
-  //     // First we need to grab all the measures and their names for the object's we're adding
-  //   let mNodeRef = []; // Add all the measures as nodes within the visualization!
-  //   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
-  //   let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-  //   measures.forEach(measure => {
-  //     mNodeRef.push(measure.name)
-  //     mNodeLabel.push(measure.label_short)
-  //   })
-  //   console.log('These are the measure reference names', mNodeRef);
-
-  //     // check if the burrow has children, go parse down to the leaves from there
-  //   if (burrow.children) {
-  //     let stopper = false 
-  //     let parser = ''; // This is the parser 
-
-
-  //     burrow.children.forEach(node => {
-
-  //     })
-  //   }
-
-  // }
-  // let newNest = warren(burrow);
-
-
 
 
 
@@ -335,7 +306,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       mNodeLabel.push(measure.label_short)
     })
   //   console.log('These are the measure reference names', mNodeRef);
-
 
 
       // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
@@ -374,6 +344,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   })
   // console.log('This is the new max depth', maxDepth)
 
+
+
+
+
+
+
+
       update(root);
 
         // Main functionality (^:;
@@ -381,9 +358,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('i', i) // See how many times i's been reinstantiated
       // Try changing the height of the viewport as you have more leaf nodes instantiated
   let leaves = root.leaves();
-  console.log('leaves', leaves.length);
+  // console.log('leaves', leaves.length);
   height = 52 * leaves.length; // This calculates the space between the nodes!
-  console.log('new height ', height);
+  // console.log('new height ', height);
 
   treemap = d3.tree().size([height, width]);
   // Assigns the x and y position for the nodes
