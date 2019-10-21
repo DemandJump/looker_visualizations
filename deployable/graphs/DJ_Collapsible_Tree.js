@@ -255,29 +255,41 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('These are the current config instantiated', this.options)
 
-
     if (config.aResetColors == true) {
-      if (this._resetColors == false) {
-        console.log('this is options', this.options)
-        dimensions.forEach(dim => {
-          config[dim.name] = this.options[dim.name]["default"]
-        })
-        config['djdh_measures'] = this.options['djdh_measures']["default"]
-
-        this._resetColors = true
-      }
+     if (this._resetColors == false) {
+       this._resetColors = true
+       this.trigger('registerOptions', this.options)
+     }
     }
     if (config.aResetColors == false) {
       if (this._resetColors == true) {
-        console.log('this is options', this.options)
-        dimensions.forEach(dim => {
-          config[dim.name] = this.options[dim.name]["default"]
-        })
-        config['djdh_measures'] = this.options['djdh_measures']["default"]
-
         this._resetColors = false
+        this.trigger('registerOptions', this.options)
       }
-    }
+     }
+
+    // if (config.aResetColors == true) {
+    //   if (this._resetColors == false) {
+    //     console.log('this is options', this.options)
+    //     dimensions.forEach(dim => {
+    //       config[dim.name] = this.options[dim.name]["default"]
+    //     })
+    //     config['djdh_measures'] = this.options['djdh_measures']["default"]
+
+    //     this._resetColors = true
+    //   }
+    // }
+    // if (config.aResetColors == false) {
+    //   if (this._resetColors == true) {
+    //     console.log('this is options', this.options)
+    //     dimensions.forEach(dim => {
+    //       config[dim.name] = this.options[dim.name]["default"]
+    //     })
+    //     config['djdh_measures'] = this.options['djdh_measures']["default"]
+
+    //     this._resetColors = false
+    //   }
+    // }
 
 
 
