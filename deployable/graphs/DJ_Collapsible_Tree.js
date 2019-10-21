@@ -194,7 +194,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
 
       // This is the color for the measures altogether
-    settings['measures'] = {
+    settings['djdh_measures'] = {
       label: 'measures',
       type: 'string',
       section: 'Styling', 
@@ -211,7 +211,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.trigger('registerOptions', settings)
         this._counter ++
       }
-
 /****************************************************************
         * Update the Options
 ****************************************************************/
