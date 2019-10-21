@@ -225,6 +225,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log(`Config: `, config[dimension.name])
     })
 
+    console.log('This is options (The current instantiated settings config)', this.options)
+
 
 
         // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
