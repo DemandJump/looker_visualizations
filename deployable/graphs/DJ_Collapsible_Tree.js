@@ -254,6 +254,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
       }
     }
+    function 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
       let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
       dimensions.forEach(dim => {
@@ -478,7 +479,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', '25px')
-      .style('fill', chosenColors) // "#008CCD" : "#a5a5a5"
+      .style('fill', colorCircles) // "#008CCD" : "#a5a5a5"
 
 
   // Add labels for the nodes
