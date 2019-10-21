@@ -9,7 +9,7 @@
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
-    this.hidden = true
+    this._hidden = true
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -187,7 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         section: 'Styling',
         display: 'color',
         default: defaultColors[colorCounter],
-        hidden: true
+        hidden: this._hidden
       }
       colorCounter++
     })
@@ -199,14 +199,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       section: 'Styling', 
       display: 'color',
       default: '#FFE09B',
-      hidden: true
+      hidden: this._hidden
     }
 
     console.log('this._counter', this._counter)
     if (this._counter == 0) {
       this._counter ++
       this.trigger('registerOptions', settings)
-      console.log('Ran this function again')
     }
 /****************************************************************
         * Update the Options
@@ -226,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log(`Config: `, config[dimension.name])
     })
 
-    console.log('This is options (The current instantiated settings config)', this.options)
+
 
 
 
@@ -235,13 +234,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Check the current settings and update then apply if they're not up to date 
       dimensions.forEach( (dimension, i) => {
         if (i == 0) {
-          if (config['djdh_measures']['hidden'] == false) { // If the settings are currently false, then set the settings to true
+          if (this._hidden == false) { // If the settings are currently false, then set the settings to true
             settings['djdh_measures']['hidden'] = true
             this.trigger('registerOptions', settings)
           }
         }
 
-        if (config[dimension.name]['hidden'] == false) {
+        if (this._hidden == false) {
           settings[dimension.name]['hidden'] = true
           this.trigger('registerOptions', settings)
         }
@@ -253,13 +252,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Check the settings and apply dynamically
       dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
         if (i == 0) {
-          if (config['djdh_measures']['hidden'] == true) { // If the settings are currently false, then set the settings to true
+          if (this._hidden == true) { // If the settings are currently false, then set the settings to true
             settings['djdh_measures']['hidden'] = false
             this.trigger('registerOptions', settings)
           }
         }
 
-        if (config[dimension.name]['hidden'] == true) {
+        if (this._hidden == true) {
           settings[dimension.name]['hidden'] = false
           this.trigger('registerOptions', settings)
         }
