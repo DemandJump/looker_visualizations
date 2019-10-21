@@ -216,13 +216,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // Find all the dimensions, and the measure's hidden values. Not what we're building, but what looker currently has visualized. We're rebuilding it based on that
     dimensions.forEach( (dimension, iteration) => {
       console.log(`This is iteration ${iteration}`)
-      if (iteration == 0) {
-        console.log(`Config settings for ${config.label}, hidden value: ${config["djdh_measures"]["hidden"]}`)
-        console.log(`Config: `, config["djdh_measures"])
-      }
+      if (iteration == 0) {  console.log(`Config settings for ${config.label}, Config: ${config[dimension.name]}`)  }
         // Onto the settings for the visualizations
-      console.log(`Config settings for ${dimension.name}, hidden value: ${config[dimension.name]["hidden"]}`)
-      console.log(`Config: `, config[dimension.name])
+      console.log(`Config settings for ${dimension.name}, Config: ${config[dimension.name]}`)
     })
 
 
