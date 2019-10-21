@@ -566,7 +566,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeUpdate.select('circle.node')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
     .style('fill', d => {
-        return d._children ? colorCircles
+        return d._children ? colorCircles(d)
         : !d._children && !d.children ? "#FEBF43" 
         : "#999999"
     })
