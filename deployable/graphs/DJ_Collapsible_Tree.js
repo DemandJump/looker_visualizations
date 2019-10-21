@@ -482,7 +482,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(d.mCount) { return "20px" }
         else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
-      .style("font-size", d => d.children || d._children ? textSize : "2rem" )
+      .style("font-size", d => textSize(d))
       .attr("text-anchor", d => {
         if(d.mCount) { return "start" }
         else { return d.children || d._children ? "end" : "start" }
