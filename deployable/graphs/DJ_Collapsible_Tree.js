@@ -12,7 +12,7 @@
       //   default: true
       // },
       aResetColors: {
-        label: 'aResetColors',
+        label: 'Use default colors',
         type: 'boolean', 
         section: 'Styling',
         default: true
@@ -255,18 +255,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('These are the current config instantiated', this.options)
 
-    if (config.aResetColors == true) {
-     if (this._resetColors == false) {
-       this._resetColors = true
-       this.trigger('registerOptions', this.options)
-     }
-    }
-    if (config.aResetColors == false) {
-      if (this._resetColors == true) {
-        this._resetColors = false
-        this.trigger('registerOptions', this.options)
-      }
-     }
 
     // if (config.aResetColors == true) {
     //   if (this._resetColors == false) {
@@ -311,6 +299,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
 
+
+    if (config.aResetColors == true) {
+        chosenColors = defaultColors 
+     }
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
