@@ -171,6 +171,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let setColors = ['#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
     let settings = []
+    let hiddenValue = this._hidden
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
     settings['autoColor'] = {
       label: 'Autocolor Dimensions',
@@ -187,7 +188,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         section: 'Styling',
         display: 'color',
         default: defaultColors[colorCounter],
-        hidden: this._hidden
+        hidden: hiddenValue
       }
       colorCounter++
     })
@@ -199,7 +200,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       section: 'Styling', 
       display: 'color',
       default: '#FFE09B',
-      hidden: this._hidden
+      hidden: hiddenValue
     }
 
     console.log('this._counter', this._counter)
@@ -213,7 +214,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is config', config)
     console.log('This is autoColor', config.autoColor)
 
-    
+
 
         // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
     if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
@@ -256,7 +257,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-
+    console.log('These are teh settings', settings)
 
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
