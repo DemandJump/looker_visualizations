@@ -294,6 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         chosenColors.push(currentColor)
       })
         // then at the end of the array we add measure's color
+      console.log('config djdh measures', config['djdh_measures'])
       chosenColors.push(config['djdh_measures'])
           // Now we have a full array of the colors in order by depth, and it is accurate
 
@@ -564,12 +565,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    .style('fill', d => {
-        return d._children ? "#008CCD" :
-        !d._children && !d.children ? "#FEBF43" :
-        "#999999"
-    })
-    // .style('fill', d => colorCircles(d))
+    // .style('fill', d => {
+    //     return d._children ? "#008CCD" :
+    //     !d._children && !d.children ? "#FEBF43" :
+    //     "#999999"
+    // })
+    .style('fill', d => colorCircles(d))
     // .style('stroke', d => {
     //     return d.children ? "#008CCD" :
     //     "#999999"
