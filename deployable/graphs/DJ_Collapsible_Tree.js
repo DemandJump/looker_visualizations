@@ -187,7 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // Lets grab all the dimensions and measure
     let dimensions = queryResponse.fields.dimensions
     let measures = queryResponse.fields.measures
-    let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
+    let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
     let settings = []
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
@@ -677,6 +677,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function colorCircles(d) {
     // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
         // Start from d level 1, 0 can have a unique styling
+        console.log("This is d, the leaf nodes aren't working right though", d)
   for(i = 0; i < maxDepth; i++) {
     if (i == d.depth) {
       return chosenColors[i]
