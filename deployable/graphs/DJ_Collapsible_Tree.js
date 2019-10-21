@@ -11,6 +11,7 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    this._counter = 0;
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -155,9 +156,67 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    /**********************************************************************
+    /************************************************************************************
+    * Setting up the Dimension Options
+    ************************************************************************************/
+        // Let's figure out a representable list of the dj brand colors, and start there
+    // #000000, #999999, #008CCD, #FF6B00, #B6DCB7, #F8B0A3, #FDBC40, #FFE09B, #D9524A,
+
+      // Lets grab all the dimensions and measure
+    let dimensions = queryResponse.fields.dimensions
+    let measures = queryResponse.fields.measures
+    let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
+    let colorCounter = 0
+    let settings
+          // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
+    settings['autoColor'] = {
+      label: 'Autocolor Dimensions',
+      type: 'boolean',
+      section: 'Styling',
+      default: true
+    }
+
+      // This is a loop for all the dimensions to color 
+    dimensions.forEach(dimension => {
+      settings[dimension.name] = {
+        label: dimension.name, 
+        type: 'string',
+        section: 'Styling',
+        display: 'color',
+        default: defaultColors[colorCounter],
+        hideen: true
+      }
+
+      colorCounter++
+    })
+
+    
+    if (config.autoColor == 'false') {
+      dimensions.forEach(dimension => {
+        settings[dimension.name].hidden = false
+      })
+
+      if (counter == 0) {
+          // This will reset the dataa   
+        this.trigger('registerOptions', settings)
+        this._counter ++
+      }
+    }
+
+    if (config.autoColor == 'true') {
+      dimension.forEach(dimension => {
+        settings[dimension.name].hidden = true
+      })
+
+      if (counter == 0) {
+          // This will reset the dataa
+        this.trigger('registerOptions', settings)
+        this._counter ++
+      }
+    }
+    /***************************************************************************************************************************
                         * Update the Visualization *
-    **********************************************************************/
+    ***************************************************************************************************************************/
     /* Object { // !!!Initial data given, we're gonna have to account for variation after this!!!
             djb_scores.dj_score: { value: float, rendered:  num } // circle size 
             djb_scores.phrase: { value: string } // child 
@@ -172,16 +231,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             
 
 
-  console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-  console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+  console.log('Checking out query resposne dimension fields: ', dimensions);
+  console.log('Checking out query resposne measure fields: ', measures);
   // console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
   // console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
     // Dimension and Measure length 
   let maxDimensions = queryResponse.fields.dimensions.length;
   let maxMeasures = queryResponse.fields.measures.length;
     // The selector references for dimensions and length 
-  let dimensions = queryResponse.fields.dimensions;
-  let measures = queryResponse.fields.measures;
 
 
   let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
@@ -404,7 +461,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('text')
       .attr("dy", ".35em")
       .attr("x", d => {
-        if(d.mCount) { return "14px" }
+        if(d.mCount) { return "20px" }
         else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
       .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
@@ -419,7 +476,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodeEnter.append('text')
       .attr('dy', '.35em')
       .attr('x', d => {
-        if (d.mCount) { return "-14px" }
+        if (d.mCount) { return "-20px" }
         d.children || d._children ? "29.4px" : "-31.4px" 
       })
       .style('font-size', d => d.children || d._children ? "2rem" : "2.25rem" )
