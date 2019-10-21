@@ -362,7 +362,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   
     // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
-  let root = d3.hierarchy(nested, function(d) { return d.children});
+  let root = d3.hierarchy(nested, function(d) { return d.children });
     root.x0 = height / 2;
     root.y0 = 0;
 
@@ -523,7 +523,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(d.mCount) { return "20px" }
         else { return d.children || d._children ? "-31.4px" : "29.4px" }
       })
-      .style("font-size", d => textSize(d))
+      .style("font-size", d => d.children || d._children ? "2.25rem" : "2rem" )
       .attr("text-anchor", d => {
         if(d.mCount) { return "start" }
         else { return d.children || d._children ? "end" : "start" }
@@ -564,12 +564,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    // .style('fill', d => {
-    //     return d._children ? "#008CCD" :
-    //     !d._children && !d.children ? "#FEBF43" :
-    //     "#999999"
-    // })
-    .style('fill', d => colorCircles(d))
+    .style('fill', d => {
+        return d._children ? "#008CCD" :
+        !d._children && !d.children ? "#FEBF43" :
+        "#999999"
+    })
+    // .style('fill', d => colorCircles(d))
     // .style('stroke', d => {
     //     return d.children ? "#008CCD" :
     //     "#999999"
