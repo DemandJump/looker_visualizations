@@ -219,24 +219,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('Switching autocolor to false')
       dimensions.forEach(dimension => {
         console.log('settings[dimension.name] ', settings[dimension.name])
-        settings[dimension.name].hidden = false
+        if (this.options[dimension.name].hidden == false) {
+          settings[dimension.name].hidden = false
+          this.trigger('registerOptions', settings)
+        }
       })
-      this.trigger('registerOptions', settings)
     }
 
     if (config.autoColor == 'true') {
       console.log('Switching autocolor to true')
       dimension.forEach(dimension => {
         console.log('settings[dimension.name] ', settings[dimension.name])
-        settings[dimension.name].hidden = true
+        if (this.options[dimension.name].hidden == false) {
+          settings[dimension.name].hidden = true
+          this.trigger('registerOptions', settings)
+        }
       })
-      this.trigger('registerOptions', settings)
     }
 
 
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
-    settings.forEach(config => {
+    let settings1 = settings
+    settings1.forEach(config => {
       console.log(`This is the config setting name`, config.name)
       console.log(`These are the config settings`, config)
       console.log(`Default setting: ${config.default}`)
