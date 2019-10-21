@@ -270,10 +270,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function resetColors() {
       dimensions.forEach(dim => {
-        console.log('This is the color value', config[dim.name]["value"])
-        config[dim.name]["value"] = config[dim.name]["default"]
+        console.log('This is the color value', config[dim.name])
+        config[dim.name] = this['options'][dim.name]["default"]
       })
-      config['djdh_measures']['value'] = config['djdh_measures']["default"]
+      config['djdh_measures']['value'] = this['options']['djdh_measures']["default"]
       console.log('These are the new options!', config)
       // this.trigger('registerOptions', this.options)
     }
