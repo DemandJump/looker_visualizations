@@ -206,6 +206,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (this._counter == 0) {
       this._counter ++
       this.trigger('registerOptions', settings)
+      console.log('Ran this function again')
     }
 /****************************************************************
         * Update the Options
