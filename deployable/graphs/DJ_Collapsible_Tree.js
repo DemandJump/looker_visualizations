@@ -15,7 +15,7 @@
         label: 'Use default colors',
         type: 'boolean', 
         section: 'Styling',
-        default: true
+        default: false
       }
     },
 
