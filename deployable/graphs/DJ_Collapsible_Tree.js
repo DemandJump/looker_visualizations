@@ -208,7 +208,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the configuration menu', settings)
 
 
-    if (counter == 0) { // This will reset the dataa
+    if (this._counter == 0) { // This will reset the dataa
         this.trigger('registerOptions', settings)
         this._counter ++
       }
