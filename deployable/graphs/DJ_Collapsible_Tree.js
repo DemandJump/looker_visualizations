@@ -210,7 +210,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the configuration menu', settings)
     if (this._counter == 0) { // This will reset the dataa
         this.trigger('registerOptions', settings)
-        console.log('These are the new settings', this.options)
+        console.log('These are the new settings', config)
         this._counter ++
       }
 /****************************************************************
@@ -223,13 +223,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       dimensions.forEach(dimension => {
         let update = false
         if (settings[dimension.name]["hidden"] == true) {
+          console.log('settings were true, setting it to false now ')
           settings[dimension.name]["hidden"] = false
+          console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
+          console.log('settings[dimension.name] ', settings[dimension.name])
           update = true
         }
-        console.log('settings[dimension.name] ', settings[dimension.name])
-        console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
       })
 
+      console.log('Update started as false, and the function set it to ', update)
       if (update) {
         this.trigger('registerOptions', settings)
       }
@@ -240,13 +242,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('Switching autocolor to true')
       dimensions.forEach(dimension => {
         if (settings[dimension.name]["hidden"] == false) {
+          console.log('settings were false, setting it to true now ')
           settings[dimension.name]["hidden"] = true
+          console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
+          console.log('settings[dimension.name] ', settings[dimension.name])
           update = true
         }
-        console.log('settings[dimension.name] ', settings[dimension.name])
-        console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
+
       })
 
+      console.log('Update started as false, and the function set it to ', update)
       if (update) {
         this.trigger('registerOptions', settings)
       }
