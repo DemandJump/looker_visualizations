@@ -571,6 +571,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //     "#999999"
     // })
     .style('fill', d => {
+      if (d.mCount) {
+        return config.djdh_measures
+      }
       for(i = 0; i < maxDepth; i++) {
         if (i == d.depth) {
           return chosenColors[i]
