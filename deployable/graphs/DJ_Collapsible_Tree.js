@@ -677,7 +677,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function colorCircles(d) {
     // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
         // Start from d level 1, 0 can have a unique styling
-        console.log("This is d, the leaf nodes aren't working right though", d)
   for(i = 0; i < maxDepth; i++) {
     if (i == d.depth) {
       return chosenColors[i]
