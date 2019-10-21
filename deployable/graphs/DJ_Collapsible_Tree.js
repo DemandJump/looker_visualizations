@@ -262,13 +262,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('These are the settings', settings)
     console.log('These are the current config instantiated', this.options)
 
-    console.log('Settings initialized, here are each')
+    
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
-    settings.forEach(setting => {
-      console.log(`This is the setting setting name`, setting.label)
-      console.log(`These are the setting settings`, setting)
-      console.log(`Default setting: ${setting.default}`)
-    })
+
 
 
     /***************************************************************************************************************************
