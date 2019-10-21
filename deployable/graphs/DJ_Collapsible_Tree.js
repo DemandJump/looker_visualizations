@@ -246,6 +246,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
       }) 
+      if (this._hidden == false) { this._hidden == true }
     }
 
     if (config.autoColor == false) {
@@ -264,6 +265,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
       })
+      if (this._hidden == true) { this._hidden == false }
     }
 
 
