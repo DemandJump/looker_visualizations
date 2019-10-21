@@ -23,8 +23,9 @@
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
-    this._hidden = true
+    this._hidden = false // Set it to true for the commented out options values
     this._resetColors = true 
+
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -200,7 +201,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         section: 'Styling',
         display: 'color',
         default: defaultColors[colorCounter],
-        hidden: this.hidden
+        hidden: this._hidden
       }
       colorCounter++
     })
@@ -212,7 +213,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       section: 'Styling', 
       display: 'color',
       default: '#FFE09B',
-      hidden: this.hidden
+      hidden: this._hidden
     }
 
     console.log('this._counter', this._counter)
@@ -259,11 +260,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (this._resetColors == false) {
         console.log('this is options', this.options)
         dimensions.forEach(dim => {
-          console.log('This is the color value', this.options[dim.name])
-          this.options[dim.name] = this.options[dim.name]["default"]
+          config[dim.name] = this.options[dim.name]["default"]
         })
-        this.options['djdh_measures']['value'] = this.options['djdh_measures']["default"]
-        console.log('These are the new options!', this.options)
+        config['djdh_measures']['value'] = this.options['djdh_measures']["default"]
 
         this._resetColors = true
       }
@@ -272,11 +271,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (this._resetColors == true) {
         console.log('this is options', this.options)
         dimensions.forEach(dim => {
-          console.log('This is the color value', this.options[dim.name])
-          this.options[dim.name] = this.options[dim.name]["default"]
+          config[dim.name] = this.options[dim.name]["default"]
         })
-        this.options['djdh_measures']['value'] = this.options['djdh_measures']["default"]
-        console.log('These are the new options!', this.options)
+        config['djdh_measures']['value'] = this.options['djdh_measures']["default"]
 
         this._resetColors = false
       }
