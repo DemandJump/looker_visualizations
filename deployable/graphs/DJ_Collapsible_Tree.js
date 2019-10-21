@@ -219,13 +219,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (config.autoColor == 'false') {
       console.log('Switching autocolor to false')
       dimensions.forEach(dimension => {
+        console.log('settings[dimension.name] ', settings[dimension.name])
         settings[dimension.name]["hidden"] = false
       })
       this.trigger('registerOptions', settings)
     }
 
     if (config.autoColor == 'true') {
+      console.log('Switching autocolor to true')
       dimension.forEach(dimension => {
+        console.log('settings[dimension.name] ', settings[dimension.name])
         settings[dimension.name]["hidden"] = true
       })
       this.trigger('registerOptions', settings)
