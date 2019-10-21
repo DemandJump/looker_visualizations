@@ -11,6 +11,12 @@
       //   section: 'Styling',
       //   default: true
       // },
+      aResetColors: {
+        label: 'aResetColors',
+        type: 'boolean', 
+        section: 'styling',
+        default: true
+      }
     },
 
     // Onto the create section 
@@ -18,6 +24,7 @@ create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
     this._hidden = true
+    this._resetColors = true 
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -247,9 +254,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('These are the current config instantiated', this.options)
 
+
+    if (config.aResetColors == true) {
+      if (this._resetColors == false) {
+        this._resetColors = true
+        resetColors()
+      }
+    }
+    if (config.aResetColors == false) {
+      if (this._resetColors == true) {
+        this._resetColors = false
+        resetColors()
+      }
+    }
+
+    function resetColors() {
+      dimensions.forEach(dim => {
+        console.log('This is the color value', this.options[dim.name]["value"])
+        this.options[dim.name]["value"] = this.options[dim.name]["default"]
+      })
+      this.options['djdh_measures']['value'] = this.options[dim.name]["default"]
+      console.log('These are the new options!', this.options)
+      this.trigger('registerOptions', this.options)
+    }
+
+
+
+
     
 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
+
       let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
       dimensions.forEach(dim => {
         let currentDim = dim.name
@@ -260,6 +295,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // then at the end of the array we add measure's color
       chosenColors.push(config['djdh_measures'])
           // Now we have a full array of the colors in order by depth, and it is accurate
+
             /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
 
     /***************************************************************************************************************************
