@@ -10,6 +10,7 @@
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
+    this.hidden = true
     // Element is the Dom element that looker would like us to put our visualization into
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
@@ -171,6 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimensions = queryResponse.fields.dimensions
     let measures = queryResponse.fields.measures
     let defaultColors = ['#008CCD', '#FF6B00', '#B6DCB7', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
+    let setColors = ['#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
     let colorCounter = 0
     let settings = []
           // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
@@ -205,47 +207,85 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-
-        //*// Above initializes the config, and then we instantiate it here. Then we run the settings ~ //*//
-    console.log('This is the configuration menu', settings)
-    if (this._counter == 0) { // This will reset the dataa
-        this.trigger('registerOptions', settings)
-        console.log('These are the new settings', config)
-        this._counter ++
-      }
 /****************************************************************
         * Update the Options
 ****************************************************************/
+    console.log('This is config', config)
     console.log('This is autoColor', config.autoColor)
 
+      // Find all the dimensions, and the measure's hidden values. Not what we're building, but what looker currently has visualized. We're rebuilding it based on that
+    dimensions.forEach( (dimension, iteration) => {
+      console.log(`This is iteration ${iteration}`)
+      if (iteration == 0) {
+        console.log(`Config settings for ${config.label}, hidden value: ${config["djdh_measures"]["hidden"]}`)
+        console.log(`Config: `, config["djdh_measures"])
+      }
+        // Onto the settings for the visualizations
+      console.log(`Config settings for ${dimension.name}, hidden value: ${config[dimension.name]["hidden"]}`)
+      console.log(`Config: `, config[dimension.name])
+    })
+
+
+
+        // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
+    if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
+        // Check the current settings and update then apply if they're not up to date 
+      dimensions.forEach( (dimension, i) => {
+        if (i == 0) {
+          if (config['djdh_measures']['hidden'] == false) { // If the settings are currently false, then set the settings to true
+            settings['djdh_measures']['hidden'] = true
+            this.trigger('registerOptions', settings)
+          }
+        }
+
+        if (config[dimension.name]['hidden'] == false) {
+          settings[dimension.name]['hidden'] = true
+          this.trigger('registerOptions', settings)
+        }
+
+      }) 
+    }
+
     if (config.autoColor == false) {
-      console.log('Switching autocolor to false')
-      dimensions.forEach(dimension => {
-        if (settings[dimension.name]["hidden"] == true) {
-          console.log('settings were true, setting it to false now ')
-          settings[dimension.name]["hidden"] = false 
-          console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
-          console.log('settings[dimension.name] ', settings[dimension.name])
-          this.trigger('registerOptions', settings)
-
+        // Check the settings and apply dynamically
+      dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
+        if (i == 0) {
+          if (config['djdh_measures']['hidden'] == false) { // If the settings are currently false, then set the settings to true
+            settings['djdh_measures']['hidden'] = true
+            this.trigger('registerOptions', settings)
+          }
         }
+
+        if (config[dimension.name]['hidden'] == false) {
+          settings[dimension.name]['hidden'] = true
+          this.trigger('registerOptions', settings)
+        }
+        
       })
     }
 
-    if (config.autoColor == true) {
-      console.log('Switching autocolor to true')
-      dimensions.forEach(dimension => {
-        if (settings[dimension.name]["hidden"] == false) {
-          console.log('settings were false, setting it to true now ')
-          settings[dimension.name]["hidden"] = true
-          console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
-          console.log('settings[dimension.name] ', settings[dimension.name])
-          this.trigger('registerOptions', settings)
 
-        }
-      })
-    }
 
+
+
+    // if (config.autoColor == false) {
+    //   console.log('Switching autocolor to false')
+    //   dimensions.forEach(dimension => {
+    //     let update = false
+    //     if (settings[dimension.name]["hidden"] == true) {
+    //       console.log('settings were true, setting it to false now ')
+    //       settings[dimension.name]["hidden"] = false
+    //       console.log('settings[dimension.name].hidden ', settings[dimension.name]["hidden"])
+    //       console.log('settings[dimension.name] ', settings[dimension.name])
+    //       update = true
+    //     }
+    //   })
+
+    //   console.log('Update started as false, and the function set it to ', update)
+    //   if (update) {
+    //     this.trigger('registerOptions', settings)
+    //   }
+    // }
 
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
