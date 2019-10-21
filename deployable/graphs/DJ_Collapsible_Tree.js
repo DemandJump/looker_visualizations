@@ -282,7 +282,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
         // Start by finding out how Looker pulls data /dimensions 
-    console.log('\n\n\ Initializing the node visual stuff');
+    // console.log('\n\n\ Initializing the node visual stuff');
     // console.log(`LookerCharts`, LookerCharts);
             
 
