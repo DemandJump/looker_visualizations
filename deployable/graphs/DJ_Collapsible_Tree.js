@@ -248,31 +248,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('These are the current config instantiated', this.options)
 
     
-      // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
-    function colorCircles(d) {
-        // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
-            // Start from d level 1, 0 can have a unique styling
-      for(i = 0; i < maxDepth; i++) {
-        if (i == d.depth) {
-          return chosenColors[i]
-        }
-      }
-    }
-    function textSize(d) {
-          // We need dynamic text size based on the depth of the hierarchy
-          /* 
-          0: 8rem
-          1: 4.5rem
-          2: 4rem
-          3: 3.4rem
-          4: 2rem
-          */
-      return d.depth == 0 ? '8rem'
-      : d.depth == 1 ? '4.5rem'
-      : d.depth == 2 ? '4rem'
-      : d.depth == 3 ? '3.4rem'
-      : '2.25rem'
-    }
+
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
       let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
       dimensions.forEach(dim => {
@@ -285,7 +261,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       chosenColors.push(config['djdh_measures'])
           // Now we have a full array of the colors in order by depth, and it is accurate
             /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
-
 
     /***************************************************************************************************************************
                         * Update the Visualization *
@@ -657,6 +632,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // zoom_handler.transition().duration(1250)
     //   .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
   }
+
+  function colorCircles(d) {
+    // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
+        // Start from d level 1, 0 can have a unique styling
+  for(i = 0; i < maxDepth; i++) {
+    if (i == d.depth) {
+      return chosenColors[i]
+    }
+  }
+}
+
+function textSize(d) {
+      // We need dynamic text size based on the depth of the hierarchy
+      /* 
+      0: 8rem
+      1: 4.5rem
+      2: 4rem
+      3: 3.4rem
+      4: 2rem
+      */
+  return d.depth == 0 ? '8rem'
+  : d.depth == 1 ? '4.5rem'
+  : d.depth == 2 ? '4rem'
+  : d.depth == 3 ? '3.4rem'
+  : d.depth == maxDepth ? '2rem'
+  : '2.25rem'
+}
 }
 
 
