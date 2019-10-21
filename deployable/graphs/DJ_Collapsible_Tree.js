@@ -565,21 +565,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Update the node attributes and style
   nodeUpdate.select('circle.node')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    // .style('fill', d => {
-    //     return d._children ? "#008CCD" :
-    //     !d._children && !d.children ? "#FEBF43" :
-    //     "#999999"
-    // })
     .style('fill', d => {
-      if (d.mCount) {
-        return config.djdh_measures
-      }
-      for(i = 0; i < maxDepth; i++) {
-        if (i == d.depth) {
-          return chosenColors[i]
-        }
-      }
+        return d._children ? "#008CCD" :
+        !d._children && !d.children ? "#FEBF43" :
+        "#999999"
     })
+    // .style('fill', d => {
+    //   if (d.mCount) {
+    //     return config.djdh_measures
+    //   }
+    //   for(i = 0; i < maxDepth; i++) {
+    //     if (i == d.depth) {
+    //       return chosenColors[i]
+    //     }
+    //   }
+    // })
     // .style('stroke', d => {
     //     return d.children ? "#008CCD" :
     //     "#999999"
