@@ -273,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         dimensions.forEach(dim => {
           config[dim.name] = this.options[dim.name]["default"]
         })
-        config['djdh_measures']['value'] = this.options['djdh_measures']["default"]
+        config['djdh_measures'] = this.options['djdh_measures']["default"]
 
         this._resetColors = false
       }
