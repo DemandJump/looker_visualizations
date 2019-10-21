@@ -570,7 +570,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //     !d._children && !d.children ? "#FEBF43" :
     //     "#999999"
     // })
-    .style('fill', d => colorCircles(d))
+    .style('fill', d => {
+      for(i = 0; i < maxDepth; i++) {
+        if (i == d.depth) {
+          return chosenColors[i]
+        }
+      }
+    })
     // .style('stroke', d => {
     //     return d.children ? "#008CCD" :
     //     "#999999"
