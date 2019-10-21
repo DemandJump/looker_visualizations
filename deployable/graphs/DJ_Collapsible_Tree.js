@@ -214,6 +214,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /****************************************************************
         * Update the Options
 ****************************************************************/
+    console.log('This is autoColor', config.autoColor)
     
     if (config.autoColor == 'false') {
       console.log('Switching autocolor to false')
@@ -224,7 +225,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           settings[dimension.name].hidden = false
           this.trigger('registerOptions', settings)
         }
-        
+
       })
     }
 
