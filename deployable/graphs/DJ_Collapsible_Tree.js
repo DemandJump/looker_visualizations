@@ -478,7 +478,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'node')
       .attr('r', '25px')
-      .style('fill', d => d.children ? chosenColors : "#a1a1a1")
+      .style('fill', d => d.children ? chosenColors) // "#008CCD" : "#a5a5a5"
 
 
   // Add labels for the nodes
