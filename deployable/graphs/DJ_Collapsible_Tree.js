@@ -213,17 +213,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is config', config)
     console.log('This is autoColor', config.autoColor)
 
-      // Find all the dimensions, and the measure's hidden values. Not what we're building, but what looker currently has visualized. We're rebuilding it based on that
-    dimensions.forEach( (dimension, iteration) => {
-      console.log(`This is iteration ${iteration}`)
-      if (iteration == 0) {  console.log(`Config settings for ${config.label}, Config: ${config[dimension.name]}`)  }
-        // Onto the settings for the visualizations
-      console.log(`Config settings for ${dimension.name}, Config: ${config[dimension.name]}`)
-    })
-
-
-
-
+    
 
         // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
     if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
@@ -270,10 +260,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('Settings initialized, here are each')
       // We've put each dimension(reference is it's looker.name) and a 'measure' setting for all measures for the color functions, default color is #008CCD with border #FDBC40
-    settings.forEach(config => {
-      console.log(`This is the config setting name`, config.name)
-      console.log(`These are the config settings`, config)
-      console.log(`Default setting: ${config.default}`)
+    settings.forEach(setting => {
+      console.log(`This is the setting setting name`, setting.name)
+      console.log(`These are the setting settings`, setting)
+      console.log(`Default setting: ${setting.default}`)
     })
 
 
