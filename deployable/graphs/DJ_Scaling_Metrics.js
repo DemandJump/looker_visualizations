@@ -84,6 +84,7 @@ create: function(element, config) {
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     let d3 = d3v5
+    this._mCounter = 0
     
             /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
@@ -123,10 +124,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ******************************************************************/
     
     measures.forEach(mes => {
-        
+        let dynamicConfig = {
+            label: mes.label_short + ' Font Size',
+            type: 'string',
+            section: 'FontSize',
+            values: [
+                {"Small": "small"},
+                {"Medium": "medium"},
+                {"Large": "large"},
+            ],
+            default: "small"
+        }
+
+        this.options.push(dynamicConfig)
+
     })
 
-
+    if (this._mCounter == 0) {
+        this._mCounter ++ 
+        this.trigger('registerOptions', this.options)
+    }
 
 
 
