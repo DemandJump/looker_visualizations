@@ -283,6 +283,7 @@ if (config.labelOverride == true && config.showComparison == true) {
   }
 }
 
+
 if (config.showComparison == false) {
   if (this.options.valueLabels.hidden == false && this.options.positiveSwitch.hidden == false && this.options.showLabel.hidden == false) {
       this.options.valueLabels.hidden = true
