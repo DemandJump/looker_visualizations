@@ -6,7 +6,7 @@ looker.plugins.visualizations.add({
     },
     // Onto the create section 
 create: function(element, config) {
-    let d3 = d3v5
+    let d3 = d3v5;
 
         // We can also use d3 to target the element and style it respectively
     d3.select(element)
@@ -66,7 +66,7 @@ create: function(element, config) {
 },
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-    let d3 = d3v5
+    let d3 = d3v5;
     this._mCounter = 0
     d3.select(element).selectAll('*').remove()
     
