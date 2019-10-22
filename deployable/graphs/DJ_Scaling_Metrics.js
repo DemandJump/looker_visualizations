@@ -101,8 +101,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
-        console.log('This is the measure', mes)
-        console.log('Grab the first piece of data', data[0])
+        // console.log('This is the measure', mes)
+        // console.log('Grab the first piece of data', data[0])
         measureData[i] = {
             value: data[0][mes.name].value,
             name: mes.name,
@@ -115,31 +115,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the measureData', measureData)
 
 
-
-
-    d3.selectAll('.value')
-        // .style('width', findWidth)
-        .style('height', findHeight)
-
+    update(measureData)
     /***********************************
      * Update the Visualization *
     ***********************************/
-    let update = d3.select('div.container')
+    function update(dataPass) {
+        let update = d3.select('div.container')
         .selectAll('div.value')
         .data(measureData, d => d.index)
 
-    let enter = update.append('div')
+        let enter = update.append('div')
         
-    enter
-        .style('class', 'value')
-        .style('class', d => {
-                // Taking in the measure name and making that the class name
-            return d.name
-        })
-        .html(d => {
-            console.log('This is d', d)
-            return d.value
-        })
+        enter
+            .style('class', 'value')
+            .style('class', d => d.name)
+            .style('height', findHeight)
+            .html(d => {
+                console.log('This is d', d)
+                return d.value
+            })
+
+        // End of update function 
+    }
+    
         
 
 
