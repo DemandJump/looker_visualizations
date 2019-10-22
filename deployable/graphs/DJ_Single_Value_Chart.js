@@ -293,7 +293,7 @@ if (config.showComparison == false) {
   }
 }
   // This gets run after config show comparison variable
-if (config.showLabel == false && config.showComparison == false) {
+if (config.showLabel == false && config.showComparison == true) {
   if (this.options.labelOverride.hidden == false) {
       this.options.labelOverride.hidden = true
       this.trigger('registerOptions', this.options)
