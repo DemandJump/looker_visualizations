@@ -69,7 +69,7 @@ looker.plugins.visualizations.add({
               label: "Show Label",
               type: "boolean",
               section: "Comparison",
-              default: "false",
+              default: false,
               hidden: true // Show comparison == true
             },
             labelOverride: {
@@ -276,9 +276,9 @@ if (config.showComparison == true) {
   }
 }
   // This gets run after config show comparison variable
-if (config.labelOverride == true && config.showComparison == true) {
-  if (this.options.labelOverride.hidden == true) {
-      this.options.labelOverride.hidden = false
+if (config.showLabel == true && config.showComparison == true) {
+  if (this.options.showLabel.hidden == true) {
+      this.options.showLabel.hidden = false
       this.trigger('registerOptions', this.options)
   }
 }
@@ -293,9 +293,9 @@ if (config.showComparison == false) {
   }
 }
   // This gets run after config show comparison variable
-if (config.labelOverride == false && config.showComparison == false) {
-  if (this.options.labelOverride.hidden == false) {
-      this.options.labelOverride.hidden = true
+if (config.showLabel == false && config.showComparison == false) {
+  if (this.options.showLabel.hidden == false) {
+      this.options.showLabel.hidden = true
       this.trigger('registerOptions', this.options)
   }
 }
