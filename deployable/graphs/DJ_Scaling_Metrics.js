@@ -42,6 +42,7 @@ create: function(element, config) {
         .value {
             margin: auto;
             position: absolute; 
+            width: 100%;
             top: 50%;
         }
 
