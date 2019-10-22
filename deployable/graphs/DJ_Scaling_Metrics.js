@@ -1220,53 +1220,25 @@ function formatValue(formatData, string) {
                     break
                 }
             }
-            beforeDecimal = stringRes.substr(decimalPlace)
+            beforeDecimal = stringRes.substr(decimalPlace) 
             afterDecimal = stringRes.substr(decimalPlace + 1)
 
-            if (afterDecimal > decimalAmount) { // calc the difference, and slice off the extras
-                let difference = afterDecimal - decimalAmount
+            if (afterDecimal.length > decimalAmount) { // calc the difference, and slice off the extras
+                let difference = afterDecimal.length - decimalAmount
                 for(i = 0; i < difference; i++) {
                     stringRes = stringRes.slice(0, -1)
                 }
                 return stringRes
             }
-            if (afterDecimal < decimalAmount) {
-                let difference = decimalAmount - afterDecimal
+            if (afterDecimal.length < decimalAmount) {
+                let difference = decimalAmount - afterDecimal.length
                 for(i = 0; i < difference; i++) {
                     stringRes = stringRes + '0'
                 }
                 return stringRes
             }
 
-            // let decimalPlace = 0
-            // stringRes = string
 
-            // for(i = 0; i < string.length; i++) { // Find decimal place and store it
-            //     if (string[i] == '.') { // If the decimal place is found, store it for calculation
-            //         decimalPlace = i
-            //         break
-            //     }
-            // }
-
-            //     // Found the decimal place of the string, add the decimalamount and compare to add or remove decimal points
-            // let setAmount = decimalPlace + decimalAmount
-            
-            // if (setAmount > string.length) { // Add the missing 0's to the end based on the missing amount
-            //     let difference = setAmount - string.length
-
-            //     for(i = 0; i < difference; i++) { // Add a 0 to the end for each missing amount
-            //         stringRes = stringRes + '0'
-            //     }
-            //     return stringRes
-            // }
-            // if (setAmount < string.length) { // Remove the extra decimal points
-            //     let difference = string.length - setAmount
-
-            //     for(i = 0; i < difference; i++) {
-            //         stringRes.slice(0, -1)
-            //     }
-            //     return stringRes
-            // }
 
         } // End of it the format was correct (tf)
 
