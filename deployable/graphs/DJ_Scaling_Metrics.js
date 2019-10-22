@@ -6,9 +6,7 @@ looker.plugins.visualizations.add({
     },
     // Onto the create section 
 create: function(element, config) {
-    // Element is the Dom element that looker would like us to put our visualization into
-        // Looker formats it to the proper size, you just need to put the stuff here
-// We're essentially using vanilla javascript to create a visualization for looker to append!
+    let d3 = d3v5
 
         // We can also use d3 to target the element and style it respectively
     d3.select(element)
@@ -75,6 +73,7 @@ create: function(element, config) {
 },
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+    let d3 = d3v5
     
             /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
