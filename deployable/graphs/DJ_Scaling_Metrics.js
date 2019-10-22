@@ -52,7 +52,6 @@ create: function(element, config) {
         </style>
 
 
-        <div class="container"></div>
     `;
 
 
@@ -110,17 +109,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***********************************
      * Update the Visualization *
     ***********************************/
-    d3.select('div.container')
-        .selectAll('div.value')
-        .data(measureData)
-        .append('div')
-            .style('class', 'value')
-            .style('class', d => d.name)
-            .style('height', findHeight)
-            .html(d => {
-                console.log('This is d', d)
-                return 'd.value'
-            })
+    d3.select(element).append('div')
+        .attr('class', 'container')
+            .selectAll('div.value')
+            .data(measureData)
+            .append('div')
+                .attr('class', 'value')
+                .attr('class', d => d.name)
+                .style('height', findHeight)
+                .html(d => {
+                    console.log('This is d', d)
+                    return 'd.value'
+                })
 
     
         
