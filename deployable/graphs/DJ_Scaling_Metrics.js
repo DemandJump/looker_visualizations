@@ -54,7 +54,7 @@ create: function(element, config) {
     `;
 
     d3.select(element).append('div')
-        .attr('class', 'contianer')
+        .attr('class', 'container')
 
 
 
