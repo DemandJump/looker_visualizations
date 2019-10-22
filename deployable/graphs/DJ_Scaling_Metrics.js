@@ -115,22 +115,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Update the Visualization *
     ***********************************/
     console.log('measureData', measureData)
-    console.log('!measureDatum!', measureDatum)
     d3.select(element).append('div')
         .attr('class', 'container')
             .selectAll('.value')
-            .data(measureDatum)
+            .data(measureData)
             .append('div')
                 .attr('class', 'value')
                 .attr('class', d => d.name)
                 .style('height', findHeight)
                 .html(d => {
                     console.log('This is d', d)
-                    return 'd.value'
+                    return d.value
                 })
 
 
-    
+    d3.select(element).append('div')
+        .attr('class', 'container')
+        .attr('class', 'container2')
+            .selectAll('.value')
+            .data(mData)
+            .append('div')
+                .attr('class', 'value')
+                .attr('class', (d, i) => mName[i])
+                .style('height', findHeight)
+                .html( d => {
+                    console.log('This is d', d)
+                    return d
+                })
         
 
 
