@@ -48,7 +48,6 @@ create: function(element, config) {
         </style>
 
         <div class="container">
-            Text within container itself
 
             <div class="value v1">
                 Value 1 value
@@ -59,6 +58,7 @@ create: function(element, config) {
             <div class="value v3">
                 Value 3 value
             </div>
+            
         </div>
     `;
 
@@ -103,7 +103,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     function findHeight() {
         let divHeight = 100 / dimHeight
-        return divHeight
+        return divHeight + 'vh'
     }
 
 
