@@ -15,7 +15,6 @@ create: function(element, config) {
         .style('margin', 'auto')
         .style('position', 'relative')
         .style('text-align', 'center')
-        .style('background-color', '#d2d2d2')
 
 
 
@@ -50,20 +49,10 @@ create: function(element, config) {
             transform: translate(-50%, -50%);*/
         }
 
-        .v1 {
-            background-color: #008CCD;
-        }
-        .v2 {
-            background-color: #B6DCB7;
-        }
-        .v2 {
-            background-color: #FDBC40;
-        }
-
         </style>
 
 
-        <div class="container"> </div>
+        <div class="container"></div>
     `;
 
 
