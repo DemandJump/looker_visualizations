@@ -53,7 +53,7 @@ create: function(element, config) {
 
     `;
 
-    div.select(element).append('div')
+    d3.select(element).append('div')
         .attr('class', 'contianer')
 
 
