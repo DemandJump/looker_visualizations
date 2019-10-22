@@ -106,7 +106,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 //*// Data //*//
 
         // We want the visual to take up the space of the visual
-    let dimHeight = 3 // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
+    let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
 
 
     d3.selectAll('.value')
@@ -117,7 +117,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         
     }
     function findHeight() {
-        let divHeight = 100 / dimHeight
+        let divHeight = 90 / dimHeight
         return divHeight + 'vh'
     }
 
