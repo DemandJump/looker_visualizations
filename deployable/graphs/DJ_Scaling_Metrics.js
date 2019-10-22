@@ -174,6 +174,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     measures.forEach(mes => {
             // Go through and find each config label
+        console.log('this is the current config measure we are selecting', config[mes.name])
+
 
         if (config[mes.name] == 'small') {
             d3.select(`div.${mes.name}`)
