@@ -179,18 +179,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     measures.forEach(mes => {
             // Go through and find each config label
-        let className = 'div.' + mes.name
 
         if (config[mes.name] == 'small') {
-            d3.select(className)
+            d3.select(`div.${mes.name}`)
                 .style('font-size', '4vw')
         }
         if (config[mes.name] == 'medium') {
-            d3.select(className)
+            d3.select(`div.${mes.name}`)
                 .style('font-size', '6vw')
         }
         if (config[mes.name] == 'large') {
-            d3.select(className)
+            d3.select(`div.${mes.name}`)
                 .style('font-size', '8vw')
         }
     })
