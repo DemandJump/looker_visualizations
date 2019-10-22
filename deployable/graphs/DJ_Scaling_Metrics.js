@@ -53,6 +53,8 @@ create: function(element, config) {
 
     `;
 
+    div.select(element).append('div')
+        .attr('class', 'contianer')
 
 
 
@@ -114,36 +116,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***********************************
      * Update the Visualization *
     ***********************************/
-    console.log('measureData', measureData)
-    d3.select(element).append('div')
-        .attr('class', 'container')
-            .selectAll('.value')
-            .data(measureData)
-            .append('div')
-                .attr('class', 'value')
-                .attr('class', d => d.name)
-                .style('height', findHeight)
-                .html(d => {
-                    console.log('This is d', d)
-                    return d.value
-                })
 
-
-    d3.select(element).append('div')
-        .attr('class', 'container')
-        .attr('class', 'container2')
-            .selectAll('.value')
-            .data(mData)
-            .append('div')
-                .attr('class', 'value')
-                .attr('class', (d, i) => mName[i])
-                .style('height', findHeight)
-                .html( d => {
-                    console.log('This is d', d)
-                    return d
-                })
-        
-
+    measureData.forEach(node => {
+        d3.select('div.container').append('div')
+            .attr('class', 'value')
+            .attr('class', d => d.name)
+            .style('height', findHeight)
+            .html(d => d.value)
+    })
 
 
     /******************************************************************
