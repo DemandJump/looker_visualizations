@@ -99,6 +99,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
+    dataBuild(data)
+    function dataBuild(data) {
     console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
         // console.log('This is the measure', mes)
@@ -113,6 +115,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     })    
     console.log('This is the measureData', measureData)
+        }
 
 
     /***********************************
@@ -127,7 +130,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .style('height', findHeight)
             .html(d => {
                 console.log('This is d', d)
-                return d.value
+                return 'd.value'
             })
 
     
