@@ -36,11 +36,14 @@ create: function(element, config) {
         .container {
             text-align: center;
             text-overflow: scroll;
+            position: relative;
             
         }
         .value {
             margin: auto;
-
+            position: absolute; 
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .v1 {
