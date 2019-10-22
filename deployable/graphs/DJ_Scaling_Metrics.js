@@ -17,6 +17,7 @@ create: function(element, config) {
         .style('margin', 'auto')
         .style('position', 'relative')
         .style('text-align', 'center')
+        .style('background-color', '#f3f3f3')
 
 
         // Insert a <style> tag with some styles we'll use later.
