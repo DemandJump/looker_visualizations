@@ -121,9 +121,12 @@ function update() {
     measureData.forEach(node => {
         d3.select('div.container').append('div')
             .attr('class', 'value')
-            .attr('class', d => d.name)
+            // .attr('class', d => d.name)
             .style('height', findHeight)
-            .html(d => d.value)
+            .html(d => {
+                console.log('this is d!', d)
+                return 'Just another value'
+            })
     })
 }
 
