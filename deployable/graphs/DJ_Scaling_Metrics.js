@@ -68,8 +68,8 @@ create: function(element, config) {
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     let d3 = d3v5;
     this._mCounter = 0
-    d3.select(element).selectAll('*').remove()
-    
+    d3.select('div.container').selectAll('*').remove() // Remove all the data in the beginning
+
     
             /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
@@ -112,11 +112,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     })    
     console.log('This is the measureData', measureData)
+    update()
 
     /***********************************
      * Update the Visualization *
     ***********************************/
-
+function update() {
     measureData.forEach(node => {
         d3.select('div.container').append('div')
             .attr('class', 'value')
@@ -124,7 +125,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .style('height', findHeight)
             .html(d => d.value)
     })
-
+}
 
     /******************************************************************
      * Update the settings
