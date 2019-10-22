@@ -90,7 +90,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
     let mData = [] // Just the values
-    let mNames = [] // The names in the same order as the data
+    let mName = [] // The names in the same order as the data
 
     console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
