@@ -11,7 +11,7 @@ create: function(element, config) {
         // We can also use d3 to target the element and style it respectively
     d3.select(element)
         .style('display', 'inline-block')
-        .stylE('box-sizing', 'border-box')
+        .style('box-sizing', 'border-box')
         .style('margin', 'auto')
         .style('position', 'relative')
         .style('text-align', 'center')
