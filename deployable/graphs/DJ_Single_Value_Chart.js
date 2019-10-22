@@ -11,7 +11,7 @@ looker.plugins.visualizations.add({
                 label: "Show Title",
                 type: "boolean",
                 section: "Style",
-                default: false,
+                default: false
             },
             valueTitle: {
                 label: "Title Override",
@@ -37,10 +37,49 @@ looker.plugins.visualizations.add({
                     {"Word Break on text overflow": "word_break"},
                 ],
                 default: "ellipsis"
+            },
+
+            showComparison: {
+              label: "Show Comparison", 
+              type: "boolean",
+              section: "Comparison",
+              default: false
+            },
+
+            valueLabels: {
+              label: "Value Labels",
+              type: "select",
+              section: "Comparison",
+              values: [
+                {"Show as Value": "compVal"},
+                {"Show as Change": "compChan"},
+                {"Calculate Progress": "CalcProg"},
+                {"Calculate Progress (As Percentage)": "CalcPercent"}
+              ],
+              hidden: true // Show comparison == true
+            },
+            positiveSwitch: {
+              label: "Positive Values are Bad",
+              type: "boolean",
+              section: "Comparison",
+              default: "false",
+              hidden: true // Show comparison == true
+            },
+            showLabel: {
+              label: "Show Label",
+              type: "boolean",
+              section: "Comparison",
+              default: "false",
+              hidden: true // Show comparison == true
+            },
+            labelOverride: {
+              label: "Label",
+              type: "string",
+              section: "Comparison",
+              placeholder: "Leave blank to use field label",
+              hidden: true // Show comparison == true && showLabel == true
             }
     },
-
-    // I took out ellipsis from text_spacing: they can use normal s_chart value for it if they need ->  {"Ellipsis": "ellipsis"}
 
 
         // Onto the create section 
@@ -227,6 +266,21 @@ if (config.showTitle == true) { // Touche vice versa ~ ;p
     }
 }
 
+
+if (config.showComparison == true) {
+  if (this.options.valueLabels.hidden == true && this.options.positiveSwitch == true && this.options.showLabel.hidden == true) {
+      this.options.valueLabels.hidden = false
+      this.options.positiveSwitch.hidden = false
+      this.options.showLabel.hidden = false
+      this.trigger('registerOptions', this.options)
+  }
+}
+if (config.labelOverride == true && config.showComparison == true) {
+  if (this.options.labelOverride.hidden == true) {
+      this.options.labelOverride.hidden = false
+      this.trigger('registerOptions', this.options)
+  }
+}
 
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
