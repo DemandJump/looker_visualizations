@@ -37,6 +37,7 @@ create: function(element, config) {
             text-align: center;
             text-overflow: scroll;
             position: relative;
+            margin: auto;
             
         } 
         /* The only way to center these element is with absolute positioning. Use the parms of the element it's in to center it right in the middle */
