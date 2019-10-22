@@ -97,11 +97,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // We want the visual to take up the space of the visual
     let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
-    let measureNames = [] // Iterate through the dimensions, grab the names and store them into an array
-    let measureValues = [] // These are the stored measure values
+    let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
     console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
+        console.log('This is the measure', mes)
+        console.log('Grab the first piece of data', data[0])
+        measureValues = {
+            value: 'a',
+            name: 'index',
+            label: 'label',
+            index: 'Given to d3 data function'
+        }
+
         measureNames.push(mes.name)
         console.log(`Measure name: ${mes.name}, and associated data value ${data[mes.name]}`)
         measureValues.push(data[mes.name])
