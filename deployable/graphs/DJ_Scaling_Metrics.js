@@ -62,19 +62,8 @@ create: function(element, config) {
 
         </style>
 
-        <div class="container">
 
-            <div class="value v1">
-                Value 1 value
-            </div>
-            <div class="value v2">
-                Value 2 value
-            </div>
-            <div class="value v3">
-                Value 3 value
-            </div>
-
-        </div>
+        <div class="container"> </div>
     `;
 
 
@@ -108,19 +97,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // We want the visual to take up the space of the visual
     let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
+    let measureNames = [] // Iterate through the dimensions, grab the names and store them into an array
+    let measureValues = [] // These are the stored measure values
+
+    console.log('This is the data on the specific iteration pulling this value')
+    measures.forEach( (mes, i) => {
+        measureNames.push(mes.name)
+        console.log(`Measure name: ${mes.name}, and associated data value ${data[mes.name]}`)
+        measureValues.push(data[mes.name])
+    })    
+
+
+
 
 
     d3.selectAll('.value')
         // .style('width', findWidth)
         .style('height', findHeight)
 
-    function findWidth() {
+    /***********************************
+     * Update the Visualization *
+    ***********************************/
+    let update = d3.select('div.container')
+        .selectAll('div.value')
+        .data(measureValues, d => d.index)
+
+    let enter = update.append('div')
+        .html(d => {
+            console.log('This is d', d)
+            return d
+        })
         
-    }
-    function findHeight() {
-        let divHeight = 90 / dimHeight
-        return divHeight + 'vh'
-    }
 
 
 
@@ -191,19 +198,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    /***********************************
-     * Update the Visualization *
-    ***********************************/
+    /*******************************************************************
+     * Functions Section *
+    *******************************************************************/
 
-
-
-    /**********************
-     * Update the Options
-    **********************/
-        // Here's a check we add to the end of the update function to implement the options 
-    if (config.font_size == "small") {
-        this._textElement.className = "hello-world-text-small";
+    function findWidth() {
+        
     }
+    function findHeight() {
+        let divHeight = 90 / dimHeight
+        return divHeight + 'vh'
+    }
+
+
 
 
         /**************** Done! *****************/
