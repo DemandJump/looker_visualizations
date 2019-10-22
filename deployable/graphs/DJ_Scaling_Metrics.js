@@ -27,22 +27,22 @@ create: function(element, config) {
         html { font-family: Roboto; }
 
         .container {
-            background-color: grey;
             text-align: center;
             
         }
         .value {
-            background-color: #999999;
+            margin: auto;
+            padding: .5rem;
         }
 
         .v1 {
-            background-color: blue;
+            background-color: #008CCD;
         }
         .v2 {
-            background-color: green;
+            background-color: #B6DCB7;
         }
         .v2 {
-            background-color: red;
+            background-color: #FDBC40;
         }
 
         </style>
@@ -58,7 +58,7 @@ create: function(element, config) {
             <div class="value v3">
                 Value 3 value
             </div>
-            
+
         </div>
     `;
 
@@ -94,7 +94,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimHeight = 3 // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
 
 
-    d3.select('.value')
+    d3.selectAll('.value')
         // .style('width', findWidth)
         .style('height', findHeight)
 
