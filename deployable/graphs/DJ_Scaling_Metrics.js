@@ -165,8 +165,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             console.log('This is the node!', node)
             d3.select('div.container').append('div')
-                .attr('class', 'value')
-                .attr('class', node.name)
+                .attr('class', `${node.name} value`)
                 .style('height', findHeight)
                 .html(node.valueFormat)
         })
