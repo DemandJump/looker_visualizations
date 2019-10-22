@@ -119,14 +119,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ***********************************/
 function update() {
     measureData.forEach(node => {
+        console.log('This is the node!', node)
         d3.select('div.container').append('div')
             .attr('class', 'value')
-            // .attr('class', d => d.name)
+            .attr('class', node.name)
             .style('height', findHeight)
-            .html(d => {
-                console.log('this is d!', d)
-                return 'Just another value'
-            })
+            .html(node.value)
     })
 }
 
