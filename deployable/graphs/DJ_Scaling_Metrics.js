@@ -17,6 +17,11 @@ create: function(element, config) {
         .style('text-align', 'center')
         .style('background-color', '#d2d2d2')
 
+    d3.select('iframe')
+        .style('padding', '0px')
+
+
+
 
         // Insert a <style> tag with some styles we'll use later.
     var css = element.innerHTML = `
@@ -24,7 +29,11 @@ create: function(element, config) {
         /* Import the Roboto font for us to use. */
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
                   
-        html { font-family: Roboto; }
+        iframe, html { 
+            font-family: Roboto; 
+            margin: 0px;
+            padding: 0px;
+        }
 
         .container {
             text-align: center;
