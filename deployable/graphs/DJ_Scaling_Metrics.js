@@ -17,8 +17,6 @@ create: function(element, config) {
         .style('text-align', 'center')
         .style('background-color', '#d2d2d2')
 
-    d3.select('iframe')
-        .style('padding', '0px')
 
 
 
@@ -29,7 +27,7 @@ create: function(element, config) {
         /* Import the Roboto font for us to use. */
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
                   
-        iframe, html { 
+        html { 
             font-family: Roboto; 
             margin: 0px;
             padding: 0px;
@@ -42,7 +40,7 @@ create: function(element, config) {
         }
         .value {
             margin: auto;
-            padding: .5rem;
+
         }
 
         .v1 {
