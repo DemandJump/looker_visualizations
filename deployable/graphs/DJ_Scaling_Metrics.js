@@ -42,11 +42,11 @@ create: function(element, config) {
         /* The only way to center these element is with absolute positioning. Use the parms of the element it's in to center it right in the middle */
         .value {
             margin: auto;
-            position: absolute; 
+            /*position: absolute; 
             width: 100%;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);*/
         }
 
         .v1 {
