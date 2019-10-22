@@ -43,7 +43,6 @@ create: function(element, config) {
             margin: auto;
             position: absolute; 
             top: 50%;
-            transform: translateY(-50%);
         }
 
         .v1 {
