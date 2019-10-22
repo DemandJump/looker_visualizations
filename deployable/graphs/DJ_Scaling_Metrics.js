@@ -115,18 +115,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the measureData', measureData)
 
 
-    update(measureData)
     /***********************************
      * Update the Visualization *
     ***********************************/
-    function update(dataPass) {
-        let update = d3.select('div.container')
+    d3.select('div.container')
         .selectAll('div.value')
         .data(measureData, d => d.index)
-
-        let enter = update.append('div')
-        
-        enter
+        .append('div')
             .style('class', 'value')
             .style('class', d => d.name)
             .style('height', findHeight)
@@ -135,8 +130,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 return d.value
             })
 
-        // End of update function 
-    }
     
         
 
