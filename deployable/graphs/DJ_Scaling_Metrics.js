@@ -51,7 +51,6 @@ create: function(element, config) {
 
         </style>
 
-
     `;
 
 
@@ -67,6 +66,8 @@ create: function(element, config) {
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     let d3 = d3v5
     this._mCounter = 0
+    d3.select(element).selectAll('*').remove()
+    
     
             /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
@@ -84,6 +85,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 //*// Data //*//
 
         // We want the visual to take up the space of the visual
+            // unnanounced like a thief in the night, bridge ~ where can we go from here, time ain't nothing but time
     let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
@@ -105,13 +107,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the measureData', measureData)
         }
 
-
+    
     /***********************************
      * Update the Visualization *
     ***********************************/
     d3.select(element).append('div')
         .attr('class', 'container')
-            .selectAll('div.value')
+            .selectAll('.value')
             .data(measureData)
             .append('div')
                 .attr('class', 'value')
