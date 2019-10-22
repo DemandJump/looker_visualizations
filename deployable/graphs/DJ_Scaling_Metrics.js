@@ -117,6 +117,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+
+    /******************************************************************
+     * Update the settings
+    ******************************************************************/
+    
+    measures.forEach(mes => {
+        
+    })
+
+
+
+
+
     /**********************
      * Error Clauses 
     **********************/
