@@ -107,14 +107,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the measureData', measureData)
         }
 
-    
+    createVis(measureData) 
     /***********************************
      * Update the Visualization *
     ***********************************/
+function createVis(measureDatum) {
+    console.log('measureData', measureData)
+    console.log('!measureDatum!', measureDatum)
     d3.select(element).append('div')
         .attr('class', 'container')
             .selectAll('.value')
-            .data(measureData)
+            .data(measureDatum)
             .append('div')
                 .attr('class', 'value')
                 .attr('class', d => d.name)
@@ -123,6 +126,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     console.log('This is d', d)
                     return 'd.value'
                 })
+
+}
 
     
         
