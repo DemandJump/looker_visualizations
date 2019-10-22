@@ -28,6 +28,7 @@ create: function(element, config) {
 
         .container {
             text-align: center;
+            text-overflow: scroll;
             
         }
         .value {
