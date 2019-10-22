@@ -59,18 +59,15 @@ create: function(element, config) {
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
-          <style> 
-          /* Import the Roboto font for us to use. */
-          @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-          
+          <style>  
             html { font-family: Roboto; font-weight: lighter; text-align: center; }
             .value:hover { text-decoration: underline; }  
             #vis { padding: 0; margin: 0; }
             iframe { padding: 0; margin: 0; }
           </style>
 
-          <div class="container" style="margin: auto;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="value" style="margin: auto;  font-size: font-size: 9vw;  font-style: normal;"></div>
+          <div class="container" style="margin: auto;  font-size: 9vw;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div class="value" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
               <div class="title" style="margin: auto;  font-size: 1.6rem;  color: rgba(58, 66, 69, 0.5);"></div>
           </div>
           
