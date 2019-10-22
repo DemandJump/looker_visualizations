@@ -120,7 +120,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ***********************************/
     d3.select('div.container')
         .selectAll('div.value')
-        .data(measureData, d => d.index)
+        .data(measureData)
         .append('div')
             .style('class', 'value')
             .style('class', d => d.name)
