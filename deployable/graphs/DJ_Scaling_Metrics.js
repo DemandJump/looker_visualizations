@@ -10,16 +10,40 @@ create: function(element, config) {
         // Looker formats it to the proper size, you just need to put the stuff here
 // We're essentially using vanilla javascript to create a visualization for looker to append!
 
-    // Insert a <style> tag with some styles we'll use later.
+        // We can also use d3 to target the element and style it respectively
+    d3.select(element)
+        .style('display', 'inline-block')
+        .stylE('box-sizing', 'border-box')
+        .style('margin', 'auto')
+        .style('position', 'relative')
+        .style('text-align', 'center')
+
+
+        // Insert a <style> tag with some styles we'll use later.
     var css = element.innerHTML = `
         <style> 
         /* Import the Roboto font for us to use. */
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
                   
-        html { font-family: Roboto; text-align: center; }
+        html { font-family: Roboto; }
 
         .container {
+            background-color: grey;
             text-align: center;
+            
+        }
+        .value {
+            background-color: #999999;
+        }
+
+        .v1 {
+            background-color: blue;
+        }
+        .v2 {
+            background-color: green;
+        }
+        .v2 {
+            background-color: red;
         }
 
         </style>
@@ -28,7 +52,13 @@ create: function(element, config) {
             Text within container itself
 
             <div class="value v1">
-                Value 1 Value
+                Value 1 value
+            </div>
+            <div class="value v2">
+                Value 2 value
+            </div>
+            <div class="value v3">
+                Value 3 value
             </div>
         </div>
     `;
@@ -44,8 +74,29 @@ create: function(element, config) {
 },
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-    // This helps us visualize the interactive data!
-    // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
+    
+            /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
+    console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
+        /****** Log all these functions to see what we're working with ******/
+    console.log(` ...UpdateAsync initialized, here is it's data: `);
+    console.log('\n data', data);
+    console.log('element', element);
+    console.log('config', config);
+    console.log('queryResponse', queryResponse);
+    console.log('details', details);
+        // Playing with dimensions and measures
+    let dimensions = queryResponse.fields.dimensions; console.log('Checking out query resposne dimension fields: ', dimensions);
+    let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
+
+                //*// Data //*//
+
+        // We want the visual to take up the space of the visual
+    let dimHeight = 3 // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
+
+
+
+
+
 
     /**********************
      * Error Clauses 
