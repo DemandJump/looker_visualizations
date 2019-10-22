@@ -103,18 +103,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     measures.forEach( (mes, i) => {
         console.log('This is the measure', mes)
         console.log('Grab the first piece of data', data[0])
-        measureValues = {
-            value: 'a',
-            name: 'index',
-            label: 'label',
-            index: 'Given to d3 data function'
+        measureData[i] = {
+            value: data[0][mes.name].value,
+            name: mes.name,
+            label: mes.label,
+            label_short: mes.label_short,
+            index: i
         }
 
-        measureNames.push(mes.name)
-        console.log(`Measure name: ${mes.name}, and associated data value ${data[mes.name]}`)
-        measureValues.push(data[mes.name])
     })    
-
+    console.log('This is the measureData', measureData)
 
 
 
@@ -131,10 +129,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(measureValues, d => d.index)
 
     let enter = update.append('div')
-        .html(d => {
-            console.log('This is d', d)
-            return d
-        })
+        
+    enter.html(d => {
+        console.log('This is d', d)
+        return d.value
+    })
         
 
 
