@@ -45,7 +45,8 @@ create: function(element, config) {
             position: absolute; 
             width: 100%;
             top: 50%;
-            transform: translateY(-50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .v1 {
@@ -126,6 +127,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Update the settings
     ******************************************************************/
     
+    let newOptions = {}
     measures.forEach(mes => {
         let dynamicConfig = {
             label: mes.label_short + ' Font Size',
@@ -139,14 +141,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             default: "small"
         }
 
-        this.options.push(dynamicConfig)
-
+       newOptions.push(dynamicConfig)
     })
 
+    this.options = newOptions
     if (this._mCounter == 0) {
         this._mCounter ++ 
         this.trigger('registerOptions', this.options)
     }
+
+
+    /********************************************************************************
+     * Implement the Settings
+    ********************************************************************************/
+    
+    measures.forEach(mes => {
+            // Go through and find each config label
+        let configName = mes.label_short + ' Font Size'
+
+        if (config[configName] == 'small') {
+            d3.selectAll('.value')
+                .style('font-size', '4vw')
+        }
+        if (config[configName] == 'medium') {
+            d3.selectAll('.value')
+                .style('font-size', '6vw')
+        }
+        if (config[configName] == 'large') {
+            d3.selectAll('.value')
+                .style('font-size', '8vw')
+        }
+    })
+
 
 
 
