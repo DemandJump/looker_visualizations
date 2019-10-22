@@ -141,10 +141,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             default: "small"
         }
 
-       newOptions.push(dynamicConfig)
     })
 
-    this.options = newOptions
+    this.options = dynamicConfig
     if (this._mCounter == 0) {
         this._mCounter ++ 
         this.trigger('registerOptions', this.options)
