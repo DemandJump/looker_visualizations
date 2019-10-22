@@ -283,6 +283,22 @@ if (config.labelOverride == true && config.showComparison == true) {
   }
 }
 
+if (config.showComparison == false) {
+  if (this.options.valueLabels.hidden == false && this.options.positiveSwitch.hidden == false && this.options.showLabel.hidden == false) {
+      this.options.valueLabels.hidden = true
+      this.options.positiveSwitch.hidden = true
+      this.options.showLabel.hidden = true
+      this.trigger('registerOptions', this.options)
+  }
+}
+  // This gets run after config show comparison variable
+if (config.labelOverride == false && config.showComparison == false) {
+  if (this.options.labelOverride.hidden == false) {
+      this.options.labelOverride.hidden = true
+      this.trigger('registerOptions', this.options)
+  }
+}
+
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/

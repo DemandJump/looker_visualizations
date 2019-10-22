@@ -28,6 +28,7 @@ create: function(element, config) {
                   
         html { 
             font-family: Roboto; 
+            font-weight: lighter; 
             margin: 0px;
             padding: 0px;
         }
