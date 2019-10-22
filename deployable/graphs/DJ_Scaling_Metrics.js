@@ -17,9 +17,6 @@ create: function(element, config) {
         .style('text-align', 'center')
 
 
-
-
-
         // Insert a <style> tag with some styles we'll use later.
     var css = element.innerHTML = `
         <style> 
@@ -46,7 +43,6 @@ create: function(element, config) {
         }
 
         </style>
-
     `;
 
     d3.select(element).append('div')
@@ -147,7 +143,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
    
 
 
-
     /***********************************
      * Update the Visualization *
     ***********************************/
@@ -180,7 +175,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         if (config[mes.name] == 'small') {
             d3.select(`div.${mes.name}`)
-                .style('font-size', '4vw')
+                .style('font-size', '3vw')
         }
         if (config[mes.name] == 'medium') {
             d3.select(`div.${mes.name}`)
@@ -188,7 +183,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
         if (config[mes.name] == 'large') {
             d3.select(`div.${mes.name}`)
-                .style('font-size', '8vw')
+                .style('font-size', '9vw')
         }
     })
 
@@ -214,7 +209,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     *******************************************************************/
 
     function findWidth() {
-        
+        console.log('This is the find width function!')
     }
     function findHeight() {
         let divHeight = 90 / dimHeight
@@ -237,10 +232,7 @@ function formatValue(formatData, string) {
         // Some stuff to stop the format from throwing errors
     if(format == '' || format == ' ') { return string }
 
-
-
-
-
+    
             /***** This is the  0.00\% formatting! *****/
 
     if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {

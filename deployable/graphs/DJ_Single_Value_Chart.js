@@ -143,12 +143,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
     console.log('\n\n\n\n\n Working on the styling of the elements and all that jazz');
     /****** Log all these functions to see what we're working with ******/
-// console.log(` ...UpdateAsync initialized, here is it's data:`);
-console.log('\n data', data);
-// console.log('element', element);
-// console.log('config', config);
-// console.log('queryResponse', queryResponse);
-// console.log('details', details);
+    // console.log(` ...UpdateAsync initialized, here is it's data:`);
+    console.log('\n data', data);
+    // console.log('element', element);
+    // console.log('config', config);
+    // console.log('queryResponse', queryResponse);
+    // console.log('details', details);
 
     // Playing with dimensions and measures
     let dimensions = queryResponse.fields.dimensions;
@@ -277,8 +277,8 @@ if (config.showComparison == true) {
 }
   // This gets run after config show comparison variable
 if (config.showLabel == true && config.showComparison == true) {
-  if (this.options.showLabel.hidden == true) {
-      this.options.showLabel.hidden = false
+  if (this.options.labelOverride.hidden == true) {
+      this.options.labelOverride.hidden = false
       this.trigger('registerOptions', this.options)
   }
 }
@@ -294,8 +294,8 @@ if (config.showComparison == false) {
 }
   // This gets run after config show comparison variable
 if (config.showLabel == false && config.showComparison == false) {
-  if (this.options.showLabel.hidden == false) {
-      this.options.showLabel.hidden = true
+  if (this.options.labelOverride.hidden == false) {
+      this.options.labelOverride.hidden = true
       this.trigger('registerOptions', this.options)
   }
 }
