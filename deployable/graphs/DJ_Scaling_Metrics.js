@@ -94,8 +94,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimHeight = 3 // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
 
 
+    d3.select('.value')
+        // .style('width', findWidth)
+        .style('height', findHeight)
 
-
+    function findWidth() {
+        
+    }
+    function findHeight() {
+        let divHeight = 100 / dimHeight
+        return divHeight
+    }
 
 
     /**********************
