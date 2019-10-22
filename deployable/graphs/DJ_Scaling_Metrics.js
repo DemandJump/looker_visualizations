@@ -89,13 +89,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
-    dataBuild(data)
-    function dataBuild(data) {
+    let mData = [] // Just the values
+    let mNames = [] // The names in the same order as the data
+
     console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
         // console.log('This is the measure', mes)
         // console.log('Grab the first piece of data', data[0])
-        measureData[i] = {
+        let newObject = { // measureData[i] =
             value: data[0][mes.name].value,
             name: mes.name,
             label: mes.label,
@@ -103,15 +104,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             index: i
         }
 
+        measureData.push(newObject)
+        mName.push(mes.name)
+        mData.push(data[0][mes.name].value)
+
     })    
     console.log('This is the measureData', measureData)
-        }
 
-    createVis(measureData) 
     /***********************************
      * Update the Visualization *
     ***********************************/
-function createVis(measureDatum) {
     console.log('measureData', measureData)
     console.log('!measureDatum!', measureDatum)
     d3.select(element).append('div')
@@ -127,7 +129,6 @@ function createVis(measureDatum) {
                     return 'd.value'
                 })
 
-}
 
     
         
