@@ -133,6 +133,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             label: mes.label_short + ' Font Size',
             type: 'string',
             section: 'FontSize',
+            display: 'select',
             values: [
                 {"Small": "small"},
                 {"Medium": "medium"},
