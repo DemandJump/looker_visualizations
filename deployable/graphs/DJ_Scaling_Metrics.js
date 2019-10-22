@@ -42,11 +42,11 @@ create: function(element, config) {
         /* The only way to center these element is with absolute positioning. Use the parms of the element it's in to center it right in the middle */
         .value {
             margin: auto;
-            /*position: absolute; 
+            position: absolute; 
             width: 100%;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);*/
+            transform: translate(-50%, -50%);
         }
 
         </style>
@@ -234,7 +234,7 @@ function formatValue(formatData, string) {
     console.log('string', string)
     stringRes = string
     let tf = false
-    
+
 
         // Some stuff to stop the format from throwing errors
     if(format == '' || format == ' ') { return string }
