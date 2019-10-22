@@ -127,9 +127,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Update the settings
     ******************************************************************/
     
-    let newOptions = {}
+    let dynamicConfig = {}
     measures.forEach(mes => {
-        let dynamicConfig = {
+        dynamicConfig[mes.name] = {
             label: mes.label_short + ' Font Size',
             type: 'string',
             section: 'FontSize',
@@ -157,17 +157,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     measures.forEach(mes => {
             // Go through and find each config label
-        let configName = mes.label_short + ' Font Size'
 
-        if (config[configName] == 'small') {
+        if (config[mes.name] == 'small') {
             d3.selectAll('.value')
                 .style('font-size', '4vw')
         }
-        if (config[configName] == 'medium') {
+        if (config[mes.name] == 'medium') {
             d3.selectAll('.value')
                 .style('font-size', '6vw')
         }
-        if (config[configName] == 'large') {
+        if (config[mes.name] == 'large') {
             d3.selectAll('.value')
                 .style('font-size', '8vw')
         }
