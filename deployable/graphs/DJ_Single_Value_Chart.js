@@ -265,14 +265,17 @@ function titleOverride(title) {
 }
 
 
+
+
 function formatValue(formatData, string) {
+    if(formatData == '') { return string }
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
     let format = formatData.toString() 
     console.log('\nformat', formatData)
     console.log('string', string)
     stringRes = string
     let tf = false
-
+    
 
         // Some stuff to stop the format from throwing errors
     if(format == '' || format == ' ') { return string }
@@ -1241,35 +1244,41 @@ function formatValue(formatData, string) {
 
         if (tf) {
                 // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
-            let decimalPlace = 0
-            stringRes = string
 
-            for(i = 0; i < string.length; i++) { // Find decimal place and store it
-                if (string[i] == '.') { // If the decimal place is found, store it for calculation
+                // This is string stuff
+            stringRes = string
+            let beforeDecimal = ''
+            let afterDecimal = ''
+            let decimalPlace = 0
+                // This is format stuff
+            // Also decimal place 
+            // Also decimal amount
+
+            for(i = 0; i < stringRes.length; i++) {
+                if(stringRes[i] == '.') {
                     decimalPlace = i
                     break
                 }
             }
+            beforeDecimal = stringRes.substr(decimalPlace) 
+            afterDecimal = stringRes.substr(decimalPlace + 1)
 
-                // Found the decimal place of the string, add the decimalamount and compare to add or remove decimal points
-            let setAmount = decimalPlace + decimalAmount
-            
-            if (setAmount > string.length) { // Add the missing 0's to the end based on the missing amount
-                let difference = setAmount - string.length
-
-                for(i = 0; i < difference; i++) { // Add a 0 to the end for each missing amount
+            if (afterDecimal.length > decimalAmount) { // calc the difference, and slice off the extras
+                let difference = afterDecimal.length - decimalAmount
+                for(i = 0; i < difference; i++) {
+                    stringRes = stringRes.slice(0, -1)
+                }
+                return stringRes
+            }
+            if (afterDecimal.length < decimalAmount) {
+                let difference = decimalAmount - afterDecimal.length
+                for(i = 0; i < difference; i++) {
                     stringRes = stringRes + '0'
                 }
                 return stringRes
             }
-            if (setAmount < string.length) { // Remove the extra decimal points
-                let difference = string.length - setAmount
 
-                for(i = 0; i < difference; i++) {
-                    stringRes.slice(0, -1)
-                }
-                return stringRes
-            }
+
 
         } // End of it the format was correct (tf)
 
@@ -1286,6 +1295,7 @@ function formatValue(formatData, string) {
     }
 
 } // End of valueFormat Function // 
+
 
 
     // Some kickbutt functions to use (I really should probably use more functions throughout this, but oh well (^:;
