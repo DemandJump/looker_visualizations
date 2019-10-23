@@ -844,18 +844,21 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
+        .attr('font-size', fontSize)
         .text(d => calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
 // Second row of text
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
+        .attr('font-size', fontSize)
         .text(d => calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
 // Third row of text
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
+        .attr('font-size', fontSize)
         .text(d => calcT3(d)) // This inputs the text
         .attr('dy', spaceThree);
 
