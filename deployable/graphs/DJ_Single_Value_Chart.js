@@ -34,7 +34,7 @@ looker.plugins.visualizations.add({
                 display: "radio",
                 values: [
                     {"Dynamic font based on element space": "dynamic_size"},
-                    {"Word Break on text overflow": "word_break"},
+                    {"Word Break on text overflow": "word_break"}
                 ],
                 default: "ellipsis"
             },
@@ -276,14 +276,6 @@ if (config.showComparison == true) {
       this.trigger('registerOptions', this.options)
   }
 }
-  // This gets run after config show comparison variable
-if (config.showLabel == true && config.showComparison == true) {
-  if (this.options.labelOverride.hidden == true) {
-      this.options.labelOverride.hidden = false
-      this.trigger('registerOptions', this.options)
-  }
-}
-
 
 if (config.showComparison == false) {
   if (this.options.valueLabels.hidden == false && this.options.positiveSwitch.hidden == false && this.options.showLabel.hidden == false) {
@@ -294,6 +286,15 @@ if (config.showComparison == false) {
       this.trigger('registerOptions', this.options)
   }
 }
+
+  // This gets run after config show comparison variable
+if (config.showLabel == true && config.showComparison == true) {
+  if (this.options.labelOverride.hidden == true) {
+      this.options.labelOverride.hidden = false
+      this.trigger('registerOptions', this.options)
+  }
+}
+
   // This gets run after config show comparison variable
 if (config.showLabel == false && config.showComparison == true) {
   if (this.options.labelOverride.hidden == false) {
