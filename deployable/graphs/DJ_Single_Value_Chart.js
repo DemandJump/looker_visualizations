@@ -386,7 +386,7 @@ if (config.showLabel == false && config.showComparison == true) {
         hReturnValue = hValue
     }
     if (config.valueLabels == 'calcProg') {
-        hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
+        hReturnValue = `<span style=" color: #979B9D;">${retVal}%</span> of <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
     }
 
   }
