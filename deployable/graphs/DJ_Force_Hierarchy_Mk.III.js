@@ -1131,9 +1131,9 @@ function update() { /* Initialize some parameters that we will need for */
 
     function fontSize(d) { // Calculate the font size based on the depth
         //console.log('text stuff', d);
-        return d.notch == 'a' ? '1.6rem'
-        : d.notch == 'b' || 'z' ? '.8rem'
-        : '1px'
+        return d.notch == 'a' ? '1.4rem' // 1rem
+        : d.notch == 'b' || 'z' ? '.6rem' // .5rem
+        : '1px' // 2px
     }
 
 
