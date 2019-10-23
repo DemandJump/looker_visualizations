@@ -195,7 +195,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('display', 'block')
                 .style('font-size', d => findMSize(d))
                 .style('margin', 'auto')
-                .html(d => d.valueFormat)
+                .html(d => {
+                    console.log('This is d', d)
+                    return d.valueFormat
+                })
 
                             // This is the title
                 .select(function() { return this.parentNode; }).append('div')
