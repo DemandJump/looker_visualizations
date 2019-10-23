@@ -182,7 +182,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             // This is the Container for each of the nodes
-    enter.select('div.container').append('div')
+    enter.select('div.container').selectAll('div.value').append('div')
         .attr('class', 'value')
         .style('display', 'inline-block')
         .style('min-height', findHeight)
