@@ -155,6 +155,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('display', 'inline-block')
                 .style('min-height', findHeight)
                 .style('width', '100%')
+                .style('padding', '1rem')
 
                 // This is the Value
             d3.select('div.value').append('div')
@@ -171,7 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('display', 'block')
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')
-                .html('Field data')
+                .html(node.label)
 
         })
     }
