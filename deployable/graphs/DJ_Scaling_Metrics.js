@@ -153,7 +153,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d3.select('div.container').append('div')
                 .attr('class', `value`)
                 .style('display', 'inline-block')
-                .style('height', findHeight)
+                .style('min-height', findHeight)
                 .style('width', '100%')
 
                 // This is the Value
