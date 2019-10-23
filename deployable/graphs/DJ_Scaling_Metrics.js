@@ -142,12 +142,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ***********************************/
     update()
     function update() {
-        // measureData.forEach(node => {
-        //     node.valueFormat = node.value
-        //     if (config.valueFormat != '') {
-        //         node.valueFormat = formatValue(config.valueFormat, node.value)
-        //     }
-        //     console.log('This is the node!', node)
+        measureData.forEach(node => {
+            node.valueFormat = node.value
+            if (config.valueFormat != '') {
+                node.valueFormat = formatValue(config.valueFormat, node.value)
+            }
+            console.log('This is the node!', node)
 
         //         // This is the Container for each of the nodes
         //     d3.select('div.container').append('div')
@@ -173,7 +173,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         //         .style('margin', 'auto')
         //         .html(node.label)
 
-        // })
+        })
 
 
     let update = d3.select('div.container')
