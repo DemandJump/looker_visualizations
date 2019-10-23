@@ -187,7 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style('display', 'inline-block')
         .style('min-height', findHeight)
         .style('width', '100%')
-        .style('padding', '1rem')
+        // .style('padding', '1rem') 
 
                     // This is the Value
         .select('div.value').append('div')
