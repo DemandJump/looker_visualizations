@@ -107,7 +107,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dynamicConfig = {}
     measures.forEach(mes => {
         dynamicConfig[mes.name] = {
-            label: mes.label_short + ' Font Size',
+            label: mes.label,
             type: 'string',
             section: 'FontSize',
             display: 'select',
