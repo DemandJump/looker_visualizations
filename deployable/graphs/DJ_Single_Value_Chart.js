@@ -346,12 +346,12 @@ if (config.showLabel == false && config.showComparison == true) {
       let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b style="font-weight: light; color: #979B9D;">${mTwoVal}</b> </strong>` + hValue
-          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b style="font-weight: light; color: #979B9D;">${mTwoVal}</b> </strong>` + hValue
+          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #5f9524">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b style="font-weight: light; color: #979B9D;>${mTwoVal}</b> </strong>` + hValue
-          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b style="font-weight: light; color: #979B9D;>${mTwoVal}</b> </strong>` + hValue 
+          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #5f9524">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
       }
 
   }
