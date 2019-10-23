@@ -196,7 +196,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('font-size', d => findMSize(d))
                 .style('margin', 'auto')
                 .html(d => {
-                    console.log('This is d', d)
+                    console.log('This is d for the value', d)
                     return d.valueFormat
                 })
 
@@ -206,7 +206,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         .style('display', 'block')
                         .style('font-size', d => findTSize(d))
                         .style('margin', 'auto')
-                        .html(d => d.label)
+                        .html(d => {
+                            console.log('This is d for the label', d)
+                            return d.label
+                        })
     
 
     }
