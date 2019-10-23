@@ -203,6 +203,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     function findHeight() {
         let divHeight = 90 / dimHeight
+        console.log('this is divHeight', divHeight)
         return divHeight + 'vh'
     }
 
