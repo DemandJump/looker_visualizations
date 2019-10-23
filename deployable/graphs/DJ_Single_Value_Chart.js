@@ -54,8 +54,8 @@ looker.plugins.visualizations.add({
               values: [
                 {"Show as Value": "compVal"},
                 {"Show as Change": "compChan"},
-                {"Calculate Progress": "CalcProg"},
-                {"Calculate Progress (As Percentage)": "CalcPercent"}
+                {"Calculate Progress": "calcProg"},
+                {"Calculate Progress (As Percentage)": "calcPercent"}
               ],
               default: 'compVal',
               hidden: true // Show comparison == true
@@ -64,7 +64,7 @@ looker.plugins.visualizations.add({
               label: "Positive Values are Bad",
               type: "boolean",
               section: "Comparison",
-              default: "false",
+              default: false,
               hidden: true // Show comparison == true
             },
             showLabel: {
@@ -112,7 +112,7 @@ create: function(element, config) {
               <div class="title" style="margin: auto;  font-size: 1.6rem;  color: rgba(58, 66, 69, 0.5);"></div>
           </div>
           
-          <div class="header" style="margin: auto;  font-size: 1.4rem;  color: rgba(58, 66, 69, 0.5); position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;">selected dimension</div>
+          <div class="header" style="margin: auto; font-size: 1.4rem;  color: rgba(58, 66, 69, 0.5); position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;">selected dimension</div>
     `;
   // .value -> max-width: 344px;
     
@@ -169,6 +169,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let headerName = queryResponse.fields.dimensions[0].name;
     let hValue = data[0][headerName]["label"];
+    let hReturnValue = hValue;
+
+    console.log(`This is the hValue`, hValue);
 
     console.log("\nThis is the original value looker passed us", value);
     console.log("This is the value format's value.", config.valueFormat);
@@ -318,27 +321,101 @@ if (config.valueFormat != '') {
     valueReturn = formatValue(config.valueFormat, value)
     console.log('This is the returned value from the formatValue function', valueReturn)
 
-    console.log('This is teh valueReturn passed in', valueReturn)
+    console.log('This is the valueReturn passed in', valueReturn)
     d3.select('div.value').html(valueReturn);
     d3.select('div.header').html(hValue);
 } else {
-    console.log('This is teh valueReturn passed in', valueReturn)
+    console.log('This is the valueReturn passed in', valueReturn)
     d3.select('div.value').html(valueReturn);
     d3.select('div.header').html(hValue);
 }
 
 
-    
 
 
 
 
-
+/*******************************************************************
+   * Functions Section *
+*******************************************************************/
 
 function titleOverride(title) {
   d3.select('.container').append('div')
     .attr('class', 'title')
 }
+// The best crew - tep no // 
+
+
+
+  // Gotta build Comparison functions for the chart value 
+
+        //*// Starting with the Label - config.labelOverride //*//
+    // Show as Value: compVal
+    // Show as Change: compChan
+    // Calculate Progress: calcProg ~ Don't know how that works yet
+    // Calculate Progress (With Percentage): calcPercent
+
+function editHeader(d) {
+        // So we're taking in hValue and editing it if it's one of these values
+    console.log(`editHeader: entering hValue value: `, hValue)
+    let mOneName = measures[0]["name"]
+    let mOneVal = data[0][mOneName]["value"]
+    let mTwoName = measures[1]["name"] // Taking the second measure value(name) to calculate these values
+    let mTwoVal = data[0][mTwoName]["value"]
+
+        // If the LabelOverride isn't empty, have it override the current field label
+    if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
+
+    }
+
+
+
+
+    if (config.valueLabels == 'compVal') { // Show as Value
+          // They just add the numbers in bold beside the Field label 
+        hReturnValue = '<b>' + mTwoVal + '</b> ' + hValue
+    }
+    if (config.valueLabels == 'compChan') { // Show as Change
+          // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
+        let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+        
+        if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
+            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b>mTwoVal</b> </strong>` + hValue
+            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b>mTwoVal</b> </strong>` + hValue
+        }
+        if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
+            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b>mTwoVal</b> </strong>` + hValue
+            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b>mTwoVal</b> </strong>` + hValue 
+        }
+
+    }
+    if (config.valueLabels == 'calcProg') { // Calculate Progress
+        console.log('I need to find out what looker is calculating here to replicate it myself: Calculate Progress bypassed')
+        hReturhValue = hValue
+          // This is the same as calcPercent without displaying the percent ~ The element width is 100% 
+          /*
+.columns-bg {
+  background-image:
+    linear-gradient(
+      to right, 
+      #fffdc2, // 0 percent to
+      #fffdc2 25%, // 25 percent it will be this color
+      #d7f0a2 25% // 25 percent to the end of the progress bar we'll have it as this percent 
+    );
+}
+           */
+    }
+    if (config.valueLabels == 'calcPercent') { // Calculate Progress (with Percentage)
+          // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
+        let finVal = (mOneVal / mTwoVal) * 100
+        let retVal = Math.trun(finVal)
+        console.log('This is the return value', retVal)
+          
+    }
+}
+
+
+
 
 
 

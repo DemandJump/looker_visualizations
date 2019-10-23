@@ -290,6 +290,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label: optionLabels[adIteration],
         display: "select",
         type: "string",
+        section: 'Configure',
         values: [
           {"None": "none"}
         ],
@@ -326,6 +327,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 label: 'A Quick Guide',
                 type: 'string',
                 display: 'radio',
+                section: 'Notes',
                 values: [
                   {"Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
                   {"You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
@@ -348,6 +350,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               label: "Use Type dimension in the visualization",
               type: "string",
               display: "radio",
+              section: 'Configure',
               values: [
                 {"Yes": "false"},
                 {"No": "true"}
@@ -360,6 +363,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               label: "Use Measure dimension(if it's a dimension) in the visualization",
               type: "string",
               display: "radio",
+              section: 'Configure',
               values: [
                 {"Yes": "false"},
                 {"No": "true"}

@@ -219,6 +219,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+
+
+
+
+
 function formatValue(formatData, string) {
     if(formatData == '') { return string }
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
