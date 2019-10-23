@@ -375,13 +375,15 @@ if (config.showLabel == false && config.showComparison == true) {
             #E2E3E4 ${retVal}%,
             #F5F5F6 ${retVal}%
           )`)
-  }
 
-  if (config.valueLabels == 'calcPercent') {
-      hReturnValue = hValue
-  }
-  if (config.valueLabels == 'calcProg') {
-      hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
+
+    if (config.valueLabels == 'calcPercent') {
+        hReturnValue = hValue
+    }
+    if (config.valueLabels == 'calcProg') {
+        hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
+    }
+
   }
         
 
