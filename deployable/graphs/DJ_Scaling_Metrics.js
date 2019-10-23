@@ -210,8 +210,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function findMSize(d) {
         return config[d.name] == 'small' ? '3vw'
-        : config[d.name] == 'medium' ? '6vw'
-        : '9vw'
+        : config[d.name] == 'medium' ? '4.3vw'
+        : '5.5vw'
     }
     function findTSize(d) {
         return config[d.name] == 'small' ? '1vw'
