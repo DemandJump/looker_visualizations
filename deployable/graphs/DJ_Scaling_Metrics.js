@@ -193,7 +193,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .select('div.value').append('div')
                 .attr('class', d => `${d.name}`)
                 .style('display', 'block')
-                .style('font-size', findMSize(node))
+                .style('font-size', d => findMSize(d))
                 .style('margin', 'auto')
                 .html(d => d.valueFormat)
 
@@ -201,7 +201,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .select(function() { return this.parentNode; }).append('div')
                         .attr('class', 'title')
                         .style('display', 'block')
-                        .style('font-size', findTSize(node))
+                        .style('font-size', d => findTSize(d))
                         .style('margin', 'auto')
                         .html(d => d.label)
     
