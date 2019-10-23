@@ -214,9 +214,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '5.5vw'
     }
     function findTSize(d) {
-        return config[d.name] == 'small' ? '1vw'
-        : config[d.name] == 'medium' ? '2vw'
-        : '3vw'
+        return config[d.name] == 'small' ? '1.4vw'
+        : config[d.name] == 'medium' ? '2.3vw'
+        : '3.2vw'
     }
 
 
