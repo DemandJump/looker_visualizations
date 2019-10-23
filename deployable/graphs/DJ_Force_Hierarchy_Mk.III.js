@@ -384,41 +384,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-    // dimension_options['add_type'] = 
-    //   {
-    //     label: "This will color nodes based on type(make it the final dimension you add in)",
-    //     display: "radio",
-    //     type: "string",
-    //     values: [
-    //       {"Added type dimension to the end": "true"},
-    //       {"No type dimension added": "false"}
-    //     ],
-    //     default: "false"
-    //   };
-    //   dimension_options["add_measure"] =
-    //   {
-    //     label: "This will take a measure and use it to calculate each of the node's size.",
-    //     display: "radio",
-    //     type: "string",
-    //     value: [
-    //     {"Use a measure": "true"},
-    //       {"Don't use a measure": "false"}
-    //   ],
-    //   default: "false"
-    //   };
-            // Add this in optionally ~
-      // dimension_options['add_collapse'] = 
-      // {
-      //   label: "This will auto collapse the nodes when you initialize the visualization",
-      //   display: "radio",
-      //   type: "string",
-      //   value: [
-      //     {"Auto Collapse": "true"},
-      //     {"Open it back up": "false"}
-      //   ],
-      //   default: "false"
-      // }
-
   /*************************************************************************************************************
                                                                               * End of Dimension Options Setup
   *************************************************************************************************************/
@@ -992,6 +957,8 @@ function update() { /* Initialize some parameters that we will need for */
         if (useType == 'true') {
                 // Enter all the coloring data based on the unique value types: switch case for each individual type (max of 12 types)
           if(d.data.data) {
+            if (d.data.data[currentType]['value'] == 'null') { return lightenOrDarken(d, '#0a63c2') }
+
             return d.depth == 0 ? lightenOrDarken(d, '#c6dbef')
             : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB') // #F39C12 
             : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12') // #2ECC71 

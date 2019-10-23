@@ -315,6 +315,9 @@ if (config.showLabel == false && config.showComparison == true) {
     * Instatiation and Functions
 *********************************************************************************************************/
 
+  //  Edit the header right before we instantiate the data
+editHeader();
+
     // This is to add in a format for the value, if the user entered any
 if (config.valueFormat != '') {
       // Pass in the value and return a new one
@@ -323,11 +326,11 @@ if (config.valueFormat != '') {
 
     console.log('This is the valueReturn passed in', valueReturn)
     d3.select('div.value').html(valueReturn);
-    d3.select('div.header').html(hValue);
+    d3.select('div.header').html(hReturnValue);
 } else {
     console.log('This is the valueReturn passed in', valueReturn)
     d3.select('div.value').html(valueReturn);
-    d3.select('div.header').html(hValue);
+    d3.select('div.header').html(hReturnValue);
 }
 
 
@@ -355,7 +358,7 @@ function titleOverride(title) {
     // Calculate Progress: calcProg ~ Don't know how that works yet
     // Calculate Progress (With Percentage): calcPercent
 
-function editHeader(d) {
+function editHeader() {
         // So we're taking in hValue and editing it if it's one of these values
     console.log(`editHeader: entering hValue value: `, hValue)
     let mOneName = measures[0]["name"]
@@ -365,9 +368,8 @@ function editHeader(d) {
 
         // If the LabelOverride isn't empty, have it override the current field label
     if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
-
+        hValue = config.labelOverride
     }
-
 
 
 
@@ -380,12 +382,12 @@ function editHeader(d) {
         let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
         
         if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b>mTwoVal</b> </strong>` + hValue
-            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b>mTwoVal</b> </strong>` + hValue
+            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
+            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b>${mTwoVal}</b> </strong>` + hValue
         }
         if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b>mTwoVal</b> </strong>` + hValue
-            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b>mTwoVal</b> </strong>` + hValue 
+            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
+            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b>${mTwoVal}</b> </strong>` + hValue 
         }
 
     }
@@ -393,9 +395,13 @@ function editHeader(d) {
         console.log('I need to find out what looker is calculating here to replicate it myself: Calculate Progress bypassed')
         hReturhValue = hValue
           // This is the same as calcPercent without displaying the percent ~ The element width is 100%
+
+        
+        
           
           
           /*
+
 .columns-bg {
   background-image:
     linear-gradient(
@@ -405,15 +411,32 @@ function editHeader(d) {
       #d7f0a2 25% // 25 percent to the end of the progress bar we'll have it as this percent 
     );
 }
+
            */
     }
-    if (config.valueLabels == 'calcPercent') { // Calculate Progress (with Percentage)
+    if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
           // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
         let finVal = (mOneVal / mTwoVal) * 100
         let retVal = Math.trun(finVal)
         console.log('This is the return value', retVal)
-          
+
+        d3.select('div.header')
+            .style('background-image', `linear-gradient(
+              to right,
+              #E2E3E4,
+              #E2E3E4 ${retVal}%,
+              #F5F5F6 ${retVal}%
+            )`)
     }
+
+    if (config.valueLabels == 'calcPercent') {
+        hReturnValue = hValue
+    }
+    if (config.valueLabels == 'calcProg') {
+        hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
+    }
+          
+}
 
 } // End of the editHeader function
 
