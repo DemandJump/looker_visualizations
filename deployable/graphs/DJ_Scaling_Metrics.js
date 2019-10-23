@@ -83,8 +83,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
-    let mData = [] // Just the values
-    let mName = [] // The names in the same order as the data
 
     console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
@@ -99,9 +97,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         measureData.push(newObject)
-        mName.push(mes.name)
-        mData.push(data[0][mes.name].value)
-
     })    
     console.log('This is the measureData', measureData)
 
@@ -125,7 +120,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
     })
-    
     dynamicConfig['valueFormat'] = {
         label: "Value Format",
         type: "string",
@@ -153,13 +147,30 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config.valueFormat != '') {
                 node.valueFormat = formatValue(config.valueFormat, node.value)
             }
-
             console.log('This is the node!', node)
+
+                // This is the Container for each of the nodes
             d3.select('div.container').append('div')
-                .attr('class', `${node.name} value`)
+                .attr('class', `value`)
+                .style('display', 'inline-block')
                 .style('height', findHeight)
+
+                // This is the Value
+            d3.select('div.value').append('div')
+                .attr('class', `${node.name}`)
+                .style('display', 'inline-block')
                 .style('font-size', findMSize(node))
+                .style('margin', 'auto')
                 .html(node.valueFormat)
+
+                
+                // This is the title
+            d3.select('div.value').append('div')
+                .attr('class', 'title')
+                .style('display', 'inline-block')
+                .style('font-size', findTSize(node))
+                .style('margin', 'auto')
+
         })
     }
 
@@ -199,9 +210,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : config[d.name] == 'medium' ? '6vw'
         : '9vw'
     }
+    function findTSize(d) {
+        return config[d.name] == 'small' ? '1.4vw'
+        : config[d.name] == 'medium' ? '2.8vw'
+        : '4vw'
+    }
 
 
-    
+
 
 function formatValue(formatData, string) {
     if(formatData == '') { return string }

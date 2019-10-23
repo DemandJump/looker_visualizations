@@ -57,6 +57,7 @@ looker.plugins.visualizations.add({
                 {"Calculate Progress": "CalcProg"},
                 {"Calculate Progress (As Percentage)": "CalcPercent"}
               ],
+              default: 'compVal',
               hidden: true // Show comparison == true
             },
             positiveSwitch: {
