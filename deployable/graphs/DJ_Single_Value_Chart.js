@@ -384,7 +384,7 @@ if (config.showLabel == false && config.showComparison == true) {
       hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
   }
         
-}
+
 
 // } // End of the editHeader function
 
@@ -396,7 +396,6 @@ if (config.showLabel == false && config.showComparison == true) {
 *********************************************************************************************************/
 
   //  Edit the header right before we instantiate the data
-editHeader();
 console.log('This is hReturnValue after the editHeader function', hReturnValue)
     // This is to add in a format for the value, if the user entered any
 if (config.valueFormat != '') {
