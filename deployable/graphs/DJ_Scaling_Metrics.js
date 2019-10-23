@@ -142,42 +142,72 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ***********************************/
     update()
     function update() {
-        measureData.forEach(node => {
-            node.valueFormat = node.value
-            if (config.valueFormat != '') {
-                node.valueFormat = formatValue(config.valueFormat, node.value)
-            }
-            console.log('This is the node!', node)
+        // measureData.forEach(node => {
+        //     node.valueFormat = node.value
+        //     if (config.valueFormat != '') {
+        //         node.valueFormat = formatValue(config.valueFormat, node.value)
+        //     }
+        //     console.log('This is the node!', node)
 
-                // This is the Container for each of the nodes
-            d3.select('div.container').append('div')
-                .attr('class', `value`)
-                .style('display', 'inline-block')
-                .style('min-height', findHeight)
-                .style('width', '100%')
-                .style('padding', '1rem')
+        //         // This is the Container for each of the nodes
+        //     d3.select('div.container').append('div')
+        //         .attr('class', `value`)
+        //         .style('display', 'inline-block')
+        //         .style('min-height', findHeight)
+        //         .style('width', '100%')
+        //         .style('padding', '1rem')
 
-                // This is the Value
-            d3.select('div.value').append('div')
-                .attr('class', `${node.name}`)
-                .style('display', 'block')
-                .style('font-size', findMSize(node))
-                .style('margin', 'auto')
-                .html(node.valueFormat)
+        //         // This is the Value
+        //     d3.select('div.value').append('div')
+        //         .attr('class', `${node.name}`)
+        //         .style('display', 'block')
+        //         .style('font-size', findMSize(node))
+        //         .style('margin', 'auto')
+        //         .html(node.valueFormat)
 
-                
-                // This is the title
-            d3.select('div.value').append('div')
-                .attr('class', 'title')
-                .style('display', 'block')
-                .style('font-size', findTSize(node))
-                .style('margin', 'auto')
-                .html(node.label)
+        //         // This is the title
+        //     d3.select('div.value').append('div')
+        //         .attr('class', 'title')
+        //         .style('display', 'block')
+        //         .style('font-size', findTSize(node))
+        //         .style('margin', 'auto')
+        //         .html(node.label)
 
-        })
+        // })
+
+
+    let update = d3.select('div.container')
+        .data(measureData)
+    let enter = update.enter()
+
+
+        // This is the Container for each of the nodes
+    enter.select('div.container').append('div')
+        .attr('class', 'value')
+        .style('display', 'inline-block')
+        .style('min-height', findHeight)
+        .style('width', '100%')
+        .style('padding', '1rem')
+
+        // This is the Value
+    enter.select('div.value').append('div')
+        .attr('class', `${node.name}`)
+        .style('display', 'block')
+        .style('font-size', findMSize(node))
+        .style('margin', 'auto')
+        .html(node.valueFormat)
+
+        // This is the title
+    enter.select('div.value').append('div')
+        .attr('class', 'title')
+        .style('display', 'block')
+        .style('font-size', findTSize(node))
+        .style('margin', 'auto')
+        .html(node.label)
+    
+
     }
 
-    
 
 
     /**********************
