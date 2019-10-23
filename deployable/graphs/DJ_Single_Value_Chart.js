@@ -392,7 +392,9 @@ function editHeader(d) {
     if (config.valueLabels == 'calcProg') { // Calculate Progress
         console.log('I need to find out what looker is calculating here to replicate it myself: Calculate Progress bypassed')
         hReturhValue = hValue
-          // This is the same as calcPercent without displaying the percent ~ The element width is 100% 
+          // This is the same as calcPercent without displaying the percent ~ The element width is 100%
+          
+          
           /*
 .columns-bg {
   background-image:
