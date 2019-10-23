@@ -193,7 +193,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .select('div.value').append('div')
                 .attr('class', d => `${d.name}`)
                 .style('display', 'block')
-                .style('font-size', d => findMSize(d))
+                .style('font-size', d => { 
+                    console.log('This is the font-size d', d)
+                    return findMSize(d)
+                })
                 .style('margin', 'auto')
                 .html(d => {
                     console.log('This is d for the value', d)
