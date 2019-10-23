@@ -172,7 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')
                 .style('color', '#9CA0A1')
-                .html(node.label)
+                .html(node.label_short)
 
         })
     }
