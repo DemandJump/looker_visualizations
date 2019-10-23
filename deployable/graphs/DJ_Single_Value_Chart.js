@@ -193,7 +193,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // This colors the text based on the option given
 d3.select('div.value').style('color', config.color);
 
-
+let arrowFontPass = '3vw'
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
@@ -210,6 +210,8 @@ if (config.text_spacing == "dynamic_size") {
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
             .style('font-size', '3vw')
+          
+        arrowFontPass = '2.9vw'
     }    
 }
 if (config.text_spacing == "word_break") {
@@ -227,6 +229,8 @@ if (config.text_spacing == "word_break") {
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.4rem')
+
+        arrowFontPass = '1.3rem'
     }
 }
 if (config.text_spacing == "ellipsis") {
@@ -245,6 +249,7 @@ if (config.text_spacing == "ellipsis") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.4rem')
 
+        arrowFontPass = '1.3rem'
     }
 }
 
@@ -346,12 +351,12 @@ if (config.showLabel == false && config.showComparison == true) {
       let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #5f9524">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
-          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
-          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #5f9524">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
+          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
       }
 
   }
