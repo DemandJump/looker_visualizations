@@ -112,7 +112,7 @@ create: function(element, config) {
               <div class="title" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>
           
-          <div class="header" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;">selected dimension</div>
+          <div class="header" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
     `;
   // .value -> max-width: 344px; color: rgba(58, 66, 69, 0.5);
     
@@ -201,15 +201,15 @@ if (config.text_spacing == "dynamic_size") {
         d3.select('div.title')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
-            .style('font-size', '3vw')
+            .style('font-size', '2.8vw')
         d3.select('div.value')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
-            .style('font-size', '9vw')
+            .style('font-size', '8vw')
         d3.select('div.header')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '3vw')
+            .style('font-size', '2.5vw')
           
         arrowFontPass = '2.9vw'
     }    
@@ -228,7 +228,7 @@ if (config.text_spacing == "word_break") {
         d3.select('div.header')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '1.4rem')
+            .style('font-size', '1.2rem')
 
         arrowFontPass = '1.3rem'
     }
@@ -247,7 +247,7 @@ if (config.text_spacing == "ellipsis") {
         d3.select('div.header')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '1.4rem')
+            .style('font-size', '1.2rem')
 
         arrowFontPass = '1.3rem'
     }
