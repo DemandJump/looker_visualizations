@@ -412,7 +412,8 @@ function editHeader(d) {
         console.log('This is the return value', retVal)
           
     }
-}
+
+} // End of the editHeader function
 
 
 
