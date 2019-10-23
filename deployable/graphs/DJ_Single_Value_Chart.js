@@ -109,12 +109,12 @@ create: function(element, config) {
 
           <div class="container" style="margin: auto;  font-size: 9vw;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
               <div class="value" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
-              <div class="title" style="margin: auto;  font-size: 1.6rem;  color: rgba(58, 66, 69, 0.5);"></div>
+              <div class="title" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>
           
-          <div class="header" style="margin: auto; font-size: 1.4rem;  color: rgba(58, 66, 69, 0.5); position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;">selected dimension</div>
+          <div class="header" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;">selected dimension</div>
     `;
-  // .value -> max-width: 344px;
+  // .value -> max-width: 344px; color: rgba(58, 66, 69, 0.5);
     
 },
     /// Onto the update async section /// 
@@ -376,9 +376,9 @@ if (config.showLabel == false && config.showComparison == true) {
       d3.select('div.header')
           .style('background-image', `linear-gradient(
             to right,
-            #E2E3E4,
-            #E2E3E4 ${retVal}%,
-            #F5F5F6 ${retVal}%
+            #E2E3E3,
+            #E2E3E3 ${retVal}%,
+            #F5F5F5 ${retVal}%
           )`)
 
 
