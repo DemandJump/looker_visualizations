@@ -48,8 +48,9 @@ looker.plugins.visualizations.add({
 
             valueLabels: {
               label: "Value Labels",
-              type: "select",
+              type: "string",
               section: "Comparison",
+              display: "select",
               values: [
                 {"Show as Value": "compVal"},
                 {"Show as Change": "compChan"},
@@ -289,6 +290,7 @@ if (config.showComparison == false) {
       this.options.valueLabels.hidden = true
       this.options.positiveSwitch.hidden = true
       this.options.showLabel.hidden = true
+      this.options.labelOverride.hidden = true
       this.trigger('registerOptions', this.options)
   }
 }
