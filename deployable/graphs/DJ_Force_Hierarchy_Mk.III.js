@@ -844,21 +844,18 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .attr('font-size', fontSize)
         .text(d => calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
 // Second row of text
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .attr('font-size', fontSize)
         .text(d => calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
 // Third row of text
     nodeEnter.append('text')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .attr('font-size', fontSize)
         .text(d => calcT3(d)) // This inputs the text
         .attr('dy', spaceThree);
 
@@ -1134,9 +1131,9 @@ function update() { /* Initialize some parameters that we will need for */
 
     function fontSize(d) { // Calculate the font size based on the depth
         //console.log('text stuff', d);
-        return d.notch == 'a' ? '1rem'
-        : d.notch == 'b' || 'z' ? '.5rem'
-        : '2px'
+        return d.notch == 'a' ? '1.6rem'
+        : d.notch == 'b' || 'z' ? '.8rem'
+        : '1px'
     }
 
 
