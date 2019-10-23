@@ -40,7 +40,7 @@ looker.plugins.visualizations.add({
             },
 
             showComparison: {
-              label: "Show Comparison", 
+              label: "Comparison", 
               type: "boolean",
               section: "Comparison",
               default: false
@@ -73,7 +73,7 @@ looker.plugins.visualizations.add({
               hidden: true // Show comparison == true
             },
             labelOverride: {
-              label: "Label",
+              label: "Written Label",
               type: "string",
               section: "Comparison",
               placeholder: "Leave blank to use field label",
