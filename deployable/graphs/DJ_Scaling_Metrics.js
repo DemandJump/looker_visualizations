@@ -181,7 +181,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let enter = update.enter()
 
 
-        // This is the Container for each of the nodes
+            // This is the Container for each of the nodes
     enter.select('div.container').append('div')
         .attr('class', 'value')
         .style('display', 'inline-block')
@@ -189,21 +189,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style('width', '100%')
         .style('padding', '1rem')
 
-        // This is the Value
-    enter.select('div.value').append('div')
-        .attr('class', `${node.name}`)
-        .style('display', 'block')
-        .style('font-size', findMSize(node))
-        .style('margin', 'auto')
-        .html(node.valueFormat)
+                    // This is the Value
+        .select('div.value').append('div')
+                .attr('class', d => `${d.name}`)
+                .style('display', 'block')
+                .style('font-size', findMSize(node))
+                .style('margin', 'auto')
+                .html(d => d.valueFormat)
 
-        // This is the title
-    enter.select('div.value').append('div')
-        .attr('class', 'title')
-        .style('display', 'block')
-        .style('font-size', findTSize(node))
-        .style('margin', 'auto')
-        .html(node.label)
+                            // This is the title
+                .select(function() { return this.parentNode; }).append('div')
+                        .attr('class', 'title')
+                        .style('display', 'block')
+                        .style('font-size', findTSize(node))
+                        .style('margin', 'auto')
+                        .html(d => d.label)
     
 
     }
