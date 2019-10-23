@@ -332,7 +332,7 @@ if (config.showLabel == false && config.showComparison == true) {
 
       // If the LabelOverride isn't empty, have it override the current field label
   if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
-      hReturnValue = config.labelOverride
+      hValue = config.labelOverride
   }
 
 
