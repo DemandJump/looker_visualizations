@@ -158,34 +158,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d3.select('div.container').append('div')
                 .attr('class', `${node.name} value`)
                 .style('height', findHeight)
+                .style('font-size', findMSize(node))
                 .html(node.valueFormat)
         })
     }
 
-
-        
-    /********************************************************************************
-     * Implement the Settings
-    ********************************************************************************/
     
-    measures.forEach(mes => {
-            // Go through and find each config label
-        console.log('this is the current config measure we are selecting', config[mes.name])
-
-
-        if (config[mes.name] == 'small') {
-            d3.select(`div.${mes.name}`)
-                .style('font-size', '3vw')
-        }
-        if (config[mes.name] == 'medium') {
-            d3.select(`div.${mes.name}`)
-                .style('font-size', '6vw')
-        }
-        if (config[mes.name] == 'large') {
-            d3.select(`div.${mes.name}`)
-                .style('font-size', '9vw')
-        }
-    })
 
 
     /**********************
@@ -216,8 +194,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         return divHeight + 'vh'
     }
 
+    function findMSize(d) {
+        return config[d.name] == 'small' ? '3vw'
+        : config[d.name] == 'medium' ? '6vw'
+        : '9vw'
+    }
 
 
+    
 
 function formatValue(formatData, string) {
     if(formatData == '') { return string }
@@ -232,7 +216,7 @@ function formatValue(formatData, string) {
         // Some stuff to stop the format from throwing errors
     if(format == '' || format == ' ') { return string }
 
-    
+
             /***** This is the  0.00\% formatting! *****/
 
     if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {
