@@ -332,26 +332,26 @@ if (config.showLabel == false && config.showComparison == true) {
 
       // If the LabelOverride isn't empty, have it override the current field label
   if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
-      hValue = config.labelOverride
+      hReturnValue = config.labelOverride
   }
 
 
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
-      hReturnValue = '<b>' + mTwoVal + '</b> ' + hValue
+      hReturnValue = + mTwoVal + ' ' + hValue
   }
   if (config.valueLabels == 'compChan') { // Show as Change
         // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
       let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
-          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b>${mTwoVal}</b> </strong>` + hValue
+          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b style="font-weight: light; color: #979B9D;">${mTwoVal}</b> </strong>` + hValue
+          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b style="font-weight: light; color: #979B9D;">${mTwoVal}</b> </strong>` + hValue
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
-          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b>${mTwoVal}</b> </strong>` + hValue 
+          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b style="font-weight: light; color: #979B9D;>${mTwoVal}</b> </strong>` + hValue
+          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b style="font-weight: light; color: #979B9D;>${mTwoVal}</b> </strong>` + hValue 
       }
 
   }
@@ -365,7 +365,7 @@ if (config.showLabel == false && config.showComparison == true) {
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
         // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
       let finVal = (mOneVal / mTwoVal) * 100
-      let retVal = Math.trun(finVal)
+      let retVal = Math.trunc(finVal)
       console.log('This is the return value', retVal)
 
       d3.select('div.header')
