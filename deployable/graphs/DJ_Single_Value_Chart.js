@@ -201,15 +201,15 @@ if (config.text_spacing == "dynamic_size") {
         d3.select('div.title')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
-            .style('font-size', '2.8vw')
+            .style('font-size', '3.4vw')
         d3.select('div.value')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
-            .style('font-size', '8vw')
+            .style('font-size', '9.4vw')
         d3.select('div.header')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '2.5vw')
+            .style('font-size', '3vw')
           
         arrowFontPass = '2.9vw'
     }    
