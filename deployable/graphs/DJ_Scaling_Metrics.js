@@ -154,11 +154,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('class', `value`)
                 .style('display', 'inline-block')
                 .style('height', findHeight)
+                .style('width', '100%')
 
                 // This is the Value
             d3.select('div.value').append('div')
                 .attr('class', `${node.name}`)
-                .style('display', 'inline-block')
+                .style('display', 'block')
                 .style('font-size', findMSize(node))
                 .style('margin', 'auto')
                 .html(node.valueFormat)
@@ -167,7 +168,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // This is the title
             d3.select('div.value').append('div')
                 .attr('class', 'title')
-                .style('display', 'inline-block')
+                .style('display', 'block')
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')
 
