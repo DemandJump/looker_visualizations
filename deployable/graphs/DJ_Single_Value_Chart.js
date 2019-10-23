@@ -168,12 +168,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let valueReturn = value;
 
     let headerName = dimensions[0].name;
-    let hValue = data[0][headerName]["label"];
+    let hValue = data[0][headerName]["value"];
     let hReturnValue = hValue;
 
-    console.log('This is headername', headerName)
-    console.log('hvalue search', data[0][headerName])
-    console.log('hvalueSearch part 2', data[0][headerName].label)
     console.log(`This is the hValue`, hValue);
 
     console.log("\nThis is the original value looker passed us", value);
