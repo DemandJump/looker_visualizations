@@ -171,6 +171,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('display', 'block')
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')
+                .html('Field data')
 
         })
     }
