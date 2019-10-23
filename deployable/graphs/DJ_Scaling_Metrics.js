@@ -171,6 +171,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('display', 'block')
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')
+                .style('color', '#9CA0A1')
                 .html(node.label)
 
         })
@@ -213,9 +214,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '9vw'
     }
     function findTSize(d) {
-        return config[d.name] == 'small' ? '1.4vw'
-        : config[d.name] == 'medium' ? '2.8vw'
-        : '4vw'
+        return config[d.name] == 'small' ? '1vw'
+        : config[d.name] == 'medium' ? '2vw'
+        : '3vw'
     }
 
 
