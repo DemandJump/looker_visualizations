@@ -311,13 +311,93 @@ if (config.showLabel == false && config.showComparison == true) {
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
 
+
+
+
+  // Gotta build Comparison functions for the chart value 
+
+        //*// Starting with the Label - config.labelOverride //*//
+    // Show as Value: compVal
+    // Show as Change: compChan
+    // Calculate Progress: calcProg ~ Don't know how that works yet
+    // Calculate Progress (With Percentage): calcPercent
+
+    // function editHeader() {
+      // So we're taking in hValue and editing it if it's one of these values
+  console.log(`editHeader: entering hValue value: `, hValue)
+  let mOneName = measures[0]["name"]
+  let mOneVal = data[0][mOneName]["value"]
+  let mTwoName = measures[1]["name"] // Taking the second measure value(name) to calculate these values
+  let mTwoVal = data[0][mTwoName]["value"]
+
+      // If the LabelOverride isn't empty, have it override the current field label
+  if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
+      hValue = config.labelOverride
+  }
+
+
+
+  if (config.valueLabels == 'compVal') { // Show as Value
+        // They just add the numbers in bold beside the Field label 
+      hReturnValue = '<b>' + mTwoVal + '</b> ' + hValue
+  }
+  if (config.valueLabels == 'compChan') { // Show as Change
+        // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
+      let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+      
+      if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
+          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
+          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b>${mTwoVal}</b> </strong>` + hValue
+      }
+      if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
+          if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
+          if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b>${mTwoVal}</b> </strong>` + hValue 
+      }
+
+  }
+
+  if (config.valueLabels == 'calcProg') { // Calculate Progress
+      console.log('I need to find out what looker is calculating here to replicate it myself: Calculate Progress bypassed')
+      hReturhValue = hValue
+        // This is the same as calcPercent without displaying the percent ~ The element width is 100%
+  }
+
+  if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
+        // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
+      let finVal = (mOneVal / mTwoVal) * 100
+      let retVal = Math.trun(finVal)
+      console.log('This is the return value', retVal)
+
+      d3.select('div.header')
+          .style('background-image', `linear-gradient(
+            to right,
+            #E2E3E4,
+            #E2E3E4 ${retVal}%,
+            #F5F5F6 ${retVal}%
+          )`)
+  }
+
+  if (config.valueLabels == 'calcPercent') {
+      hReturnValue = hValue
+  }
+  if (config.valueLabels == 'calcProg') {
+      hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
+  }
+        
+}
+
+// } // End of the editHeader function
+
+
+
+
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
 
   //  Edit the header right before we instantiate the data
 editHeader();
-
+console.log('This is hReturnValue after the editHeader function', hReturnValue)
     // This is to add in a format for the value, if the user entered any
 if (config.valueFormat != '') {
       // Pass in the value and return a new one
@@ -346,99 +426,8 @@ function titleOverride(title) {
   d3.select('.container').append('div')
     .attr('class', 'title')
 }
-// The best crew - tep no // 
 
 
-
-  // Gotta build Comparison functions for the chart value 
-
-        //*// Starting with the Label - config.labelOverride //*//
-    // Show as Value: compVal
-    // Show as Change: compChan
-    // Calculate Progress: calcProg ~ Don't know how that works yet
-    // Calculate Progress (With Percentage): calcPercent
-
-function editHeader() {
-        // So we're taking in hValue and editing it if it's one of these values
-    console.log(`editHeader: entering hValue value: `, hValue)
-    let mOneName = measures[0]["name"]
-    let mOneVal = data[0][mOneName]["value"]
-    let mTwoName = measures[1]["name"] // Taking the second measure value(name) to calculate these values
-    let mTwoVal = data[0][mTwoName]["value"]
-
-        // If the LabelOverride isn't empty, have it override the current field label
-    if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
-        hValue = config.labelOverride
-    }
-
-
-
-    if (config.valueLabels == 'compVal') { // Show as Value
-          // They just add the numbers in bold beside the Field label 
-        hReturnValue = '<b>' + mTwoVal + '</b> ' + hValue
-    }
-    if (config.valueLabels == 'compChan') { // Show as Change
-          // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
-        let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
-        
-        if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
-            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9660 <b>${mTwoVal}</b> </strong>` + hValue
-        }
-        if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-            if (difference >= 0) hReturnValue = `<strong class="arrow" style="color: #9b4e49">&#9650 <b>${mTwoVal}</b> </strong>` + hValue
-            if (difference <= 0) hReturnValue = `<strong class="arrow" style="color: #5f9524">&#9660 <b>${mTwoVal}</b> </strong>` + hValue 
-        }
-
-    }
-    if (config.valueLabels == 'calcProg') { // Calculate Progress
-        console.log('I need to find out what looker is calculating here to replicate it myself: Calculate Progress bypassed')
-        hReturhValue = hValue
-          // This is the same as calcPercent without displaying the percent ~ The element width is 100%
-
-        
-        
-          
-          
-          /*
-
-.columns-bg {
-  background-image:
-    linear-gradient(
-      to right, 
-      #fffdc2, // 0 percent to
-      #fffdc2 25%, // 25 percent it will be this color
-      #d7f0a2 25% // 25 percent to the end of the progress bar we'll have it as this percent 
-    );
-}
-
-           */
-    }
-    if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
-          // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
-        let finVal = (mOneVal / mTwoVal) * 100
-        let retVal = Math.trun(finVal)
-        console.log('This is the return value', retVal)
-
-        d3.select('div.header')
-            .style('background-image', `linear-gradient(
-              to right,
-              #E2E3E4,
-              #E2E3E4 ${retVal}%,
-              #F5F5F6 ${retVal}%
-            )`)
-    }
-
-    if (config.valueLabels == 'calcPercent') {
-        hReturnValue = hValue
-    }
-    if (config.valueLabels == 'calcProg') {
-        hReturnValue = `<b>${retVal}%</b> of <b>${mTwoVal}</b> ` + hValue
-    }
-          
-}
-
-} // End of the editHeader function
 
 
 
