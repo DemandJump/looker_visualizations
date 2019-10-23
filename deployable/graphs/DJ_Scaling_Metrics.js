@@ -158,7 +158,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('padding', '1rem')
 
                 // This is the Value
-            .select('div.value').append('div')
+            .append('div')
                 .attr('class', `${node.name}`)
                 .style('display', 'block')
                 .style('font-size', findMSize(node))
