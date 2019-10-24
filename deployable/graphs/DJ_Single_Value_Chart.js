@@ -436,7 +436,7 @@ function titleOverride(title) {
 
 
 function formatValue(formatData, string) {
-    if(formatData == '') { return string }
+    if(formatData == '' || formatData == null) { return string }
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
     let format = formatData.toString() 
     console.log('\nformat', formatData)
