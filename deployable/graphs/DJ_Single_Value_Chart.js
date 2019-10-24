@@ -208,7 +208,7 @@ if (config.text_spacing == "dynamic_size") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '3vw')
           
-        arrowFontPass = '2.4vw'
+        arrowFontPass = '2.2vw'
     }    
 }
 if (config.text_spacing == "word_break") {
