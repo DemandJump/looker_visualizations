@@ -52,7 +52,7 @@ span.bold {
 .djgaAd {
   width: 632px;
   margin: 1rem 0 0 0;
-  padding 0 16px 0 16px;
+  padding: 0 16px 0 16px;
   /*
   height: 120px; or auto
   margin: 2rem 0 0 0;
