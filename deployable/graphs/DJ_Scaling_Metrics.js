@@ -108,7 +108,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dynamicConfig = {}
     measures.forEach(mes => {
         dynamicConfig[mes.name] = {
-            label: mes.label_short + ' Font Size',
+            label: mes.label + ' Font Size',
             type: 'string',
             section: 'Style',
             display: 'select',
@@ -121,7 +121,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         dynamicConfig[mes.name + 'ValueFormat'] = {
-            label: mes.label_short + ' Value Format',
+            label: mes.label + ' Value Format',
             type: 'string',
             section: 'Style',
             placeholder: 'Spreadsheet style format code'
@@ -306,24 +306,31 @@ function formatValue(formatData, string) {
 
         if ( !(string.includes('.')) ) { tf = false  }
 
-        console.log('tf is currently', tf)
         if (tf) {
                 // Find the first 2 decimal places, then return those with a percent 
             stringRes = string
-            let decimalPull = ''
-            for(i = 0; i < stringRes.length; i++) {
-                if(stringRes[i] == '.') { 
-                    let counter = 2
-                    for(j = i; j < stringRes.length; i++) {
-                        if (counter != 0) {
-                          decimalPull = decimalPull + stringRes[j] 
-                          counter --
-                        }
-                    }
-                    break
-                }
-            }
-            return decimalPull + '%'
+            console.log('This is the string!', stringRes)
+
+
+
+
+
+
+
+            // let decimalPull = ''
+            // for(i = 0; i < stringRes.length; i++) {
+            //     if(stringRes[i] == '.') { 
+            //         let counter = 2
+            //         for(j = i; j < stringRes.length; i++) {
+            //             if (counter != 0) {
+            //               decimalPull = decimalPull + stringRes[j] 
+            //               counter --
+            //             }
+            //         }
+            //         break
+            //     }
+            // }
+            return string + '%'
         }
     } // End of the 0%
 
