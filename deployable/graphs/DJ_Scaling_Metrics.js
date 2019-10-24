@@ -128,12 +128,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
     })
-    dynamicConfig['valueFormat'] = {
-        label: "Value Format",
-        type: "string",
-        section: "Style (Deprecated)",
-        placeholder: "Spreadsheet style format code"
-    }
+    // dynamicConfig['valueFormat'] = {
+    //     label: "Value Format",
+    //     type: "string",
+    //     section: "Style (Deprecated)",
+    //     placeholder: "Spreadsheet style format code"
+    // }
 
     this.options = dynamicConfig
     if (this._mCounter == 0) {
