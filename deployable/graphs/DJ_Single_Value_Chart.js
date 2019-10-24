@@ -509,21 +509,18 @@ function formatValue(formatData, string) {
 
         if (tf) {
                 // Find the first 2 decimal places, then return those with a percent 
-            stringRes = string
-            let decimalPull = ''
+            stringRes = string * 100
+            console.log('This is the string!', stringRes)
+            let decimalPlace = 0
+
             for(i = 0; i < stringRes.length; i++) {
-                if(stringRes[i] == '.') { 
-                    let counter = 2
-                    for(j = i; j < stringRes.length; i++) {
-                        if (counter != 0) {
-                          decimalPull = decimalPull + stringRes[j] 
-                          counter --
-                        }
-                    }
-                    break
-                }
+              if (stringRes[i] == '.') {
+                decimalPlace = i
+                break
+              }
             }
-            return decimalPull + '%'
+            stringRes = stringRes.substr(0, decimalPlace - 1)
+            return stringRes + '%'
         }
     } // End of the 0%
 
