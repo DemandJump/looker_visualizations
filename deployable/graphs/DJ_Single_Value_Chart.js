@@ -227,7 +227,7 @@ if (config.text_spacing == "word_break") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.2rem')
 
-        arrowFontPass = '1.3rem'
+        arrowFontPass = '1rem'
     }
 }
 if (config.text_spacing == "ellipsis") {
@@ -246,7 +246,7 @@ if (config.text_spacing == "ellipsis") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.2rem')
 
-        arrowFontPass = '1.3rem'
+        arrowFontPass = '1rem'
     }
 }
 
