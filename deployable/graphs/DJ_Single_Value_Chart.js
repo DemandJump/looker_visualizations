@@ -336,13 +336,12 @@ if (config.showLabel == false && config.showComparison == true) {
   let mTwoVal = data[0][mTwoName]["value"]
 
       // If the LabelOverride isn't empty, have it override the current field label
-  if (config.labelOverride != '' || config.labelOverride != ' ' || config.labelOverride != null) {
+  if (config.labelOverride != '' || config.labelOverride != ' ') {
       hValue = config.labelOverride
   }
-
   if (config.labelOverride == '' || config.labelOverride == ' ') {
-    hReturnValue = data[0][headerName]["value"]
-}
+    hValue = queryResponse.fields.measures[0]['label']
+  }
 
 
 
@@ -365,11 +364,6 @@ if (config.showLabel == false && config.showComparison == true) {
 
   }
 
-  if (config.valueLabels == 'calcProg') { // Calculate Progress
-      console.log('I need to find out what looker is calculating here to replicate it myself: Calculate Progress bypassed')
-      hReturhValue = hValue
-        // This is the same as calcPercent without displaying the percent ~ The element width is 100%
-  }
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
         // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
