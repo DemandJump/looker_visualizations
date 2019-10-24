@@ -319,7 +319,7 @@ function formatValue(formatData, string) {
                 break
               }
             }
-            stringRes = stringRes.substr(0, decimalPlace - 1)
+            stringRes = stringRes.substr(0, (decimalPlace - 1))
             return stringRes + '%'
         }
     } // End of the 0%
