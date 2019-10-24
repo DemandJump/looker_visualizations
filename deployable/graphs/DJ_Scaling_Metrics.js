@@ -158,7 +158,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[node.format] != '') { // If there is a format applied, run the function for the format
                 node.valueFormat = formatValue(config[node.format], node.value)
             }
-            console.log('This is the node!', node)
 
                 // This is the djsmContainer for each of the nodes
             d3.select('div.djsmContainer').append('div')
@@ -240,6 +239,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 function formatValue(formatData, string) {
     if(formatData == '') { return string }
+    console.log('format Data', formatData)
     string = string.toString() // These need to be stringified for all the different text editing functions won't work
     let format = formatData.toString() 
     console.log('\nformat', formatData)
