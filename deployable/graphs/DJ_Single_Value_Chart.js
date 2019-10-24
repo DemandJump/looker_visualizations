@@ -107,12 +107,12 @@ create: function(element, config) {
             iframe { padding: 0; margin: 0; }
           </style>
 
-          <div class="container" style="margin: auto;  font-size: 9vw;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="value" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
-              <div class="title" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
+          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div class="djvsValue" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
+              <div class="djvsTitle" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>
           
-          <div class="header" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
+          <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
     `;
   // .value -> max-width: 344px; color: rgba(58, 66, 69, 0.5);
     
@@ -191,22 +191,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     // This colors the text based on the option given
-d3.select('div.value').style('color', config.color);
+d3.select('div.djvsValue').style('color', config.color);
 
 let arrowFontPass = '3vw'
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
     if (config.valueTitle != '') {
-        d3.select('div.title')
+        d3.select('div.djvsTitle')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
             .style('font-size', '3.4vw')
-        d3.select('div.value')
+        d3.select('div.djvsValue')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
             .style('font-size', '9.4vw')
-        d3.select('div.header')
+        d3.select('div.djvsHeader')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
             .style('font-size', '3vw')
@@ -217,15 +217,15 @@ if (config.text_spacing == "dynamic_size") {
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
     if (config.valueTitle != '') {  // If there's a title
-        d3.select('div.title')
+        d3.select('div.djvsTitle')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
             .style('font-size', '1.6rem')
-        d3.select('div.value')
+        d3.select('div.djvsValue')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
             .style('font-size', '4.5rem')
-        d3.select('div.header')
+        d3.select('div.djvsHeader')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.2rem')
@@ -236,15 +236,15 @@ if (config.text_spacing == "word_break") {
 if (config.text_spacing == "ellipsis") {
       // The original styling for the text and stuff
     if (config.valueTitle != '') {  // If there's a title
-        d3.select('div.title')
+        d3.select('div.djvsTitle')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
             .style('font-size', '1.6rem')
-        d3.select('div.value')
+        d3.select('div.djvsValue')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
             .style('font-size', '4.5rem')
-        d3.select('div.header')
+        d3.select('div.djvsHeader')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.2rem')
@@ -256,8 +256,8 @@ if (config.text_spacing == "ellipsis") {
 
     // This is for the title element based on the user input
 if (config.valueTitle != '') {
-    d3.select('.title').html(config.valueTitle)
-} else { d3.select('.title').html(' ') }
+    d3.select('.djvsTitle').html(config.valueTitle)
+} else { d3.select('.djvsTitle').html(' ') }
 
 
     // This hides/shows the title's input bar
@@ -266,7 +266,7 @@ if (config.showTitle == false) { // If they want to hide the title
     if(this.options.valueTitle.hidden == false) { // Check if it's not hidden
         this.options.valueTitle.hidden = true // Then set it to hidden
         this.trigger('registerOptions', this.options) // send the updated settings to the system
-        d3.select('.title').html(' ')
+        d3.select('.djvsTitle').html(' ')
     }
 }
 if (config.showTitle == true) { // Touche vice versa ~ ;p
@@ -354,12 +354,12 @@ if (config.showLabel == false && config.showComparison == true) {
       let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
-          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${djvsAowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<span class="arrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
-          if (difference <= 0) hReturnValue = `<span class="arrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
       }
 
   }
@@ -371,7 +371,7 @@ if (config.showLabel == false && config.showComparison == true) {
       let retVal = Math.trunc(finVal)
       console.log('This is the return value', retVal)
 
-      d3.select('div.header')
+      d3.select('div.djvsHeader')
           .style('background-image', `linear-gradient(
             to right,
             #E2E3E3,
@@ -408,12 +408,12 @@ if (config.valueFormat != '') {
     console.log('This is the returned value from the formatValue function', valueReturn)
 
     console.log('This is the valueReturn passed in', valueReturn)
-    d3.select('div.value').html(valueReturn);
-    d3.select('div.header').html(hReturnValue);
+    d3.select('div.djvsValue').html(valueReturn);
+    d3.select('div.djvsHeader').html(hReturnValue);
 } else {
     console.log('This is the valueReturn passed in', valueReturn)
-    d3.select('div.value').html(valueReturn);
-    d3.select('div.header').html(hReturnValue);
+    d3.select('div.djvsValue').html(valueReturn);
+    d3.select('div.djvsHeader').html(hReturnValue);
 }
 
 
@@ -426,8 +426,8 @@ if (config.valueFormat != '') {
 *******************************************************************/
 
 function titleOverride(title) {
-  d3.select('.container').append('div')
-    .attr('class', 'title')
+  d3.select('.djvsContainer').append('div')
+    .attr('class', 'djvsTitle')
 }
 
 
