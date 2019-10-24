@@ -339,7 +339,11 @@ if (config.showLabel == false && config.showComparison == true) {
   if (config.labelOverride == '' || config.labelOverride == ' ') {
     hValue = queryResponse.fields.measures[0]['label']
   }
-
+  
+      // If showlabel is false then we're turning off the Written Label
+  if (config.showLabel == false ) {
+    hValue = ' '
+  }
 
 
   if (config.valueLabels == 'compVal') { // Show as Value
