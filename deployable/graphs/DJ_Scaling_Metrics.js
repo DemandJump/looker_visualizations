@@ -25,20 +25,19 @@ create: function(element, config) {
                   
         html { 
             font-family: Roboto; 
-            font-weight: lighter; 
             margin: 0px;
             padding: 0px;
         }
 
-        .container {
+        .djsmContainer {
             text-align: center;
             text-overflow: scroll;
             position: relative;
             margin: auto;
+            font-weight: lighter; 
             
         } 
-        /* The only way to center these element is with absolute positioning. Use the parms of the element it's in to center it right in the middle */
-        .value {
+        .djsmValue {
             margin: auto;
         }
 
@@ -46,7 +45,7 @@ create: function(element, config) {
     `;
 
     d3.select(element).append('div')
-        .attr('class', 'container')
+        .attr('class', 'djsmContainer')
 
 
 
@@ -60,7 +59,7 @@ create: function(element, config) {
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
     let d3 = d3v5;
     this._mCounter = 0
-    d3.select('div.container').selectAll('*').remove() // Remove all the data in the beginning
+    d3.select('div.djsmContainer').selectAll('*').remove() // Remove all the data in the beginning
 
     
             /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
@@ -149,9 +148,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
             console.log('This is the node!', node)
 
-                // This is the Container for each of the nodes
-            d3.select('div.container').append('div')
-                .attr('class', `value`)
+                // This is the djsmContainer for each of the nodes
+            d3.select('div.djsmContainer').append('div')
+                .attr('class', `djsmValue`)
                 .style('display', 'inline-block')
                 .style('min-height', findHeight)
                 .style('width', '100%')
@@ -159,7 +158,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // This is the Value
             .append('div')
-                .attr('class', `${node.name}`)
+                .attr('class', `djsm_${node.name}`)
                 .style('display', 'block')
                 .style('font-size', findMSize(node))
                 .style('margin', 'auto')
@@ -167,7 +166,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // This is the title
             .select(function() { return this.parentNode; }).append('div')
-                .attr('class', 'title')
+                .attr('class', 'djsmTitle')
                 .style('display', 'block')
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')

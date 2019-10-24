@@ -1,0 +1,40 @@
+/* Universal Styling Sheet */
+
+/*********************
+ * Universal Styles
+*********************/
+    /* Import the Roboto font for us to use. */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto';
+    box-sizing: border-box;
+}
+
+
+
+
+
+/************************************* 
+ * DJ Google Ads Section
+*************************************/
+
+
+
+
+/************************************* 
+ * DJ Scaling Metrics Section 
+*************************************/
+.djsmContainer {
+    text-align: center;
+    text-overflow: scroll;
+    position: relative;
+    margin: auto;
+    font-weight: lighter; 
+    
+} 
+.djsmValue {
+    margin: auto;
+}

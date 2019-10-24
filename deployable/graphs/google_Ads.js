@@ -17,6 +17,10 @@ create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
 
+    d3.select(element)
+      .style('display', 'block')
+      .style('overflow-wrap', 'break-word')
+
     // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
 <style>
@@ -32,52 +36,14 @@ html, body {
   padding: 0; 
   box-sizing: border-box;
   font-family: 'Roboto';
-  display: block; 
 }
 
-div {
-  overflow-wrap: break-word;
-}
-
-h3 {
-  font-weight: normal;
-  margin-block-start: 0;
-  margin-block-end: 0;
-}
-
-.hello-world-vis { 
-  // Vertical centering
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-.hello-world-text-small {
-  font-size: 18px;
-}
-.hello-world-text-large { 
-  font-size: 72px;
-}
-.container {
+.djgaContainer {
   padding: 1rem 2rem 1rem 2rem;
   /* font-family: Roboto, 'Roboto'; We need to see if all elements will inherit this stuff, or if we need to add all this stuff to each class for the single stylesheet we'll be using from now on */
 }
-.holder { 
-  overflow: scroll;
-  text-align: center;
-  margin: auto; 
-}
 
-
-a { 
-  text-decoration: none; 
-}
-a:hover {
-  text-decoration: underline solid rgb(26, 13, 171) !important;
-  color: #1A0DAB;
-}
-.label:hover {
+.djgaLabel:hover {
   text-decoration: underline solid rgb(26, 13, 171) !important;
   color: #1A0DAB;
 }
@@ -92,13 +58,17 @@ a:hover {
   */
 }
 
-.label {
+.djgaLabel {
+  font-weight: normal;
+  margin-block-start: 0;
+  margin-block-end: 0;
   display: block;
   font-size: 20px;
   line-height: 20px;
   text-align: left;
   word-spacing: 0px;
   /* text-decoration: none solid rgb(26, 13, 171); */
+  text-decoration: none;
   color: #1A0DAB;
 }
 
@@ -164,26 +134,15 @@ cite {
 }
 
 
-/*
-<div class="ad">
-  <h3 class="label"> <a href="{link}">{label}</a> </h3>
-  <div class="icon-and-domain">
-    <span class="icon">Ad</span>
-    <cite class="domain">{domain}</cite>
-  </div>
-  <div class="description">{description}</div>
-</div>
-*/
-
 </style>
     `;
 
-    this._container = d3.select(element).append('div')
-        .attr('class', 'container')
-        .attr('id', 'container');
+    this._djgaContainer = d3.select(element).append('div')
+        .attr('class', 'djgaContainer')
+        .attr('id', 'djgaContainer');
     
         // Clear out all the data upon startup! 
-    this._container.selectAll("*").remove();
+    this._djgaContainer.selectAll("*").remove();
 
 },
     // Onto the update async section
@@ -399,19 +358,19 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
     * Main Functionalty
 ******************************************************************************************************************************************/
 console.log('config switch', config.switch);
-if (config.switch == false) { this._container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
-else { this._container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
+if (config.switch == false) { this._djgaContainer.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
+else { this._djgaContainer.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
 
 function update() {
     let width = element.clientWidth; console.log('\nThis is the update function!') // Dimensions w & h
     height = element.clientHeight; console.log('This is the augmented data for the visualization', visdata)
 
 
-    let container = d3.select('.container').append('div')
+    let djgaContainer = d3.select('.djgaContainer').append('div')
         .attr('width', width)
         .attr('height', height);
     
-    let adEnter = container.selectAll('.ad')
+    let adEnter = djgaContainer.selectAll('.ad')
         .data(visdata, d => d.id);
 
         // This is the class that holds the ad, 
@@ -420,7 +379,7 @@ function update() {
 
         // This is the Title, or the Label
     ads.append('h3')
-        .attr('class', 'label')
+        .attr('class', 'djgaLabel')
         .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
         //   // This is the Ad icon to the left of the domain link.
@@ -457,11 +416,11 @@ function organic() {
   let height = element.clientHeight; console.log('This is the augmented data for the visualization', visdata)
 
 
-  let container = d3.select('.container').append('div')
+  let djgaContainer = d3.select('.djgaContainer').append('div')
       .attr('width', width)
       .attr('height', height);
   
-  let adEnter = container.selectAll('.ad')
+  let adEnter = djgaContainer.selectAll('.ad')
       .data(visdata, d => d.id);
 
       // This is the class that holds the ad, 
@@ -470,7 +429,7 @@ function organic() {
 
       // This is the Title, or the Label
   ads.append('h3')
-      .attr('class', 'label')
+      .attr('class', 'djgaLabel')
       .style('margin-bottom', '6px')
       .html(d => `<a href="${d.link}">`+ d.label +'</a>')
 
