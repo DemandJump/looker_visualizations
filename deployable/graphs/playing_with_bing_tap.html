@@ -21,10 +21,19 @@ text { /* Cool trick to make the captions on the links more readable! */
     pointer-events: none; /* This hides the edit cursor when you hover over the labels */
     font-family: 'Playfair Display', serif;
 }
+
+.classOne {
+    color: blue;
+
+}
+.classTwo {
+    background-color: red;
+}
 </style>
     <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
     <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
 </body>
+
 
 
 <script>
@@ -34,6 +43,10 @@ let string2 = 'lookthisisjustajumbledwordwecutinhalfwhatwillitlooklike?';
 let string3 = 'IKnowAeroDynamicPhysics'
 
 // find the length, check the length for multi line comments -
+
+d3.select('body').append('div')
+    .attr('class', 'classOne classTwo')
+    .html('This is the created div')
 
 </script>
 

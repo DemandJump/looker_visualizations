@@ -31,44 +31,40 @@ create: function(element, config) {
 // We're essentially using vanilla javascript to create a visualization for looker to append!
 
     // Insert a <style> tag with some styles we'll use later.
+  d3.select('body')
+      .style('position', 'fixed')
+      .style('left', '0')
+      .style('right', '0')
+      .style('top', '0')
+      .style('bottom', '0')
+      .style('margin', '0')
+      .style('overflow', 'hidden')
+      .style('display', 'block')
+
+
     element.innerHTML = `
         <style>
         /* Import the Roboto font for us to use. */
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
         
-        .node circle {
+        .djctNode circle {
           fill: #fff;
           stroke: steelblue;
           stroke-width: 3px;
         }
         
-        .node text {
+        .djctNode text {
           font: 12px sans-serif;
         }
         
-        .link {
+        .djctLink {
           fill: none;
           stroke: #ccc;
           stroke-width: 2px;
         }
         
-        /* Not needed, used to test svgs dimensions */
-        /* 
-        svg { border: 1px solid black; }
-        */
-        body { /* this is used in all tidy svgs! */
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: 0;
-            overflow: hidden;
-            display: block;
-        }
-        
-        text { /* Cool trick to make the captions on the links more readable! */
+        .djctText text { /* Cool trick to make the captions on the links more readable! */
             text-shadow:
              -1px -1px 3px white,
              -1px  1px 3px white,
@@ -498,12 +494,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // ****************** Nodes section ***************************
 
   // Update the nodes...
-  var node = svg.selectAll('g.node')
+  var node = svg.selectAll('g.djctNode')
       .data(nodes, function(d) {return d.id || (d.id = ++i); });
 
   // Enter any new modes at the parent's previous position.
   var nodeEnter = node.enter().append('g')
-      .attr('class', 'node')
+      .attr('class', 'djctNode')
       .attr("transform", function(d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
     })
@@ -512,13 +508,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      
   // Add Circle for the nodes
   nodeEnter.append('circle')
-      .attr('class', 'node')
+      .attr('class', 'djctNode')
       .attr('r', '25px')
       .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
 
 
   // Add labels for the nodes
   nodeEnter.append('text')
+      .attr('class', 'djctText')
       .attr("dy", ".35em")
       .attr("x", d => {
         if(d.mCount) { return "20px" }
@@ -534,6 +531,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if(measures[0] != null) {
          // Second label for measure leaf nodes only
     nodeEnter.append('text')
+      .attr('class', 'djctText')
       .attr('dy', '.35em')
       .attr('x', d => {
         if (d.mCount) { return "-20px" }
@@ -563,7 +561,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      });
 
   // Update the node attributes and style
-  nodeUpdate.select('circle.node')
+  nodeUpdate.select('circle.djctNode')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
     .style('fill', d => {
         return d._children ? chosenColors[d.depth] // "#008CCD" 
@@ -605,7 +603,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // Enter any new links at the parent's previous position.
   var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "link")
+      .attr("class", "djctLink")
       .attr("opacity", "0.64")
       .style("stroke", "#008CCD")
       .attr('d', function(d){

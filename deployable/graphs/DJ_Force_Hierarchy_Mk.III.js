@@ -62,17 +62,17 @@ create: function(element, config) {
     <style>
         html, body { margin: 0; padding: 0; font-family: Roboto; }
 
-        svg { border: 1px solid rgba(0, 0, 0, 0.2);}
-        .node, .node2, circle { cursor: pointer; /**/ stroke-width: 1.25px; }
-        line, .link, .link2 { fill: none;}
-        text { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
+        .djfhSvg { border: 1px solid rgba(0, 0, 0, 0.2);}
+        .djfhNode, .djfhCircle { cursor: pointer; /**/ stroke-width: 1.25px; }
+        .djfhLink { fill: none;}
+        .djfhText { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
         #root circle { fill: #fd8d3c !important; }
 
-        button { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
+        .djfhButton { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
             /* This is for the node data inputs */
         .infoLabel { font-size: 1.1rem; /*font-weight: normal;*/ font-style: italic; margin: auto; padding: 1.4rem 1rem 0 1rem; }
-        .infoData { font-size: 1rem; margin: auto: margin-left: 2rem; margin-top: .5rem; padding: 0 1rem 0 2rem; }
+        .infoData { font-size: 1rem; margin: auto; margin-left: 2rem; margin-top: .5rem; padding: 0 1rem 0 2rem; }
     </style> `;    
 
         /*************** Holder is the navbar for the buttons  ***************/
@@ -82,37 +82,37 @@ create: function(element, config) {
         .style('width', '100%')
 
     this._prevBtn = d3.select('.holder').append('button')
-        .attr('class', 'prev') 
+        .attr('class', 'prev djfhButton') 
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Prev')
     this._nextBtn = d3.select('.holder').append('button')
-        .attr('class', 'next')
+        .attr('class', 'next djfhButton')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Next')
 
     this._resetSingleNode = d3.select('.holder').append('button')
-        .attr('class', 'resetSingleNode')
+        .attr('class', 'resetSingleNode djfhButton')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html(`Reset selected node's position`)
 
     this._resetBtn = d3.select('.holder').append('button')
-        .attr('class', 'reset')
+        .attr('class', 'reset djfhButton')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .style('color', 'red')
         .html('RESET ALL NODES')
 
     this._centerNodes = d3.select('.holder').append('button')
-        .attr('class', 'center')
+        .attr('class', 'center djfhButton')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Pull nodes together')
 
     this._panelSwitch = d3.select('.holder').append('button')
-        .attr('class', 'changeView')
+        .attr('class', 'changeView djfhButton')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Open Viewport')
@@ -123,12 +123,12 @@ create: function(element, config) {
         .style('display', 'inline-block')
 
     this._selectPrevDepth = d3.select('.linkSettings').append('button')
-        .attr('class', 'prevDepthSelect')
+        .attr('class', 'prevDepthSelect djfhButton')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Edit prev link')
     this._selectNextDepth = d3.select('.linkSettings').append('button')    
-        .attr('class', 'nextDepthSelect')
+        .attr('class', 'nextDepthSelect djfhButton')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Edit next link')
@@ -156,7 +156,7 @@ create: function(element, config) {
 
 
     this._svg = d3.select('.content').append('svg')
-        .attr('class', 'container')
+        .attr('class', 'container djfhSvg')
 
     this._nodeDataBar = d3.select('.content').append('div')
         .attr('class', 'infoBar')
@@ -823,18 +823,19 @@ function update() { /* Initialize some parameters that we will need for */
             
     
         // Onto instantiating the nodes 
-            let node = svg.selectAll('.node')
-            let link = svg.selectAll('.link')
+            let node = svg.selectAll('.djfhNode')
+            let link = svg.selectAll('.djfhLink')
 // Create and update the nodes
     node = node.data(nodes, d => d.id);
     let nodeEnter = node.enter().append('g') // Enter only edits newly instantiated elements
-        .attr('class', 'node')
+        .attr('class', 'djfhNode')
         .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
         .on('click', click)
         .on('dblclick', click2Focus)
         .call(drag(simulation));
 // Create the circle
     nodeEnter.append('circle') // Only edits the entering circles
+        .attr('class', 'djfhCircle')
         .attr('r', notchRadius)
         .attr('stroke', border)
         .attr('stroke-width', borderWidth)
@@ -842,18 +843,21 @@ function update() { /* Initialize some parameters that we will need for */
         
 // Create the text for the node
     nodeEnter.append('text')
+        .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
         .text(d => calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
 // Second row of text
     nodeEnter.append('text')
+        .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
         .text(d => calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
 // Third row of text
     nodeEnter.append('text')
+        .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
         .text(d => calcT3(d)) // This inputs the text
@@ -862,8 +866,8 @@ function update() { /* Initialize some parameters that we will need for */
     
 //Create and update the links 
     link = link.data(links, d => d.id);
-    link.enter().insert('line', '.node')
-        .attr('class', 'link')
+    link.enter().insert('line', '.djfhNode')
+        .attr('class', 'djfhLink')
         .attr('stroke', '#008CCD')
         .attr('stroke-width', '2.5')
         .attr('opacity', '0.45')
@@ -888,12 +892,12 @@ function update() { /* Initialize some parameters that we will need for */
     *********************************************************************/
     // Simulation physics // 
     function ticked() { // On each tick, specifify these parameters for this stuff
-        d3.selectAll('.link')
+        d3.selectAll('.djfhLink')
             .attr("x1", function(d) { return d.source.x; })
             .attr("y1", function(d) { return d.source.y; })
             .attr("x2", function(d) { return d.target.x; })
             .attr("y2", function(d) { return d.target.y; });
-        d3.selectAll('.node').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        d3.selectAll('.djfhNode').attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
     }
     
     function drag(simulation) { // This is for moving the nodes around with user input functions and events
