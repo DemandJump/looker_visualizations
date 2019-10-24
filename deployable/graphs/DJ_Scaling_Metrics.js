@@ -151,6 +151,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update()
     function update() {
         measureData.forEach(node => {
+            console.log('this is the node', node)
+            console.log('This is config', config) 
+            console.log('This is the config for this node', config[node.format])
             node.valueFormat = node.value // this is the value without the format
             if (config[node.format] != '') { // If there is a format applied, run the function for the format
                 node.valueFormat = formatValue(config[node.format], node.value)
