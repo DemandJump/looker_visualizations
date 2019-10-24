@@ -87,11 +87,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     measures.forEach( (mes, i) => {
         // console.log('This is the measure', mes)
         // console.log('Grab the first piece of data', data[0])
+        let valFormat = mes.name + 'ValueFormat'
         let newObject = { // measureData[i] =
             value: data[0][mes.name].value,
             name: mes.name,
             label: mes.label,
             label_short: mes.label_short,
+            format: valFormat,
             index: i
         }
 
@@ -106,9 +108,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dynamicConfig = {}
     measures.forEach(mes => {
         dynamicConfig[mes.name] = {
-            label: mes.label,
+            label: mes.label + 'Font Size',
             type: 'string',
-            section: 'FontSize',
+            section: 'Style',
             display: 'select',
             values: [
                 {"Small": "small"},
@@ -118,11 +120,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             default: "small"
         }
 
+        dynamicConfig[mes.name + 'ValueFormat'] = {
+            label: mes.label + 'Value Format',
+            type: 'string',
+            section: 'Style',
+            placeholder: 'Spreadsheet style format code'
+        }
+
     })
     dynamicConfig['valueFormat'] = {
         label: "Value Format",
         type: "string",
-        section: "Style",
+        section: "Style (Deprecated)",
         placeholder: "Spreadsheet style format code"
     }
 
@@ -142,9 +151,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update()
     function update() {
         measureData.forEach(node => {
-            node.valueFormat = node.value
-            if (config.valueFormat != '') {
-                node.valueFormat = formatValue(config.valueFormat, node.value)
+            node.valueFormat = node.value // this is the value without the format
+            if (config[node.format] != '') { // If there is a format applied, run the function for the format
+                node.valueFormat = formatValue(config[node.format], node.value)
             }
             console.log('This is the node!', node)
 
