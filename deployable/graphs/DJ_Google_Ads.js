@@ -1,3 +1,5 @@
+
+console.log('Rendering dj google ads')
 looker.plugins.visualizations.add({
     options: {
         font_size: {
@@ -14,7 +16,7 @@ looker.plugins.visualizations.add({
     },
     // Onto the create section 
 create: function(element, config) {
-    let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    // let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
 
     d3.select(element)
@@ -151,7 +153,8 @@ cite.djgaIcon {
 
 },
     // Onto the update async section
-updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5; // Important!
+updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
+  // let d3 = d3v5; // Important!
 /******************************************************************************************************************************************
     * Error Clauses 
 ******************************************************************************************************************************************/
