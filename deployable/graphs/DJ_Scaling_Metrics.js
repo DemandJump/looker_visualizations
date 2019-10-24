@@ -161,7 +161,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d3.select('div.djsmContainer').append('div')
                 .attr('class', `djsmValue`)
                 .style('display', 'inline-block')
-                .style('min-height', findHeight)
+                .style('max-height', findHeight)
                 .style('width', '100%')
                 .style('padding-top', '1rem')
 
