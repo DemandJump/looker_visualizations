@@ -306,6 +306,7 @@ function formatValue(formatData, string) {
 
         if ( !(string.includes('.')) ) { tf = false  }
 
+        console.log('tf is currently', tf)
         if (tf) {
                 // Find the first 2 decimal places, then return those with a percent 
             stringRes = string
