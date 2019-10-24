@@ -72,7 +72,7 @@ html, body {
   color: #1A0DAB;
 }
 
-.linkSection {
+.djgaLinkSection {
   text-align: left;
   height: 6px;
   width: auto;
@@ -81,7 +81,7 @@ html, body {
 
           /* These are the specific styling for each of the classes */
 
-.icon {
+.djgaIcon {
   width: 14.6px;
   height: 11px;
   display: inline-block;
@@ -95,13 +95,13 @@ html, body {
   margin: 0 7px 0 0;
   padding: 1px 3px 0px 3px;
 }
-cite {
+cite.djgaIcon {
   border-radius: 3px;
   font-style: normal;
   border: 1px solid #006621;
 }
 
-.domain {
+.djgaDomain {
   display: inline-block;
   font-size: 16px;
   text-align: left;
@@ -110,7 +110,7 @@ cite {
   color: #006621;
 }
 
-.dropdown {
+.djgaDropdown {
   height: 13.5px;
   display: inline-block;
   font-size: 8.5px; 
@@ -121,7 +121,7 @@ cite {
   color: #006621;
 }
 
-.description {
+.djgaDescription {
   display: block;
   font-size: 14px;
   line-height: 22px;
@@ -384,26 +384,26 @@ function update() {
 
         //   // This is the Ad icon to the left of the domain link.
         .select(function() { return this.parentNode; }).append('div')
-            .attr('class', 'linkSection')
+            .attr('class', 'djgaLinkSection')
       
                   // This is the icon for the ad
               .select(function() { return this.parentNode; }).append('cite')
-                  .attr('class', 'icon')
+                  .attr('class', 'djgaIcon')
                   .html('Ad')
                 
                       // This is the domain link
                   .select(function() { return this.parentNode; }).append('div')
-                      .attr('class', 'domain')
+                      .attr('class', 'djgaDomain')
                       .html(d => d.domain)
 
                       // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
-                      .attr('class', 'dropdown')
+                      .attr('class', 'djgaDropdown')
                       .html('&#9660;')
     
                           // This is the description
                       .select(function() { return this.parentNode; }).append('div')
-                          .attr('class', 'description')
+                          .attr('class', 'djgaDescription')
                           .html(d => d.description)
 
 
@@ -435,21 +435,21 @@ function organic() {
 
       //   // This is the Ad icon to the left of the domain link.
       .select(function() { return this.parentNode; }).append('div')
-          .attr('class', 'link-section')
+          .attr('class', 'djgaLinkSection')
               
                     // This is the domain link
                 .select(function() { return this.parentNode; }).append('div')
-                    .attr('class', 'domain')
+                    .attr('class', 'djgaDomain')
                     .html(d => d.domain)
   
                       // This is the dropdown triangle
                   .select(function() { return this.parentNode; }).append('div')
-                      .attr('class', 'dropdown')
+                      .attr('class', 'djgaDropdown')
                       .html('&#9660;')
 
                         // This is the description
                     .select(function() { return this.parentNode; }).append('div')
-                        .attr('class', 'description')
+                        .attr('class', 'djgaDescription')
                         .html(d => d.description)
 
 
