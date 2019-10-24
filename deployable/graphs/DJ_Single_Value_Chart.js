@@ -101,13 +101,10 @@ create: function(element, config) {
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
           <style>  
-            html { font-family: Roboto; font-weight: lighter; text-align: center; }
-            .value:hover { text-decoration: underline; }  
-            #vis { padding: 0; margin: 0; }
-            iframe { padding: 0; margin: 0; }
+            .djvsValue:hover { text-decoration: underline; }  
           </style>
 
-          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
               <div class="djvsValue" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
               <div class="djvsTitle" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>

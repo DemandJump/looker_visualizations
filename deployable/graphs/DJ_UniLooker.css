@@ -136,3 +136,11 @@ cite.djgaIcon {
 .djsmValue {
     margin: auto;
 }
+
+
+
+
+/************************************* 
+ * DJ Single Value Chart  
+*************************************/
+.djvsValue:hover { text-decoration: underline; }  
