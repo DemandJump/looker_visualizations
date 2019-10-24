@@ -220,7 +220,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function findMSize(d) {
         return config[d.name] == 'small' ? '3vw'
-        : config[d.name] == 'medium' ? '4.3vw'
+        : config[d.name] == 'medium' ? '4vw'
         : '5.5vw'
     }
     function findTSize(d) {
@@ -678,6 +678,7 @@ function formatValue(formatData, string) {
                 }
                 return stringRes + '%'
             }
+            else { return stringRes + '%'}
 
         }
     } // End of the 0.00%
