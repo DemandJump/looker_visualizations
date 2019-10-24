@@ -238,12 +238,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 function formatValue(formatData, string) {
-    if(formatData == '') { return string }
-    console.log('format Data', formatData)
-    string = string.toString() // These need to be stringified for all the different text editing functions won't work
-    let format = formatData.toString() 
+    if(formatData == '' || formatData == null) { return string }
     console.log('\nformat', formatData)
     console.log('string', string)
+    string = string.toString() // These need to be stringified for all the different text editing functions won't work
+    let format = formatData.toString() 
     stringRes = string
     let tf = false
 
