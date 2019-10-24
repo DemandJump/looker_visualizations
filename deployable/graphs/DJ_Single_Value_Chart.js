@@ -879,6 +879,7 @@ function formatValue(formatData, string) {
                 }
                 return stringRes + '%'
             }
+            else { return stringRes + '%' }
 
         }
     } // End of the 0.00%
