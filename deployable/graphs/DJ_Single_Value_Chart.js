@@ -531,7 +531,7 @@ function formatValue(formatData, string) {
 
         /***** This is the  0.00% formatting! *****/
 
-    if (format == '0.00%') {
+    if (format[0] == '0' && format[1] == '.' && format[2] == 0 && format[format.length -1] == '%') {
         tf = true
       
         if ( !(string.includes('.')) ) { // Continue to the next iteration if it's not a
@@ -542,28 +542,53 @@ function formatValue(formatData, string) {
             console.log('This is the 0.00% format!');    
               // Now we're taking in the first 4 values after the period
             stringRes = string
-            let decimalPull = 0
-            let decimalPlace = -1
+            let formatDecimalPlace = 0
+            let formatDecimalCheck = -1
+            let formatDecimalAmount = 0
             let beforeDecimal = ''
-            for(i = 0; i < stringRes.length; i++) {
-                if (stringRes[i] == '.') {
-                    decimalPlace = i
-                    let counter = 4
-                    for(j = i; j < stringRes.length; i++) {
-                        if (counter != 0) {
-                            decimalPull = decimalPull + stringRes[j] 
-                            if (counter == 3) { // If we have put in two numbers already, run this
-                                decimalPull = decimalPull + '.'
-                            }
-                            counter --
-                        }
-                    }
-                    break
+
+            console.log('This is the value', stringRes)
+            console.log('This is the format', format)
+
+                // Go through the format and find the number of desired decimal places
+            for(i = 0; i < format.length; i++) {
+                if (formatDecimalCheck == 1) {
+                    if (format[i] == '%') { break }
+                    if (format[i] == '0') { decimalAmount++ }
+                    if (format[i] != '0') { console.log('Found an error in formatting'); return string }
                 }
-                if (decimalPlace == -1) { // While we haven't found the string yet, grab the whole numbers! :p
-                    beforeDecimal = beforeDecimal + stringRes[i]
+
+                if (format[i] == '.') { 
+                    formatDecimalPlace = i 
+                    formatDecimalCheck = 1
                 }
+
+
+
             }
+
+                // So we need to pull out the number of decimal places 
+
+
+            // for(i = 0; i < stringRes.length; i++) {
+            //     if (stringRes[i] == '.') {
+            //         decimalPlace = i
+            //         let counter = 4
+            //         for(j = i; j < stringRes.length; i++) {
+            //             if (counter != 0) {
+            //                 decimalPull = decimalPull + stringRes[j] 
+            //                 if (counter == 3) { // If we have put in two numbers already, run this
+            //                     decimalPull = decimalPull + '.'
+            //                 }
+            //                 counter --
+            //             }
+            //         }
+            //         break
+            //     }
+            //     if (decimalPlace == -1) { // While we haven't found the string yet, grab the whole numbers! :p
+            //         beforeDecimal = beforeDecimal + stringRes[i]
+            //     }
+            // }
 
                 // Now we've calculated the numbers before the decimal, and pulled in the last 4 numbers including the decimal place, put em together, slap on a percent and run it
             return beforeDecimal + decimalPull + '%'
