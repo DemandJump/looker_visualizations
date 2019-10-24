@@ -529,80 +529,8 @@ function formatValue(formatData, string) {
 
 
 
-        /***** This is the  0.00% formatting! *****/
 
-    if (format[0] == '0' && format[1] == '.' && format[2] == 0 && format[format.length -1] == '%') {
-        tf = true
-      
-        if ( !(string.includes('.')) ) { // Continue to the next iteration if it's not a
-            tf = false 
-        } 
-
-        if (tf) {
-            console.log('This is the 0.00% format!');    
-              // Now we're taking in the first 4 values after the period
-            stringRes = string
-            let formatDecimalPlace = 0
-            let formatDecimalCheck = -1
-            let formatDecimalAmount = 0
-            let beforeDecimal = ''
-
-            console.log('This is the value', stringRes)
-            console.log('This is the format', format)
-
-                // Go through the format and find the number of desired decimal places
-            for(i = 0; i < format.length; i++) {
-                if (formatDecimalCheck == 1) {
-                    if (format[i] == '%') { break }
-                    if (format[i] == '0') { decimalAmount++ }
-                    if (format[i] != '0') { console.log('Found an error in formatting'); return string }
-                }
-
-                if (format[i] == '.') { 
-                    formatDecimalPlace = i 
-                    formatDecimalCheck = 1
-                }
-
-
-
-            }
-
-                // So we need to pull out the number of decimal places 
-
-
-            // for(i = 0; i < stringRes.length; i++) {
-            //     if (stringRes[i] == '.') {
-            //         decimalPlace = i
-            //         let counter = 4
-            //         for(j = i; j < stringRes.length; i++) {
-            //             if (counter != 0) {
-            //                 decimalPull = decimalPull + stringRes[j] 
-            //                 if (counter == 3) { // If we have put in two numbers already, run this
-            //                     decimalPull = decimalPull + '.'
-            //                 }
-            //                 counter --
-            //             }
-            //         }
-            //         break
-            //     }
-            //     if (decimalPlace == -1) { // While we haven't found the string yet, grab the whole numbers! :p
-            //         beforeDecimal = beforeDecimal + stringRes[i]
-            //     }
-            // }
-
-                // Now we've calculated the numbers before the decimal, and pulled in the last 4 numbers including the decimal place, put em together, slap on a percent and run it
-            return beforeDecimal + decimalPull + '%'
-        }
-    } // End of the 0.00%
-
-        /***** This is the  0.00% formatting! *****/
-
-
-
-
-
-
-          /***** This is the  0 formatting! *****/
+        /***** This is the  0 formatting! *****/
 
     if(format == '0') {
         console.log('This is the 0 format!');
@@ -877,6 +805,85 @@ function formatValue(formatData, string) {
         /***** End of the  $#,##0.00 formatting! *****/
 
 
+
+                /***** This is the  0.00% formatting! *****/
+
+    if (format[0] == '0' && format[1] == '.' && format[2] == 0 && format[format.length -1] == '%') {
+        tf = true
+      
+        if ( !(string.includes('.')) ) { // Continue to the next iteration if it's not a
+            tf = false 
+        } 
+
+        if (tf) {
+            console.log('This is the 0.00% format!');    
+              // Now we're taking in the first 4 values after the period
+            stringRes = string
+            let formatDecimalPlace = 0
+            let formatDecimalCheck = -1
+            let formatDecimalAmount = 0
+            let stringDecimalPlace = 0
+            let upToDecimal = ''
+            let afterDecimal = ''
+
+            console.log('This is the value', stringRes)
+            console.log('This is the format', format)
+
+                // Go through the format and find the number of desired decimal places
+            for(i = 0; i < format.length; i++) {
+                if (formatDecimalCheck == 1) {
+                    if (format[i] == '%') { break }
+                    if (format[i] == '0') { decimalAmount++ }
+                    if (format[i] != '0') { console.log('Found an error in formatting'); return string }
+                }
+
+                if (format[i] == '.') { 
+                    formatDecimalPlace = i 
+                    formatDecimalCheck = 1
+                }
+
+                
+            } // Move this further down so it doesn't throw an error for the things
+
+                // Calculate the new percent value then stringify it again
+            strinRes = stringRes * 100
+            stringRes = stringRes.toString()
+
+                // So now we have the number of desired decimal places, and need to find the format 
+                  // Now let's find the decimal places for the string value
+
+            for(i = 0; i < stringRes.length; i++) {
+                if (stringRes[i] == '.') { 
+                  stringDecimalPlace = i 
+                  break
+                }
+            }
+
+            upToDecimal = stringRes.substr(0, stringDecimalPlace)
+            afterDecimal = stringRes.substr(stringDecimalPlace + 1)
+
+                // Now check and see if the length of the decimal points is less or more than the desired 
+              
+            if (afterDecimal.length < decimalAmount) { // Add zeros based on the difference
+                let difference = decimalAmount - afterDecimal.length
+
+                for(i = 0; i < difference; i++) {
+                    stringRes = stringRes + '0'
+                }
+                return stringRes + '%'
+            }
+            if (afterDecimal.length > decimalAmount) {
+                let difference = afterDecimal.length - decimalAmount
+                for(i = 0; i < difference; i++) {
+                  stringRes = stringRes.slice(0, -1)
+                }
+                return stringRes + '%'
+            }
+
+        }
+    } // End of the 0.00%
+
+        /***** This is the  0.00% formatting! *****/
 
 
         /***** This is the  #,##0 formatting! *****/
