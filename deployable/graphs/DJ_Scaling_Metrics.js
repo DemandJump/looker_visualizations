@@ -121,7 +121,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         dynamicConfig[mes.name + 'ValueFormat'] = {
-            label: mes.label + 'Value Format',
+            label: mes.label + ' Value Format',
             type: 'string',
             section: 'Style',
             placeholder: 'Spreadsheet style format code'
