@@ -311,6 +311,7 @@ function formatValue(formatData, string) {
             stringRes = string * 100
             console.log('This is the string!', stringRes)
             let decimalPlace = 0
+            stringRes = stringRes.toString() 
 
             for(i = 0; i < stringRes.length; i++) {
               if (stringRes[i] == '.') {
