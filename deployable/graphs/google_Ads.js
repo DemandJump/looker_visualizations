@@ -27,15 +27,16 @@ create: function(element, config) {
     /* Import the Roboto font for us to use. */
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
-span.bold {
-  font-weight: bold;
-}
-
 html, body { 
   margin: 0;
   padding: 0; 
   box-sizing: border-box;
   font-family: 'Roboto';
+}
+
+
+span.bold {
+  font-weight: bold;
 }
 
 .djgaContainer {
@@ -48,7 +49,7 @@ html, body {
   color: #1A0DAB;
 }
 
-.ad {
+.djgaAd {
   width: 632px;
   margin: 1rem 0 0 0;
   padding 0 16px 0 16px;
@@ -374,12 +375,12 @@ function update() {
         .attr('width', width)
         .attr('height', height);
     
-    let adEnter = djgaContainer.selectAll('.ad')
+    let adEnter = djgaContainer.selectAll('.djgaAd')
         .data(visdata, d => d.id);
 
         // This is the class that holds the ad, 
     let ads = adEnter.enter().append('div')
-        .attr('class', 'ad')
+        .attr('class', 'djgaAd')
 
         // This is the Title, or the Label
     ads.append('h3')
@@ -424,12 +425,12 @@ function organic() {
       .attr('width', width)
       .attr('height', height);
   
-  let adEnter = djgaContainer.selectAll('.ad')
+  let adEnter = djgaContainer.selectAll('.djgaAd')
       .data(visdata, d => d.id);
 
       // This is the class that holds the ad, 
   let ads = adEnter.enter().append('div')
-      .attr('class', 'ad')
+      .attr('class', 'djgaAd')
 
       // This is the Title, or the Label
   ads.append('h3')

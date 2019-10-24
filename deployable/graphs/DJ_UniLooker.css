@@ -14,13 +14,111 @@ html, body {
 }
 
 
-
-
-
 /************************************* 
  * DJ Google Ads Section
 *************************************/
 
+span.bold {
+  font-weight: bold;
+}
+
+.djgaContainer {
+  padding: 1rem 2rem 1rem 2rem;
+  /* font-family: Roboto, 'Roboto'; We need to see if all elements will inherit this stuff, or if we need to add all this stuff to each class for the single stylesheet we'll be using from now on */
+}
+
+.djgaLabel:hover {
+  text-decoration: underline solid rgb(26, 13, 171) !important;
+  color: #1A0DAB;
+}
+
+.djgaAd {
+  width: 632px;
+  margin: 1rem 0 0 0;
+  padding 0 16px 0 16px;
+  /*
+  height: 120px; or auto
+  margin: 2rem 0 0 0;
+  */
+}
+
+.djgaLabel {
+  font-weight: normal;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: left;
+  word-spacing: 0px;
+  /* text-decoration: none solid rgb(26, 13, 171); */
+  text-decoration: none;
+  color: #1A0DAB;
+}
+
+.djgaLinkSection {
+  text-align: left;
+  height: 6px;
+  width: auto;
+}
+
+          /* These are the specific styling for each of the classes */
+
+.djgaIcon {
+  width: 14.6px;
+  height: 11px;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 11px;
+  /* text-decoration: none solid rgb(1, 102, 33); */
+  color: #006621;
+  text-align: left;
+  word-spacing: 0px;
+  border: 1px solid #006621;
+  margin: 0 7px 0 0;
+  padding: 1px 3px 0px 3px;
+}
+cite.djgaIcon {
+  border-radius: 3px;
+  font-style: normal;
+  border: 1px solid #006621;
+}
+
+.djgaDomain {
+  display: inline-block;
+  font-size: 16px;
+  text-align: left;
+  vertical-align: bottom;
+  /* text-decoration: none solid rgb(0, 102, 33); */
+  color: #006621;
+}
+
+.djgaDropdown {
+  height: 13.5px;
+  display: inline-block;
+  font-size: 8.5px; 
+  text-align: left;
+  vertical-align: bottom;
+  padding-left: 4px;
+  /* text-decoration: none solid rgb(0, 102, 33); */
+  color: #006621;
+}
+
+.djgaDescription {
+  display: block;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  margin-top: 4px;
+  /* text-decoration: none solid rgb(84, 84, 84); */
+  color: #545454;
+}
+
+.djgahref {
+  text-decoration: none;
+}
 
 
 
