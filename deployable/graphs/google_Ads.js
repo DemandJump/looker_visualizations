@@ -133,6 +133,10 @@ cite.djgaIcon {
   color: #545454;
 }
 
+.djgahref {
+  text-decoration: none;
+}
+
 
 </style>
     `;
@@ -380,7 +384,7 @@ function update() {
         // This is the Title, or the Label
     ads.append('h3')
         .attr('class', 'djgaLabel')
-        .html(d => `<a href="${d.link}">`+ d.label +'</a>')
+        .html(d => `<a class="djgahref" href="${d.link}">`+ d.label +'</a>')
 
         //   // This is the Ad icon to the left of the domain link.
         .select(function() { return this.parentNode; }).append('div')
@@ -431,11 +435,11 @@ function organic() {
   ads.append('h3')
       .attr('class', 'djgaLabel')
       .style('margin-bottom', '6px')
-      .html(d => `<a href="${d.link}">`+ d.label +'</a>')
+      .html(d => `<a class="djgahref" href="${d.link}">`+ d.label +'</a>')
 
       //   // This is the Ad icon to the left of the domain link.
       .select(function() { return this.parentNode; }).append('div')
-          .attr('class', 'djgaLinkSection')
+          .attr('class', 'link-section')
               
                     // This is the domain link
                 .select(function() { return this.parentNode; }).append('div')
