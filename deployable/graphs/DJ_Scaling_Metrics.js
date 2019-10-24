@@ -632,7 +632,7 @@ function formatValue(formatData, string) {
             for(i = 0; i < format.length; i++) {
                 if (formatDecimalCheck == 1) {
                     if (format[i] == '%') { break }
-                    if (format[i] == '0') { decimalAmount++ }
+                    if (format[i] == '0') { formatDecimalAmount++ }
                     if (format[i] != '0') { console.log('Found an error in formatting'); return string }
                 }
 
@@ -663,16 +663,16 @@ function formatValue(formatData, string) {
 
                 // Now check and see if the length of the decimal points is less or more than the desired 
               
-            if (afterDecimal.length < decimalAmount) { // Add zeros based on the difference
-                let difference = decimalAmount - afterDecimal.length
+            if (afterDecimal.length < formatDecimalAmount) { // Add zeros based on the difference
+                let difference = formatDecimalAmount - afterDecimal.length
 
                 for(i = 0; i < difference; i++) {
                     stringRes = stringRes + '0'
                 }
                 return stringRes + '%'
             }
-            if (afterDecimal.length > decimalAmount) {
-                let difference = afterDecimal.length - decimalAmount
+            if (afterDecimal.length > formatDecimalAmount) {
+                let difference = afterDecimal.length - formatDecimalAmount
                 for(i = 0; i < difference; i++) {
                   stringRes = stringRes.slice(0, -1)
                 }
