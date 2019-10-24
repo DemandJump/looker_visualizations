@@ -340,6 +340,10 @@ if (config.showLabel == false && config.showComparison == true) {
       hValue = config.labelOverride
   }
 
+  if (config.labelOverride == '' || config.labelOverride == ' ') {
+    hReturnValue = data[0][headerName]["value"]
+}
+
 
 
   if (config.valueLabels == 'compVal') { // Show as Value
@@ -383,14 +387,13 @@ if (config.showLabel == false && config.showComparison == true) {
 
 
     if (config.valueLabels == 'calcPercent') {
-        hReturnValue = hValue
+        hReturnValue = `<span style=" color: #979B9D;">${retVal}%</span> of <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
     }
     if (config.valueLabels == 'calcProg') {
-        hReturnValue = `<span style=" color: #979B9D;">${retVal}%</span> of <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+        hReturnValue = hValue
     }
 
   }
-        
 
 
 // } // End of the editHeader function
