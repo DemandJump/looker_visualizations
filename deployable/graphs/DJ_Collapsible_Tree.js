@@ -44,11 +44,23 @@ create: function(element, config) {
 
     element.innerHTML = `
         <style>
+
+        body {
+          position: fixed;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: 0;
+          overflow: hidden;
+          display: block;
+        }
+
         /* Import the Roboto font for us to use. */
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
         
-        .djctNode circle {
+        .djctNode djctCircle {
           fill: #fff;
           stroke: steelblue;
           stroke-width: 3px;
@@ -508,7 +520,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      
   // Add Circle for the nodes
   nodeEnter.append('circle')
-      .attr('class', 'djctNode')
+      .attr('class', 'djctCircle')
       .attr('r', '25px')
       .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
 
@@ -598,7 +610,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // ****************** links section ***************************
 
   // Update the links...
-  var link = svg.selectAll('path.link')
+  var link = svg.selectAll('path.djctLink')
       .data(links, function(d) { return d.id; });
 
   // Enter any new links at the parent's previous position.
