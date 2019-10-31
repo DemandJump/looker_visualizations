@@ -1,164 +1,74 @@
-/* Register a new custom visualization with loooker by calling the
-        * looker.plugins.visualizations.add ~ function and passing it a visualization object 
-    */
-   looker.plugins.visualizations.add({
+looker.plugins.visualizations.add({
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
-    options: {
-      // autoColor: {
-      //   label: 'Autocolor Dimensions',
-      //   type: 'boolean',
-      //   section: 'Styling',
-      //   default: true
-      // },
-      aResetColors: {
-        label: 'Use default colors',
-        type: 'boolean', 
-        section: 'Styling',
-        default: false
-      }
+    options: {},
+        // Onto the create section 
+    create: function(element, config) {
+        let d3 = d3v5; // Pull in d3 selector as it's normal reference
+        this._counter = 0;
+    
+        // Element is the Dom element that looker would like us to put our visualization into
+            // Looker formats it to the proper size, you just need to put the stuff here
+    // We're essentially using vanilla javascript to create a visualization for looker to append!
+    
+        // Insert a <style> tag with some styles we'll use later.
+        element.innerHTML =``;
+
+    },
+    burrow: function(table, taxonomy) {
+            // create nested object
+        var obj = {};
+        table.forEach(function(row) {
+                // start at root
+            var layer = obj;
+
+                // create children as nested objects
+            taxonomy.forEach(function(t) {
+                var key = row[t.name].value;
+                layer[key] = key in layer ? layer[key] : {};
+                layer = layer[key];
+            });
+            layer.__data = row;
+        });
+
+            // recursively create children array
+        var descend = function(obj, depth) {
+            var arr = [];
+            var depth = depth || 0;
+            for (var k in obj) {
+                if (k == '__data') { continue; }
+                var child = {
+                    name: k,
+                    depth: depth,
+                    children: descend(obj[k], depth+1)
+                };
+                if ('__data' in obj[k]) {
+                    child.data = obj[k].__data;
+                }
+            arr.push(child);
+            }
+            return arr;
+        };
+
+            // use descend to create nested children arrys
+        return {
+            name: 'root',
+            children: descend(obj, 1),
+            depth: 0
+        };
     },
 
-    // Onto the create section 
-create: function(element, config) {
-    let d3 = d3v5; // Pull in d3 selector as it's normal reference
-    this._counter = 0;
-    this._hidden = false // Set it to true for the commented out options values
-    this._resetColors = true 
-
-    // Element is the Dom element that looker would like us to put our visualization into
-        // Looker formats it to the proper size, you just need to put the stuff here
-// We're essentially using vanilla javascript to create a visualization for looker to append!
-
-    // Insert a <style> tag with some styles we'll use later.
-  d3.select('body')
-      .style('position', 'fixed')
-      .style('left', '0')
-      .style('right', '0')
-      .style('top', '0')
-      .style('bottom', '0')
-      .style('margin', '0')
-      .style('overflow', 'hidden')
-      .style('display', 'block')
-
-
-    element.innerHTML = `
-        <style>
-
-        body {
-          position: fixed;
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          margin: 0;
-          overflow: hidden;
-          display: block;
-        }
-
-        /* Import the Roboto font for us to use. */
-        @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-
-        
-        .djctNode djctCircle {
-          fill: #fff;
-          stroke: steelblue;
-          stroke-width: 3px;
-        }
-        
-        .djctNode text {
-          font: 12px sans-serif;
-        }
-        
-        .djctLink {
-          fill: none;
-          stroke: #ccc;
-          stroke-width: 2px;
-        }
-        
-        .djctText text { /* Cool trick to make the captions on the links more readable! */
-            text-shadow:
-             -1px -1px 3px white,
-             -1px  1px 3px white,
-              1px -1px 3px white,
-              1px  1px 3px white;
-            pointer-events: none; /* This hides the edit cursor when you hover over the labels */
-            font-family: 'Playfair Display', serif;
-        }
-        </style>
-        `;
-        /*
-        <svg class="container">
-            <svg class="content">
-            </svg>
-        </svg>
-        */
-       this._svg = d3.select(element).append('svg')
-            .attr('class', 'container');
-
-            
-
-    /* 
-        So create is where you setup the visualization, then we render it in updateAsync
-            Note: Create is a convenient place t o do setup that only needs to happen once 
-    */
-
-},
-burrow: function(table, taxonomy) {
-  // create nested object
-  var obj = {};
-  table.forEach(function(row) {
-    // start at root
-    var layer = obj;
-
-    // create children as nested objects
-    taxonomy.forEach(function(t) {
-      var key = row[t.name].value;
-      layer[key] = key in layer ? layer[key] : {};
-      layer = layer[key];
-    });
-    layer.__data = row;
-  });
-
-  // recursively create children array
-  var descend = function(obj, depth) {
-    var arr = [];
-    var depth = depth || 0;
-    for (var k in obj) {
-      if (k == '__data') { continue; }
-      var child = {
-        name: k,
-        depth: depth,
-        children: descend(obj[k], depth+1)
-      };
-      if ('__data' in obj[k]) {
-        child.data = obj[k].__data;
-      }
-      arr.push(child);
-    }
-    return arr;
-  };
-
-  // use descend to create nested children arrys
-  return {
-    name: 'root',
-    children: descend(obj, 1),
-    depth: 0
-  };
-},
-
-    // Onto the update async section
+        // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
-    // This helps us visualize the interactive data!
-    // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
-    
+
                             /* CURRENT VERSION */ 
-    console.log('Adding in new classes for the universal styling, added in optional measures for the visualizations too!');
+    console.log('Fixed instantiating uniqueTypeValue so now it should store unique values witihin the array before we start running the data!!');
         // Just comment what your doing becuase looker takes forever to update server js file
 
-        // Try implementing d3
-    console.log('d3v5 initialized', d3);
+              /*//*///* Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   *///*//*/
+
+
         /****** Log all these functions to see what we're working with ******/
     console.log(`\n\n\n\n\nUpdateAsync initialized, here is it's data: `);
     console.log('data', data);
@@ -167,16 +77,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse', queryResponse);
     console.log('details', details);
 
-    
-    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+                // Playing with dimensions and measures
+            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
+            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+                // The selector references for dimensions and length 
+            let dimensions = queryResponse.fields.dimensions;
+            let measures = queryResponse.fields.measures;
+
+        
 
     /**********************
      * Error Clauses 
     **********************/
         // Clear any errors from previous updates.
     // this.clearErrors(); /* !!! Important try keeping this off for now !!!
-
 
         // Create different cases for potential errors that could occur
     // Throw some errors and exit if the shape of the data isn't what this chart needs.
@@ -186,551 +100,138 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    /************************************************************************************
-    * Setting up the Dimension Options
-    ************************************************************************************/
-        // Let's figure out a representable list of the dj brand colors, and start there
-    // #000000, #999999, #008CCD, #FF6B00, #B6DCB7, #F8B0A3, #FDBC40, #FFE09B, #D9524A,
-
-      // Lets grab all the dimensions and measure
-    let dimensions = queryResponse.fields.dimensions
-    let measures = queryResponse.fields.measures
-    let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
-    let colorCounter = 0
-    let settings = []
-          // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
 
 
-      // This is a loop for all the dimensions to color 
-    dimensions.forEach(dimension => {
-      this.options[dimension.name] = {
-        label: dimension.name, 
-        type: 'string',
-        section: 'Styling',
-        display: 'color',
-        default: defaultColors[colorCounter],
-        hidden: this._hidden
-      }
-      colorCounter++
-    })
-
-      // This is the color for the measures altogether
-    this.options['djdh_measures'] = {
-      label: 'measures',
-      type: 'string',
-      section: 'Styling', 
-      display: 'color',
-      default: '#FFE09B',
-      hidden: this._hidden
-    }
-
-    console.log('this._counter', this._counter)
-    if (this._counter == 0) {
-      this._counter ++
-      this.trigger('registerOptions', this.options)
-    }
-/****************************************************************
-        * Update the Options
-****************************************************************/
-    console.log('This is config', config)
-
-    // console.log('This is autoColor', config.autoColor)
-    //     // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
-    // if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
-    //     // Check the current settings and update then apply if they're not up to date 
-    //   dimensions.forEach( (dimension, i) => {
-    //     if (i == 0) { if (this._hidden == false) this.options['djdh_measures']['hidden'] = true }
-    //     if (this._hidden == false) this.options[dimension.name]['hidden'] = true
-    //   }) 
-    //   if (this._hidden == false) { 
-    //     this._hidden == true 
-    //     this.trigger('registerOptions', this.options)
-    //   }
-    // }
-
-    // if (config.autoColor == false) {
-    //     // Check the settings and apply dynamically
-    //   dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
-    //     if (i == 0) {
-    //       if (this._hidden == true) this.options['djdh_measures']['hidden'] = false }
-    //     if (this._hidden == true) this.options[dimension.name]['hidden'] = false
-    //   })
-    //   if (this._hidden == true) { 
-    //     this._hidden == false
-    //     this.trigger('registerOptions', this.options) 
-    //   }
-    // }
-
-    console.log('These are the current config instantiated', this.options)
-
-
-    // if (config.aResetColors == true) {
-    //   if (this._resetColors == false) {
-    //     console.log('this is options', this.options)
-    //     dimensions.forEach(dim => {
-    //       config[dim.name] = this.options[dim.name]["default"]
-    //     })
-    //     config['djdh_measures'] = this.options['djdh_measures']["default"]
-
-    //     this._resetColors = true
-    //   }
-    // }
-    // if (config.aResetColors == false) {
-    //   if (this._resetColors == true) {
-    //     console.log('this is options', this.options)
-    //     dimensions.forEach(dim => {
-    //       config[dim.name] = this.options[dim.name]["default"]
-    //     })
-    //     config['djdh_measures'] = this.options['djdh_measures']["default"]
-
-    //     this._resetColors = false
-    //   }
-    // }
-
-
-
-
+    /******************************************************************************************************************************************
+        * Setting up the Dimension Options
+    ******************************************************************************************************************************************/
+            // Create an option for each measure in your query 
     
+    
+    let view;
+    //let width = document.body.clientWidth;
+    //let height = document.body.clientHeight;
+    let width = height = 900
+    let format = d3.format(",d");
+    const root = pack(data);
+    let focus = root;
+    let nodes = root.descendants();
 
-            /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
-
-      let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
-      dimensions.forEach(dim => {
-        let currentDim = dim.name
-          // Find the current dim's color value through config!
-        let currentColor = config[currentDim]
-        chosenColors.push(currentColor)
-      })
-        // then at the end of the array we add measure's color
-      // console.log('config djdh measures', config['djdh_measures'])
-      chosenColors.push(config['djdh_measures'])
-      // Now we have a full array of the colors in order by depth, and it is accurate
-
-            /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
+    // console.log('format', format);
+    console.log('Data: ', data);
+    console.log('root', root);
 
 
-    if (config.aResetColors == true) {
-        chosenColors = defaultColors 
-     } console.log('chosen colors', chosenColors)
-    /***************************************************************************************************************************
-                        * Update the Visualization *
-    ***************************************************************************************************************************/
-    /* Object { // !!!Initial data given, we're gonna have to account for variation after this!!!
-            djb_scores.dj_score: { value: float, rendered:  num } // circle size 
-            djb_scores.phrase: { value: string } // child 
-            djb_scores.query_string: { value: string }  // parent
+
+    const svg = d3.select("body").append("svg")
+        .attr('class', 'svg')
+        .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
+        .style("display", "block") 
+        .style("margin", "0 -14px")
+        .style("background", color(0))
+        .style("cursor", "pointer")
+        .on("click", () => zoom(root)); // This zoom function 
+
+    const node = svg.append("g")
+        .attr('class', 'nodes')
+        .selectAll("circle")
+        .data(nodes).enter()
+        .append("circle")
+            .attr('class', 'node')
+            .attr("fill", d => d.children ? color(d.depth) : "white")
+            .attr("pointer-events", d => !d.children ? "none" : null)
+            .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); }) // Highight the border based hover
+            .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
+            .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+
+    const label = svg.append("g")
+        .attr('class', 'text')
+        .style("font", "10px sans-serif")
+        .attr("pointer-events", "none")
+        .attr("text-anchor", "middle")
+            .selectAll("text")
+            .data(nodes).enter()
+            .append("text")
+                .style("fill-opacity", d => d.parent === root ? 1 : 0)
+                .style("display", d => d.parent === root ? "inline" : "none")
+                .text(d => d.data.value);
+
+    zoomTo([root.x, root.y, root.r * 2]);
+
+
+
+    function zoomTo(v) {
+        console.log('v', v) // coordinates and scale
+        const k = width / v[2]; // Divide the size of the svg based on the scale of the size
+
+        view = v;
+
+        label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+        node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+        node.attr("r", d => d.r * k); // This changes the size of the nodes with reference to the change of the camera
     }
-    */
 
-            /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
-        // Start by finding out how Looker pulls data /dimensions 
-    // console.log('\n\n\ Initializing the node visual stuff');
-    // console.log(`LookerCharts`, LookerCharts);
-            
+    function zoom(d) {
+        console.log('Focus', focus) // This is the current node that they're on 
+        const focus0 = focus;
 
-  // console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-  // console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
-    // Dimension and Measure length 
-  let maxDimensions = queryResponse.fields.dimensions.length;
-  let maxMeasures = queryResponse.fields.measures.length;
-    // The selector references for dimensions and length 
+        focus = d;
 
+        const transition = svg.transition() 
+            .duration(d3.event.altKey ? 7500 : 750)  
+            .tween("zoom", d => { // Tween
+                const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+                return t => zoomTo(i(t));
+            });
 
-  let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
-  let duration = 500;
-
-
-          //*// Burrowing into the Data //*//
-  let nested = this.burrow(data, queryResponse.fields.dimension_like);
-  // console.log('burrow function results on raw data: ', nested);
-
-    // Create the dimensions of the layout
-  let width = element.clientWidth;
-  let height = element.clientHeight;
-
-  let container = this._svg 
-    .html('')
-    .attr('width', width)
-    .attr('height', height);
-
-    // Selector to hold everything
-  let svg = container.append('g')
-    .attr('class', 'everything');
-
-  // Zoom Stuff // 
-  let zoom_handler = d3.zoom()
-    .on('zoom', zoom_actions);
-  zoom_handler(container);
-  function zoom_actions() {
-    svg.attr('transform', d3.event.transform)
-  }
-    // Selector for panning functions
-  let pan = d3.select('g.everything');
-  
-    // Initialize the tree layout!
-  let treemap = d3.tree().size([height, width]);
-  let root = d3.hierarchy(nested, function(d) { return d.children });
-    root.x0 = height / 2;
-    root.y0 = 0;
-
-  // console.log('root', root);
-    // Collapse the nodes, or comment this out to see the whole layout
-  // root.children.forEach(collapse);
-  // function collapse(d) {
-  //   if(d.children) {
-  //     d._children = d.children
-  //     d._children.forEach(collapse)
-  //     d.children = null
-  //   }
-  // }
-  
-
-
-
-      // First we need to grab all the measures and their names for the object's we're adding
-    let mNodeRef = []; // Add all the measures as nodes within the visualization!
-    let mNodeLabel = []; // so first find all the names of the measures so we can reference them
-    let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-    measures.forEach(measure => {
-      mNodeRef.push(measure.name)
-      mNodeLabel.push(measure.label_short)
-    })
-  //   console.log('These are the measure reference names', mNodeRef);
-
-
-      // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
-  root.leaves().forEach(leaf => {
-      // All the leaves have the measure data attached to them, and it's where we wanna instantiate the data
-    let newChildren = [];
-    mNodeRef.forEach(mnode => { // We're replicating the node within the node!
-      // childeren object for this jazz
-      let newDepth = leaf.depth + 1
-      let mNodeObj = {
-        mCount: mNodeLabel[mCounter], 
-        data: leaf.data.data[mnode],
-        depth: newDepth,
-        parent: leaf
-      }
-      mNodeObj.data["name"] = mNodeObj.data.value;
-        // Pass it into leaf children as collapsed descendants
-      newChildren.push(mNodeObj)
-      mCounter++
-    })
-    leaf._children = null
-    leaf.children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
-    mCounter = 0 // Reset the counter for the next leaf node
-  })
-
-
-
-      // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
-  let maxDepth = 0
-  root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
-  root.descendants().forEach(node => {
-    if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-      node._children = node.children
-      node.children = null 
+        label
+            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
     }
-  })
-  // console.log('This is the new max depth', maxDepth)
 
-
-
-
-
-
-
-
-      update(root);
-
-        // Main functionality (^:;
-  function update(source) {
-    // console.log('i', i) // See how many times i's been reinstantiated
-      // Try changing the height of the viewport as you have more leaf nodes instantiated
-  let leaves = root.leaves();
-  // console.log('leaves', leaves.length);
-  height = 52 * leaves.length; // This calculates the space between the nodes!
-  // console.log('new height ', height);
-
-  treemap = d3.tree().size([height, width]);
-  // Assigns the x and y position for the nodes
-  let treeData = treemap(root);
-
-
-
-  // Compute the new tree layout.
-  let nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
-    console.log('\n\nnodes', nodes); //
-    console.log('links', links); // 
-
-
-    let linkAddition = ""; // Saved longest string value 
-    // Let's run through the data and pull out the longest string in the array
-          /* Maybe try to do it for everything but the leaf nodes.. I have a hunch (; */
-  data.forEach(datum => {
-    var keys = [];
-    for (var key in datum) {      
-        if (datum.hasOwnProperty(key)) keys.push(key);
-    } // Put keys into an array then display them in the data set
-    for (var k = 0 ; k<keys.length; k++) { 
-      // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
-      let currentString = datum[keys[k]].value
-
-      if(currentString != null) {
-        if(linkAddition.length < currentString.length) {
-          linkAddition = currentString;
-        }
-        // console.log(`Current longest string(${linkAddition.length})`, linkAddition);
-      }
-   }
-    i++; // Used to show current iteration we're on
-  });
-  console.log('CalculatedLongest string!', linkAddition);
-
-
-
-  // Normalize for fixed-depth. because of collapse function 
-  nodes.forEach(function(d){ // This calculates the depth between the nodes!
-    if(linkAddition.length >= 74) {
-      d.y = d.depth * (linkAddition.length * 20);
-    } else {
-      d.y = d.depth * 1450;
-      // console.log('d.y = ', d.y);
+    function pack(data) {
+        return d3.pack()
+            .size([width - 2, height - 2])
+            .padding(3)
+        (d3.hierarchy(data)
+            .sum(d => d.value)
+            .sort((a, b) => b.value - a.value))
     }
-  });
-//   console.log('new Nodes: ', nodes)
 
-  // ****************** Nodes section ***************************
-
-  // Update the nodes...
-  var node = svg.selectAll('g.djctNode')
-      .data(nodes, function(d) {return d.id || (d.id = ++i); });
-
-  // Enter any new modes at the parent's previous position.
-  var nodeEnter = node.enter().append('g')
-      .attr('class', 'djctNode')
-      .attr("transform", function(d) {
-        return "translate(" + source.y0 + "," + source.x0 + ")";
-    })
-    .on('click', click);
-
-     
-  // Add Circle for the nodes
-  nodeEnter.append('circle')
-      .attr('class', 'djctCircle')
-      .attr('r', '25px')
-      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
-
-
-  // Add labels for the nodes
-  nodeEnter.append('text')
-      .attr('class', 'djctText')
-      .attr("dy", ".35em")
-      .attr("x", d => {
-        if(d.mCount) { return "20px" }
-        else { return d.children || d._children ? "-31.4px" : "29.4px" }
-      })
-      .style("font-size", d => d.children || d._children ? textSize(d) : "2rem" )
-      .attr("text-anchor", d => {
-        if(d.mCount) { return "start" }
-        else { return d.children || d._children ? "end" : "start" }
-      })
-      .text(d => d.data.name);
-
-  if(measures[0] != null) {
-         // Second label for measure leaf nodes only
-    nodeEnter.append('text')
-      .attr('class', 'djctText')
-      .attr('dy', '.35em')
-      .attr('x', d => {
-        if (d.mCount) { return "-20px" }
-        d.children || d._children ? "29.4px" : "-31.4px" 
-      })
-      .style('font-size', d => d.children || d._children ? "2rem" : textSize(d) )
-      .attr('text-anchor', d => {
-        if (d.mCount) { return "end"}
-        else { return d.children || d._children ? "start" : "end" }
-      })
-      .text(d => {
-        if (d.mCount) { // If this is a looker measure, then we're appending this
-          return d.mCount
-        }
-      })
-  }
-
-
-  // UPDATE
-  var nodeUpdate = nodeEnter.merge(node);
-
-  // Transition to the proper position for the node
-  nodeUpdate.transition()
-    .duration(duration)
-    .attr("transform", function(d) { 
-        return "translate(" + d.y + "," + d.x + ")";
-     });
-
-  // Update the node attributes and style
-  nodeUpdate.select('circle.djctNode')
-    .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    .style('fill', d => {
-        return d._children ? chosenColors[d.depth] // "#008CCD" 
-        : !d._children && !d.children ? chosenColors[d.depth] // "#FEBF43" 
-        : "#999999"
-    })
-    // .style('fill', d => chosenColors[d.depth])
-    // .style('stroke', d => {
-    //     return d.children ? "#008CCD" :
-    //     "#999999"
-    // })
-    .style('stroke', d => {
-      return d.children ? '#008CCD' : '#999999'
-    })
-    .attr('cursor', 'pointer');
-
-
-  // Remove any exiting nodes
-  var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function(d) {
-          return "translate(" + source.y + "," + source.x + ")";
-      })
-      .remove();
-
-  // On exit reduce the node circles size to 0
-  nodeExit.select('circle')
-    .attr('r', 1e-6);
-
-  // On exit reduce the opacity of text labels
-  nodeExit.select('text')
-    .style('fill-opacity', 1e-6);
-
-  // ****************** links section ***************************
-
-  // Update the links...
-  var link = svg.selectAll('path.djctLink')
-      .data(links, function(d) { return d.id; });
-
-  // Enter any new links at the parent's previous position.
-  var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "djctLink")
-      .attr("opacity", "0.64")
-      .style("stroke", "#008CCD")
-      .attr('d', function(d){
-        var o = {x: source.x0, y: source.y0}
-        return diagonal(o, o)
-      });
-
-  // UPDATE
-  var linkUpdate = linkEnter.merge(link);
-
-  // Transition back to the parent element position
-  linkUpdate.transition()
-      .duration(duration)
-      .attr('d', function(d){ return diagonal(d, d.parent) });
-
-  // Remove any exiting links
-  var linkExit = link.exit().transition()
-      .duration(duration)
-      .attr('d', function(d) {
-        var o = {x: source.x, y: source.y}
-        return diagonal(o, o)
-      })
-      .remove();
-
-  // Store the old positions for transition.
-  nodes.forEach(function(d){
-    d.x0 = d.x;
-    d.y0 = d.y;
-  });
-
-//   Creates a curved (diagonal) path from parent to the child nodes
-  function diagonal(s, d) {
-
-    path = `M ${s.y} ${s.x}
-            C ${(s.y + d.y) / 2} ${s.x},
-              ${(s.y + d.y) / 2} ${d.x},
-              ${d.y} ${d.x}`
-
-    return path
-  }
-
-    // We're gonna need to create a zoom function reference
-  var zoom = d3.zoom();
-
-  // Toggle children on click.
-  function click(d) {
-    if (d.children) {
-        d._children = d.children;
-        d.children = null;
-      } else {
-        d.children = d._children;
-        d._children = null;
-      }
-    update(d);
-    // Zoom to the selected node!
-    console.log('this is the clicked node data', d);
-      // d.x is the desired x coordinate
-      // d.y is the desired y coordinate
-
-      // We need to create a variable for where it's translating to 
-    // console.log('this is really pan!', pan);
-    // let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
-    // let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
-    // console.log('translate: ', translate);
-    // console.log('this is cScale ', cScale);
-    // zoom_handler.transition().duration(1250)
-    //   .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
-  }
-
-  function colorCircles(d) {
-    // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
-        // Start from d level 1, 0 can have a unique styling
-  for(i = 0; i < maxDepth; i++) {
-    if (i == d.depth) {
-      return chosenColors[i]
+    function color(n) {
+        color = d3.scaleLinear()
+            .domain([0,5])
+            .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
+            .interpolate(d3.interpolateHcl)
     }
-  }
-}
 
-function textSize(d) {
-      // We need dynamic text size based on the depth of the hierarchy
-      /* 
-      0: 8rem
-      1: 4.5rem
-      2: 4rem
-      3: 3.4rem
-      4: 2rem
-      */
-  return d.depth == 0 ? '8rem'
-  : d.depth == 1 ? '4.5rem'
-  : d.depth == 2 ? '4rem'
-  : d.depth == 3 ? '3.4rem'
-  : d.depth == maxDepth ? '2rem'
-  : '2.25rem'
-}
-}
 
-    /**********************
-     * Update the Options
-    **********************/
-    // Here's a check we add to the end of the update function to implement the options 
+
+
+
 
 
     /**************** Done! *****************/
-    // Always call done to indicate a visualization has finished rendering
-    doneRendering() 
+    doneRendering() // Always call done to indicate a visualization has finished rendering
 }
 });
 
-/*
-    git status
-    git add . 
-    git commit -m "experimenting"
-    git push -u origin master 
-    git status
 
-*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -19159,4 +18660,3 @@ function textSize(d) {
     Object.defineProperty(exports, '__esModule', { value: true });
     
     }));
-    
