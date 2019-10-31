@@ -193,12 +193,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-        return d3.pack()
-            .size([width - 2, height - 2])
-            .padding(3)
-        (d3.hierarchy(data)
-            .sum(d => d.value)
-            .sort((a, b) => b.value - a.value))
+        let measureName = measures[0].name;
+
+        if (measures.length != 0) {
+            return d3.pack()
+                .size([width - 2, height - 2])
+                .padding(3)
+                    (d3.hierarchy(data)
+                        .sum(d => d.data.measureName)
+                        .sort((a, b) => b.data.measureName - a.data.measureName))
+        } else {
+            return d3.pack()
+                .size([width - 2, height - 2])
+                .padding(3)
+                    (d3.hierarchy(data)
+                        .sum(d => d.value))
+        }
+
+        
     }
 
     function color(n) {
