@@ -154,7 +154,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
-                .text(d => d.data.value);
+                .text(d => d.data.name);
 
     zoomTo([root.x, root.y, root.r * 2]);
 
@@ -202,8 +202,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .size([width - 2, height - 2])
                 .padding(3)
                     (d3.hierarchy(data)
-                        .sum(d => d.data.measureName)
-                        .sort((a, b) => b.data.measureName - a.data.measureName))
+                        .sum(d => d.data[measureName])
+                        .sort((a, b) => b.data[measureName] - a.data[measureName]))
         } else {
             return d3.pack()
                 .size([width - 2, height - 2])
