@@ -84,8 +84,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let dimensions = queryResponse.fields.dimensions;
             let measures = queryResponse.fields.measures;
 
+    if (measures.length != 0) {
+        let measureName = measures[0].name;
+        data.forEach(node => {  if (!(node.data.measureName)) { node.data.measureName = 1 }  })
+    }
         
 
+    
     /**********************
      * Error Clauses 
     **********************/
@@ -98,7 +103,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
         return;
     }
-
 
 
 
@@ -195,9 +199,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-        let measureName = measures[0].name;
 
         if (measures.length != 0) {
+        let measureName = measures[0].name;
+
+
+
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
