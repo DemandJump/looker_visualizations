@@ -161,7 +161,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     function zoomTo(v) {
-        console.log('v', v) // coordinates and scale
+        console.log('v', v); // coordinates and scale
+        console.log('d', d);
+        console.log('k', k);
         const k = width / v[2]; // Divide the size of the svg based on the scale of the size
 
         view = v;
