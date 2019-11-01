@@ -112,8 +112,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`config`, config);
     console.log(`queryResponse`, queryResponse);
     console.log(`details`, details);
-    let dimensions = config.query_fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
-    let measures = config.query_fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
+    let dimensions = queryResponse.fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
+    let measures = queryResponse.fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
 
     /**********************
      * Error Clauses 
@@ -228,7 +228,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         * Functions Section *
     *******************************************************/
     function zoomTo(v) {
-        console.log('v', v); // coordinates and scale
+        // console.log('v', v); // coordinates and scale
         const k = width / v[2]; // Divide the size of the svg based on the scale of the size
         view = v;
 
@@ -238,7 +238,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function zoom(d) {
-        console.log('Focus', focus) // This is the current node that they're on 
+        // console.log('Focus', focus) // This is the current node that they're on 
         const focus0 = focus;
         focus = d;
 
@@ -273,7 +273,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                               return d[measureName]
                             }
                         })
-                        .sort((a, b) => b[measureName] - a[measureName]))
+                        .sort((a, b) => { 
+                          console.log('this is a', a)
+                          console.log('this is b', b)
+                          return b[measureName] - a[measureName]
+                        }))
         } else {
             return d3.pack()
                 .size([width - 2, height - 2])
