@@ -84,9 +84,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let dimensions = queryResponse.fields.dimensions;
             let measures = queryResponse.fields.measures;
 
+
     if (measures.length != 0) {
         let measureName = measures[0].name;
         data.forEach(node => {  
+          console.log('node', node)
           if (node.data[measureName]) { 
             node.constructor = false
           } else {
