@@ -87,11 +87,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (measures.length != 0) {
         let measureName = measures[0].name;
         data.forEach(node => {  
-          if (node.data.measureName) { 
+          if (node.data[measureName]) { 
             node.constructor = false
           } else {
             node.constructor = true
-            node.data.measureName = 1 
+            node.data[measureName] = 1 
           } 
         })
     }
