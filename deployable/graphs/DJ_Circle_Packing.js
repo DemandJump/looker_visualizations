@@ -125,8 +125,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     dimensions.forEach(dim => {
         // Value object >.>  {"name": "value"}
         
-        let key = dimension.label_short; // Key of value pair
-        let valuepair = dimension.name; // value of value pair
+        let key = dim.label_short; // Key of value pair
+        let valuepair = dim.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
 
@@ -232,7 +232,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         focus = d;
 
         const transition = svg.transition() 
-            .duration(d3.event.altKey ? 7500 : 750)  
+            .duration(d3.event.altKey ? 7400 : 740)  
             .tween("zoom", d => { // Tween
                 const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
                 return t => zoomTo(i(t));
