@@ -157,12 +157,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Preload the data for the visual 
     *********************************************************/
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data instead
+    const burrow = this.burrow(data, dimensions);
 
     let view,
     vWidth = window.innerWidth,
     vHeight = window.innerHeight,
     width = height = window.innerHeight;
-    const root = pack(data);
+    const root = pack(burrow);
     let focus = root,
     nodes = root.descendants();
 
