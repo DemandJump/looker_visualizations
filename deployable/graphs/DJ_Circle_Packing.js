@@ -113,8 +113,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     /*******************************************
-     * Create settings for the diagram
+     * Preload the data for the visual 
     *******************************************/
+        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data instead
+    let view;
+    vWidth = window.innerWidth,
+    vHeight = window.innerHeight,
+    width = height = window.innerHeight;
+    const root = pack(data);
+    let focus = root,
+    nodes = root.descendants();
+
+
+    /*******************************************************************
+     * Create settings for the diagram
+    *******************************************************************/
+    // console.log('format', format);
+    console.log('data: ', data);
+    console.log('root', root);
    let dimensions = config.query_fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
    let measures = config.query_fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
 
@@ -143,12 +159,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
 
 
-
-
         // This ensures that all nodes have a value for the sort function. The beginning of hierarchies that were computed through the burrow function do not hold all the data, they're structured for all the data
     if (measures.length != 0) {
         let measureName = measures[0].name;
-        data.forEach(node => {  
+        nodes.forEach(node => {  
             console.log('node', node)
             if (node.data[measureName]) { 
                 node.constructor = false
@@ -163,21 +177,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-            // Create an option for each measure in your query 
-    let view;
-    vWidth = window.innerWidth,
-    vHeight = window.innerHeight,
-    width = height = window.innerHeight;
-    const root = pack(data);
-    let focus = root,
-    nodes = root.descendants();
-
-    // console.log('format', format);
-    console.log('data: ', data);
-    console.log('root', root);
-
-
-
     const svg = d3.select("body").append("svg")
         .attr('class', 'svg')
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
