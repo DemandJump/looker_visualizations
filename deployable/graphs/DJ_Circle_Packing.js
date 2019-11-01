@@ -163,20 +163,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('root', root);
 
 
-    /*******************************************************************************
-     * Altering data for the visualization
-    *******************************************************************************/
-
-        // This ensures that all nodes have a value for the sort function. The beginning of hierarchies that were computed through the burrow function do not hold all the data, they're structured for all the data
-    if (measures.length != 0) { let measureName = measures[0].name;
-        nodes.forEach(node => {  
-            console.log('node', node)
-
-            if (!(node.data[measureName])) {  node.data[measureName] = 1  }
-        })
-    }
-
-
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
@@ -259,7 +245,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .size([width - 2, height - 2])
                 .padding(3)
                     (d3.hierarchy(data)
-                        .sum(d => d.data[measureName])
+                        .sum(d => {
+                            if (d.data[measureName]) {
+                                return d.data[measureName] 
+                            } else {
+                              d.data[measureName] = 1
+                              return d.data[measureName]
+                            }
+                        })
                         .sort((a, b) => b.data[measureName] - a.data[measureName]))
         } else {
             return d3.pack()
