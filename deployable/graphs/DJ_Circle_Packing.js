@@ -248,13 +248,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         .sum(d => {
                             console.log('This is the data', d)
                             if (d.data[measureName]) {
-                                return d.data[measureName] 
+                                return d[measureName] 
                             } else {
                               d.data[measureName] = 1
-                              return d.data[measureName]
+                              return d[measureName]
                             }
                         })
-                        .sort((a, b) => b.data[measureName] - a.data[measureName]))
+                        .sort((a, b) => b[measureName] - a[measureName]))
         } else {
             return d3.pack()
                 .size([width - 2, height - 2])
