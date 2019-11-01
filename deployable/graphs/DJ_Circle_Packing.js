@@ -33,6 +33,17 @@ looker.plugins.visualizations.add({
           </style>
         `;
 
+        this._svg = d3.select(element).append("svg")
+            .attr('class', 'svg')
+            .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
+            // .style("display", "block") 
+            // .style("margin", "0 -14px")
+            .style("background", color(0))
+            .style("cursor", "pointer")
+            .style("max-height", window.innerWidth) // Essential for responsive media
+            .style("max-width", window.innerHeight) // This one makes it nice and spacy
+            .on("click", () => zoom(root)); // This zoom function 
+
     },
 
       // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
@@ -167,18 +178,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-    const svg = d3.select("body").append("svg")
-        .attr('class', 'svg')
-        .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
-        // .style("display", "block") 
-        // .style("margin", "0 -14px")
-        .style("background", color(0))
-        .style("cursor", "pointer")
-        .style("max-height", window.innerWidth) // Essential for responsive media
-        .style("max-width", window.innerHeight) // This one makes it nice and spacy
-        .on("click", () => zoom(root)); // This zoom function 
 
-    const node = svg.append("g")
+    const node = this._svg.append("g")
         .attr('class', 'nodes')
         .selectAll("circle")
         .data(nodes).enter()
@@ -190,7 +191,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
             .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
 
-    const label = svg.append("g")
+    const label = this._svg.append("g")
         .attr('class', 'text')
         .style("font", "13px Roboto")
         .attr("pointer-events", "none")
