@@ -160,17 +160,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         // This ensures that all nodes have a value for the sort function. The beginning of hierarchies that were computed through the burrow function do not hold all the data, they're structured for all the data
-    if (measures.length != 0) {
-        let measureName = measures[0].name;
+    if (measures.length != 0) { let measureName = measures[0].name;
         nodes.forEach(node => {  
             console.log('node', node)
-            if (node.data[measureName]) { 
-                node.constructor = false
-            } else {
-                node.constructor = true
-                node.data[measureName] = 1 
-            } 
-          })
+            // if (node.data[measureName]) { 
+            //     node.constructor = false
+            // } else {
+            //     node.constructor = true
+            //     node.data[measureName] = 1 
+            // }
+
+            if (!(node.data[measureName])) {  node.data[measureName] = 1  }
+        })
     }
 
 
@@ -216,6 +217,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+    /*******************************************************
+        * Functions Section *
+    *******************************************************/
     function zoomTo(v) {
         console.log('v', v); // coordinates and scale
         const k = width / v[2]; // Divide the size of the svg based on the scale of the size
@@ -272,6 +276,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .range(["hsl(199, 100%, 40%)", "hsl(25, 98%, 61%)"])
             .interpolate(d3.interpolateHcl)
     }
+
+
+
 
 
 
