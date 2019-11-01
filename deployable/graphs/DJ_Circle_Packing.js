@@ -247,10 +247,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     (d3.hierarchy(data)
                         .sum(d => {
                             console.log('This is the data', d)
-                            if (d.data[measureName]) {
-                                return d[measureName] 
+                            if (d[measureName]) {
+                                return d[measureName]
                             } else {
-                              d.data[measureName] = 1
+                              d[measureName] = 1
                               return d[measureName]
                             }
                         })
