@@ -136,13 +136,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //         this.options.influence.hidden = true
     //         this.trigger('registerOptions', this.options)
     //     }
-    // }
-    // if (config.influenceSwitch == true) { // Then show the influence setting 
+    // } else if (config.influenceSwitch == true) { // Then show the influence setting 
     //     if (this.options.influence.hidden == true) {
     //       this.options.influence.hidden == false 
     //       this.trigger('registerOptions', this.options)
     //     }
     // }
+
+    
 
 
 
