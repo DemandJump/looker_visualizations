@@ -260,8 +260,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .size([width - 2, height - 2])
                 .padding(3)
                     (d3.hierarchy(data)
-                        .sum(d => d.value))
-                        .sort((a, b) => b.data.value - a.data.value)
+                        .sum( (d,i) => {
+                            d.index = i; 
+                            return d.index
+                        }))
+                        // .sort((a, b) => b.index - a.index
         }
 
     }
