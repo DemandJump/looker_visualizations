@@ -5,8 +5,8 @@ looker.plugins.visualizations.add({
     options: {
         limit_displayed_rows_values: {
             type: "sentence_maker",
-            label: "Limit Displayed Rows Values",
-            section: "Plot",
+            label: "Highly recommend using dynamic sizing.",
+            section: "Configuration",
             words: [
                 { type: "separator", text: "The visual looks much better when you choose dynamic node sizing" }
             ]
