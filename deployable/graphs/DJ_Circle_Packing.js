@@ -36,8 +36,6 @@ looker.plugins.visualizations.add({
         this._svg = d3.select(element).append("svg")
             .attr('class', 'svg');
 
-        this._svg.selectAll("*").remove();
-
     },
 
       // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
@@ -90,6 +88,8 @@ looker.plugins.visualizations.add({
         // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
+    this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
+
 
           /* * * * * * CURRENT VERSION * * * * * */ 
     console.log('Fixed svg repsonsively, now working on settings and dynamic text sizing');
@@ -172,6 +172,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
+
+
     let svg = this._svg        
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
         // .style("display", "block") 
@@ -185,7 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const node = svg.append("g")
         .attr('class', 'nodes')
         .selectAll("circle")
-        .data(nodes).enter()
+        .data(nodes, d => d.id).enter()
         .append("circle")
             .attr('class', 'node')
             .attr("fill", d => d.children ? color(d.depth) : "white")
@@ -200,7 +202,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text")
-            .data(nodes).enter()
+            .data(nodes, d => d.id).enter()
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
