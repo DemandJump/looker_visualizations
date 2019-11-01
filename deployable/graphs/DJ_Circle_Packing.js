@@ -145,17 +145,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     this.options.influence.default = 'null'
 
 
-    // if (config.influenceSwitch == false) { // Then hide the influence setting
-    //     if (this.options.influence.hidden == false) {
-    //         this.options.influence.hidden = true
-    //         this.trigger('registerOptions', this.options)
-    //     }
-    // } else if (config.influenceSwitch == true) { // Then show the influence setting 
-    //     if (this.options.influence.hidden == true) {
-    //       this.options.influence.hidden == false 
-    //       this.trigger('registerOptions', this.options)
-    //     }
-    // }
+    if (config.influenceSwitch == false) { // Then hide the influence setting
+        if (this.options.influence.hidden == false) {
+            this.options.influence.hidden = true
+            this.trigger('registerOptions', this.options)
+        }
+    } else if (config.influenceSwitch == true) { // Then show the influence setting 
+        if (this.options.influence.hidden == true) {
+          this.options.influence.hidden == false 
+          this.trigger('registerOptions', this.options)
+        }
+    }
 
     
 
@@ -208,7 +208,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     const label = svg.append("g")
         .attr('class', 'text')
-        .style("font", "13px Roboto")
+        .style("font", "10px Roboto")
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text")
