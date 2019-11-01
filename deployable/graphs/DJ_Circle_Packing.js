@@ -205,7 +205,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     const label = svg.append("g")
         .attr('class', 'text')
-        .style("font", "10px sans-serif")
+        .style("font", "13px Roboto")
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text")
