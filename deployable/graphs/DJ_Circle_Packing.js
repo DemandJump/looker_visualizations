@@ -111,39 +111,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       return;
   }
 
-
-    /*******************************************
-     * Preload the data for the visual 
-    *******************************************/
-        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data instead
-    let view;
-    vWidth = window.innerWidth,
-    vHeight = window.innerHeight,
-    width = height = window.innerHeight;
-    const root = pack(data);
-    let focus = root,
-    nodes = root.descendants();
-
-
-    /*******************************************************************
-     * Create settings for the diagram
-    *******************************************************************/
-    // console.log('format', format);
-    console.log('data: ', data);
-    console.log('root', root);
-   let dimensions = config.query_fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
-   let measures = config.query_fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
-
+    /***************************************
+     * Configuring the settings
+    ***************************************/
 
         /* Input the dimension values in the options */ 
     let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
     this.options.influence['values'].push(val);
 
-    dimensions.forEach(dim => {
-        // Value object >.>  {"name": "value"}
+        // Adds all the different dimensions as 
+    measures.forEach(mes => { // Value object >.>  {"name": "value"}
         
-        let key = dim.label_short; // Key of value pair
-        let valuepair = dim.name; // value of value pair
+        let key = mes.label_short; // Key of value pair
+        let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
 
@@ -151,13 +131,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
     this.options.influence.default = 'null'
 
-
-
-        // A function for the text spacing based on the node's radius which is computed (based on roboto font sizing) !!!
-            // A coloring factor based on the node types? 
-
     
 
+
+    
+    /*********************************************************
+     * Preload the data for the visual 
+    *********************************************************/
+        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data instead
+
+    let dimensions = config.query_fields.dimensions;
+    measures = config.query_fields.measures,
+    view,
+    vWidth = window.innerWidth,
+    vHeight = window.innerHeight,
+    width = height = window.innerHeight;
+    const root = pack(data);
+    let focus = root,
+    nodes = root.descendants();
+
+    console.log('root', root);
+    console.log(`Checking out query resposne dimension fields: `, dimensions);
+    console.log(`Checking out query resposne measure fields: `, measures)
+
+
+    /*******************************************************************************
+     * Altering data for the visualization
+    *******************************************************************************/
 
         // This ensures that all nodes have a value for the sort function. The beginning of hierarchies that were computed through the burrow function do not hold all the data, they're structured for all the data
     if (measures.length != 0) { let measureName = measures[0].name;
