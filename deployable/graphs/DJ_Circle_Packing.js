@@ -266,11 +266,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     (d3.hierarchy(data)
                         .sum(d => {
                             console.log('This is the data', d)
-                            if (d.data[measureName]) {
+                            if(d.data) {
+                                if (d.data[measureName]) {
+                                    return d.data[measureName]
+                                } else {
+                                    d.data[measureName] = 1
+                                    return d.data[measureName]
+                                }
+                            } else { // Rebuild the element to store this variable, otherwise system crunks out on ya
+                                d.data = {}
+                                d.data[measureName] = 1
                                 return d.data[measureName]
-                            } else {
-                              d.data[measureName] = 1
-                              return d.data[measureName]
                             }
                         })
                         .sort((a, b) => { 
