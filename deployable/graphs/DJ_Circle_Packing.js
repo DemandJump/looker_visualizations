@@ -258,7 +258,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-        if (measures.length != 0) {
+        if (config.influenceSwitch == true && measures.length != 0 && config.influence != 'null') {
+            
             let measureName = measures[0].name;
             return d3.pack()
                 .size([width - 2, height - 2])
@@ -279,7 +280,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                                 return d.data[measureName]
                             }
                         })
-                        .sort((a, b) => { 
+                        .sort((a, b) => {
                             if (a.data.data[measureName] && !(b.data.data[measureName])) { // If only a exists
                               b.data.data[measureName] = 1
                             } else if (b.data.data[measureName] && a.data.data[measureName]) { // If only b exists
@@ -296,11 +297,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .size([width - 2, height - 2])
                 .padding(3)
                     (d3.hierarchy(data)
-                        .sum( (d,i) => {
-                            d.index = i; 
-                            return d.index
-                        }))
-                        // .sort((a, b) => b.index - a.index
+                        .sum(d => d.value ))
+                        .sort((a, b) => b.value - a.value);
         }
 
     }
