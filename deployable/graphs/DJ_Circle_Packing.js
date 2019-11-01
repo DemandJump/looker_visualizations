@@ -154,7 +154,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } 
     if (config.influenceSwitch == true) { // Then show the influence setting 
         if (this.options.influence.hidden == true) {
-          this.options.influence.hidden == false 
+          this.options.influence.hidden = false 
           this.trigger('registerOptions', this.options)
         }
     }
