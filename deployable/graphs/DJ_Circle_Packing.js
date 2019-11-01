@@ -16,11 +16,9 @@ looker.plugins.visualizations.add({
             values: [],
             type: 'string',
             display: 'select', 
-            hidden: function(options) {
-                console.log('This is the configuration log', options.influenceSwitch)
-                return options.influenceSwitch;
-            }
+            hidden: true
         }
+
     },
 
 
@@ -99,7 +97,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`config`, config);
     console.log(`queryResponse`, queryResponse);
     console.log(`details`, details);
-
+    let dimensions = config.query_fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
+    let measures = config.query_fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
 
     /**********************
      * Error Clauses 
@@ -109,7 +108,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (queryResponse.fields.dimensions.length == 0) {
       this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
       return;
-  }
+    }
 
     /***************************************
      * Configuring the settings
@@ -131,7 +130,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
     this.options.influence.default = 'null'
 
-    
+
+    if (config.influenceSwitch == false) { // Then hide the influence setting
+        if (this.options.influence.hidden == false) {
+            this.options.influence.hidden = true
+            this.trigger('registerOptions', this.options)
+        }
+    }
+    if (config.influenceSwitch == true) { // Then show the influence setting 
+        if (this.options.influence.hidden == true) {
+          this.options.influence.hidden == true
+          this.trigger('registerOptions', this.options)
+        }
+    }
+
 
 
     
@@ -140,9 +152,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     *********************************************************/
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data instead
 
-    let dimensions = config.query_fields.dimensions;
-    measures = config.query_fields.measures,
-    view,
+    let view,
     vWidth = window.innerWidth,
     vHeight = window.innerHeight,
     width = height = window.innerHeight;
@@ -151,8 +161,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes = root.descendants();
 
     console.log('root', root);
-    console.log(`Checking out query resposne dimension fields: `, dimensions);
-    console.log(`Checking out query resposne measure fields: `, measures)
 
 
     /*******************************************************************************
@@ -163,12 +171,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (measures.length != 0) { let measureName = measures[0].name;
         nodes.forEach(node => {  
             console.log('node', node)
-            // if (node.data[measureName]) { 
-            //     node.constructor = false
-            // } else {
-            //     node.constructor = true
-            //     node.data[measureName] = 1 
-            // }
 
             if (!(node.data[measureName])) {  node.data[measureName] = 1  }
         })
