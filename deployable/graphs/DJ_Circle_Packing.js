@@ -86,7 +86,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     if (measures.length != 0) {
         let measureName = measures[0].name;
-        data.forEach(node => {  if (!(node.data.measureName)) { node.data.measureName = 1 }  })
+        data.forEach(node => {  
+          if (node.data.measureName) { 
+            node.constructor = false
+          } else {
+            node.constructor = true
+            node.data.measureName = 1 
+          } 
+        })
     }
         
 
@@ -110,16 +117,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         * Setting up the Dimension Options
     ******************************************************************************************************************************************/
             // Create an option for each measure in your query 
-    
-    
     let view;
-    //let width = document.body.clientWidth;
-    //let height = document.body.clientHeight;
-    let width = height = 900
-    let format = d3.format(",d");
+    vWidth = window.innerWidth,
+    vHeight = window.innerHeight,
+    width = height = window.innerHeight;
     const root = pack(data);
-    let focus = root;
-    let nodes = root.descendants();
+    let focus = root,
+    nodes = root.descendants();
 
     // console.log('format', format);
     console.log('Data: ', data);
@@ -134,6 +138,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style("margin", "0 -14px")
         .style("background", color(0))
         .style("cursor", "pointer")
+        .style("max-height", window.innerWidth) // Essential for responsive media
+        .style("max-width", window.innerHeight) // This one makes it nice and spacy
         .on("click", () => zoom(root)); // This zoom function 
 
     const node = svg.append("g")
@@ -166,10 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function zoomTo(v) {
         console.log('v', v); // coordinates and scale
-        console.log('d', d);
-        console.log('k', k);
         const k = width / v[2]; // Divide the size of the svg based on the scale of the size
-
         view = v;
 
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
@@ -180,7 +183,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function zoom(d) {
         console.log('Focus', focus) // This is the current node that they're on 
         const focus0 = focus;
-
         focus = d;
 
         const transition = svg.transition() 
@@ -199,12 +201,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-
         if (measures.length != 0) {
-        let measureName = measures[0].name;
-
-
-
+            let measureName = measures[0].name;
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
@@ -219,13 +217,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         .sum(d => d.value))
         }
 
-        
     }
 
     function color(n) {
         color = d3.scaleLinear()
             .domain([0,5])
-            .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
+            // .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
+            .range(["hsl(199, 100%, 40%)", "hsl(25, 98%, 61%)"])
             .interpolate(d3.interpolateHcl)
     }
 
