@@ -131,7 +131,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
 
-        this.option.influence['values'].push(val);
+        this.options.influence['values'].push(val);
     })
     this.options.influence.default = 'null'
 
