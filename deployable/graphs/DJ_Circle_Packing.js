@@ -261,44 +261,57 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (config.influenceSwitch == true && measures.length != 0 && config.influence != 'null') {
             
             let measureName = measures[0].name;
+            // return d3.pack()
+            //     .size([width - 2, height - 2])
+            //     .padding(3)
+            //         (d3.hierarchy(data)
+            //             .sum(d => {
+            //                 // console.log('This is the data', d)
+            //                 if(d.data) {
+            //                     if (d.data[measureName]) {
+            //                         return d.data[measureName]
+            //                     } else {
+            //                         d.data[measureName] = 1
+            //                         return d.data[measureName]
+            //                     }
+            //                 } else { // Rebuild the element to store this variable, otherwise system crunks out on ya
+            //                     d.data = {}
+            //                     d.data[measureName] = 1
+            //                     return d.data[measureName]
+            //                 }
+            //             })
+            //             .sort((a, b) => {
+            //                 if (a.data.data[measureName] && !(b.data.data[measureName])) { // If only a exists
+            //                   b.data.data[measureName] = 1
+            //                 } else if (b.data.data[measureName] && a.data.data[measureName]) { // If only b exists
+            //                   a.data.data[measureName] = 1
+            //                 } else { // If neither exist
+            //                   b.data.data[measureName] = a.data.data[measureName] = 1
+            //                 }    
+            //                 // return b.data.data[measureName] - a.data.data[measureName]
+            //                 return b.value - a.value
+            //             }))
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
-                    (d3.hierarchy(data)
-                        .sum(d => {
-                            // console.log('This is the data', d)
-                            if(d.data) {
-                                if (d.data[measureName]) {
-                                    return d.data[measureName]
-                                } else {
-                                    d.data[measureName] = 1
-                                    return d.data[measureName]
-                                }
-                            } else { // Rebuild the element to store this variable, otherwise system crunks out on ya
-                                d.data = {}
-                                d.data[measureName] = 1
-                                return d.data[measureName]
-                            }
-                        })
-                        .sort((a, b) => {
-                            if (a.data.data[measureName] && !(b.data.data[measureName])) { // If only a exists
-                              b.data.data[measureName] = 1
-                            } else if (b.data.data[measureName] && a.data.data[measureName]) { // If only b exists
-                              a.data.data[measureName] = 1
-                            } else { // If neither exist
-                              b.data.data[measureName] = a.data.data[measureName] = 1
-                            }    
-                            // return b.data.data[measureName] - a.data.data[measureName]
-                            return b.value - a.value
-                        }))
+            (d3.hierarchy(data)
+                .sum(d => {
+                    console.log('This is d in sum, return is value: ', d.value);
+                    if(d.data && d.data[masureName]) {
+                        
+                    }
+
+                    // return d.value
+                })
+                .sort((a, b) => b.value - a.value));
 
         } else {
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
-                    (d3.hierarchy(data)
-                        .sum(d => d.value ))
-                        .sort((a, b) => b.value - a.value);
+            (d3.hierarchy(data)
+                .sum(d => d.value)
+                .sort((a, b) => b.value - a.value));
         }
 
     }
