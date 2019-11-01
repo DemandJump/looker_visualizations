@@ -274,10 +274,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                             }
                         })
                         .sort((a, b) => { 
-                          console.log('this is a', a)
-                          console.log('this is b', b)
-                          return b[measureName] - a[measureName]
+                            if (a.data.data[measureName] && !(b.data.data[measureName])) { // If only a exists
+                              b.data.data[measureName] = 1
+                            } else if (b.data.data[measureName] && a.data.data[measureName]) { // If only b exists
+                              a.data.data[measureName] = 1
+                            } else { // If neither exist
+                              b.data.data[measureName] = a.data.data[measureName] = 1
+                            }    
+                            return b.data.data[measureName] - a.data.data[measureName]
                         }))
+
         } else {
             return d3.pack()
                 .size([width - 2, height - 2])
