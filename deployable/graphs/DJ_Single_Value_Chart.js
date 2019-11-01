@@ -260,14 +260,14 @@ if (config.valueTitle != '') {
     // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
 if (config.showTitle == false) { // If they want to hide the title
-    if(this.options.valueTitle.hidden == false) { // Check if it's not hidden
+    if (this.options.valueTitle.hidden == false) { // Check if it's not hidden
         this.options.valueTitle.hidden = true // Then set it to hidden
         this.trigger('registerOptions', this.options) // send the updated settings to the system
         d3.select('.djvsTitle').html(' ')
     }
 }
 if (config.showTitle == true) { // Touche vice versa ~ ;p
-    if(this.options.valueTitle.hidden == true) { 
+    if (this.options.valueTitle.hidden == true) { 
         this.options.valueTitle.hidden = false 
         this.trigger('registerOptions', this.options)
     }

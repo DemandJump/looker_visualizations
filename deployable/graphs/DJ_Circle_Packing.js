@@ -146,12 +146,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     if (config.influenceSwitch == false) { // Then hide the influence setting
+        console.log("switch was false")
         if (this.options.influence.hidden == false) {
+            console.log("Hid the option")
             this.options.influence.hidden = true
             this.trigger('registerOptions', this.options)
         }
-    } else if (config.influenceSwitch == true) { // Then show the influence setting 
+    } 
+    if (config.influenceSwitch == true) { // Then show the influence setting 
+        console.log("switch was true")
         if (this.options.influence.hidden == true) {
+          console.log("Showing the visual and restarting the vis ")
           this.options.influence.hidden == false 
           this.trigger('registerOptions', this.options)
         }
