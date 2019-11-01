@@ -287,7 +287,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                             } else { // If neither exist
                               b.data.data[measureName] = a.data.data[measureName] = 1
                             }    
-                            return b.data.data[measureName] - a.data.data[measureName]
+                            // return b.data.data[measureName] - a.data.data[measureName]
+                            return b.value - a.value
                         }))
 
         } else {
