@@ -1,20 +1,43 @@
 looker.plugins.visualizations.add({
-    id: 'hello_world_test',
-    label: 'Looker Custom Visualization Test',
-    options: {},
+    id: 'dj_circle_packing',
+    label: 'Demand Jump Circle Packing Visual',
+    options: {
+        influenceSwitch: {
+            label: 'Dynamic node sizing',
+            order: 1,
+            section: 'Configuration', 
+            type: 'boolean',
+        },
+        influence: {
+            label: 'Choose a variable factor',
+            order: 1.1, 
+            section: 'Configuration',
+            values: [],
+            type: 'string',
+            display: 'select', 
+            hidden: function(options) {
+                console.log(options.influenceSwitch)
+                return options.influenceSwitch;
+            }
+        }
+    },
+
+
         // Onto the create section 
     create: function(element, config) {
         let d3 = d3v5; // Pull in d3 selector as it's normal reference
-        this._counter = 0;
     
-        // Element is the Dom element that looker would like us to put our visualization into
-            // Looker formats it to the proper size, you just need to put the stuff here
-    // We're essentially using vanilla javascript to create a visualization for looker to append!
-    
-        // Insert a <style> tag with some styles we'll use later.
-        element.innerHTML =``;
+            // This is inner styling of the visualization which looker gives to us as the variable 'element'
+        element.innerHTML =`
+          <style>
+          @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+          </style>
+        `;
 
     },
+
+      // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
+          // Careful the beginning of the hierarchy holds the table names and fans out to descendants, so they don't hold the data which may throw errors as d3 iterates through assignment operators when using those variables 
     burrow: function(table, taxonomy) {
             // create nested object
         var obj = {};
@@ -58,65 +81,86 @@ looker.plugins.visualizations.add({
         };
     },
 
+
+    
         // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
 
-                            /* CURRENT VERSION */ 
-    console.log('Fixed instantiating uniqueTypeValue so now it should store unique values witihin the array before we start running the data!!');
+          /* * * * * * CURRENT VERSION * * * * * */ 
+    console.log('Fixed svg repsonsively, now working on settings and dynamic text sizing');
         // Just comment what your doing becuase looker takes forever to update server js file
 
-              /*//*///* Add more spacing between the nodes, and then make the text more ledgible, and make the links skinnier and less visible   *///*//*/
+        /****** UpdateAsync Built-in Functionality ******/
+    console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
+    console.log(`data`, data);
+    // console.log(`element`, element);
+    console.log(`config`, config);
+    console.log(`queryResponse`, queryResponse);
+    console.log(`details`, details);
 
 
-        /****** Log all these functions to see what we're working with ******/
-    console.log(`\n\n\n\n\nUpdateAsync initialized, here is it's data: `);
-    console.log('data', data);
-    console.log('element', element);
-    console.log('config', config);
-    console.log('queryResponse', queryResponse);
-    console.log('details', details);
-
-                // Playing with dimensions and measures
-            console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-            console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
-                // The selector references for dimensions and length 
-            let dimensions = queryResponse.fields.dimensions;
-            let measures = queryResponse.fields.measures;
-
-
-    if (measures.length != 0) {
-        let measureName = measures[0].name;
-        data.forEach(node => {  
-          console.log('node', node)
-          if (node.data[measureName]) { 
-            node.constructor = false
-          } else {
-            node.constructor = true
-            node.data[measureName] = 1 
-          } 
-        })
-    }
-        
-
-    
     /**********************
      * Error Clauses 
     **********************/
-        // Clear any errors from previous updates.
-    // this.clearErrors(); /* !!! Important try keeping this off for now !!!
-
-        // Create different cases for potential errors that could occur
-    // Throw some errors and exit if the shape of the data isn't what this chart needs.
+    // this.clearErrors(); // Clear any errors from previous updates.
+        // Create different cases for potential errors that could occur // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (queryResponse.fields.dimensions.length == 0) {
-        this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-        return;
+      this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
+      return;
+  }
+
+
+    /*******************************************
+     * Create settings for the diagram
+    *******************************************/
+   let dimensions = config.query_fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
+   let measures = config.query_fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
+
+
+        /* Input the dimension values in the options */ 
+    let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
+    this.options.influence['values'].push(val);
+
+    dimensions.forEach(dim => {
+        // Value object >.>  {"name": "value"}
+        
+        let key = dimension.label_short; // Key of value pair
+        let valuepair = dimension.name; // value of value pair
+        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+        val[key] = valuepair;
+
+        this.option.influence['values'].push(val);
+    })
+    this.options.influence.default = 'null'
+
+
+
+        // A function for the text spacing based on the node's radius which is computed (based on roboto font sizing) !!!
+            // A coloring factor based on the node types? 
+
+    
+
+
+
+
+        // This ensures that all nodes have a value for the sort function. The beginning of hierarchies that were computed through the burrow function do not hold all the data, they're structured for all the data
+    if (measures.length != 0) {
+        let measureName = measures[0].name;
+        data.forEach(node => {  
+            console.log('node', node)
+            if (node.data[measureName]) { 
+                node.constructor = false
+            } else {
+                node.constructor = true
+                node.data[measureName] = 1 
+            } 
+          })
     }
 
 
-
     /******************************************************************************************************************************************
-        * Setting up the Dimension Options
+        * Build the svg
     ******************************************************************************************************************************************/
             // Create an option for each measure in your query 
     let view;
@@ -128,7 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes = root.descendants();
 
     // console.log('format', format);
-    console.log('Data: ', data);
+    console.log('data: ', data);
     console.log('root', root);
 
 
@@ -136,8 +180,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const svg = d3.select("body").append("svg")
         .attr('class', 'svg')
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
-        .style("display", "block") 
-        .style("margin", "0 -14px")
+        // .style("display", "block") 
+        // .style("margin", "0 -14px")
         .style("background", color(0))
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
@@ -151,7 +195,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .append("circle")
             .attr('class', 'node')
             .attr("fill", d => d.children ? color(d.depth) : "white")
-            .attr("pointer-events", d => !d.children ? "none" : null)
+            .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
             .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function

@@ -231,31 +231,31 @@ console.log('These are the search terms! ', boldWords);
 /******************************************************************************************************************************************
     * Setting up the Dimension Options
 ******************************************************************************************************************************************/
-        // Create an option for each measure in your query
+        /*/ Create an option for each measure in your query /*/
 
-    adPieces.forEach(field => {
-        if(adIteration == 0) {
-            dimension_options["Deploy_Vis"] = 
-            {
-                label: 'Start the Visualization',
-                type: 'string',
-                display: 'radio',
-                values: [
-                    {"Turn the visualization on": "on"},
-                    {"Turn the visualization off": "off"}
-                ],
-                default: "off",
-                hidden: true
-            }
-            dimension_options["switch"] = 
-            {
-                label: 'Organic or Paid Ad Visual',
-                type: 'boolean', 
-                section: 'Components',
-                default: true
-            }
+            // Intro visual stuff
+        dimension_options["Deploy_Vis"] = 
+        {
+            label: 'Start the Visualization',
+            type: 'string',
+            display: 'radio',
+            values: [
+                {"Turn the visualization on": "on"},
+                {"Turn the visualization off": "off"}
+            ],
+            default: "off",
+            hidden: true
+        }
+        dimension_options["switch"] = 
+        {
+            label: 'Organic or Paid Ad Visual',
+            type: 'boolean', 
+            section: 'Components',
+            default: true
         }
 
+        // Onto the dimensions into the each select element
+    adPieces.forEach(field => {
         dimension_options[field] = 
         {
             label: adLabels[adIteration],

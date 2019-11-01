@@ -5,10 +5,13 @@
 - It goes over how to pull in data but not what most of the functions are, you have to dig through console logs to get all the information; however, you can't find all functions that they use that way.
 - Enough babeling, here's what I found ~
 
+
+
 ## UpdateAsync Parameters
 #### QueryResponse
 - The `QueryResponse` holds your data with info on how you structured your data, and some values pertaining to the query. 
 - This data ranges from the sql that structured it, table and row info, sorting, to the raw data and all it's values within.
+
 ###### QueryResponse Parameters: 
 
 
@@ -16,11 +19,13 @@
 - `Config` holds all the option values along with an object named `query_fields`. This will help with conditionals for changing the visualization based on what options the user chooses. `Query_fields` holds a quick reference to the `dimensions` and `measures` along with the values associated with those objects, and two arrays holding the data for the `pivots` and `table_calculations`.
 - This is pretty nice if you don't wanna dig through the `queryResponse` `fields`, and access to the values of your options object
 
+
 #### Options
 - The options can be preloaded but it's technically not an `UpdateAsync` parameter. If you want it to reflect the different `dimensions` or `measures` that are used by the visualization, you should create this using the parameters(`queryResponse`). 
 - These can be used to create a bunch of different input fields, and they're prestyled for looker so it's a great construct for passing data and settings into your visual.
 - Customizing it and finding all the functionality is kind of easy, just do some digging in their bar charts or tables for some cool functionality. 
 - These objects have different values that looker takes in to format what type each input is, along with some styling functionality that will make it look professional. Here's a bit of what I found:
+
 ###### Options Parameters:
 1. New stuff to save that really help with formatting the settings and beautiful customization:
 
@@ -30,7 +35,7 @@
 
 - `display:` This is the different type of inputs there are. The different values are `radio`, `select`, `text`(default), `number`, `colors`,
 
-- `values:` If you have a display that holds multiple options or values to choose from, the `values` value is an array that holds objects with `name` and `value` values pertaining to each object. This configures the name in the settings and the output that's given to config based on what the user chooses. 
+- `values:` If you have a display that holds multiple options or values to choose from, the `values` value is an array that holds objects with `"name` and `value"` values pertaining to each object. This configures the name in the settings and the output that's given to config based on what the user chooses. 
 
 - `display_size:` I've only seen this when you want two options side by side, but it's really nifty. The default is for an option to take up the full width of settings menu, but you can add this value in two options and set each to `half` for two options to sit by side in the settings.
 
