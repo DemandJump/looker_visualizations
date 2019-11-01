@@ -7,6 +7,7 @@ looker.plugins.visualizations.add({
             order: 1,
             section: 'Configuration', 
             type: 'boolean',
+            default: false
         },
         influence: {
             label: 'Choose a variable factor',
@@ -16,7 +17,7 @@ looker.plugins.visualizations.add({
             type: 'string',
             display: 'select', 
             hidden: function(options) {
-                console.log(options.influenceSwitch)
+                console.log('This is the configuration log', options.influenceSwitch)
                 return options.influenceSwitch;
             }
         }
