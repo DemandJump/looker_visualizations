@@ -295,12 +295,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
+                .sum(d => d.value)
                 .sum(d => {
-                    console.log('This is the data going into the sum array', d)
-
-                    if(d.data) { if(d.data[measureName]) {
-                        d.value = d.data[measureName]
-                    } }
+                    console.log(`sum Pt2, pulled value: ${d.value}`, d)
+                    // if(d.data) { if(d.data[measureName]) {
+                    //     d.value = d.data[measureName]
+                    // } }
 
                     return d.value
                 })
