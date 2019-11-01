@@ -4,9 +4,10 @@ looker.plugins.visualizations.add({
 
     options: {
         limit_displayed_rows_values: {
-            type: "sentence_maker",
             label: "Highly recommend using dynamic sizing.",
+            order: 0,
             section: "Configuration",
+            type: "sentence_maker",
             words: [
                 { type: "separator", text: "The visual looks much better when you choose dynamic node sizing" }
             ]
