@@ -311,19 +311,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
+                .attr('dy', spaceOne)
+                .text(d => d.data.text1);
+
         label2
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
+                .attr('dy', spaceTwo)
+                .text(d => d.data.text2);
+
         label3
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
+                .attr('dy', spaceThree)
+                .text(d => d.data.text3);
     }
 
     function pack(data) {
@@ -415,6 +423,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         charlen = charcount * 5.5,
         diameter = d.r * 2, // This is the width of the circle that's encapsulating the text
         tedit = d.data.name; // Holder for text we're gonna splice and dice
+
+        console.log(`This node's charcount: ${charcount}, and diameter: ${diameter}`);
+        console.log(`This node's charname ${tedit}, and charlength: ${charlen}`);
 
         if (charlen <= diameter) { // No editing needed, return just the data1
             d.data.textuse = 1;
