@@ -298,14 +298,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => d.value)
-                .sum(d => {
-                    console.log(`sum Pt2, pulled value: ${d.value}`, d)
-                    // if(d.data) { if(d.data[measureName]) {
-                    //     d.value = d.data[measureName]
-                    // } }
-
-                    return d.value
-                })
                 .sort((a, b) => b.value - a.value));
 
         } else {
