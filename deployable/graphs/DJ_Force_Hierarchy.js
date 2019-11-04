@@ -993,7 +993,7 @@ function update() { /* Initialize some parameters that we will need for */
             : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4') // #CDDC39 
             : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39') // #F06292 
             : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292') // #2424c8
-            : lightenOrDarken(d, '#BDBDBD')
+            : lightenOrDarken(d, '#BDBDBD') // #008CCD #fd8d3c #2ECC71 #8E44AD #E74C3C #00BCD4 #CDDC39 #F06292 #2424c8 
           } else { return lightenOrDarken(d, '#0a63c2'); }
 
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
