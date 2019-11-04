@@ -173,7 +173,7 @@ create: function(element, config) {
         .attr('class', 'infoBar')
         .style('display', 'none')
         .style('width', '100%')
-        .style('box-sizing', 'border-box')
+        // .style('box-sizing', 'border-box')
         .style('margin', 'auto')
         .style('background-color', '#f5f5f5')
         // .style('text-align', 'center')
@@ -694,7 +694,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.style('width', initWidth);
+        this._svg.attr('width', initWidth);
+        d3.select('.container').style('width', initWidth);
         this._panelSwitch.html('Open Viewport');
         panelSwitch = 'off';
       } else {
