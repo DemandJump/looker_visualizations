@@ -42,8 +42,10 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-              .text, .text2, .text3 { font-family: Roboto; }
-              .text { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
+              .text, .text2, .text3 { 
+                  font-family: Roboto; 
+                text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
+              }
           </style>
         `;
 
