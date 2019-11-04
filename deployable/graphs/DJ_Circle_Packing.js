@@ -173,8 +173,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
     if (config.influence != 'null') {
         data.forEach(node => {
-            console.log('data[config.influence]', node[config.influence]);
-            console.log('value of each', node[config.influence].value)
+            // console.log('data[config.influence]', node[config.influence]);
+            // console.log('value of each', node[config.influence].value);
             node['value'] = node[config.influence]['value'];
         });
     } else {
@@ -312,12 +312,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             (d3.hierarchy(data)
                 .sum(d => {
                     console.log('Sum function for pack if influence != null, this is d: ', d);
-                    return d.value;
+                    return d.data.value;
                 })
                 .sort((a, b) => {
                     console.log(`Sort function for pack if influence != null, this is a:`, a);
                     console.log(`This is b: `, b);
-                    return b.value - a.value;
+                    // return b.value - a.value;
+                        // We're just going to pull out the values if they're there and return them in vars
+                    let aval = 1; 
+                    let bval = 1;
+
+                        // We need to find a and b's data value then subtract them from one another
+                    if (a.data) {
+                      if (a.data.data) {
+                        if (a.data.data.value) aval = a.data.data.value;
+                      }
+                    }
+                    if(b.data) {
+                      if (b.data.data) {
+                        if (b.data.data.value) bval = b.data.data.value;
+                      } 
+                    }
+                    return bval - aval;
                 }));
 
         } else {
