@@ -43,7 +43,6 @@ looker.plugins.visualizations.add({
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
               .text { text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white; }
-              .nodes { stroke-width: 5px; }
           </style>
         `;
 
@@ -230,7 +229,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // .attr("fill", d => d.children ? colorNodes(d.depth) : "white") // or color(d.depth)
             .attr("fill", d => color(d.depth))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
-            .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); }) // Highight the border based hover
+            .on("mouseover", function() { 
+              d3.select(this)
+                .attr("stroke", "#000")
+                .attr('stroke-width', d => `${d.height}px`); 
+            }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
             .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
 
