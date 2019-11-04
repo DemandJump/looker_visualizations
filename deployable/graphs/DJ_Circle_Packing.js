@@ -260,7 +260,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style('font-size', '10px')
+                .style('font-size', d => d.depth == 1 ? '24px' : '10px')
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -273,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style('font-size', '10px')
+                .style('font-size', d => d.depth == 1 ? '24px' : '10px')
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
