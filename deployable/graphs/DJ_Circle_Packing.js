@@ -292,6 +292,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => d.r * k); // This changes the size of the nodes with reference to the change of the camera
+
+        label 
+          .attr('dy', spaceOne)
+          .text(d => d.data.text1);
+
+        label2
+          .attr('dy', spaceTwo)
+          .text(d => d.data.text2);
+
+        label3
+          .attr('dy', spaceThree)
+          .text(d => d.data.text3)
     }
 
     function zoom(d) {
