@@ -493,24 +493,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function spaceOne(d) { // Spacing the first text element
-      return d.data.textuse == 1 ? '.35em' // Middle one
-      : d.data.textuse == 2 ? '-.14em' // Top second
-      : '-.54em'; // Top third
+      return d.data.textuse == 1 ? '0px' // Middle one
+      : d.data.textuse == 2 ? '-5px' // Top second
+      : '-10px'; // Top third
     }
     function spaceTwo(d) { // Spacing the second text element
-      return d.data.textuse == 1 ? '.35em' // empty node
-      : d.data.textuse == 2 ? '.84em' // Bottom second
-      : '.35em'; // middle third
+      return d.data.textuse == 1 ? '0px' // empty node
+      : d.data.textuse == 2 ? '.5px' // Bottom second
+      : '.0px'; // middle third
     }
     function spaceThree(d) { // Spacing the third text element
-      return d.data.textuse == 1 ? '.35em' // empty node
-      : d.data.textuse == 2 ? '.35em' // empty node
-      : '1.24em'; // bottom third
+      return d.data.textuse == 1 ? '.0px' // empty node
+      : d.data.textuse == 2 ? '.0px' // empty node
+      : '10px'; // bottom third
     }
 
+    
 
-
-
+    
 
 
     /**************** Done! *****************/
