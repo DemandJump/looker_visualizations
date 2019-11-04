@@ -520,7 +520,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     reset = false,
     resetSingleNode = false,
     linkDistance,
-    panelSwitch = 'on',
+    panelSwitch = 'off',
     depthSelect = 0,
     maxLinkScale, // This is the number of descendants based on the root
     friction = .1; // This determines the link length based on the data that's given
@@ -532,6 +532,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       totalNodes = -1 * (root.descendants().length * 2.5);
 
       console.log('this is total nodes', totalNodes);
+
+          // This is for the width of the svg before we interact with the panelswitch
+      this._svg.style('width', initWidth);
 
     let counter = 0; // We're using this to pull one of the type values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {

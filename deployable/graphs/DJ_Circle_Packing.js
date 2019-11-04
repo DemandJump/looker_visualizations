@@ -312,7 +312,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             (d3.hierarchy(data)
                 .sum(d => {
                     console.log('Sum function for pack if influence != null, this is d: ', d);
-                    return d.data.value;
+                    dval = 1;
+                    if (d.data) {
+                        if (d.data.value) {
+                            return d.data.value
+                        }
+                    }
+                    // return d.data.value;
                 })
                 .sort((a, b) => {
                     console.log(`Sort function for pack if influence != null, this is a:`, a);
