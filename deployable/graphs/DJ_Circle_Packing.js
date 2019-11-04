@@ -446,8 +446,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         diameter = d.r * 2, // This is the width of the circle that's encapsulating the text
         tedit = d.data.name; // Holder for text we're gonna splice and dice
 
-        // console.log(`This node's charcount: ${charcount}, and diameter: ${diameter}`);
-        // console.log(`This node's charname ${tedit}, and charlength: ${charlen}`);
+        // console.log(`This node's charlen: ${charlen}, and diameter: ${diameter}`);
+        // console.log(`This node's charname ${tedit}, and charcount: ${charcount}`);
 
         if (charlen <= diameter || d.depth == 1) { // No editing needed, return just the data1
             d.data.textuse = 1;
