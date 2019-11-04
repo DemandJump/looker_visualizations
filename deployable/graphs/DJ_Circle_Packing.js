@@ -225,8 +225,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, d => d.id).enter()
         .append("circle") 
             .attr('class', 'node')
-            // .attr("fill", d => d.children ? color(d.depth) : "white")
-            .attr("fill", d => d.children ? colorNodes(d.depth) : "white")
+            // .attr("fill", d => d.children ? colorNodes(d.depth) : "white") // or color(d.depth)
+            .attr("fill", d => colorNodes(d.depth))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
@@ -350,15 +350,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     // #008CCD #fd8d3c #2ECC71 #8E44AD #E74C3C #00BCD4 #CDDC39 #F06292 #2424c8 
     function colorNodes(d) {
-        return d == '0' ? '#008CCD'
-        : d == '1' ? '#fd8d3c'
-        : d == '2' ? '#2ECC71'
-        : d == '3' ? '#8E44AD'
-        : d == '4' ? '#E74C3C'
-        : d == '5' ? '#00BCD4'
-        : d == '6' ? '#CCDC39'
-        : d == '7' ? '#F06292'
-        : '#2424c8'
+        return d == '0' ? '#2424c8'
+        : d == '1' ? '#008CCD'
+        : d == '2' ? '#fd8d3c'
+        : d == '3' ? '#2ECC71'
+        : d == '4' ? '#8E44AD'
+        : d == '5' ? '#E74C3C'
+        : d == '6' ? '#00BCD4'
+        : d == '7' ? '#CCDC39'
+        : '#F06292'
     }
 
     function textSize(d) {
