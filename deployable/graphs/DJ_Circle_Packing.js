@@ -174,9 +174,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
     if (config.influence != 'null') {
         data.forEach(node => {
-            console.log('data[config.influence]', data[config.influence]);
-            console.log('value of each', data[config.influence].value)
-            node['value'] = data[config.influence]['value'];
+            console.log('data[config.influence]', node[config.influence]);
+            console.log('value of each', node[config.influence].value)
+            node['value'] = node[config.influence]['value'];
         });
     } else {
       data.forEach(node => { 
