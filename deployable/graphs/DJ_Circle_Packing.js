@@ -412,7 +412,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d.data.textuse = '1'
         let charcount = d.data.name.length, // 5.2px per character to avoid overlap
         charlen = charcount * 5.5,
-        diameter = r * 2, // This is the width of the circle that's encapsulating the text
+        diameter = d.r * 2, // This is the width of the circle that's encapsulating the text
         tedit = d.data.name; // Holder for text we're gonna splice and dice
 
         if (charlen <= diameter) { // No editing needed, return just the data1
