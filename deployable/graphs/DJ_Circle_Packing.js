@@ -335,6 +335,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
+
+
+                // After the transition run this to edit the spacing of the nodes
+        label 
+            .attr('dy', spaceOne)
+            .style('font-size', d => textSize(d))
+            .text(d => d.data.text1);
+
+        label2
+            .attr('dy', spaceTwo)
+            .style('font-size', d => textSize(d))
+            .text(d => d.data.text2);
+
+       label3
+            .attr('dy', spaceThree)
+            .style('font-size', d => textSize(d))
+            .text(d => d.data.text3);
+
     }
 
     function refactor(d) {
