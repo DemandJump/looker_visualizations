@@ -858,11 +858,12 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke', border)
         .attr('stroke-width', borderWidth)
         .style('fill', color)
-        
+   
 // Create the text for the node
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
+        .style('display', d => display(d))
         .style('font-size', fontSize)
         .text(d => calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
@@ -870,6 +871,7 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
+        .style('display', d => display(d))
         .style('font-size', fontSize)
         .text(d => calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
@@ -877,6 +879,7 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
+        .style('display', d => display(d))
         .style('font-size', fontSize)
         .text(d => calcT3(d)) // This inputs the text
         .attr('dy', spaceThree);
@@ -1088,7 +1091,7 @@ function update() { /* Initialize some parameters that we will need for */
             d.notch = 'b';
             d.radius = scaleB(d.size);
             return d.radius;
-        } if(d.depth == notch - 1) {
+        } if(d.depth <= notch - 1) {
             d.notch = 'z';
             d.radius = scaleB(d.size);
             return d.radius;
@@ -1098,6 +1101,11 @@ function update() { /* Initialize some parameters that we will need for */
             return d.radius;
         }
         // console.log('end of notch radius', d);
+    }
+
+    function textDisplay(d) {
+        if (d.notch == 'c') { return 'none' }
+        else { return 'inline' }
     }
     
     function calcText(d) { // This calculates the spacing based on the radius of each node
