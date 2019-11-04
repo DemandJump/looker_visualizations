@@ -219,8 +219,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .style("margin", "0 -14px")
         .style("background", color(0))
         .style("cursor", "pointer")
-        .style("max-height", window.innerHeight + 10) // Essential for responsive media
-        .style("max-width", window.innerWidth) // This one makes it nice and spacy
+        .style("max-height", window.innerWidth) // Essential for responsive media
+        .style("max-width", window.innerHeight) // This one makes it nice and spacy
         .on("click", () => zoomThenRefactor(root)); // This zoom function 
 
     const node = svg.append("g")
@@ -295,7 +295,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        node.attr("r", d => d.r * k); // This changes the size of the nodes with reference to the change of the camera
+        node.attr("r", d => {
+            d.nr = d.r * k;
+            return d.r * k;
+        }); // This changes the size of the nodes with reference to the change of the camera
 
     }
 
@@ -443,7 +446,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d.data.textuse = '1'
         let charcount = d.data.name.length, // 5.2px per character to avoid overlap
         charlen = charcount * 2,
-        diameter = d.r * 2, // This is the width of the circle that's encapsulating the text
+        diameter = d.nr * 2, // This is the width of the circle that's encapsulating the text
         tedit = d.data.name; // Holder for text we're gonna splice and dice
 
         console.log(`This node's charlen: ${charlen}, and diameter: ${diameter}`);
