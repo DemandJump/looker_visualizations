@@ -260,7 +260,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style('font-size', d => d.depth == 1 ? '24px' : '10px')
+                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -273,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style('font-size', d => d.depth == 1 ? '24px' : '10px')
+                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
@@ -297,15 +297,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         label 
           .attr('dy', spaceOne)
+          .style('font-size', d => textSize(d))
           .text(d => d.data.text1);
 
         label2
           .attr('dy', spaceTwo)
+          .style('font-size', d => textSize(d))
           .text(d => d.data.text2);
 
         label3
           .attr('dy', spaceThree)
-          .text(d => d.data.text3)
+          .style('font-size', d => textSize(d))
+          .text(d => d.data.text3);
     }
 
     function zoom(d) {
