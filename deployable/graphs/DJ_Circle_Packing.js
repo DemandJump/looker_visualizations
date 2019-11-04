@@ -215,7 +215,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // .style("margin", "0 -14px")
         .style("background", color(0))
         .style("cursor", "pointer")
-        .style("max-height", window.innerHeight) // Essential for responsive media
+        .style("max-height", window.innerHeight + 10) // Essential for responsive media
         .style("max-width", window.innerWidth) // This one makes it nice and spacy
         .on("click", () => zoom(root)); // This zoom function 
 
@@ -234,7 +234,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     const label = svg.append("g")
         .attr('class', 'text')
-        .style("font", "10px Roboto")
+        .style("font-family", "Roboto")
+        .style("font-size", d => textSize(d))
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text")
@@ -283,38 +284,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function pack(data) {
         if (config.influenceSwitch == true && config.influence != 'null') {
-            
-            // let measureName = measures[0].name;
-            // return d3.pack()
-            //     .size([width - 2, height - 2])
-            //     .padding(3)
-            //         (d3.hierarchy(data)
-            //             .sum(d => {
-            //                 // console.log('This is the data', d)
-            //                 if(d.data) {
-            //                     if (d.data[measureName]) {
-            //                         return d.data[measureName]
-            //                     } else {
-            //                         d.data[measureName] = 1
-            //                         return d.data[measureName]
-            //                     }
-            //                 } else { // Rebuild the element to store this variable, otherwise system crunks out on ya
-            //                     d.data = {}
-            //                     d.data[measureName] = 1
-            //                     return d.data[measureName]
-            //                 }
-            //             })
-            //             .sort((a, b) => {
-            //                 if (a.data.data[measureName] && !(b.data.data[measureName])) { // If only a exists
-            //                   b.data.data[measureName] = 1
-            //                 } else if (b.data.data[measureName] && a.data.data[measureName]) { // If only b exists
-            //                   a.data.data[measureName] = 1
-            //                 } else { // If neither exist
-            //                   b.data.data[measureName] = a.data.data[measureName] = 1
-            //                 }    
-            //                 // return b.data.data[measureName] - a.data.data[measureName]
-            //                 return b.value - a.value
-            //             }))
+          
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
@@ -326,8 +296,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         if (d.data.value) {
                             return d.data.value
                         }
+                    } else {
+                      return dval
                     }
-                    // return d.data.value;
                 })
                 .sort((a, b) => {
                     console.log(`Sort function for pack if influence != null, this is a:`, a);
@@ -390,7 +361,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '#2424c8'
     }
 
+    function textSize(d) {
+        // We need dynamic font sizing to be implemented soon. 
+        console.log('This is the node data for textSize', d);
+        return '10px';
 
+            // We need dynamic font sizes for the first few parts of the circle too 
+    }
 
 
 
