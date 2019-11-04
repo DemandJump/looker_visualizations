@@ -499,18 +499,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     function spaceTwo(d) { // Spacing the second text element
       return d.data.textuse == 1 ? '0px' // empty node
-      : d.data.textuse == 2 ? '.5px' // Bottom second
-      : '.0px'; // middle third
+      : d.data.textuse == 2 ? '-5px' // Bottom second
+      : '0px'; // middle third
     }
     function spaceThree(d) { // Spacing the third text element
-      return d.data.textuse == 1 ? '.0px' // empty node
-      : d.data.textuse == 2 ? '.0px' // empty node
+      return d.data.textuse == 1 ? '0px' // empty node
+      : d.data.textuse == 2 ? '0px' // empty node
       : '10px'; // bottom third
     }
 
     
 
-    
+
 
 
     /**************** Done! *****************/
