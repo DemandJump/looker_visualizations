@@ -493,18 +493,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function spaceOne(d) { // Spacing the first text element
-      return d.data.textuse == 1 ? '.35em'
-      : d.data.textuse == 2 ? '-.04em'
+      return d.data.textuse == 1 ? '.35em' // Middle one
+      : d.data.textuse == 2 ? '-.14em' // Top second
       : '-.54em'; // Top third
     }
     function spaceTwo(d) { // Spacing the second text element
-      return d.data.textuse == 1 ? '.35em' // This is an empty text element spaced to the middle!
-      : d.data.textuse == 2 ? '.74em'
+      return d.data.textuse == 1 ? '.35em' // empty node
+      : d.data.textuse == 2 ? '.84em' // Bottom second
       : '.35em'; // middle third
     }
     function spaceThree(d) { // Spacing the third text element
-      return d.data.textuse == 1 ? '.35em' // This is an empty text element spaced to the middle!
-      : d.data.textuse == 2 ? '.35em' // This is an empty text element spaced to the middle!
+      return d.data.textuse == 1 ? '.35em' // empty node
+      : d.data.textuse == 2 ? '.35em' // empty node
       : '1.24em'; // bottom third
     }
 
