@@ -483,7 +483,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function spaceOne(d) { // Spacing the first text element
       return d.data.textuse == 1 ? '0px' // Middle one
-      : d.data.textuse == 2 ? '-5px' // Top second
+      : d.data.textuse == 2 ? '5px' // Top second
       : '-10px'; // Top third
     }
     function spaceTwo(d) { // Spacing the second text element
