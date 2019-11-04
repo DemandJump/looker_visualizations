@@ -89,37 +89,37 @@ create: function(element, config) {
         .style('width', '100%')
 
     this._prevBtn = d3.select('.holder').append('button')
-        .attr('class', 'prev djfhButton') 
+        .attr('class', 'prev djfhButton waves-effect waves-light btn-small') 
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Prev')
     this._nextBtn = d3.select('.holder').append('button')
-        .attr('class', 'next djfhButton')
+        .attr('class', 'next djfhButton waves-effect waves-light btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Next')
 
     this._resetSingleNode = d3.select('.holder').append('button')
-        .attr('class', 'resetSingleNode djfhButton')
+        .attr('class', 'resetSingleNode djfhButton waves-effect waves-light btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html(`Reset selected node's position`)
 
     this._resetBtn = d3.select('.holder').append('button')
-        .attr('class', 'reset djfhButton')
+        .attr('class', 'reset djfhButton waves-effect waves-light btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .style('color', 'red')
         .html('RESET ALL NODES')
 
     this._centerNodes = d3.select('.holder').append('button')
-        .attr('class', 'center djfhButton')
+        .attr('class', 'center djfhButton waves-effect waves-light btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Pull nodes together')
 
     this._panelSwitch = d3.select('.holder').append('button')
-        .attr('class', 'changeView djfhButton')
+        .attr('class', 'changeView djfhButton waves-effect waves-light btn-small')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Open Viewport')
@@ -130,12 +130,12 @@ create: function(element, config) {
         .style('display', 'inline-block')
 
     this._selectPrevDepth = d3.select('.linkSettings').append('button')
-        .attr('class', 'prevDepthSelect djfhButton')
+        .attr('class', 'prevDepthSelect djfhButton waves-effect waves-light btn-small')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Edit prev link')
     this._selectNextDepth = d3.select('.linkSettings').append('button')    
-        .attr('class', 'nextDepthSelect djfhButton')
+        .attr('class', 'nextDepthSelect djfhButton waves-effect waves-light btn-small')
         .attr('display', 'inline')
         .style('padding', '5px auto')
         .html('Edit next link')
@@ -534,7 +534,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('this is total nodes', totalNodes);
 
           // This is for the width of the svg before we interact with the panelswitch
-      this._svg.style('width', ww);
+      this._svg.style('width', initWidth);
 
     let counter = 0; // We're using this to pull one of the type values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
@@ -688,7 +688,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.style('width', ww)
+        this._svg.style('width', initWidth)
         this._panelSwitch.html('Open Viewport')
         panelSwitch = 'off';
       } else {
