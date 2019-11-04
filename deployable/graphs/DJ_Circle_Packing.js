@@ -172,7 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
     let fmname = 'null'; // First measure name
     if (measures.length != 0) {
-        fmname = measure[0]['name'];
+        fmname = measures[0]['name'];
     }
 
     data.forEach(node => {
