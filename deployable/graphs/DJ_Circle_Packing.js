@@ -335,6 +335,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
+
+        label 
+            .attr('dy', spaceOne)
+            .style('font-size', d => textSize(d))
+            .text(d => d.data.text1);
+
+        label2
+            .attr('dy', spaceTwo)
+            .text(d => d.data.text2);
+
+       label3
+            .attr('dy', spaceThree)
+            .text(d => d.data.text3);
+
     }
 
     function refactor(d) {
@@ -355,7 +369,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function zoomThenRefactor(d) {
         zoom(d);
-        refactor(d);
+        // refactor(d);
     }
 
 
@@ -479,19 +493,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function spaceOne(d) { // Spacing the first text element
-      return d.data.textuse == 1 ? '.35em' 
+      return d.data.textuse == 1 ? '.35em'
       : d.data.textuse == 2 ? '-.04em'
-      : '-.43em'; // If textuse = 3
+      : '-.54em'; // Top third
     }
     function spaceTwo(d) { // Spacing the second text element
       return d.data.textuse == 1 ? '.35em' // This is an empty text element spaced to the middle!
       : d.data.textuse == 2 ? '.74em'
-      : '.35em' // If textuse = 3
+      : '.35em'; // middle third
     }
     function spaceThree(d) { // Spacing the third text element
       return d.data.textuse == 1 ? '.35em' // This is an empty text element spaced to the middle!
       : d.data.textuse == 2 ? '.35em' // This is an empty text element spaced to the middle!
-      : '1.13em' // If textuse = 3 
+      : '1.24em'; // bottom third
     }
 
 
