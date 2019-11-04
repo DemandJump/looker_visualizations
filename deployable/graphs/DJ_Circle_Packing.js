@@ -438,18 +438,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`This node's charcount: ${charcount}, and diameter: ${diameter}`);
         console.log(`This node's charname ${tedit}, and charlength: ${charlen}`);
 
-        if (charlen <= diameter) { // No editing needed, return just the data1
+        if (charlen <= diameter || d.depth == 1) { // No editing needed, return just the data1
             d.data.textuse = 1;
             d.data.text1 = d.data.name;
-        }
-        if (charlen <= diameter * 2) { // Edit to use two text params
+        } else if (charlen <= diameter * 2) { // Edit to use two text params
             d.data.textuse = 2
             let count = Math.floor(charcount / 2);
             d.data.text1 = tedit.slice(0, count);
             d.data.text2 = tedit.slice(count);
 
-        } 
-        if (charlen <= diameter * 3 || charlen > diameter * 3) { // if you want to add a case where it's more than three remove the or operator and create new confitional. 
+        } else if (charlen <= diameter * 3 || charlen > diameter * 3) { // if you want to add a case where it's more than three remove the or operator and create new confitional. 
             d.data.textuse = 3;
             let count = Math.floor(charcount / 3); 
             d.data.text1 = tedit.slice(0, count);
@@ -457,7 +455,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.data.text3 = tedit.slice(count * 2); 
         }
 
-
+            // This is used to calculate the font size actually 
         if (d.depth == 1) {
             return '24px';
         } else {
@@ -467,19 +465,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function spaceOne(d) { // Spacing the first text element
-      return d.data.textspaces == 1 ? '.35em' 
-      : d.data.textspaces == 2 ? '-.04em'
-      : '-.43em'; // If textspaces = 3
+      return d.data.textuse == 1 ? '.35em' 
+      : d.data.textuse == 2 ? '-.04em'
+      : '-.43em'; // If textuse = 3
     }
     function spaceTwo(d) { // Spacing the second text element
-      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
-      : d.data.textspaces == 2 ? '.74em'
-      : '.35em' // If textspaces = 3
+      return d.data.textuse == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textuse == 2 ? '.74em'
+      : '.35em' // If textuse = 3
     }
     function spaceThree(d) { // Spacing the third text element
-      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
-      : d.data.textspaces == 2 ? '.35em' // This is an empty text element spaced to the middle!
-      : '1.13em' // If textspaces = 3 
+      return d.data.textuse == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textuse == 2 ? '.35em' // This is an empty text element spaced to the middle!
+      : '1.13em' // If textuse = 3 
     }
 
 
