@@ -41,7 +41,7 @@ looker.plugins.visualizations.add({
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
               .text { text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white; }
-              .nodes { stroke-width: 3px; }
+              .nodes { stroke-width: 5px; }
           </style>
         `;
 
