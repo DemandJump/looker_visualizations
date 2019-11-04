@@ -63,7 +63,7 @@ create: function(element, config) {
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
+
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
@@ -144,12 +144,13 @@ create: function(element, config) {
 
     this._slider = d3.select('.linkSettings').append('input')
         .attr('class', 'slider').attr('id', 'linkSlider')
-        .attr('display', 'inline')
-        .attr('type', 'range')
-        .style('margin-left', '1rem')
         .attr('min', '1')
         .attr('max', 2500)
         .attr('value', 50)
+        .style('display', 'inline')
+        .style('type', 'range')
+        .style('margin-left', '1rem')
+
 
     this._currentLinkDepth = d3.select('.linkSettings').append('div')
         .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
