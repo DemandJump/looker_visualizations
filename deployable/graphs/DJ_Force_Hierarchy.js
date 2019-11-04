@@ -534,7 +534,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('this is total nodes', totalNodes);
 
           // This is for the width of the svg before we interact with the panelswitch
-      this._svg.style('width', initWidth);
+      this._svg.style('width', ww);
 
     let counter = 0; // We're using this to pull one of the type values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
     root.leaves().forEach(leaf => {
@@ -688,7 +688,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.style('width', initWidth)
+        this._svg.style('width', ww)
         this._panelSwitch.html('Open Viewport')
         panelSwitch = 'off';
       } else {
