@@ -133,7 +133,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
     this.options.influence['values'].push(val);
 
+
         // Adds all the different dimensions as 
+    this.options.influence['values'] = [];
     measures.forEach(mes => { // Value object >.>  {"name": "value"}
         
         let key = mes.label_short; // Key of value pair
