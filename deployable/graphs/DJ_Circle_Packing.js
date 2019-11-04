@@ -173,11 +173,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let fmname = 'null'; // First measure name
     if (measures.length != 0) {
         fmname = measures[0]['name'];
+        data.forEach(node => {
+            node['value'] = fmname;
+        });
+    } else {
+      data.forEach(node => { 
+        node['value'] = 1;
+      });
     }
-
-    data.forEach(node => {
-        node['value'] = fmname;
-    });
 
     const burrow = this.burrow(data, dimensions);
 
