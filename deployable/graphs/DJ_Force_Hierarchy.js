@@ -141,6 +141,8 @@ create: function(element, config) {
         .html('Edit next link')
 
     this._slider = d3.select('.linkSettings').append('input')
+        .style('width', 'auto')
+        .style('height', 'auto')
         .attr('class', 'slider').attr('id', 'linkSlider')
         .attr('min', '1')
         .attr('max', 2500)
