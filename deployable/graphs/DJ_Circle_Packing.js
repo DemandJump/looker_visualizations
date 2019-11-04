@@ -39,7 +39,8 @@ looker.plugins.visualizations.add({
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
         element.innerHTML =`
           <style>
-          @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+              @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+              .text { text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white; }
           </style>
         `;
 

@@ -75,7 +75,7 @@ create: function(element, config) {
         .djfhText { font: 10px sans-serif; /**/ pointer-events: none; /**/ text-anchor: middle; /**/ text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white;}
         #root circle { fill: #fd8d3c !important; }
 
-        .djfhButton { display: inline; margin: 1px; border-radius: 5px; background-color: #c6dbef; }
+        .djfhButton { display: inline; margin: 1px; border-radius: 5px; background-color: #008CCD; }
         .infoBar { display: inline-block; overflow: scroll; margin: auto; text-align: center; }
             /* This is for the node data inputs */
         .infoLabel { font-size: 1.1rem; /*font-weight: normal;*/ font-style: italic; margin: auto; padding: 1.4rem 1rem 0 1rem; }
@@ -534,6 +534,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('this is total nodes', totalNodes);
 
           // This is for the width of the svg before we interact with the panelswitch
+      console.log('This is the initWidth: ', initWidth);
+      console.log('This is the svgw ', svgw);
+      console.log('This is the ww', ww);
+          // We need the svg to take up the whole width again when the display for the panel is set to none, and account for it's space when it's open. Right now it isn't spacing back out to the element's full width when we close the viewport again.
       this._svg.style('width', initWidth);
 
     let counter = 0; // We're using this to pull one of the type values out of the leaf nodes (All leaf nodes have these values, while root nodes don't)
@@ -688,13 +692,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.style('width', initWidth)
-        this._panelSwitch.html('Open Viewport')
+        this._svg.style('width', '100%');
+        this._panelSwitch.html('Open Viewport');
         panelSwitch = 'off';
       } else {
         d3.select('.infoBar').style('display', 'inline-block');
-        this._svg.style('width', svgw)
-        this._panelSwitch.html('Close Viewport')
+        this._svg.style('width', svgw);
+        this._panelSwitch.html('Close Viewport');
         panelSwitch = 'on';
         
       }
