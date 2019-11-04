@@ -337,7 +337,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-                // After the transition run this to edit the spacing of the nodes
+                // I instantiaed something wrong in the spacing, this works correctly!
         label 
             .attr('dy', spaceOne)
             .style('font-size', d => textSize(d))
@@ -376,7 +376,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function zoomThenRefactor(d) {
         zoom(d);
-        refactor(d);
+        // refactor(d);
     }
 
 
