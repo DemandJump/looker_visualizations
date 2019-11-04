@@ -155,6 +155,7 @@ create: function(element, config) {
         .attr('class', 'currentLinkDepth btn-small').attr('id', 'currentLinkDepth')
         .attr('display', 'inline')
         .attr('padding', '5px auto')
+        .style('background-color', '#2ECC71')
         .html('Link: 0')
 
 
