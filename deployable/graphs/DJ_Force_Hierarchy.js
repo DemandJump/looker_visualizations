@@ -172,6 +172,7 @@ create: function(element, config) {
     this._nodeDataBar = d3.select('.content').append('div')
         .attr('class', 'infoBar')
         .style('display', 'none')
+        .style('width', '100%')
         .style('box-sizing', 'border-box')
         .style('margin', 'auto')
         .style('background-color', '#f5f5f5')
@@ -505,7 +506,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             interfaceh = interfaceHeight + 'px',
     treemap = d3.tree().size([interfaceh, initWidth]), // Tree layout (hierarchy must be applied to data before this will work)
     totalNodes,
-    notch = 0, // Notch is the counter for our good ol daters
+    notch = 1, // Notch is the counter for our good ol daters
     currentValue = '',
     maxDepth = 1,
     minMeasure = 100000000000,
@@ -536,7 +537,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // This is for the width of the svg before we interact with the panelswitch
       console.log('This is the initWidth: ', initWidth);
       console.log('This is the svgw ', svgw);
-      console.log('This is the ww', ww);
           // We need the svg to take up the whole width again when the display for the panel is set to none, and account for it's space when it's open. Right now it isn't spacing back out to the element's full width when we close the viewport again.
       this._svg.style('width', initWidth);
 
@@ -687,12 +687,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       simulation.alpha(1).alphaDecay(.125).restart();
     });
 
+
+
     
     this._panelSwitch.on('click', event => {
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.style('width', '100%');
+        this._svg.style('width', initWidth);
         this._panelSwitch.html('Open Viewport');
         panelSwitch = 'off';
       } else {
