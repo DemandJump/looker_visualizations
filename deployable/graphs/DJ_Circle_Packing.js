@@ -221,7 +221,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
         .style("max-width", window.innerHeight) // This one makes it nice and spacy
-        .on("click", () => zoomThenRefactor(root)); // This zoom function 
+        .on("click", () => zoom(root)); // This zoom function 
 
     const node = svg.append("g")
         .attr('class', 'nodes')
@@ -238,7 +238,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('stroke-width', d => `${d.height}px`); 
             }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-            .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+            .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
 
     const label = svg.append("g")
         .attr('class', 'text')
@@ -355,29 +355,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     }
 
-    function refactor(d) {
-          // After the transition run this to edit the spacing of the nodes
-        label 
-            .attr('dy', spaceOne)
-            .style('font-size', d => textSize(d))
-            .text(d => d.data.text1);
-
-        label2
-            .attr('dy', spaceTwo)
-            .style('font-size', d => textSize(d))
-            .text(d => d.data.text2);
-
-       label3
-            .attr('dy', spaceThree)
-            .style('font-size', d => textSize(d))
-            .text(d => d.data.text3);
-
-    }
-
-    function zoomThenRefactor(d) {
-        zoom(d);
-        // refactor(d);
-    }
 
 
     function pack(data) {
