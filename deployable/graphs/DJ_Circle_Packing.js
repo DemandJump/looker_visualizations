@@ -169,7 +169,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*********************************************************
      * Preload the data for the visual 
     *********************************************************/
-        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data instead
+        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
+    let fmname = 'null'; // First measure name
+    if (measures.length != 0) {
+        fmname = measure[0]['name'];
+    }
+
+    data.forEach(node => {
+        node['value'] = fmname;
+    });
+
     const burrow = this.burrow(data, dimensions);
 
     let view,
