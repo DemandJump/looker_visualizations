@@ -304,12 +304,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         label2
           .attr('dy', spaceTwo)
-          .style('font-size', d => textSize(d))
           .text(d => d.data.text2);
 
         label3
           .attr('dy', spaceThree)
-          .style('font-size', d => textSize(d))
           .text(d => d.data.text3);
     }
 
