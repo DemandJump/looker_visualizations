@@ -270,6 +270,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('text-anchor', 'middle')
             .selectAll('text.text3')
             .data(nodes, d => d.id).enter()
+            .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style('font-size', '10px')
