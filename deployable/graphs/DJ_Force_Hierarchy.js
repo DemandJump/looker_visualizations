@@ -141,14 +141,14 @@ create: function(element, config) {
         .html('Edit next link')
 
     this._slider = d3.select('.linkSettings').append('input')
-        .style('width', 'auto')
-        .style('height', 'auto')
         .attr('class', 'slider').attr('id', 'linkSlider')
+        .attr('type', 'range')
         .attr('min', '1')
         .attr('max', 2500)
         .attr('value', 50)
+        .style('width', 'auto')
+        .style('height', 'auto')
         .style('display', 'inline')
-        .style('type', 'range')
         .style('margin-left', '1rem')
 
 
