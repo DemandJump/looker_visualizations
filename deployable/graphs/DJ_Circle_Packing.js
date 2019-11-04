@@ -35,6 +35,8 @@ looker.plugins.visualizations.add({
         // Onto the create section 
     create: function(element, config) {
         let d3 = d3v5; // Pull in d3 selector as it's normal reference
+
+        d3.select(element).style('box-sizing', 'border-box');
     
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
         element.innerHTML =`
@@ -226,7 +228,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .append("circle") 
             .attr('class', 'node')
             // .attr("fill", d => d.children ? colorNodes(d.depth) : "white") // or color(d.depth)
-            .attr("fill", d => colorNodes(d.depth))
+            .attr("fill", d => color(d.depth))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
