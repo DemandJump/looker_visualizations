@@ -145,25 +145,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         this.options.influence['values'].push(val);
     })
-    this.options.influence.default = 'null'
+    this.options.influence.default = 'null';
 
 
     if (config.influenceSwitch == false) { // Then hide the influence setting
         if (this.options.influence.hidden == false) {
-            this.options.influence.hidden = true
-            this.trigger('registerOptions', this.options)
+            this.options.influence.hidden = true;
+            this.trigger('registerOptions', this.options);
         }
     } 
     if (config.influenceSwitch == true) { // Then show the influence setting 
         if (this.options.influence.hidden == true) {
-          this.options.influence.hidden = false 
-          this.trigger('registerOptions', this.options)
+          this.options.influence.hidden = false;
+          this.trigger('registerOptions', this.options);
         }
     }
 
     
 
-
+    console.log('\n\n Configuration settings');
+    console.log(`Influence Switch: ${config.influenceSwitch}`);
+    console.log(`Measure Influence: ${config.influence}`);
 
     
     /*********************************************************
