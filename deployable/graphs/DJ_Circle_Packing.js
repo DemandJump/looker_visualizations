@@ -297,18 +297,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => d.r * k); // This changes the size of the nodes with reference to the change of the camera
 
-        label 
-          .attr('dy', spaceOne)
-          .style('font-size', d => textSize(d))
-          .text(d => d.data.text1);
-
-        label2
-          .attr('dy', spaceTwo)
-          .text(d => d.data.text2);
-
-        label3
-          .attr('dy', spaceThree)
-          .text(d => d.data.text3);
     }
 
     function zoom(d) {
@@ -343,6 +331,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+
+
+            // After the transition run this to edit the spacing of the nodes
+        label 
+          .attr('dy', spaceOne)
+          .style('font-size', d => textSize(d))
+          .text(d => d.data.text1);
+
+        label2
+          .attr('dy', spaceTwo)
+          .text(d => d.data.text2);
+
+        label3
+          .attr('dy', spaceThree)
+          .text(d => d.data.text3);
     }
 
     function pack(data) {
@@ -435,8 +438,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         diameter = d.r * 2, // This is the width of the circle that's encapsulating the text
         tedit = d.data.name; // Holder for text we're gonna splice and dice
 
-        console.log(`This node's charcount: ${charcount}, and diameter: ${diameter}`);
-        console.log(`This node's charname ${tedit}, and charlength: ${charlen}`);
+        // console.log(`This node's charcount: ${charcount}, and diameter: ${diameter}`);
+        // console.log(`This node's charname ${tedit}, and charlength: ${charlen}`);
 
         if (charlen <= diameter || d.depth == 1) { // No editing needed, return just the data1
             d.data.textuse = 1;
