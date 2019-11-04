@@ -240,7 +240,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const label = svg.append("g")
         .attr('class', 'text')
         .style("font-family", "Roboto")
-        .style("font-size", d => textSize(d))
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text")
@@ -248,6 +247,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
+                .style("font-size", d => textSize(d))
                 .text(d => d.data.name);
 
     zoomTo([root.x, root.y, root.r * 2]);
@@ -295,7 +295,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('Sum function for pack if influence != null, this is d: ', d);
+                    // console.log('Sum function for pack if influence != null, this is d: ', d);
                     dval = 1;
                     if (d.data) {
                         if (d.data.value) {
@@ -306,8 +306,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
-                    console.log(`Sort function for pack if influence != null, this is a:`, a);
-                    console.log(`This is b: `, b);
+                    // console.log(`Sort function for pack if influence != null, this is a:`, a);
+                    // console.log(`This is b: `, b);
                     // return b.value - a.value;
                         // We're just going to pull out the values if they're there and return them in vars
                     let aval = 1; 
@@ -333,12 +333,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log(`Sum function for pack if influence is null, this is d: `, d);
+                    // console.log(`Sum function for pack if influence is null, this is d: `, d);
                     return d.value
                 })
                 .sort((a, b) => { 
-                    console.log(`Sort function for pack if influence is null, this is a: `, a);
-                    console.log(`This is b: `, b);
+                    // console.log(`Sort function for pack if influence is null, this is a: `, a);
+                    // console.log(`This is b: `, b);
                     return b.value - a.value;
                 }));
         }
