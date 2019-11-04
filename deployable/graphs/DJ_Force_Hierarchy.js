@@ -154,11 +154,9 @@ create: function(element, config) {
     this._currentLinkDepth = d3.select('.linkSettings').append('button')
         .attr('class', 'currentLinkDepth btn-small').attr('id', 'currentLinkDepth')
         .attr('display', 'inline')
-        .attr('padding', '5px auto')
+        .attr('padding', '1px auto')
         .style('background-color', '#2ECC71')
         .html('Link: 0')
-
-
     // this._currentLinkDepth = d3.select('.linkSettings').append('div')
     //     .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
     //     .style('display', 'inline')
