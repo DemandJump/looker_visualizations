@@ -492,9 +492,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //   : '10px'; // bottom third
     // }
 
-    function spaceOne(d) { return '10px' }
-    function spaceTwo(d) { return '0px' }
-    function spaceThree(d) { return '-10px' }
+    function spaceOne(d) { return '10px'; }
+    function spaceTwo(d) { return '0px'; }
+    function spaceThree(d) { return '-10px'; }
 
 
     
