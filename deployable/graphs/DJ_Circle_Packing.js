@@ -311,27 +311,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
-                .attr('dy', spaceOne)
-                .text(d => d.data.text1);
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; };
 
         label2
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
-                .attr('dy', spaceTwo)
-                .text(d => d.data.text2);
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
         label3
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; })
-                .attr('dy', spaceThree)
-                .text(d => d.data.text3);
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
     }
 
     function pack(data) {
