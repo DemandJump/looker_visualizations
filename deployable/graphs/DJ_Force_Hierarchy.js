@@ -109,7 +109,7 @@ create: function(element, config) {
         .attr('class', 'reset djfhButton waves-effect waves-light btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .style('color', 'red')
+        // .style('color', 'red') // This looks wacky!
         .html('RESET ALL NODES')
 
     this._centerNodes = d3.select('.holder').append('button')
