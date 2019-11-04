@@ -197,7 +197,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     width = height = window.innerHeight;
     const root = pack(burrow);
     let focus = root,
-    nodes = root.descendants();
+    nodes = root.descendants().slice(1);
 
     console.log('root', root);
 
@@ -349,7 +349,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         color = d3.scaleLinear()
             .domain([0,5])
             // .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
-            .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
+            .range(["hsl(199, 100%, 40%)", "hsl(145, 63%, 49%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
             .interpolate(d3.interpolateHcl)
     }
 
