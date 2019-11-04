@@ -72,7 +72,6 @@ looker.plugins.visualizations.add({
             var depth = depth || 0;
             for (var k in obj) {
                 if (k == '__data') { continue; }
-                console.log('This is k', k);
                 var child = {
                     name: k,
                     depth: depth,
