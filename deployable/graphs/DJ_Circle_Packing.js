@@ -376,10 +376,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
-                    // console.log(`Sort function for pack if influence != null, this is a:`, a);
-                    // console.log(`This is b: `, b);
-                    // return b.value - a.value;
-                        // We're just going to pull out the values if they're there and return them in vars
                     let aval = 1; 
                     let bval = 1;
 
@@ -423,18 +419,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .interpolate(d3.interpolateHcl)
     }
 
-    // #008CCD #fd8d3c #2ECC71 #8E44AD #E74C3C #00BCD4 #CDDC39 #F06292 #2424c8 
-    function colorNodes(d) {
-        return d == '0' ? '#2424c8'
-        : d == '1' ? '#008CCD'
-        : d == '2' ? '#fd8d3c'
-        : d == '3' ? '#2ECC71'
-        : d == '4' ? '#8E44AD'
-        : d == '5' ? '#E74C3C'
-        : d == '6' ? '#00BCD4'
-        : d == '7' ? '#CCDC39'
-        : '#F06292'
-    }
 
     function textSize(d) { // We ran the calculations for each of the nodes and text spacing before actually implementing the nodes
 
