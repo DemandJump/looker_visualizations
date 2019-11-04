@@ -72,6 +72,7 @@ looker.plugins.visualizations.add({
             var depth = depth || 0;
             for (var k in obj) {
                 if (k == '__data') { continue; }
+                console.log('This is k', k);
                 var child = {
                     name: k,
                     depth: depth,
@@ -173,7 +174,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
     if (config.influence != 'null') {
         data.forEach(node => {
-            node['value'] = data[config.influence];
+            node['value'] = data[config.influence]['value'];
         });
     } else {
       data.forEach(node => { 
