@@ -227,7 +227,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .append("circle") 
             .attr('class', 'node')
             // .attr("fill", d => d.children ? colorNodes(d.depth) : "white") // or color(d.depth)
-            .attr("fill", d => color(d.depth))
+            .attr("fill", d => d.children ? color(d.depth) : "white")
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -349,7 +349,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         color = d3.scaleLinear()
             .domain([0,5])
             // .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
-            .range(["hsl(152, 80%, 80%)", "hsl(199, 100%, 40%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
+            .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
             .interpolate(d3.interpolateHcl)
     }
 
