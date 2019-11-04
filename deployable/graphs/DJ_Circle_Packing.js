@@ -422,16 +422,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (charlen <= diameter * 2) { // Edit to use two text params
             d.data.textuse = 2
             let count = Math.floor(charcount / 2);
-            d.data.text1 = tedit(0, count);
-            d.data.text2 = tedit(count);
+            d.data.text1 = tedit.slice(0, count);
+            d.data.text2 = tedit.slice(count);
 
         } 
         if (charlen <= diameter * 3 || charlen > diameter * 3) { // if you want to add a case where it's more than three remove the or operator and create new confitional. 
             d.data.textuse = 3;
             let count = Math.floor(charcount / 3); 
-            d.data.text1 = tedit(0, count);
-            d.data.text2 = tedit(count, count * 2);
-            d.data.text3 = tedit(count * 2); 
+            d.data.text1 = tedit.slice(0, count);
+            d.data.text2 = tedit.slice(count, count * 2);
+            d.data.text3 = tedit.slice(count * 2); 
         }
 
 
