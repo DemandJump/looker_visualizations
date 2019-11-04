@@ -858,12 +858,11 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('stroke', border)
         .attr('stroke-width', borderWidth)
         .style('fill', color)
-   
+        
 // Create the text for the node
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
-        .style('display', d => display(d))
         .style('font-size', fontSize)
         .text(d => calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
@@ -871,7 +870,6 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
-        .style('display', d => display(d))
         .style('font-size', fontSize)
         .text(d => calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
@@ -879,7 +877,6 @@ function update() { /* Initialize some parameters that we will need for */
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
-        .style('display', d => display(d))
         .style('font-size', fontSize)
         .text(d => calcT3(d)) // This inputs the text
         .attr('dy', spaceThree);
@@ -993,7 +990,7 @@ function update() { /* Initialize some parameters that we will need for */
             : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4') // #CDDC39 
             : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39') // #F06292 
             : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292') // #2424c8
-            : lightenOrDarken(d, '#BDBDBD') // #008CCD #fd8d3c #2ECC71 #8E44AD #E74C3C #00BCD4 #CDDC39 #F06292 #2424c8 
+            : lightenOrDarken(d, '#BDBDBD')
           } else { return lightenOrDarken(d, '#0a63c2'); }
 
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
@@ -1101,11 +1098,6 @@ function update() { /* Initialize some parameters that we will need for */
             return d.radius;
         }
         // console.log('end of notch radius', d);
-    }
-
-    function textDisplay(d) {
-        if (d.notch == 'c') { return 'none' }
-        else { return 'inline' }
     }
     
     function calcText(d) { // This calculates the spacing based on the radius of each node
