@@ -864,21 +864,21 @@ function update() { /* Initialize some parameters that we will need for */
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .text(d => calcText(d)) // This inputs the text
+        .text(d => d.notch == 'c' ? '' : calcText(d)) // This inputs the text
         .attr('dy', spaceOne);
 // Second row of text
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .text(d => calcT2(d)) // This inputs the text
+        .text(d => d.notch == 'c' ? '' : calcT2(d)) // This inputs the text
         .attr('dy', spaceTwo);
 // Third row of text
     nodeEnter.append('text')
         .attr('class', 'djfhText')
         .attr('text-anchor', 'middle')
         .style('font-size', fontSize)
-        .text(d => calcT3(d)) // This inputs the text
+        .text(d => d.notch == 'c' ? '' : calcT3(d)) // This inputs the text
         .attr('dy', spaceThree);
 
     
