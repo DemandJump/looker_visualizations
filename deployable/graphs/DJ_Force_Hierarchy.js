@@ -151,14 +151,20 @@ create: function(element, config) {
         .style('display', 'inline')
         .style('margin-left', '1rem')
 
+    this._currentLinkDepth = d3.select('.linkSettings').append('button')
+        .attr('class', 'currentLinkDepth btn-small').attr('id', 'currentLinkDepth')
+        .attr('display', 'inline')
+        .attr('padding', '5px auto')
+        .html('Link: 0')
 
-    this._currentLinkDepth = d3.select('.linkSettings').append('div')
-        .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
-        .style('display', 'inline')
-        .style('padding', '5px auto')
-        .style('margin-left', '5px')
-        .style('font-size', '16px')
-        .html('Link Depth: 0')
+
+    // this._currentLinkDepth = d3.select('.linkSettings').append('div')
+    //     .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
+    //     .style('display', 'inline')
+    //     .style('padding', '5px auto')
+    //     .style('margin-left', '5px')
+    //     .style('font-size', '16px')
+    //     .html('Link Depth: 0')
         
         /*************** End of holder (Navbar) ***************/
 
@@ -737,7 +743,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           document.getElementById('linkSlider').value = init.distance; 
         } 
       }) 
-      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link: ${depthSelect}`)
     });
 
     this._selectNextDepth.on('click', event => {
@@ -747,7 +753,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           document.getElementById('linkSlider').value = init.distance;
         } 
       })  
-      this._currentLinkDepth.html(`Link Depth: ${depthSelect}`)
+      this._currentLinkDepth.html(`Link: ${depthSelect}`)
     });
 
 
