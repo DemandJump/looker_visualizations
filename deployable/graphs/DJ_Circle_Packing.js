@@ -130,12 +130,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ***************************************/
 
         /* Input the dimension values in the options */ 
+    this.options.influence['values'] = [];
     let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
     this.options.influence['values'].push(val);
 
-
         // Adds all the different dimensions as 
-    this.options.influence['values'] = [];
     measures.forEach(mes => { // Value object >.>  {"name": "value"}
         
         let key = mes.label_short; // Key of value pair
@@ -172,11 +171,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Preload the data for the visual 
     *********************************************************/
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-    let fmname = 'null'; // First measure name
-    if (measures.length != 0) {
-        fmname = measures[0]['name'];
+    if (config.influence != 'null') {
         data.forEach(node => {
-            node['value'] = fmname;
+            node['value'] = data[config.influence];
         });
     } else {
       data.forEach(node => { 
@@ -184,8 +181,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       });
     }
 
-    const burrow = this.burrow(data, dimensions);
 
+    const burrow = this.burrow(data, dimensions);
     let view,
     vWidth = window.innerWidth,
     vHeight = window.innerHeight,
@@ -274,9 +271,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-        if (config.influenceSwitch == true && measures.length != 0 && config.influence != 'null') {
+        if (config.influenceSwitch == true && config.influence != 'null') {
             
-            let measureName = measures[0].name;
+            // let measureName = measures[0].name;
             // return d3.pack()
             //     .size([width - 2, height - 2])
             //     .padding(3)
@@ -311,16 +308,30 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
-                .sum(d => d.value)
-                .sort((a, b) => b.value - a.value));
+                .sum(d => {
+                    console.log('Sum function for pack if influence != null, this is d: ', d);
+                    return d.value;
+                })
+                .sort((a, b) => {
+                    console.log(`Sort function for pack if influence != null, this is a:`, a);
+                    console.log(`This is b: `, b);
+                    return b.value - a.value;
+                }));
 
         } else {
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
-                .sum(d => d.value)
-                .sort((a, b) => b.value - a.value));
+                .sum(d => {
+                    console.log(`Sum function for pack if influence is null, this is d: `, d);
+                    return d.value
+                })
+                .sort((a, b) => { 
+                    console.log(`Sort function for pack if influence is null, this is a: `, a);
+                    console.log(`This is b: `, b);
+                    return b.value - a.value;
+                }));
         }
 
     }
