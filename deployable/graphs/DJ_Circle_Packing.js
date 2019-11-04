@@ -42,7 +42,8 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-              .text { text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white; }
+              .text, .text2, .text3 { font-family: Roboto; }
+              .text { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
           </style>
         `;
 
@@ -239,16 +240,41 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     const label = svg.append("g")
         .attr('class', 'text')
-        .style("font-family", "Roboto")
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
-            .selectAll("text")
+            .selectAll("text.text")
             .data(nodes, d => d.id).enter()
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
-                .style("font-size", d => textSize(d))
-                .text(d => d.data.name);
+                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
+                .attr('dy', spaceOne)
+                .text(d => d.data.text1);
+              
+    const label2 = svg.append("g")
+        .attr('class', 'text2')
+        .attr('pointer-events', 'none')
+        .attr('text-anchor', 'middle')
+            .selectAll('text.text2')
+            .data(nodes, d => d.id).enter()
+            .append('text')
+                .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .style('font-size', '10px')
+                .attr('dy', spaceTwo)
+                .text(d => d.data.text2);
+
+    const label3 = svg.append("g")
+        .attr('class', 'text3')
+        .attr('pointer-events', 'none')
+        .attr('text-anchor', 'middle')
+            .selectAll('text.text3')
+            .data(nodes, d => d.id).enter()
+                .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .style('font-size', '10px')
+                .attr('dy', spaceThree)
+                .text(d => d.data.text3);
 
     zoomTo([root.x, root.y, root.r * 2]);
 
@@ -280,6 +306,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             });
 
         label
+            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+        label2
+            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+        label3
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
@@ -366,12 +404,59 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '#F06292'
     }
 
-    function textSize(d) {
-        // We need dynamic font sizing to be implemented soon. 
-        console.log('This is the node data for textSize', d);
-        return '10px';
+    function textSize(d) { // We ran the calculations for each of the nodes and text spacing before actually implementing the nodes
 
-            // We need dynamic font sizes for the first few parts of the circle too 
+                  // For one character it's about 5px per character with that quote being about 20 characters
+          // So make multiple text nodes where we split the text and add it to a new text node if it breaches the diameter(r*2)
+        d.data.text1 = d.data.text2 = d.data.text3 = '';
+        d.data.textuse = '1'
+        let charcount = d.data.name.length, // 5.2px per character to avoid overlap
+        charlen = charcount * 5.5,
+        diameter = r * 2, // This is the width of the circle that's encapsulating the text
+        tedit = d.data.name; // Holder for text we're gonna splice and dice
+
+        if (charlen <= diameter) { // No editing needed, return just the data1
+            d.data.textuse = 1;
+            d.data.text1 = d.data.name;
+        }
+        if (charlen <= diameter * 2) { // Edit to use two text params
+            d.data.textuse = 2
+            let count = Math.floor(charcount / 2);
+            d.data.text1 = tedit(0, count);
+            d.data.text2 = tedit(count);
+
+        } 
+        if (charlen <= diameter * 3 || charlen > diameter * 3) { // if you want to add a case where it's more than three remove the or operator and create new confitional. 
+            d.data.textuse = 3;
+            let count = Math.floor(charcount / 3); 
+            d.data.text1 = tedit(0, count);
+            d.data.text2 = tedit(count, count * 2);
+            d.data.text3 = tedit(count * 2); 
+        }
+
+
+        if (d.depth == 1) {
+            return '24px';
+        } else {
+            return '10px';
+        }
+
+    }
+
+    function spaceOne(d) { // Spacing the first text element
+      return d.data.textspaces == 1 ? '.35em' 
+      : d.data.textspaces == 2 ? '-.04em'
+      : '-.43em'; // If textspaces = 3
+    }
+    function spaceTwo(d) { // Spacing the second text element
+      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textspaces == 2 ? '.74em'
+      : '.35em' // If textspaces = 3
+    }
+    function spaceThree(d) { // Spacing the third text element
+      return d.data.textspaces == 1 ? '.35em' // This is an empty text element spaced to the middle!
+      : d.data.textspaces == 2 ? '.35em' // This is an empty text element spaced to the middle!
+      : '1.13em' // If textspaces = 3 
     }
 
 
