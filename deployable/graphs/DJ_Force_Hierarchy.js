@@ -520,7 +520,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     reset = false,
     resetSingleNode = false,
     linkDistance,
-    panelSwitch = 'off',
+    panelSwitch = 'on',
     depthSelect = 0,
     maxLinkScale, // This is the number of descendants based on the root
     friction = .1; // This determines the link length based on the data that's given
