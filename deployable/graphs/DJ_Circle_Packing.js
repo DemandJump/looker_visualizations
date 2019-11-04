@@ -43,7 +43,10 @@ looker.plugins.visualizations.add({
           </style>
         `;
 
-        this._svg = d3.select(element).append("svg")
+        this._container = d3.select(element).append("div")
+            .attr('class', 'container');
+
+        this._svg = d3.select('div.container').append("svg")
             .attr('class', 'svg');
 
     },
@@ -199,7 +202,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-
+    let container = this._container
+        .style('box-sizing', 'boder-box')
+        .style('text-align', 'center')
+        .style('margin', '0 auto');
 
     let svg = this._svg        
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
