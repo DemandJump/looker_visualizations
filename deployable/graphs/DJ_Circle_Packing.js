@@ -371,28 +371,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none";
+                    label .attr('dy', spaceOne).style('font-size', d => textSize(d)).text(d => d.data.text1);
+                });
 
         label2
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    label2.attr('dy', spaceTwo).style('font-size', d => textSize(d)).text(d => d.data.text2);
+                });
 
         label3
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    label3.attr('dy', spaceThree).style('font-size', d => textSize(d)).text(d => d.data.text3);
+                });
 
         div1
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
             .transition(transition)
                 .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    div1.attr('dy', '0px').style('font-size', d => textSize(d)).html(d => d.data.name);
+                });
 
     }
 
@@ -416,13 +428,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         div1
             .attr('dy', '0px')
             .style('font-size', d => textSize(d))
-            .text(d => d.data.name);
+            .html(d => d.data.name);
 
     }
 
     function zoomThenRefactor(d) {
         zoom(d);
-        refactor(d);
+        // refactor(d);
     }
 
     function pack(data) {
