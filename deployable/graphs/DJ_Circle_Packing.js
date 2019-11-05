@@ -347,6 +347,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+        div1.attr("transfor", d => `translate(${(d.x - v[0]) * k}, ${d.y - v[1] * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => {
             d.nr = d.r * k; // Variable to hold the changing radius size 
