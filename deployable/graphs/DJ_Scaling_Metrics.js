@@ -142,13 +142,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             words: [
                 {
                     type: "separator",
-                    text: `${mes.name} Font size and value format` 
+                    text: `${mes.label_short} Font size and value format` 
                 }
             ]
         }
 
         dynamicConfig[mes.name + 'word'] = {
-          label: mes.label + 'word sentence',
+          label: mes.label + 'word data',
           order: i + .1,
           type: 'sentence_maker',
           section: 'Words',
@@ -165,7 +165,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               {
                   name: `${mes.name}_vf`,
                   type: 'string',
-                  placeholder: 'Value format'
+                  // placeholder: 'Value format'
               }
           ]
       }
