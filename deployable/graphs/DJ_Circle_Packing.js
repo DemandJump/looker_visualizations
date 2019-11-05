@@ -334,7 +334,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     zoomTo([root.x, root.y, root.r * 2]);
 
 
-    
     /*******************************************************
         * Functions Section *
     *******************************************************/
