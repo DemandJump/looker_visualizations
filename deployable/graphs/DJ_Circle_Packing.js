@@ -194,7 +194,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } 
     
     
-    
     /*********************************************************
      * Preload the data for the visual 
     *********************************************************/
@@ -386,6 +385,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
+        div1
+            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
             // I instantiaed something wrong in the spacing, this works correctly!
         label 
@@ -402,6 +407,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('dy', spaceThree)
             .style('font-size', d => textSize(d))
             .text(d => d.data.text3);
+
+        div1
+            .attr('dy', '0px')
+            .style('font-size', d => textSize(d))
+            .text(d => d.data.name);
 
     }
 
