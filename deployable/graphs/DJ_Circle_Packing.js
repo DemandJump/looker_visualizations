@@ -259,7 +259,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
         .style("max-width", window.innerHeight) // This one makes it nice and spacy
-        .on("click", () => zoom(root)); // This zoom function 
+        .on("click", () => zoom(root)) // This zoom function 
+        .on("click", () => refactor(root));
 
     const node = svg.append("g")
         .attr('class', 'nodes')
@@ -276,7 +277,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('stroke-width', d => `${d.height}px`); 
             }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-            .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+            .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())) // Stop other events and run the zoom function
+            .on("click", d => focus !== d && (refactor(d), d3.event.stopPropagation()));
 
     const label = svg.append("g")
         .attr('class', 'text')
@@ -326,7 +328,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               .append('div')
                   .style('fill-opacity', d => d.parent === root ? 1 : 0)
                   .style('display', d => d.parent === root ? 'inline' : 'none')
-                  .style('font-size', d => '10px')
+                  .style('font-size', d => textSize(d))
                   .style('word-wrap', 'break-word')
                   .attr('dy', '0px')
                   .html(d => d.data.name);
@@ -347,7 +349,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => {
-            d.nr = d.r * k;
+            d.nr = d.r * k; // Variable to hold the changing radius size 
             return d.r * k;
         }); // This changes the size of the nodes with reference to the change of the camera
 
@@ -393,6 +395,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
+    }
+
+    function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
             // I instantiaed something wrong in the spacing, this works correctly!
         label 
             .attr('dy', spaceOne)
@@ -512,9 +517,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // This is used to calculate the font size actually 
         if (d.depth == 1) {
-            return '24px';
+            return '28px';
         } else {
-            return '10px';
+            return '14px';
         }
 
     }
