@@ -106,9 +106,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ******************************************************************/
     
     let dynamicConfig = {}
-    measures.forEach(mes => {
+    measureOrder = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40];
+    measureFormat = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41];
+    measures.forEach( (mes, i) => {
         dynamicConfig[mes.name] = {
             label: mes.label + ' Font Size',
+            order: measureOrder[i],
             type: 'string',
             section: 'Style',
             display: 'select',
@@ -121,19 +124,46 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         dynamicConfig[mes.name + 'ValueFormat'] = {
-            label: mes.label + ' Value Format',
+            label: 'Value Format',
+            order: measureFormat[i],
             type: 'string',
             section: 'Style',
             placeholder: 'Spreadsheet style format code'
         }
 
-    })
+    });
     // dynamicConfig['valueFormat'] = {
     //     label: "Value Format",
     //     type: "string",
     //     section: "Style (Deprecated)",
     //     placeholder: "Spreadsheet style format code"
     // }
+    dynamicConfig[limit_displayed_rows_values] = {
+        type: "sentence_maker",
+        label: "Limit Displayed Rows Values",
+        section: "Sentence",
+        words: [
+            {
+                type: "select",
+                name: "show_hide",
+                options: [
+                    { label: "Hide", value: "hide" },
+                    { label: "Show", value: "show" }
+                ]
+            },
+            { type: "separator", text: "the" },
+            {
+                type: "select",
+                name: "first_last",
+                options: [
+                    { label: "First", value: "first" },
+                    { label: "Last", value: "last" }
+                ]
+            },
+            { type: "number", name: "num_rows", value: 0 },
+            { type: "separator", text: "rows" }
+        ]
+    };
 
     this.options = dynamicConfig
     if (this._mCounter == 0) {
@@ -142,8 +172,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+
    
 
+    console.log(`These are the configuration settings`);
+    console.log(``)
 
     /***********************************
      * Update the Visualization *
@@ -151,13 +184,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update()
     function update() {
         measureData.forEach(node => {
-            console.log('this is the node', node)
             console.log('This is config', config) 
             console.log('This is the config for this node', config[node.format])
             node.valueFormat = node.value // this is the value without the format
             if (config[node.format] != '') { // If there is a format applied, run the function for the format
-                node.valueFormat = formatValue(config[node.format], node.value)
+                node.valueFormat = formatValue(config[node.format], node.value);
             }
+            console.log('This is the finished node data node', node);
 
                 // This is the djsmContainer for each of the nodes
             d3.select('div.djsmContainer').append('div')
@@ -238,59 +271,59 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 function formatValue(formatData, string) {
-    if(formatData == '' || formatData == null) { return string }
-    console.log('\nformat', formatData)
-    console.log('string', string)
-    string = string.toString() // These need to be stringified for all the different text editing functions won't work
-    let format = formatData.toString() 
-    stringRes = string
-    let tf = false
+    if(formatData == '' || formatData == null) { return string; }
+    console.log('\nformat', formatData);
+    console.log('entering string', string);
+    string = string.toString(); // These need to be stringified for all the different text editing functions won't work
+    let format = formatData.toString();
+    stringRes = string;
+    let tf = false;
 
 
         // Some stuff to stop the format from throwing errors
-    if(format == '' || format == ' ') { return string }
+    if(format == '' || format == ' ') { return string; }
 
 
             /***** This is the  0.00\% formatting! *****/
 
     if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {
         console.log('This is the 0.00\\% format!'); 
-        stringRes = string
-        let decimalAmount = 0
+        stringRes = string;
+        let decimalAmount = 0;
 
         for(i = 2; i < format.length; i++) { // Start after the period, stop at the %
             if (format[i] == '0') {
-                decimalAmount ++ 
-            } else { break } // Stop when the decimals run out
+                decimalAmount ++;
+            } else { break; } // Stop when the decimals run out
         }
 
 
         if( !(stringRes.includes('.')) ) { // If there's no decimal point add the set amount of decimal points
-            stringRes = stringRes + '.'
-            for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0' }
-            return stringRes + '%'
+            stringRes = stringRes + '.';
+            for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0'; }
+            return stringRes + '%';
         } 
 
             // Calculate the string's decimal point and places, and size it to dynamically
-        stringpoint = -1
-        stringplaces = 0
+        stringpoint = -1;
+        stringplaces = 0;
         for(i = 0; i < stringRes.length; i++) {
-            if(stringpoint != -1) { stringplaces++}
-            if(stringRes[i] == '.') { stringpoint = i }
+            if(stringpoint != -1) { stringplaces++; }
+            if(stringRes[i] == '.') { stringpoint = i; }
         }
 
         if (stringplaces < decimalAmount) {
-            let difference = decimalAmount - stringplaces
+            let difference = decimalAmount - stringplaces;
             for(i = 0; i < difference; i++) {
-                stringRes = stringRes + '0'
+                stringRes = stringRes + '0';
             }
         } else if(stringplace > decimalAmount) {
-            let difference = stringplaces - decimalAmount
+            let difference = stringplaces - decimalAmount;
             for(i = 0; o < difference; i++) {
-                stringRes = stringRes.slice(0, -1)
+                stringRes = stringRes.slice(0, -1);
             }
         }
-        return stringRes + '%'
+        return stringRes + '%';
     }
     
         /***** End of the  0.00\% formatting! *****/
