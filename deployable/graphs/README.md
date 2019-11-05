@@ -72,5 +72,5 @@ limit_displayed_rows_values: {
         { type: "separator", text: "rows" }
     ]
 }
-- These are the different params you can put in the values array to construct sentence returns with varying input data. This is really nifty type structure that you can implement. 
+- These are the different params you can put in the values array to construct sentence returns with varying input data. This is really nifty type structure that you can implement. Each one with a name becomes a value within it's specific object in the configuration array.
 

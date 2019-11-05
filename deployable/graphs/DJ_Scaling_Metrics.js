@@ -107,7 +107,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     let dynamicConfig = {}
     measureOrder = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40];
-    measureFormat = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41];
     measures.forEach( (mes, i) => {
         dynamicConfig[mes.name] = {
             label: mes.label + ' Font Size',
@@ -115,6 +114,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             type: 'string',
             section: 'Style',
             display: 'select',
+            display_size: 'half',
             values: [
                 {"Small": "small"},
                 {"Medium": "medium"},
@@ -125,9 +125,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         dynamicConfig[mes.name + 'ValueFormat'] = {
             label: 'Value Format',
-            order: measureFormat[i],
+            order: measureFormat[i + .1],
             type: 'string',
             section: 'Style',
+            display_size: 'half',
             placeholder: 'Spreadsheet style format code'
         }
 
@@ -138,32 +139,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //     section: "Style (Deprecated)",
     //     placeholder: "Spreadsheet style format code"
     // }
-    dynamicConfig["limit_displayed_rows_values"] = {
-        type: "sentence_maker",
-        label: "Limit Displayed Rows Values",
-        section: "Sentence",
-        words: [
-            {
-                type: "select",
-                name: "show_hide",
-                options: [
-                    { label: "Hide", value: "hide" },
-                    { label: "Show", value: "show" }
-                ]
-            },
-            { type: "separator", text: "the" },
-            {
-                type: "select",
-                name: "first_last",
-                options: [
-                    { label: "First", value: "first" },
-                    { label: "Last", value: "last" }
-                ]
-            },
-            { type: "number", name: "num_rows", value: 0 },
-            { type: "separator", text: "rows" }
-        ]
-    };
+
+
 
     this.options = dynamicConfig
     if (this._mCounter == 0) {
@@ -171,9 +148,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.trigger('registerOptions', this.options)
     }
 
-
-
-   
 
     console.log(`These are the configuration settings`);
     console.log(`This is the word sentence thing`, config.limit_displayed_rows_values);
