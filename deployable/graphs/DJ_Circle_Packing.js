@@ -27,6 +27,14 @@ looker.plugins.visualizations.add({
             type: 'string',
             display: 'select', 
             hidden: true
+        },
+        useInfluenceInVis: {
+            label: 'Use variable factor in visual',
+            order: 2,
+            section: 'Configuration', 
+            type: 'boolean',
+            default: true,
+            hidden: true
         }
 
     },
@@ -121,6 +129,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`details`, details);
     let dimensions = queryResponse.fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
     let measures = queryResponse.fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
+    let taxonomyPass = dimensions;
 
     /***************************************
      * Configuring the settings
@@ -151,19 +160,32 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.options.influence['values'].push(val);
     })
 
-
+      // Show / Hide influence (Variable factor select statement)
     if (config.influenceSwitch == false) { // Then hide the influence setting
-        if (this.options.influence.hidden == false) {
+        if (this.options.influence.hidden == false && this.options.useInfluenceInVis.hidden == false) {
             this.options.influence.hidden = true;
+            this.option.useInfluenceInVis.hidden = true;
             this.trigger('registerOptions', this.options);
         }
     } 
     if (config.influenceSwitch == true) { // Then show the influence setting 
-        if (this.options.influence.hidden == true) {
+          // Check if it's hidden, and unhide them if not
+        if (this.options.influence.hidden == true && this.options.useInfluenceInVis.hidden == true) {
           this.options.influence.hidden = false;
+          this.options.useInfluenceInVis.hidden = false;
           this.trigger('registerOptions', this.options);
         }
-    }    
+
+              // Rest of setting's conditional statements instantiated here to only be called if the switch is true (in this conditional it is)
+
+            // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
+        if (config.useInfluenceInVis == false) {
+            let pull = config.influence; // Grab the dimension that the influence is using..
+
+            taxonomyPass.foreach(dimen => { if (dimen.name == pull) delete dimen; });
+        }     
+    }   
+
 
     // console.log('\n\n Configuration settings');
     // console.log(`Influence Switch: ${config.influenceSwitch}`);
@@ -231,7 +253,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         // Main variables for building the svg
-    const burrow = this.burrow(data, dimensions);
+    const burrow = this.burrow(data, taxonomyPass);
     let view,
     vWidth = window.innerWidth,
     vHeight = window.innerHeight,
