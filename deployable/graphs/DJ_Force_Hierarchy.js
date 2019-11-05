@@ -114,6 +114,7 @@ create: function(element, config) {
 
     this._centerNodes = d3.select('.holder').append('button')
         .attr('class', 'center djfhButton btn-small')
+        .attr('id', 'pullTogether')
         .style('display', 'inline')
         .style('padding', '5px auto')
         .html('Pull nodes together')
@@ -527,6 +528,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     resetSingleNode = false,
     linkDistance,
     panelSwitch = 'off',
+    initialIteration = 0,
     depthSelect = 0,
     maxLinkScale, // This is the number of descendants based on the root
     friction = .1; // This determines the link length based on the data that's given
@@ -908,6 +910,11 @@ function update() { /* Initialize some parameters that we will need for */
             // Setup for future update functions
         collisionInitialization++; // This is for the beginnging of the physics
         friction = 0.034;
+
+    if(initialIteration == 0) {
+        initialIteration ++;
+        simulateClick(document.getElementById('pullTogether'), 'click');
+    }
     }/*************************************************************************************************
     *                      END OF UPDATE      =>=>=>=>      ONTO FUNCTIONS                         *
     **************************************************************************************************/
