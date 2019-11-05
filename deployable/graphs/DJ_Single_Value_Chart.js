@@ -349,6 +349,7 @@ if (config.showLabel == false && config.showComparison == true) {
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
       hReturnValue = + mTwoVal + ' ' + hValue
+      d3.select('div.djvsHeader').style('backgroun-image', 'none');
   }
   if (config.valueLabels == 'compChan') { // Show as Change
         // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
@@ -357,10 +358,13 @@ if (config.showLabel == false && config.showComparison == true) {
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
           if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${djvsAowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
           if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
           if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
           if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
+          d3.select('div.djvsHeader').style('backgroun-image', 'none');
+
       }
 
   }
