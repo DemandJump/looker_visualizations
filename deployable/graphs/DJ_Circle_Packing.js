@@ -229,7 +229,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`The finished node values`, data);
 
 
-
+        // Main variables for building the svg
     const burrow = this.burrow(data, dimensions);
     let view,
     vWidth = window.innerWidth,
