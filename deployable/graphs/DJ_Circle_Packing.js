@@ -162,7 +162,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       // Show / Hide influence (Variable factor select statement)
     if (config.influenceSwitch == false) { // Then hide the influence setting
-        if (this.options.influence.hidden == false && this.options.useInfluenceInVis.hidden == false) {
+        if (this.options.influence.hidden == false) {
             this.options.influence.hidden = true;
             this.option.useInfluenceInVis.hidden = true;
             this.trigger('registerOptions', this.options);
@@ -170,7 +170,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } 
     if (config.influenceSwitch == true) { // Then show the influence setting 
           // Check if it's hidden, and unhide them if not
-        if (this.options.influence.hidden == true && this.options.useInfluenceInVis.hidden == true) {
+        if (this.options.influence.hidden == true) {
           this.options.influence.hidden = false;
           this.options.useInfluenceInVis.hidden = false;
           this.trigger('registerOptions', this.options);
@@ -183,9 +183,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let pull = config.influence; // Grab the dimension that the influence is using..
 
             taxonomyPass.forEach(dimen => { if (dimen.name == pull) delete dimen; });
-        }     
+        }
     }   
-
 
     // console.log('\n\n Configuration settings');
     // console.log(`Influence Switch: ${config.influenceSwitch}`);
