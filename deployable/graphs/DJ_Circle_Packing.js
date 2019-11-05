@@ -317,6 +317,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
+    const div1 = svg.append("g")
+        .attr('class', 'div')
+        .attr('pointer-events', 'none')
+        .attr('text-anchor', 'middle')
+              .selectAll('.containerDiv')
+              .data(nodes, d => d.id).enter()
+              .append('div')
+                  .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                  .style('display', d => d.parent === root ? 'inline' : 'none')
+                  .style('font-size', d => '10px')
+                  .style('word-wrap', 'break-word')
+                  .attr('dy', '0px')
+                  .html(d => d.data.name);
+
     zoomTo([root.x, root.y, root.r * 2]);
 
 
@@ -450,7 +464,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         color = d3.scaleLinear()
             .domain([0,5])
             // .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
-            .range(["hsl(199, 100%, 40%)", "hsl(145, 63%, 49%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
+            .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
             .interpolate(d3.interpolateHcl)
     }
 
@@ -494,9 +508,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     }
 
-    function spaceOne(d) { return '10px'; }
+    function spaceOne(d) { return '-10px'; }
     function spaceTwo(d) { return '0px'; }
-    function spaceThree(d) { return '-10px'; }
+    function spaceThree(d) { return '10px'; }
 
 
     
