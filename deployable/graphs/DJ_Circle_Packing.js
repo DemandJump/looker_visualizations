@@ -176,13 +176,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           this.trigger('registerOptions', this.options);
         }
 
-              // Rest of setting's conditional statements instantiated here to only be called if the switch is true (in this conditional it is)
-
-            // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
+                    // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
         if (config.useInfluenceInVis == false) {
+            taxonomyPass = [];
             let pull = config.influence; // Grab the dimension that the influence is using..
 
-            taxonomyPass.forEach(dimen => { if (dimen.name == pull) delete dimen; });
+            dimension.forEach(dimen => { 
+                if (dimen.name != pull) {
+                    taxonomyPass.push(dimen)
+                }  
+            });
             console.log('This is the taxonomy pass', taxonomyPass);
         }
     }
