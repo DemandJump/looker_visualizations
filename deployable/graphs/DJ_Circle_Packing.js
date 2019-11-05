@@ -277,7 +277,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('stroke-width', d => `${d.height}px`); 
             }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-            .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())) // Stop other events and run the zoom function
+            .on("click", d => focus !== d && (zoom(d))) // Stop other events and run the zoom function
             .on("click", d => focus !== d && (refactor(d)));  
 
     const label = svg.append("g")
