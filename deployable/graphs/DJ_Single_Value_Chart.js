@@ -356,7 +356,7 @@ if (config.showLabel == false && config.showComparison == true) {
       let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${djvsAowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
           if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
@@ -366,7 +366,6 @@ if (config.showLabel == false && config.showComparison == true) {
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
 
       }
-
   }
 
 
