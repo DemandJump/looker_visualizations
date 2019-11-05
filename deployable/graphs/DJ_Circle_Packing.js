@@ -367,7 +367,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        div1.attr("transfor", d => `translate(${(d.x - v[0]) * k}, ${d.y - v[1] * k})`);
+        div1.attr("transform", d => `translate(${(d.x - v[0]) * k}, ${d.y - v[1] * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => {
             d.nr = d.r * k; // Variable to hold the changing radius size 
@@ -397,7 +397,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none";
                     
                     label
-                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceOne)
                       .style('font-size', d => textSize(d))
@@ -413,7 +412,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
 
                     label2
-                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
                       .style('font-size', d => textSize(d))
@@ -429,7 +427,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
                     
                     label3
-                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSize(d))
@@ -445,7 +442,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
                     
                     div1
-                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', '0px')
                       .style('font-size', d => textSize(d))
