@@ -134,7 +134,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Adds all the different dimensions as 
     measures.forEach(mes => { // Value object >.>  {"name": "value"}
         
-        let key = mes.label_short; // Key of value pair
+        let key = mes.label; // Key of value pair
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
@@ -143,7 +143,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     })
     this.options.influence.default = 'null';
     dimensions.forEach(dimension => {
-        let key = dimension.label_short; // Key of value pair
+        let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
