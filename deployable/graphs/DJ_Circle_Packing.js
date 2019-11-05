@@ -280,8 +280,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let svg = this._svg        
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
-        // .style("display", "block") 
-        // .style("margin", "0 -14px")
         .style("background", color(0))
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
@@ -294,7 +292,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, d => d.id).enter()
         .append("circle") 
             .attr('class', 'node')
-            // .attr("fill", d => d.children ? colorNodes(d.depth) : "white") // or color(d.depth)
             .attr("fill", d => d.children ? color(d.depth) : "white")
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
@@ -344,20 +341,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
-    const div1 = svg.append("g")
-        .attr('class', 'div')
-        .attr('pointer-events', 'none')
-        .attr('text-anchor', 'middle')
-              .selectAll('.containerDiv')
-              .data(nodes, d => d.id).enter()
-              .append('div')
-                  .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                  .style('display', d => d.parent === root ? 'inline' : 'none')
-                  .style('font-size', d => textSize(d))
-                  .style('word-wrap', 'break-word')
-                  .attr('dy', '0px')
-                  .html(d => d.data.name);
-
     zoomTo([root.x, root.y, root.r * 2]);
 
 
@@ -372,7 +355,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        div1.attr("transform", d => `translate(${(d.x - v[0]) * k}, ${d.y - v[1] * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => {
             d.nr = d.r * k; // Variable to hold the changing radius size 
@@ -438,21 +420,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .text(d => d.data.text3);
                 });
 
-        div1
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    div1
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .attr('dy', '0px')
-                      .style('font-size', d => textSize(d))
-                      .html(d => d.data.name);
-                });
-
     }
 
     function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
@@ -471,11 +438,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('dy', spaceThree)
             .style('font-size', d => textSize(d))
             .text(d => d.data.text3);
-
-        div1
-            .attr('dy', '0px')
-            .style('font-size', d => textSize(d))
-            .html(d => d.data.name);
 
     }
 
