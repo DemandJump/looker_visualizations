@@ -125,7 +125,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         dynamicConfig[mes.name + 'ValueFormat'] = {
             label: 'Value Format',
-            order: measureOrder[i + .1],
+            order: measureOrder[i + 1],
             type: 'string',
             section: 'Style',
             display_size: 'half',
