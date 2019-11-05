@@ -181,7 +181,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             taxonomyPass = [];
             let pull = config.influence; // Grab the dimension that the influence is using..
 
-            dimension.forEach(dimen => { 
+            dimensions.forEach(dimen => { 
                 if (dimen.name != pull) {
                     taxonomyPass.push(dimen)
                 }  
