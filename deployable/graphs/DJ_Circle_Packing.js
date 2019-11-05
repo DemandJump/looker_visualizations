@@ -432,8 +432,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
+                    d.value = 1;
                     // console.log(`Sum function for pack if influence is null, this is d: `, d);
-                    return d.value
+                    return d.value;
                 })
                 .sort((a, b) => { 
                     // console.log(`Sort function for pack if influence is null, this is a: `, a);
