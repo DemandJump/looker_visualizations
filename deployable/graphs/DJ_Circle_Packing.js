@@ -182,7 +182,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (config.useInfluenceInVis == false) {
             let pull = config.influence; // Grab the dimension that the influence is using..
 
-            taxonomyPass.foreach(dimen => { if (dimen.name == pull) delete dimen; });
+            taxonomyPass.forEach(dimen => { if (dimen.name == pull) delete dimen; });
         }     
     }   
 
