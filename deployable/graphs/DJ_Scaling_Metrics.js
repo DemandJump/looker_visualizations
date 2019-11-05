@@ -132,6 +132,44 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             placeholder: 'Spreadsheet style format code'
         }
 
+
+
+        dynamicConfig[mes.label_short + 'Title'] = {
+            label: mes.label + 'word sentence',
+            order: i,
+            type: 'sentence_maker',
+            section: 'Words',
+            words: [
+                {
+                    type: "separator",
+                    text: `${mes.name} Font size and value format` 
+                }
+            ]
+        }
+
+        dynamicConfig[mes.name + 'word'] = {
+          label: mes.label + 'word sentence',
+          order: i + .1,
+          type: 'sentence_maker',
+          section: 'Words',
+          words: [
+              {
+                  name: `${mes.name}_fs`,
+                  type: 'select',
+                  options: [
+                      {label: "Small", value: "small"},
+                      {label: "Medium", value: "medium"},
+                      {label: "Large", value: "large"}
+                  ]
+              },
+              {
+                  name: `${mes.name}_vf`,
+                  type: 'string',
+                  placeholder: 'Value format'
+              }
+          ]
+      }
+
     });
     // dynamicConfig['valueFormat'] = {
     //     label: "Value Format",
