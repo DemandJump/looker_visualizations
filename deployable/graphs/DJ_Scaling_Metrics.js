@@ -138,7 +138,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //     section: "Style (Deprecated)",
     //     placeholder: "Spreadsheet style format code"
     // }
-    dynamicConfig[limit_displayed_rows_values] = {
+    dynamicConfig["limit_displayed_rows_values"] = {
         type: "sentence_maker",
         label: "Limit Displayed Rows Values",
         section: "Sentence",
@@ -176,7 +176,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
    
 
     console.log(`These are the configuration settings`);
-    console.log(``)
+    console.log(`This is the word sentence thing`, config.limit_displayed_rows_values);
+    console.log(`This is configuration`, config);
 
     /***********************************
      * Update the Visualization *
