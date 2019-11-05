@@ -183,8 +183,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let pull = config.influence; // Grab the dimension that the influence is using..
 
             taxonomyPass.forEach(dimen => { if (dimen.name == pull) delete dimen; });
+            console.log('This is the taxonomy pass', taxonomyPass);
         }
-    }   
+    }
 
     // console.log('\n\n Configuration settings');
     // console.log(`Influence Switch: ${config.influenceSwitch}`);
