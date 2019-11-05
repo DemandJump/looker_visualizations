@@ -176,18 +176,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           this.trigger('registerOptions', this.options);
         }
 
-                    // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
-        if (config.useInfluenceInVis == false) {
-            taxonomyPass = [];
-            let pull = config.influence; // Grab the dimension that the influence is using..
+    }
 
-            dimensions.forEach(dimen => { 
-                if (dimen.name != pull) {
-                    taxonomyPass.push(dimen)
-                }  
-            });
-            console.log('This is the taxonomy pass', taxonomyPass);
-        }
+    
+          // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
+    if (config.influenceSwitch == true && config.useInfluenceInVis == false) {
+        taxonomyPass = [];
+        let pull = config.influence; // Grab the dimension that the influence is using..
+
+        dimensions.forEach(dimen => { 
+            if (dimen.name != pull) {
+                taxonomyPass.push(dimen)
+            }  
+        });
+        console.log('This is the taxonomy pass', taxonomyPass);
     }
 
     // console.log('\n\n Configuration settings');
