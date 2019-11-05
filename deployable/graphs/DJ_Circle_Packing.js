@@ -169,6 +169,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log(`Influence Switch: ${config.influenceSwitch}`);
     // console.log(`Measure Influence: ${config.influence}`);
 
+    
     /**********************
      * Error Clauses 
     **********************/
