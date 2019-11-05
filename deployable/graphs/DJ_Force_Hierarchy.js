@@ -297,6 +297,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     options = ['Choose Color by type', 'Choose Field as a Measure'], // Collapse the data
     optionConfigName = ['add_type', 'add_measure'], // add_collapse
     optionLabels = ["This will color nodes based on type", "Use a measure to see it's influence in the hierarchy"],
+    optionOrder = [1, 3],
     adIteration = 0; // We need to add static options at the beginning and the ending of the settings
      
       
@@ -306,6 +307,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       dimension_options[configOptionName] = 
       {
         label: optionLabels[adIteration],
+        order: optionOrder[adIteration],
         display: "select",
         type: "string",
         section: 'Configure',
@@ -340,53 +342,45 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(adIteration == optionConfigName.length - 1) { 
             // This adds to the end of the options list 
 
-        dimension_options['aa_notes'] = 
+        dimension_options['notes'] = 
             {
                 label: 'A Quick Guide',
-                type: 'string',
-                display: 'radio',
+                order: 0,
                 section: 'Notes',
+                type: 'string',
+                display: 'sentence_maker',
                 values: [
-                  {"Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
-                  {"You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
-                  {"There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what": "Info2"},
-                  {"Here's a list of what all the buttons do:": "Info3"},
-                  {"This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy": "Info4"},
-                  {"Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy.": "Info5"},
-                  {"When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset": "Info6"},
-                  {"Reset all nodes resets all nodes, so be careful": "Info7"},
-                  {"Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
-                  {"Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
-                  {"Don'y be afraid to SPAM that pull nodes together button, it works wonders.. (;": "Info11"},
-                  {"The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"} 
-                ],
-                default: 'Info10'
+                  {type: "separator", text: "Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
+                  {type: "separator", text: "You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
+                  {type: "separator", texT: "There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what": "Info2"},
+                  {type: "separator", text: "Here's a list of what all the buttons do:": "Info3"},
+                  {type: "separator", text: "This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy": "Info4"},
+                  {type: "separator", text: "Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy.": "Info5"},
+                  {type: "separator", text: "When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset": "Info6"},
+                  {type: "separator", text: "Reset all nodes resets all nodes, so be careful": "Info7"},
+                  {type: "separator", text: "Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
+                  {type: "separator", text: "Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
+                  {type: "separator", text: "Don'y be afraid to SPAM that pull nodes together button, it works wonders.. (;": "Info11"},
+                  {type: "separator", text: "The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"} 
+                ]
             }
 
         dimension_options['null_type'] = 
             {
-              label: "Use Type dimension in the visualization",
-              type: "string",
-              display: "radio",
+              label: "Use type dimension data in the visualization",
+              order: 2,
+              type: "boolean",
               section: 'Configure',
-              values: [
-                {"Yes": "false"},
-                {"No": "true"}
-              ],
-              default: "false"
+              default: false
             }
 
         dimension_options['null_measure'] = 
             {
-              label: "Use Measure dimension(if it's a dimension) in the visualization",
-              type: "string",
-              display: "radio",
+              label: "Use Measure dimension data in the visualization",
+              order: 4,
+              type: "boolean",
               section: 'Configure',
-              values: [
-                {"Yes": "false"},
-                {"No": "true"}
-              ],
-              default: "false"
+              default: false
             }
 
       }
@@ -451,7 +445,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         taxonomyPass.forEach( (dimension, index) => {
           if (dimension.name == value) {
             currentType = value;
-            if (config.null_type == "true") { delete taxonomyPass[index] }
+            if (config.null_type == true) { delete taxonomyPass[index] }
           }
         });
       }
@@ -477,7 +471,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         taxonomyPass.forEach( (dimension, index) => {
           if (dimension.name == value) { 
             measureName = value
-            if (config.null_measure == "true") { delete taxonomyPass[index] }
+            if (config.null_measure == true) { delete taxonomyPass[index] }
           }
         });
       }
