@@ -17,7 +17,7 @@ looker.plugins.visualizations.add({
             order: 1,
             section: 'Configuration', 
             type: 'boolean',
-            default: false
+            default: true
         },
         influence: {
             label: 'Choose a variable factor',
