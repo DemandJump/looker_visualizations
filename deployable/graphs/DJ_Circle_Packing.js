@@ -184,8 +184,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let numberchecker = 0;
         let error = false;
         data.forEach(node => {
-            if (typeof(node[config.influence]) == 'number') numberchecker ++;
-            if (typeof(node[config.influence]) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
+            console.log(`Node error clause `, node[config.influence].value) 
+            if (typeof(node[config.influence].value) == 'number') numberchecker ++;
+            if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
         })
         if (numberchecker < 1 || error == true) {
             this.addError({title: "Factor error", message: "The variable factor must be a number"})
