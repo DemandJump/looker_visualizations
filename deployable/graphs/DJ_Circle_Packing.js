@@ -375,6 +375,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none";
                     
                     label
+                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceOne)
                       .style('font-size', d => textSize(d))
@@ -390,6 +391,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
 
                     label2
+                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
                       .style('font-size', d => textSize(d))
@@ -405,6 +407,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
                     
                     label3
+                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSize(d))
@@ -420,6 +423,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
                     
                     div1
+                      .transition(500)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', '0px')
                       .style('font-size', d => textSize(d))
