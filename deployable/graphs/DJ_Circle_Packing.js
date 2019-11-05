@@ -582,15 +582,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     }
 
-    function spaceOne(d) { return '-14px'; }
-    function spaceTwo(d) { return '0px'; }
-    function spaceThree(d) { return '14px'; }
+    // function spaceOne(d) { return '-14px'; } // Top text
+    // function spaceTwo(d) { return '0px'; } // Middle text
+    // function spaceThree(d) { return '14px'; } // bottom text
 
-
+        // based on d.data.textuse
+    function spaceOne(d) {
+        return d.data.textuse == 1 ? '0'
+        : d.data.textuse == 2 ? '-7px'
+        : '-14px';
+    }
+    function spaceTwo(d) {
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '7px'
+        : '0px';
+    }
+    function spaceThree(d) {
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '0px'
+        : '14px';
+    }
     
-
-
-
 
     /**************** Done! *****************/
     doneRendering() // Always call done to indicate a visualization has finished rendering
