@@ -164,7 +164,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (config.influenceSwitch == false) { // Then hide the influence setting
         if (this.options.influence.hidden == false) {
             this.options.influence.hidden = true;
-            this.option.useInfluenceInVis.hidden = true;
+            this.options.useInfluenceInVis.hidden = true;
             this.trigger('registerOptions', this.options);
         }
     } 
