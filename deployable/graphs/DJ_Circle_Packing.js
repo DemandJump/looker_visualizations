@@ -563,18 +563,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // based on d.data.textuse
     function spaceOne(d) {
         return d.data.textuse == 1 ? '0'
-        : d.data.textuse == 2 ? '-7px'
-        : '-14px';
+        : d.data.textuse == 2 ? '-9px'
+        : '-18px';
     }
     function spaceTwo(d) {
         return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '7px'
+        : d.data.textuse == 2 ? '9px'
         : '0px';
     }
     function spaceThree(d) {
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '0px'
-        : '14px';
+        : '18px';
     }
     
 
