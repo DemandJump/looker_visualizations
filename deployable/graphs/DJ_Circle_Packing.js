@@ -101,8 +101,6 @@ looker.plugins.visualizations.add({
             depth: 0
         };
     },
-
-
     
         // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
@@ -124,16 +122,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimensions = queryResponse.fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
     let measures = queryResponse.fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
 
-    /**********************
-     * Error Clauses 
-    **********************/
-    // this.clearErrors(); // Clear any errors from previous updates.
-        // Create different cases for potential errors that could occur // Throw some errors and exit if the shape of the data isn't what this chart needs.
-    if (queryResponse.fields.dimensions.length == 0) {
-      this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-      return;
-    }
-
     /***************************************
      * Configuring the settings
     ***************************************/
@@ -154,6 +142,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.options.influence['values'].push(val);
     })
     this.options.influence.default = 'null';
+    dimensions.forEach(dimension => {
+        let key = dimension.label_short; // Key of value pair
+        let valuepair = dimension.name; // value of value pair
+        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+        val[key] = valuepair;
+
+        this.options.influence['values'].push(val);
+    })
 
 
     if (config.influenceSwitch == false) { // Then hide the influence setting
@@ -167,14 +163,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           this.options.influence.hidden = false;
           this.trigger('registerOptions', this.options);
         }
+    }    
+
+    // console.log('\n\n Configuration settings');
+    // console.log(`Influence Switch: ${config.influenceSwitch}`);
+    // console.log(`Measure Influence: ${config.influence}`);
+
+    /**********************
+     * Error Clauses 
+    **********************/
+    // this.clearErrors(); // Clear any errors from previous updates.
+        // Create different cases for potential errors that could occur // Throw some errors and exit if the shape of the data isn't what this chart needs.
+    if (queryResponse.fields.dimensions.length == 0) {
+      this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
+      return;
     }
-
     
-
-    console.log('\n\n Configuration settings');
-    console.log(`Influence Switch: ${config.influenceSwitch}`);
-    console.log(`Measure Influence: ${config.influence}`);
-
+        // Check if the config.influence is a dimension, and if they're not numbers
+    if (config.influence != 'null') {
+        let numberchecker = 0;
+        let error = false;
+        data.forEach(node => {
+            if (typeof(node[config.influence]) == 'number') numberchecker ++;
+            if (typeof(node[config.influence]) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
+        })
+        if (numberchecker < 1 || error == true) {
+            this.addError({title: "Factor error", message: "The variable factor must be a number"})
+        }
+    } 
+    
+    
     
     /*********************************************************
      * Preload the data for the visual 
@@ -191,6 +209,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         node['value'] = 1;
       });
     }
+
+
+        // Now run through the data, grab the min and max, then replace all the nulls with the min value
+    let min = 100000000000;
+    let max = -111111111111;
+    data["value"].forEach(node => { // Find min and max values in data
+        if (min > node.value) min = node.value;
+        if (max < node.value) max = node.value;
+    });
+    data.forEach(node => { // If the node value is null, replace it with the min value
+        node.nullVal = 'false';
+        if (node.value == 'null') {
+          node.value = min;
+          node.nullVal = true;
+        }
+    });
+
 
 
     const burrow = this.burrow(data, dimensions);
@@ -282,7 +317,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     zoomTo([root.x, root.y, root.r * 2]);
 
 
-
     /*******************************************************
         * Functions Section *
     *******************************************************/
@@ -336,8 +370,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 
 
-
-                // I instantiaed something wrong in the spacing, this works correctly!
+            // I instantiaed something wrong in the spacing, this works correctly!
         label 
             .attr('dy', spaceOne)
             .style('font-size', d => textSize(d))
@@ -354,8 +387,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .text(d => d.data.text3);
 
     }
-
-
 
     function pack(data) {
         if (config.influenceSwitch == true && config.influence != 'null') {
@@ -419,7 +450,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .interpolate(d3.interpolateHcl)
     }
 
-
     function textSize(d) { // We ran the calculations for each of the nodes and text spacing before actually implementing the nodes
 
                   // For one character it's about 5px per character with that quote being about 20 characters
@@ -459,22 +489,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
     }
-
-    // function spaceOne(d) { // Spacing the first text element
-    //   return d.data.textuse == 1 ? '0px' // Middle one
-    //   : d.data.textuse == 2 ? '5px' // Top second
-    //   : '-10px'; // Top third
-    // }
-    // function spaceTwo(d) { // Spacing the second text element
-    //   return d.data.textuse == 1 ? '0px' // empty node
-    //   : d.data.textuse == 2 ? '-5px' // Bottom second
-    //   : '0px'; // middle third
-    // }
-    // function spaceThree(d) { // Spacing the third text element
-    //   return d.data.textuse == 1 ? '0px' // empty node
-    //   : d.data.textuse == 2 ? '0px' // empty node
-    //   : '10px'; // bottom third
-    // }
 
     function spaceOne(d) { return '10px'; }
     function spaceTwo(d) { return '0px'; }
