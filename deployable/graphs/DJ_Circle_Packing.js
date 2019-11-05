@@ -184,7 +184,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let numberchecker = 0;
         let error = false;
         data.forEach(node => {
-            console.log(`Node error clause `, node[config.influence].value) 
+            // console.log(`Node error clause `, node[config.influence].value) 
             if (typeof(node[config.influence].value) == 'number') numberchecker ++;
             if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
         })
@@ -238,7 +238,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     width = height = window.innerHeight;
     const root = pack(burrow);
     let focus = root,
-    nodes = root.descendants().slice(1);
+    nodes = root.descendants(); // .slice(1);
 
     console.log('root', root);
 
