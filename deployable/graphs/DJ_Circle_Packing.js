@@ -210,11 +210,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       });
     }
 
-
+    console.log("This is the data after adding the value thing to it");
         // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let min = 100000000000;
     let max = -111111111111;
-    data["value"].forEach(node => { // Find min and max values in data
+    data.forEach(node => { // Find min and max values in data
         if (min > node.value) min = node.value;
         if (max < node.value) max = node.value;
     });
@@ -225,6 +225,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           node.nullVal = true;
         }
     });
+    console.log(`The finished min ${min}, and max ${max}`);
+    console.log(`The finished node values`, data);
 
 
 
