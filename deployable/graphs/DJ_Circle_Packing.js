@@ -169,7 +169,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log(`Influence Switch: ${config.influenceSwitch}`);
     // console.log(`Measure Influence: ${config.influence}`);
 
-    
+
     /**********************
      * Error Clauses 
     **********************/
@@ -334,6 +334,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     zoomTo([root.x, root.y, root.r * 2]);
 
 
+    
     /*******************************************************
         * Functions Section *
     *******************************************************/
