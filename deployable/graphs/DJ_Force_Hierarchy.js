@@ -540,6 +540,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('this is total nodes', totalNodes);
 
           // This is for the width of the svg before we interact with the panelswitch
+      console.log('Looking for clientwidth', d3.select('div.content').clientWidth)
       console.log('This is the initWidth: ', initWidth);
       console.log('This is the svgw ', svgw);
           // We need the svg to take up the whole width again when the display for the panel is set to none, and account for it's space when it's open. Right now it isn't spacing back out to the element's full width when we close the viewport again.
