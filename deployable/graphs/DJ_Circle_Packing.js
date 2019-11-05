@@ -542,12 +542,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // This is used to calculate the font size actually 
         if (d.depth == 1) {
-            return '28px';
+            return '32px';
         } else {
-            return '14px';
+            return '18px';
         }
 
     }
+
+        // Have it break on words instead of through the text 
+
+
+
+
+
 
     // function spaceOne(d) { return '-14px'; } // Top text
     // function spaceTwo(d) { return '0px'; } // Middle text

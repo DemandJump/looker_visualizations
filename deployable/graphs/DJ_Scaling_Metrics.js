@@ -179,7 +179,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // }
 
 
-
     this.options = dynamicConfig
     if (this._mCounter == 0) {
         this._mCounter ++ 
