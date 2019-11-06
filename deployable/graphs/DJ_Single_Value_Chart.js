@@ -188,7 +188,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         
     }
   
-    
+
         /*/ Here's where we instantiate all the variables /*/
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
@@ -360,7 +360,7 @@ console.log('Arrow font pass', arrowFontPass);
 
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, hValue);
-  if ( !(queryRespone.pivots) ) {
+  if ( !(queryResponse.pivots) ) {
       let mOneName = measures[0]["name"];
       let measureOne = data[0][mOneName]["value"];
       let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
