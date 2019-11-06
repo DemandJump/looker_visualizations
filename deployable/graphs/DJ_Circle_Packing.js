@@ -272,7 +272,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([2, 10]);
     let vwsm = d3.scaleLinear()
         .domain([20, 1200])
-        .range([1, 5]);
+        .range([.5, 5]);
 
 
     console.log('root', root);
@@ -663,6 +663,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.depth == 0) { 
             d.data.text1 = d.data.name;
             d.data.textuse = 1; 
+            console.log('This is the root data', d);
         }
 
         // d["data"]["text1"].replace(",", " ");

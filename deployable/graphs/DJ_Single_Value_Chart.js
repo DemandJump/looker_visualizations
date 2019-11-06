@@ -174,19 +174,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`The second pivot key:`, prevk);
 
         // Parse into the data,
-    let measureOne = data[name][curk];
-    let measureTwo = data[name][prevk];
+    let measureOne = data[name][0];
+    let measureTwo = data[name][1];
     measureOne = measureOne.rendered;
     measureTwo = measureTwo.rendered;
     let computedBoth = data[name]['previous_period']['rendered'];
     console.log(`Current period`, measureOne);
     console.log(`Previous period`, measureTwo);
-
-
-
-
-
-
 
 
 
@@ -204,6 +198,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
     let hReturnValue = prevk;
+
 
     console.log(`This is the hValue`, hValue);
 
@@ -371,6 +366,7 @@ console.log('Arrow font pass', arrowFontPass);
   // let mOneVal = data[0][mOneName]["value"];
   // let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
   // let mTwoVal = data[0][mTwoName]["value"];
+
 
       // If the LabelOverride isn't empty, have it override the current field label
   if (config.labelOverride != '' || config.labelOverride != ' ') {
