@@ -691,12 +691,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // based on d.data.textuse
     function spaceOne(d) {
+        if (d.depth == 0) { return '-2rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '-1rem'
         : d.data.textuse == 3 ? '2rem'
         : '-3rem';
     }
     function spaceTwo(d) {
+        if (d.depth == 0) { return '2rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '1rem'
         : d.data.textuse == 3 ? '0rem'
