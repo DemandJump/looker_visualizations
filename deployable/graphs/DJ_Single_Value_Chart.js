@@ -132,12 +132,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Clear any errors from previous updates.
     this.clearErrors();
 
-        // You can create different cases for potential errors that could occur
-    // Throw some errors and exit if the shape of the data isn't what this chart needs.
-    if (queryResponse.fields.dimensions.length == 0) {
-        this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-        return;
-    }
 /**************************************************************************************************************************************
                                                                                                     * End of Error Clause
 **************************************************************************************************************************************/
