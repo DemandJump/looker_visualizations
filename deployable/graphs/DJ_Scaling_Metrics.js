@@ -41,6 +41,10 @@ create: function(element, config) {
             margin: auto;
         }
 
+        .config-option-Returning User CountTitle {
+          margin-bottom: 100px;
+        }
+
         </style>
     `;
 
