@@ -272,7 +272,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([2, 10]);
     let vwsm = d3.scaleLinear()
         .domain([20, 1200])
-        .range([.5, 4])
+        .range([1, 5]);
 
 
     console.log('root', root);

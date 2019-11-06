@@ -163,6 +163,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is the config itself', config);
     // console.log('This is looker charts Utils', LookerCharts);
 
+
+         // Everything is being acted upon the first measure that's given to you ~ 
+    console.log('This is the name of the first measure', queryResponse.fields.measures[0].name);
+    console.log(`This first pivot key: `, queryResponse.pivots[0].key);
+    console.log(`The second pivot key:`, queryResponse.pivots[1].key);
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
         /*/ Here's where we instantiate all the variables /*/
     let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
@@ -174,6 +194,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log(`This is the hValue`, hValue);
 
+
+      // Pull in the data
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
