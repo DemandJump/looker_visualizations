@@ -421,7 +421,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
-                      // .style('font-size', d => sizeText(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text2);
                 });
 
@@ -436,7 +436,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      // .style('font-size', d => sizeText(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text3);
                 });
         label4
@@ -450,7 +450,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      // .style('font-size', d => sizeText(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text4);
                 });
 
@@ -607,53 +607,110 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
 
-        words.forEach(word => {
+        // words.forEach(word => {
 
-              // T4
-            if (textBox == 3) {
-                d.data.text4 = d.data.text4 + word + ' ';
+        //       // T4
+        //     if (textBox == 3) {
+        //         d.data.text4 = d.data.text4 + word + ' ';
 
-                if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
-            }
+        //         if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
+        //     }
 
-              // T3
-            if (textBox == 2) {
-                if (d.data.text3.length + word.length < t3) {
-                    d.data.text3 = d.data.text3 + word + ' ';
-                } else if (d.data.text3 == '') {
-                    d.data.text3 = word + ' '; 
-                } else {
-                    textBox ++;
-                    d.data.textuse = 4;
+        //       // T3
+        //     if (textBox == 2) {
+        //         if (d.data.text3.length + word.length < t3) {
+        //             d.data.text3 = d.data.text3 + word + ' ';
+        //         } else if (d.data.text3 == '') {
+        //             d.data.text3 = word + ' '; 
+        //         } else {
+        //             textBox ++;
+        //             d.data.textuse = 4;
+        //         }
+        //     }
+
+        //      // T2
+        //     if (textBox == 1) {
+        //         if (d.data.text2.length + word.length < t2) {
+        //             d.data.text2 = d.data.text2 + words + ' ';
+        //         } else if (d.data.text2 == '') {
+        //             d.data.text2 = word + ' ';
+        //         } else {
+        //             textBox ++;
+        //             d.data.textuse = 3;
+        //         }
+        //     }
+
+        //       // T1
+        //     if (textBox == 0) {
+        //         if (d.data.text1.length + word.length < t1) {
+        //             d.data.text1 = d.data.text1 + word + ' ';
+        //         } else if (d.data.text1 == '') {
+        //             d.data.text1 = word + ' '; 
+        //         } else {
+        //             textBox ++;
+        //             d.data.textuse = 2;
+        //         }
+        //     }
+
+        //     if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
+        // });
+
+        let tBox = 1;
+        for(i = 0; i < words.length; i++) {
+            if (tBox == 1) {
+                if (d.data.text1 == '') {
+                    d.data.text1 = words[i] + ' ';
+                    continue;
                 }
-            }
-
-             // T2
-            if (textBox == 1) {
-                if (d.data.text2.length + word.length < t2) {
-                    d.data.text2 = d.data.text2 + words + ' ';
-                } else if (d.data.text2 == '') {
-                    d.data.text2 = word + ' ';
+                if (d.data.text1.length + words[i].length < t1) {
+                    d.data.text1 = d.data.text1 + words[i] + ' ';
+                    continue;
                 } else {
-                    textBox ++;
-                    d.data.textuse = 3;
-                }
-            }
-
-              // T1
-            if (textBox == 0) {
-                if (d.data.text1.length + word.length < t1) {
-                    d.data.text1 = d.data.text1 + word + ' ';
-                } else if (d.data.text1 == '') {
-                    d.data.text1 = word + ' '; 
-                } else {
-                    textBox ++;
+                    tBox ++;
                     d.data.textuse = 2;
                 }
             }
 
+            if (tBox == 2) {
+                if (d.data.text2 == '') {
+                    d.data.text2 = words[i] + ' ';
+                    continue;
+                }
+                if (d.data.text2.length + words[i].length < t2) {
+                    d.data.text2 = d.data.text2 + words[i] + ' ';
+                    continue;
+                } else {
+                    tBox ++;
+                    d.data.textuse = 3;
+                }
+            }
+
+            if (tBox == 3) {
+                if (d.data.text3 == '') {
+                    d.data.text3 = words[i] + ' ';
+                    continue;
+                }
+                if (d.data.text3.length + words[i].length < t3) {
+                    d.data.text3 = d.data.text3 + words[i] + ' ';
+                    continue;
+                } else {
+                    tBox ++;
+                    d.data.textuse = 4;
+                }
+            }
+
+            if (tBox == 4) {
+                if (d.data.text4 == '') {
+                    d.data.text4 = words[i] + ' ';
+                    continue;
+                }
+                d.data.text4 = d.data.text4 + words[i] + ' ';
+                continue;
+            }
+
             if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
-        });
+        } // End of for loop 
+
 
         if (d.depth == 0) { 
             d.data.text1 = d.data.name;
