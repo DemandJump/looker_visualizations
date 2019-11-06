@@ -94,6 +94,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let valFormat = mes.name + 'ValueFormat'
         let newObject = { // measureData[i] =
             value: data[0][mes.name].value,
+            rendered: data[0][mes.name].rendered,
             name: mes.name,
             label: mes.label,
             label_short: mes.label_short,
@@ -162,23 +163,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    console.log(`These are the configuration settings`);
-    console.log(`This is the word sentence thing`, config.limit_displayed_rows_values);
-    console.log(`This is configuration`, config);
-
     /***********************************
      * Update the Visualization *
     ***********************************/
     update()
     function update() {
         measureData.forEach(node => {
-            console.log('This is config', config) 
-            console.log('This is the config for this node', config[node.format])
-            node.valueFormat = node.value // this is the value without the format
+            // console.log('This is config', config) 
+            // console.log('This is the config for this node', config[node.format])
+            node.valueFormat = node.value; // this is the value without the format
             if (config[node.format] != '') { // If there is a format applied, run the function for the format
                 node.valueFormat = formatValue(config[node.format], node.value);
             }
-            console.log('This is the finished node data node', node);
+            if (config[node.format] == '' || config[node.format] == ' ') {
+                node.valueFormat = node.rendered;
+            }
+            // console.log('This is the finished node data node', node);
 
                 // This is the djsmContainer for each of the nodes
             d3.select('div.djsmContainer').append('div')
@@ -203,7 +203,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('font-size', findTSize(node))
                 .style('margin', 'auto')
                 .style('color', '#9CA0A1')
-                .html(node.label_short)
+                .html(node.label_short);
 
         })
     }
@@ -230,9 +230,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Functions Section *
     *******************************************************************/
 
-    function findWidth() {
-        console.log('This is the find width function!')
-    }
     function findHeight() {
         let divHeight = 90 / dimHeight
         console.log('this is divHeight', divHeight)
