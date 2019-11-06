@@ -421,7 +421,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
-                      .style('font-size', d => sizeText(d))
+                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text2);
                 });
 
@@ -436,7 +436,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => sizeText(d))
+                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text3);
                 });
         label4
@@ -450,7 +450,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => sizeText(d))
+                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text4);
                 });
 
@@ -596,65 +596,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         t4 = Math.floor(fchars * .50); // This should be else really ~ // : 22
 
 
-
-
-        
-        // console.log('Cirlen', cirlen);
-        // console.log("\n\n\n full word char length", fchars);
-        // console.log("words", words);
-        // console.log(`t1: ${t1}, t2: ${t2}, t3: ${t3}, t4: ${t4}`);
-            // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
-
-        let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
-
-        // words.forEach(word => {
-
-        //       // T4
-        //     if (textBox == 3) {
-        //         d.data.text4 = d.data.text4 + word + ' ';
-
-        //         if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
-        //     }
-
-        //       // T3
-        //     if (textBox == 2) {
-        //         if (d.data.text3.length + word.length < t3) {
-        //             d.data.text3 = d.data.text3 + word + ' ';
-        //         } else if (d.data.text3 == '') {
-        //             d.data.text3 = word + ' '; 
-        //         } else {
-        //             textBox ++;
-        //             d.data.textuse = 4;
-        //         }
-        //     }
-
-        //      // T2
-        //     if (textBox == 1) {
-        //         if (d.data.text2.length + word.length < t2) {
-        //             d.data.text2 = d.data.text2 + words + ' ';
-        //         } else if (d.data.text2 == '') {
-        //             d.data.text2 = word + ' ';
-        //         } else {
-        //             textBox ++;
-        //             d.data.textuse = 3;
-        //         }
-        //     }
-
-        //       // T1
-        //     if (textBox == 0) {
-        //         if (d.data.text1.length + word.length < t1) {
-        //             d.data.text1 = d.data.text1 + word + ' ';
-        //         } else if (d.data.text1 == '') {
-        //             d.data.text1 = word + ' '; 
-        //         } else {
-        //             textBox ++;
-        //             d.data.textuse = 2;
-        //         }
-        //     }
-
-        //     if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
-        // });
-
         let tBox = 1;
         for(i = 0; i < words.length; i++) {
             if (tBox == 1) {
@@ -717,12 +658,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.data.textuse = 1; 
         }
 
-        d["data"]["text1"].replace(",", " ");
-        d["data"]["text2"].replace(",", " ");
-        d["data"]["text3"].replace(",", " ");
-        d["data"]["text4"].replace(",", " ");
-        console.log('d', d);
+        // d["data"]["text1"].replace(",", " ");
+        // d["data"]["text2"].replace(",", " ");
+        // d["data"]["text3"].replace(",", " ");
+        // d["data"]["text4"].replace(",", " ");
+        // console.log('d', d);
         
+        return `${vws(d.nr)}vh`;
+    }
+
+    function textSizing(d) {
         return `${vws(d.nr)}vh`;
     }
 
