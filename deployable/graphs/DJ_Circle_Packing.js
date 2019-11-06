@@ -681,7 +681,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         
         if (d.depth == 1) { return '32px'; } // Don't forget this returns the font size after calculating the structure (^:;
         else { 
-            return `${vws(d.nr)}vw`;
+            return `${vws(d.nr)}vh`;
         }        
     }
 
