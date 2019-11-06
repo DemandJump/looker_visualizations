@@ -267,6 +267,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let focus = root,
     nodes = root.descendants().slice(1); 
 
+
     console.log('root', root);
 
 
@@ -292,7 +293,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, d => d.id).enter()
         .append("circle") 
             .attr('class', 'node')
-            .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
+            // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => d.children ? color(d.depth) : "white")
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
@@ -356,7 +357,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
     zoomTo([root.x, root.y, root.r * 2]);
-    simulateClick(document.getElementById('root'), 'click');
+    simulateClick(document.querySelector('root'), 'click');
 
     /*******************************************************
         * Functions Section *
@@ -602,8 +603,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T4
             if (textBox == 3) {
-                console.log(`WORDLOOP: ${word}, ${word.length}`);
-                console.log(`d.data.text4 length: `, d.data.text4.length);
                 d.data.text4 = d.data.text4 + word + ' ';
 
                 if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
@@ -611,8 +610,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T3
             if (textBox == 2) {
-                console.log(`WORDLOOP: ${word}, ${word.length}`);
-                console.log(`d.data.text3 length: `, d.data.text3.length);
                 if (d.data.text3.length + word.length < t3) {
                     d.data.text3 = d.data.text3 + word + ' ';
                 } else if (d.data.text3 == '') {
@@ -626,8 +623,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
              // T2
             if (textBox == 1) {
-                console.log(`WORDLOOP: ${word}, ${word.length}`);
-                console.log(`d.data.text2 length: `, d.data.text2.length);
                 if (d.data.text2.length + word.length < t2 ) {
                     d.data.text2 = d.data.text2 + words + ' ';
                 } else if (d.data.text2 == '') {
@@ -640,8 +635,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T1
             if (textBox == 0) {
-                console.log(`WORDLOOP: ${word}, ${word.length}`);
-                console.log(`d.data.text1 length: `, d.data.text1.length);
                 if (d.data.text1.length + word.length < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else if (d.data.text1 == '') {
