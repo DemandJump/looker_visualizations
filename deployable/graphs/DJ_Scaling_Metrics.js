@@ -106,31 +106,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ******************************************************************/
     
     let dynamicConfig = {}
-    measureOrder = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40];
     measures.forEach( (mes, i) => {
-        dynamicConfig[mes.name] = {
-            label: mes.label + ' Font Size',
-            order: measureOrder[i],
-            type: 'string',
-            section: 'Style',
-            display: 'select',
-            display_size: 'half',
-            values: [
-                {"Small": "small"},
-                {"Medium": "medium"},
-                {"Large": "large"},
-            ],
-            default: "small"
-        }
 
-        dynamicConfig[mes.name + 'ValueFormat'] = {
-            label: 'Value Format',
-            order: measureOrder[i + 1],
-            type: 'string',
-            section: 'Style',
-            display_size: 'half',
-            placeholder: 'Spreadsheet style format code'
-        }
 
 
 
@@ -142,13 +119,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             words: [
                 {
                     type: "separator",
-                    text: `${mes.label_short} Font size and value format` 
+                    text: `${mes.label_short}` 
                 }
             ]
         }
 
         dynamicConfig[mes.label_short + '_fs'] = {
-            label: mes.label_short + '_fs',
+            label: 'Font Size',
             order: i + .1,
             type: 'string',
             section: 'Words',
@@ -163,7 +140,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         dynamicConfig[mes.label_short + '_vf'] = {
-            label: mes.label_short + '_vs',
+            label: 'Value Format',
             order: i + .1,
             type: 'string', 
             section: 'Words',
