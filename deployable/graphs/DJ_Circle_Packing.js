@@ -599,11 +599,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         
-        console.log('Cirlen', cirlen);
-        console.log("\n\n\n full word char length", fchars);
-        console.log("words", words);
-
-        console.log(`t1: ${t1}, t2: ${t2}, t3: ${t3}, t4: ${t4}`);
+        // console.log('Cirlen', cirlen);
+        // console.log("\n\n\n full word char length", fchars);
+        // console.log("words", words);
+        // console.log(`t1: ${t1}, t2: ${t2}, t3: ${t3}, t4: ${t4}`);
             // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
 
         let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
@@ -643,9 +642,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T1
             if (textBox == 0) {
-                console.log('t1 text length', d.data.text1.length);
-                console.log('t1 word length', word.length);
-                console.log('t1 text+word length', d.data.text1.length + word.length);
                 if (d.data.text1.length + word.length < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else if (d.data.text1 == '') {
@@ -654,7 +650,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     textBox ++;
                     d.data.textuse = 2;
                 }
-                console.log('returned t1 word', d.data.text1);
             }
 
 
@@ -672,11 +667,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d["data"]["text2"].replace(",", " ");
         d["data"]["text3"].replace(",", " ");
         d["data"]["text4"].replace(",", " ");
-        console.log(`\nFinished textboxes, here is output: `);
-        console.log(`T1`, d.data.text1);
-        console.log(`T2`, d.data.text2);
-        console.log(`T3`, d.data.text3);
-        console.log(`T4`, d.data.text4);
+        // console.log(`\nFinished textboxes, here is output: `);
+        // console.log(`T1`, d.data.text1);
+        // console.log(`T2`, d.data.text2);
+        // console.log(`T3`, d.data.text3);
+        // console.log(`T4`, d.data.text4);
 
         
         if (d.depth == 1) { return '32px'; } // Don't forget this returns the font size after calculating the structure (^:;
