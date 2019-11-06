@@ -421,7 +421,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text2);
                 });
 
@@ -436,7 +436,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text3);
                 });
         label4
@@ -450,7 +450,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text4);
                 });
 
@@ -652,10 +652,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }
             }
 
-
-            if (textBox == 4) {
-                console.log('Error: word left out of textboxes: ', word);
-            }
+            if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
         });
 
         if (d.depth == 0) { 
@@ -667,17 +664,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d["data"]["text2"].replace(",", " ");
         d["data"]["text3"].replace(",", " ");
         d["data"]["text4"].replace(",", " ");
-        // console.log(`\nFinished textboxes, here is output: `);
-        // console.log(`T1`, d.data.text1);
-        // console.log(`T2`, d.data.text2);
-        // console.log(`T3`, d.data.text3);
-        // console.log(`T4`, d.data.text4);
-
+        console.log('d', d);
         
-        if (d.depth == 1) { return '32px'; } // Don't forget this returns the font size after calculating the structure (^:;
-        else { 
-            return `${vws(d.nr)}vh`;
-        }        
+        return `${vws(d.nr)}vh`;
     }
 
 
