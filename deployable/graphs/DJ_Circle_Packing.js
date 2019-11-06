@@ -653,10 +653,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         });
         console.log(`\nFinished textboxes, here is output: `);
-        console.logt(`T1`, d.data.text1);
-        console.logt(`T2`, d.data.text2);
-        console.logt(`T3`, d.data.text3);
-        console.logt(`T4`, d.data.text4);
+        console.log(`T1`, d.data.text1);
+        console.log(`T2`, d.data.text2);
+        console.log(`T3`, d.data.text3);
+        console.log(`T4`, d.data.text4);
 
 
         if (d.depth == 1) { return '32px'; } 
