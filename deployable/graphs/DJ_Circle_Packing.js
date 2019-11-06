@@ -666,6 +666,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // d["data"]["text3"].replace(",", " ");
         // d["data"]["text4"].replace(",", " ");
         // console.log('d', d);
+
+
+            //  Pull out it's own height 
+        console.log('This node', this);
+        console.log('This node"s height', this.height);
+
+
+
         
         return `${vws(d.nr)}vh`;
     }

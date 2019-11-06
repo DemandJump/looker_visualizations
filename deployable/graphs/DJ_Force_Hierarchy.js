@@ -342,26 +342,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(adIteration == optionConfigName.length - 1) { 
             // This adds to the end of the options list 
 
-        dimension_options['notes'] = 
+        dimension_options['notesTitle'] = 
             {
                 label: 'A Quick Guide',
                 order: 0,
                 section: 'Notes',
-                type: 'string',
-                display: 'sentence_maker',
+                type: 'sentence_maker',
                 values: [
-                  {type: "separator", text: "Stack the dimensions like a hierarchy in descending order. Go from the root down": "Info0"},
-                  {type: "separator", text: "You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy": "Info1"},
-                  {type: "separator", texT: "There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what": "Info2"},
-                  {type: "separator", text: "Here's a list of what all the buttons do:": "Info3"},
-                  {type: "separator", text: "This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy": "Info4"},
-                  {type: "separator", text: "Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy.": "Info5"},
-                  {type: "separator", text: "When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset": "Info6"},
-                  {type: "separator", text: "Reset all nodes resets all nodes, so be careful": "Info7"},
-                  {type: "separator", text: "Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times.": "Info8"},
-                  {type: "separator", text: "Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node":"Info9"},
-                  {type: "separator", text: "Don'y be afraid to SPAM that pull nodes together button, it works wonders.. (;": "Info11"},
-                  {type: "separator", text: "The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!": "Info10"} 
+                  {type: "separator", text: "Stack the dimensions like a hierarchy in descending order. Go from the root down"},
+                  {type: "separator", text: "You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy"},
+                  {type: "separator", texT: "There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what"},
+                  {type: "separator", text: "Here's a list of what all the buttons do:"},
+                  {type: "separator", text: "This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy"},
+                  {type: "separator", text: "Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy."},
+                  {type: "separator", text: "When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset"},
+                  {type: "separator", text: "Reset all nodes resets all nodes, so be careful"},
+                  {type: "separator", text: "Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times."},
+                  {type: "separator", text: "Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node"},
+                  {type: "separator", text: "Don'y be afraid to SPAM that pull nodes together button, it works wonders"},
+                  {type: "separator", text: "The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!"} 
                 ]
             }
 
