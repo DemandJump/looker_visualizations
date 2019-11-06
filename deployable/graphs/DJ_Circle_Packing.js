@@ -582,7 +582,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = '1';
         let words = d["data"]["name"].split(" "),
-        wchars = words.forEach(d => wchars.push(d.length)),
         fchars = d.data.name.length,
         diameter = d.nr * 2, // Length of circle
         charlen = fchars * 8.74,
@@ -594,7 +593,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         console.log("full word char length", fchars);
         console.log("words", words);
-        console.log("Word char lengths", wchars);
         console.log(`\nText level character lengths >> t1: ${t1}, t2: ${t2}, t3: ${t3}, t4:${t4}`);
             // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
 
