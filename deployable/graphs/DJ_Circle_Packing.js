@@ -586,11 +586,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let fchars = d.data.name.length;
         let diameter = d.nr * 2; // Length of circle
         let charlen = fchars * 8.74;
-        let cirlen = diameter * 8.74;
-        let t1 = Math.floor(cirlen * .22); // : 22 // Desired percents of space each take up
-        let t2 = Math.floor(cirlen * .40); // : 40 // This should be no more than the width of the diameter 
-        let t3 = Math.floor(cirlen * .16); // : 16
-        let t4 = Math.floor(cirlen * .22); // This should be else really ~ // : 22
+        let cirlen = diameter / 8.74;
+        let t1 = Math.floor(cirlen * .28); // : 22 // Desired percents of space each take up
+        let t2 = Math.floor(cirlen * .50); // : 40 // This should be no more than the width of the diameter 
+        let t3 = Math.floor(cirlen * .28); // : 16
+        let t4 = Math.floor(cirlen * .26); // This should be else really ~ // : 22
 
 
         console.log("\n\n\n full word char length", fchars);
