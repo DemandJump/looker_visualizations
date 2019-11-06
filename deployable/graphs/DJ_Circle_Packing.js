@@ -668,11 +668,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
         } // End of for loop 
 
-        console.log('this is ')
+
         if (d.depth == 0) { 
             d.data.text1 = d.data.name;
             d.data.textuse = 1; 
-            console.log('This is the root data', d);
+            // console.log('This is the root data', d);
         }
 
         // d["data"]["text1"].replace(",", " ");
@@ -680,8 +680,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // d["data"]["text3"].replace(",", " ");
         // d["data"]["text4"].replace(",", " ");
         // console.log('d', d);
-
-
+        
         
         return `${vws(d.nr)}vh`;
     }
