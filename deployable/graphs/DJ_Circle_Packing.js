@@ -265,7 +265,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     width = height = window.innerHeight;
     const root = pack(burrow);
     let focus = root,
-    nodes = root.descendants(); // .slice(1);
+    nodes = root.descendants().slice(1); 
 
     console.log('root', root);
 
