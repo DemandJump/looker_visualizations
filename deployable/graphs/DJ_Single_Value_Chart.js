@@ -177,8 +177,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`The second pivot key:`, prevk);
 
             // Parse into the data,
-        let measureOne = data[name][0];
-        let measureTwo = data[name][1];
+        let measureOne = data[0][name][curk];
+        let measureTwo = data[1][name][prevk];
         measureOne = measureOne.rendered;
         measureTwo = measureTwo.rendered;
         let computedBoth = data[name]['previous_period']['rendered'];
