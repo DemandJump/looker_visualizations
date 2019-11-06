@@ -587,16 +587,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let diameter = d.nr * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74;
-        let t1 = Math.floor(cirlen * .28); // : 22 // Desired percents of space each take up
-        let t2 = Math.floor(cirlen * .50); // : 40 // This should be no more than the width of the diameter 
-        let t3 = Math.floor(cirlen * .28); // : 16
-        let t4 = Math.floor(cirlen * .26); // This should be else really ~ // : 22
+        console.log('Cirlen', cirlen);
+        let t1 = cirlen * .28;
+        let t2 = cirlen * .50;
+        let t3 = cirlen * .28;
+        let t4 = cirlen * .26;
+        t1 = Math.floor(t1); // : 22 // Desired percents of space each take up
+        t2 = Math.floor(t2); // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(t3); // : 16
+        t4 = Math.floor(t4); // This should be else really ~ // : 22
 
         
 
         console.log("\n\n\n full word char length", fchars);
         console.log("words", words);
-        console.log(`Text level character lengths >> t1: ${t1}, t2: ${t2}, t3: ${t3}, t4:${t4} \n`);
+
+        console.log(`t1 value`, t1);
+        console.log(`t1 value`, t2);
+        console.log(`t1 value`, t3);
+        console.log(`t1 value`, t4);
             // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
 
         let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
