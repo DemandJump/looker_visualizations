@@ -199,7 +199,6 @@ d3.select('div.djvsValue').style('color', config.color);
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
-    if (config.valueTitle != '') {
         d3.select('div.djvsTitle')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
@@ -213,12 +212,10 @@ if (config.text_spacing == "dynamic_size") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '3vw');
           
-    }    
     arrowFontPass = '2.2vw';
 }
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-    if (config.valueTitle != '') {  // If there's a title
         d3.select('div.djvsTitle')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
@@ -232,12 +229,10 @@ if (config.text_spacing == "word_break") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.2rem');
 
-    }
     arrowFontPass = '1rem';
 }
 if (config.text_spacing == "ellipsis") {
       // The original styling for the text and stuff
-    if (config.valueTitle != '') {  // If there's a title
         d3.select('div.djvsTitle')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
@@ -251,7 +246,6 @@ if (config.text_spacing == "ellipsis") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '1.2rem');
 
-    }
     arrowFontPass = '1rem';
 }
 
