@@ -149,9 +149,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log(` ...UpdateAsync initialized, here is it's data:`);
     console.log('\n data', data);
     // console.log('element', element);
-    // console.log('config', config);
-    // console.log('queryResponse', queryResponse);
-    // console.log('details', details);
+    console.log('config', config);
+    console.log('queryResponse', queryResponse);
+    console.log('details', details);
 
     // Playing with dimensions and measures
     let dimensions = queryResponse.fields.dimensions;
