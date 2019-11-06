@@ -587,10 +587,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         diameter = d.nr * 2, // Length of circle
         charlen = fchars * 8.74,
         cirlen = diameter * 8.74,
-        t1 = Math.floor(fchars * .24), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars * .42), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(fchars * .18), // : 16
-        t4 = Math.floor(fchars * .20); // This should be else really ~ // : 22
+        t1 = Math.floor(cirlen * .22), // : 22 // Desired percents of space each take up
+        t2 = Math.floor(cirlen * .40), // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(cirlen * .16), // : 16
+        t4 = Math.floor(cirlen * .22); // This should be else really ~ // : 22
+
 
         console.log("\n\n\n full word char length", fchars);
         console.log("words", words);
@@ -610,7 +611,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T3
             if (textBox == 2) {
-                if (d.data.text3.length + word.length < t3) {
+                if ( (d.data.text3.length + word.length) * 8.74 < t3) {
                     d.data.text3 = d.data.text3 + word + ' ';
                 } else if (d.data.text3 == '') {
                     d.data.text3 = word + ' '; 
@@ -622,7 +623,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
              // T2
             if (textBox == 1) {
-                if (d.data.text2.length + word.length < t2 ) {
+                if ( (d.data.text2.length + word.length) * 8.74 < t2 ) {
                     d.data.text2 = d.data.text2 + words + ' ';
                 } else if (d.data.text2 == '') {
                     d.data.text2 = word + ' ';
@@ -637,7 +638,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 console.log('t1 text length', d.data.text1.length);
                 console.log('t1 word length', word.length);
                 console.log('t1 text+word length', d.data.text1.length + word.length);
-                if (d.data.text1.length + word.length < t1) {
+                if ( (d.data.text1.length + word.length) * 8.74 < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else if (d.data.text1 == '') {
                     d.data.text1 = word + ' '; 
