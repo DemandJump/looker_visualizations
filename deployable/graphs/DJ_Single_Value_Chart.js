@@ -1,8 +1,9 @@
 looker.plugins.visualizations.add({
     options: {
             color: {
-                label: "Color of text",
+                label: "Value Color",
                 type: "string",
+                order: 1,
                 section: "Style",
                 display: "color",
                 default: "#000000"
@@ -10,12 +11,14 @@ looker.plugins.visualizations.add({
             showTitle: {
                 label: "Show Title",
                 type: "boolean",
+                order: 2,
                 section: "Style",
                 default: false
             },
             valueTitle: {
                 label: "Title Override",
                 type: "string",
+                order: 3,
                 section: "Style",
                 placeholder: "Leave blank for contextual title",
                 hidden: true
@@ -23,6 +26,7 @@ looker.plugins.visualizations.add({
             valueFormat: {
                 label: "Value Format",
                 type: "string",
+                order: 4, 
                 section: "Style",
                 placeholder: "Spreadsheet style format code"
             },
@@ -30,6 +34,7 @@ looker.plugins.visualizations.add({
             text_spacing: {
                 label: "Dynamic font types. Change the styling to fit your needs",
                 type: "string",
+                order: 10,
                 section: "Word Spacing",
                 display: "radio",
                 values: [
@@ -40,8 +45,9 @@ looker.plugins.visualizations.add({
             },
 
             showComparison: {
-              label: "Comparison", 
+              label: "Show Comparison", 
               type: "boolean",
+              order: 5,
               section: "Comparison",
               default: false
             },
@@ -49,6 +55,7 @@ looker.plugins.visualizations.add({
             valueLabels: {
               label: "Value Labels",
               type: "string",
+              order: 6,
               section: "Comparison",
               display: "select",
               values: [
@@ -60,9 +67,10 @@ looker.plugins.visualizations.add({
               default: 'compVal',
               hidden: true // Show comparison == true
             },
-            positiveSwitch: {
+            positiveSwitch: {                   // This is just for change
               label: "Positive Values are Bad",
               type: "boolean",
+              order: 7,
               section: "Comparison",
               default: false,
               hidden: true // Show comparison == true
@@ -70,13 +78,15 @@ looker.plugins.visualizations.add({
             showLabel: {
               label: "Show Label",
               type: "boolean",
+              order: 8,
               section: "Comparison",
               default: false,
               hidden: true // Show comparison == true
             },
             labelOverride: {
-              label: "Written Label",
+              label: "Label",
               type: "string",
+              order: 9,
               section: "Comparison",
               placeholder: "Leave blank to use field label",
               hidden: true // Show comparison == true && showLabel == true
@@ -169,7 +179,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let hReturnValue = hValue;
 
     console.log(`This is the hValue`, hValue);
-    
+
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
@@ -242,66 +252,72 @@ if (config.text_spacing == "ellipsis") {
             .style('font-size', '1.2rem');
 
     }
-    arrowFontPass = '1rem'
+    arrowFontPass = '1rem';
 }
 
 
     // This is for the title element based on the user input
 if (config.valueTitle != '') {
-    d3.select('.djvsTitle').html(config.valueTitle)
-} else { d3.select('.djvsTitle').html(' ') }
+    d3.select('.djvsTitle').html(config.valueTitle);
+} else { d3.select('.djvsTitle').html(' '); }
 
 
     // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
 if (config.showTitle == false) { // If they want to hide the title
     if (this.options.valueTitle.hidden == false) { // Check if it's not hidden
-        this.options.valueTitle.hidden = true // Then set it to hidden
-        this.trigger('registerOptions', this.options) // send the updated settings to the system
-        d3.select('.djvsTitle').html(' ')
+        this.options.valueTitle.hidden = true; // Then set it to hidden
+        this.trigger('registerOptions', this.options); // send the updated settings to the system
+        d3.select('.djvsTitle').html(' ');
     }
 }
 if (config.showTitle == true) { // Touche vice versa ~ ;p
     if (this.options.valueTitle.hidden == true) { 
-        this.options.valueTitle.hidden = false 
-        this.trigger('registerOptions', this.options)
+        this.options.valueTitle.hidden = false;
+        this.trigger('registerOptions', this.options);
     }
 }
 
 
 if (config.showComparison == true) {
-  if (this.options.valueLabels.hidden == true && this.options.positiveSwitch.hidden == true && this.options.showLabel.hidden == true) {
-      this.options.valueLabels.hidden = false
-      this.options.positiveSwitch.hidden = false
-      this.options.showLabel.hidden = false
-      this.trigger('registerOptions', this.options)
+  if (this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true) {
+      this.options.valueLabels.hidden = false;
+      this.options.positiveSwitch.hidden = false;
+      this.options.showLabel.hidden = false;
+      this.trigger('registerOptions', this.options);
   }
 }
 
 if (config.showComparison == false) {
-  if (this.options.valueLabels.hidden == false && this.options.positiveSwitch.hidden == false && this.options.showLabel.hidden == false) {
-      this.options.valueLabels.hidden = true
-      this.options.positiveSwitch.hidden = true
-      this.options.showLabel.hidden = true
-      this.options.labelOverride.hidden = true
-      this.trigger('registerOptions', this.options)
+  if (this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false) {
+      this.options.valueLabels.hidden = true;
+      this.options.showLabel.hidden = true;
+      this.options.labelOverride.hidden = true;
+      this.trigger('registerOptions', this.options);
   }
 }
 
   // This gets run after config show comparison variable
 if (config.showLabel == true && config.showComparison == true) {
   if (this.options.labelOverride.hidden == true) {
-      this.options.labelOverride.hidden = false
-      this.trigger('registerOptions', this.options)
+      this.options.labelOverride.hidden = false;
+      this.trigger('registerOptions', this.options);
   }
 }
 
   // This gets run after config show comparison variable
 if (config.showLabel == false && config.showComparison == true) {
   if (this.options.labelOverride.hidden == false) {
-      this.options.labelOverride.hidden = true
-      this.trigger('registerOptions', this.options)
+      this.options.labelOverride.hidden = true;
+      this.trigger('registerOptions', this.options);
   }
+}
+
+if (config.showComparison == true && config.valueLabels == 'compChan') {
+    if (this.options.positiveSwitch.hidden == true) {
+        this.options.positiveSwitch = false;
+
+    }
 }
 
 console.log('These are the configuration settings: ');
@@ -316,9 +332,6 @@ console.log('Arrow font pass', arrowFontPass);
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
 
-
-
-
   // Gotta build Comparison functions for the chart value 
 
         //*// Starting with the Label - config.labelOverride //*//
@@ -327,31 +340,30 @@ console.log('Arrow font pass', arrowFontPass);
     // Calculate Progress: calcProg ~ Don't know how that works yet
     // Calculate Progress (With Percentage): calcPercent
 
-    // function editHeader() {
       // So we're taking in hValue and editing it if it's one of these values
-  console.log(`editHeader: entering hValue value: `, hValue)
-  let mOneName = measures[0]["name"]
-  let mOneVal = data[0][mOneName]["value"]
-  let mTwoName = measures[1]["name"] // Taking the second measure value(name) to calculate these values
-  let mTwoVal = data[0][mTwoName]["value"]
+  console.log(`editHeader: entering hValue value: `, hValue);
+  let mOneName = measures[0]["name"];
+  let mOneVal = data[0][mOneName]["value"];
+  let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
+  let mTwoVal = data[0][mTwoName]["value"];
 
       // If the LabelOverride isn't empty, have it override the current field label
   if (config.labelOverride != '' || config.labelOverride != ' ') {
-      hValue = config.labelOverride
+      hValue = config.labelOverride;
   }
   if (config.labelOverride == '' || config.labelOverride == ' ') {
-    hValue = queryResponse.fields.measures[0]['label']
+    hValue = queryResponse.fields.measures[0]['label'];
   }
   
       // If showlabel is false then we're turning off the Written Label
   if (config.showLabel == false ) {
-    hValue = ' '
+    hValue = ' ';
   }
 
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
-      hReturnValue = + mTwoVal + ' ' + hValue
+      hReturnValue = + mTwoVal + ' ' + hValue;
       d3.select('div.djvsHeader').style('backgroun-image', 'none');
   }
   if (config.valueLabels == 'compChan') { // Show as Change
@@ -359,13 +371,13 @@ console.log('Arrow font pass', arrowFontPass);
       let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue 
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue ;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
 
       }
@@ -374,9 +386,9 @@ console.log('Arrow font pass', arrowFontPass);
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
         // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
-      let finVal = (mOneVal / mTwoVal) * 100
-      let retVal = Math.trunc(finVal)
-      console.log('This is the return value', retVal)
+      let finVal = (mOneVal / mTwoVal) * 100;
+      let retVal = Math.trunc(finVal);
+      console.log('This is the return value', retVal);
 
       d3.select('div.djvsHeader')
           .style('background-image', `linear-gradient(
@@ -384,22 +396,17 @@ console.log('Arrow font pass', arrowFontPass);
             #E2E3E3,
             #E2E3E3 ${retVal}%,
             #F5F5F5 ${retVal}%
-          )`)
+          )`);
 
 
     if (config.valueLabels == 'calcPercent') {
-        hReturnValue = `<span style=" color: #979B9D;">${retVal}%</span> of <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue
+        hReturnValue = `<span style=" color: #979B9D;">${retVal}%</span> of <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
     }
     if (config.valueLabels == 'calcProg') {
-        hReturnValue = hValue
+        hReturnValue = hValue;
     }
 
   }
-
-
-// } // End of the editHeader function
-
-
 
 
 /*********************************************************************************************************
