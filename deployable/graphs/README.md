@@ -70,7 +70,13 @@ limit_displayed_rows_values: {
         },
         { type: "number", name: "num_rows", value: 0 },
         { type: "separator", text: "rows" }
-    ]
+    ],
+    
+	disabledReason: function(e, t) {
+		if (!(null != t ? t.has_row_totals : void 0)) return "Query has no row totals"
+	}
 }
+
+
 - These are the different params you can put in the values array to construct sentence returns with varying input data. This is really nifty type structure that you can implement. Each one with a name becomes a value within it's specific object in the configuration array.
 

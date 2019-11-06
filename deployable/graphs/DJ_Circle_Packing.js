@@ -321,6 +321,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .attr('height', 'auto')
                 .attr('dy', spaceOne)
                 .text(d => d.data.text1);
               
@@ -334,6 +335,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .attr('height', 'auto')
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -347,6 +349,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .attr('height', 'auto')
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
@@ -360,6 +363,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .attr('height', auto)
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
 
