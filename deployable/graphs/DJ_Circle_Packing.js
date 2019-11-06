@@ -323,7 +323,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceOne)
-                .text(d => d.data.text1);
+                .text(d => {
+                  if (d.depth == 0) return d.data.name;
+                  return d.data.text1;
+                });
               
     const label2 = svg.append("g")
         .attr('class', 'text2')
@@ -337,7 +340,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceTwo)
-                .text(d => d.data.text2);
+                .text(d => {
+                    if(d.depth != 0) return d.data.text2;
+                });
 
     const label3 = svg.append("g")
         .attr('class', 'text3')
@@ -351,7 +356,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceThree)
-                .text(d => d.data.text3);
+                .text(d => {
+                    if(d.depth != 0) return d.data.text3;
+                });
 
     const label4 = svg.append("g")
         .attr('class', 'text3')
@@ -365,7 +372,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceFour)
-                .text(d => d.data.text4);
+                .text(d => {
+                    if(d.depth != 0) return d.data.text4 ;
+                });
 
     zoomTo([root.x, root.y, root.r * 2]);
     simulateClick(document.querySelector('.node'), 'click');
@@ -659,7 +668,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
         } // End of for loop 
 
-        console.log('this is d', d);
+        console.log('this is ')
         if (d.depth == 0) { 
             d.data.text1 = d.data.name;
             d.data.textuse = 1; 
