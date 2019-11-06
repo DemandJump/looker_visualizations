@@ -582,15 +582,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function sizeText(d) {
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = '1';
-        let words = d["data"]["name"].split(" "),
-        fchars = d.data.name.length,
-        diameter = d.nr * 2, // Length of circle
-        charlen = fchars * 8.74,
-        cirlen = diameter * 8.74,
-        t1 = Math.floor(cirlen * .22), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(cirlen * .40), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(cirlen * .16), // : 16
-        t4 = Math.floor(cirlen * .22); // This should be else really ~ // : 22
+        let words = d["data"]["name"].split(" ");
+        let fchars = d.data.name.length;
+        let diameter = d.nr * 2; // Length of circle
+        let charlen = fchars * 8.74;
+        let cirlen = diameter * 8.74;
+        let t1 = Math.floor(cirlen * .22); // : 22 // Desired percents of space each take up
+        let t2 = Math.floor(cirlen * .40); // : 40 // This should be no more than the width of the diameter 
+        let t3 = Math.floor(cirlen * .16); // : 16
+        let t4 = Math.floor(cirlen * .22); // This should be else really ~ // : 22
 
 
         console.log("\n\n\n full word char length", fchars);
@@ -611,7 +611,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T3
             if (textBox == 2) {
-                if ( (d.data.text3.length + word.length) * 8.74 < t3) {
+                if (d.data.text3.length + word.length < t3) {
                     d.data.text3 = d.data.text3 + word + ' ';
                 } else if (d.data.text3 == '') {
                     d.data.text3 = word + ' '; 
@@ -623,7 +623,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
              // T2
             if (textBox == 1) {
-                if ( (d.data.text2.length + word.length) * 8.74 < t2 ) {
+                if (d.data.text2.length + word.length < t2) {
                     d.data.text2 = d.data.text2 + words + ' ';
                 } else if (d.data.text2 == '') {
                     d.data.text2 = word + ' ';
@@ -638,7 +638,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 console.log('t1 text length', d.data.text1.length);
                 console.log('t1 word length', word.length);
                 console.log('t1 text+word length', d.data.text1.length + word.length);
-                if ( (d.data.text1.length + word.length) * 8.74 < t1) {
+                if (d.data.text1.length + word.length < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else if (d.data.text1 == '') {
                     d.data.text1 = word + ' '; 
