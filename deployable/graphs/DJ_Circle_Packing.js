@@ -357,7 +357,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
     zoomTo([root.x, root.y, root.r * 2]);
-    simulateClick(document.querySelector('root'), 'click');
+    simulateClick(document.querySelector('.node'), 'click');
 
     /*******************************************************
         * Functions Section *
@@ -587,10 +587,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         diameter = d.nr * 2, // Length of circle
         charlen = fchars * 8.74,
         cirlen = diameter * 8.74,
-        t1 = Math.floor(fchars * .25), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars * .45), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(fchars * .20), // : 16
-        t4 = Math.floor(fchars * .13); // This should be else really ~ // : 22
+        t1 = Math.floor(fchars * .24), // : 22 // Desired percents of space each take up
+        t2 = Math.floor(fchars * .42), // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(fchars * .18), // : 16
+        t4 = Math.floor(fchars * .20); // This should be else really ~ // : 22
 
         console.log("\n\n\n full word char length", fchars);
         console.log("words", words);
@@ -618,7 +618,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     textBox ++;
                     d.data.textuse = 4;
                 }
-
             }
 
              // T2
@@ -635,6 +634,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T1
             if (textBox == 0) {
+                console.log('t1 text length', d.data.text1.length);
+                console.log('t1 word length', word.length);
+                console.log('t1 text+word length', d.data.text1.length + word.length);
                 if (d.data.text1.length + word.length < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else if (d.data.text1 == '') {
@@ -643,6 +645,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     textBox ++;
                     d.data.textuse = 2;
                 }
+                console.log('returned t1 word', d.data.text1);
             }
 
 
@@ -655,6 +658,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.data.text1 = d.data.name;
             d.data.textuse = 1; 
         }
+        d["data"]["text1"].replace(",", " ");
+        d["data"]["text2"].replace(",", " ");
+        d["data"]["text3"].replace(",", " ");
+        d["data"]["text4"].replace(",", " ");
 
         console.log(`\nFinished textboxes, here is output: `);
         console.log(`T1`, d.data.text1);
@@ -663,10 +670,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`T4`, d.data.text4);
 
         
-
-        if (d.depth == 1) { return '32px'; } 
+        if (d.depth == 1) { return '32px'; } // Don't forget this returns the font size after calculating the structure (^:;
         else { return '16px'; }        
-        // Don't forget this returns the font size after calculating the structure (^:;
     }
 
 
