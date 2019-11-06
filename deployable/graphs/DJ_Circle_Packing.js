@@ -292,6 +292,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, d => d.id).enter()
         .append("circle") 
             .attr('class', 'node')
+            .attr('id', d => { if(d.depth == 0){return "root";} }) // Give root the id for notch selector
             .attr("fill", d => d.children ? color(d.depth) : "white")
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
@@ -341,8 +342,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
-    zoomTo([root.x, root.y, root.r * 2]);
+    const label4 = svg.append("g")
+        .attr('class', 'text3')
+        .attr('pointer-events', 'none')
+        .attr('text-anchor', 'middle')
+            .selectAll('text.text3')
+            .data(nodes, d => d.id).enter()
+            .append('text')
+                .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
+                .attr('dy', spaceFour)
+                .text(d => d.data.text4);
 
+    zoomTo([root.x, root.y, root.r * 2]);
+    simulateClick(document.getElementById('root'), 'click');
 
     /*******************************************************
         * Functions Section *
@@ -355,6 +369,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+        label4.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
         node.attr("r", d => {
             d.nr = d.r * k; // Variable to hold the changing radius size 
@@ -369,7 +384,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         focus = d;
 
         const transition = svg.transition() 
-            .duration(d3.event.altKey ? 7400 : 740)  
+            .duration(d3.event.altKey ? 6400 : 640)  
             .tween("zoom", d => { // Tween
                 const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
                 return t => zoomTo(i(t));
@@ -419,6 +434,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style('font-size', d => textSize(d))
                       .text(d => d.data.text3);
                 });
+        label4
+            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    
+                    label4
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .attr('dy', spaceThree)
+                      .style('font-size', d => textSize(d))
+                      .text(d => d.data.text4);
+                });
 
     }
 
@@ -438,6 +467,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('dy', spaceThree)
             .style('font-size', d => textSize(d))
             .text(d => d.data.text3);
+
+       label4
+            .attr('dy', spaceThree)
+            .style('font-size', d => textSize(d))
+            .text(d => d.data.text4);
 
     }
 
@@ -510,7 +544,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function textSize(d) { // We ran the calculations for each of the nodes and text spacing before actually implementing the nodes
-
                   // For one character it's about 5px per character with that quote being about 20 characters
           // So make multiple text nodes where we split the text and add it to a new text node if it breaches the diameter(r*2)
         d.data.text1 = d.data.text2 = d.data.text3 = '';
@@ -519,7 +552,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         charlen = charcount * 6.4,
         diameter = d.nr * 2, // This is the width of the circle that's encapsulating the text
         tedit = d.data.name; // Holder for text we're gonna splice and dice
-
         // console.log(`This node's charlen: ${charlen}, and diameter: ${diameter}`);
         // console.log(`This node's charname ${tedit}, and charcount: ${charcount}`);
 
@@ -539,17 +571,95 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.data.text2 = tedit.slice(count, count * 2);
             d.data.text3 = tedit.slice(count * 2); 
         }
-
             // This is used to calculate the font size actually 
-        if (d.depth == 1) {
-            return '32px';
-        } else {
-            return '18px';
-        }
-
+        if (d.depth == 1) { return '32px'; } 
+        else { return '16px'; }
     }
 
-        // Have it break on words instead of through the text 
+
+        // Have it break on words instead of through the text > Focus on words and char lengths
+    function sizeText(d) {
+        d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
+        d.data.textuse = '0';
+        let words = d["data"]["name"].split(" "),
+        wchars = words.forEach(d => wchars.push(d.length)),
+        fchars = d.data.name.length,
+        diameter = d.nr * 2, // Length of circle
+        charlen = fchars * 8.74,
+        cirlen = diameter * 8.74,
+        t1 = math.floor(fchars * .25), // : 22 // Desired percents of space each take up
+        t2 = math.floor(fchars * .45), // : 40 // This should be no more than the width of the diameter 
+        t3 = math.floor(fchars * .20), // : 16
+        t4 = math.floor(fchars * .13); // This should be else really ~ // : 22
+
+        console.log("full word char length", fchars);
+        console.log("words", words);
+        console.log("Word char lengths", wchars);
+        console.log(`\nText level character lengths >> t1: ${t1}, t2: ${t2}, t3: ${t3}, t4:${t4}`);
+            // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
+
+        let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
+
+        words.forEach(word => {
+
+              // T1
+            if (textBox == 0) {
+                if (d.data.text1 == '') d.data.text1 = word + ' ';
+
+                if (d.data.text1.length + word.length < t1) {
+                    d.data.text1 = d.data.text1 + word + ' ';
+                } else {
+                    textBox ++;
+                }
+            }
+
+              // T2
+            if (textBox == 1) {
+                if (d.data.text2 == '') d.data.text2 = word + ' ';
+
+                if (d.data.text2.length + word.length < t2 ) {
+                    d.data.text2 = d.data.text2 + words + ' ';
+                } else {
+                    textBox ++;
+                }
+            }
+
+              // T3
+            if (textBox == 2) {
+                if (d.data.text3 == '') d.data.text3 = word + ' ';
+                
+                if (d.data.text3.length + word.length < t3) {
+                    d.data.text3 = d.data.text3 + word + ' ';
+                } else {
+                    textBox ++;
+                }
+            }
+
+              // T4
+            if (textBox == 3) {
+                if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
+                  // Check if word length plus current textbox charlength exceeds the t4 count
+                if (d.data.text4.length + word.length < 4) {
+                    d.data.text4 = d.data.text4 + word + ' ';
+                } else {
+                    textBox ++;
+                }
+            }
+
+
+        });
+        console.log(`Finished textboxes, here is output: `);
+        console.logt(`T1`, d.data.text1);
+        console.logt(`T2`, d.data.text2);
+        console.logt(`T3`, d.data.text3);
+        console.logt(`T4`, d.data.text4);
+
+
+        if (d.depth == 1) { return '32px'; } 
+        else { return '16px'; }        
+        // Don't forget this returns the font size after calculating the structure (^:;
+    }
+
 
 
 
@@ -563,19 +673,39 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // based on d.data.textuse
     function spaceOne(d) {
         return d.data.textuse == 1 ? '0'
-        : d.data.textuse == 2 ? '-9px'
-        : '-18px';
+        : d.data.textuse == 2 ? '-8px'
+        : '-16px';
     }
     function spaceTwo(d) {
         return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '9px'
+        : d.data.textuse == 2 ? '8px'
         : '0px';
     }
     function spaceThree(d) {
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '0px'
-        : '18px';
+        : '16px';
     }
+
+
+        // This is the function that simulates a click on a selected element
+    function simulateClick(el, etype){
+        if (el.fireEvent) {
+            el.fireEvent('on' + etype);
+        } else {
+            var evObj = document.createEvent('MouseEvents');
+            evObj.initEvent(etype, true, false);
+            var canceled = !el.dispatchEvent(evObj);
+            if (canceled) { // A handler called preventDefault.
+                console.log("automatic click canceled");
+            } else {
+                // None of the handlers called preventDefault.
+            } 
+        }
+    }
+
+
+
     
 
     /**************** Done! *****************/
