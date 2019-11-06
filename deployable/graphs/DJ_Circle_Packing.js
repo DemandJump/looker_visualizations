@@ -708,7 +708,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : d.data.textuse == 2 ? '0px'
         : d.data.textuse == 3 ? '0px'
         : '24px';
-
     }
 
 
