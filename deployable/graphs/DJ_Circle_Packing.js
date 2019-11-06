@@ -312,7 +312,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
-                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceOne)
                 .text(d => d.data.text1);
               
@@ -325,7 +325,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -338,7 +338,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
@@ -351,7 +351,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSize(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
 
@@ -401,7 +401,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceOne)
-                      .style('font-size', d => textSize(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text1);
                 });
 
@@ -416,7 +416,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
-                      .style('font-size', d => textSize(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text2);
                 });
 
@@ -431,7 +431,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => textSize(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text3);
                 });
         label4
@@ -445,7 +445,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => textSize(d))
+                      .style('font-size', d => sizeText(d))
                       .text(d => d.data.text4);
                 });
 
@@ -455,22 +455,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // I instantiaed something wrong in the spacing, this works correctly!
         label 
             .attr('dy', spaceOne)
-            .style('font-size', d => textSize(d))
+            .style('font-size', d => sizeText(d))
             .text(d => d.data.text1);
 
         label2
             .attr('dy', spaceTwo)
-            .style('font-size', d => textSize(d))
+            .style('font-size', d => sizeText(d))
             .text(d => d.data.text2);
 
        label3
             .attr('dy', spaceThree)
-            .style('font-size', d => textSize(d))
+            .style('font-size', d => sizeText(d))
             .text(d => d.data.text3);
 
        label4
             .attr('dy', spaceThree)
-            .style('font-size', d => textSize(d))
+            .style('font-size', d => sizeText(d))
             .text(d => d.data.text4);
 
     }
@@ -580,7 +580,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
-        d.data.textuse = '0';
+        d.data.textuse = '1';
         let words = d["data"]["name"].split(" "),
         wchars = words.forEach(d => wchars.push(d.length)),
         fchars = d.data.name.length,
@@ -610,6 +610,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else {
                     textBox ++;
+                    d.data.textuse = 2;
                 }
             }
 
@@ -621,6 +622,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.data.text2 = d.data.text2 + words + ' ';
                 } else {
                     textBox ++;
+                    d.data.textuse = 3;
                 }
             }
 
@@ -632,6 +634,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.data.text3 = d.data.text3 + word + ' ';
                 } else {
                     textBox ++;
+                    d.data.textuse = 4;
                 }
             }
 
@@ -646,9 +649,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }
             }
 
+            if (textBox == 4) {
+                console.log('Error: word left out of textboxes', word);
+            }
 
         });
-        console.log(`Finished textboxes, here is output: `);
+        console.log(`\nFinished textboxes, here is output: `);
         console.logt(`T1`, d.data.text1);
         console.logt(`T2`, d.data.text2);
         console.logt(`T3`, d.data.text3);
@@ -661,30 +667,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-
-
-
-
-
-    // function spaceOne(d) { return '-14px'; } // Top text
-    // function spaceTwo(d) { return '0px'; } // Middle text
-    // function spaceThree(d) { return '14px'; } // bottom text
+    /*
+      //4// t1: -24px, t2: -8px, t3:  8px, t4:  24px
+      //3// t1: -16px, t2:  0px, t3:  16px, t4:  0px
+      //2// t1: -8px, t2:  8px, t3:  0px, t4:  0px
+      //1// t1:  0px, t2:  0px, t3:  0px, t4:  0px
+    */
 
         // based on d.data.textuse
     function spaceOne(d) {
-        return d.data.textuse == 1 ? '0'
+        return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '-8px'
-        : '-16px';
+        : d.data.textuse == 3 ? '-16px'
+        : '-24px';
     }
     function spaceTwo(d) {
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '8px'
-        : '0px';
+        : d.data.textuse == 3 ? '0px'
+        : '-8px';
     }
     function spaceThree(d) {
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '0px'
-        : '16px';
+        : d.data.textuse == 3 ? '16px'
+        : '8px';
+    }
+    function spaceFour(d) {
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '0px'
+        : d.data.textuse == 3 ? '0px'
+        : '24px';
+
     }
 
 
@@ -704,9 +718,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     }
 
-
-
-    
 
     /**************** Done! *****************/
     doneRendering() // Always call done to indicate a visualization has finished rendering
