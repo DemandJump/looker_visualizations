@@ -165,12 +165,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
          // Everything is being acted upon the first measure that's given to you ~ 
+    let name = queryResponse.fields.measures[0].name;
     console.log('This is the name of the first measure', queryResponse.fields.measures[0].name);
-    console.log(`This first pivot key: `, queryResponse.pivots[0].key);
-    console.log(`The second pivot key:`, queryResponse.pivots[1].key);
+
+    let curk = queryResponse.pivots[0].key;
+    let prevk = queryResponse.pivots[1].key;
+    console.log(`This first pivot key: `, curk);
+    console.log(`The second pivot key:`, prevk);
+
+        // Parse into the data,
+    let measureOne = data[name][curk];
+    let measureTwo = data[name][prevk];
+    measureOne = measureOne.rendered;
+    measureTwo = measureTwo.rendered;
+    let computedBoth = data[name]['previous_period']['rendered'];
+    console.log(`Current period`, measureOne);
+    console.log(`Previous period`, measureTwo);
 
 
-    
+
 
 
 
@@ -190,7 +203,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
-    let hReturnValue = hValue;
+    let hReturnValue = prevk;
 
     console.log(`This is the hValue`, hValue);
 
@@ -354,10 +367,10 @@ console.log('Arrow font pass', arrowFontPass);
 
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, hValue);
-  let mOneName = measures[0]["name"];
-  let mOneVal = data[0][mOneName]["value"];
-  let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
-  let mTwoVal = data[0][mTwoName]["value"];
+  // let mOneName = measures[0]["name"];
+  // let mOneVal = data[0][mOneName]["value"];
+  // let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
+  // let mTwoVal = data[0][mTwoName]["value"];
 
       // If the LabelOverride isn't empty, have it override the current field label
   if (config.labelOverride != '' || config.labelOverride != ' ') {
@@ -375,21 +388,21 @@ console.log('Arrow font pass', arrowFontPass);
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
-      hReturnValue = + mTwoVal + ' ' + hValue;
-      d3.select('div.djvsHeader').style('backgroun-image', 'none');
+      hReturnValue = + measureTwo + ' ' + hValue;
+      d3.select('div.djvsHeader').style('background-image', 'none');
   }
   if (config.valueLabels == 'compChan') { // Show as Change
         // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
-      let difference = mOneVal - mTwoVal; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+      let difference = measureOne - measureTwo; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue ;
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue ;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
 
       }
@@ -398,9 +411,10 @@ console.log('Arrow font pass', arrowFontPass);
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
         // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
-      let finVal = (mOneVal / mTwoVal) * 100;
+      let finVal = (measureOne / measureTwo) * 100;
       let retVal = Math.trunc(finVal);
       console.log('This is the return value', retVal);
+      console.log('This is the auto rendered value', computedBoth);
 
       d3.select('div.djvsHeader')
           .style('background-image', `linear-gradient(
@@ -412,7 +426,7 @@ console.log('Arrow font pass', arrowFontPass);
 
 
     if (config.valueLabels == 'calcPercent') {
-        hReturnValue = `<span style=" color: #979B9D;">${retVal}%</span> of <span style=" color: #979B9D;">${mTwoVal}</span> ` + hValue;
+        hReturnValue = `<span style=" color: #979B9D;">${computedBoth}</span> of <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
     }
     if (config.valueLabels == 'calcProg') {
         hReturnValue = hValue;

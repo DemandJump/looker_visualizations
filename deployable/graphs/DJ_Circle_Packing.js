@@ -459,9 +459,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
                       .text(d => d.data.text4);
-
-                      console.log('End of label4 transition this function', this);
-                      console.log('End of label4 transition this function', this.height);
                 });
 
     }
