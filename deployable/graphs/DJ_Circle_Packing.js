@@ -270,6 +270,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let vws = d3.scaleLinear()
         .domain([20, 1200])
         .range([2, 10]);
+    let vwsm = d3.scaleLinear()
+        .domain([20, 1200])
+        .range([.5, 4])
 
 
     console.log('root', root);
@@ -681,29 +684,31 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // based on d.data.textuse
     function spaceOne(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '-8px'
-        : d.data.textuse == 3 ? '-16px'
-        : '-24px';
+        return d.data.textuse == 1 ? '0rem'
+        : d.data.textuse == 2 ? '-1rem'
+        : d.data.textuse == 3 ? '2rem'
+        : '-3rem';
     }
     function spaceTwo(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '8px'
-        : d.data.textuse == 3 ? '0px'
-        : '-8px';
+        return d.data.textuse == 1 ? '0rem'
+        : d.data.textuse == 2 ? '1rem'
+        : d.data.textuse == 3 ? '0rem'
+        : '-1rem';
     }
     function spaceThree(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '0px'
-        : d.data.textuse == 3 ? '16px'
-        : '8px';
+        return d.data.textuse == 1 ? '0rem'
+        : d.data.textuse == 2 ? '0rem'
+        : d.data.textuse == 3 ? '2rem'
+        : '1rem';
     }
     function spaceFour(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '0px'
-        : d.data.textuse == 3 ? '0px'
-        : '24px';
+        return d.data.textuse == 1 ? '0rem'
+        : d.data.textuse == 2 ? '0rem'
+        : d.data.textuse == 3 ? '0rem'
+        : '3rem';
     }
+
+    
 
 
         // This is the function that simulates a click on a selected element
