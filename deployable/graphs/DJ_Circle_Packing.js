@@ -659,11 +659,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.data.text1 = d.data.name;
             d.data.textuse = 1; 
         }
+        
         d["data"]["text1"].replace(",", " ");
         d["data"]["text2"].replace(",", " ");
         d["data"]["text3"].replace(",", " ");
         d["data"]["text4"].replace(",", " ");
-
         console.log(`\nFinished textboxes, here is output: `);
         console.log(`T1`, d.data.text1);
         console.log(`T2`, d.data.text2);
