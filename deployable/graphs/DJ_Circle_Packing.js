@@ -401,7 +401,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceOne)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text1);
                 });
 
@@ -416,7 +416,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text2);
                 });
 
@@ -431,7 +431,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text3);
                 });
         label4
@@ -445,7 +445,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
-                      .style('font-size', d => sizeText(d))
+                      // .style('font-size', d => sizeText(d))
                       .text(d => d.data.text4);
                 });
 
@@ -600,27 +600,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         words.forEach(word => {
 
-              // T1
-            if (textBox == 0) {
-                if (d.data.text1 == '') d.data.text1 = word + ' ';
-
-                if (d.data.text1.length + word.length < t1) {
-                    d.data.text1 = d.data.text1 + word + ' ';
+              // T4
+            if (textBox == 3) {
+                if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
+                  // Check if word length plus current textbox charlength exceeds the t4 count
+                if (d.data.text4.length + word.length < 4) {
+                    d.data.text4 = d.data.text4 + word + ' ';
                 } else {
                     textBox ++;
-                    d.data.textuse = 2;
-                }
-            }
-
-              // T2
-            if (textBox == 1) {
-                if (d.data.text2 == '') d.data.text2 = word + ' ';
-
-                if (d.data.text2.length + word.length < t2 ) {
-                    d.data.text2 = d.data.text2 + words + ' ';
-                } else {
-                    textBox ++;
-                    d.data.textuse = 3;
                 }
             }
 
@@ -636,16 +623,30 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }
             }
 
-              // T4
-            if (textBox == 3) {
-                if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
-                  // Check if word length plus current textbox charlength exceeds the t4 count
-                if (d.data.text4.length + word.length < 4) {
-                    d.data.text4 = d.data.text4 + word + ' ';
+             // T2
+            if (textBox == 1) {
+                if (d.data.text2 == '') d.data.text2 = word + ' ';
+
+                if (d.data.text2.length + word.length < t2 ) {
+                    d.data.text2 = d.data.text2 + words + ' ';
                 } else {
                     textBox ++;
+                    d.data.textuse = 3;
                 }
             }
+
+              // T1
+            if (textBox == 0) {
+                if (d.data.text1 == '') d.data.text1 = word + ' ';
+
+                if (d.data.text1.length + word.length < t1) {
+                    d.data.text1 = d.data.text1 + word + ' ';
+                } else {
+                    textBox ++;
+                    d.data.textuse = 2;
+                }
+            }
+
 
             if (textBox == 4) {
                 console.log('Error: word left out of textboxes', word);
