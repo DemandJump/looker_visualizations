@@ -266,6 +266,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const root = pack(burrow);
     let focus = root,
     nodes = root.descendants().slice(1); 
+    
+    let vws = d3.scaleLinear()
+        .domain([20, 1200])
+        .range([1, 5]);
 
 
     console.log('root', root);
@@ -576,10 +580,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.depth == 1) { return '32px'; } 
         else { return '16px'; }
     }
-
-    let vws = d3.scaleLinear()
-        .domain([20, 1200])
-        .range([1, 5]);
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
