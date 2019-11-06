@@ -455,6 +455,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
                       .text(d => d.data.text4);
+
+                      console.log('End of label4 transition this function', this);
+                      console.log('End of label4 transition this function', this.height);
                 });
 
     }
@@ -666,12 +669,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // d["data"]["text3"].replace(",", " ");
         // d["data"]["text4"].replace(",", " ");
         // console.log('d', d);
-
-
-            //  Pull out it's own height 
-        console.log('This node', this);
-        console.log('This node"s height', this.height);
-
 
 
         
