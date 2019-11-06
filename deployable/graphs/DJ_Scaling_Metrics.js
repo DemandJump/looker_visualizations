@@ -135,7 +135,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         dynamicConfig[mes.label_short + 'Title'] = {
-            label: mes.label + 'word sentence',
+            label: mes.label_short + 'word sentence',
             order: i,
             type: 'sentence_maker',
             section: 'Words',
@@ -147,36 +147,31 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             ]
         }
 
-        dynamicConfig[mes.name + 'word'] = {
-          label: mes.label + 'word data',
-          order: i + .1,
-          type: 'sentence_maker',
-          section: 'Words',
-          words: [
-              {
-                  name: `${mes.name}_fs`,
-                  type: 'select',
-                  options: [
-                      {label: "Small", value: "small"},
-                      {label: "Medium", value: "medium"},
-                      {label: "Large", value: "large"}
-                  ]
-              },
-              {
-                  name: `${mes.name}_vf`,
-                  type: 'string',
-                  // placeholder: 'Value format'
-              }
-          ]
-      }
+        dynamicConfig[mes.label_short + '_fs'] = {
+            label: mes.label_short + '_fs',
+            order: i + .1,
+            type: 'string',
+            section: 'Words',
+            display: 'select',
+            display_size: 'half',
+            values: [
+                {"Small": "small"},
+                {"Medium": "medium"},
+                {"Large": "large"},
+            ],
+            default: "small"
+        }
+
+        dynamicConfig[mes.label_short + '_vf'] = {
+            label: mes.label_short + '_vs',
+            order: i + .1,
+            type: 'string', 
+            section: 'Words',
+            display_size: 'half',
+            placeholder: 'Spreadsheet style format'
+        }
 
     });
-    // dynamicConfig['valueFormat'] = {
-    //     label: "Value Format",
-    //     type: "string",
-    //     section: "Style (Deprecated)",
-    //     placeholder: "Spreadsheet style format code"
-    // }
 
 
     this.options = dynamicConfig
