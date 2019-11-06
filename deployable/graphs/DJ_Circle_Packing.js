@@ -591,9 +591,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         t3 = Math.floor(fchars * .20), // : 16
         t4 = Math.floor(fchars * .13); // This should be else really ~ // : 22
 
-        console.log("full word char length", fchars);
+        console.log("\n\n\n full word char length", fchars);
         console.log("words", words);
-        console.log(`\nText level character lengths >> t1: ${t1}, t2: ${t2}, t3: ${t3}, t4:${t4}`);
+        console.log(`Text level character lengths >> t1: ${t1}, t2: ${t2}, t3: ${t3}, t4:${t4} \n`);
             // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
 
         let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
@@ -602,36 +602,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T4
             if (textBox == 3) {
-                if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
-
                 console.log(`WORDLOOP: ${word}, ${word.length}`);
                 console.log(`d.data.text4 length: `, d.data.text4.length);
                 d.data.text4 = d.data.text4 + word + ' ';
+
+                if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
             }
 
               // T3
             if (textBox == 2) {
-                if (d.data.text3 == '') d.data.text3 = word + ' ';
-                
                 console.log(`WORDLOOP: ${word}, ${word.length}`);
                 console.log(`d.data.text3 length: `, d.data.text3.length);
                 if (d.data.text3.length + word.length < t3) {
                     d.data.text3 = d.data.text3 + word + ' ';
+                } else if (d.data.text3 == '') {
+                    d.data.text3 = word + ' '; 
                 } else {
                     textBox ++;
                     d.data.textuse = 4;
                 }
+
             }
 
              // T2
             if (textBox == 1) {
-                if (d.data.text2 == '') d.data.text2 = word + ' ';
-
-
                 console.log(`WORDLOOP: ${word}, ${word.length}`);
                 console.log(`d.data.text2 length: `, d.data.text2.length);
                 if (d.data.text2.length + word.length < t2 ) {
                     d.data.text2 = d.data.text2 + words + ' ';
+                } else if (d.data.text2 == '') {
+                    d.data.text2 = word + ' ';
                 } else {
                     textBox ++;
                     d.data.textuse = 3;
@@ -640,12 +640,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               // T1
             if (textBox == 0) {
-                if (d.data.text1 == '') d.data.text1 = word + ' ';
-
                 console.log(`WORDLOOP: ${word}, ${word.length}`);
-                console.log(`d.data.text2 length: `, d.data.text2.length);
+                console.log(`d.data.text1 length: `, d.data.text1.length);
                 if (d.data.text1.length + word.length < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
+                } else if (d.data.text1 == '') {
+                    d.data.text1 = word + ' '; 
                 } else {
                     textBox ++;
                     d.data.textuse = 2;
