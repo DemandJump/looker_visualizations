@@ -585,7 +585,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let words = d["data"]["name"].split(" ");
         let fchars = d.data.name.length;
         let diameter = d.nr * 2; // Length of circle
-        let charlen = fchars.parseInt() * 8.74;
+        let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74;
         let t1 = Math.floor(cirlen * .28); // : 22 // Desired percents of space each take up
         let t2 = Math.floor(cirlen * .50); // : 40 // This should be no more than the width of the diameter 
