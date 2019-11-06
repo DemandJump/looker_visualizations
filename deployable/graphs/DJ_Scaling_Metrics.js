@@ -172,11 +172,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('This is config', config) 
             // console.log('This is the config for this node', config[node.format])
             node.valueFormat = node.value; // this is the value without the format
+            console.log('config node format for current node', node);
+            console.log('config', config[node.format]);
             if (config[node.format] != '') { // If there is a format applied, run the function for the format
                 node.valueFormat = formatValue(config[node.format], node.value);
             }
             if (config[node.format] == '' || config[node.format] == ' ') {
-                node.valueFormat = node.rendered;
+                if (node.rendered || node.rendered != null) node.valueFormat = node.rendered;
             }
             // console.log('This is the finished node data node', node);
 
