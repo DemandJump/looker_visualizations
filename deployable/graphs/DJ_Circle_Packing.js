@@ -603,18 +603,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               // T4
             if (textBox == 3) {
                 if (d.data.text4 == '') d.data.text4 = word + ' '; // Add the first letter regardless
-                  // Check if word length plus current textbox charlength exceeds the t4 count
-                if (d.data.text4.length + word.length < 4) {
-                    d.data.text4 = d.data.text4 + word + ' ';
-                } else {
-                    textBox ++;
-                }
+
+                console.log(`WORDLOOP: ${word}, ${word.length}`);
+                console.log(`d.data.text4 length: `, d.data.text4.length);
+                d.data.text4 = d.data.text4 + word + ' ';
             }
 
               // T3
             if (textBox == 2) {
                 if (d.data.text3 == '') d.data.text3 = word + ' ';
                 
+                console.log(`WORDLOOP: ${word}, ${word.length}`);
+                console.log(`d.data.text3 length: `, d.data.text3.length);
                 if (d.data.text3.length + word.length < t3) {
                     d.data.text3 = d.data.text3 + word + ' ';
                 } else {
@@ -627,6 +627,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (textBox == 1) {
                 if (d.data.text2 == '') d.data.text2 = word + ' ';
 
+
+                console.log(`WORDLOOP: ${word}, ${word.length}`);
+                console.log(`d.data.text2 length: `, d.data.text2.length);
                 if (d.data.text2.length + word.length < t2 ) {
                     d.data.text2 = d.data.text2 + words + ' ';
                 } else {
@@ -639,6 +642,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (textBox == 0) {
                 if (d.data.text1 == '') d.data.text1 = word + ' ';
 
+                console.log(`WORDLOOP: ${word}, ${word.length}`);
+                console.log(`d.data.text2 length: `, d.data.text2.length);
                 if (d.data.text1.length + word.length < t1) {
                     d.data.text1 = d.data.text1 + word + ' ';
                 } else {
@@ -649,16 +654,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             if (textBox == 4) {
-                console.log('Error: word left out of textboxes', word);
+                console.log('Error: word left out of textboxes: ', word);
             }
-
         });
+
+        if (d.depth == 0) { 
+            d.data.text1 = d.data.name;
+            d.data.textuse = 1; 
+        }
+
         console.log(`\nFinished textboxes, here is output: `);
         console.log(`T1`, d.data.text1);
         console.log(`T2`, d.data.text2);
         console.log(`T3`, d.data.text3);
         console.log(`T4`, d.data.text4);
 
+        
 
         if (d.depth == 1) { return '32px'; } 
         else { return '16px'; }        
