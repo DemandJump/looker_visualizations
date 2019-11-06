@@ -659,7 +659,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
         } // End of for loop 
 
-
+        console.log('this is d', d);
         if (d.depth == 0) { 
             d.data.text1 = d.data.name;
             d.data.textuse = 1; 
