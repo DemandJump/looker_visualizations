@@ -266,6 +266,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const root = pack(burrow);
     let focus = root,
     nodes = root.descendants().slice(1); 
+    let artificialRoot = nodes[0]['id'];
+    
     
     let vws = d3.scaleLinear()
         .domain([20, 1200])
@@ -324,7 +326,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('height', 'auto')
                 .attr('dy', spaceOne)
                 .text(d => {
-                  if (d.depth == 0) return d.data.name;
+                  if (d.id == artificialRoot) return d.data.name;
                   return d.data.text1;
                 });
               
@@ -425,7 +427,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style('font-size', d => sizeText(d))
                       .text(d => {
                           console.log('This is d', d);
-                          if (d.depth == 0) return d.data.name;
+                          if (d.id == artificialRoot) return d.data.name;
                           return d.data.text1;
                       });
                 });
@@ -517,7 +519,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
-            (d3.hierarchy(data)
+            (d3.hierarchy(data, d => d.id)
                 .sum(d => {
                     // console.log('Sum function for pack if influence != null, this is d: ', d);
                     dval = 1;
@@ -551,7 +553,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
-            (d3.hierarchy(data)
+            (d3.hierarchy(data, d => d.id)
                 .sum(d => {
                     d.value = 1;
                     // console.log(`Sum function for pack if influence is null, this is d: `, d);
@@ -709,28 +711,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // based on d.data.textuse
     function spaceOne(d) {
-        if (d.depth == 0) { return '0rem'; }
+        if (d.id == artificialRoot) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '-1rem'
         : d.data.textuse == 3 ? '2rem'
         : '-3rem';
     }
     function spaceTwo(d) {
-        if (d.depth == 0) { return '0rem'; }
+        if (d.id == artificialRoot) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '1rem'
         : d.data.textuse == 3 ? '0rem'
         : '-1rem';
     }
     function spaceThree(d) {
-        if (d.depth == 0) { return '0rem'; }
+        if (d.id == artificialRoot) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '0rem'
         : d.data.textuse == 3 ? '2rem'
         : '1rem';
     }
     function spaceFour(d) {
-        if (d.depth == 0) { return '0rem'; }
+        if (d.id == artificialRoot) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '0rem'
         : d.data.textuse == 3 ? '0rem'
