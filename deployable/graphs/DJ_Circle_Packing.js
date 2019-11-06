@@ -592,6 +592,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let t3 = Math.floor(cirlen * .28); // : 16
         let t4 = Math.floor(cirlen * .26); // This should be else really ~ // : 22
 
+        
 
         console.log("\n\n\n full word char length", fchars);
         console.log("words", words);
