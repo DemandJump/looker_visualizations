@@ -168,10 +168,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let name = queryResponse.fields.measures[0].name;
     console.log('This is the name of the first measure', queryResponse.fields.measures[0].name);
 
-    let curk = queryResponse.pivots[0].key;
-    let prevk = queryResponse.pivots[1].key;
-    console.log(`This first pivot key: `, curk);
-    console.log(`The second pivot key:`, prevk);
+
+        // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
+    if (queryResponse.pivots) {
+        let curk = queryResponse.pivots[0].key;
+        let prevk = queryResponse.pivots[1].key;
+        console.log(`This first pivot key: `, curk);
+        console.log(`The second pivot key:`, prevk);
+    } else {
+        
+    }
+    
+
+
 
         // Parse into the data,
     let measureOne = data[name][0];
@@ -197,9 +206,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
-    let hReturnValue = prevk;
-
-
+    let hReturnValue = hValue;
+    if (queryResponse.pivots) hReturnValue = prevk;
     console.log(`This is the hValue`, hValue);
 
 
@@ -362,10 +370,12 @@ console.log('Arrow font pass', arrowFontPass);
 
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, hValue);
-  // let mOneName = measures[0]["name"];
-  // let mOneVal = data[0][mOneName]["value"];
-  // let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
-  // let mTwoVal = data[0][mTwoName]["value"];
+  if (!(queryRespone.pivots)) {
+      let mOneName = measures[0]["name"];
+      let measureOne = data[0][mOneName]["value"];
+      let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
+      let measureTwo = data[0][mTwoName]["value"];
+  }
 
 
       // If the LabelOverride isn't empty, have it override the current field label
@@ -400,7 +410,6 @@ console.log('Arrow font pass', arrowFontPass);
           if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
           if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue ;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
-
       }
   }
 
