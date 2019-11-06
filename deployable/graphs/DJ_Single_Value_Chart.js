@@ -169,12 +169,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let hReturnValue = hValue;
 
     console.log(`This is the hValue`, hValue);
-
-    console.log("\nThis is the original value looker passed us", value);
-    console.log("This is the value format's value.", config.valueFormat);
-    console.log("This is the title's given value", config.valueTitle);
-    console.log("This is the selected color of the text", config.color);
-    console.log("This is the text_spacing (Font-styling) settings", config.text_spacing);
+    
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
@@ -186,11 +181,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // Before we start the visualization, remove all the stuff currently in the vis
 // d3.select(element).selectAll("*").remove();
 
+    // Pass in the arrow font size based on the text config
+let arrowFontPass = '3vw';
 
     // This colors the text based on the option given
 d3.select('div.djvsValue').style('color', config.color);
-
-let arrowFontPass = '3vw'
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
@@ -198,18 +193,18 @@ if (config.text_spacing == "dynamic_size") {
         d3.select('div.djvsTitle')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
-            .style('font-size', '3.4vw')
+            .style('font-size', '3.4vw');
         d3.select('div.djvsValue')
             .style('overflow-wrap', 'normal')
             .style('text-overflow', 'clip')
-            .style('font-size', '9.4vw')
+            .style('font-size', '9.4vw');
         d3.select('div.djvsHeader')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '3vw')
+            .style('font-size', '3vw');
           
-        arrowFontPass = '2.2vw'
     }    
+    arrowFontPass = '2.2vw';
 }
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
@@ -217,18 +212,18 @@ if (config.text_spacing == "word_break") {
         d3.select('div.djvsTitle')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
-            .style('font-size', '1.6rem')
+            .style('font-size', '1.6rem');
         d3.select('div.djvsValue')
             .style('overflow-wrap', 'break-word') 
             .style('text-overflow', 'clip')
-            .style('font-size', '4.5rem')
+            .style('font-size', '4.5rem');
         d3.select('div.djvsHeader')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '1.2rem')
+            .style('font-size', '1.2rem');
 
-        arrowFontPass = '1rem'
     }
+    arrowFontPass = '1rem';
 }
 if (config.text_spacing == "ellipsis") {
       // The original styling for the text and stuff
@@ -236,18 +231,18 @@ if (config.text_spacing == "ellipsis") {
         d3.select('div.djvsTitle')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
-            .style('font-size', '1.6rem')
+            .style('font-size', '1.6rem');
         d3.select('div.djvsValue')
             .style('text-overflow', 'ellipsis') 
             .style('overflow-wrap', 'normal')
-            .style('font-size', '4.5rem')
+            .style('font-size', '4.5rem');
         d3.select('div.djvsHeader')
             .style('overflow-wrap', 'normal')
             .style('overflow-wrap', 'clip')
-            .style('font-size', '1.2rem')
+            .style('font-size', '1.2rem');
 
-        arrowFontPass = '1rem'
     }
+    arrowFontPass = '1rem'
 }
 
 
@@ -309,6 +304,14 @@ if (config.showLabel == false && config.showComparison == true) {
   }
 }
 
+console.log('These are the configuration settings: ');
+console.log('Dynamic font types', config.text_spacing);
+console.log('Value Format', config.valueFormat);
+console.log('Value labels', config.valueLabels);
+console.log('Written label', config.labelOverride);
+console.log('Title override', config.valueTitle);
+
+console.log('Arrow font pass', arrowFontPass);
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
