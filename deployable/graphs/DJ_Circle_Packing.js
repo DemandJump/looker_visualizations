@@ -424,6 +424,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .attr('dy', spaceOne)
                       .style('font-size', d => sizeText(d))
                       .text(d => {
+                          console.log('This is d', d);
                           if (d.depth == 0) return d.data.name;
                           return d.data.text1;
                       });
