@@ -168,7 +168,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
     let valueReturn = value;
 
-    let headerName = dimensions[0].name;
+    let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
     let hReturnValue = hValue;
 
