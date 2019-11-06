@@ -212,7 +212,7 @@ if (config.text_spacing == "dynamic_size") {
             .style('overflow-wrap', 'clip')
             .style('font-size', '3vw');
           
-    arrowFontPass = '2.2vw';
+    arrowFontPass = '3vw';
 }
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak

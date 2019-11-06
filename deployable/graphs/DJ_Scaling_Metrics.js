@@ -42,7 +42,7 @@ create: function(element, config) {
         }
 
         .config-option-Returning User CountTitle {
-          margin-bottom: 100px;
+          margin-bottom: 100px!important;
         }
 
         </style>
@@ -128,7 +128,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             ]
         }
 
-        dynamicConfig[mes.label_short + '_fs'] = {
+        dynamicConfig[mes.name] = {
             label: 'Font Size',
             order: i + .1,
             type: 'string',
@@ -143,7 +143,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             default: "small"
         }
 
-        dynamicConfig[mes.label_short + '_vf'] = {
+        dynamicConfig[mes.name + 'ValueFormat'] = {
             label: 'Value Format',
             order: i + .1,
             type: 'string', 
