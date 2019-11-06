@@ -423,7 +423,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceOne)
                       .style('font-size', d => sizeText(d))
-                      .text(d => d.data.text1);
+                      .text(d => {
+                          if (d.depth == 0) return d.data.name;
+                          return d.data.text1;
+                      });
                 });
 
         label2
@@ -438,7 +441,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
                       .style('font-size', d => textSizing(d))
-                      .text(d => d.data.text2);
+                      .text(d => {
+                          if(d.depth != 0) return d.data.text2;
+                      });
                 });
 
         label3
@@ -453,7 +458,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
-                      .text(d => d.data.text3);
+                      .text(d => {
+                          if(d.depth != 0) return d.data.text3;
+                      });
                 });
         label4
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
@@ -467,7 +474,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
-                      .text(d => d.data.text4);
+                      .text(d => {
+                          if(d.depth != 0) return d.data.text4;
+                      });
                 });
 
     }
@@ -699,26 +708,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // based on d.data.textuse
     function spaceOne(d) {
-        if (d.depth == 0) { return '-2rem'; }
+        if (d.depth == 0) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '-1rem'
         : d.data.textuse == 3 ? '2rem'
         : '-3rem';
     }
     function spaceTwo(d) {
-        if (d.depth == 0) { return '2rem'; }
+        if (d.depth == 0) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '1rem'
         : d.data.textuse == 3 ? '0rem'
         : '-1rem';
     }
     function spaceThree(d) {
+        if (d.depth == 0) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '0rem'
         : d.data.textuse == 3 ? '2rem'
         : '1rem';
     }
     function spaceFour(d) {
+        if (d.depth == 0) { return '0rem'; }
         return d.data.textuse == 1 ? '0rem'
         : d.data.textuse == 2 ? '0rem'
         : d.data.textuse == 3 ? '0rem'
