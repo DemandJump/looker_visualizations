@@ -577,6 +577,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         else { return '16px'; }
     }
 
+    let vws = d3.scaleLinear()
+        .domain([20, 1200])
+        .range([1, 5]);
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
@@ -587,17 +590,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let diameter = d.nr * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74,
-        t1 = Math.floor(cirlen * .28), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(cirlen * .50), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(cirlen * .28), // : 16
-        t4 = Math.floor(cirlen * .26); // This should be else really ~ // : 22
+        t1 = Math.floor(fchars * .50), // : 22 // Desired percents of space each take up
+        t2 = Math.floor(fchars *  1), // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(fchars * .50), // : 16
+        t4 = Math.floor(fchars * .50); // This should be else really ~ // : 22
+
+
+
 
         
         console.log('Cirlen', cirlen);
         console.log("\n\n\n full word char length", fchars);
         console.log("words", words);
 
-        console.log(`t1: ${t1}, t2: ${t2}, t3: ${t3}, t4: ${t4}`,);
+        console.log(`t1: ${t1}, t2: ${t2}, t3: ${t3}, t4: ${t4}`);
             // Allocate the words based on these then we can go decide the font size from t2 to circle size! 
 
         let textBox = 0; // Iteration that passes through all of these text levels as you add words to each of them
@@ -674,7 +680,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         
         if (d.depth == 1) { return '32px'; } // Don't forget this returns the font size after calculating the structure (^:;
-        else { return '16px'; }        
+        else { 
+            return `${vws(d.nr)}vw`;
+        }        
     }
 
 
