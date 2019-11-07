@@ -239,68 +239,55 @@ else { d3.select('.djvsTitle').html(' '); }
 
     // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
-if (config.showTitle == false) { // If they want to hide the title
-    if (this.options.valueTitle.hidden == false) { // Check if it's not hidden
+if (config.showTitle == false && this.options.valueTitle.hidden == false) { // If they want to hide the title
         this.options.valueTitle.hidden = true; // Then set it to hidden
         this.trigger('registerOptions', this.options); // send the updated settings to the system
         d3.select('.djvsTitle').html(' ');
-    }
 }
-if (config.showTitle == true) { // Touche vice versa ~ ;p
-    if (this.options.valueTitle.hidden == true) { 
+if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Touche vice versa ~ ;p
         this.options.valueTitle.hidden = false;
         this.trigger('registerOptions', this.options);
-    }
 }
 
     // Hides/shows the settings encompassing the showcomparison setting
-if (config.showComparison == true) {
-  if (this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true && this.options.showComparison.hidden == true) {
+if (config.showComparison == true && this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true && this.options.showComparison.hidden == true) {
       this.options.valueLabels.hidden = false;
       this.options.positiveSwitch.hidden = false;
       this.options.showLabel.hidden = false;
       this.options.showComparison.hidden = false;
       this.trigger('registerOptions', this.options);
-  }
 }
-if (config.showComparison == false) {
-  if (this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false && this.options.showComparison.hidden == false) {
+if (config.showComparison == false && this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false && this.options.showComparison.hidden == false) {
       this.options.valueLabels.hidden = true;
       this.options.showLabel.hidden = true;
       this.options.labelOverride.hidden = true;
       this.options.showComparison.hidden = true;
       this.trigger('registerOptions', this.options);
-  }
 }
 
     // This gets run after config show comparison variable
-if (config.showLabel == true && config.showComparison == true) {
-  if (this.options.labelOverride.hidden == true) {
+if (config.showLabel == true && config.showComparison == true && this.options.labelOverride.hidden == true) {
       this.options.labelOverride.hidden = false;
       this.trigger('registerOptions', this.options);
-  }
 }
     // This gets run after config show comparison variable
-if (config.showLabel == false && config.showComparison == true) {
-  if (this.options.labelOverride.hidden == false) {
+if (config.showLabel == false && config.showComparison == true && this.options.labelOverride.hidden == false) {
       this.options.labelOverride.hidden = true;
       this.trigger('registerOptions', this.options);
-  }
 }
 
-
-if (config.showComparison == true && config.valueLabels == 'compChan') {
-    if (this.options.positiveSwitch.hidden == true) {
-        this.options.positiveSwitch = false;
-        this.trigger('registerOptions', this.options);
-    }
-}
-if (config.showComparison == true && config.valueLabels != 'compChan') {
-    if (this.options.positiveSwitch.hidden == false) {
-        this.options.positiveSwitch = true;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.showComparison == true && config.valueLabels == 'compChan') {
+//     if (this.options.positiveSwitch.hidden == true) {
+//         this.options.positiveSwitch = false;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
+// if (config.showComparison == true && config.valueLabels != 'compChan') {
+//     if (this.options.positiveSwitch.hidden == false) {
+//         this.options.positiveSwitch = true;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
 
 /**************************************************************************************************************************
@@ -348,8 +335,8 @@ if (config.showComparison == true && config.valueLabels != 'compChan') {
         // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
       let finVal = (measureOne / measureTwo) * 100;
       let retVal = Math.trunc(finVal);
-      // console.log('This is the return value', retVal);
-      // console.log('This is the auto rendered value', computedBoth);
+      console.log('This is the return value', retVal);
+      console.log('This is the auto rendered value', computedBoth);
 
       d3.select('div.djvsHeader')
           .style('background-image', `linear-gradient(
@@ -373,7 +360,7 @@ if (config.showComparison == true && config.valueLabels != 'compChan') {
     * Instatiation and Functions
 *********************************************************************************************************/
 
-  //  Edit the header right before we instantiate the data
+        //  Edit the header right before we instantiate the data
 console.log('This is hReturnValue after the editHeader function', hReturnValue)
     // This is to add in a format for the value, if the user entered any
 if (config.valueFormat != '') {
@@ -389,8 +376,6 @@ if (config.valueFormat != '') {
     d3.select('div.djvsValue').html(valueReturn);
     d3.select('div.djvsHeader').html(hReturnValue);
 }
-
-
 
 
 
