@@ -288,6 +288,8 @@ console.log('valueLabels', this.options.valueLabels.hidden);
 console.log('positiveSwitch', this.options.positiveSwitch.hidden);
 console.log('showLabel', this.options.showLabel.hidden);
 console.log('labelOverride', this.options.labelOverride.hidden);
+
+console.log('This is config', config.labelOverride);
 if (config.showComparion == false) { 
         // Hide all the configuration settings and refresh
 
