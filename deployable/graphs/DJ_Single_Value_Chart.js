@@ -359,6 +359,12 @@ if (config.showComparison == true) {
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
+
+      let anotherReflection = lookValue.rendered
+      console.log('lookvalue.rendered', anotherReflection);
+      console.log('headerRes to concatenate', headerRes);
+      console.log('This is the concatenation: ', anotherReflection + headerRes);
+
       hReturnValue = + lookValue.rendered + ' ' + headerRes;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
