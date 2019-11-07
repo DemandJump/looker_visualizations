@@ -360,7 +360,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         dimension_options['null_type'] = 
             {
-              label: "Use type dimension data in the visualization",
+              label: "Take the type dimension data out of the visualization",
               order: 2,
               type: "boolean",
               section: 'Configure',
@@ -369,7 +369,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         dimension_options['null_measure'] = 
             {
-              label: "Use Measure dimension data in the visualization",
+              label: "Take the measure dimension data out of the visualization",
               order: 4,
               type: "boolean",
               section: 'Configure',
@@ -525,9 +525,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
       maxLinkScale = root.descendants().length;
       totalNodes = -1 * (root.descendants().length * 2.5);
-      let newWidth = document.getElementById('content').offsetWidth;
-      console.log('This is new width', newWidth);
-
 
 
       console.log('this is total nodes', totalNodes);
@@ -689,6 +686,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     
     this._panelSwitch.on('click', event => {
+      let newWidth = document.getElementById('content').offsetWidth;
+      let htmlWidth = d3.select(element).offsetWidth;
+      console.log(`This is the newWidth from container:`, newWidth);
+      console.log(`This is the html width:`, htmlWidth);
+
+
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
