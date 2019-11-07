@@ -349,9 +349,9 @@ console.log('This is config', config);
   }
   if (config.showLabel == false ) headerRes = ' '; // Remove the label from the vis
 
-  let m2value; // Second measure pass to the vis
-  if (calculation == 'two measures') m2value = measure2;
-  if (calculation == 'pivot measure') m2value = previousPeriod;
+  let lookValue2; // Second measure pass to the vis
+  if (calculation == 'two measures') lookValue2 = measure2;
+  if (calculation == 'pivot measure') lookValue2 = previousPeriod;
 
 
             // / // Onto the comparison operators // / // 
@@ -360,22 +360,22 @@ if (config.showComparison == true) {
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
-      hReturnValue = + measure2 + ' ' + headerRes;
+      hReturnValue = + lookValue.rendered + ' ' + headerRes;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
   if (config.valueLabels == 'compChan') { // Show as Change
         // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
-      let difference = measure1 - measure2; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+      let difference = lookValue.value - lookValue2.value; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes ;
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       d3.select('div.djvsHeader').style('background-image', 'none');
@@ -384,10 +384,10 @@ if (config.showComparison == true) {
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
 
       d3.select('div.djvsHeader')
-          .style('background-image', `linear-gradient(to right, #E2E3E3, #E2E3E3 ${change}%, #F5F5F5 ${change}%)`);
+          .style('background-image', `linear-gradient(to right, #E2E3E3, #E2E3E3 ${renderedChange}%, #F5F5F5 ${renderedChange}%)`);
 
       if (config.valueLabels == 'calcPercent') { // Calculate as percent
-          hReturnValue = `<span style=" color: #979B9D;">${change}%</span> of <span style=" color: #979B9D;">${m2value}</span> ` + headerRes;
+          hReturnValue = `<span style=" color: #979B9D;">${renderedChange}%</span> of <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
       }
           // Calculate progress
       if (config.valueLabels == 'calcProg') hReturnValue = headerRes;
@@ -410,17 +410,17 @@ if (config.showComparison == true) {
 
   //  Edit the header right before we instantiate the data
     // This is to add in a format for the value, if the user entered any
-if (config.valueFormat != '') {
-      // Pass in the value and return a new one
-    lookValue.userFormat = formatValue(config.valueFormat, lookValue.value);
-    console.log('This is the returned value from the formatValue function', lookValue);
-
-    d3.select('div.djvsValue').html(lookValue.userFormat);
-    d3.select('div.djvsHeader').html(hReturnValue);
-} else {
-    console.log('This is the valueReturn passed in (skipped formatvalue function', lookValue);
-    d3.select('div.djvsValue').html(lookValue.rendered);
-    d3.select('div.djvsHeader').html(hReturnValue);
+if (config.valueFormat) {
+    if (config.valueFormat != '') {
+        lookValue.userFormat = formatValue(config.valueFormat, lookValue.value); // Pass in the value and return a new one
+        console.log('This is the returned value from the formatValue function', lookValue);
+        d3.select('div.djvsValue').html(lookValue.userFormat);
+        d3.select('div.djvsHeader').html(hReturnValue);
+    } else {
+        console.log('This is the valueReturn passed in (skipped formatvalue function', lookValue);
+        d3.select('div.djvsValue').html(lookValue.rendered);
+        d3.select('div.djvsHeader').html(hReturnValue);
+    }
 }
 
 
