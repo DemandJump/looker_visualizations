@@ -415,11 +415,11 @@ if (config.valueFormat) {
         console.log('This is the returned value from the formatValue function', lookValue);
         d3.select('div.djvsValue').html(lookValue.userFormat);
         d3.select('div.djvsHeader').html(hReturnValue);
-    } else {
-        console.log('This is the valueReturn passed in (skipped formatvalue function', lookValue);
-        d3.select('div.djvsValue').html(lookValue.rendered);
-        d3.select('div.djvsHeader').html(hReturnValue);
-    }
+    } 
+} else {
+    console.log('This is the valueReturn passed in (skipped formatvalue function', lookValue);
+    d3.select('div.djvsValue').html(lookValue.rendered);
+    d3.select('div.djvsHeader').html(hReturnValue);
 }
 
 /*******************************************************************
