@@ -160,17 +160,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let measure1;
     let measure2;
-    let change;
+    let renderedChange;
         // Pivot data 
     let currentPeriod;
     let previousPeriod;
-    let renderedChange; // Already computed operator
 
           // Variables to find each of these
 
     let measureOneName; // The identifier to parse into the data
     let measureTwoName; // The identifier to parse into the data
-    let change; // Computed between both measures // Comparison operator
+    let renderedChange; // Computed between both measures // Comparison operator
 
         // This is for conditionals to see what calculation it is 
     let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
@@ -188,8 +187,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measure1 = data[0][measureOneName];
         measure2 = data[0][measureTwoName];
 
-        change = (measure1 / measure2) * 100;
-        change = Math.trunc(change);
+        renderedChange = (measure1 / measure2) * 100;
+        renderedChange = Math.trunc(renderedChange);
 
     } else if (calculation == 'pivot measure') {
           // We need to find the pivot name then data.name.pivname.rendered
@@ -198,8 +197,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureOneName = queryResponse.fields.measures.name;
         currentPeriod = data[0][measureOneName][cpName];
         previousPeriod = data[0][measureOneName][ppName];
-        change = data[0][measureOneName]['previous_period']['value'];
-        change = Math.trunc(change);
+        renderedChange = data[0][measureOneName]['previous_period']['value'];
+        renderedChange = Math.trunc(renderedChange);
 
     }
 
