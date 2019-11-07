@@ -148,33 +148,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /****** Log all these functions to see what we're working with ******/
     // console.log(` ...UpdateAsync initialized, here is it's data:`);
     console.log('\n data', data);
-    // console.log('element', element);
-    console.log('config', config);
     console.log('queryResponse', queryResponse);
     console.log('details', details);
-
-    // Playing with dimensions and measures
-    let dimensions = queryResponse.fields.dimensions;
-    let measures = queryResponse.fields.measures;
-    console.log('Checking out query resposne dimension fields: ', dimensions);
-    console.log('Checking out query resposne measure fields: ', measures);
+    let dimensions = queryResponse.fields.dimensions; console.log('Checking out query resposne dimension fields: ', dimensions);
+    let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
     console.log('referencing the options', this.options);
-
-    // console.log('This is the config itself', config);
+    console.log('This is the config itself', config);
     // console.log('This is looker charts Utils', LookerCharts);
-
-
-         // Everything is being acted upon the first measure that's given to you ~ 
-    let name = queryResponse.fields.measures[0].name;
-    console.log('This is the name of the first measure', queryResponse.fields.measures[0].name);
 
 
         // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
     if (queryResponse.pivots) {
         let curk = queryResponse.pivots[0].key;
         let prevk = queryResponse.pivots[1].key;
-        console.log(`This first pivot key: `, curk);
-        console.log(`The second pivot key:`, prevk);
+        // console.log(`This first pivot key: `, curk);
+        // console.log(`The second pivot key:`, prevk);
 
             // Parse into the data,
         let measureOne = data[0][name][curk];
@@ -185,7 +173,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`Current period`, measureOne);
         console.log(`Previous period`, measureTwo);
     } else {
-        
+        let mOneName = measures[0]["name"];
+        let measureOne = data[0][mOneName]["value"];
+        let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
+        let measureTwo = data[0][mTwoName]["value"];
     }
   
 
@@ -201,7 +192,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`This is the hValue`, hValue);
 
 
-      // Pull in the data
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
 *********************************************************************************************************************/    
@@ -209,73 +199,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     * Setting up the Configuration Settings
 **************************************************************************************************************************/
             /*/ Onto building the settings of the visualization /*/
+   
+// d3.select(element).selectAll("*").remove();   // Before we start the visualization, remove all the stuff currently in the vis
+let arrowFontPass = '3vw';  // Pass in the arrow font size based on the text config
+d3.select('div.djvsValue').style('color', config.color);  // This colors the text based on the option given
 
-    // Before we start the visualization, remove all the stuff currently in the vis
-// d3.select(element).selectAll("*").remove();
-
-    // Pass in the arrow font size based on the text config
-let arrowFontPass = '3vw';
-
-    // This colors the text based on the option given
-d3.select('div.djvsValue').style('color', config.color);
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
-        d3.select('div.djvsTitle')
-            .style('overflow-wrap', 'normal')
-            .style('text-overflow', 'clip')
-            .style('font-size', '3.4vw');
-        d3.select('div.djvsValue')
-            .style('overflow-wrap', 'normal')
-            .style('text-overflow', 'clip')
-            .style('font-size', '9.4vw');
-        d3.select('div.djvsHeader')
-            .style('overflow-wrap', 'normal')
-            .style('overflow-wrap', 'clip')
-            .style('font-size', '3vw');
-          
+    d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '3.4vw');
+    d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '9.4vw');
+    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '3vw');      
     arrowFontPass = '3vw';
 }
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-        d3.select('div.djvsTitle')
-            .style('overflow-wrap', 'break-word') 
-            .style('text-overflow', 'clip')
-            .style('font-size', '1.6rem');
-        d3.select('div.djvsValue')
-            .style('overflow-wrap', 'break-word') 
-            .style('text-overflow', 'clip')
-            .style('font-size', '4.5rem');
-        d3.select('div.djvsHeader')
-            .style('overflow-wrap', 'normal')
-            .style('overflow-wrap', 'clip')
-            .style('font-size', '1.2rem');
-
+    d3.select('div.djvsTitle').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '1.6rem');
+    d3.select('div.djvsValue').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '4.5rem');
+    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
     arrowFontPass = '1rem';
 }
 if (config.text_spacing == "ellipsis") {
       // The original styling for the text and stuff
-        d3.select('div.djvsTitle')
-            .style('text-overflow', 'ellipsis') 
-            .style('overflow-wrap', 'normal')
-            .style('font-size', '1.6rem');
-        d3.select('div.djvsValue')
-            .style('text-overflow', 'ellipsis') 
-            .style('overflow-wrap', 'normal')
-            .style('font-size', '4.5rem');
-        d3.select('div.djvsHeader')
-            .style('overflow-wrap', 'normal')
-            .style('overflow-wrap', 'clip')
-            .style('font-size', '1.2rem');
-
+    d3.select('div.djvsTitle').style('text-overflow', 'ellipsis') .style('overflow-wrap', 'normal').style('font-size', '1.6rem');
+    d3.select('div.djvsValue').style('text-overflow', 'ellipsis') .style('overflow-wrap', 'normal').style('font-size', '4.5rem');
+    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
     arrowFontPass = '1rem';
 }
 
 
     // This is for the title element based on the user input
-if (config.valueTitle != '') {
-    d3.select('.djvsTitle').html(config.valueTitle);
-} else { d3.select('.djvsTitle').html(' '); }
+if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); } 
+else { d3.select('.djvsTitle').html(' '); }
 
 
     // This hides/shows the title's input bar
@@ -294,7 +249,7 @@ if (config.showTitle == true) { // Touche vice versa ~ ;p
     }
 }
 
-
+    // Hides/shows the settings encompassing the showcomparison setting
 if (config.showComparison == true) {
   if (this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true && this.options.showComparison.hidden == true) {
       this.options.valueLabels.hidden = false;
@@ -315,7 +270,7 @@ if (config.showComparison == false) {
   }
 }
 
-  // This gets run after config show comparison variable
+    // This gets run after config show comparison variable
 if (config.showLabel == true && config.showComparison == true) {
   if (this.options.labelOverride.hidden == true) {
       this.options.labelOverride.hidden = false;
@@ -323,7 +278,7 @@ if (config.showLabel == true && config.showComparison == true) {
   }
 }
 
-  // This gets run after config show comparison variable
+    // This gets run after config show comparison variable
 if (config.showLabel == false && config.showComparison == true) {
   if (this.options.labelOverride.hidden == false) {
       this.options.labelOverride.hidden = true;
@@ -331,21 +286,21 @@ if (config.showLabel == false && config.showComparison == true) {
   }
 }
 
+
 if (config.showComparison == true && config.valueLabels == 'compChan') {
     if (this.options.positiveSwitch.hidden == true) {
         this.options.positiveSwitch = false;
-
+        this.trigger('registerOptions', this.options);
+    }
+}
+if (config.showComparison == true && config.valueLabels != 'compChan') {
+    if (this.options.positiveSwitch.hidden == false) {
+        this.options.positiveSwitch = true;
+        this.trigger('registerOptions', this.options);
     }
 }
 
-console.log('These are the configuration settings: ');
-console.log('Dynamic font types', config.text_spacing);
-console.log('Value Format', config.valueFormat);
-console.log('Value labels', config.valueLabels);
-console.log('Written label', config.labelOverride);
-console.log('Title override', config.valueTitle);
 
-console.log('Arrow font pass', arrowFontPass);
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
@@ -360,12 +315,6 @@ console.log('Arrow font pass', arrowFontPass);
 
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, hValue);
-  if ( !(queryResponse.pivots) ) {
-      let mOneName = measures[0]["name"];
-      let measureOne = data[0][mOneName]["value"];
-      let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
-      let measureTwo = data[0][mTwoName]["value"];
-  }
 
 
       // If the LabelOverride isn't empty, have it override the current field label

@@ -671,7 +671,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         }
 
-
+// px linearscale to have reference from dy to the font size
 
         if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
             d.data.text1 = d.data.name;
