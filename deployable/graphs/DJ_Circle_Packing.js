@@ -548,66 +548,126 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74,
         t1 = Math.floor(fchars * .18), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars *  34), // : 40 // This should be no more than the width of the diameter 
+        t2 = Math.floor(fchars * .34), // : 40 // This should be no more than the width of the diameter 
         t3 = Math.floor(fchars * .18), // : 16
         t4 = Math.floor(fchars * .30); // This should be else really ~ // : 22
-
-
         let tBox = 1;
-        for(i = 0; i < words.length; i++) {
-            if (tBox == 1) {
-                if (d.data.text1 == '') {
-                    d.data.text1 = words[i] + ' ';
-                    continue;
-                }
-                if ((d.data.text1.length + words[i].length) < t1) {
-                    d.data.text1 = d.data.text1 + words[i] + ' ';
-                    continue;
-                } else {
-                    tBox ++;
-                    d.data.textuse = 2;
-                }
-            }
 
-            if (tBox == 2) {
-                if (d.data.text2 == '') {
-                    d.data.text2 = words[i] + ' ';
-                    continue;
+        if (words.length <= 4) { // 
+            
+            for(i = 0; i < words.length; i++) {
+                if (tBox == 1) {
+                    if (d.data.text1 == '') {
+                        d.data.text1 = words[i] + ' ';
+                        continue;
+                    } else {
+                        if (word.length <= 5) {
+                            d.data.text1 = d.data.text1 + words[i] + ' ';
+                            tBox ++;
+                            continue;
+                        }
+                        tBox ++;
+                    }
                 }
-                if ((d.data.text2.length + words[i].length) < t2) {
-                    d.data.text2 = d.data.text2 + words[i] + ' ';
-                    continue;
-                } else {
-                    tBox ++;
-                    d.data.textuse = 3;
-                }
-            }
 
-            if (tBox == 3) {
-                if (d.data.text3 == '') {
-                    d.data.text3 = words[i] + ' ';
-                    continue;
+                if (tBox == 2) {
+                    if (d.data.text2 == '') {
+                        d.data.text2 = words[i] + ' ';
+                        continue;
+                    } else {
+                        if (word.length <= 5) {
+                            d.data.text2 = d.data.text2 + words[i] + ' ';
+                            tBox ++;
+                            continue;
+                        }
+                        tBox ++;
+                    }
                 }
-                if ((d.data.text3.length + words[i].length) < t3) {
-                    d.data.text3 = d.data.text3 + words[i] + ' ';
-                    continue;
-                } else {
-                    tBox ++;
-                    d.data.textuse = 4;
-                }
-            }
 
-            if (tBox == 4) {
-                if (d.data.text4 == '') {
-                    d.data.text4 = words[i] + ' ';
+                if (tBox == 3) {
+                    if (d.data.text3 == '') {
+                        d.data.text3 = words[i] + ' ';
+                        continue;
+                    } else {
+                        if (word.length <= 5) {
+                            d.data.text3 = d.data.text3 + words[i] + ' ';
+                            tBox ++;
+                            continue;
+                        }
+                        tBox ++;
+                    }
+                }
+
+                if (tBox == 4) {
+                    if (d.data.text4 == '') {
+                        d.data.text4 = words[i] + ' ';
+                        continue;
+                    } else {
+                        d.data.text4 = d.data.text4 + words[i] + ' ';
+                        continue;
+                    }
+                }
+
+            } // End of for loop
+
+        } else {
+            for(i = 0; i < words.length; i++) {
+                if (tBox == 1) {
+                    if (d.data.text1 == '') {
+                        d.data.text1 = words[i] + ' ';
+                        continue;
+                    }
+                    if (d.data.text1.length + words[i].length < t1) {
+                        d.data.text1 = d.data.text1 + words[i] + ' ';
+                        continue;
+                    } else {
+                        tBox ++;
+                        d.data.textuse = 2;
+                    }
+                }
+
+                if (tBox == 2) {
+                    if (d.data.text2 == '') {
+                        d.data.text2 = words[i] + ' ';
+                        continue;
+                    }
+                    if (d.data.text2.length + words[i].length < t2) {
+                        d.data.text2 = d.data.text2 + words[i] + ' ';
+                        continue;
+                    } else {
+                        tBox ++;
+                        d.data.textuse = 3;
+                    }
+                }
+
+                if (tBox == 3) {
+                    if (d.data.text3 == '') {
+                        d.data.text3 = words[i] + ' ';
+                        continue;
+                    }
+                    if (d.data.text3.length + words[i].length < t3) {
+                        d.data.text3 = d.data.text3 + words[i] + ' ';
+                        continue;
+                    } else {
+                        tBox ++;
+                        d.data.textuse = 4;
+                    }
+                }
+
+                if (tBox == 4) {
+                    if (d.data.text4 == '') {
+                        d.data.text4 = words[i] + ' ';
+                        continue;
+                    }
+                    d.data.text4 = d.data.text4 + words[i] + ' ';
                     continue;
                 }
-                d.data.text4 = d.data.text4 + words[i] + ' ';
-                continue;
-            }
 
-            if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
-        } // End of for loop 
+                if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
+            } // End of for loop 
+
+        }
+
 
 
         if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
