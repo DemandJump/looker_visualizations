@@ -178,10 +178,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`Current period`, measureOne);
         console.log(`Previous period`, measureTwo);
 
-        console.log(`Attempt at previous period parse`, data[0][name]['previous_period']);
-        console.log(`Attempt at previous period parse`, data[0][name]['previous_period']['rendered']);
+        console.log(`Attempt at previous period parse`, data[0]['previous_period']);
+        console.log(`Attempt at previous period parse`, data[0]['previous_period']['rendered']);
 
-        computedBoth = data[0][name]['previous_period']['rendered'];
+        computedBoth = data[0]['previous_period']['rendered'];
         console.log(`Computed Both`, computedBoth);
     } else {
         let mOneName = measures[0]["name"];
