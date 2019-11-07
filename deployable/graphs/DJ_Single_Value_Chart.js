@@ -173,7 +173,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureTwo = data[0][name][prevk];
         measureOne = measureOne.rendered;
         measureTwo = measureTwo.rendered;
-        computedBoth = data[name]['previous_period']['rendered'];
+        computedBoth = data[0][name]['previous_period']['rendered'];
         console.log(`Current period`, measureOne);
         console.log(`Previous period`, measureTwo);
         console.log(`Computed Both`, computedBot);
