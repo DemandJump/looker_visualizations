@@ -238,40 +238,15 @@ if (config.text_spacing == "ellipsis") {
     d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
     arrowFontPass = '1rem';
 }
-
-
     // This is for the title element based on the user input
 if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); } 
 else { d3.select('.djvsTitle').html(' '); }
 
 
-/* Tearing out and rebuilding the configuration panel show/hide settings
-      Config:
 
 
-Sections:
 
-  ShowTitle: Works fine ~
 
-  Comparison: Isn't instantiating anything, and label stays unhidden no matter what ~
-    > Config settings in Comparison
-
-      Value Labels: valueLabels
-      Positive Values are Bad: positiveSwitch
-      Show Label: showLabel
-      Label: labelOverride
-      
-
-      Show comparison collapses
-        > valueLabels, positiveSwitch, showLabel, labelOverride
-
-        Valuelabels == 'compChan'  ~uncollapses~
-          > positiveSwitch
-
-        showLabel collapses
-          > labelOverride
-
-*/
 
 console.log('This is settings', this.options);
 console.log('This is config', config);
