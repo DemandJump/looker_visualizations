@@ -561,7 +561,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         d.data.text1 = words[i] + ' ';
                         continue;
                     } else {
-                        if (word.length <= 5) {
+                        if (words.length <= 5) {
                             d.data.text1 = d.data.text1 + words[i] + ' ';
                             tBox ++;
                             continue;
@@ -575,7 +575,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         d.data.text2 = words[i] + ' ';
                         continue;
                     } else {
-                        if (word.length <= 5) {
+                        if (words.length <= 5) {
                             d.data.text2 = d.data.text2 + words[i] + ' ';
                             tBox ++;
                             continue;
@@ -589,7 +589,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         d.data.text3 = words[i] + ' ';
                         continue;
                     } else {
-                        if (word.length <= 5) {
+                        if (words.length <= 5) {
                             d.data.text3 = d.data.text3 + words[i] + ' ';
                             tBox ++;
                             continue;
