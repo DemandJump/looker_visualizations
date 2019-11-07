@@ -275,7 +275,6 @@ if (config.showComparison == true) { // If it's true
       this.options.showLabel.hidden = false;
       if (config.showLabel == false) {  // Show label's boolean determines whether label statement will show/hide & if hidden remove it's config val
         this.options.labelOverride = false;
-        config.labelOverride = '';
       }
       this.trigger('registerOptions', this.options);
     }
@@ -284,14 +283,15 @@ if (config.showComparison == true) { // If it's true
       this.trigger('registerOptions', this.options);
     }
 } // End of config == true
+console.log('Entered showcomparison false conditional');
+console.log('valueLabels', this.options.valueLabels.hidden);
+console.log('positiveSwitch', this.options.positiveSwitch.hidden);
+console.log('showLabel', this.options.showLabel.hidden);
+console.log('labelOverride', this.options.labelOverride.hidden);
 if (config.showComparion == false) { 
         // Hide all the configuration settings and refresh
 
-    console.log('Entered showcomparison false conditional');
-    console.log('valueLabels', this.options.valueLabels.hidden);
-    console.log('positiveSwitch', this.options.positiveSwitch.hidden);
-    console.log('showLabel', this.options.showLabel.hidden);
-    console.log('labelOverride', this.options.labelOverride.hidden);
+
     
     if (this.options.valueLabels.hidden == false) {
       console.log('Setting value labels to hidden');
