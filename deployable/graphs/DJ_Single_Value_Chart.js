@@ -157,7 +157,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is looker charts Utils', LookerCharts);
 
 
-    let measureOne, measureTwo;
+    let measureOne, measureTwo, computedBoth;
         // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
     if (queryResponse.pivots) {
         let curk = queryResponse.pivots[0].key;
@@ -171,9 +171,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureTwo = data[1][name][prevk];
         measureOne = measureOne.rendered;
         measureTwo = measureTwo.rendered;
-        let computedBoth = data[name]['previous_period']['rendered'];
+        computedBoth = data[name]['previous_period']['rendered'];
         console.log(`Current period`, measureOne);
         console.log(`Previous period`, measureTwo);
+        console.log(`Computed Both`, computedBot);
     } else {
         let mOneName = measures[0]["name"];
         measureOne = data[0][mOneName]["value"];
@@ -185,8 +186,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   
 
         /*/ Here's where we instantiate all the variables /*/
-    let valueName = queryResponse.fields.measures[0].name; // This is the name of the value, used to pull out the count from the data
-    let value = data[0][valueName]["value"]; // This is the data we're passing into the visual
+    let value = data[0][queryResponse.fields.measures[0].name]["value"]; // This is the data we're passing into the visual
     let valueReturn = value;
 
     let headerName = measures[0].name;
