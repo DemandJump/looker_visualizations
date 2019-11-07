@@ -243,7 +243,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
     data.forEach(node => { // If the node value is null, replace it with the min value
         node.nullVal = 'false';
-        if (node.value == 'null' || node.value == null) {
+        if (node.value == 'null') {
           node.value = min;
           node.nullVal = true;
         }
