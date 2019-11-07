@@ -359,8 +359,15 @@ if (config.showComparison == true) {
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
+      let anotherReflection = lookValue.rendered;
+      console.log('lookvalue.rendered type of response', typeof lookValue.rendered);
 
-      let anotherReflection = lookValue.rendered
+      let lookMa = anotherReflection.toString();
+      console.log('This is the stringified form', lookMae + headerRes);
+
+
+
+
       console.log('lookvalue.rendered', anotherReflection);
       console.log('headerRes to concatenate', headerRes);
       console.log('This is the concatenation: ', anotherReflection + headerRes);
