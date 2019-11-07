@@ -361,12 +361,10 @@ if (config.showComparison == true) {
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
       let anotherReflection = lookValue.rendered;
-      console.log('lookvalue.rendered type of response', typeof lookValue.rendered);
-
       let lookMa = anotherReflection.toString();
-      console.log('This is the stringified form', lookMa + headerRes);
+      console.log('This is the stringified form', lookMa + ' ' + headerRes);
 
-      hReturnValue = + anotherReflection + ' ' + headerRes;
+      hReturnValue = + lookMa + ' ' + headerRes;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
