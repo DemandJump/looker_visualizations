@@ -141,8 +141,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     this.options.influence['values'].push(val);
 
         // Adds all the different dimensions as 
-    measures.forEach(mes => { // Value object >.>  {"name": "value"}
-        
+    measures.forEach(mes => { // Value object >.>  {"name": "value"} 
         let key = mes.label; // Key of value pair
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
@@ -177,17 +176,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
     }
-
     
           // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
     if (config.influenceSwitch == true && config.useInfluenceInVis == false) {
         taxonomyPass = [];
         let pull = config.influence; // Grab the dimension that the influence is using..
-
         dimensions.forEach(dimen => { 
-            if (dimen.name != pull) {
-                taxonomyPass.push(dimen)
-            }  
+            if (dimen.name != pull)taxonomyPass.push(dimen);  
         });
         console.log('This is the taxonomy pass', taxonomyPass);
     }
@@ -268,14 +263,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes = root.descendants().slice(1); 
     let artificialRoot = nodes[0]['id'];
     
-    
     let vws = d3.scaleLinear()
         .domain([20, 1200])
         .range([2, 10]);
     let vwsm = d3.scaleLinear()
         .domain([20, 1200])
         .range([.5, 5]);
-
 
     console.log('root', root);
 
@@ -299,7 +292,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const node = svg.append("g")
         .attr('class', 'nodes')
         .selectAll("circle")
-        .data(nodes, d => d.id).enter()
+        .data(nodes).enter()
         .append("circle") 
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
@@ -318,7 +311,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text.text")
-            .data(nodes, d => d.id).enter()
+            .data(nodes).enter()
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
@@ -335,7 +328,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
             .selectAll('text.text2')
-            .data(nodes, d => d.id).enter()
+            .data(nodes).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
@@ -351,7 +344,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
             .selectAll('text.text3')
-            .data(nodes, d => d.id).enter()
+            .data(nodes).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
@@ -380,6 +373,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     zoomTo([root.x, root.y, root.r * 2]);
     simulateClick(document.querySelector('.node'), 'click');
+
+
+
+
 
     /*******************************************************
         * Functions Section *
@@ -425,11 +422,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceOne)
                       .style('font-size', d => sizeText(d))
-                      .text(d => {
-                          console.log('This is d', d);
-                          if (d.id == artificialRoot) return d.data.name;
-                          return d.data.text1;
-                      });
+                      .text(d => d.data.text1);
                 });
 
         label2
@@ -444,9 +437,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceTwo)
                       .style('font-size', d => textSizing(d))
-                      .text(d => {
-                          if(d.depth != 0) return d.data.text2;
-                      });
+                      .text(d => d.data.text2);
                 });
 
         label3
@@ -461,9 +452,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
-                      .text(d => {
-                          if(d.depth != 0) return d.data.text3;
-                      });
+                      .text(d => d.data.text3);
                 });
         label4
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
@@ -477,35 +466,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
-                      .text(d => {
-                          if(d.depth != 0) return d.data.text4;
-                      });
+                      .text(d => d.data.text4);
                 });
 
     }
 
     function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
             // I instantiaed something wrong in the spacing, this works correctly!
-        label 
-            .attr('dy', spaceOne)
-            .style('font-size', d => sizeText(d))
-            .text(d => d.data.text1);
-
-        label2
-            .attr('dy', spaceTwo)
-            .style('font-size', d => sizeText(d))
-            .text(d => d.data.text2);
-
-       label3
-            .attr('dy', spaceThree)
-            .style('font-size', d => sizeText(d))
-            .text(d => d.data.text3);
-
-       label4
-            .attr('dy', spaceThree)
-            .style('font-size', d => sizeText(d))
-            .text(d => d.data.text4);
-
+        label .attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
+        label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
+        label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
+        label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
     }
 
     function zoomThenRefactor(d) {
@@ -519,7 +490,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
-            (d3.hierarchy(data, d => d.id)
+            (d3.hierarchy(data)
                 .sum(d => {
                     // console.log('Sum function for pack if influence != null, this is d: ', d);
                     dval = 1;
@@ -553,7 +524,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
-            (d3.hierarchy(data, d => d.id)
+            (d3.hierarchy(data)
                 .sum(d => {
                     d.value = 1;
                     // console.log(`Sum function for pack if influence is null, this is d: `, d);
@@ -574,39 +545,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // .range(["hsl(152, 80%, 80%)", "hsl(228, 30%, 40%)"])
             .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%)
             .interpolate(d3.interpolateHcl)
-    }
-
-    function textSize(d) { // We ran the calculations for each of the nodes and text spacing before actually implementing the nodes
-                  // For one character it's about 5px per character with that quote being about 20 characters
-          // So make multiple text nodes where we split the text and add it to a new text node if it breaches the diameter(r*2)
-        d.data.text1 = d.data.text2 = d.data.text3 = '';
-        d.data.textuse = '1'
-        let charcount = d.data.name.length, // 5.2px per character to avoid overlap
-        charlen = charcount * 6.4,
-        diameter = d.nr * 2, // This is the width of the circle that's encapsulating the text
-        tedit = d.data.name; // Holder for text we're gonna splice and dice
-        // console.log(`This node's charlen: ${charlen}, and diameter: ${diameter}`);
-        // console.log(`This node's charname ${tedit}, and charcount: ${charcount}`);
-
-        if (charlen <= diameter || d.depth == 1) { // No editing needed, return just the data1
-            d.data.textuse = 1;
-            d.data.text1 = d.data.name;
-        } else if (charlen <= diameter * 2) { // Edit to use two text params
-            d.data.textuse = 2
-            let count = Math.floor(charcount / 2);
-            d.data.text1 = tedit.slice(0, count);
-            d.data.text2 = tedit.slice(count);
-
-        } else if (charlen <= diameter * 3 || charlen > diameter * 3) { // if you want to add a case where it's more than three remove the or operator and create new confitional. 
-            d.data.textuse = 3;
-            let count = Math.floor(charcount / 3); 
-            d.data.text1 = tedit.slice(0, count);
-            d.data.text2 = tedit.slice(count, count * 2);
-            d.data.text3 = tedit.slice(count * 2); 
-        }
-            // This is used to calculate the font size actually 
-        if (d.depth == 1) { return '32px'; } 
-        else { return '16px'; }
     }
 
         // Have it break on words instead of through the text > Focus on words and char lengths
@@ -686,19 +624,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.data.textuse = 1; 
             // console.log('This is the root data', d);
         }
-
-        // d["data"]["text1"].replace(",", " ");
-        // d["data"]["text2"].replace(",", " ");
-        // d["data"]["text3"].replace(",", " ");
-        // d["data"]["text4"].replace(",", " ");
-        // console.log('d', d);
         
-        
-        return `${vws(d.nr)}vh`;
+        // return `${vws(d.nr)}vh`;
+        return '12px';
     }
 
     function textSizing(d) {
-        return `${vws(d.nr)}vh`;
+        // return `${vws(d.nr)}vh`;
+        return '12px';
     }
 
 
@@ -711,37 +644,34 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // based on d.data.textuse
     function spaceOne(d) {
-        if (d.id == artificialRoot) { return '0rem'; }
-        return d.data.textuse == 1 ? '0rem'
-        : d.data.textuse == 2 ? '-1rem'
-        : d.data.textuse == 3 ? '2rem'
-        : '-3rem';
+        if (d.id == artificialRoot) { return '0px'; }
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '-6px'
+        : d.data.textuse == 3 ? '-12px'
+        : '-18px';
     }
     function spaceTwo(d) {
-        if (d.id == artificialRoot) { return '0rem'; }
-        return d.data.textuse == 1 ? '0rem'
-        : d.data.textuse == 2 ? '1rem'
-        : d.data.textuse == 3 ? '0rem'
-        : '-1rem';
+        if (d.id == artificialRoot) { return '0px'; }
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '6px'
+        : d.data.textuse == 3 ? '0px'
+        : '-6px';
     }
     function spaceThree(d) {
-        if (d.id == artificialRoot) { return '0rem'; }
-        return d.data.textuse == 1 ? '0rem'
-        : d.data.textuse == 2 ? '0rem'
-        : d.data.textuse == 3 ? '2rem'
-        : '1rem';
+        if (d.id == artificialRoot) { return '0px'; }
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '0px'
+        : d.data.textuse == 3 ? '12px'
+        : '6px';
     }
     function spaceFour(d) {
-        if (d.id == artificialRoot) { return '0rem'; }
-        return d.data.textuse == 1 ? '0rem'
-        : d.data.textuse == 2 ? '0rem'
-        : d.data.textuse == 3 ? '0rem'
-        : '3rem';
+        if (d.id == artificialRoot) { return '0px'; }
+        return d.data.textuse == 1 ? '0px'
+        : d.data.textuse == 2 ? '0px'
+        : d.data.textuse == 3 ? '0px'
+        : '18px';
     }
-
     
-
-
         // This is the function that simulates a click on a selected element
     function simulateClick(el, etype){
         if (el.fireEvent) {
