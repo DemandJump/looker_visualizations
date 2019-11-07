@@ -416,7 +416,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .attr('dy', spaceOne)
+                      // .attr('dy', spaceOne)
                       .style('font-size', d => sizeText(d))
                       .text(d => d.data.text1);
                 });
@@ -431,7 +431,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .attr('dy', spaceTwo)
+                      // .attr('dy', spaceTwo)
                       .style('font-size', d => textSizing(d))
                       .text(d => d.data.text2);
                 });
@@ -446,7 +446,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .attr('dy', spaceThree)
+                      // .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
                       .text(d => d.data.text3);
                 });
@@ -460,7 +460,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .attr('dy', spaceThree)
+                      // .attr('dy', spaceThree)
                       .style('font-size', d => textSizing(d))
                       .text(d => d.data.text4);
                 });
