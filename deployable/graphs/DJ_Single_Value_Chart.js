@@ -260,9 +260,7 @@ Sections:
       Positive Values are Bad: positiveSwitch
       Show Label: showLabel
       Label: labelOverride
-
-
-
+      
 
       Show comparison collapses
         > valueLabels, positiveSwitch, showLabel, labelOverride
