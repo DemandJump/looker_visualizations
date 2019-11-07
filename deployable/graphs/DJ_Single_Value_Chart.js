@@ -197,7 +197,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureOneName = queryResponse.fields.measures[0].name;
         currentPeriod = data[0][measureOneName][cpName];
         previousPeriod = data[0][measureOneName][ppName];
-        renderedChange = data[0][measureOneName]['previous_period']['value'];
+        renderedChange = data[0]['previous_period']['value'];
         renderedChange = Math.trunc(renderedChange);
 
     }
