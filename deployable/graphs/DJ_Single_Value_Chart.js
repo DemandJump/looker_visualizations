@@ -363,16 +363,9 @@ if (config.showComparison == true) {
       console.log('lookvalue.rendered type of response', typeof lookValue.rendered);
 
       let lookMa = anotherReflection.toString();
-      console.log('This is the stringified form', lookMae + headerRes);
+      console.log('This is the stringified form', lookMa + headerRes);
 
-
-
-
-      console.log('lookvalue.rendered', anotherReflection);
-      console.log('headerRes to concatenate', headerRes);
-      console.log('This is the concatenation: ', anotherReflection + headerRes);
-
-      hReturnValue = + lookValue.rendered + ' ' + headerRes;
+      hReturnValue = + anotherReflection + ' ' + headerRes;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
@@ -416,9 +409,6 @@ if (config.showComparison == true) {
     * Instatiation and Functions
 *********************************************************************************************************/
 
-      // If it's a pivot or a measure, lookValue figures that out
-
-
 
   //  Edit the header right before we instantiate the data
     // This is to add in a format for the value, if the user entered any
@@ -430,7 +420,7 @@ if (config.valueFormat) {
         d3.select('div.djvsHeader').html(hReturnValue);
     } 
 } else {
-    console.log('This is the valueReturn passed in (skipped formatvalue function', lookValue);
+    console.log('This is the valueReturn passed in (skipped formatvalue function)', lookValue);
     d3.select('div.djvsValue').html(lookValue.rendered);
     d3.select('div.djvsHeader').html(hReturnValue);
 }
