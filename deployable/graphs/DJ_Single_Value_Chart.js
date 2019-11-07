@@ -395,10 +395,10 @@ if (config.showComparison == true) {
 
 
 } // End of comparison function
-if (config.showComparison == false) {
-    d3.select('div.djvsHeader').style('background-image', 'none');
-    hReturnValue = '';
-}
+  if (config.showComparison == false) { // Cleans up the visual when comparison is switched off
+      d3.select('div.djvsHeader').style('background-image', 'none');
+      hReturnValue = '';
+  }
   console.log('This is hReturnValue after the editHeader function', hReturnValue);
 /*********************************************************************************************************
     * Instatiation and Functions
