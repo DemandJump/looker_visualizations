@@ -259,7 +259,6 @@ if (config.showComparison == true) {
       this.trigger('registerOptions', this.options);
   }
 }
-
 if (config.showComparison == false) {
   if (this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false && this.options.showComparison.hidden == false) {
       this.options.valueLabels.hidden = true;
@@ -277,7 +276,6 @@ if (config.showLabel == true && config.showComparison == true) {
       this.trigger('registerOptions', this.options);
   }
 }
-
     // This gets run after config show comparison variable
 if (config.showLabel == false && config.showComparison == true) {
   if (this.options.labelOverride.hidden == false) {
@@ -305,30 +303,19 @@ if (config.showComparison == true && config.valueLabels != 'compChan') {
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
 
-  // Gotta build Comparison functions for the chart value 
-
-        //*// Starting with the Label - config.labelOverride //*//
-    // Show as Value: compVal
-    // Show as Change: compChan
-    // Calculate Progress: calcProg ~ Don't know how that works yet
-    // Calculate Progress (With Percentage): calcPercent
-
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, hValue);
 
-
-      // If the LabelOverride isn't empty, have it override the current field label
+      // Set the label to the user input or it's default label
   if (config.labelOverride != '' || config.labelOverride != ' ') {
       hValue = config.labelOverride;
   }
   if (config.labelOverride == '' || config.labelOverride == ' ') {
-    hValue = queryResponse.fields.measures[0]['label'];
+      hValue = queryResponse.fields.measures[0]['label'];
   }
-  
       // If showlabel is false then we're turning off the Written Label
-  if (config.showLabel == false ) {
-    hValue = ' ';
-  }
+  if (config.showLabel == false ) hValue = ' ';
+
 
 
   if (config.valueLabels == 'compVal') { // Show as Value
@@ -336,6 +323,7 @@ if (config.showComparison == true && config.valueLabels != 'compChan') {
       hReturnValue = + measureTwo + ' ' + hValue;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
+
   if (config.valueLabels == 'compChan') { // Show as Change
         // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
       let difference = measureOne - measureTwo; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
@@ -352,13 +340,12 @@ if (config.showComparison == true && config.valueLabels != 'compChan') {
       }
   }
 
-
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
         // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
       let finVal = (measureOne / measureTwo) * 100;
       let retVal = Math.trunc(finVal);
-      console.log('This is the return value', retVal);
-      console.log('This is the auto rendered value', computedBoth);
+      // console.log('This is the return value', retVal);
+      // console.log('This is the auto rendered value', computedBoth);
 
       d3.select('div.djvsHeader')
           .style('background-image', `linear-gradient(
@@ -369,15 +356,14 @@ if (config.showComparison == true && config.valueLabels != 'compChan') {
           )`);
 
 
-    if (config.valueLabels == 'calcPercent') {
+    if (config.valueLabels == 'calcPercent') { // Calculate as percent
         hReturnValue = `<span style=" color: #979B9D;">${computedBoth}</span> of <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
     }
-    if (config.valueLabels == 'calcProg') {
+    if (config.valueLabels == 'calcProg') { // Calculate progress
         hReturnValue = hValue;
     }
 
   }
-
 
 /*********************************************************************************************************
     * Instatiation and Functions
@@ -413,13 +399,6 @@ function titleOverride(title) {
   d3.select('.djvsContainer').append('div')
     .attr('class', 'djvsTitle')
 }
-
-
-
-
-
-
-
 
 
 function formatValue(formatData, string) {
