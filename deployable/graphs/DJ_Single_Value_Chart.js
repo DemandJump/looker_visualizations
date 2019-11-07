@@ -213,13 +213,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         // Then we need a header value
-          // If it's one measure it's it's label, if it's two it's the second's label, if it's a pivot it's prevperiod key
-    let headerRes = (calculation == 'one measure' ? queryResponse.fields.measures[0].label
-        : calculation == 'two measures' ? queryResponse.fields.measures[1].label
-        : ppName);
-    
-
-
+    let headerRes;    
+    if (calculation == 'one measure') headerRes = queryResponse.fields.measures[0].label;
+    if (calculation == 'two measures') headerRes = queryResponse.fields.measures[1].label;
+    if (calculation == 'pivot measure') headerRes = ppName;
     let hReturnValue = headerRes;
 
 /*********************************************************************************************************************
@@ -422,8 +419,6 @@ if (config.valueFormat) {
         d3.select('div.djvsHeader').html(hReturnValue);
     }
 }
-
-
 
 /*******************************************************************
    * Functions Section *
