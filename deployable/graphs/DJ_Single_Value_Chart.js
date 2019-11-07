@@ -217,6 +217,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let headerRes = (calculation == 'one measure' ? queryResponse.fields.measures[0].label
         : calculation == 'two measures' ? queryResponse.fields.measures[1].label
         : ppName);
+    
+
+
     let hReturnValue = headerRes;
 
 /*********************************************************************************************************************
@@ -342,7 +345,7 @@ console.log('This is config', config);
   console.log(`editHeader: entering hValue value: `, headerRes);
       // Set the label based on user's input or it's default label
   if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
-  if (config.showLabel == false ) headerRes.return = ' '; // Remove the label from the vis
+  if (config.showLabel == false ) headerRes = ' '; // Remove the label from the vis
 
   let m2value; // Second measure pass to the vis
   if (calculation == 'two measures') m2value = measure2;
