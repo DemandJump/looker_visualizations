@@ -302,7 +302,7 @@ if (config.showComparison == true) { // If it's true
 } // End of config == true
 if (config.showComparion == false) { 
         // Hide all the configuration settings and refresh
-        
+
     console.log('Entered showcomparison false conditional');
     console.log('valueLabels', this.options.valueLabels.hidden);
     console.log('positiveSwitch', this.options.positiveSwitch.hidden);
@@ -315,14 +315,17 @@ if (config.showComparion == false) {
       this.trigger('registerOptions', this.options);
     }
     if (this.options.positiveSwitch.hidden == false) {
+      console.log('Setting positive switch to hidden');
       this.options.positiveSwitch = true;
       this.trigger('registerOptions', this.options);
     }
     if (this.options.showLabel.hidden == false) {
+      console.log('Setting show label switch to hidden');
       this.options.showLabel = true;
       this.trigger('registerOptions', this.options);
     }
     if (this.options.labelOverride.hidden == false) {
+      console.log('Setting label override to hidden');
       this.options.labelOverride.hidden = true;
       this.trigger('registerOptions', this.options);
     }
