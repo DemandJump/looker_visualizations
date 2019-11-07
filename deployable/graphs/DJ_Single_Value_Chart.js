@@ -173,10 +173,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureTwo = data[0][name][prevk];
         measureOne = measureOne.rendered;
         measureTwo = measureTwo.rendered;
-        computedBoth = data[0][name]['previous_period']['rendered'];
         console.log(`Current period`, measureOne);
         console.log(`Previous period`, measureTwo);
-        console.log(`Computed Both`, computedBot);
+
+        console.log(`This is previous period data`, data[0][name]['previous_period']);
+        console.log(`This is a render parse attempt`, data[0][name]['previous_period'].rendered);
+        computedBoth = data[0][name]['previous_period']['rendered'];
+        console.log(`Computed Both`, computedBoth);
     } else {
         let mOneName = measures[0]["name"];
         measureOne = data[0][mOneName]["value"];
