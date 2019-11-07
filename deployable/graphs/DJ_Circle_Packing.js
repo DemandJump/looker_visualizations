@@ -320,7 +320,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                .style('height', 'auto')
                 .attr('dy', spaceOne)
                 .text(d => d.data.text1);
               
@@ -334,7 +333,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .style('height', 'auto')
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -349,7 +347,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .style('height', 'auto')
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
@@ -363,7 +360,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .style('height', 'auto')
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
 
@@ -418,7 +414,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       // .attr('dy', spaceOne)
-                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text1);
                 });
 
@@ -433,7 +428,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       // .attr('dy', spaceTwo)
-                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text2);
                 });
 
@@ -448,7 +442,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       // .attr('dy', spaceThree)
-                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text3);
                 });
         label4
@@ -462,7 +455,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       // .attr('dy', spaceThree)
-                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text4);
                 });
 
