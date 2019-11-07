@@ -613,7 +613,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
             d.data.text1 = d.data.name;
             d.data.textuse = 1;
-            return '24px';
+            delete d.data.text2;
+            delete d.data.text3;
+            delete d.data.text4;
+            return '36px';
         }
 
             // Clean up all the empty text boxes
