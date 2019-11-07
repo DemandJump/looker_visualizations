@@ -161,6 +161,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (queryResponse.pivots) {
         let curk = queryResponse.pivots[0].key;
         let prevk = queryResponse.pivots[1].key;
+        let name = measures[0]["name"];
         // console.log(`This first pivot key: `, curk);
         // console.log(`The second pivot key:`, prevk);
 

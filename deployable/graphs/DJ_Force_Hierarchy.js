@@ -364,7 +364,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               order: 2,
               type: "boolean",
               section: 'Configure',
-              default: true
+              default: false
             }
 
         dimension_options['null_measure'] = 
@@ -373,7 +373,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               order: 4,
               type: "boolean",
               section: 'Configure',
-              default: true
+              default: false
             }
 
       }
@@ -458,7 +458,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measures.forEach(measure => {  if(measure.name == value) {measureName = value }   })
       }
     })
-    measureValuesD.forEach(value => { // Check all the dimensions! and pull out the used ond
+    measureValuesD.forEach(value => { // Check all the dimensions! and pull out the used one
       if (config.add_measure == value) {
         useMeasure = 'true'
         taxonomyPass.forEach( (dimension, index) => {
