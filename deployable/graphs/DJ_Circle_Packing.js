@@ -273,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     console.log('root', root);
     console.log('nodes', nodes);
-    console.log('artificial Root ', artificialRoot);
+
 
 
     /******************************************************************************************************************************************
