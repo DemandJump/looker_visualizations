@@ -285,18 +285,18 @@ if (config.showLabel == false && config.showComparison == true) {
 }
 
 
-if (config.showComparison == true && config.valueLabels == 'compChan') {
-    if (this.options.positiveSwitch.hidden == true) {
-        this.options.positiveSwitch = false;
-        this.trigger('registerOptions', this.options);
-    }
-}
-if (config.showComparison == true && config.valueLabels != 'compChan') {
-    if (this.options.positiveSwitch.hidden == false) {
-        this.options.positiveSwitch = true;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.showComparison == true && config.valueLabels == 'compChan') {
+//     if (this.options.positiveSwitch.hidden == true) {
+//         this.options.positiveSwitch = false;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
+// if (config.showComparison == true && config.valueLabels != 'compChan') {
+//     if (this.options.positiveSwitch.hidden == false) {
+//         this.options.positiveSwitch = true;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
 
 /**************************************************************************************************************************
