@@ -261,7 +261,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const root = pack(burrow);
     let focus = root,
     nodes = root.descendants().slice(1); 
-    let artificialRoot = nodes[0]['id'];
+    root.children[0].data.id = 'tether';
 
     
     let vws = d3.scaleLinear()
@@ -523,14 +523,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             (d3.hierarchy(data)
                 .sum(d => {
                     d.value = 1;
-                    // console.log(`Sum function for pack if influence is null, this is d: `, d);
                     return d.value;
                 })
-                .sort((a, b) => { 
-                    // console.log(`Sort function for pack if influence is null, this is a: `, a);
-                    // console.log(`This is b: `, b);
-                    return b.value - a.value;
-                }));
+                .sort((a, b) => b.value - a.value ));
         }
 
     }
@@ -615,15 +610,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         } // End of for loop 
 
 
-        if (d.depth == 0) { 
+        if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
             d.data.text1 = d.data.name;
-            d.data.textuse = 1; 
-            // console.log('This is the root data', d);
+            d.data.textuse = 1;
+            return '24px';
         }
-        
-        // return `${vws(d.nr)}vh`;
-        return '12px';
-    }
+
+            // Clean up all the empty text boxes
+        if (d.data.text2 == '') delete d.data.text2;
+        if (d.data.text3 == '') delete d.data.text3;
+        if (d.data.text4 == '') delete d.data.text4;
+          // Return the font size
+        return '12px';  // return `${vws(d.nr)}vh`;
+    } // of sizeText function ~ Builds text boxes and assigns font size
 
     function textSizing(d) {
         // return `${vws(d.nr)}vh`;
