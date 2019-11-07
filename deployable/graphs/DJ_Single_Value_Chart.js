@@ -157,10 +157,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is looker charts Utils', LookerCharts);
 
     
-
+        // One/Two measure data
     let measure1;
     let measure2;
-    let renderedChange;
         // Pivot data 
     let currentPeriod;
     let previousPeriod;
@@ -169,6 +168,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let measureOneName; // The identifier to parse into the data
     let measureTwoName; // The identifier to parse into the data
+
     let renderedChange; // Computed between both measures // Comparison operator
 
         // This is for conditionals to see what calculation it is 
@@ -252,7 +252,7 @@ if (config.text_spacing == "ellipsis") {
     arrowFontPass = '1rem';
 }
     // This is for the title element based on the user input
-if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); } 
+if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); }
 else { d3.select('.djvsTitle').html(' '); }
 
 
