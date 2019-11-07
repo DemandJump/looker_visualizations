@@ -177,6 +177,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let measureOne = data[0][mOneName]["value"];
         let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
         let measureTwo = data[0][mTwoName]["value"];
+        console.log('Measure one', measureOne);
+        console.log('Measure two', measureTwo);
     }
   
 
@@ -285,18 +287,18 @@ if (config.showLabel == false && config.showComparison == true) {
 }
 
 
-// if (config.showComparison == true && config.valueLabels == 'compChan') {
-//     if (this.options.positiveSwitch.hidden == true) {
-//         this.options.positiveSwitch = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
-// if (config.showComparison == true && config.valueLabels != 'compChan') {
-//     if (this.options.positiveSwitch.hidden == false) {
-//         this.options.positiveSwitch = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
+if (config.showComparison == true && config.valueLabels == 'compChan') {
+    if (this.options.positiveSwitch.hidden == true) {
+        this.options.positiveSwitch = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+if (config.showComparison == true && config.valueLabels != 'compChan') {
+    if (this.options.positiveSwitch.hidden == false) {
+        this.options.positiveSwitch = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
 
 /**************************************************************************************************************************
