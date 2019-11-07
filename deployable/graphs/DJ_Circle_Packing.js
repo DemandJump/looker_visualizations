@@ -560,7 +560,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.data.text1 = words[i] + ' ';
                     continue;
                 }
-                if (d.data.text1.length + words[i].length < t1) {
+                if ((d.data.text1.length + words[i].length) < t1) {
                     d.data.text1 = d.data.text1 + words[i] + ' ';
                     continue;
                 } else {
@@ -574,7 +574,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.data.text2 = words[i] + ' ';
                     continue;
                 }
-                if (d.data.text2.length + words[i].length < t2) {
+                if ((d.data.text2.length + words[i].length) < t2) {
                     d.data.text2 = d.data.text2 + words[i] + ' ';
                     continue;
                 } else {
@@ -588,7 +588,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.data.text3 = words[i] + ' ';
                     continue;
                 }
-                if (d.data.text3.length + words[i].length < t3) {
+                if ((d.data.text3.length + words[i].length) < t3) {
                     d.data.text3 = d.data.text3 + words[i] + ' ';
                     continue;
                 } else {
