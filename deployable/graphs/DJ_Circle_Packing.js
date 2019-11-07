@@ -547,10 +547,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let diameter = d.nr * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74,
-        t1 = Math.floor(fchars * .22), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars *  40), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(fchars * .22), // : 16
-        t4 = Math.floor(fchars * .20); // This should be else really ~ // : 22
+        t1 = Math.floor(fchars * .18), // : 22 // Desired percents of space each take up
+        t2 = Math.floor(fchars *  34), // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(fchars * .18), // : 16
+        t4 = Math.floor(fchars * .30); // This should be else really ~ // : 22
 
 
         let tBox = 1;
