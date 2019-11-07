@@ -21,7 +21,7 @@ looker.plugins.visualizations.add({
                 order: 3,
                 section: "Style",
                 placeholder: "Leave blank for contextual title",
-                hidden: true
+                hidden: false
             },
             valueFormat: {
                 label: "Value Format",
@@ -65,7 +65,7 @@ looker.plugins.visualizations.add({
                 {"Calculate Progress (As Percentage)": "calcPercent"}
               ],
               default: 'compVal',
-              hidden: true // Show comparison == true
+              hidden: false // Show comparison == true
             },
             positiveSwitch: {                   // This is just for change
               label: "Positive Values are Bad",
@@ -73,7 +73,7 @@ looker.plugins.visualizations.add({
               order: 7,
               section: "Comparison",
               default: false,
-              hidden: true // Show comparison == true
+              hidden: false // Show comparison == true
             },
             showLabel: {
               label: "Show Label",
@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
               order: 8,
               section: "Comparison",
               default: false,
-              hidden: true // Show comparison == true
+              hidden: false // Show comparison == true
             },
             labelOverride: {
               label: "Label",
@@ -89,7 +89,7 @@ looker.plugins.visualizations.add({
               order: 9,
               section: "Comparison",
               placeholder: "Leave blank to use field label",
-              hidden: true // Show comparison == true && showLabel == true
+              hidden: false // Show comparison == true && showLabel == true
             }
     },
 
@@ -156,94 +156,67 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the config itself', config);
     // console.log('This is looker charts Utils', LookerCharts);
 
-
-
-
-          // We need to pull in the data based on multiple scenarios
-
-          // Single measure
-
-          // Two measures
-
-          // Pivots 
-          
-              // and funnel them all into one visual
-
+    
 
     let measure1;
     let measure2;
+    let change;
+        // Pivot data 
+    let currentPeriod;
+    let previousPeriod;
+    let renderedChange; // Already computed operator
+
+          // Variables to find each of these
+
+    let measureOneName; // The identifier to parse into the data
+    let measureTwoName; // The identifier to parse into the data
+    let change; // Computed between both measures // Comparison operator
+
+        // This is for conditionals to see what calculation it is 
+    let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
+    if (queryResponse.pivots) calculation = 'pivot measure';
+    if (measures[1]) calculation = 'two measures';
+
     
-    
+    if (calculation == 'one measure') {
+        measureOneName = queryResponse.fields.measures.name;
+        measure1 = data[0][measureOneName];
+      
+    } else if (calculation == 'two measures') {
+        measureOneName = queryResponse.fields.measures[0].name;
+        measureTwoName = queryResponse.fields.measures[1].name;
+        measure1 = data[0][measureOneName];
+        measure2 = data[0][measureTwoName];
 
+        change = (measure1 / measure2) * 100;
+        change = Math.trunc(change);
 
+    } else if (calculation == 'pivot measure') {
+          // We need to find the pivot name then data.name.pivname.rendered
+        let cpName = queryResponse.pivots[0]['key'];
+        let ppName = queryResponse.pivots[1]['key'];
+        measureOneName = queryResponse.fields.measures.name;
+        currentPeriod = data[0][measureOneName][cpName];
+        previousPeriod = data[0][measureOneName][ppName];
+        change = data[0][measureOneName]['previous_period']['value'];
+        change = Math.trunc(change);
 
-
-
-
-
-
-
-
-
-
-
-
-
-    let measureOne, 
-    measureTwo = '', 
-    computedBoth,
-    curk,
-    prevk,
-    name,
-    mTwoName;
-        // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
-    if (queryResponse.pivots) {
-        curk = queryResponse.pivots[0].key;
-        prevk = queryResponse.pivots[1].key;
-        name = measures[0]["name"];
-        // console.log(`This is name`, name);
-        console.log(`This first pivot key: `, curk);
-        console.log(`The second pivot key:`, prevk);
-
-
-            // Parse into the data,
-        measureOne = data[0][name][curk];
-        measureTwo = data[0][name][prevk];
-        measureOne = measureOne.rendered;
-        measureTwo = measureTwo.rendered;
-        console.log(`Current period`, measureOne);
-        console.log(`Previous period`, measureTwo);
-
-        console.log(`Attempt at previous period parse`, data[0]['previous_period']);
-        console.log(`Attempt at previous period parse`, data[0]['previous_period']['rendered']);
-
-        computedBoth = data[0]['previous_period']['rendered'];
-        console.log(`Computed Both`, computedBoth);
-    } else {
-        let mOneName = measures[0]["name"];
-        measureOne = data[0][mOneName]["value"];
-        console.log('Measure one', measureOne);
-
-        if (measures[1]) {
-          mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
-          measureTwo = data[0][mTwoName]["value"];
-          console.log('Measure two', measureTwo);
-        }
-        
     }
-  
 
-        /*/ Here's where we instantiate all the variables /*/
-    let value = data[0][queryResponse.fields.measures[0].name]["value"]; // This is the data we're passing into the visual
-    let valueReturn = value;
 
-    let headerName = measures[0].name;
-    let hValue = data[0][headerName]["value"];
-        // If it's a pivot, the parse to find the hvalue is slightly different
-    if (queryResponse.pivots ) { hValue = measureOne; } 
-    let hReturnValue = hValue;
-    console.log(`This is the hValue`, hValue);
+    let lookValue; // The data will be an object so we have access to the undrendered data for formatvalue as well
+      // Measure one is always the look value, everything is is pretty much for comparison
+    if (calculation == 'one measure' || calculation == 'two measures') lookValue = measure1;
+    if (calculation == 'pivot measure') lookValue = currentPeriod;
+        // We may change this through conditionals to find the unrendered data
 
+
+        // Then we need a header value
+          // If it's one measure it's it's label, if it's two it's the second's label, if it's a pivot it's prevperiod key
+    let headerRes = (calculation == 'one measure' ? queryResponse.fields.measures[0].label
+        : calculation == 'two measures' ? queryResponse.fields.measures[1].label
+        : ppName);
+    let hReturnValue = headerRes;
 
 /*********************************************************************************************************************
                                                                                 * End of Dimension Initialization
@@ -288,142 +261,96 @@ else { d3.select('.djvsTitle').html(' '); }
 
 
 
-
+      /*/ SHOW/HIDING THE CONFIGURATION /*/
 console.log('This is settings', this.options);
 console.log('This is config', config);
 
-if (config.showComparison == true) { // If it's true 
-        // First we open up all the individual values, and then close others based on unique conditionals
-    if (this.options.valueLabels.hidden == true) {
-      this.options.valueLabels.hidden = false;
-      this.trigger('registerOptions', this.options);
-    }
-    if (this.options.positiveSwitch.hidden == true) {
-      this.options.valueLabels.hidden = false;
-      if (config.valueLabels != 'compChan') this.options.positiveSwitch = true;
-      this.trigger('registerOptions', this.options);
-    }
-    if (this.options.showLabel.hidden == true) {
-      this.options.showLabel.hidden = false;
-      if (config.showLabel == false) {  // Show label's boolean determines whether label statement will show/hide & if hidden remove it's config val
-        this.options.labelOverride = false;
-      }
-      this.trigger('registerOptions', this.options);
-    }
-    if (this.options.labelOverride.hidden == true) {
-      this.options.labelOverride = false;
-      this.trigger('registerOptions', this.options);
-    }
-} // End of config == true
-console.log('Entered showcomparison false conditional');
-console.log('valueLabels', this.options.valueLabels.hidden);
-console.log('positiveSwitch', this.options.positiveSwitch.hidden);
-console.log('showLabel', this.options.showLabel.hidden);
-console.log('labelOverride', this.options.labelOverride.hidden);
-
-console.log('This is config', config.labelOverride);
-if (config.showComparion == false) { 
-        // Hide all the configuration settings and refresh
-
-
-    
-    if (this.options.valueLabels.hidden == false) {
-      console.log('Setting value labels to hidden');
-      this.options.valueLabels.hidden = true;
-      this.trigger('registerOptions', this.options);
-    }
-    if (this.options.positiveSwitch.hidden == false) {
-      console.log('Setting positive switch to hidden');
-      this.options.positiveSwitch = true;
-      this.trigger('registerOptions', this.options);
-    }
-    if (this.options.showLabel.hidden == false) {
-      console.log('Setting show label switch to hidden');
-      this.options.showLabel = true;
-      this.trigger('registerOptions', this.options);
-    }
-    if (this.options.labelOverride.hidden == false) {
-      console.log('Setting label override to hidden');
-      this.options.labelOverride.hidden = true;
-      this.trigger('registerOptions', this.options);
-    }
-} // End of config == false
-
-
-
-    // This hides/shows the title's input bar
-// console.log('showTitle data', config.showTitle); // This is the title data 
-if (config.showTitle == false && this.options.valueTitle.hidden == false) { // If they want to hide the title
-    this.options.valueTitle.hidden = true; // Then set it to hidden
-    this.trigger('registerOptions', this.options); // send the updated settings to the system
-    d3.select('.djvsTitle').html(' ');
-}
-if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Touche vice versa ~ ;p
-        this.options.valueTitle.hidden = false;
-        this.trigger('registerOptions', this.options);
-}
-
-
-
-
-//     // Hides/shows the settings encompassing the showcomparison setting
-// if (config.showComparison == true) {
-//   if (this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true && this.options.showComparison.hidden == true) {
+// if (config.showComparison == true) { // If it's true 
+//         // First we open up all the individual values, and then close others based on unique conditionals
+//     if (this.options.valueLabels.hidden == true) {
 //       this.options.valueLabels.hidden = false;
-//       this.options.positiveSwitch.hidden = false;
+//       this.trigger('registerOptions', this.options);
+//     }
+//     if (this.options.positiveSwitch.hidden == true) {
+//       this.options.valueLabels.hidden = false;
+//       if (config.valueLabels != 'compChan') this.options.positiveSwitch = true;
+//       this.trigger('registerOptions', this.options);
+//     }
+//     if (this.options.showLabel.hidden == true) {
 //       this.options.showLabel.hidden = false;
-//       this.options.showComparison.hidden = false;
+//       if (config.showLabel == false) {  // Show label's boolean determines whether label statement will show/hide & if hidden remove it's config val
+//         this.options.labelOverride = false;
+//       }
 //       this.trigger('registerOptions', this.options);
-//   }
-// }
-// if (config.showComparison == false) {
-//   if (this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false && this.options.showComparison.hidden == false) {
+//     }
+//     if (this.options.labelOverride.hidden == true) {
+//       this.options.labelOverride = false;
+//       this.trigger('registerOptions', this.options);
+//     }
+// } // End of config == true
+// console.log('Entered showcomparison false conditional');
+// console.log('valueLabels', this.options.valueLabels.hidden);
+// console.log('positiveSwitch', this.options.positiveSwitch.hidden);
+// console.log('showLabel', this.options.showLabel.hidden);
+// console.log('labelOverride', this.options.labelOverride.hidden);
+
+// console.log('This is config', config.labelOverride);
+// if (config.showComparion == false) { 
+//         // Hide all the configuration settings and refresh    
+//     if (this.options.valueLabels.hidden == false) {
+//       console.log('Setting value labels to hidden');
 //       this.options.valueLabels.hidden = true;
-//       this.options.showLabel.hidden = true;
-//       this.options.labelOverride.hidden = true;
-//       this.options.showComparison.hidden = true;
 //       this.trigger('registerOptions', this.options);
-//   }
+//     }
+//     if (this.options.positiveSwitch.hidden == false) {
+//       console.log('Setting positive switch to hidden');
+//       this.options.positiveSwitch = true;
+//       this.trigger('registerOptions', this.options);
+//     }
+//     if (this.options.showLabel.hidden == false) {
+//       console.log('Setting show label switch to hidden');
+//       this.options.showLabel = true;
+//       this.trigger('registerOptions', this.options);
+//     }
+//     if (this.options.labelOverride.hidden == false) {
+//       console.log('Setting label override to hidden');
+//       this.options.labelOverride.hidden = true;
+//       this.trigger('registerOptions', this.options);
+//     }
+// } // End of config == false
+
+//     // This hides/shows the title's input bar
+// // console.log('showTitle data', config.showTitle); // This is the title data 
+// if (config.showTitle == false && this.options.valueTitle.hidden == false) { // If they want to hide the title
+//     this.options.valueTitle.hidden = true; // Then set it to hidden
+//     this.trigger('registerOptions', this.options); // send the updated settings to the system
+//     d3.select('.djvsTitle').html(' ');
+// }
+// if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Touche vice versa ~ ;p
+//         this.options.valueTitle.hidden = false;
+//         this.trigger('registerOptions', this.options);
 // }
 
-//     // This gets run after config show comparison variable
-// if (config.showLabel == true && config.showComparison == true) {
-//   if (this.options.labelOverride.hidden == true) {
-//       this.options.labelOverride.hidden = false;
-//       this.trigger('registerOptions', this.options);
-//   }
-// }
-//     // This gets run after config show comparison variable
-// if (config.showLabel == false && config.showComparison == true) {
-//   if (this.options.labelOverride.hidden == false) {
-//       this.options.labelOverride.hidden = true;
-//       this.trigger('registerOptions', this.options);
-//   }
-// }
+
 
 
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
-
       // So we're taking in hValue and editing it if it's one of these values
-  console.log(`editHeader: entering hValue value: `, hValue);
+  console.log(`editHeader: entering hValue value: `, headerRes);
+      // Set the label based on user's input or it's default label
+  if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
+  if (config.showLabel == false ) headerRes.return = ' '; // Remove the label from the vis
 
-      // Set the label to the user input or it's default label
-  if (config.labelOverride != '' || config.labelOverride != ' ') {
-      hValue = config.labelOverride;
-  }
-  if (config.labelOverride == '' || config.labelOverride == ' ') {
-      hValue = queryResponse.fields.measures[0]['label'];
-  }
-      // If showlabel is false then we're turning off the Written Label
-  if (config.showLabel == false ) hValue = ' ';
-
+  let m2value; // Second measure pass to the vis
+  if (calculation == 'two measures') m2value = measure2;
+  if (calculation == 'pivot measure') m2value = previousPeriod;
 
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
-      hReturnValue = + measureTwo + ' ' + hValue;
+      hReturnValue = + measureTwo + ' ' + headerRes;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
@@ -432,66 +359,54 @@ if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Tou
       let difference = measureOne - measureTwo; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
-          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue ;
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes ;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
-        // Calculate percent change ~ Value1 / Value2 = DecVal * 100 = FinVal > Math.trunc(finVal) = returnValue
-      let finVal = (measureOne / measureTwo) * 100;
-      let retVal = Math.trunc(finVal);
-      // console.log('This is the return value', retVal);
-      // console.log('This is the auto rendered value', computedBoth);
+      if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
 
       d3.select('div.djvsHeader')
-          .style('background-image', `linear-gradient(
-            to right,
-            #E2E3E3,
-            #E2E3E3 ${retVal}%,
-            #F5F5F5 ${retVal}%
-          )`);
+          .style('background-image', `linear-gradient(to right, #E2E3E3, #E2E3E3 ${change}%, #F5F5F5 ${change}%)`);
 
-
-    if (config.valueLabels == 'calcPercent') { // Calculate as percent
-        hReturnValue = `<span style=" color: #979B9D;">${computedBoth}%</span> of <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
-    }
-    if (config.valueLabels == 'calcProg') { // Calculate progress
-        hReturnValue = hValue;
-    }
-
+      if (config.valueLabels == 'calcPercent') { // Calculate as percent
+          hReturnValue = `<span style=" color: #979B9D;">${change}%</span> of <span style=" color: #979B9D;">${m2value}</span> ` + headerRes;
+      }
+          // Calculate progress
+      if (config.valueLabels == 'calcProg') hReturnValue = headerRes;
   }
 
+  console.log('This is hReturnValue after the editHeader function', hReturnValue);
 /*********************************************************************************************************
     * Instatiation and Functions
 *********************************************************************************************************/
 
+      // If it's a pivot or a measure, lookValue figures that out
+
+
+
   //  Edit the header right before we instantiate the data
-console.log('This is hReturnValue after the editHeader function', hReturnValue)
     // This is to add in a format for the value, if the user entered any
 if (config.valueFormat != '') {
       // Pass in the value and return a new one
-    valueReturn = formatValue(config.valueFormat, value)
-    console.log('This is the returned value from the formatValue function', valueReturn)
+    lookValue.userFormat = formatValue(config.valueFormat, lookValue.value);
+    console.log('This is the returned value from the formatValue function', lookValue);
 
-    console.log('This is the valueReturn passed in', valueReturn)
-    d3.select('div.djvsValue').html(valueReturn);
+    d3.select('div.djvsValue').html(lookValue.userFormat);
     d3.select('div.djvsHeader').html(hReturnValue);
 } else {
-    console.log('This is the valueReturn passed in', valueReturn)
-    d3.select('div.djvsValue').html(valueReturn);
+    console.log('This is the valueReturn passed in', lookValue);
+    d3.select('div.djvsValue').html(lookValue.rendered);
     d3.select('div.djvsHeader').html(hReturnValue);
 }
-
-
-
 
 
 
