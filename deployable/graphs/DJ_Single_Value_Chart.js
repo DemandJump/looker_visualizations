@@ -352,15 +352,18 @@ console.log('This is config', config);
   if (calculation == 'pivot measure') m2value = previousPeriod;
 
 
+  if (config.showComparison == true) if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
+
+
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
-      hReturnValue = + measureTwo + ' ' + headerRes;
+      hReturnValue = + measure2 + ' ' + headerRes;
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
   if (config.valueLabels == 'compChan') { // Show as Change
         // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
-      let difference = measureOne - measureTwo; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+      let difference = measure1 - measure2; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
       
       if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
           if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${m2Value}</span> ` + headerRes;
@@ -376,7 +379,6 @@ console.log('This is config', config);
   }
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
-      if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
 
       d3.select('div.djvsHeader')
           .style('background-image', `linear-gradient(to right, #E2E3E3, #E2E3E3 ${change}%, #F5F5F5 ${change}%)`);
