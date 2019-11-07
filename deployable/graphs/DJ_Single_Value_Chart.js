@@ -208,6 +208,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
     let hReturnValue = hValue;
+    if (queryResponse.pivots )
     console.log(`This is the hValue`, hValue);
 
 
