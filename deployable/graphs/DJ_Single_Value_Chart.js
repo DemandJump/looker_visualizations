@@ -157,6 +157,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is looker charts Utils', LookerCharts);
 
 
+    let measureOne, measureTwo;
         // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
     if (queryResponse.pivots) {
         let curk = queryResponse.pivots[0].key;
@@ -166,8 +167,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // console.log(`The second pivot key:`, prevk);
 
             // Parse into the data,
-        let measureOne = data[0][name][curk];
-        let measureTwo = data[1][name][prevk];
+        measureOne = data[0][name][curk];
+        measureTwo = data[1][name][prevk];
         measureOne = measureOne.rendered;
         measureTwo = measureTwo.rendered;
         let computedBoth = data[name]['previous_period']['rendered'];
@@ -175,9 +176,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`Previous period`, measureTwo);
     } else {
         let mOneName = measures[0]["name"];
-        let measureOne = data[0][mOneName]["value"];
+        measureOne = data[0][mOneName]["value"];
         let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
-        let measureTwo = data[0][mTwoName]["value"];
+        measureTwo = data[0][mTwoName]["value"];
         console.log('Measure one', measureOne);
         console.log('Measure two', measureTwo);
     }
