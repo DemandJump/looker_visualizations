@@ -163,6 +163,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Pivot data 
     let currentPeriod;
     let previousPeriod;
+    let cpName;
+    let ppName;
 
           // Variables to find each of these
 
@@ -192,8 +194,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     } else if (calculation == 'pivot measure') {
           // We need to find the pivot name then data.name.pivname.rendered
-        let cpName = queryResponse.pivots[0]['key'];
-        let ppName = queryResponse.pivots[1]['key'];
+        cpName = queryResponse.pivots[0]['key'];
+        ppName = queryResponse.pivots[1]['key'];
         measureOneName = queryResponse.fields.measures[0].name;
         currentPeriod = data[0][measureOneName][cpName];
         previousPeriod = data[0][measureOneName][ppName];

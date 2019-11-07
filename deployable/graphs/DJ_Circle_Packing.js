@@ -216,6 +216,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             this.addError({title: "Factor error", message: "The variable factor must be a number"})
         }
     } 
+
+    if (data = []) {
+        this.addError({title: "No Results", message: "The query you entered pass back no data, try another one and start it again."});
+    }
     
     
     /*********************************************************
