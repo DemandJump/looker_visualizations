@@ -176,8 +176,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`Current period`, measureOne);
         console.log(`Previous period`, measureTwo);
 
-        console.log(`This is previous period data`, data[0][name]['previous_period']);
-        console.log(`This is a render parse attempt`, data[0][name]['previous_period'].rendered);
+        console.log(`First data parse, need to find previous_period`, data[0][name]);
+        console.log(`Attempt one at a previous period parse`, data[0][name][1]);
+        console.log(`Attempt into the rendered parse (attempt one)`, data[0][name][1]['rendered']);
+        console.log(`Attempt at previous period parse`, data[0][name]["previous_period"]);
+
         computedBoth = data[0][name]['previous_period']['rendered'];
         console.log(`Computed Both`, computedBoth);
     } else {
