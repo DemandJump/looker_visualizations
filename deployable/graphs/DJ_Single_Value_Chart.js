@@ -245,69 +245,132 @@ if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); 
 else { d3.select('.djvsTitle').html(' '); }
 
 
+/* Tearing out and rebuilding the configuration panel show/hide settings
+      Config:
+
+
+Sections:
+
+  ShowTitle: Works fine ~
+
+  Comparison: Isn't instantiating anything, and label stays unhidden no matter what ~
+    > Config settings in Comparison
+
+      Value Labels: valueLabels
+      Positive Values are Bad: positiveSwitch
+      Show Label: showLabel
+      Label: labelOverride
+
+
+
+
+      Show comparison collapses
+        > valueLabels, positiveSwitch, showLabel, labelOverride
+
+        Valuelabels == 'compChan'  ~uncollapses~
+          > positiveSwitch
+
+        showLabel collapses
+          > labelOverride
+
+*/
+
+
+if (config.showComparison == true) { // If it's true 
+
+        // First we open up all the individual values, and then close others based on unique conditionals
+    if (this.options.valueLabels.hidden == true) {
+      this.options.valueLabels.hidden = false;
+      this.trigger('registerOptions', this.options);
+    }
+    if (this.options.positiveSwitch.hidden == true) {
+      this.options.valueLabels.hidden = false;
+      if (config.valueLabels != 'compChan') this.options.positiveSwitch = true;
+      this.trigger('registerOptions', this.options);
+    }
+    if (this.options.showLabel.hidden == true) {
+      this.options.showLabel.hidden = false;
+      if (config.showLabel == false) {  // Show label's boolean determines whether label statement will show/hide & if hidden remove it's config val
+        this.options.labelOverride = false;
+        config.labelOverride = '';
+      }
+      this.trigger('registerOptions', this.options);
+    }
+    if (this.options.labelOverride.hidden == true) {
+      this.options.labelOverride = false;
+      this.trigger('registerOptions', this.options);
+    }
+} // End of config == true 
+if (config.showComparion == false) { 
+        // Hide all the configuration settings and refresh
+    if (this.options.valueLabels.hidden == false) {
+      this.options.valueLabels.hidden = true;
+      this.trigger('registerOptions', this.options);
+    }
+    if (this.options.positiveSwitch.hidden == false) {
+      this.options.positiveSwitch = true;
+      this.trigger('registerOptions', this.options);
+    }
+    if (this.options.showLabel.hidden == false) {
+      this.options.showLabel = true;
+      this.trigger('registerOptions', this.options);
+    }
+    if (this.options.labelOverride.hidden == false) {
+      this.options.labelOverride.hidden = true;
+      this.trigger('registerOptions', this.options);
+    }
+} // End of config == false
+
+
+
     // This hides/shows the title's input bar
 // console.log('showTitle data', config.showTitle); // This is the title data 
-if (config.showTitle == false) { // If they want to hide the title
-    if (this.options.valueTitle.hidden == false) { // Check if it's not hidden
-        this.options.valueTitle.hidden = true; // Then set it to hidden
-        this.trigger('registerOptions', this.options); // send the updated settings to the system
-        d3.select('.djvsTitle').html(' ');
-    }
+if (config.showTitle == false && this.options.valueTitle.hidden == false) { // If they want to hide the title
+    this.options.valueTitle.hidden = true; // Then set it to hidden
+    this.trigger('registerOptions', this.options); // send the updated settings to the system
+    d3.select('.djvsTitle').html(' ');
 }
-if (config.showTitle == true) { // Touche vice versa ~ ;p
-    if (this.options.valueTitle.hidden == true) { 
+if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Touche vice versa ~ ;p
         this.options.valueTitle.hidden = false;
         this.trigger('registerOptions', this.options);
-    }
-}
-
-    // Hides/shows the settings encompassing the showcomparison setting
-if (config.showComparison == true) {
-  if (this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true && this.options.showComparison.hidden == true) {
-      this.options.valueLabels.hidden = false;
-      this.options.positiveSwitch.hidden = false;
-      this.options.showLabel.hidden = false;
-      this.options.showComparison.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-}
-if (config.showComparison == false) {
-  if (this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false && this.options.showComparison.hidden == false) {
-      this.options.valueLabels.hidden = true;
-      this.options.showLabel.hidden = true;
-      this.options.labelOverride.hidden = true;
-      this.options.showComparison.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
-}
-
-    // This gets run after config show comparison variable
-if (config.showLabel == true && config.showComparison == true) {
-  if (this.options.labelOverride.hidden == true) {
-      this.options.labelOverride.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-}
-    // This gets run after config show comparison variable
-if (config.showLabel == false && config.showComparison == true) {
-  if (this.options.labelOverride.hidden == false) {
-      this.options.labelOverride.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
 }
 
 
-// if (config.showComparison == true && config.valueLabels == 'compChan') {
-//     if (this.options.positiveSwitch.hidden == true) {
-//         this.options.positiveSwitch = false;
-//         this.trigger('registerOptions', this.options);
-//     }
+
+
+//     // Hides/shows the settings encompassing the showcomparison setting
+// if (config.showComparison == true) {
+//   if (this.options.valueLabels.hidden == true && this.options.showLabel.hidden == true && this.options.showComparison.hidden == true) {
+//       this.options.valueLabels.hidden = false;
+//       this.options.positiveSwitch.hidden = false;
+//       this.options.showLabel.hidden = false;
+//       this.options.showComparison.hidden = false;
+//       this.trigger('registerOptions', this.options);
+//   }
 // }
-// if (config.showComparison == true && config.valueLabels != 'compChan') {
-//     if (this.options.positiveSwitch.hidden == false) {
-//         this.options.positiveSwitch = true;
-//         this.trigger('registerOptions', this.options);
-//     }
+// if (config.showComparison == false) {
+//   if (this.options.valueLabels.hidden == false && this.options.showLabel.hidden == false && this.options.showComparison.hidden == false) {
+//       this.options.valueLabels.hidden = true;
+//       this.options.showLabel.hidden = true;
+//       this.options.labelOverride.hidden = true;
+//       this.options.showComparison.hidden = true;
+//       this.trigger('registerOptions', this.options);
+//   }
+// }
+
+//     // This gets run after config show comparison variable
+// if (config.showLabel == true && config.showComparison == true) {
+//   if (this.options.labelOverride.hidden == true) {
+//       this.options.labelOverride.hidden = false;
+//       this.trigger('registerOptions', this.options);
+//   }
+// }
+//     // This gets run after config show comparison variable
+// if (config.showLabel == false && config.showComparison == true) {
+//   if (this.options.labelOverride.hidden == false) {
+//       this.options.labelOverride.hidden = true;
+//       this.trigger('registerOptions', this.options);
+//   }
 // }
 
 
