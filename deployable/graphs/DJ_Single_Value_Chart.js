@@ -162,7 +162,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     computedBoth,
     curk,
     prevk,
-    name;
+    name,
+    mTwoName;
         // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
     if (queryResponse.pivots) {
         curk = queryResponse.pivots[0].key;
@@ -191,9 +192,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureOne = data[0][mOneName]["value"];
         console.log('Measure one', measureOne);
 
-        let mTwoName;
         if (measures[1]) {
-          let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
+          mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
           measureTwo = data[0][mTwoName]["value"];
           console.log('Measure two', measureTwo);
         }
@@ -207,8 +207,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
+        // If it's a pivot, the parse to find the hvalue is slightly different
+    if (queryResponse.pivots ) { hValue = measureOne; } 
     let hReturnValue = hValue;
-    if (queryResponse.pivots )
     console.log(`This is the hValue`, hValue);
 
 
@@ -426,7 +427,7 @@ if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Tou
 
 
     if (config.valueLabels == 'calcPercent') { // Calculate as percent
-        hReturnValue = `<span style=" color: #979B9D;">${computedBoth}</span> of <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
+        hReturnValue = `<span style=" color: #979B9D;">${computedBoth}%</span> of <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue;
     }
     if (config.valueLabels == 'calcProg') { // Calculate progress
         hReturnValue = hValue;
