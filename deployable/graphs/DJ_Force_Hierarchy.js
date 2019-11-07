@@ -86,60 +86,60 @@ create: function(element, config) {
     this._holder = d3.select(element).append('div')
         .attr('class', 'holder')
         .style('display', 'inline')
-        .style('width', '100%')
+        .style('width', '100%');
 
     this._prevBtn = d3.select('.holder').append('button')
         .attr('class', 'prev djfhButton btn-small') 
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .html('Prev')
+        .html('Prev');
     this._nextBtn = d3.select('.holder').append('button')
         .attr('class', 'next djfhButton btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .html('Next')
+        .html('Next');
 
     this._resetSingleNode = d3.select('.holder').append('button')
         .attr('class', 'resetSingleNode djfhButton btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .html(`Reset selected node's position`)
+        .html(`Reset selected node's position`);
 
     this._resetBtn = d3.select('.holder').append('button')
         .attr('class', 'reset djfhButton btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
         // .style('color', 'red') // This looks wacky!
-        .html('RESET ALL NODES')
+        .html('RESET ALL NODES');
 
     this._centerNodes = d3.select('.holder').append('button')
         .attr('class', 'center djfhButton btn-small')
         .attr('id', 'pullTogether')
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .html('Pull nodes together')
+        .html('Pull nodes together');
 
     this._panelSwitch = d3.select('.holder').append('button')
         .attr('class', 'changeView djfhButton btn-small')
         .attr('display', 'inline')
         .style('padding', '5px auto')
-        .html('Open Viewport')
+        .html('Open Viewport');
 
 
     this._linkSettings = d3.select('.holder').append('div')
         .attr('class', 'linkSettings')
-        .style('display', 'inline-block')
+        .style('display', 'inline-block');
 
     this._selectPrevDepth = d3.select('.linkSettings').append('button')
         .attr('class', 'prevDepthSelect djfhButton btn-small')
         .attr('display', 'inline')
         .style('padding', '5px auto')
-        .html('Edit prev link')
+        .html('Edit prev link');
     this._selectNextDepth = d3.select('.linkSettings').append('button')    
         .attr('class', 'nextDepthSelect djfhButton btn-small')
         .attr('display', 'inline')
         .style('padding', '5px auto')
-        .html('Edit next link')
+        .html('Edit next link');
 
     this._slider = d3.select('.linkSettings').append('input')
         .attr('class', 'slider').attr('id', 'linkSlider')
@@ -150,30 +150,24 @@ create: function(element, config) {
         .style('width', 'auto')
         .style('height', 'auto')
         .style('display', 'inline')
-        .style('margin-left', '1rem')
+        .style('margin-left', '1rem');
 
     this._currentLinkDepth = d3.select('.linkSettings').append('button')
         .attr('class', 'currentLinkDepth btn-small').attr('id', 'currentLinkDepth')
         .attr('display', 'inline')
         .attr('padding', '1px auto')
         .style('background-color', '#2ECC71')
-        .html('Link: 0')
-    // this._currentLinkDepth = d3.select('.linkSettings').append('div')
-    //     .attr('class', 'currentLinkDepth').attr('id', 'currentLinkDepth')
-    //     .style('display', 'inline')
-    //     .style('padding', '5px auto')
-    //     .style('margin-left', '5px')
-    //     .style('font-size', '16px')
-    //     .html('Link Depth: 0')
+        .html('Link: 0');
         
         /*************** End of holder (Navbar) ***************/
 
     this._content = d3.select(element).append('div')
         .attr('class', 'content')
+        .attr('id', 'content');
 
 
     this._svg = d3.select('.content').append('svg')
-        .attr('class', 'container djfhSvg')
+        .attr('class', 'container djfhSvg');
 
     this._nodeDataBar = d3.select('.content').append('div')
         .attr('class', 'infoBar')
@@ -181,8 +175,8 @@ create: function(element, config) {
         .style('width', '100%')
         // .style('box-sizing', 'border-box')
         .style('margin', 'auto')
-        .style('background-color', '#f5f5f5')
-        // .style('text-align', 'center')
+        .style('background-color', '#f5f5f5');
+        // .style('text-align', 'center');
 
     this._nodeDataTitle = d3.select('.infoBar').append('h2')
         .attr('class', 'infoTitle')
@@ -190,13 +184,13 @@ create: function(element, config) {
         .style('text-align', 'center')
         .style('margin', 'auto')
         .style('padding-top', '2rem')
-        .html('Node Data')
+        .html('Node Data');
 
     this._nodeDataContainer = d3.select('.infoBar').append('div')
         .attr('class', 'dataContainer')
         .style('display', 'block')
         .style('margin', 'auto')
-        .style('text-align', 'left')
+        .style('text-align', 'left');
 
     /* 
         So create is where you setup the visualization, then we render it in updateAsync
@@ -370,7 +364,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               order: 2,
               type: "boolean",
               section: 'Configure',
-              default: false
+              default: true
             }
 
         dimension_options['null_measure'] = 
@@ -379,7 +373,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               order: 4,
               type: "boolean",
               section: 'Configure',
-              default: false
+              default: true
             }
 
       }
@@ -531,11 +525,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
       maxLinkScale = root.descendants().length;
       totalNodes = -1 * (root.descendants().length * 2.5);
+      let newWidth = document.getElementById('content').offsetWidth;
+      console.log('This is new width', newWidth);
+
+
 
       console.log('this is total nodes', totalNodes);
 
           // This is for the width of the svg before we interact with the panelswitch
-      console.log('Looking for clientwidth', d3.select('div.content').clientWidth)
       console.log('This is the initWidth: ', initWidth);
       console.log('This is the svgw ', svgw);
           // We need the svg to take up the whole width again when the display for the panel is set to none, and account for it's space when it's open. Right now it isn't spacing back out to the element's full width when we close the viewport again.
@@ -695,8 +692,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.attr('width', initWidth);
-        d3.select('.container').style('width', initWidth);
+        this._svg.attr('width', newWidth); 
+        // d3.select('.container').style('width', '100%');
         this._panelSwitch.html('Open Viewport');
         panelSwitch = 'off';
       } else {
@@ -704,7 +701,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this._svg.style('width', svgw);
         this._panelSwitch.html('Close Viewport');
         panelSwitch = 'on';
-        
       }
     });
 
