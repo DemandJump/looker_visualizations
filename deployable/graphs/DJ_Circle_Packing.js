@@ -262,6 +262,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let focus = root,
     nodes = root.descendants().slice(1); 
     let artificialRoot = nodes[0]['id'];
+
     
     let vws = d3.scaleLinear()
         .domain([20, 1200])
@@ -271,6 +272,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([.5, 5]);
 
     console.log('root', root);
+    console.log('nodes', nodes);
+    console.log('artificial Root ', artificialRoot);
 
 
     /******************************************************************************************************************************************
@@ -318,10 +321,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceOne)
-                .text(d => {
-                  if (d.id == artificialRoot) return d.data.name;
-                  return d.data.text1;
-                });
+                .text(d => d.data.text1);
               
     const label2 = svg.append("g")
         .attr('class', 'text2')
@@ -335,9 +335,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceTwo)
-                .text(d => {
-                    if(d.depth != 0) return d.data.text2;
-                });
+                .text(d => d.data.text2);
+
 
     const label3 = svg.append("g")
         .attr('class', 'text3')
@@ -351,9 +350,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceThree)
-                .text(d => {
-                    if(d.depth != 0) return d.data.text3;
-                });
+                .text(d => d.data.text3);
 
     const label4 = svg.append("g")
         .attr('class', 'text3')
@@ -367,9 +364,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceFour)
-                .text(d => {
-                    if(d.depth != 0) return d.data.text4 ;
-                });
+                .text(d => d.data.text4);
+
 
     zoomTo([root.x, root.y, root.r * 2]);
     simulateClick(document.querySelector('.node'), 'click');
@@ -556,10 +552,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let diameter = d.nr * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74,
-        t1 = Math.floor(fchars * .50), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars *  1), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(fchars * .50), // : 16
-        t4 = Math.floor(fchars * .50); // This should be else really ~ // : 22
+        t1 = Math.floor(fchars * .25), // : 22 // Desired percents of space each take up
+        t2 = Math.floor(fchars *  45), // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(fchars * .25), // : 16
+        t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
 
 
         let tBox = 1;
@@ -644,28 +640,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // based on d.data.textuse
     function spaceOne(d) {
-        if (d.id == artificialRoot) { return '0px'; }
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '-6px'
         : d.data.textuse == 3 ? '-12px'
         : '-18px';
     }
     function spaceTwo(d) {
-        if (d.id == artificialRoot) { return '0px'; }
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '6px'
         : d.data.textuse == 3 ? '0px'
         : '-6px';
     }
     function spaceThree(d) {
-        if (d.id == artificialRoot) { return '0px'; }
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '0px'
         : d.data.textuse == 3 ? '12px'
         : '6px';
     }
     function spaceFour(d) {
-        if (d.id == artificialRoot) { return '0px'; }
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '0px'
         : d.data.textuse == 3 ? '0px'
