@@ -344,7 +344,9 @@ console.log('This is config', config);
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, headerRes);
       // Set the label based on user's input or it's default label
-  if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
+  if (config.labelOverride) {
+      if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
+  }
   if (config.showLabel == false ) headerRes = ' '; // Remove the label from the vis
 
   let m2value; // Second measure pass to the vis
@@ -352,8 +354,9 @@ console.log('This is config', config);
   if (calculation == 'pivot measure') m2value = previousPeriod;
 
 
-  if (config.showComparison == true) if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
-
+            // / // Onto the comparison operators // / // 
+if (config.showComparison == true) {
+  if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
@@ -390,6 +393,12 @@ console.log('This is config', config);
       if (config.valueLabels == 'calcProg') hReturnValue = headerRes;
   }
 
+
+} // End of comparison function
+if (config.showComparison == false) {
+    d3.select('div.djvsHeader').style('background-image', 'none');
+    hReturnValue = '';
+}
   console.log('This is hReturnValue after the editHeader function', hReturnValue);
 /*********************************************************************************************************
     * Instatiation and Functions
