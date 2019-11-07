@@ -275,6 +275,8 @@ Sections:
 
 */
 
+console.log('This is settings', this.options);
+console.log('This is config', config);
 
 if (config.showComparison == true) { // If it's true 
         // First we open up all the individual values, and then close others based on unique conditionals
