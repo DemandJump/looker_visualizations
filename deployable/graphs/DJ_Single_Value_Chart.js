@@ -149,8 +149,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log(` ...UpdateAsync initialized, here is it's data:`);
     console.log('\n data', data);
     console.log('queryResponse', queryResponse);
-    console.log('details', details);
-    let dimensions = queryResponse.fields.dimensions; console.log('Checking out query resposne dimension fields: ', dimensions);
+    // console.log('details', details);
+    // let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
     let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
     console.log('referencing the options', this.options);
     console.log('This is the config itself', config);
@@ -350,6 +350,8 @@ console.log('This is config', config);
   if (calculation == 'two measures') lookValue2 = measure2;
   if (calculation == 'pivot measure') lookValue2 = previousPeriod;
 
+  console.log('This is the lookValue', lookValue);
+  console.log('This is the lookValue2', lookValue2);
 
             // / // Onto the comparison operators // / // 
 if (config.showComparison == true) {
