@@ -157,6 +157,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is looker charts Utils', LookerCharts);
 
 
+
+
+          // We need to pull in the data based on multiple scenarios
+
+          // Single measure
+
+          // Two measures
+
+          // Pivots 
+          
+              // and funnel them all into one visual
+
+
+    let measure1;
+    let measure2;
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     let measureOne, 
     measureTwo = '', 
     computedBoth,

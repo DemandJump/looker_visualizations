@@ -23,7 +23,10 @@ looker.plugins.visualizations.add({
             label: 'Choose a variable factor',
             order: 1.1, 
             section: 'Configuration',
-            values: [],
+            values: [
+              {"None": "null"}
+            ],
+            default: 'null',
             type: 'string',
             display: 'select', 
             hidden: true
@@ -149,7 +152,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         this.options.influence['values'].push(val);
     })
-    this.options.influence.default = 'null';
     dimensions.forEach(dimension => {
         let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
@@ -174,7 +176,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           this.options.useInfluenceInVis.hidden = false;
           this.trigger('registerOptions', this.options);
         }
-
     }
     
           // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
@@ -332,7 +333,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
@@ -347,7 +348,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
@@ -361,7 +362,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .style('height', 'auto')
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
@@ -417,7 +418,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       // .attr('dy', spaceOne)
-                      .style('font-size', d => sizeText(d))
+                      .style('font-size', d => textSizing(d))
                       .text(d => d.data.text1);
                 });
 
@@ -692,6 +693,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function textSizing(d) {
         // return `${vws(d.nr)}vh`;
+        if (d.data.id == 'tether') { return '36px'; }
         return '12px';
     }
 
