@@ -199,10 +199,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measureOneName = queryResponse.fields.measures[0].name;
         currentPeriod = data[0][measureOneName][cpName];
         previousPeriod = data[0][measureOneName][ppName];
-        renderedChange = data[0]['previous_period']['value'];
+        renderedChange = data[0]['previous_period']['value'] * 100;
         renderedChange = Math.trunc(renderedChange);
 
     }
+    console.log('This is rendered change', renderedChange);
 
 
     let lookValue; // The data will be an object so we have access to the undrendered data for formatvalue as well
