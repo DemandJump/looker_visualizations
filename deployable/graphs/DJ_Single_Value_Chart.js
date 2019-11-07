@@ -159,12 +159,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let measureOne, 
     measureTwo = '', 
-    computedBoth;
+    computedBoth,
+    curk,
+    prevk,
+    name;
         // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
     if (queryResponse.pivots) {
-        let curk = queryResponse.pivots[0].key;
-        let prevk = queryResponse.pivots[1].key;
-        let name = measures[0]["name"];
+        curk = queryResponse.pivots[0].key;
+        prevk = queryResponse.pivots[1].key;
+        name = measures[0]["name"];
         // console.log(`This is name`, name);
         console.log(`This first pivot key: `, curk);
         console.log(`The second pivot key:`, prevk);
@@ -205,7 +208,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let headerName = measures[0].name;
     let hValue = data[0][headerName]["value"];
     let hReturnValue = hValue;
-    if (queryResponse.pivots) hReturnValue = prevk;
     console.log(`This is the hValue`, hValue);
 
 
