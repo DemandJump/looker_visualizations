@@ -687,15 +687,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     this._panelSwitch.on('click', event => {
       let newWidth = document.getElementById('content').offsetWidth;
-      let htmlWidth = d3.select(element).offsetWidth;
       console.log(`This is the newWidth from container:`, newWidth);
-      console.log(`This is the html width:`, htmlWidth);
 
-
-      console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch)
+      console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch);
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
-        this._svg.attr('width', newWidth); 
+        this._svg.style('width', newWidth)
         // d3.select('.container').style('width', '100%');
         this._panelSwitch.html('Open Viewport');
         panelSwitch = 'off';
