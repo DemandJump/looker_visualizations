@@ -166,6 +166,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log(`This first pivot key: `, curk);
         console.log(`The second pivot key:`, prevk);
 
+
+        console.log(`This is first pivot key parse`, data[0][name][curk]);
+        console.log(`Here is parse into now a (pivot) data`, data[1][name]);
+        console.log(`Here is an artificial parse into the vis`, data[1][name][1]);
+
+
             // Parse into the data,
         measureOne = data[0][name][curk];
         measureTwo = data[1][name][prevk];
