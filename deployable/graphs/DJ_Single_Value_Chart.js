@@ -157,7 +157,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is looker charts Utils', LookerCharts);
 
 
-    let measureOne, measureTwo, computedBoth;
+    let measureOne, 
+    measureTwo = '', 
+    computedBoth;
         // So if there's pivots then we pass the data in differently, otherwise we grab the last measure and go off that 
     if (queryResponse.pivots) {
         let curk = queryResponse.pivots[0].key;
@@ -186,10 +188,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } else {
         let mOneName = measures[0]["name"];
         measureOne = data[0][mOneName]["value"];
-        let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
-        measureTwo = data[0][mTwoName]["value"];
         console.log('Measure one', measureOne);
-        console.log('Measure two', measureTwo);
+
+        let mTwoName;
+        if (measures[1]) {
+          let mTwoName = measures[1]["name"]; // Taking the second measure value(name) to calculate these values
+          measureTwo = data[0][mTwoName]["value"];
+          console.log('Measure two', measureTwo);
+        }
+        
     }
   
 
