@@ -194,7 +194,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // We need to find the pivot name then data.name.pivname.rendered
         let cpName = queryResponse.pivots[0]['key'];
         let ppName = queryResponse.pivots[1]['key'];
-        measureOneName = queryResponse.fields.measures.name;
+        measureOneName = queryResponse.fields.measures[0].name;
         currentPeriod = data[0][measureOneName][cpName];
         previousPeriod = data[0][measureOneName][ppName];
         renderedChange = data[0][measureOneName]['previous_period']['value'];
