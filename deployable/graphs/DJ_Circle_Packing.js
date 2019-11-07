@@ -541,7 +541,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
-        d.data.textuse = '1';
+        d.data.textuse = 1;
         let words = d["data"]["name"].split(" ");
         let fchars = d.data.name.length;
         let diameter = d.nr * 2; // Length of circle
@@ -563,6 +563,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     } else {
                         if (words.length <= 5) {
                             d.data.text1 = d.data.text1 + words[i] + ' ';
+                            d.data.textuse = 2;
                             tBox ++;
                             continue;
                         }
@@ -577,6 +578,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     } else {
                         if (words.length <= 5) {
                             d.data.text2 = d.data.text2 + words[i] + ' ';
+                            d.data.textuse = 3;
                             tBox ++;
                             continue;
                         }
@@ -591,6 +593,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     } else {
                         if (words.length <= 5) {
                             d.data.text3 = d.data.text3 + words[i] + ' ';
+                            d.data.textuse = 4;
                             tBox ++;
                             continue;
                         }
