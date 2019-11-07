@@ -277,7 +277,6 @@ Sections:
 
 
 if (config.showComparison == true) { // If it's true 
-
         // First we open up all the individual values, and then close others based on unique conditionals
     if (this.options.valueLabels.hidden == true) {
       this.options.valueLabels.hidden = false;
@@ -300,7 +299,7 @@ if (config.showComparison == true) { // If it's true
       this.options.labelOverride = false;
       this.trigger('registerOptions', this.options);
     }
-} // End of config == true 
+} // End of config == true
 if (config.showComparion == false) { 
         // Hide all the configuration settings and refresh
     if (this.options.valueLabels.hidden == false) {
@@ -413,6 +412,7 @@ if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Tou
           if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${measureTwo}</span> ` + hValue ;
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
+      d3.select('div.djvsHeader').style('background-image', 'none');
   }
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
