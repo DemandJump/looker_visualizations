@@ -302,13 +302,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 d._children = d.children;
                 d._children.forEach(collapse);
                 d.children = null;
+                delete d;
             } else { d.children.forEach(collapse); }
         } else if(d.data.name == 'null') {
             console.log('Deleting the element', d); // This finds the last level null elements
             delete d;
         }
     }
-    let nodes = root.descendants().slice(1); 
+    let nodes = root.descendants().slice(1);
 
 
     // let nodes = root.descendants().slice(1); 
