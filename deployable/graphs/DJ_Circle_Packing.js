@@ -294,7 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes.forEach( (node, i) => {
         if (node.data.name == 'null') {
             node.id = i;
-            node.r = 0.001;
+            node.r = 0;
             node.value = 1;
             if (node.children) {
                 node._children = node.children;
