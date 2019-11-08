@@ -366,11 +366,8 @@ if (config.showComparison == true) {
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
       console.log('This is ths computing value configuration');
-      let anotherReflection = lookValue.rendered;
-      let lookMa = anotherReflection.toString();
-      console.log('This is the stringified form', lookMa + ' ' + headerRes);
 
-      hReturnValue = + lookMa + ' ' + headerRes;
+      hReturnValue = `${lookValue.rendered} ${headerRes}`;
       console.log(`String interpolating this stuff: ${lookValue.rendered} ${headerRes}`);
       console.log('This is the hReturn value format going through compute value', hReturnValue);
       d3.select('div.djvsHeader').style('background-image', 'none');
@@ -401,12 +398,12 @@ if (config.showComparison == true) {
 
       if (config.valueLabels == 'calcPercent') { // Calculate as percent
           hReturnValue = `<span style=" color: #979B9D;">${renderedChange}%</span> of <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
-          console.log('This is hreturn value being passed through calculated percent', hReturnValue);
+          console.log(`This is hreturn value being passed through calculated percent`, hReturnValue);
       }
           // Calculate progress
-      if (config.valueLabels == 'calcProg') {
+      if (config.valueLabels == `calcProg`) {
           hReturnValue = headerRes;
-          console.log('This is the hreturn value being passed through the calclated progress', hReturnValue);
+          console.log(`This is the hreturn value being passed through the calclated progress`, hReturnValue);
       }
 
   }
