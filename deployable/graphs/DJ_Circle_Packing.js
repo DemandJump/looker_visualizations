@@ -275,6 +275,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let vwsm = d3.scaleLinear()
         .domain([20, 1200])
         .range([.5, 5]);
+    let psfs = d3.scaleLinear()
+        .domain([0, 1200])
+        .range([0, 42]);
+
 
     console.log('root', root);
     console.log('nodes', nodes);
@@ -415,6 +419,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none";
                     
+                    console.log('This is this, pull from the end of a filter transition function', this);
+                    
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       // .attr('dy', spaceOne)
@@ -458,7 +464,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      // .attr('dy', spaceThree)
+                      // .attr('dy', spaceFour)
                       .text(d => d.data.text4);
                 });
 
@@ -537,6 +543,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
+        d.font = psfs(d.nr);
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = 1;
         let words = d["data"]["name"].split(" ");
@@ -688,9 +695,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // of sizeText function ~ Builds text boxes and assigns font size
 
     function textSizing(d) {
-        // return `${vws(d.nr)}vh`;
-        if (d.data.id == 'tether') { return '36px'; }
-        return '12px';
+        if (d.data.id == 'tether') { return '54px'; }
+        // return '12px'; // Original styling 
+        // return `${vws(d.nr)}vh`; // View height font scaling
+        d.font = psfs(d.nr); // Scaling font sizing
+        return `${d.font}px`; 
+    }
+
+    function tSpaceOne(d) {
+        return d.data.textuse == 1 ? `0px`
+        : d.data.textuse == 2 ? `${-.5 * d.font}px`
+        : d.data.textuse == 3 ? `${-1 * d.font}px`
+        : `${-1.5 * d.font}`;
+    }
+    function tSpaceTwo(d) {
+        return d.data.textuse == 1 ? `0px`
+        : d.data.textuse == 2 ? `${.5 * d.font}px`
+        : d.data.textuse == 3 ? `0px`
+        : `${-.5 * d.font}px`;
+    }
+    function tSpaceThree(d) {
+        return d.data.textuse == 1 ? `0px`
+        : d.data.textuse == 2 ? `0px`
+        : d.data.textuse == 3 ? `${1 * d.font}px`
+        : `${.5 * d.font}px`;
+    }
+    function tSpaceFour(d) {
+        return d.data.textuse == 1 ? `0px`
+        : d.data.textuse == 2 ? `0px`
+        : d.data.textuse == 3 ? `0px`
+        : `${1.5 * d.font}px`;
     }
 
 
@@ -700,7 +734,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       //2// t1: -8px, t2:  8px, t3:  0px, t4:  0px
       //1// t1:  0px, t2:  0px, t3:  0px, t4:  0px
     */
-
         // based on d.data.textuse
     function spaceOne(d) {
         return d.data.textuse == 1 ? '0px'
@@ -727,6 +760,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '18px';
     }
     
+
+
+
+
+
         // This is the function that simulates a click on a selected element
     function simulateClick(el, etype){
         if (el.fireEvent) {
@@ -743,11 +781,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     }
 
-
     /**************** Done! *****************/
     doneRendering() // Always call done to indicate a visualization has finished rendering
 }
 });
+
+
+
+
+
+
+
+
+
+
 
 
 
