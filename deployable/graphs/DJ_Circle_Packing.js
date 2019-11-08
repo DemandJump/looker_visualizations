@@ -217,9 +217,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     } 
 
-    if (data = []) {
-        this.addError({title: "No Results", message: "The query you entered pass back no data, try another one and start it again."});
-    }
+    // if (data = []) {
+    //     this.addError({title: "No Results", message: "The query you entered pass back no data, try another one and start it again."});
+    // }
     
     
     /*********************************************************
@@ -418,12 +418,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none";
-                    
+
                     console.log('This is this, pull from the end of a filter transition function', this);
                     
                     label
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      // .attr('dy', spaceOne)
+                      .attr('dy', tSpaceOne)
                       .text(d => d.data.text1);
                 });
 
@@ -437,7 +437,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                     label2
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      // .attr('dy', spaceTwo)
+                      .attr('dy', tSpaceTwo)
                       .text(d => d.data.text2);
                 });
 
@@ -451,7 +451,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     
                     label3
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      // .attr('dy', spaceThree)
+                      .attr('dy', tSpaceThree)
                       .text(d => d.data.text3);
                 });
         label4
@@ -464,7 +464,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     
                     label4
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      // .attr('dy', spaceFour)
+                      .attr('dy', tSpaceFour)
                       .text(d => d.data.text4);
                 });
 
