@@ -419,7 +419,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none";
                     
-                    this
+                    d3.select(this)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceOne)
@@ -434,7 +434,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none"; 
 
-                    this
+                    d3.select(this)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceTwo)
@@ -449,7 +449,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none"; 
                     
-                    this
+                    d3.select(this)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceThree)
@@ -463,7 +463,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none"; 
                     
-                    this
+                    d3.select(this)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceFour)
