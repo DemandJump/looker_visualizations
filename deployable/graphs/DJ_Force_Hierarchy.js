@@ -1049,7 +1049,9 @@ function update() { /* Initialize some parameters that we will need for */
         if (g > 255) g = 255;
         else if (g < 0) g = 0;
      
-        return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+        let crest = (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+        console.log('Crest', crest);
+        return crest;
     } // HOWTO use the function: 
         // Lighten
     // var NewColor = LightenDarkenColor("#F06D06", 20);
