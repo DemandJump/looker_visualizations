@@ -151,7 +151,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse', queryResponse);
     // console.log('details', details);
     // let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
-    // let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
+    let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
     console.log('referencing the options', this.options);
     console.log('This is the config itself', config);
     // console.log('This is looker charts Utils', LookerCharts);
