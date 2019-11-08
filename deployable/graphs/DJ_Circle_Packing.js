@@ -291,11 +291,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([12, 264])
         .range([6, 42]);
 
+    nodes.forEach( (node, i) => node.id = i);
+
     for(let i = 0; i < nodes.length; i++) {
         console.log('This is the node', nodes[i]);
         if (nodes[i].data.name == 'null') {
             delete nodes[i];
-            i--;
+            // i--;
         }
     }
 
