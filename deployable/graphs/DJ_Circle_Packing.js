@@ -298,12 +298,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function collapse(d) {
         if(d.children) {
             if (d.data.name == 'null') {
+                console.log('Found a node to null out', d);
                 d._children = d.children;
                 d._children.forEach(collapse);
                 d.children = null;
             } else { d.children.forEach(collapse); }
         } else if(d.data.name == 'null') {
-            console.log('Deleting the element', d);
+            // console.log('Deleting the element', d);
             delete d;
         }
     }
