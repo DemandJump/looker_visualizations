@@ -292,6 +292,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
     for(let i = 0; i < nodes.length; i++) {
+        console.log('This is the node', nodes[i]);
         if (nodes[i].data.name == 'null') {
             delete nodes[i];
             i--;
