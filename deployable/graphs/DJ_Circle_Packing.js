@@ -303,6 +303,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 d.children = null;
             } else { d.children.forEach(collapse); }
         } else if(d.data.name == 'null') {
+            console.log('Deleting the element', d);
             delete d;
         }
     }
