@@ -325,6 +325,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 d._children.forEach(collapse);
                 d.children = null;
             } else { d.children.forEach(collapse); }
+        } else if(d.data.name == 'null') {
+            delete d;
         }
     }
     let nodes = root.descendants().slice(1); 
