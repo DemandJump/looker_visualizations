@@ -271,8 +271,6 @@ else { d3.select('.djvsTitle').html(' '); }
 
 
       /*/ SHOW/HIDING THE CONFIGURATION /*/
-console.log('This is settings', this.options);
-console.log('This is config', config);
 
 // if (config.showComparison == true) { // If it's true 
 //         // First we open up all the individual values, and then close others based on unique conditionals
@@ -367,6 +365,7 @@ if (config.showComparison == true) {
 
   if (config.valueLabels == 'compVal') { // Show as Value
         // They just add the numbers in bold beside the Field label 
+      console.log('This is ths computing value configuration');
       let anotherReflection = lookValue.rendered;
       let lookMa = anotherReflection.toString();
       console.log('This is the stringified form', lookMa + ' ' + headerRes);
