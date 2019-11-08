@@ -293,13 +293,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     nodes.forEach( (node, i) => node.id = i);
 
-    for(let i = 0; i < nodes.length; i++) {
-        console.log(`${i}:: This is the node`, nodes[i]);
-        if (nodes[i].data.name == 'null') {
-            delete nodes[i];
-            // i--;
-        }
-    }
+    // for(let i = 0; i < nodes.length; i++) {
+    //     console.log(`${i}:: This is the node`, nodes[i]);
+    //     if (nodes[i].data.name == 'null') {
+    //         delete nodes[i];
+    //         // i--;
+    //     }
+    // }
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
