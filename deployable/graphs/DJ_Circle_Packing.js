@@ -310,8 +310,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let nodes = root.descendants().slice(1); 
     nodes.forEach(node => {
-        if (node.data.name == 'null') console.log(`Depth: ${node.depth}, This node has "null"`, node);
-        if (node.data.name == null) console.log(`Depth: ${node.depth}, Node with null value`, node);
+        if (node.data.name == 'null') {
+            console.log(`Depth: ${node.depth}, This node has "null"`, node);
+            delete node;
+        }
     });
 
 
