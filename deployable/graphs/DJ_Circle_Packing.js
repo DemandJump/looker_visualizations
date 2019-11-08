@@ -268,10 +268,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes = root.descendants().slice(1); 
     root.children[0].data.id = 'tether';
 
-        // Pull out all the null nodes from the visual
-    nodes.forEach(node => {
-          if (d.data.name == 'null')
-          delete node;
+    nodes.forEach(node => { // Pull out all the null nodes from the visual
+          if (node.data.name == 'null') delete node;
     });
     
     let vws = d3.scaleLinear()
