@@ -292,17 +292,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // Find all nodes where d.data.name = null, and uninstantiate them from the d3 selections (;
         // Collapse the nodes, or comment this out to see the whole layout
-    root.children.forEach(collapseNull);
-    function collapseNull(d) {
-        if (d.children) d.children.forEach(collapseNull);
-        if (d.data.name == null || d.data.name == 'null') { delete d; } 
-    }
-
     let hht = root.height;
-    for(let i = hht; i > 0; i--) {
-        reverseDepthCollapse(root, i);
-    }
-
+    for(let i = hht; i > 0; i--) { reverseDepthCollapse(root, i); }
     function reverseDepthCollapse(datum, dep) {
         if (datum.children && datum.depth != dep) d.children.forEach(reverseDepthCollapse); // Parse down into all the nodes of specified deoth given
         if (datum.depth == dep && datum.data.name == null) delete datum; // When you reach desired depth, delete all nodes that are null from the visual before we instantiate it
