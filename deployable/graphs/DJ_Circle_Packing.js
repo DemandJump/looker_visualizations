@@ -278,6 +278,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
     
+    for(let i = 0; i < nodes.length; i++) {
+        if (nodes[i].data.name == 'null') {
+            delete nodes[i];
+            i--;
+        }
+    }
+
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
