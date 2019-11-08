@@ -308,13 +308,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // }
 
 
-    let nodes = root.descendants().slice(1); 
-    nodes.forEach(node => {
-        if (node.data.name == 'null') {
-            console.log(`Depth: ${node.depth}, This node has "null"`, node);
-            delete node;
+    // let nodes = root.descendants().slice(1); 
+    // nodes.forEach(node => {
+    //     if (node.data.name == 'null') {
+    //         console.log(`Depth: ${node.depth}, This node has "null"`, node);
+    //         delete node;
+    //     }
+    // });
+
+    for(let i = nodes.length -1; i >= 0; i--) {
+        if (nodes[i].data.name == 'null') {
+            delete nodes[i];
         }
-    });
+    }
 
 
 
