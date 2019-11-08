@@ -418,11 +418,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none";
-
-                    console.log('This is this, pull from the end of a filter transition function', this);
                     
-                    label
+                    this
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceOne)
                       .text(d => d.data.text1);
                 });
@@ -435,8 +434,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none"; 
 
-                    label2
+                    this
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceTwo)
                       .text(d => d.data.text2);
                 });
@@ -449,8 +449,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none"; 
                     
-                    label3
+                    this
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceThree)
                       .text(d => d.data.text3);
                 });
@@ -462,8 +463,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none"; 
                     
-                    label4
+                    this
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceFour)
                       .text(d => d.data.text4);
                 });
@@ -703,28 +705,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function tSpaceOne(d) {
+        let two = d.font * -.5,
+        three = d.font * -1,
+        four = d.font * -1.5;
+        
         return d.data.textuse == 1 ? `0px`
-        : d.data.textuse == 2 ? `${-.5 * d.font}px`
-        : d.data.textuse == 3 ? `${-1 * d.font}px`
-        : `${-1.5 * d.font}`;
+        : d.data.textuse == 2 ? `${two}px`
+        : d.data.textuse == 3 ? `${three}px`
+        : `${four}`;
     }
     function tSpaceTwo(d) {
+        let two = d.font * .5,
+        four = d.font * -.5;
+
         return d.data.textuse == 1 ? `0px`
-        : d.data.textuse == 2 ? `${.5 * d.font}px`
+        : d.data.textuse == 2 ? `${two}px`
         : d.data.textuse == 3 ? `0px`
-        : `${-.5 * d.font}px`;
+        : `${four}px`;
     }
     function tSpaceThree(d) {
+        let three = d.font * 1,
+        four = d.font * .5;
+
         return d.data.textuse == 1 ? `0px`
         : d.data.textuse == 2 ? `0px`
-        : d.data.textuse == 3 ? `${1 * d.font}px`
-        : `${.5 * d.font}px`;
+        : d.data.textuse == 3 ? `${three}px`
+        : `${four}px`;
     }
     function tSpaceFour(d) {
+        let four = d.font * 1.5;
+
         return d.data.textuse == 1 ? `0px`
         : d.data.textuse == 2 ? `0px`
         : d.data.textuse == 3 ? `0px`
-        : `${1.5 * d.font}px`;
+        : `${four}px`;
     }
 
 
