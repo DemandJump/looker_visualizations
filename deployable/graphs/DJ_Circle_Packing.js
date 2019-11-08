@@ -276,7 +276,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([20, 1200])
         .range([.5, 5]);
     let psfs = d3.scaleLinear()
-        .domain([10, 264])
+        .domain([12, 264])
         .range([6, 42]);
 
 
@@ -545,9 +545,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
-        if (d.nr <= 13) { d.font = 0; } 
+        if (d.nr <= 14) { d.font = 0; } 
         else { d.font = psfs(d.nr); }
-        console.log('This is d.font', d.font);
+        // console.log('This is d.font', d.font);
 
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = 1;
@@ -704,7 +704,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.id == 'tether') { return '54px'; }
         // return '12px'; // Original styling 
         // return `${vws(d.nr)}vh`; // View height font scaling
-        if (d.nr <= 13) { d.font = 0; }
+        if (d.nr <= 14) { d.font = 0; }
         else { d.font = psfs(d.nr); }
         return `${d.font}px`; 
     }
