@@ -253,6 +253,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           node.nullVal = true;
         }
     });
+    
+    dimensionNames = []; // Go through every data piece with dimension names
+    dimensions.forEach(dimension => dimensionNames.push(dimension.name));
+    data.forEach(node => { // Now for all of the 'hierarchical' dimensions that are null, pull them out of the taxonomy, structure won't build the null values out but keep the rest of the structure together and sound
+        for(let i = 0; i < dimensionNames.length; i++) {
+            if (node.dimensionNames[i] == 'null') delete node.dimensionNames[i];
+        }
+    });
     console.log(`The finished min ${min}, and max ${max}`);
     console.log(`The finished node values`, data);
 
