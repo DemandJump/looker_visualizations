@@ -71,13 +71,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         /****** Log all these functions to see what we're working with ******/
     console.log(` ...UpdateAsync initialized, here is it's data: `);
     console.log('\n data', data);
-    console.log('element', element);
+    // console.log('element', element);
     console.log('config', config);
     console.log('queryResponse', queryResponse);
-    console.log('details', details);
+    // console.log('details', details);
         // Playing with dimensions and measures
-    let dimensions = queryResponse.fields.dimensions; console.log('Checking out query resposne dimension fields: ', dimensions);
-    let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
+    let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
+    let measures = queryResponse.fields.measures; // console.log('Checking out query resposne measure fields: ', measures);
 
                 //*// Data //*//
 
@@ -87,7 +87,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
 
-    console.log('This is the data on the specific iteration pulling this value')
     measures.forEach( (mes, i) => {
         // console.log('This is the measure', mes)
         // console.log('Grab the first piece of data', data[0])
@@ -112,9 +111,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     let dynamicConfig = {}
     measures.forEach( (mes, i) => {
-
-
-
 
         dynamicConfig[mes.label_short + 'Title'] = {
             label: mes.label_short + 'word sentence',

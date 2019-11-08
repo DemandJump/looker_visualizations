@@ -336,27 +336,57 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if(adIteration == optionConfigName.length - 1) { 
             // This adds to the end of the options list 
 
-        dimension_options['notesTitle'] = 
-            {
-                label: 'A Quick Guide',
-                order: 0,
-                section: 'Notes',
-                type: 'sentence_maker',
-                values: [
-                  {type: "separator", text: "Stack the dimensions like a hierarchy in descending order. Go from the root down"},
-                  {type: "separator", text: "You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy"},
-                  {type: "separator", texT: "There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what"},
-                  {type: "separator", text: "Here's a list of what all the buttons do:"},
-                  {type: "separator", text: "This is a hierarhcy, starting from the root, there's a depth for each level of the hierarchy"},
-                  {type: "separator", text: "Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy."},
-                  {type: "separator", text: "When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset"},
-                  {type: "separator", text: "Reset all nodes resets all nodes, so be careful"},
-                  {type: "separator", text: "Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times."},
-                  {type: "separator", text: "Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node"},
-                  {type: "separator", text: "Don'y be afraid to SPAM that pull nodes together button, it works wonders"},
-                  {type: "separator", text: "The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!"} 
-                ]
-            }
+        dimension_options['notes1'] = {
+            label: 'A Quick Guide', order: 1, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Stack the dimensions like a hierarchy in descending order. Go from the root down"}]
+        }
+        dimension_options['notes2'] = {
+            label: 'A Quick Guide', order: 2, section: 'Notes', type: 'sentence_maker',
+            values: [{ type: "separator", text: "You can change the look by color coding based on a type(up to 10 unique colors) and change the size of the nodes based on a measure to see it's influence in the hierarchy"}]
+        }
+        dimension_options['notes3'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{ type: "separator", text: "There's a lot of buttons and functionality in the visual to move it around and get a better idea of what's driving what"}]
+        }
+        dimension_options['notes4'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Here's a list of what all the buttons do:"}]
+        }
+        dimension_options['notes5'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "This is a hierarchy, starting from the root, there's a depth for each level of the hierarchy"}]
+        }
+        dimension_options['notes6'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Prev and Next will change the focus based on clicking through the hierarchy. The depth is set on a focus, and the node's size will change based on the focus. It helps fine tune what's influencing what as you go deeper down the hierarchy."}]
+        }
+        dimension_options['notesTitle'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "When you drag nodes around they'll stay in the respective position selected. If you want to reset a single node's position, click 'reset selected nodes position' and then click the desired node to reset"}]
+        }
+        dimension_options['notesTitle'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Reset all nodes resets all nodes, so be careful"}]
+        }
+        dimension_options['notesTitle'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Pull nodes together brings the nodes closer together. This is a physics engine, and as you move everything around the calculations will naturally spread everything out. Press this button to help bring it back together for happy times."}]
+        }
+        dimension_options['notesTitle'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Viewport holds all the data of the node you last click on, and it gives all the information that entails with the node"}]
+        }
+        dimension_options['notesTitle'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "Don't be afraid to SPAM that pull nodes together button, it works wonders"}]
+        }
+        dimension_options['notesTitle'] = {
+            label: 'A Quick Guide', order: 0, section: 'Notes', type: 'sentence_maker',
+            values: [{type: "separator", text: "The last three inputs are for the link distance for each depth of the hierarchy. This was built to keep things tightly packed together, but with options to spread it out and see what's influencing what. Step through the focus of each link and change the distance to spread out the data and keep the cluster's that are influencing eachother together. The slider changes the link distance, so give it a go and see what happens!"}]
+        }
+
+
+
 
         dimension_options['null_type'] = 
             {
@@ -471,7 +501,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
 
 
-    console.log(`Using type: ${useType}, and Using measure: ${useMeasure}`);
+    // console.log(`Using type: ${useType}, and Using measure: ${useMeasure}`);
 
     // if(config.add_collapse == 'true') { useCollapse = 'true'; }
     // if(config.add_collapse == 'false') { useCollapse = 'false'; }
@@ -487,7 +517,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           //*// Burrowing into the Data //*//
         // We need to pass the data into the burrow without putting the typing into it. So we'll pass in the taxonomy wihout adding typing into the hierarchy. If it's not put into the array then we'll pull out all the nodes, and match type for each of the values somehow
     let nested = this.burrow(data, taxonomyPass);
-    console.log('burrow function results on raw data: ', nested);
+    // console.log('burrow function results on raw data: ', nested);
 
         // Initial dimensions, plus instantiating some variables
     let ww = element.clientWidth, // Dimensions w & h
@@ -522,16 +552,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
                 // Mutate the data to have everything you need for the visualizations looks upon startup and stuff // 
-      root = d3.hierarchy(nested, d => d.children); console.log('this is root(hierarchy): ', root);
+      root = d3.hierarchy(nested, d => d.children); // console.log('this is root(hierarchy): ', root);
       maxLinkScale = root.descendants().length;
       totalNodes = -1 * (root.descendants().length * 2.5);
 
 
-      console.log('this is total nodes', totalNodes);
+      // console.log('this is total nodes', totalNodes);
 
           // This is for the width of the svg before we interact with the panelswitch
-      console.log('This is the initWidth: ', initWidth);
-      console.log('This is the svgw ', svgw);
+      // console.log('This is the initWidth: ', initWidth);
+      // console.log('This is the svgw ', svgw);
           // We need the svg to take up the whole width again when the display for the panel is set to none, and account for it's space when it's open. Right now it isn't spacing back out to the element's full width when we close the viewport again.
       this._svg.style('width', initWidth);
 
@@ -540,17 +570,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (maxDepth < leaf.depth) {maxDepth = leaf.depth;}
         if (useType == 'true') {
           if (counter == 0) {
-            console.log('leaves', leaf);
-            console.log('type: ', type)
+            // console.log('leaves', leaf);
+            // console.log('type: ', type)
             let pass = leaf.data.data[currentType]['value'];
-            console.log('pass', pass);
+            // console.log('pass', pass);
             uniqueTypeValues.push(pass);
             counter ++;
           }
         }
-    });  console.log('MaxDepth', maxDepth);
+    });  // console.log('MaxDepth', maxDepth);
 
-    console.log('root descendants', root.descendants());
+    // console.log('root descendants', root.descendants());
     root.descendants().forEach(node => {
       node.size = 100; 
       node.froze = false;
@@ -559,13 +589,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // Use this to find the min and max measure for the scale factors for the nodes, put them in place of the domain values
         if(node.size < minMeasure) { minMeasure = node.size; }
         if(node.size > maxMeasure) { maxMeasure = node.size; }
-    });   console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
+    });   // console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
 
 
         // Let's calculate the node size for when we add a measure! Also recalculate the min and max measures for this conditional!
       if (useMeasure == 'true') {
         minMeasure = 100000000000, maxMeasure = 0;
-        console.log('this the measure name within mutatint the data', measureName);
+        // console.log('this the measure name within mutatint the data', measureName);
     
         root.descendants().forEach(node => {
           node.size = 120;
@@ -581,7 +611,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           if(node.size < minMeasure) { minMeasure = node.size; }
           if(node.size > maxMeasure) { maxMeasure = node.size; }
         })
-        console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
+        // console.log(`The min measure is ${minMeasure} and the max measure is ${maxMeasure}`); // It works!
       }
     
                 // Now that we've instantiated the min and max measures based on (looker measures(for us our made up random values))
@@ -616,7 +646,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
       }
     })
-    console.log('This is uniqueTypeValues', uniqueTypeValues);
+    // console.log('This is uniqueTypeValues', uniqueTypeValues);
 
 
     if(useCollapse == 'true') {
@@ -675,7 +705,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
 
     this._centerNodes.on('click', event => {
-      console.log('trying to pull them nodes in the center');
+      // console.log('trying to pull them nodes in the center');
       nodes.forEach(node => {
         if(node.froze == false) { node.fx = node.fy = null; }
       });
@@ -687,9 +717,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     this._panelSwitch.on('click', event => {
       let newWidth = document.getElementById('content').offsetWidth;
-      console.log(`This is the newWidth from container:`, newWidth);
+      // console.log(`This is the newWidth from container:`, newWidth);
 
-      console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch);
+      // console.log('clicking on the panel switch! This is panelSwitch: ', panelSwitch);
       if(panelSwitch == 'on') {
         d3.select('.infoBar').style('display', 'none');
         this._svg.style('width', newWidth)
@@ -706,7 +736,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     this._slider.on("input", event => {
       linkDistance = this._slider.property('value');
-      console.log('Link slider value', linkDistance);
+      // console.log('Link slider value', linkDistance);
       nodes.forEach(node => {
           // The distance is nulled or amplified based on the number of descendants
         let descendants = node.descendants().length;
@@ -816,8 +846,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 **************************************************************************************************/
 function update() { /* Initialize some parameters that we will need for */
     nodes = root.descendants(); console.log('Nodes: ', nodes);
-    links = root.links(); console.log('links: ', links);
-    console.log('notch: ', notch);
+    links = root.links(); // console.log('links: ', links);
+    // console.log('notch: ', notch);
     // dragNodes = root.descendants().map(map => map.index); 
 
     
@@ -989,12 +1019,12 @@ function update() { /* Initialize some parameters that we will need for */
             return d.depth == 0 ? lightenOrDarken(d, '#c6dbef')
             : d.data.data[currentType]['value'] == uniqueTypeValues[0] ? lightenOrDarken(d, '#3498DB') // #F39C12 
             : d.data.data[currentType]['value'] == uniqueTypeValues[1] ? lightenOrDarken(d, '#F39C12') // #2ECC71 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71') // #8E44AD 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#8E44AD') // #E74C3C 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#E74C3C') // #00BCD4 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#00BCD4') // #CDDC39 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#CDDC39') // #F06292 
-            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#F06292') // #2424c8
+            : d.data.data[currentType]['value'] == uniqueTypeValues[2] ? lightenOrDarken(d, '#2ECC71') // #9C5CF7 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[3] ? lightenOrDarken(d, '#9C5CF7') // #E74C3C 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[4] ? lightenOrDarken(d, '#FFB0B0') // #00BCD4 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[5] ? lightenOrDarken(d, '#3abbcf') // #acea49 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[6] ? lightenOrDarken(d, '#acea49') // #F06292 
+            : d.data.data[currentType]['value'] == uniqueTypeValues[7] ? lightenOrDarken(d, '#E74C3C') // #2424c8
             : lightenOrDarken(d, '#BDBDBD')
           } else { return lightenOrDarken(d, '#0a63c2'); }
 
@@ -1188,7 +1218,7 @@ function update() { /* Initialize some parameters that we will need for */
           return;
         }
 
-        console.log('d', d);
+        // console.log('d', d);
         if (d3.event.defaultPrevented) return; // ignore drag
         if (d.children) {
             d._children = d.children;
