@@ -269,7 +269,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children[0].data.id = 'tether';
 
         // Pull out all the null nodes from the visual
-    node.forEach(node => {
+    nodes.forEach(node => {
           if (d.data.name == 'null')
           delete node;
     });
