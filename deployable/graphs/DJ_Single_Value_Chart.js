@@ -371,7 +371,7 @@ if (config.showComparison == true) {
       console.log('This is the stringified form', lookMa + ' ' + headerRes);
 
       hReturnValue = + lookMa + ' ' + headerRes;
-      console.log ('String concatenation', lookValue.rendered + ' ' + headerRes);
+      console.log(`String interpolating this stuff: ${lookValue.rendered} ${headerRes}`);
       console.log('This is the hReturn value format going through compute value', hReturnValue);
       d3.select('div.djvsHeader').style('background-image', 'none');
   }
@@ -437,6 +437,16 @@ if (config.valueFormat) {
     d3.select('div.djvsValue').html(lookValue.rendered);
     d3.select('div.djvsHeader').html(hReturnValue);
 }
+
+
+
+
+
+
+
+
+
+
 
 /*******************************************************************
    * Functions Section *
