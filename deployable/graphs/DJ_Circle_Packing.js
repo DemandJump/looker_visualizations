@@ -316,13 +316,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //     }
     // });
 
-    for(let i = nodes.length -1; i >= 0; i--) {
-        if (nodes[i].data.name == 'null') {
-            delete nodes[i];
+  // console.log('root', root);
+    // Collapse the nodes, or comment this out to see the whole layout
+    root.children.forEach(collapse);
+    function collapse(d) {
+        if(d.children) {
+            if (d.data.name == 'null') {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+            } else { d.children.forEach(collapse); }
         }
     }
-
-
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
