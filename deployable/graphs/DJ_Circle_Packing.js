@@ -545,7 +545,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
-        if (d.nr <= 30) { d.font = 0; } 
+        if (d.nr <= 20) { d.font = 0; } 
         else { d.font = psfs(d.nr); }
         console.log('This is d.font', d.font);
 
@@ -704,7 +704,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.id == 'tether') { return '54px'; }
         // return '12px'; // Original styling 
         // return `${vws(d.nr)}vh`; // View height font scaling
-        if (d.nr <= 30) { d.font = 0; }
+        if (d.nr <= 20) { d.font = 0; }
         else { d.font = psfs(d.nr); }
         return `${d.font}px`; 
     }
