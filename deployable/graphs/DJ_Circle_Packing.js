@@ -276,8 +276,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([20, 1200])
         .range([.5, 5]);
     let psfs = d3.scaleLinear()
-        .domain([0, 600])
-        .range([2, 42]);
+        .domain([0, 345])
+        .range([6, 42]);
 
 
     console.log('root', root);
