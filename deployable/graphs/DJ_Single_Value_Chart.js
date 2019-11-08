@@ -191,7 +191,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         measure1 = data[0][measureOneName];
         measure2 = data[0][measureTwoName];
 
-        renderedChange = (measure1 / measure2) * 100;
+        renderedChange = (measure1.value / measure2.value) * 100;
         renderedChange = Math.trunc(renderedChange);
 
         console.log('This is measure one', measure1);
