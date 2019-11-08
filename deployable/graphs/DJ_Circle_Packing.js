@@ -278,6 +278,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const root = pack(burrow);
     let focus = root;
     root.children[0].data.id = 'tether';
+    let nodes = root.descendants().slice(1);
+
     
     let vws = d3.scaleLinear()
         .domain([20, 1200])
@@ -289,10 +291,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([12, 264])
         .range([6, 42]);
 
-
-
-    let nodes = root.descendants().slice(1);
-
+    
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
@@ -320,6 +319,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
             .attr('class', 'node')
+            .style('display', d => {
+                if (d.data.name == 'null') return 'none';
+                return 'inline';
+            })
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => d.children ? color(d.depth) : "white")
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
@@ -339,7 +342,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
-                .style("display", d => d.parent === root ? "inline" : "none")
+                .style("display", d => {
+                    if (d.data.name == 'null') { return 'none'; }
+                    else { return d.parent === root ? "inline" : "none" }
+                })
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceOne)
                 .text(d => d.data.text1);
@@ -352,8 +358,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                .style("display", d => {
+                    if (d.data.name == 'null') { return 'none'; }
+                    else { return d.parent === root ? "inline" : "none" }
+                })                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -366,8 +374,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                .style("display", d => {
+                    if (d.data.name == 'null') { return 'none'; }
+                    else { return d.parent === root ? "inline" : "none" }
+                })                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
@@ -379,7 +389,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .style("display", d => {
+                    if (d.data.name == 'null') { return 'none'; }
+                    else { return d.parent === root ? "inline" : "none" }
+                })
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
