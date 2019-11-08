@@ -390,6 +390,7 @@ if (config.showComparison == true) {
           d3.select('div.djvsHeader').style('backgroun-image', 'none');
       }
       d3.select('div.djvsHeader').style('background-image', 'none');
+      console.log('This is hreturn value being passed through computed change', hReturnValue);
   }
 
   if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
@@ -399,9 +400,14 @@ if (config.showComparison == true) {
 
       if (config.valueLabels == 'calcPercent') { // Calculate as percent
           hReturnValue = `<span style=" color: #979B9D;">${renderedChange}%</span> of <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          console.log('This is hreturn value being passed through calculated percent', hReturnValue);
       }
           // Calculate progress
-      if (config.valueLabels == 'calcProg') hReturnValue = headerRes;
+      if (config.valueLabels == 'calcProg') {
+          hReturnValue = headerRes;
+          console.log('This is the hreturn value being passed through the calclated progress', hReturnValue);
+      }
+
   }
 
 
