@@ -265,8 +265,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     });
-    // console.log(`The finished min ${min}, and max ${max}`);
-    // console.log(`The finished node values`, data);
+    console.log(`The finished min ${min}, and max ${max}`);
+    console.log(`The finished node values`, data);
 
 
         // Main variables for building the svg
@@ -280,9 +280,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes = root.descendants().slice(1); 
     root.children[0].data.id = 'tether';
 
-    nodes.forEach(node => { // Pull out all the null nodes from the visual
-          if (node.data.name == 'null') delete node;
-    });
+
     
     let vws = d3.scaleLinear()
         .domain([20, 1200])
@@ -294,6 +292,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([12, 264])
         .range([6, 42]);
 
+
+        // Find all nodes where d.data.name = null, and uninstantiate them from the d3 selections (;
+    // node
 
     console.log('root', root);
     console.log('nodes', nodes);
