@@ -276,7 +276,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([20, 1200])
         .range([.5, 5]);
     let psfs = d3.scaleLinear()
-        .domain([20, 264])
+        .domain([10, 264])
         .range([6, 42]);
 
 
@@ -545,7 +545,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
-        d.font = psfs(d.nr); console.log('This is d.font', d.font);
+        if (d.nr <= 20) { d.font = 0; } 
+        else { d.font = psfs(d.nr); }
+        console.log('This is d.font', d.font);
+
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = 1;
         let words = d["data"]["name"].split(" ");
