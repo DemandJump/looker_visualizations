@@ -553,73 +553,73 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let diameter = d.nr * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74,
-        t1 = Math.floor(fchars * .18), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars * .34), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(fchars * .18), // : 16
-        t4 = Math.floor(fchars * .30); // This should be else really ~ // : 22
+        t1 = Math.floor(fchars * .25), // : 22 // Desired percents of space each take up
+        t2 = Math.floor(fchars * .42), // : 40 // This should be no more than the width of the diameter 
+        t3 = Math.floor(fchars * .25), // : 16
+        t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
         let tBox = 1;
 
-        if (words.length <= 4) { // 
+        // if (words.length <= 4) { // 
             
-            for(i = 0; i < words.length; i++) {
-                if (tBox == 1) {
-                    if (d.data.text1 == '') {
-                        d.data.text1 = words[i] + ' ';
-                        continue;
-                    } else {
-                        if (words.length <= 5) {
-                            d.data.text1 = d.data.text1 + words[i] + ' ';
-                            d.data.textuse = 2;
-                            tBox ++;
-                            continue;
-                        }
-                        tBox ++;
-                    }
-                }
+        //     for(i = 0; i < words.length; i++) {
+        //         if (tBox == 1) {
+        //             if (d.data.text1 == '') {
+        //                 d.data.text1 = words[i] + ' ';
+        //                 continue;
+        //             } else {
+        //                 if (words.length <= 5) {
+        //                     d.data.text1 = d.data.text1 + words[i] + ' ';
+        //                     d.data.textuse = 2;
+        //                     tBox ++;
+        //                     continue;
+        //                 }
+        //                 tBox ++;
+        //             }
+        //         }
 
-                if (tBox == 2) {
-                    if (d.data.text2 == '') {
-                        d.data.text2 = words[i] + ' ';
-                        continue;
-                    } else {
-                        if (words.length <= 5) {
-                            d.data.text2 = d.data.text2 + words[i] + ' ';
-                            d.data.textuse = 3;
-                            tBox ++;
-                            continue;
-                        }
-                        tBox ++;
-                    }
-                }
+        //         if (tBox == 2) {
+        //             if (d.data.text2 == '') {
+        //                 d.data.text2 = words[i] + ' ';
+        //                 continue;
+        //             } else {
+        //                 if (words.length <= 5) {
+        //                     d.data.text2 = d.data.text2 + words[i] + ' ';
+        //                     d.data.textuse = 3;
+        //                     tBox ++;
+        //                     continue;
+        //                 }
+        //                 tBox ++;
+        //             }
+        //         }
 
-                if (tBox == 3) {
-                    if (d.data.text3 == '') {
-                        d.data.text3 = words[i] + ' ';
-                        continue;
-                    } else {
-                        if (words.length <= 5) {
-                            d.data.text3 = d.data.text3 + words[i] + ' ';
-                            d.data.textuse = 4;
-                            tBox ++;
-                            continue;
-                        }
-                        tBox ++;
-                    }
-                }
+        //         if (tBox == 3) {
+        //             if (d.data.text3 == '') {
+        //                 d.data.text3 = words[i] + ' ';
+        //                 continue;
+        //             } else {
+        //                 if (words.length <= 5) {
+        //                     d.data.text3 = d.data.text3 + words[i] + ' ';
+        //                     d.data.textuse = 4;
+        //                     tBox ++;
+        //                     continue;
+        //                 }
+        //                 tBox ++;
+        //             }
+        //         }
 
-                if (tBox == 4) {
-                    if (d.data.text4 == '') {
-                        d.data.text4 = words[i] + ' ';
-                        continue;
-                    } else {
-                        d.data.text4 = d.data.text4 + words[i] + ' ';
-                        continue;
-                    }
-                }
+        //         if (tBox == 4) {
+        //             if (d.data.text4 == '') {
+        //                 d.data.text4 = words[i] + ' ';
+        //                 continue;
+        //             } else {
+        //                 d.data.text4 = d.data.text4 + words[i] + ' ';
+        //                 continue;
+        //             }
+        //         }
 
-            } // End of for loop
+        //     } // End of for loop
 
-        } else {
+        // } else {
             for(i = 0; i < words.length; i++) {
                 if (tBox == 1) {
                     if (d.data.text1 == '') {
@@ -675,7 +675,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
             } // End of for loop 
 
-        }
+        // }
 
 // px linearscale to have reference from dy to the font size
 
