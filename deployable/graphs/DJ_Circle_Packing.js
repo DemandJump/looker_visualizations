@@ -704,7 +704,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.id == 'tether') { return '54px'; }
         // return '12px'; // Original styling 
         // return `${vws(d.nr)}vh`; // View height font scaling
-        d.font = psfs(d.nr); // Scaling font sizing
+        if (d.nr <= 20) { d.font = 0; }
+        else { d.font = psfs(d.nr); }
         return `${d.font}px`; 
     }
 
