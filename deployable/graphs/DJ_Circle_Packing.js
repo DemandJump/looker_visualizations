@@ -290,30 +290,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
 
-            // Find all nodes where d.data.name = null, and uninstantiate them from the d3 selections (;
-        // Collapse the nodes, or comment this out to see the whole layout
-    // let collapseIterations = root.height;
-    // for(let i = collapseIterations; i > 0; i--) {
-    //     root.children.forEach(collapseNull);
-    // }
-    
-    // root.children.forEach(collapseNull);
-    // function collapseNull(d) {
-    //     if (d.children) { d.children.forEach(collapseNull); }
-    //     if (d.data.name == null || d.data.name == 'null') {
-    //         if (d.depth == collapseIterations) {
-    //             delete d;
-    //         }
-    //     }
-    // }
-
-
-    // nodes.forEach(node => {
-    //     if (node.data.name == 'null') {
-    //         console.log(`Depth: ${node.depth}, This node has "null"`, node);
-    //         delete node;
-    //     }
-    // });
+      
 
   // console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
