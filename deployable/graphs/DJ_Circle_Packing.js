@@ -290,25 +290,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
 
-      
 
-  // console.log('root', root);
-    // Collapse the nodes, or comment this out to see the whole layout
-    root.children.forEach(collapse);
-    function collapse(d) {
-        if(d.children) {
-            if (d.data.name == 'null') {
-                console.log('Found a node to null out', d);
-                d._children = d.children;
-                d._children.forEach(collapse);
-                d.children = null;
-                delete d;
-            } else { d.children.forEach(collapse); }
-        } else if(d.data.name == 'null') {
-            console.log('Deleting the element', d); // This finds the last level null elements
-            delete d;
-        }
-    }
     let nodes = root.descendants().slice(1);
 
 
