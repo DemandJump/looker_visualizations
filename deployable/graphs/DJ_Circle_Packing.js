@@ -316,7 +316,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-    let nodes = root.descendants().slice(1); 
+    // let nodes = root.descendants().slice(1); 
     console.log('root', root);
     console.log('nodes', nodes);
 
