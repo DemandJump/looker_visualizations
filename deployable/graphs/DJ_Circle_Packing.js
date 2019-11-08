@@ -340,7 +340,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => {
-                if (d.children[0].r == 0) return "white";
+                if (d.children) {
+                    if (d.children[0].r == 0) return "white";
+                }
                 return d.children ? color(d.depth) : "white";
             })
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
