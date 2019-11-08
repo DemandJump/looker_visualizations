@@ -309,20 +309,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-  //   function collapseNull(d, depser) {
-  //     if (d.children) d.children.forEach(collapseNull, depser);
-  //     if (d.data.name == null || d.data.name == 'null') { 
-  //         if (d.depth == depser) {
-  //             console.log(`Found null node on depth ${depser}, node: `, d);
-  //             delete d;
-  //         }
-  //     } 
-  // }
-  // let hht = root.height;
-  // for(let i = hht; i > 0; i--) {
-  //     root.children.forEach(collapseNull, i);
-  // }
-
+    nodes.forEach(node => {
+        if (node.data.name == 'null') console.log(`Depth: ${node.depth}, This node has "null"`, node);
+        if (node.data.name == null) console.log(`Depth: ${node.depth}, Node with null value`, node);
+    });
 
 
 
