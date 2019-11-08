@@ -358,7 +358,7 @@ else { d3.select('.djvsTitle').html(' '); }
 
   console.log('This is the lookValue', lookValue);
   console.log('This is the lookValue2', lookValue2);
-
+  
             // / // Onto the comparison operators // / // 
 if (config.showComparison == true) {
   if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
