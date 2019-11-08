@@ -296,6 +296,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             node.id = i;
             node.r = 0.001;
             node.value = 1;
+            if (node.children) {
+                node._children = node.children;
+                node.children = null;
+            }
         }
 
     });
