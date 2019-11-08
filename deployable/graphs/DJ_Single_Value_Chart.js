@@ -151,7 +151,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('queryResponse', queryResponse);
     // console.log('details', details);
     // let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
-    let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
+    // let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
     console.log('referencing the options', this.options);
     console.log('This is the config itself', config);
     // console.log('This is looker charts Utils', LookerCharts);
@@ -177,12 +177,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
     if (queryResponse.pivots) calculation = 'pivot measure';
     if (measures[1]) calculation = 'two measures';
+    console.log('calculation is ', calculation);
 
     
     if (calculation == 'one measure') {
         measureOneName = queryResponse.fields.measures.name;
         measure1 = data[0][measureOneName];
-      
+
+        console.log('This is measure one', measure1);
     } else if (calculation == 'two measures') {
         measureOneName = queryResponse.fields.measures[0].name;
         measureTwoName = queryResponse.fields.measures[1].name;
@@ -192,6 +194,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         renderedChange = (measure1 / measure2) * 100;
         renderedChange = Math.trunc(renderedChange);
 
+        console.log('This is measure one', measure1);
+        console.log('This is measure two', measure2);
+        console.log('This is renderedChange', renderedChange);
     } else if (calculation == 'pivot measure') {
           // We need to find the pivot name then data.name.pivname.rendered
         cpName = queryResponse.pivots[0]['key'];
@@ -202,8 +207,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         renderedChange = data[0]['previous_period']['value'] * 100;
         renderedChange = Math.trunc(renderedChange);
 
+        console.log('This is renderedChange', renderedChange);
+        console.log('This is current period', currentPeriod);
+        console.log('This is previous period', previousPeriod);
     }
-    console.log('This is rendered change', renderedChange);
 
 
     let lookValue; // The data will be an object so we have access to the undrendered data for formatvalue as well
