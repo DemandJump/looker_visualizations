@@ -308,7 +308,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // }
 
 
-    let nodes = root.descendants().slice(1); 
     // nodes.forEach(node => {
     //     if (node.data.name == 'null') {
     //         console.log(`Depth: ${node.depth}, This node has "null"`, node);
@@ -328,6 +327,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             } else { d.children.forEach(collapse); }
         }
     }
+    let nodes = root.descendants().slice(1); 
+
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
@@ -352,7 +353,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const node = svg.append("g")
         .attr('class', 'nodes')
         .selectAll("circle")
-        .data(nodes).enter()
+        .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
@@ -371,7 +372,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr("pointer-events", "none")
         .attr("text-anchor", "middle")
             .selectAll("text.text")
-            .data(nodes).enter()
+            .data(nodes, function(d) { return d} ).enter()
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
@@ -384,7 +385,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
             .selectAll('text.text2')
-            .data(nodes).enter()
+            .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
@@ -398,7 +399,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
             .selectAll('text.text3')
-            .data(nodes).enter()
+            .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
@@ -411,7 +412,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
             .selectAll('text.text3')
-            .data(nodes, d => d.id).enter()
+            .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
