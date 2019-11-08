@@ -298,6 +298,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.name == null || d.data.name == 'null') { delete d; } 
     }
 
+    let hht = root.height;
+    for(let i = hht; i > 0; i--) {
+        reverseDepthCollapse(root, i);
+    }
+
+    function reverseDepthCollapse(datum, dep) {
+        if (datum.children && datum.depth != dep) d.children.forEach(reverseDepthCollapse); // Parse down into all the nodes of specified deoth given
+        if (datum.depth == dep && datum.data.name == null) delete datum; // When you reach desired depth, delete all nodes that are null from the visual before we instantiate it
+    }
+
+
     let nodes = root.descendants().slice(1); 
     console.log('root', root);
     console.log('nodes', nodes);
