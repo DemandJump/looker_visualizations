@@ -130,8 +130,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`config`, config);
     console.log(`queryResponse`, queryResponse);
     console.log(`details`, details);
-    let dimensions = queryResponse.fields.dimensions; console.log(`Checking out query resposne dimension fields: `, dimensions);
-    let measures = queryResponse.fields.measures; console.log(`Checking out query resposne measure fields: `, measures);
+    let dimensions = queryResponse.fields.dimensions; // console.log(`Checking out query resposne dimension fields: `, dimensions);
+    let measures = queryResponse.fields.measures; // console.log(`Checking out query resposne measure fields: `, measures);
     let taxonomyPass = dimensions;
 
     /***************************************
@@ -238,7 +238,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       });
     }
 
-    console.log("This is the data after adding the value thing to it");
         // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let min = 100000000000;
     let max = -111111111111;
