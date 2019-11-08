@@ -293,7 +293,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // Find all nodes where d.data.name = null, and uninstantiate them from the d3 selections (;
         // Collapse the nodes, or comment this out to see the whole layout
     function collapseNull(d, depser) {
-        if (d.children) d.children.forEach(collapseNull, i);
+        if (d.children) d.children.forEach(collapseNull, depser);
         if (d.data.name == null || d.data.name == 'null') { 
             if (d.depth == depser) {
                 console.log(`Found null node on depth ${depser}, node: `, d);
