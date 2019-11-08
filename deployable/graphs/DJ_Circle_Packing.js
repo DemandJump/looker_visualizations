@@ -304,8 +304,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 d.children = null;
             } else { d.children.forEach(collapse); }
         } else if(d.data.name == 'null') {
-            // console.log('Deleting the element', d);
-            delete d;
+            console.log('Deleting the element', d); // This finds the last level null elements
+            d.r = 0;  // This nulls out the rest of the variables
+            d.x = 0;
+            d.y = 0;
+            d.value = 0;
         }
     }
     let nodes = root.descendants().slice(1); 
