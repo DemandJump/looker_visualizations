@@ -294,13 +294,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Collapse the nodes, or comment this out to see the whole layout
     root.children.forEach(collapseNull);
     function collapseNull(d) {
-        if (d.data.name == null || d.data.name == 'null') { // Collapse the nodes with null values to hide from visual instantiation
-            d._children = d.children;
-            d.children = null;
-            delete d;
-        }
-        if (d._children) d._children.forEach(collapseNull);
         if (d.children) d.children.forEach(collapseNull);
+        if (d.data.name == null || d.data.name == 'null') { delete d; } 
     }
 
     let nodes = root.descendants().slice(1); 
