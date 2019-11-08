@@ -298,7 +298,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d._children = d.children;
             d.children = null;
         }
-        if (d.children || d._children) d._children.forEach(collapseNull);
+        if (d._children) d._children.forEach(collapseNull);
+        if (d.children) d.children.forEach(collapseNull);
     }
 
     let nodes = root.descendants().slice(1); 
