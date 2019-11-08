@@ -277,7 +277,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([.5, 5]);
     let psfs = d3.scaleLinear()
         .domain([0, 1200])
-        .range([0, 42]);
+        .range([6, 42]);
 
 
     console.log('root', root);
@@ -545,7 +545,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
-        d.font = psfs(d.nr);
+        d.font = psfs(d.nr); console.log('This is d.font', d.font);
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = 1;
         let words = d["data"]["name"].split(" ");
@@ -693,7 +693,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.text3 == '') delete d.data.text3;
         if (d.data.text4 == '') delete d.data.text4;
           // Return the font size
-        return '12px';  // return `${vws(d.nr)}vh`;
+        // return '12px';  // return `${vws(d.nr)}vh`;
+        return `${d.font}px`; 
     } // of sizeText function ~ Builds text boxes and assigns font size
 
     function textSizing(d) {
