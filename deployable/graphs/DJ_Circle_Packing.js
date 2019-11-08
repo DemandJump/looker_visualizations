@@ -252,6 +252,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           node.nullVal = true;
         }
     });
+    console.log(`The finished min ${min}, and max ${max}`);
+
     
     dimensionNames = []; // Go through every data piece with dimension names
     dimensions.forEach(dimension => dimensionNames.push(dimension.name));
@@ -265,8 +267,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     });
-    console.log(`The finished min ${min}, and max ${max}`);
-    console.log(`The finished node values`, data);
 
 
         // Main variables for building the svg
@@ -276,11 +276,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     vHeight = window.innerHeight,
     width = height = window.innerHeight;
     const root = pack(burrow);
-    let focus = root,
-    nodes = root.descendants().slice(1); 
+    let focus = root;
     root.children[0].data.id = 'tether';
-
-
     
     let vws = d3.scaleLinear()
         .domain([20, 1200])
@@ -293,9 +290,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
 
-        // Find all nodes where d.data.name = null, and uninstantiate them from the d3 selections (;
-    // node
+            // Find all nodes where d.data.name = null, and uninstantiate them from the d3 selections (;
+        // Collapse the nodes, or comment this out to see the whole layout
+    root.children.forEach(collapseNull);
+    function collapseNull(d) {
+        if (d.data.name == null || d.data.name == 'null') { // Collapse the nodes with null values to hide from visual instantiation
+            d._children = d.children;
+            d.children = null;
+        }
+        if (d.children || d._children) d._children.forEach(collapseNull);
+    }
 
+    let nodes = root.descendants().slice(1); 
     console.log('root', root);
     console.log('nodes', nodes);
 
