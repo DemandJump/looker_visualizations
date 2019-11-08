@@ -254,6 +254,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
     console.log(`The finished min ${min}, and max ${max}`);
 
+    
+    // dimensionNames = []; // Go through every data piece with dimension names
+    // dimensions.forEach(dimension => dimensionNames.push(dimension.name));
+    // // console.log('This is the dimensionNames: ', dimensionNames)
+    // data.forEach(node => { // Now for all of the 'hierarchical' dimensions that are null, pull them out of the taxonomy, structure won't build the null values out but keep the rest of the structure together and sound
+    //     for(let i = 0; i < dimensionNames.length; i++) {
+    //         console.log(`Node dimension ${dimensionNames[i]}, with a value of: ${node[dimensionNames[i]]['value']}`);
+    //         if (node[dimensionNames[i]]['value'] == 'null' || node[dimensionNames[i]['value']] == null) {
+    //             console.log('Found null value in', node[dimensionNames[i]]);
+    //             delete node[dimensionNames[i]];
+    //         }
+    //     }
+    // });
+
 
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
@@ -277,14 +291,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([12, 264])
         .range([6, 42]);
 
-    
     for(let i = 0; i < nodes.length; i++) {
         if (nodes[i].data.name == 'null') {
             delete nodes[i];
             i--;
         }
     }
-
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
@@ -312,10 +324,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
             .attr('class', 'node')
-            .style('display', d => {
-                if (d.data.name == 'null') return 'none';
-                return 'inline';
-            })
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => d.children ? color(d.depth) : "white")
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
@@ -335,10 +343,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append("text")
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
-                .style("display", d => {
-                    if (d.data.name == 'null') { return 'none'; }
-                    else { return d.parent === root ? "inline" : "none" }
-                })
+                .style("display", d => d.parent === root ? "inline" : "none")
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceOne)
                 .text(d => d.data.text1);
@@ -351,10 +356,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style("display", d => {
-                    if (d.data.name == 'null') { return 'none'; }
-                    else { return d.parent === root ? "inline" : "none" }
-                })                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
 
@@ -367,10 +370,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style("display", d => {
-                    if (d.data.name == 'null') { return 'none'; }
-                    else { return d.parent === root ? "inline" : "none" }
-                })                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
 
@@ -382,10 +383,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style("display", d => {
-                    if (d.data.name == 'null') { return 'none'; }
-                    else { return d.parent === root ? "inline" : "none" }
-                })
+                .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
