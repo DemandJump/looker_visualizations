@@ -296,7 +296,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     root.children.forEach(collapseNull);
     function collapseNull(d) {
-        if (d.children) d.children.forEach(collapseNull);
+        if (d.children) { d.children.forEach(collapseNull); }
         if (d.data.name == null || d.data.name == 'null') {
             // if (d.depth == collapseIterations)
             delete d;
