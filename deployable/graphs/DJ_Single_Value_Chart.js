@@ -317,34 +317,34 @@ if (config.showComparison == false && this.options.valueLabels.hidden == false) 
 }
 
     // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
-// if (config.showLabel == true) { // Label override's switch
-//     if (this.options.labelOverride.hidden == true) {
-//         this.options.labelOverride.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
+if (config.showLabel == true) { // Label override's switch
+    if (this.options.labelOverride.hidden == true) {
+        this.options.labelOverride.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
-// if (config.showLabel == false) {
-//     if (this.options.labelOverride.hidden == false) {
-//         this.options.labelOverride.hidden = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
+if (config.showLabel == false) {
+    if (this.options.labelOverride.hidden == false) {
+        this.options.labelOverride.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
 
-// if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
-//     if (this.options.valueLabels.hidden == true) {
-//         this.options.valueLabels.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
+if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
+    if (this.options.positiveSwitch.hidden == true) {
+        this.options.positiveSwitch.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
-// if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
-//     if (this.options.valueLabels.hidden == false) {
-//         this.options.valueLabels.hidden = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
+if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
+    if (this.options.positiveSwitch.hidden == false) {
+        this.options.positiveSwitch.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
