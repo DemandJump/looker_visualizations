@@ -110,7 +110,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************
      * Update the settings
     ******************************************************************/
-    
+   let dynamicConfig = {}
+
+
     dynamicConfig["text_spacing"] = {
           label: "Dynamic font types. Change the styling to fit your needs",
           type: "string",
@@ -128,7 +130,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         // Then onto adding the Words section of the config
-    let dynamicConfig = {}
     measures.forEach( (mes, i) => {
 
         dynamicConfig[mes.label_short + 'Title'] = {
