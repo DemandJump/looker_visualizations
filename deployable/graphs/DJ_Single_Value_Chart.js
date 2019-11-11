@@ -443,7 +443,7 @@ if (config.text_spacing == "dynamic_height") {
           value_fs = '25vh';
           title_fs = '11vh';
           header_fs = '9vh';
-          arrowFontPass = '8.4vh';
+          arrowFontPass = '8vh';
       } else if (config.dh_fs == 'large') {
           value_fs = '34vh';
           title_fs = '11.5vh';
