@@ -1,1386 +1,1779 @@
 looker.plugins.visualizations.add({
-    id: 'DJ_Scaling_Metrics',
-    label: 'Looker Scaling Metrics',
     options: {
-        
-    },
-    // Onto the create section 
-create: function(element, config) {
-    let d3 = d3v5;
+            color: {
+                label: "Value Color",
+                type: "string",
+                order: 1,
+                section: "Style",
+                display: "color",
+                default: "#000000"
+            },
+            showTitle: {
+                label: "Show Title",
+                type: "boolean",
+                order: 2,
+                section: "Style",
+                default: false
+            },
+            valueTitle: {
+                label: "Title Override",
+                type: "string",
+                order: 3,
+                section: "Style",
+                placeholder: "Leave blank for contextual title",
+                hidden: false
+            },
+            valueFormat: {
+                label: "Value Format",
+                type: "string",
+                order: 4, 
+                section: "Style",
+                placeholder: "Spreadsheet style format code"
+            },
 
-        // We can also use d3 to target the element and style it respectively
+
+            text_spacing: {
+                label: "Dynamic font types. Change the styling to fit your needs",
+                type: "string",
+                order: 10,
+                section: "Word Spacing",
+                display: "radio",
+                values: [
+                    {"Word Break on text overflow": "word_break"},
+                    {"Dynamic font based on viewport width": "dynamic_size"},
+                    {"Dynamic font based on viewport height": "dynamic_height"}
+                ],
+                default: "word_break"
+            },
+            wb_fs_conditional: {
+                label: "Use default font size", 
+                type: "boolean",
+                order: 11,
+                section: "Word Spacing", 
+                default: true,
+                hidden: true
+            },
+            wb_fs: {
+                label: "Word Break font size",
+                type: "string", 
+                order: 12,
+                section: "Word Spacing",
+                display: "select",
+                values: [
+                    {"Small": "small"},
+                    {"Medium": "medium"},
+                    {"Large": "large"}
+                ],
+                default: "medium",
+                hidden: true
+            },
+            ds_fs_conditional: {
+                label: "Use default font size", 
+                type: "boolean",
+                order: 13,
+                section: "Word Spacing",
+                default: true,
+                hidden: true
+            },
+            ds_fs: {
+                label: "Dynamic vw font size",
+                type: "string", 
+                order: 14,
+                section: "Word Spacing",
+                display: "select",
+                values: [
+                    {"Small": "small"},
+                    {"Medium": "medium"},
+                    {"Large": "large"}
+                ],
+                default: "small",
+                hidden: true
+            },
+            dh_fs_conditional: {
+                label: "Use default font size", 
+                type: "boolean", 
+                order: 15,
+                section: "Word Spacing",
+                default: true,
+                hidden: true
+            },
+            dh_fs: {
+                label: "Dynamic vh font size",
+                type: "string",
+                order: 16,
+                section: "Word Spacing",
+                display: "select",
+                values: [
+                    {"Small": "small"},
+                    {"Medium": "medium"},
+                    {"Large": "large"}
+                ],
+                default: "small",
+                hidden: true
+            },
+
+
+            showComparison: {
+              label: "Show Comparison", 
+              type: "boolean",
+              order: 5,
+              section: "Comparison",
+              default: false
+            },
+            valueLabels: {
+              label: "Value Labels",
+              type: "string",
+              order: 6,
+              section: "Comparison",
+              display: "select",
+              values: [
+                {"Show as Value": "compVal"},
+                {"Show as Change": "compChan"},
+                {"Calculate Progress": "calcProg"},
+                {"Calculate Progress (As Percentage)": "calcPercent"}
+              ],
+              default: 'compVal',
+              hidden: false // Show comparison == true
+            },
+            positiveSwitch: {                   // This is just for change
+              label: "Positive Values are Bad",
+              type: "boolean",
+              order: 7,
+              section: "Comparison",
+              default: false,
+              hidden: false // Show comparison == true
+            },
+            showLabel: {
+              label: "Show Label",
+              type: "boolean",
+              order: 8,
+              section: "Comparison",
+              default: false,
+              hidden: false // Show comparison == true
+            },
+            labelOverride: {
+              label: "Label",
+              type: "string",
+              order: 9,
+              section: "Comparison",
+              placeholder: "Leave blank to use field label",
+              hidden: false // Show comparison == true && showLabel == true
+            }
+    },
+
+
+        // Onto the create section 
+create: function(element, config) {
+    let d3 = d3v5; // Pull in d3 selector as it's normal reference
+
+
     d3.select(element)
-        .style('display', 'inline-block')
-        .style('box-sizing', 'border-box')
-        .style('margin', 'auto')
-        .style('position', 'relative')
-        .style('text-align', 'center')
+      .style('display', 'inline-block')
+      .style('text-align', 'center')
+      .style('margin', 'auto')
+      .style('padding', '0')
+      .style('position', 'relative')
+      .style('box-sizing', 'border-box');
 
 
         // Insert a <style> tag with some styles we'll use later.
-    var css = element.innerHTML = `
-        <style> 
-        /* Import the Roboto font for us to use. */
-        @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-                  
-        html { 
-            font-family: Roboto; 
-            margin: 0px;
-            padding: 0px;
-        }
+    element.innerHTML = `
+          <style>  
+            .djvsValue:hover { text-decoration: underline; }  
+          </style>
 
-        .djsmContainer {
-            text-align: center;
-            text-overflow: scroll;
-            position: relative;
-            margin: auto;
-            font-weight: lighter; 
-            
-        } 
-        .djsmValue {
-            margin: auto;
-        }
-
-        .config-option-Returning User CountTitle {
-          margin-bottom: 100px!important;
-        }
-
-        </style>
+          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div class="djvsValue" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
+              <div class="djvsTitle" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
+          </div>
+          
+          <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
     `;
-
-    d3.select(element).append('div')
-        .attr('class', 'djsmContainer')
-
-
-
-    /* 
-        So create is where you setup the visualization, then we render it in updateAsync
-            Note: Create is a convenient place t o do setup that only needs to happen once 
-    */
-
-},
-    // Onto the update async section
-updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-    let d3 = d3v5;
-    this._mCounter = 0
-    d3.select('div.djsmContainer').selectAll('*').remove() // Remove all the data in the beginning
-
+  // .value -> max-width: 344px; color: rgba(58, 66, 69, 0.5);
     
-            /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
-    console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
-        /****** Log all these functions to see what we're working with ******/
-    console.log(` ...UpdateAsync initialized, here is it's data: `);
-    console.log('\n data', data);
-    // console.log('element', element);
-    console.log('config', config);
-    console.log('queryResponse', queryResponse);
-    // console.log('details', details);
-        // Playing with dimensions and measures
-    let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
-    let measures = queryResponse.fields.measures; // console.log('Checking out query resposne measure fields: ', measures);
-
-                //*// Data //*//
-
-        // We want the visual to take up the space of the visual
-            // unnanounced like a thief in the night, bridge ~ where can we go from here, time ain't nothing but time
-    let dimHeight = measures.length; // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
-    let measureData = []; // Iterate through the dimensions, grab the names and values to store them into an array
-
-
-        // This is the data structure for each of the single value looks instnatiated into the visual. The way this was built is much fancier than the original single value look
-    measures.forEach( (mes, i) => {
-        // console.log('This is the measure', mes)
-        // console.log('Grab the first piece of data', data[0])
-        let valFormat = mes.name + 'ValueFormat'
-        let newObject = { // measureData[i] =
-            value: data[0][mes.name].value,
-            rendered: data[0][mes.name].rendered,
-            name: mes.name,
-            label: mes.label,
-            label_short: mes.label_short,
-            format: valFormat,
-            index: i
-        }
-        if (newObject.rendered == null) newObject.rendered = newObject.value;
-
-        measureData.push(newObject);
-    })    
-    console.log('This is the measureData', measureData);
-
-    /******************************************************************
-     * Update the settings
-    ******************************************************************/
-   let dynamicConfig = {};
-
-
-    dynamicConfig["text_spacing"] = {
-          label: "Dynamic font types. Change the styling to fit your needs",
-          type: "string",
-          order: 10,
-          section: "Word Spacing",
-          display: "radio",
-          values: [
-              {"Word Break on text overflow": "word_break"},
-              {"Dynamic font based on viewport width": "dynamic_size"},
-              // {"Dynamic font based on viewport height": "dynamic_height"}
-          ],
-          default: "word_break"
-      };
-
-
-
-        // Then onto adding the Words section of the config
-    measures.forEach( (mes, i) => {
-
-        dynamicConfig[mes.label_short + 'Title'] = {
-            label: mes.label_short + 'word sentence',
-            order: i,
-            type: 'sentence_maker',
-            section: 'Words',
-            words: [
-                {
-                    type: "separator",
-                    text: `${mes.label_short}` 
-                }
-            ]
-        };
-
-        dynamicConfig[mes.name] = {
-            label: 'Font Size',
-            order: i + .1,
-            type: 'string',
-            section: 'Words',
-            display: 'select',
-            display_size: 'half',
-            values: [
-                {"Small": "small"},
-                {"Medium": "medium"},
-                {"Large": "large"},
-            ],
-            default: "small"
-        };
-
-        dynamicConfig[mes.name + 'ValueFormat'] = {
-            label: 'Value Format',
-            order: i + .1,
-            type: 'string', 
-            section: 'Words',
-            display_size: 'half',
-            placeholder: 'Spreadsheet style format'
-        };
-
-    });
-
-
-    this.options = dynamicConfig;
-    if (this._mCounter == 0) {
-        this._mCounter ++ ;
-        this.trigger('registerOptions', this.options)
-    }
-
-
-    /******************************************************************************************
-     * Configure the settings
-    ******************************************************************************************/
-
-
-
-
-
-
-    /***********************************
-     * Update the Visualization *
-    ***********************************/
-    update();
-    function update() {
-        measureData.forEach(node => {
-            // console.log('This is config', config) 
-            // console.log('This is the config for this node', config[node.format])
-            node.valueFormat = node.value; // this is the value without the format
-            console.log('config node format for current node', node);
-            console.log('config', config[node.format]);
-            if (config[node.format] != '') { // If there is a format applied, run the function for the format
-                node.valueFormat = formatValue(config[node.format], node.value);
-            }
-            if (config[node.format] == '' || config[node.format] == ' ') {
-                if (node.rendered || node.rendered != null) node.valueFormat = node.rendered;
-            }
-            // console.log('This is the finished node data node', node);
-
-                // This is the djsmContainer for each of the nodes
-            d3.select('div.djsmContainer').append('div')
-                .attr('class', `djsmValue`)
-                .style('display', 'inline-block')
-                .style('max-height', findHeight)
-                .style('width', '100%')
-                .style('padding-top', '1rem')
-
-                // This is the Value
-            .append('div')
-                .attr('class', `djsm_${node.name}`)
-                .style('display', 'block')
-                .style('font-size', value_fs(node))
-                .style('margin', 'auto')
-                .html(node.valueFormat)
-
-                // This is the title
-            .select(function() { return this.parentNode; }).append('div')
-                .attr('class', 'djsmTitle')
-                .style('display', 'block')
-                .style('font-size', label_fs(node))
-                .style('margin', 'auto')
-                .style('color', '#9CA0A1')
-                .html(node.label_short);
-
-        })
-    }
-
-
-
-    /**********************
-     * Error Clauses 
-    **********************/
-        // You can clean up the error console as you iterate or even create custom errors
-    // Clear any errors from previous updates.
+},
+    /// Onto the update async section /// 
+updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5; // Important!
+/**************************************************************************************************************************************
+    * Error Clauses 
+**************************************************************************************************************************************/
+        // Clear any errors from previous updates.
     this.clearErrors();
 
-    // if (queryResponse.fields.dimensions.length == 0) {
-    //     this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-    //     return;
-    // }
+/**************************************************************************************************************************************
+                                                                                                    * End of Error Clause
+**************************************************************************************************************************************/
 
-    /*******************************************************************
-     * Functions Section *
-    *******************************************************************/
 
-    function findHeight() {
-        let divHeight = 90 / dimHeight
-        console.log('this is divHeight', divHeight)
-        return divHeight + 'vh';
+/**************************************************************************************************************************************
+    * Initialization / Setup
+**************************************************************************************************************************************/
+        // Clear out all the data upon startup! 
+    // this._container.selectAll("*").remove();
+
+                /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
+    console.log('\n\n\n\n\n Working on the styling of the elements and all that jazz');
+    /****** Log all these functions to see what we're working with ******/
+    // console.log(` ...UpdateAsync initialized, here is it's data:`);
+    console.log('\n data', data);
+    console.log('queryResponse', queryResponse);
+    // console.log('details', details);
+    // let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
+    let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
+    console.log('referencing the options', this.options);
+    console.log('This is the config itself', config);
+    // console.log('This is looker charts Utils', LookerCharts);
+
+    
+        // One/Two measure data
+    let measure1;
+    let measure2;
+        // Pivot data 
+    let currentPeriod;
+    let previousPeriod;
+    let cpName;
+    let ppName;
+
+          // Variables to find each of these
+
+    let measureOneName; // The identifier to parse into the data
+    let measureTwoName; // The identifier to parse into the data
+
+    let renderedChange; // Computed between both measures // Comparison operator
+
+        // This is for conditionals to see what calculation it is 
+    let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
+    if (queryResponse.pivots) calculation = 'pivot measure';
+    if (measures[1]) calculation = 'two measures';
+    console.log('calculation is ', calculation);
+
+    
+    if (calculation == 'one measure') {
+        measureOneName = queryResponse.fields.measures[0].name;
+        measure1 = data[0][measureOneName];
+
+        console.log('This is measure one', measure1);
+    } else if (calculation == 'two measures') {
+        measureOneName = queryResponse.fields.measures[0].name;
+        measureTwoName = queryResponse.fields.measures[1].name;
+        measure1 = data[0][measureOneName];
+        measure2 = data[0][measureTwoName];
+
+        renderedChange = (measure1.value / measure2.value) * 100;
+        renderedChange = Math.trunc(renderedChange);
+
+        console.log('This is measure one', measure1);
+        console.log('This is measure two', measure2);
+        console.log('This is renderedChange', renderedChange);
+    } else if (calculation == 'pivot measure') {
+          // We need to find the pivot name then data.name.pivname.rendered
+        cpName = queryResponse.pivots[0]['key'];
+        ppName = queryResponse.pivots[1]['key'];
+        measureOneName = queryResponse.fields.measures[0].name;
+        currentPeriod = data[0][measureOneName][cpName];
+        previousPeriod = data[0][measureOneName][ppName];
+        renderedChange = data[0]['previous_period']['value'] * 100;
+        renderedChange = Math.trunc(renderedChange);
+
+        console.log('This is renderedChange', renderedChange);
+        console.log('This is current period', currentPeriod);
+        console.log('This is previous period', previousPeriod);
     }
 
-    function findMSize(d) {
-        return config[d.name] == 'small' ? '3vw'
-        : config[d.name] == 'medium' ? '4vw'
-        : '5.5vw';
+
+    let lookValue; // The data will be an object so we have access to the undrendered data for formatvalue as well
+      // Measure one is always the look value, everything is is pretty much for comparison
+    if (calculation == 'one measure' || calculation == 'two measures') lookValue = measure1;
+    if (calculation == 'pivot measure') lookValue = currentPeriod;
+    if (lookValue.rendered) {
+        lookValue.artificialRender = false;
+    } else {
+        lookValue.rendered = lookValue.value;
+        lookValue.artificialRender = true;
     }
-    function findTSize(d) {
-        return config[d.name] == 'small' ? '1.4vw'
-        : config[d.name] == 'medium' ? '2.2vw'
-        : '3.2vw';
+
+
+        // Then we need a header value
+    let headerRes;    
+    if (calculation == 'one measure') headerRes = queryResponse.fields.measures[0].label;
+    if (calculation == 'two measures') headerRes = queryResponse.fields.measures[1].label;
+    if (calculation == 'pivot measure') headerRes = ppName;
+    let hReturnValue = headerRes;
+
+/*********************************************************************************************************************
+                                                                                * End of Dimension Initialization
+*********************************************************************************************************************/    
+/**************************************************************************************************************************
+    * Setting up the Configuration Settings
+**************************************************************************************************************************/
+            /*/ Onto building the settings of the visualization /*/
+
+
+// There's default font sizing, and conditional (small, medium, or large) based on come new configuration the user has for the 'Word Spacing' section
+      // based on which radio button they press, a different option will show which is a conditional that will open up the ability to choose between three font size
+
+      // Clean up all the hidden params up selected radio button, then dive into the rest of the 'Word Spacing' configuration from here
+
+if (config.text_spacing == "dynamic_size") { // If we select dynamic size
+    if (this.options.ds_fs_conditional.hidden == true) { // check if it's font sizing conditional is hidden, then show it
+        this.options.ds_fs_conditional.hidden = false;
+
+        this.options.wb_fs_conditional.hidden = true;
+        this.options.wb_fs.hidden = true;
+        this.options.dh_fs_conditional.hidden = true; 
+        this.options.dh_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
     }
 
-        // The config[d.name] passes in the name of the config operator that the user chooses to find the size. It will return small, medium or large. 
-            // Let's build our function around this to choose the size for whether it's using word break, dynamic_size, or dynamic_height
+    if (config.ds_fs_conditional == false && this.options.ds_fs.hidden == true) { // If it's not using default font size
+        this.options.ds_fs.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+    if (config.ds_fs_conditional == true && this.options.ds_fs.hidden == false) { // If it's using the default font size
+        this.options.ds_fs.hidden = true; 
+        this.trigger('registerOptions', this.options);
+    }
 
-    function value_fs(d) {
-            // first find the config text_spacing value
-        if (config.text_spacing == "word_break") {
-            if (config[d.name] == "small") return '1.4rem';
-            if (config[d.name] == "medium") return '2.5rem';
-            if (config[d.name] == "large") return '4.5rem';
-        } // End of text_spacing "word_break"
-        if (config.text_spacing == "dynamic_size") {
-          if (config[d.name] == "small") return '14.5vw';
-          if (config[d.name] == "medium") return '22.4vw';
-          if (config[d.name] == "large") return '29.4vw';
-        } // End of text_spacing "dynamic_size"
-        // if (config.text_spacing == "dynamic_height") {
-        //     if (config[d.name] == "small") return '20vh';
-        //     if (config[d.name] == "medium") return '25vh';
-        //     if (config[d.name] == "large") return '34vh';
-        // }
-    } // End of value_fs function 
+}
 
-    function label_fs(d) {
-        if (config.text_spacing == "word_break") {
-            if (config[d.name] == "small") return '0.9rem';
-            if (config[d.name] == "medium") return '1.1rem';
-            if (config[d.name] == "large") return '1.4rem';
+if (config.text_spacing == "word_break") {
+    if (this.options.wb_fs_conditional.hidden == true) {
+        this.options.wb_fs_conditional.hidden = false;
+
+        this.options.ds_fs_conditional.hidden = true;
+        this.options.ds_fs.hidden = true;
+        this.options.dh_fs_conditional.hidden = true;
+        this.options.dh_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (config.wb_fs_conditional == false && this.options.wb_fs.hidden == true) {
+        this.options.wb_fs.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+    if (config.wb_fs_conditional == true && this.options.wb_fs.hidden == false) {
+        this.options.wb_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.text_spacing == "dynamic_height") {
+    if (this.options.dh_fs_conditional.hidden == true) {
+        this.options.dh_fs_conditional.hidden = false;
+
+        this.options.ds_fs_conditional.hidden = true;
+        this.options.ds_fs.hidden = true;
+        this.options.wb_fs_conditional.hidden = true; 
+        this.options.wb_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
+
+    }
+
+    if (config.dh_fs_conditional == false && this.options.dh_fs.hidden == true) {
+        this.options.dh_fs.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+    if (config.dh_fs_conditional == true && this.options.dh_fs.hidden == false) {
+        this.options.dh_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+
+
+
+    // So we have a Value, Title, and Header below with an arrow font pass. These values change based on the text_spacing value, and whether it's default or the 
+  // Insantiate variables based on the user input default or not, if not then change it based on the different sizes for each
+let value_fs = '4.5rem';
+let title_fs = '1.6rem';
+let header_fs = '1.2rem';
+let arrowFontPass = '1rem';  // Pass in the arrow font size based on the text config
+
+// d3.select(element).selectAll("*").remove();   // Before we start the visualization, remove all the stuff currently in the vis
+d3.select('div.djvsValue').style('color', config.color);  // This colors the text based on the option given
+
+    // This is for the font-styling radio buttons
+if (config.text_spacing == "dynamic_size") { // based on whether the select statement for varying font size
+    if (this.options.ds_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+        if (config.ds_fs == 'medium') {
+            value_fs = '20.4vw';
+            title_fs = '7.4vw';
+            header_fs = '7vw';
+            arrowFontPass = '6vw';
+        } else if (config.ds_fs == 'large') {
+            value_fs = '30.4vw';
+            title_fs = '11vw';
+            header_fs = '9vw';
+            arrowFontPass = '7.4vw';
+        } 
+    } else {
+        value_fs = '16.4vw';
+        title_fs = '6.4vw';
+        header_fs = '6vw';
+        arrowFontPass = '5.2vw';
+    }
+
+}
+
+if (config.text_spacing == "word_break") {
+    if (this.options.wb_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+        if (config.wb_fs == 'small') {
+            value_fs = '3rem';
+            title_fs = '1.2rem';
+            header_fs = '1rem';
+            arrowFontPass = '.96rem';
+        } else if (config.wb_fs == 'large') {
+            value_fs = '6rem';
+            title_fs = '2rem';
+            header_fs = '1.6rem';
+            arrowFontPass = '1.45rem';
         }
-        if (config.text_spacing == "dynamic_size") {
-            if (config[d.name] == "small") return '6vw';
-            if (config[d.name] == "medium") return '7.4vw';
-            if (config[d.name] == "large") return '9vw';
+    } else {
+        value_fs = '4.5rem';
+        title_fs = '1.6rem';
+        header_fs = '1.2rem';
+        arrowFontPass = '1rem';
+    }
+
+}
+
+if (config.text_spacing == "dynamic_height") {
+  if (this.options.dh_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+      if (config.dh_fs == 'medium') {
+          value_fs = '25vh';
+          title_fs = '11vh';
+          header_fs = '9vh';
+          arrowFontPass = '7vh';
+      } else if (config.dh_fs == 'large') {
+          value_fs = '34vh';
+          title_fs = '11.5vh';
+          header_fs = '10vh';
+          arrowFontPass = '9.4vh';
+      }
+  } else {
+      value_fs = '20vh';
+      title_fs = '9vh';
+      header_fs = '7.4vh';
+      arrowFontPass = '6.9vh';
+  }
+
+}
+
+    // After changing the font settings, instantiate them here
+d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
+d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', title_fs); // Original 3.4vw
+d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', header_fs);  // Original 3vw
+
+
+            /*/ Title Configuration /*/
+if (config.showTitle == true) { // If the input is empty but they wanna show the title
+    if (config.valueTitle == '' || config.valueTitle == ' ' || !(config.valueTitle)) d3.select('.djvsTitle').html(queryResponse.fields.measures[0].label_short);
+    else d3.select('.djvsTitle').html(config.valueTitle); 
+}
+if (config.showTitle == false) d3.select('.djvsTitle').html(' ');
+
+
+
+console.log('Entered options hidden conditionals');
+console.log('valueLabels', this.options.valueLabels.hidden);
+console.log('positiveSwitch', this.options.positiveSwitch.hidden);
+console.log('showLabel', this.options.showLabel.hidden);
+console.log('labelOverride', this.options.labelOverride.hidden);
+
+          /*/ SHOW/HIDING THE CONFIGURATION /*/
+
+if (config.showTitle == true) { // Show title's configuration, this is the title override
+    if (this.options.valueTitle.hidden == true) {
+        this.options.valueTitle.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.showTitle == false) {
+    if (this.options.valueTitle.hidden == false) {
+        this.options.valueTitle.hidden = true;
+        this.trigger('registerOptions', this.options); 
+    }
+}
+
+
+
+      // Okay we're passing these variables in unison, but we'll getr 
+if (config.showComparison == true && this.options.valueLabels.hidden == true) {
+        this.options.valueLabels.hidden = false;
+        this.options.positiveSwitch.hidden = false;
+        this.options.showLabel.hidden = false;
+        this.options.labelOverride.hidden = false;
+        this.trigger('registerOptions', this.options);
+}
+
+if (config.showComparison == false && this.options.valueLabels.hidden == false) {
+        this.options.valueLabels.hidden = true;
+        this.options.positiveSwitch.hidden = true;
+        this.options.showLabel.hidden = true;
+        this.options.labelOverride.hidden = true;
+        this.trigger('registerOptions', this.options);
+}
+
+    // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
+if (config.showLabel == true) { // Label override's switch
+    if (this.options.labelOverride.hidden == true) {
+        this.options.labelOverride.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.showLabel == false) {
+    if (this.options.labelOverride.hidden == false) {
+        this.options.labelOverride.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.showComparison == true) {
+    if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
+       if (this.options.positiveSwitch.hidden == true) {
+            this.options.positiveSwitch.hidden = false;
+            this.trigger('registerOptions', this.options);
         }
-        // if (config.text_spacing == "dynamic_height") {
-        //     if (config[d.name] == "small") return '9vh';
-        //     if (config[d.name] == "medium") return '11vh';
-        //     if (config[d.name] == "large") return '13vh';
-        // }
-    } // End of label_fs function 
+    }
+
+    if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
+        if (this.options.positiveSwitch.hidden == false) {
+            this.options.positiveSwitch.hidden = true;
+            this.trigger('registerOptions', this.options);
+        }
+    }
+}
+
+
+/*********************************************************************************************************************************************************************
+      * End of the Configuration Settings *                                                                                    * End of the Configuration Settings *
+*********************************************************************************************************************************************************************/
+
+
+      // So we're taking in hValue and editing it if it's one of these values
+  console.log(`editHeader: entering hValue value: `, headerRes);
+      // Set the label based on user's input or it's default label
+  if (config.labelOverride) {
+      if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
+  }
+
+      // If showlabel is off, null it out of the visual, including the header and secondary value
+  if (config.showLabel == false ) headerRes = ' '; // Remove the label from the vis
+
+
+  let lookValue2; // Second measure pass to the vis
+  if (calculation == 'two measures') lookValue2 = measure2;
+  if (calculation == 'pivot measure') lookValue2 = previousPeriod;
+  if (calculation == 'two measures' || calculation == 'pivot measure') {
+      if (lookValue2.rendered) {
+          lookValue2.artificialRender = false;
+      } else {
+          lookValue2.rendered = lookValue.value;
+          lookValue2.artificialRender = true;
+      }
+  }
+
+  console.log('This is the lookValue', lookValue);
+  console.log('This is the lookValue2', lookValue2);
+
+            // / // Onto the comparison operators // / // 
+if (config.showComparison == true) {
+  if (calculation == 'one measure') this.addError({title: "Error Calculating", message: "This setting requires two measures or a pivot to render"});
+
+  if (config.valueLabels == 'compVal') { // Show as Value
+        // They just add the numbers in bold beside the Field label 
+      console.log('This is ths computing value configuration');
+
+      hReturnValue = `${lookValue2.rendered} ${headerRes}`;
+      console.log(`String interpolating this stuff: ${lookValue.rendered} ${headerRes}`);
+      console.log('This is the hReturn value format going through compute value', hReturnValue);
+      d3.select('div.djvsHeader').style('background-image', 'none');
+  }
+
+  if (config.valueLabels == 'compChan') { // Show as Change
+        // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
+      let difference = lookValue.value - lookValue2.value; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+      
+      if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          d3.select('div.djvsHeader').style('backgroun-image', 'none');
+      }
+      if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
+          if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          d3.select('div.djvsHeader').style('backgroun-image', 'none');
+      }
+      d3.select('div.djvsHeader').style('background-image', 'none');
+      console.log('This is hreturn value being passed through computed change', hReturnValue);
+  }
+
+  if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
+
+      d3.select('div.djvsHeader')
+          .style('background-image', `linear-gradient(to right, #E2E3E3, #E2E3E3 ${renderedChange}%, #F5F5F5 ${renderedChange}%)`);
+
+      if (config.valueLabels == 'calcPercent') { // Calculate as percent
+          hReturnValue = `<span style=" color: #979B9D;">${renderedChange}%</span> of <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+          console.log(`This is hreturn value being passed through calculated percent`, hReturnValue);
+      }
+          // Calculate progress
+      if (config.valueLabels == `calcProg`) {
+          hReturnValue = headerRes;
+          console.log(`This is the hreturn value being passed through the calclated progress`, hReturnValue);
+      }
+
+  }
 
 
 
+} // End of comparison function
+  if (config.showComparison == false) { // Cleans up the visual when comparison is switched off
+      d3.select('div.djvsHeader').style('background-image', 'none');
+      hReturnValue = '';
+  }
+  console.log('This is hReturnValue after the editHeader function', hReturnValue);
+/*********************************************************************************************************
+    * Instatiation and Functions
+*********************************************************************************************************/
 
 
+  //  Edit the header right before we instantiate the data
+    // This is to add in a format for the value, if the user entered any
+if (config.valueFormat) {
+    if (config.valueFormat != '') {
+        lookValue.userFormat = formatValue(config.valueFormat, lookValue.value); // Pass in the value and return a new one
+        console.log('This is the returned value from the formatValue function', lookValue);
+        d3.select('div.djvsValue').html(lookValue.userFormat);
+        d3.select('div.djvsHeader').html(hReturnValue);
+    } 
+} else {
+    console.log('This is the valueReturn passed in (skipped formatvalue function)', lookValue);
+    d3.select('div.djvsValue').html(lookValue.rendered);
+    d3.select('div.djvsHeader').html(hReturnValue);
+}
 
+/*******************************************************************
+   * Functions Section *
+*******************************************************************/
 
+function titleOverride(title) {
+  d3.select('.djvsContainer').append('div')
+    .attr('class', 'djvsTitle')
+}
 
 
 function formatValue(formatData, string) {
-    if(formatData == '' || formatData == null) { return string; }
-    console.log('\nformat', formatData);
-    console.log('entering string', string);
-    string = string.toString(); // These need to be stringified for all the different text editing functions won't work
-    let format = formatData.toString();
-    stringRes = string;
-    let tf = false;
+  if(formatData == '' || formatData == null) { return string }
+  console.log('\nformat', formatData)
+  console.log('string', string)
+  string = string.toString() // These need to be stringified for all the different text editing functions won't work
+  let format = formatData.toString() 
+  stringRes = string
+  let tf = false
 
 
-        // Some stuff to stop the format from throwing errors
-    if(format == '' || format == ' ') { return string; }
+      // Some stuff to stop the format from throwing errors
+  if(format == '' || format == ' ') { return string }
 
 
-            /***** This is the  0.00\% formatting! *****/
+          /***** This is the  0.00\% formatting! *****/
 
-    if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {
-        console.log('This is the 0.00\\% format!'); 
-        stringRes = string;
-        let decimalAmount = 0;
+  if (format.includes('.') && format.includes('\\') && format.includes('%') && format[0] == '0' && format[1] == '.' && format[2] == '0') {
+      console.log('This is the 0.00\\% format!'); 
+      stringRes = string
+      let decimalAmount = 0
 
-        for(i = 2; i < format.length; i++) { // Start after the period, stop at the %
-            if (format[i] == '0') {
-                decimalAmount ++;
-            } else { break; } // Stop when the decimals run out
-        }
+      for(i = 2; i < format.length; i++) { // Start after the period, stop at the %
+          if (format[i] == '0') {
+              decimalAmount ++ 
+          } else { break } // Stop when the decimals run out
+      }
 
 
-        if( !(stringRes.includes('.')) ) { // If there's no decimal point add the set amount of decimal points
-            stringRes = stringRes + '.';
-            for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0'; }
-            return stringRes + '%';
-        } 
+      if( !(stringRes.includes('.')) ) { // If there's no decimal point add the set amount of decimal points
+          stringRes = stringRes + '.'
+          for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0' }
+          return stringRes + '%'
+      } 
 
-            // Calculate the string's decimal point and places, and size it to dynamically
-        stringpoint = -1;
-        stringplaces = 0;
-        for(i = 0; i < stringRes.length; i++) {
-            if(stringpoint != -1) { stringplaces++; }
-            if(stringRes[i] == '.') { stringpoint = i; }
-        }
+          // Calculate the string's decimal point and places, and size it to dynamically
+      stringpoint = -1
+      stringplaces = 0
+      for(i = 0; i < stringRes.length; i++) {
+          if(stringpoint != -1) { stringplaces++}
+          if(stringRes[i] == '.') { stringpoint = i }
+      }
 
-        if (stringplaces < decimalAmount) {
-            let difference = decimalAmount - stringplaces;
-            for(i = 0; i < difference; i++) {
-                stringRes = stringRes + '0';
+      if (stringplaces < decimalAmount) {
+          let difference = decimalAmount - stringplaces
+          for(i = 0; i < difference; i++) {
+              stringRes = stringRes + '0'
+          }
+      } else if(stringplace > decimalAmount) {
+          let difference = stringplaces - decimalAmount
+          for(i = 0; o < difference; i++) {
+              stringRes = stringRes.slice(0, -1)
+          }
+      }
+      return stringRes + '%'
+  }
+  
+      /***** End of the  0.00\% formatting! *****/
+
+
+
+      /***** This is the  0% formatting! *****/
+
+  if (format == '0%') {
+      tf = true 
+      console.log('This is the 0% format!');    
+      // This is for if there are decimal values.. we should plan for even positive numbers 
+
+      if ( !(string.includes('.')) ) { tf = false  }
+
+      if (tf) {
+              // Find the first 2 decimal places, then return those with a percent 
+          stringRes = string * 100
+          console.log('This is the string!', stringRes)
+          let decimalPlace = 0
+          stringRes = stringRes.toString() 
+
+          for(i = 0; i < stringRes.length; i++) {
+            if (stringRes[i] == '.') {
+              decimalPlace = i
+              break
             }
-        } else if(stringplace > decimalAmount) {
-            let difference = stringplaces - decimalAmount;
-            for(i = 0; o < difference; i++) {
-                stringRes = stringRes.slice(0, -1);
-            }
-        }
-        return stringRes + '%';
-    }
-    
-        /***** End of the  0.00\% formatting! *****/
+          }
+          stringRes = stringRes.substr(0, (decimalPlace - 1))
+          return stringRes + '%'
+      }
+  } // End of the 0%
+
+      /***** End of the  0% formatting! *****/
 
 
 
-        /***** This is the  0% formatting! *****/
-
-    if (format == '0%') {
-        tf = true 
-        console.log('This is the 0% format!');    
-        // This is for if there are decimal values.. we should plan for even positive numbers 
-
-        if ( !(string.includes('.')) ) { tf = false  }
-
-        if (tf) {
-                // Find the first 2 decimal places, then return those with a percent 
-            stringRes = string * 100
-            console.log('This is the string!', stringRes)
-            let decimalPlace = 0
-            stringRes = stringRes.toString() 
-
-            for(i = 0; i < stringRes.length; i++) {
-              if (stringRes[i] == '.') {
-                decimalPlace = i
-                break
-              }
-            }
-            stringRes = stringRes.substr(0, (decimalPlace - 1))
-            return stringRes + '%'
-        }
-    } // End of the 0%
-
-        /***** End of the  0% formatting! *****/
-
-
-
-
-          /***** This is the  0 formatting! *****/
-
-    if(format == '0') {
-        console.log('This is the 0 format!');
-            // Pull out all the decimals and commas out of the string ~
-        stringRes = string
-        let chop = 0
-        for(i = 0; i < stringRes.length; i++) {
-            if (stringRes[i] == '.') { 
-                chop = i
-                break
-            }
-        }
-        if (chop != 0) {
-            stringRes.slice(0, chop)
-        }
-        stringRes = stringRes.replace(",", "")
-        return stringRes
-    }
 
         /***** This is the  0 formatting! *****/
 
+  if(format == '0') {
+      console.log('This is the 0 format!');
+          // Pull out all the decimals and commas out of the string ~
+      stringRes = string
+      let chop = 0
+      for(i = 0; i < stringRes.length; i++) {
+          if (stringRes[i] == '.') { 
+              chop = i
+              break
+          }
+      }
+      if (chop != 0) {
+          stringRes.slice(0, chop)
+      }
+      stringRes = stringRes.replace(",", "")
+      return stringRes
+  }
 
-        /***** This is the  $0 formatting! *****/
-
-    if (format == '$0') {
-        console.log('This is the $0 format!');    
-        let stringPeriod = -1
-        stringRes = string
-            // Dollars with 0 decimals, and a dollar sign. If there's a decimal, slice that and on, then add the dollar sign before 
-        for (i = 0; i < stringRes.length; i++) {
-            if (string[i] == '.') { // This is literal code logic, it's grungy
-                stringPeriod = i // Find the period
-                break // Stop the loop, then calculate based on this
-            }
-        }
-
-            // If there was no period, then skip the slice, and pass in the dollar sign
-        if (stringPeriod != -1) {
-            stringRes = strinRes.slice(0, stringPeriod) // Pull out the string up to the decimal, leave the decimal
-        }
-        stringRes = '$' + stringRes
-        return stringRes
-    } // End of $0 format 
-
-        /***** This is the  $0 formatting! *****/
+      /***** This is the  0 formatting! *****/
 
 
-        /***** This is the  0\% formatting! *****/
-    
-    if (format == '0\\%') {
-        console.log('This is the 0\\% format!');    
-        stringRes = string
+      /***** This is the  $0 formatting! *****/
 
-        if (stringRes.includes('.')) {
-            let decimalIndex = 0
-            for(i = 0; i < stringRes.length; i++) {
-                if (i == '.') { decimalIndex = i; break }
-            }
-            let stringRes = stringRes.slice(0, decimalIndex)
-        }
-        return stringRes + '%'
-    }
-    
-        /***** End of the  0\% formatting! *****/
+  if (format == '$0') {
+      console.log('This is the $0 format!');    
+      let stringPeriod = -1
+      stringRes = string
+          // Dollars with 0 decimals, and a dollar sign. If there's a decimal, slice that and on, then add the dollar sign before 
+      for (i = 0; i < stringRes.length; i++) {
+          if (string[i] == '.') { // This is literal code logic, it's grungy
+              stringPeriod = i // Find the period
+              break // Stop the loop, then calculate based on this
+          }
+      }
 
+          // If there was no period, then skip the slice, and pass in the dollar sign
+      if (stringPeriod != -1) {
+          stringRes = strinRes.slice(0, stringPeriod) // Pull out the string up to the decimal, leave the decimal
+      }
+      stringRes = '$' + stringRes
+      return stringRes
+  } // End of $0 format 
 
-        /***** This is the  $0.00 formatting! *****/
-
-    if (format[0] == '$' && format[1] == '0' && format[2] == '.' && format[format.length - 1] == '0') {
-        console.log('This is the $0.00 format!');    
-        let tf = true
-        let formatDecimal = 2 // This is the format stuff
-        let formatDAmount = 0
-        let stringDecimal = -1 // This is the string stuff
-        let stringDAmount = 0
-        stringRes = string
-
-            // Look for a decimal in string
-        for(i = 0; i < stringRes.length; i++) {
-            if (stringDecimal != -1) { // After you found the decimal, start adding to stringAmount to count the decimal places
-                stringDAmount++ 
-            }
-            if (i == '.') { // Find the decimal place
-                stringDecimal = i
-            }
-        }
-
-            // Calculate the format's decimal amount 
-        for(i = formatDecimal + 1; i < format.length; i++) {
-            if (i != '0') {
-                if (format[i] != '0') { // Error clause for safety
-                    this.addError({title: "Incorrect format", message: "After the decimal point enter the desired amount of decimal places with 0s."})
-                    return
-                }
-                formatDAmount++
-            }
-        }
-
-            // if there's no decimal!
-        stringRes = '$' + stringRes
-        if (stringDecimal == -1) { // The var wouldn't have changed
-            stringRes = stringRes + '.'
-            for(i = 0; i < formatDAmount; i++) {
-                stringRes = stringRes + '0'
-            }
-            return stringRes // This is the finished version if the vars didn't have a decimalpoint
-        }
+      /***** This is the  $0 formatting! *****/
 
 
-            // They calculated the format and string stuff, now run the difference for the decimal points 
-        if (stringDAmount < formatDAmount) { // If the string amount is less than the format, calc diff and ad 0's 
-            let difference = formatDAmount - stringDAmount
-            for(i = 0; i < difference; i++) {
-                strinRes = stringRes + '0'
-            }
-            return stringRes
-        }
-        if (stringDAmount > formatDAmount) { // If the string amount is more than the format, slice off the extra decimal points
-          let difference = stringDAmount - formatDAmount
+      /***** This is the  0\% formatting! *****/
+  
+  if (format == '0\\%') {
+      console.log('This is the 0\\% format!');    
+      stringRes = string
+
+      if (stringRes.includes('.')) {
+          let decimalIndex = 0
+          for(i = 0; i < stringRes.length; i++) {
+              if (i == '.') { decimalIndex = i; break }
+          }
+          let stringRes = stringRes.slice(0, decimalIndex)
+      }
+      return stringRes + '%'
+  }
+  
+      /***** End of the  0\% formatting! *****/
+
+
+      /***** This is the  $0.00 formatting! *****/
+
+  if (format[0] == '$' && format[1] == '0' && format[2] == '.' && format[format.length - 1] == '0') {
+      console.log('This is the $0.00 format!');    
+      let tf = true
+      let formatDecimal = 2 // This is the format stuff
+      let formatDAmount = 0
+      let stringDecimal = -1 // This is the string stuff
+      let stringDAmount = 0
+      stringRes = string
+
+          // Look for a decimal in string
+      for(i = 0; i < stringRes.length; i++) {
+          if (stringDecimal != -1) { // After you found the decimal, start adding to stringAmount to count the decimal places
+              stringDAmount++ 
+          }
+          if (i == '.') { // Find the decimal place
+              stringDecimal = i
+          }
+      }
+
+          // Calculate the format's decimal amount 
+      for(i = formatDecimal + 1; i < format.length; i++) {
+          if (i != '0') {
+              if (format[i] != '0') { // Error clause for safety
+                  this.addError({title: "Incorrect format", message: "After the decimal point enter the desired amount of decimal places with 0s."})
+                  return
+              }
+              formatDAmount++
+          }
+      }
+
+          // if there's no decimal!
+      stringRes = '$' + stringRes
+      if (stringDecimal == -1) { // The var wouldn't have changed
+          stringRes = stringRes + '.'
+          for(i = 0; i < formatDAmount; i++) {
+              stringRes = stringRes + '0'
+          }
+          return stringRes // This is the finished version if the vars didn't have a decimalpoint
+      }
+
+
+          // They calculated the format and string stuff, now run the difference for the decimal points 
+      if (stringDAmount < formatDAmount) { // If the string amount is less than the format, calc diff and ad 0's 
+          let difference = formatDAmount - stringDAmount
           for(i = 0; i < difference; i++) {
-            stringRes = stringRes.slice(0, -1)
+              strinRes = stringRes + '0'
           }
           return stringRes
-        }
-
-    } // End fo the $0.00 format
-
-        /***** End of the the  $0.00 formatting! *****/
-
-
-
-        /***** This is the  '$#.00; ($#.00)' formatting! *****/
-
-        // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
-    if (format.includes('$') && format.includes('#') && format.includes('.') && format.includes(';') && format.includes('(') && format.includes(')') && format.includes('0') ) {
-        console.log('This is the $#.00; ($#.00) format!');    
-        stringRes = string
-            // Calculate the decimal amount from the first decimal place stop it at the colon
-        let stringDecimalPlace = -1
-        let stringDecimalAmount = 0
-        let formatPlace = 0 // We're just going from the first found decimal place til it stops using decimals
-        let formatAmount = 0
-
-            
-        for(i = 0; i < format.length; i++) { // Find the decimal, then start adding the format until there's no more 0's
-            if (format[i] == '.') { formatPlace = i; break } // Find the period 
-        }
-        for(i = formatPlace + 1; i < format.length; i++) {
-            if (format[i] != '0') { break } // If it stopped counting the decimal points stop the loop to not count extra 0's in the formatting
-            formatAmount++
-        }
-
-        for(i = 0; i < stringRes.length; i++) { // Find the string decimal place, if there is a decimal!
-            if (stringDecimalPlace != -1) { // After we found th stringDecimalPlace, calculate the # decimal points
-                stringDecimalAmount++
-            }
-            if (string[i] == '.') {
-                stringDecimalPlace = i
-            }
-        }
-
-
-        if (!(stringRes.includes('.')) ) { // If it doesn't include a period, add the format and pass it through
-            if ( !(stringRes.includes(',')) ) { // If no comma, add them
-                stringRes = numberWithCommas(stringRes) 
-            }
-            stringRes = stringRes + '.'
-            for(i = 0; i < formatAmount; i++) {
-                stringRes = stringRes + '0'
-            }
-
-            stringRes = '$' + stringRes
-            if(stringRes.includes('-')) {
-                return '(' + stringRes + ')'
-            } else { return stringRes }
-        }
-
-            // Put dollar sign before the numbers, then Determine which values are positive and which are negative. Put parenthesis around the negative ones
-        if (stringDecimalAmount > formatAmount) { // Chop the extra decimal places
-            let difference = stringDecimalAmount - formatAmount
-            for(i = 0; i < difference; i++) {
-                stringRes.slice(0, -1)
-            }
-        } else if (stringDecimalAmount < formatAmount) { // Add the missing decimal places
-            let difference = formatAmount - stringDecimalAmount
-            for(i = 0; i < difference; i++) {
-                stringRes = stringRes + '0'
-            }
-        }
-
-        stringRes = '$' + stringRes // Add the dollar sign
-        if (stringRes.includes('-')) { // Add parenthesis to the negative numbers
-            stringRes = '(' + stringRes + ')'
+      }
+      if (stringDAmount > formatDAmount) { // If the string amount is more than the format, slice off the extra decimal points
+        let difference = stringDAmount - formatDAmount
+        for(i = 0; i < difference; i++) {
+          stringRes = stringRes.slice(0, -1)
         }
         return stringRes
-    }
-  
-        /***** End of the  '$#.00; ($#.00)' formatting! *****/
+      }
+
+  } // End fo the $0.00 format
+
+      /***** End of the the  $0.00 formatting! *****/
 
 
 
-        /***** This is the  $#,##0.00 formatting! *****/
-    if (format.includes(',') && format.includes('.') && format[0] == '$' && format[1] == '#' && format[2] == ',' && format[3] == '#' && format[4] == '#' && format[5] == '0' && format[6] == '.' && format[format.length - 1] == '0') {
-        console.log('This is the $#,##0.00 format!');    
-        tf = true
-          // Find the location of the decimal for each, and the desired formatting plus the set string data to do calulcations
-        let formatPoint = 6 // This is the logged location of the decimal
-        let formatAmount = 0 // This is the number of decimal places after period (This is exact)
-        let stringPoint = -1 // Find the location of the string point to find the amount of decimal places the string has
-        let stringAmount = 0 // This is the number of decimal places after the period in the visual
-          // This is the string data in pieces to work on individually to put back together after each function
-        let beforeDecimal = '' // This is up to the decimal point
-        let decimalPointAndOn = '' // This is teh decimal point an all the places beyond
-        stringRes = string
+      /***** This is the  '$#.00; ($#.00)' formatting! *****/
 
+      // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
+  if (format.includes('$') && format.includes('#') && format.includes('.') && format.includes(';') && format.includes('(') && format.includes(')') && format.includes('0') ) {
+      console.log('This is the $#.00; ($#.00) format!');    
+      stringRes = string
+          // Calculate the decimal amount from the first decimal place stop it at the colon
+      let stringDecimalPlace = -1
+      let stringDecimalAmount = 0
+      let formatPlace = 0 // We're just going from the first found decimal place til it stops using decimals
+      let formatAmount = 0
 
-            // Calculate the formatPoint
-        for(i = formatPoint + 1; i < format.length; i++) { // Calculated the desired amount of decimal places to format the string
-            if (format[i] != '0') { // Error clause for safety
-                this.addError({title: "Incorrect format", message: "After the decimal point enter the desired amount of decimal places with 0s."})
-                return
-            }
-            formatAmount++
-        }
+          
+      for(i = 0; i < format.length; i++) { // Find the decimal, then start adding the format until there's no more 0's
+          if (format[i] == '.') { formatPlace = i; break } // Find the period 
+      }
+      for(i = formatPlace + 1; i < format.length; i++) {
+          if (format[i] != '0') { break } // If it stopped counting the decimal points stop the loop to not count extra 0's in the formatting
+          formatAmount++
+      }
 
-            // Then calculate the string's decimal place, and then split the var into two, to find the amount of decimal places it has
-        for(i = 0; i < string.length; i++) {
-            if (stringPoint != 0) {
-                stringAmount++
-            }
-            if (string[i] == '.') { stringPoint = i }
-        }
-
-            // If there's no decimal, then run this!
-        if ( !(string.includes('.')) ) {
-            if( !(stringRes.includes(',')) ) { // Add commas if there aren't any
-                stringRes = numberWithCommas(stringRes)
-            }
-            stringRes = stringRes + '.'
-            for(i = 0; i < formatAmount; i++) {
-                stringRes = stringRes + '0'
-            }
-            return stringRes 
-        }
-
-            // If there was a decimal, split it into two and run the calculations 
-        beforeDecimal = string.splice(0, stringPoint)
-        decimalPointAndOn = string.splice(stringPoint)
-
-            // See if it has commas
-        if ( !(beforeDecimal.includes(',')) ) { // Add them if not
-            beforeDecimal = numberWithCommas(beforeDecimal)
-        }
-
-
-            // Adjust the decimal places to the proper given format
-        if (stringAmount > formatAmount) { // If the string is more than the format, slice off the extras
-            let difference = stringAmount - formatAmount
-            for(i = 0; i < difference; i++) {
-                decimalPointAndOn = decimalPointAndOn.slice(0, -1)
-            }
-        } else if (stringAmount < formatAmount) {
-          let difference = formatAmount - stringAmount
-          for(i = 0; i < difference; i++) {
-              decimalPointAndOn = decimalPointAndOn + '0'
+      for(i = 0; i < stringRes.length; i++) { // Find the string decimal place, if there is a decimal!
+          if (stringDecimalPlace != -1) { // After we found th stringDecimalPlace, calculate the # decimal points
+              stringDecimalAmount++
           }
-        }
-        return '$' + beforeDecimal + decimalPointAndOn
-    } // End of $#,##0.00
+          if (string[i] == '.') {
+              stringDecimalPlace = i
+          }
+      }
 
 
-        /***** End of the  $#,##0.00 formatting! *****/
+      if (!(stringRes.includes('.')) ) { // If it doesn't include a period, add the format and pass it through
+          if ( !(stringRes.includes(',')) ) { // If no comma, add them
+              stringRes = numberWithCommas(stringRes) 
+          }
+          stringRes = stringRes + '.'
+          for(i = 0; i < formatAmount; i++) {
+              stringRes = stringRes + '0'
+          }
 
+          stringRes = '$' + stringRes
+          if(stringRes.includes('-')) {
+              return '(' + stringRes + ')'
+          } else { return stringRes }
+      }
 
+          // Put dollar sign before the numbers, then Determine which values are positive and which are negative. Put parenthesis around the negative ones
+      if (stringDecimalAmount > formatAmount) { // Chop the extra decimal places
+          let difference = stringDecimalAmount - formatAmount
+          for(i = 0; i < difference; i++) {
+              stringRes.slice(0, -1)
+          }
+      } else if (stringDecimalAmount < formatAmount) { // Add the missing decimal places
+          let difference = formatAmount - stringDecimalAmount
+          for(i = 0; i < difference; i++) {
+              stringRes = stringRes + '0'
+          }
+      }
 
-                /***** This is the  0.00% formatting! *****/
-
-    if (format[0] == '0' && format[1] == '.' && format[2] == 0 && format[format.length -1] == '%') {
-        tf = true
-      
-        if ( !(string.includes('.')) ) { // Continue to the next iteration if it's not a
-            tf = false 
-        } 
-
-        if (tf) {
-            console.log('This is the 0.00% format!');    
-              // Now we're taking in the first 4 values after the period
-            stringRes = string
-            let formatDecimalPlace = 0
-            let formatDecimalCheck = -1
-            let formatDecimalAmount = 0
-            let stringDecimalPlace = 0
-            let upToDecimal = ''
-            let afterDecimal = ''
-
-            console.log('This is the value', stringRes)
-            console.log('This is the format', format)
-
-                // Go through the format and find the number of desired decimal places
-            for(i = 0; i < format.length; i++) {
-                if (formatDecimalCheck == 1) {
-                    if (format[i] == '%') { break }
-                    if (format[i] == '0') { formatDecimalAmount++ }
-                    if (format[i] != '0') { console.log('Found an error in formatting'); return string }
-                }
-
-                if (format[i] == '.') { 
-                    formatDecimalPlace = i 
-                    formatDecimalCheck = 1
-                }
-
-                
-            } // Move this further down so it doesn't throw an error for the things
-
-                // Calculate the new percent value then stringify it again
-            strinRes = stringRes * 100
-            stringRes = stringRes.toString()
-
-                // So now we have the number of desired decimal places, and need to find the format 
-                  // Now let's find the decimal places for the string value
-
-            for(i = 0; i < stringRes.length; i++) {
-                if (stringRes[i] == '.') { 
-                  stringDecimalPlace = i 
-                  break
-                }
-            }
-
-            upToDecimal = stringRes.substr(0, stringDecimalPlace)
-            afterDecimal = stringRes.substr(stringDecimalPlace + 1)
-
-                // Now check and see if the length of the decimal points is less or more than the desired 
-              
-            if (afterDecimal.length < formatDecimalAmount) { // Add zeros based on the difference
-                let difference = formatDecimalAmount - afterDecimal.length
-
-                for(i = 0; i < difference; i++) {
-                    stringRes = stringRes + '0'
-                }
-                return stringRes + '%'
-            }
-            if (afterDecimal.length > formatDecimalAmount) {
-                let difference = afterDecimal.length - formatDecimalAmount
-                for(i = 0; i < difference; i++) {
-                  stringRes = stringRes.slice(0, -1)
-                }
-                return stringRes + '%'
-            }
-            else { return stringRes + '%'}
-
-        }
-    } // End of the 0.00%
-
-        /***** This is the  0.00% formatting! *****/
-
-
-        /***** This is the  #,##0 formatting! *****/
-
-    if (format.includes(',') && !(format.includes('.')) && format[0] == '#' && format[format.length - 1] == '0') {  // Soooo... if it includes a period & no comma, start & ends with 0, lets dig in, this might be it!
-        console.log('This is the #,##0 format!');    
-        if (string.includes(',')) { return string } // If it already has commas, just give it the normal value
-        stringRes = string
-        let decimal = 0 // We only want to add commas to the numbers that are not decimals
-        let changedRes = false // Conditional to put the decimal point and places back in place after the calculations
-        tf = false // Reset tf for security reasons (just to be safe, check again)
-            // We are essentially putting in commas for every 3 characters (Be wary of the decimal!)
-
-        if (string.includes('.')) { // If the number has decimal places, pull out the decimal and the decimal places and store them
-                // Find the stringRes
-            for(i = 0; i < stringRes.length; i++) { // We'll bring the stored values back into the var later 
-                if (stringRes == '.') {
-                    decimal = i
-                    stringRes = stringRes.slice(0, decimal)
-                    decimalNumbers = stringRes.slice(decimal) // Store the decimal values to put back in before we return the value
-                    changedRes = true // We do this so we don't have to run the same comma function twice, run it once, then add back the decimal if we pulled out the decimal
-                    break
-                }
-            }
-        }
-
-            // Then calculate the numbers based on the commas
-      stringRes = numberWithCommas(stringRes) // This is the value with commas
-      if (changedRes) {
-          stringRes + decimalNumbers
+      stringRes = '$' + stringRes // Add the dollar sign
+      if (stringRes.includes('-')) { // Add parenthesis to the negative numbers
+          stringRes = '(' + stringRes + ')'
       }
       return stringRes
-    } // End of the #,##0 formatter 
+  }
+
+      /***** End of the  '$#.00; ($#.00)' formatting! *****/
+
+
+
+      /***** This is the  $#,##0.00 formatting! *****/
+  if (format.includes(',') && format.includes('.') && format[0] == '$' && format[1] == '#' && format[2] == ',' && format[3] == '#' && format[4] == '#' && format[5] == '0' && format[6] == '.' && format[format.length - 1] == '0') {
+      console.log('This is the $#,##0.00 format!');    
+      tf = true
+        // Find the location of the decimal for each, and the desired formatting plus the set string data to do calulcations
+      let formatPoint = 6 // This is the logged location of the decimal
+      let formatAmount = 0 // This is the number of decimal places after period (This is exact)
+      let stringPoint = -1 // Find the location of the string point to find the amount of decimal places the string has
+      let stringAmount = 0 // This is the number of decimal places after the period in the visual
+        // This is the string data in pieces to work on individually to put back together after each function
+      let beforeDecimal = '' // This is up to the decimal point
+      let decimalPointAndOn = '' // This is teh decimal point an all the places beyond
+      stringRes = string
+
+
+          // Calculate the formatPoint
+      for(i = formatPoint + 1; i < format.length; i++) { // Calculated the desired amount of decimal places to format the string
+          if (format[i] != '0') { // Error clause for safety
+              this.addError({title: "Incorrect format", message: "After the decimal point enter the desired amount of decimal places with 0s."})
+              return
+          }
+          formatAmount++
+      }
+
+          // Then calculate the string's decimal place, and then split the var into two, to find the amount of decimal places it has
+      for(i = 0; i < string.length; i++) {
+          if (stringPoint != 0) {
+              stringAmount++
+          }
+          if (string[i] == '.') { stringPoint = i }
+      }
+
+          // If there's no decimal, then run this!
+      if ( !(string.includes('.')) ) {
+          if( !(stringRes.includes(',')) ) { // Add commas if there aren't any
+              stringRes = numberWithCommas(stringRes)
+          }
+          stringRes = stringRes + '.'
+          for(i = 0; i < formatAmount; i++) {
+              stringRes = stringRes + '0'
+          }
+          return stringRes 
+      }
+
+          // If there was a decimal, split it into two and run the calculations 
+      beforeDecimal = string.splice(0, stringPoint)
+      decimalPointAndOn = string.splice(stringPoint)
+
+          // See if it has commas
+      if ( !(beforeDecimal.includes(',')) ) { // Add them if not
+          beforeDecimal = numberWithCommas(beforeDecimal)
+      }
+
+
+          // Adjust the decimal places to the proper given format
+      if (stringAmount > formatAmount) { // If the string is more than the format, slice off the extras
+          let difference = stringAmount - formatAmount
+          for(i = 0; i < difference; i++) {
+              decimalPointAndOn = decimalPointAndOn.slice(0, -1)
+          }
+      } else if (stringAmount < formatAmount) {
+        let difference = formatAmount - stringAmount
+        for(i = 0; i < difference; i++) {
+            decimalPointAndOn = decimalPointAndOn + '0'
+        }
+      }
+      return '$' + beforeDecimal + decimalPointAndOn
+  } // End of $#,##0.00
+
+
+      /***** End of the  $#,##0.00 formatting! *****/
+
+
+
+              /***** This is the  0.00% formatting! *****/
+
+  if (format[0] == '0' && format[1] == '.' && format[2] == 0 && format[format.length -1] == '%') {
+      tf = true
     
-        /***** End of the  #,##0 formatting! *****/
+      if ( !(string.includes('.')) ) { // Continue to the next iteration if it's not a
+          tf = false 
+      } 
 
+      if (tf) {
+          console.log('This is the 0.00% format!');    
+            // Now we're taking in the first 4 values after the period
+          stringRes = string
+          let formatDecimalPlace = 0
+          let formatDecimalCheck = -1
+          let formatDecimalAmount = 0
+          let stringDecimalPlace = 0
+          let upToDecimal = ''
+          let afterDecimal = ''
 
+          console.log('This is the value', stringRes)
+          console.log('This is the format', format)
 
-        /***** This is the  #,##0.00 formatting! *****/
-    if (format.includes(',') && format.includes('.') && format[0] == '#' && format[1] == ',' && format[2] == '#' && format[3] == '#' && format[4] == '0' && format[5] == '.' && format[format.length - 1] == '0') {
-        console.log('This is the #,##0.00 format!');    
-        tf = true
-            // Find the location of the decimal for each, and the desired formatting plus the set string data to do calulcations
-        let formatPoint = 5 // This is the logged location of the decimal
-        let formatAmount = 0 // This is the number of decimal places after period (This is exact)
-        let stringPoint = -1 // Find the location of the string point to find the amount of decimal places the string has
-        let stringAmount = 0 // This is the number of decimal places after the period in the visual
-            // This is the string data in pieces to work on individually to put back together after each function
-        let beforeDecimal = '' // This is up to the decimal point
-        let decimalPointAndOn = '' // This is teh decimal point an all the places beyond
+              // Go through the format and find the number of desired decimal places
+          for(i = 0; i < format.length; i++) {
+              if (formatDecimalCheck == 1) {
+                  if (format[i] == '%') { break }
+                  if (format[i] == '0') { formatDecimalAmount++ }
+                  if (format[i] != '0') { console.log('Found an error in formatting'); return string }
+              }
 
+              if (format[i] == '.') { 
+                  formatDecimalPlace = i 
+                  formatDecimalCheck = 1
+              }
 
-            // Calculate the number of zeros after the period, and falsify it if it contains anything other than a zero
-        for(i = 6; i < format.length; i++) {
-            if (format[i] != '0') { 
-                tf = false
+              
+          } // Move this further down so it doesn't throw an error for the things
+
+              // Calculate the new percent value then stringify it again
+          strinRes = stringRes * 100
+          stringRes = stringRes.toString()
+
+              // So now we have the number of desired decimal places, and need to find the format 
+                // Now let's find the decimal places for the string value
+
+          for(i = 0; i < stringRes.length; i++) {
+              if (stringRes[i] == '.') { 
+                stringDecimalPlace = i 
                 break
-            }
-            formatAmount++
-        }
-        // console.log('This is format length!', formatAmount)
+              }
+          }
 
-        if (tf) { // If it's formatted right tf = true, then calculate the jazz
+          upToDecimal = stringRes.substr(0, stringDecimalPlace)
+          afterDecimal = stringRes.substr(stringDecimalPlace + 1)
+
+              // Now check and see if the length of the decimal points is less or more than the desired 
             
+          if (afterDecimal.length < formatDecimalAmount) { // Add zeros based on the difference
+              let difference = formatDecimalAmount - afterDecimal.length
 
-                // Break apart the string (if there's a period clause goes here)
-            for(i = 0; i < string.length; i++) { // Find string point, and after we do start calculating the stringAmount (the amount of decimal places)
-                if (stringPoint != -1) { stringAmount++ }
-                if (i == '.') {
-                    stringPoint = i
-                }
-            }
-            // console.log('StringPoint location ', stringPoint)
+              for(i = 0; i < difference; i++) {
+                  stringRes = stringRes + '0'
+              }
+              return stringRes + '%'
+          }
+          if (afterDecimal.length > formatDecimalAmount) {
+              let difference = afterDecimal.length - formatDecimalAmount
+              for(i = 0; i < difference; i++) {
+                stringRes = stringRes.slice(0, -1)
+              }
+              return stringRes + '%'
+          }
+          else { return stringRes + '%'}
 
-            if (stringPoint == -1) { // If stringPoint is still -1 (then there was no decimal point!)  
-                if(string.includes(',')) { // Add the decimal stuff then return it as is
-                    stringRes = string + '.'
-                    for(i=0; i < formatAmount; i++) {
-                        stringRes = stringRes + '0'
-                    }
-                    return stringRes
-                } 
-            }
+      }
+  } // End of the 0.00%
 
-            // For values with decimals, here's the calculations
-            beforeDecimal = string.slice(0, stringPoint)
-            decimalPointAndOn = string.slice(stringPoint)
-            // console.log('beforeDecimal', beforeDecimal)
-            // console.log('decimalPointAndOn', decimalPointAndOn)
+      /***** This is the  0.00% formatting! *****/
 
 
-                // Then add teh commas(if there aren't any already)
-            if (!(beforeDecimal.includes(','))) { // If no commas, add them in!
-                beforeDecimal = numberWithCommas(beforeDecimal)
-            }
+      /***** This is the  #,##0 formatting! *****/
 
+  if (format.includes(',') && !(format.includes('.')) && format[0] == '#' && format[format.length - 1] == '0') {  // Soooo... if it includes a period & no comma, start & ends with 0, lets dig in, this might be it!
+      console.log('This is the #,##0 format!');    
+      if (string.includes(',')) { return string } // If it already has commas, just give it the normal value
+      stringRes = string
+      let decimal = 0 // We only want to add commas to the numbers that are not decimals
+      let changedRes = false // Conditional to put the decimal point and places back in place after the calculations
+      tf = false // Reset tf for security reasons (just to be safe, check again)
+          // We are essentially putting in commas for every 3 characters (Be wary of the decimal!)
 
-                // Then fix the decimal places based on the formatting 
-            if (formatAmount < decimalPointAndOn.length - 1) {  // Find difference and chop off the extras
-                let difference = (decimalPointAndOn.length - 1) - formatAmount
-                for(i = 0; i < difference; i++) {
-                  decimal.slice(0, -1)
-                }
-            } else if (formatAmount > decimalPointAndOn.length - 1) {
-                let difference = formatAmount - (decimalPointAndOn.length - 1)
-                for(i = 0; i < difference; i++) { // Add 0's for all the missing decimal points(difference)
-                    decimalPointAndOn = decimalPointAndOn + '0'
-                }
-            }
-            return beforeDecimal + decimalPointAndOn
+      if (string.includes('.')) { // If the number has decimal places, pull out the decimal and the decimal places and store them
+              // Find the stringRes
+          for(i = 0; i < stringRes.length; i++) { // We'll bring the stored values back into the var later 
+              if (stringRes == '.') {
+                  decimal = i
+                  stringRes = stringRes.slice(0, decimal)
+                  decimalNumbers = stringRes.slice(decimal) // Store the decimal values to put back in before we return the value
+                  changedRes = true // We do this so we don't have to run the same comma function twice, run it once, then add back the decimal if we pulled out the decimal
+                  break
+              }
+          }
+      }
 
-        } // End of tf
-    } // End of #,##0.00 format 
-
-        /***** End of the  #,##0.00 formatting! *****/
-
-
-
-        /***** If it's all 0s and the last is a hash: Zero padded to however many places they instructed *****/
-    if (format[format.length - 1] == '#') { tf = true }
-    console.log('This is the 00# format!');
-    for(i = 0; i < format.length - 1; i++) {
-        if (format[i] != '0') { 
-            tf = false
-            break 
-        }
+          // Then calculate the numbers based on the commas
+    stringRes = numberWithCommas(stringRes) // This is the value with commas
+    if (changedRes) {
+        stringRes + decimalNumbers
     }
-    if (tf == true) {   // Create the Zero padded data 
-        let strLength = stringRes.length
-        let formatLength = format.length // number of 0's (exclude the hash)
-
-        if (strLength > formatLength) { return stringRes }
-        else if (strLength < formatLength) {
-                // Find the difference in chararcters, then add that many 0's with a for loop 
-            let difference = formatLength - strLength
-            for(i = 0; i < difference; i++) {
-                stringRes = '0' + stringRes
-            }
-            return stringRes
-        }
-
-    }
-
-
-        /***** If it's 0 "String": Integer followed by a string (Let's do before or after) *****/
-    let iterationLog
-    let charAfterFirstQuote
-    tf = false
-    if (format.includes('"')) { // Looks if it's including quotes > Couls be "String" or "K" or "M"
-            // Now find the first quote to see what's inside ~
-        for(i = 0; i < format.length; i++) {
-            if (format[i] == '"') {
-                charAfterFirstQuote = i + 1 // The iteration after the first quote
-                break
-            }
-        }
-
-
-            // Now we have the first quote's iteration, let's see what's in the quotes to choose the different return for the function
-        if (format.includes('"', charAfterFirstQuote)) { // If it includes double quote then run the rest of this, otherwise it's an error!
-
-                /**** This is the 0.000,, "M" format ****/
-            if (format[charAfterFirstQuote] == 'M' && format[charAfterFirstQuote + 1] == '"') {   // Check it it's m ending quote: if(">M && M>")
-                console.log('This is the 0.000,, "M" format!');
-
-                for(i = 0; i < format.length; i++) { // Check if it has two commas!
-                    if (format[i] == ',') { // If they found a comma
-                        if (format[i + 1] == ',') { // They found a comma after the comma
-                            tf = true // This is setting it to 1.000 M reference and lets end the loop and start that functionality
-                            break
-                        }
-                    }
-                    if(i == format.length - 1) { // Clause for if you go through the entire loop without finding a comma
-                        this.addError({title: "No commas", message: "You must include two commas after the desired number of decimal places."})
-                        return
-                    }
-                }
-
-                    // If tf is true right now, then format it to M, else we'll check if it's "K" format
-                if (tf) { // Take in stringRes, find the iteration the . is on, then pull in all the 0's after the decimal(up to 6) and return this new string
-                    if ( !(format.includes('.')) ) { // If there is no period, then throw an error clause
-                        this.addError({title: "No decimal", message: "You must include a period to denote how many decimal places you want."})
-                        return
-                    } else { // If it includes all the proper things for this format
-                        let decimalAmount = 0 // Stores how many decimal places the user desired
-                        let finStr = ''
-                        for(i = 0; i < format.length; i++) { // Find the decimal point
-                            if (format[i] == '.') {
-                                iterationLog = i + 1 // Log the iteration afte the decimal point
-                                break
-                            }
-                        }
-                        for(i = iterationLog; i < format.length; i++) { // Starting from right after the decimal point, count the 0s there are until another character is present
-                            if (format[i] != '0') { break }
-                            decimalAmount ++
-                        }
-                            // Now we know how many decimal places they want, change the string to setup the proper '1.234 M' value format 
-                        // So we take the first number, add a decimal after it, and then keep any extra numbers past the desired decimal amount 
-                            // Strip out all the periods and decimals before we rework it
-                        stringRes = string.replace(",", "")
-
-                            // Use substr to build this jazz right
-                        // finStr = stringRes.substr(0, 1)
-                        // if (decimalAmount != 0) { finStr = finStr + '.' } // If there are decimal places, add a decimal point
-                        // finStr = finStr + stringRes.substr(1, decimalAmount) // Add the rest of the decimalAmount after the decimal point(will add nothing if no decimal amount)
-                        // return finStr + ' M'
-
-                                  //*// Actually let's just divide this by 1million.. then cut out all the extra decimal places! //*//
-                        console.log('This is the current String Response', stringRes)
-                        console.log('This is the decimal amount', decimalAmount)
-                        let milDivCalc = stringRes / 1000000;
-                        let milDiv = milDivCalc.toString()
-                        console.log('mil Division (milDiv):', milDiv)
-
-                        let decimalPoint = -1 // This is milDiv's decimal point
-                        let stringDecimal = '' // This logs all the values after the decimal point
-                        let strBeforeDecimal = '' // This logs all before (1)
-                        for(i = 0; i < milDiv.length; i++) {
-                            if (decimalPoint != -1) { stringDecimal = stringDecimal + milDiv[i] }
-                            if (milDiv[i] == '.') { decimalPoint = i }
-                            if (decimalPoint == -1) { strBeforeDecimal = strBeforeDecimal + milDiv[i] }
-                        }
-                        console.log('This is the decimal point for milDiv for loop calculations', decimalPoint)
-
-                        console.log('These are the values before the decimal', strBeforeDecimal)
-                        console.log('These are the values after the decimal point', stringDecimal)
-
-                            // Then check and see if the length is more or less than the desired amount
-                        if (stringDecimal.length < decimalAmount) { // Add 0's based on missing vars
-                            let difference = decimalAmount - stringDecimal.length
-                            for(i = 0; i < difference; i++) { stringDecimal = stringDecimal + '0' }
-                        }
-                        if (stringDecimal.length > decimalAmount) { // Chop off all the extra vars!
-                            let difference = stringDecimal.length - decimalAmount
-                            for(i = 0; i < difference; i++) { stringDecimal = stringDecimal.slice(0, -1) }
-                        }
-                        
-                        return strBeforeDecimal + '.' + stringDecimal + " M" 
-                    }
-                // If it didn't include a period looker gave an error notifying, otherwise it built the 0.000 "M" Format for the user to use 
-                } // This checked it it's "M" format contianed a double comma   
-            } // End of ~ 0.000,, "M" ~ format
-
-
-                /**** This is the 0.000, "K" format ****/
-            tf = false // Reset tf for precautions, then check in this statement (to use it safely)
-            if (format[charAfterFirstQuote] == "K" && format[charAfterFirstQuote + 1] == '"') { // Check it it's m with two commas: if(">K && K>")
-                console.log('This is the 0.000, "K" format!');
-                if ( !(format.includes(',')) ) { // If there is no comma, then throw an error clause
-                    this.addError({title: "No comma", message: "You must include a comma after your desired amount of decimal places."})
-                    return
-                } else if ( !(format.includes('.')) ) { // If there is no period, then throw an error clause
-                    this.addError({title: "No decimal", message: "You must include a period to denote how many decimal places you want."})
-                    return
-                } else { tf = true }
-
-                if (tf) { // Build the final string return
-                    let decimalAmount = 0
-                    let finStr = ''
-                        // This is adding the same code pieces, I know that's bad my bad guys!
-                    for(i = 0; i < format.length; i++) { // Find the decimal point
-                        if (format[i] == '.') {
-                            iterationLog = i + 1
-                            break
-                        }
-                    }
-                    for(i = iterationLog; i < format.length; i++) { // Count how many decimals they want after the decimal point
-                        if (format[i] != '0') { break }
-                        decimalAmount ++
-                    }
-
-                        // Rebuild the desired string return
-                   stringRes = string.replace(",", "")
-
-                    //     // Use substr to build the jazz properly (^:;
-                    // finStr = stringRes.substr(0, 1)
-                    // if (decimalAmount != 0) { finStr = finStr + '.' }
-                    // finStr = finStr + stringRes.substr(1, decimalAmount)
-                    // return finStr + ' K'
-
-                    console.log('This is the current String Response', stringRes)
-                    console.log('This is the decimal amount', decimalAmount)
-                    let thouDivCalc = stringRes / 1000;
-                    let thouDiv = thouDivCalc.toString()
-                    console.log('mil Division (thouDiv):', thouDiv)
-
-                    let decimalPoint = -1 // This is thouDiv's decimal point
-                    let stringDecimal = '' // This logs all the values after the decimal point
-                    let strBeforeDecimal = '' // This logs all before (1)
-                    for(i = 0; i < thouDiv.length; i++) {
-                        if (decimalPoint != -1) { stringDecimal = stringDecimal + thouDiv[i] }
-                        if (thouDiv[i] == '.') { decimalPoint = i }
-                        if (decimalPoint == -1) { strBeforeDecimal = strBeforeDecimal + thouDiv[i] }
-                    }
-                    console.log('This is the decimal point for thouDiv for loop calculations', decimalPoint)
-
-                    console.log('These are the values before the decimal', strBeforeDecimal)
-                    console.log('These are the values after the decimal point', stringDecimal)
-
-                        // Then check and see if the length is more or less than the desired amount
-                    if (stringDecimal.length < decimalAmount) { // Add 0's based on missing vars
-                        let difference = decimalAmount - stringDecimal.length
-                        for(i = 0; i < difference; i++) { stringDecimal = stringDecimal + '0' }
-                    }
-                    if (stringDecimal.length > decimalAmount) { // Chop off all the extra vars!
-                        let difference = stringDecimal.length - decimalAmount
-                        for(i = 0; i < difference; i++) { stringDecimal = stringDecimal.slice(0, -1) }
-                    }
-                        
-                    return strBeforeDecimal + '.' + stringDecimal + " K"
-
-
-                } // If it passed all the built error clauses
-            } // End of ~ 0.000, "K" ~ format 
-
-
-
-                /***** This is for Euro quote format with no decimals *****/
-            tf = false
-            if (format[charAfterFirstQuote] == "€" && format[charAfterFirstQuote + 1] == '"') {
-                console.log('This is the "€"0 format!'); 
-                    // Take the string, pull out the decimals and 
-                return "€" + stringRes // Add in the euro sign and return this 
-            }
-                /***** End of the Euro quote format with no decimals *****/
-
-
-
-                // Error if commas outside of quotes, pass string in after value
-            else {
-                console.log('This is the "String"0 or 0"String" format!'); 
-                    // Pull out the string value that's in the value format
-                let quote = ''
-                let secondQuote = 0 // Find the second quote
-                for(i = charAfterFirstQuote; i < format.length; i++) {
-                    if (format[i] == '"') { 
-                        secondQuote = i
-                        break 
-                    }
-                    quote = quote + format[i] // Add the string into a var to be added to the value 
-                }
-
-                    // look for numbers before and after the quote
-                before = false
-                after = false
-                for(i = 0; i < charAfterFirstQuote - 1; i++) { // if STRING is After the quotes
-                    if (format[i] == '0') {
-                        after = true
-                        break
-                    }
-                }
-                for(i = secondQuote + 1; i < format.length; i++) { // If STRING is Before the quotes
-                    if (format[i] == '0') {
-                        before = true
-                        break
-                    }
-                }
-                
-                    // Now if it's before put text before, if after put text after, if both are true throw an error
-                if(before == true && after == true) {
-                    this.addError({title: "Value before and after", message: "Put your quotes before or after the string, not both."})
-                    return 
-                }
-                    // Calculate the final return for the value
-                if(before) {
-                    
-                    stringRes = quote + ' ' + string 
-                    return stringRes
-                }
-                if(after) {
-                    stringRes = string + ' ' + quote
-                    return stringRes
-                }       
-            } // End of string calculation to the value
-
-        } else { // If they don't have two double quotes in their response then it will throw this error
-            this.addError({title: "No enclosing double quotes", message: "If you're formatting a string, or for number in M or K, then have enclosing quotes to denote which of these you're formatting."})
-            return
-        }
-    }    /**///* Ends of the  :: '0 "String"' : '0.000,, "M"' : '0.000, "K"' :: formats and checked for some formatting errors for each *///**/
-
-
-        /***** If it's 0.## formatting *****/ // This is for formatting values that have decimals, so the string will have decimals built in ~
-    console.log('This is the 0.## format!');    
-    tf = false // To be safe, reset tf to false 
-    hashCount = 0
-    if (format[format.length - 1]== "#" && format[0] == '0' && format[1] == '.') { // If it Ends in a hash, starts with 0, and The followed by a period
-        tf = true // Set to true, and will be falsed if it's not formatted correctly for this value format type
-        for(i = 2; i < format.length; i++) {
-        if (format[i] != '#') {  // Break and null the calculation return(using tf) if they aren't properly formatting it
-            tf = false 
-            break 
-        }
-        hashCount ++
-        }
-    }
-
-        // If it's true, calculate like so, if not then continue on through all the different formats we can use
-    if (tf) {
-            // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
-        let decimalPlace = 0
-        stringRes = string
-
-        for(i = 0; i < string.length; i++) { // Find decimal place and store it
-            if (string[i] == '.') { // If the decimal place is found, store it for calculation
-                decimalPlace = i
-                break
-            }
-        }
-
-        // If the string has less decimals points than the desired hash count, then return the value as it is, otherwise find the difference and remove the extra decimal points
-        if (decimalPlace + hashCount > string.length) { // If the hash count is higher than the string length
-            return string
-        } else if (decimalPlace + hashCount < string.length) { // If the has count is less then the string, pull out the extra decimals characters
-            let difference = stringRes.length - decimalPlace - hashCount // How many characters to pull out of the string at the end
-                // Differerence determines how many times we're gonna slice off the final character of the string return
-            for(i = 0; i < difference; i++) { // For however many extra decimal places the string has (difference) we slice off the last char of the value
-                stringRes.slice(0, -1) // This slices off the final value of the stringRes
-            }
-            return stringRes
-        } // End sliced string
-    }
-            
-        /***** End of the  0.## formatting *****/
-
-
-
-        /***** Onto the  00#.00 formatting! *****/ // So we're zero padding before the decimal, and setting the decimal places up for the value
-
-    if (format.includes('.') && !(format.includes(',')) && format[0] == '0' && format[format.length - 1] == '0' && format.includes('#')) {  // Soooo... if it includes a period & no comma, start & ends with 0, lets dig in, this might be it!
-        console.log('This is the 00#.00 format!');
-        tf = false // Reset tf for security reasons (just to be safe, check again)
-        let paddingAmount = 0 // This is the number of zeros padded to numbers before the decimal place
-        let decimalAmount = 0 // This is the number of decimal places after period (This is exact)
-        let formatPeriod = 0 // Position of period (hash SHOULD be right before this)
-        let stringPeriod = 0 // Position of string period 
-        stringRes = string.replace(",", "")
-
-        for(i = 0; i < format.length; i++) { // find the position of the period (^:;
-            if (format[i] == '.') { // Find the period, then check if a hash is before it 
-                if (format[i - 1] == '#') {
-                    tf = true 
-                    formatPeriod = i
-                    // console.log('this is the formatPeriod', formatPeriod)
-                }
-            }
-        }
-
-        if (tf) { // If it passed the first check, bring it in for another one, then another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one 
-
-            for(i = 0; i < formatPeriod -1; i++) { // Check up to the hash, if any of those aren't a zero, skip the result for this case. They need to go through every iteration to really see, but they have to go through it all without being nulled ;p
-                if (format[i] != '0') { 
-                    tf = false 
-                    // console.log('finding the padding amount, this is i: ' + format[i] + ' on iteration ' + i)
-                    break
-                } 
-                paddingAmount ++
-            }
-            for(i = formatPeriod + 1; i < format.length; i++) { // Start after decimal point, then go through the decimal places
-                if(format[i] != '0') { 
-                    tf = false // tf is falsified if it isn't 0
-                    // console.log('finding the decimal amount, this is i: ' + format[i] + ' on iteration ' + i) 
-                    break
-                } 
-                decimalAmount ++
-            }
-
-
-            if (tf) { // Run functions for each part of this format
-                for(i = 0; i < string.length; i++) { // First lets find the decimal place of the string
-                    if(string[i] == '.') {
-                        stringPeriod = i
-                        break
-                    }
-                }
-                // console.log('string decimal place', stringPeriod)
-
-
-                    // So there's one possible error, the string variable didn't have a period! ~ Here's the quick edit for it now :P
-                if (stringPeriod == 0) { 
-                    stringRes = string
-                    if(stringRes.length < paddingAmount) {
-                        let difference = paddingAmount - stringRes.length
-                        for(i = 0; i < difference; i++) { stringRes = '0' + stringRes }
-                    }
-                    stringRes = stringRes + '.'// Then just add a decimal point, and the decimalAmount!
-                    for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0' }
-                    return stringRes
-                }
-
-
-                    // Then let's see if we need to add padding to the string. So let's store some variables here for returning
-                padded = string.slice(0, stringPeriod) // This returns the string value all the way to the period 
-                decimal = string.slice(stringPeriod + 1) // This returns the string decimals after the period
-                stringRes = string // This is the string response
-                        // Onto the two functions editing the padding and decimal places then concatenating with a period again (^:;
-                // console.log('This is padded', padded)
-                // console.log('Padding Amount', paddingAmount)
-                // console.log('This is decimal', decimal)
-                // console.log('Decimal Amount', decimalAmount)
-
-                    // If there's more or equal to the numbers than the desired padding, let it alone, and continue on 
-                if (padded.length < paddingAmount) { // But if there's extra padding room, add 0s to the beginning based on the difference
-                    let difference = paddingAmount - padded.length // Calculate the difference
-                    for(i = 0; i < difference; i++) { // Add zeros based on it
-                        padded = '0' + padded
-                    }
-                } // Padding is done, now let's do decimal
-
-                if (decimalAmount < decimal.length) { // Find difference and chop off the extras
-                    let difference = decimal.length - decimalamount
-                    for(i = 0; i < difference; i++) { // Chop off the extra 
-                        decimal.slice(0, -1) // This slices off the final value of the stringRes
-                    }
-                } else if (decimalAmount > decimal.length) {
-                    let difference = decimalAmount - decimal.length
-                    for(i = 0; i < difference; i++) { // Add 0's for all the missing decimal points(difference)
-                        decimal = decimal + '0'
-                    }
-                }
-
-                    // We've ran conditionals to check and build both before(padding) and after(decimal) the period
-                stringRes = padded + '.' + decimal              
-                return stringRes
-            } // End of second tf conditional
-        } // End of first case (the second one is within the first)
-    } // End of the 00#.00 formatter
-        /***** End of the  00#.00 formatting! *****/
-
-
-
-
-        /***** Onto the  0.00 formatting! *****/ // This brings numbers with exactly this many decimals.. So we'll slice the extras, and add 0's if it's less than
-            // if format[0] = '0', and format[1] = '.', and the rest are 0's
-
-    if (format[0] == '0' && format[1] == '.' && format[format.length - 1] == '0' && !(format.includes('#')) && !(format.includes(',')) ) { // If it starts with 0, followed by a decimal, and ends with a 0
-        console.log('This is the 0.00 format!');    
-        tf = true
-        decimalAmount = 0
-
-            // Check and see if the rest are 0's
-        for(i = 2; i < format.length; i++) {
-            if(format[i] != '0') { tf = false }
-            decimalAmount ++ // Calculating the set number of decimal places 
-        } 
-
-            // If there is no period, auto set number of decimal places and the decimal point
-        if ( !(string.includes('.')) ) {
-            stringRes = string + '.'
-            for(i = 0; i < decimalAmount; i++) {
-                stringRes = stringRes + '0'
-            }
-            return stringRes
-        }
-        
-
-        if (tf) {
-                // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
-
-                // This is string stuff
-            stringRes = string
-            let beforeDecimal = ''
-            let afterDecimal = ''
-            let decimalPlace = 0
-                // This is format stuff
-            // Also decimal place 
-            // Also decimal amount
-
-            for(i = 0; i < stringRes.length; i++) {
-                if(stringRes[i] == '.') {
-                    decimalPlace = i
-                    break
-                }
-            }
-            beforeDecimal = stringRes.substr(decimalPlace) 
-            afterDecimal = stringRes.substr(decimalPlace + 1)
-
-            if (afterDecimal.length > decimalAmount) { // calc the difference, and slice off the extras
-                let difference = afterDecimal.length - decimalAmount
-                for(i = 0; i < difference; i++) {
-                    stringRes = stringRes.slice(0, -1)
-                }
-                return stringRes
-            }
-            if (afterDecimal.length < decimalAmount) {
-                let difference = decimalAmount - afterDecimal.length
-                for(i = 0; i < difference; i++) {
-                    stringRes = stringRes + '0'
-                }
-                return stringRes
-            }
-
-
-
-        } // End of it the format was correct (tf)
-
-    } // End of this format function
-        
-        /***** End of the  0.00 formatting! *****/
-
-
-
-    else {
-      // They went through all the formatting to edit the data and it didn't find any
-      console.log("We couldn't find the format you were looking for, so we returned the value as is")
-      return value
-    }
+    return stringRes
+  } // End of the #,##0 formatter 
+  
+      /***** End of the  #,##0 formatting! *****/
+
+
+
+      /***** This is the  #,##0.00 formatting! *****/
+  if (format.includes(',') && format.includes('.') && format[0] == '#' && format[1] == ',' && format[2] == '#' && format[3] == '#' && format[4] == '0' && format[5] == '.' && format[format.length - 1] == '0') {
+      console.log('This is the #,##0.00 format!');    
+      tf = true
+          // Find the location of the decimal for each, and the desired formatting plus the set string data to do calulcations
+      let formatPoint = 5 // This is the logged location of the decimal
+      let formatAmount = 0 // This is the number of decimal places after period (This is exact)
+      let stringPoint = -1 // Find the location of the string point to find the amount of decimal places the string has
+      let stringAmount = 0 // This is the number of decimal places after the period in the visual
+          // This is the string data in pieces to work on individually to put back together after each function
+      let beforeDecimal = '' // This is up to the decimal point
+      let decimalPointAndOn = '' // This is teh decimal point an all the places beyond
+
+
+          // Calculate the number of zeros after the period, and falsify it if it contains anything other than a zero
+      for(i = 6; i < format.length; i++) {
+          if (format[i] != '0') { 
+              tf = false
+              break
+          }
+          formatAmount++
+      }
+      // console.log('This is format length!', formatAmount)
+
+      if (tf) { // If it's formatted right tf = true, then calculate the jazz
+          
+
+              // Break apart the string (if there's a period clause goes here)
+          for(i = 0; i < string.length; i++) { // Find string point, and after we do start calculating the stringAmount (the amount of decimal places)
+              if (stringPoint != -1) { stringAmount++ }
+              if (i == '.') {
+                  stringPoint = i
+              }
+          }
+          // console.log('StringPoint location ', stringPoint)
+
+          if (stringPoint == -1) { // If stringPoint is still -1 (then there was no decimal point!)  
+              if(string.includes(',')) { // Add the decimal stuff then return it as is
+                  stringRes = string + '.'
+                  for(i=0; i < formatAmount; i++) {
+                      stringRes = stringRes + '0'
+                  }
+                  return stringRes
+              } 
+          }
+
+          // For values with decimals, here's the calculations
+          beforeDecimal = string.slice(0, stringPoint)
+          decimalPointAndOn = string.slice(stringPoint)
+          // console.log('beforeDecimal', beforeDecimal)
+          // console.log('decimalPointAndOn', decimalPointAndOn)
+
+
+              // Then add teh commas(if there aren't any already)
+          if (!(beforeDecimal.includes(','))) { // If no commas, add them in!
+              beforeDecimal = numberWithCommas(beforeDecimal)
+          }
+
+
+              // Then fix the decimal places based on the formatting 
+          if (formatAmount < decimalPointAndOn.length - 1) {  // Find difference and chop off the extras
+              let difference = (decimalPointAndOn.length - 1) - formatAmount
+              for(i = 0; i < difference; i++) {
+                decimal.slice(0, -1)
+              }
+          } else if (formatAmount > decimalPointAndOn.length - 1) {
+              let difference = formatAmount - (decimalPointAndOn.length - 1)
+              for(i = 0; i < difference; i++) { // Add 0's for all the missing decimal points(difference)
+                  decimalPointAndOn = decimalPointAndOn + '0'
+              }
+          }
+          return beforeDecimal + decimalPointAndOn
+
+      } // End of tf
+  } // End of #,##0.00 format 
+
+      /***** End of the  #,##0.00 formatting! *****/
+
+
+
+      /***** If it's all 0s and the last is a hash: Zero padded to however many places they instructed *****/
+  if (format[format.length - 1] == '#') { tf = true }
+  console.log('This is the 00# format!');
+  for(i = 0; i < format.length - 1; i++) {
+      if (format[i] != '0') { 
+          tf = false
+          break 
+      }
+  }
+  if (tf == true) {   // Create the Zero padded data 
+      let strLength = stringRes.length
+      let formatLength = format.length // number of 0's (exclude the hash)
+
+      if (strLength > formatLength) { return stringRes }
+      else if (strLength < formatLength) {
+              // Find the difference in chararcters, then add that many 0's with a for loop 
+          let difference = formatLength - strLength
+          for(i = 0; i < difference; i++) {
+              stringRes = '0' + stringRes
+          }
+          return stringRes
+      }
+
+  }
+
+
+      /***** If it's 0 "String": Integer followed by a string (Let's do before or after) *****/
+  let iterationLog
+  let charAfterFirstQuote
+  tf = false
+  if (format.includes('"')) { // Looks if it's including quotes > Couls be "String" or "K" or "M"
+          // Now find the first quote to see what's inside ~
+      for(i = 0; i < format.length; i++) {
+          if (format[i] == '"') {
+              charAfterFirstQuote = i + 1 // The iteration after the first quote
+              break
+          }
+      }
+
+
+          // Now we have the first quote's iteration, let's see what's in the quotes to choose the different return for the function
+      if (format.includes('"', charAfterFirstQuote)) { // If it includes double quote then run the rest of this, otherwise it's an error!
+
+              /**** This is the 0.000,, "M" format ****/
+          if (format[charAfterFirstQuote] == 'M' && format[charAfterFirstQuote + 1] == '"') {   // Check it it's m ending quote: if(">M && M>")
+              console.log('This is the 0.000,, "M" format!');
+
+              for(i = 0; i < format.length; i++) { // Check if it has two commas!
+                  if (format[i] == ',') { // If they found a comma
+                      if (format[i + 1] == ',') { // They found a comma after the comma
+                          tf = true // This is setting it to 1.000 M reference and lets end the loop and start that functionality
+                          break
+                      }
+                  }
+                  if(i == format.length - 1) { // Clause for if you go through the entire loop without finding a comma
+                      this.addError({title: "No commas", message: "You must include two commas after the desired number of decimal places."})
+                      return
+                  }
+              }
+
+                  // If tf is true right now, then format it to M, else we'll check if it's "K" format
+              if (tf) { // Take in stringRes, find the iteration the . is on, then pull in all the 0's after the decimal(up to 6) and return this new string
+                  if ( !(format.includes('.')) ) { // If there is no period, then throw an error clause
+                      this.addError({title: "No decimal", message: "You must include a period to denote how many decimal places you want."})
+                      return
+                  } else { // If it includes all the proper things for this format
+                      let decimalAmount = 0 // Stores how many decimal places the user desired
+                      let finStr = ''
+                      for(i = 0; i < format.length; i++) { // Find the decimal point
+                          if (format[i] == '.') {
+                              iterationLog = i + 1 // Log the iteration afte the decimal point
+                              break
+                          }
+                      }
+                      for(i = iterationLog; i < format.length; i++) { // Starting from right after the decimal point, count the 0s there are until another character is present
+                          if (format[i] != '0') { break }
+                          decimalAmount ++
+                      }
+                          // Now we know how many decimal places they want, change the string to setup the proper '1.234 M' value format 
+                      // So we take the first number, add a decimal after it, and then keep any extra numbers past the desired decimal amount 
+                          // Strip out all the periods and decimals before we rework it
+                      stringRes = string.replace(",", "")
+
+                          // Use substr to build this jazz right
+                      // finStr = stringRes.substr(0, 1)
+                      // if (decimalAmount != 0) { finStr = finStr + '.' } // If there are decimal places, add a decimal point
+                      // finStr = finStr + stringRes.substr(1, decimalAmount) // Add the rest of the decimalAmount after the decimal point(will add nothing if no decimal amount)
+                      // return finStr + ' M'
+
+                                //*// Actually let's just divide this by 1million.. then cut out all the extra decimal places! //*//
+                      console.log('This is the current String Response', stringRes)
+                      console.log('This is the decimal amount', decimalAmount)
+                      let milDivCalc = stringRes / 1000000;
+                      let milDiv = milDivCalc.toString()
+                      console.log('mil Division (milDiv):', milDiv)
+
+                      let decimalPoint = -1 // This is milDiv's decimal point
+                      let stringDecimal = '' // This logs all the values after the decimal point
+                      let strBeforeDecimal = '' // This logs all before (1)
+                      for(i = 0; i < milDiv.length; i++) {
+                          if (decimalPoint != -1) { stringDecimal = stringDecimal + milDiv[i] }
+                          if (milDiv[i] == '.') { decimalPoint = i }
+                          if (decimalPoint == -1) { strBeforeDecimal = strBeforeDecimal + milDiv[i] }
+                      }
+                      console.log('This is the decimal point for milDiv for loop calculations', decimalPoint)
+
+                      console.log('These are the values before the decimal', strBeforeDecimal)
+                      console.log('These are the values after the decimal point', stringDecimal)
+
+                          // Then check and see if the length is more or less than the desired amount
+                      if (stringDecimal.length < decimalAmount) { // Add 0's based on missing vars
+                          let difference = decimalAmount - stringDecimal.length
+                          for(i = 0; i < difference; i++) { stringDecimal = stringDecimal + '0' }
+                      }
+                      if (stringDecimal.length > decimalAmount) { // Chop off all the extra vars!
+                          let difference = stringDecimal.length - decimalAmount
+                          for(i = 0; i < difference; i++) { stringDecimal = stringDecimal.slice(0, -1) }
+                      }
+                      
+                      return strBeforeDecimal + '.' + stringDecimal + " M" 
+                  }
+              // If it didn't include a period looker gave an error notifying, otherwise it built the 0.000 "M" Format for the user to use 
+              } // This checked it it's "M" format contianed a double comma   
+          } // End of ~ 0.000,, "M" ~ format
+
+
+              /**** This is the 0.000, "K" format ****/
+          tf = false // Reset tf for precautions, then check in this statement (to use it safely)
+          if (format[charAfterFirstQuote] == "K" && format[charAfterFirstQuote + 1] == '"') { // Check it it's m with two commas: if(">K && K>")
+              console.log('This is the 0.000, "K" format!');
+              if ( !(format.includes(',')) ) { // If there is no comma, then throw an error clause
+                  this.addError({title: "No comma", message: "You must include a comma after your desired amount of decimal places."})
+                  return
+              } else if ( !(format.includes('.')) ) { // If there is no period, then throw an error clause
+                  this.addError({title: "No decimal", message: "You must include a period to denote how many decimal places you want."})
+                  return
+              } else { tf = true }
+
+              if (tf) { // Build the final string return
+                  let decimalAmount = 0
+                  let finStr = ''
+                      // This is adding the same code pieces, I know that's bad my bad guys!
+                  for(i = 0; i < format.length; i++) { // Find the decimal point
+                      if (format[i] == '.') {
+                          iterationLog = i + 1
+                          break
+                      }
+                  }
+                  for(i = iterationLog; i < format.length; i++) { // Count how many decimals they want after the decimal point
+                      if (format[i] != '0') { break }
+                      decimalAmount ++
+                  }
+
+                      // Rebuild the desired string return
+                 stringRes = string.replace(",", "")
+
+                  //     // Use substr to build the jazz properly (^:;
+                  // finStr = stringRes.substr(0, 1)
+                  // if (decimalAmount != 0) { finStr = finStr + '.' }
+                  // finStr = finStr + stringRes.substr(1, decimalAmount)
+                  // return finStr + ' K'
+
+                  console.log('This is the current String Response', stringRes)
+                  console.log('This is the decimal amount', decimalAmount)
+                  let thouDivCalc = stringRes / 1000;
+                  let thouDiv = thouDivCalc.toString()
+                  console.log('mil Division (thouDiv):', thouDiv)
+
+                  let decimalPoint = -1 // This is thouDiv's decimal point
+                  let stringDecimal = '' // This logs all the values after the decimal point
+                  let strBeforeDecimal = '' // This logs all before (1)
+                  for(i = 0; i < thouDiv.length; i++) {
+                      if (decimalPoint != -1) { stringDecimal = stringDecimal + thouDiv[i] }
+                      if (thouDiv[i] == '.') { decimalPoint = i }
+                      if (decimalPoint == -1) { strBeforeDecimal = strBeforeDecimal + thouDiv[i] }
+                  }
+                  console.log('This is the decimal point for thouDiv for loop calculations', decimalPoint)
+
+                  console.log('These are the values before the decimal', strBeforeDecimal)
+                  console.log('These are the values after the decimal point', stringDecimal)
+
+                      // Then check and see if the length is more or less than the desired amount
+                  if (stringDecimal.length < decimalAmount) { // Add 0's based on missing vars
+                      let difference = decimalAmount - stringDecimal.length
+                      for(i = 0; i < difference; i++) { stringDecimal = stringDecimal + '0' }
+                  }
+                  if (stringDecimal.length > decimalAmount) { // Chop off all the extra vars!
+                      let difference = stringDecimal.length - decimalAmount
+                      for(i = 0; i < difference; i++) { stringDecimal = stringDecimal.slice(0, -1) }
+                  }
+                      
+                  return strBeforeDecimal + '.' + stringDecimal + " K"
+
+
+              } // If it passed all the built error clauses
+          } // End of ~ 0.000, "K" ~ format 
+
+
+
+              /***** This is for Euro quote format with no decimals *****/
+          tf = false
+          if (format[charAfterFirstQuote] == "€" && format[charAfterFirstQuote + 1] == '"') {
+              console.log('This is the "€"0 format!'); 
+                  // Take the string, pull out the decimals and 
+              return "€" + stringRes // Add in the euro sign and return this 
+          }
+              /***** End of the Euro quote format with no decimals *****/
+
+
+
+              // Error if commas outside of quotes, pass string in after value
+          else {
+              console.log('This is the "String"0 or 0"String" format!'); 
+                  // Pull out the string value that's in the value format
+              let quote = ''
+              let secondQuote = 0 // Find the second quote
+              for(i = charAfterFirstQuote; i < format.length; i++) {
+                  if (format[i] == '"') { 
+                      secondQuote = i
+                      break 
+                  }
+                  quote = quote + format[i] // Add the string into a var to be added to the value 
+              }
+
+                  // look for numbers before and after the quote
+              before = false
+              after = false
+              for(i = 0; i < charAfterFirstQuote - 1; i++) { // if STRING is After the quotes
+                  if (format[i] == '0') {
+                      after = true
+                      break
+                  }
+              }
+              for(i = secondQuote + 1; i < format.length; i++) { // If STRING is Before the quotes
+                  if (format[i] == '0') {
+                      before = true
+                      break
+                  }
+              }
+              
+                  // Now if it's before put text before, if after put text after, if both are true throw an error
+              if(before == true && after == true) {
+                  this.addError({title: "Value before and after", message: "Put your quotes before or after the string, not both."})
+                  return 
+              }
+                  // Calculate the final return for the value
+              if(before) {
+                  
+                  stringRes = quote + ' ' + string 
+                  return stringRes
+              }
+              if(after) {
+                  stringRes = string + ' ' + quote
+                  return stringRes
+              }       
+          } // End of string calculation to the value
+
+      } else { // If they don't have two double quotes in their response then it will throw this error
+          this.addError({title: "No enclosing double quotes", message: "If you're formatting a string, or for number in M or K, then have enclosing quotes to denote which of these you're formatting."})
+          return
+      }
+  }    /**///* Ends of the  :: '0 "String"' : '0.000,, "M"' : '0.000, "K"' :: formats and checked for some formatting errors for each *///**/
+
+
+      /***** If it's 0.## formatting *****/ // This is for formatting values that have decimals, so the string will have decimals built in ~
+  console.log('This is the 0.## format!');    
+  tf = false // To be safe, reset tf to false 
+  hashCount = 0
+  if (format[format.length - 1]== "#" && format[0] == '0' && format[1] == '.') { // If it Ends in a hash, starts with 0, and The followed by a period
+      tf = true // Set to true, and will be falsed if it's not formatted correctly for this value format type
+      for(i = 2; i < format.length; i++) {
+      if (format[i] != '#') {  // Break and null the calculation return(using tf) if they aren't properly formatting it
+          tf = false 
+          break 
+      }
+      hashCount ++
+      }
+  }
+
+      // If it's true, calculate like so, if not then continue on through all the different formats we can use
+  if (tf) {
+          // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
+      let decimalPlace = 0
+      stringRes = string
+
+      for(i = 0; i < string.length; i++) { // Find decimal place and store it
+          if (string[i] == '.') { // If the decimal place is found, store it for calculation
+              decimalPlace = i
+              break
+          }
+      }
+
+      // If the string has less decimals points than the desired hash count, then return the value as it is, otherwise find the difference and remove the extra decimal points
+      if (decimalPlace + hashCount > string.length) { // If the hash count is higher than the string length
+          return string
+      } else if (decimalPlace + hashCount < string.length) { // If the has count is less then the string, pull out the extra decimals characters
+          let difference = stringRes.length - decimalPlace - hashCount // How many characters to pull out of the string at the end
+              // Differerence determines how many times we're gonna slice off the final character of the string return
+          for(i = 0; i < difference; i++) { // For however many extra decimal places the string has (difference) we slice off the last char of the value
+              stringRes.slice(0, -1) // This slices off the final value of the stringRes
+          }
+          return stringRes
+      } // End sliced string
+  }
+          
+      /***** End of the  0.## formatting *****/
+
+
+
+      /***** Onto the  00#.00 formatting! *****/ // So we're zero padding before the decimal, and setting the decimal places up for the value
+
+  if (format.includes('.') && !(format.includes(',')) && format[0] == '0' && format[format.length - 1] == '0' && format.includes('#')) {  // Soooo... if it includes a period & no comma, start & ends with 0, lets dig in, this might be it!
+      console.log('This is the 00#.00 format!');
+      tf = false // Reset tf for security reasons (just to be safe, check again)
+      let paddingAmount = 0 // This is the number of zeros padded to numbers before the decimal place
+      let decimalAmount = 0 // This is the number of decimal places after period (This is exact)
+      let formatPeriod = 0 // Position of period (hash SHOULD be right before this)
+      let stringPeriod = 0 // Position of string period 
+      stringRes = string.replace(",", "")
+
+      for(i = 0; i < format.length; i++) { // find the position of the period (^:;
+          if (format[i] == '.') { // Find the period, then check if a hash is before it 
+              if (format[i - 1] == '#') {
+                  tf = true 
+                  formatPeriod = i
+                  // console.log('this is the formatPeriod', formatPeriod)
+              }
+          }
+      }
+
+      if (tf) { // If it passed the first check, bring it in for another one, then another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one and another one 
+
+          for(i = 0; i < formatPeriod -1; i++) { // Check up to the hash, if any of those aren't a zero, skip the result for this case. They need to go through every iteration to really see, but they have to go through it all without being nulled ;p
+              if (format[i] != '0') { 
+                  tf = false 
+                  // console.log('finding the padding amount, this is i: ' + format[i] + ' on iteration ' + i)
+                  break
+              } 
+              paddingAmount ++
+          }
+          for(i = formatPeriod + 1; i < format.length; i++) { // Start after decimal point, then go through the decimal places
+              if(format[i] != '0') { 
+                  tf = false // tf is falsified if it isn't 0
+                  // console.log('finding the decimal amount, this is i: ' + format[i] + ' on iteration ' + i) 
+                  break
+              } 
+              decimalAmount ++
+          }
+
+
+          if (tf) { // Run functions for each part of this format
+              for(i = 0; i < string.length; i++) { // First lets find the decimal place of the string
+                  if(string[i] == '.') {
+                      stringPeriod = i
+                      break
+                  }
+              }
+              // console.log('string decimal place', stringPeriod)
+
+
+                  // So there's one possible error, the string variable didn't have a period! ~ Here's the quick edit for it now :P
+              if (stringPeriod == 0) { 
+                  stringRes = string
+                  if(stringRes.length < paddingAmount) {
+                      let difference = paddingAmount - stringRes.length
+                      for(i = 0; i < difference; i++) { stringRes = '0' + stringRes }
+                  }
+                  stringRes = stringRes + '.'// Then just add a decimal point, and the decimalAmount!
+                  for(i = 0; i < decimalAmount; i++) { stringRes = stringRes + '0' }
+                  return stringRes
+              }
+
+
+                  // Then let's see if we need to add padding to the string. So let's store some variables here for returning
+              padded = string.slice(0, stringPeriod) // This returns the string value all the way to the period 
+              decimal = string.slice(stringPeriod + 1) // This returns the string decimals after the period
+              stringRes = string // This is the string response
+                      // Onto the two functions editing the padding and decimal places then concatenating with a period again (^:;
+              // console.log('This is padded', padded)
+              // console.log('Padding Amount', paddingAmount)
+              // console.log('This is decimal', decimal)
+              // console.log('Decimal Amount', decimalAmount)
+
+                  // If there's more or equal to the numbers than the desired padding, let it alone, and continue on 
+              if (padded.length < paddingAmount) { // But if there's extra padding room, add 0s to the beginning based on the difference
+                  let difference = paddingAmount - padded.length // Calculate the difference
+                  for(i = 0; i < difference; i++) { // Add zeros based on it
+                      padded = '0' + padded
+                  }
+              } // Padding is done, now let's do decimal
+
+              if (decimalAmount < decimal.length) { // Find difference and chop off the extras
+                  let difference = decimal.length - decimalamount
+                  for(i = 0; i < difference; i++) { // Chop off the extra 
+                      decimal.slice(0, -1) // This slices off the final value of the stringRes
+                  }
+              } else if (decimalAmount > decimal.length) {
+                  let difference = decimalAmount - decimal.length
+                  for(i = 0; i < difference; i++) { // Add 0's for all the missing decimal points(difference)
+                      decimal = decimal + '0'
+                  }
+              }
+
+                  // We've ran conditionals to check and build both before(padding) and after(decimal) the period
+              stringRes = padded + '.' + decimal              
+              return stringRes
+          } // End of second tf conditional
+      } // End of first case (the second one is within the first)
+  } // End of the 00#.00 formatter
+      /***** End of the  00#.00 formatting! *****/
+
+
+
+
+      /***** Onto the  0.00 formatting! *****/ // This brings numbers with exactly this many decimals.. So we'll slice the extras, and add 0's if it's less than
+          // if format[0] = '0', and format[1] = '.', and the rest are 0's
+
+  if (format[0] == '0' && format[1] == '.' && format[format.length - 1] == '0' && !(format.includes('#')) && !(format.includes(',')) ) { // If it starts with 0, followed by a decimal, and ends with a 0
+      console.log('This is the 0.00 format!');    
+      tf = true
+      decimalAmount = 0
+
+          // Check and see if the rest are 0's
+      for(i = 2; i < format.length; i++) {
+          if(format[i] != '0') { tf = false }
+          decimalAmount ++ // Calculating the set number of decimal places 
+      } 
+
+          // If there is no period, auto set number of decimal places and the decimal point
+      if ( !(string.includes('.')) ) {
+          stringRes = string + '.'
+          for(i = 0; i < decimalAmount; i++) {
+              stringRes = stringRes + '0'
+          }
+          return stringRes
+      }
+      
+
+      if (tf) {
+              // So we need to find the decimal point then cut out the extra decimal places, leave the rest as it is
+
+              // This is string stuff
+          stringRes = string
+          let beforeDecimal = ''
+          let afterDecimal = ''
+          let decimalPlace = 0
+              // This is format stuff
+          // Also decimal place 
+          // Also decimal amount
+
+          for(i = 0; i < stringRes.length; i++) {
+              if(stringRes[i] == '.') {
+                  decimalPlace = i
+                  break
+              }
+          }
+          beforeDecimal = stringRes.substr(decimalPlace) 
+          afterDecimal = stringRes.substr(decimalPlace + 1)
+
+          if (afterDecimal.length > decimalAmount) { // calc the difference, and slice off the extras
+              let difference = afterDecimal.length - decimalAmount
+              for(i = 0; i < difference; i++) {
+                  stringRes = stringRes.slice(0, -1)
+              }
+              return stringRes
+          }
+          if (afterDecimal.length < decimalAmount) {
+              let difference = decimalAmount - afterDecimal.length
+              for(i = 0; i < difference; i++) {
+                  stringRes = stringRes + '0'
+              }
+              return stringRes
+          }
+
+
+
+      } // End of it the format was correct (tf)
+
+  } // End of this format function
+      
+      /***** End of the  0.00 formatting! *****/
+
+
+
+  else {
+    // They went through all the formatting to edit the data and it didn't find any
+    console.log("We couldn't find the format you were looking for, so we returned the value as is")
+    return value
+  }
 
 } // End of valueFormat Function // 
 
 
-        /**************** Done! *****************/
-            // Always call done to indicate a visualization has finished rendering
-    doneRendering() 
+
+    // Some kickbutt functions to use (I really should probably use more functions throughout this, but oh well (^:;
+function numberWithCommas(number) { // Function that uses regex to add commas to them 
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+/*********************************************************************************************************
+                                                                    * End ofInstatiation and Functions
+*********************************************************************************************************/
+
+
+
+/**************** Done! *****************/
+    doneRendering()     // Always call done to indicate a visualization has finished rendering
+    }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
