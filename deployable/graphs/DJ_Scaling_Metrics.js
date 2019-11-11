@@ -87,6 +87,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
 
 
+        // This is the data structure for each of the single value looks instnatiated into the visual. The way this was built is much fancier than the original single value look
     measures.forEach( (mes, i) => {
         // console.log('This is the measure', mes)
         // console.log('Grab the first piece of data', data[0])
@@ -100,6 +101,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             format: valFormat,
             index: i
         }
+        if (newObject.rendered == null) newObject.rendered = newObject.value;
 
         measureData.push(newObject)
     })    
@@ -109,6 +111,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Update the settings
     ******************************************************************/
     
+    dynamicConfig["text_spacing"] = {
+          label: "Dynamic font types. Change the styling to fit your needs",
+          type: "string",
+          order: 10,
+          section: "Word Spacing",
+          display: "radio",
+          values: [
+              {"Word Break on text overflow": "word_break"},
+              {"Dynamic font based on viewport width": "dynamic_size"},
+              {"Dynamic font based on viewport height": "dynamic_height"}
+          ],
+          default: "word_break"
+      };
+
+
+
+        // Then onto adding the Words section of the config
     let dynamicConfig = {}
     measures.forEach( (mes, i) => {
 
@@ -123,7 +142,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     text: `${mes.label_short}` 
                 }
             ]
-        }
+        };
 
         dynamicConfig[mes.name] = {
             label: 'Font Size',
@@ -138,7 +157,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 {"Large": "large"},
             ],
             default: "small"
-        }
+        };
 
         dynamicConfig[mes.name + 'ValueFormat'] = {
             label: 'Value Format',
@@ -147,7 +166,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             section: 'Words',
             display_size: 'half',
             placeholder: 'Spreadsheet style format'
-        }
+        };
 
     });
 
@@ -157,6 +176,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this._mCounter ++ 
         this.trigger('registerOptions', this.options)
     }
+
+
+    /******************************************************************************************
+     * Configure the settings
+    ******************************************************************************************/
+
+
+
+
 
 
     /***********************************
@@ -243,6 +271,46 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         return config[d.name] == 'small' ? '1.4vw'
         : config[d.name] == 'medium' ? '2.2vw'
         : '3.2vw'
+    }
+
+        // The config[d.name] passes in the name of the config operator that the user chooses to find the size. It will return small, medium or large. 
+            // Let's build our function around this to choose the size for whether it's using word break, dynamic_size, or dynamic_height
+
+    function value_fs(d) {
+            // first find the config text_spacing value
+        if (config.text_spacing == "word_break") {
+            if (config[d.name] == "small") return '3rem';
+            if (config[d.name] == "medium") return '4.5rem';
+            if (config[d.name] == "large") return '6rem';
+        } // End of text_spacing "word_break"
+        if (config.text_spacing == "dynamic_size") {
+          if (config[d.name] == "small") return '30.4vw';
+          if (config[d.name] == "medium") return '22.4vw';
+          if (config[d.name] == "large") return '18.4vw';
+        } // End of text_spacing "dynamic_size"
+        if (config.text_spacing == "dynamic_height") {
+            if (config[d.name] == "small") return '20vh';
+            if (config[d.name] == "medium") return '25vh';
+            if (config[d.name] == "large") return '34vh';
+        }
+    } // End of value_fs function 
+
+    function label_fs(d) {
+        if (config.text_spacing == "word_break") {
+            if (config[d.name] == "small") return '1.2rem';
+            if (config[d.name] == "medium") return '1.6rem';
+            if (config[d.name] == "large") return '2rem';
+        }
+        if (config.text_spacing == "dynamic_size") {
+            if (config[d.name] == "small") return '6vw';
+            if (config[d.name] == "medium") return '7.4vw';
+            if (config[d.name] == "large") return '9.8vw';
+        }
+        if (config.text_spacing == "dynamic_height") {
+            if (config[d.name] == "small") return '9vh';
+            if (config[d.name] == "medium") return '11vh';
+            if (config[d.name] == "large") return '13vh';
+        }
     }
 
 
