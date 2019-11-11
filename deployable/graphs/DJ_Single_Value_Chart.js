@@ -31,6 +31,7 @@ looker.plugins.visualizations.add({
                 placeholder: "Spreadsheet style format code"
             },
 
+
             text_spacing: {
                 label: "Dynamic font types. Change the styling to fit your needs",
                 type: "string",
@@ -43,6 +44,35 @@ looker.plugins.visualizations.add({
                 ],
                 default: "ellipsis"
             },
+            wb_fs_conditional: {
+                label: "Use default font size", 
+                type: "boolean",
+                order: 11,
+                section: "Word Spacing", 
+                default: false
+            },
+            wb_fs: {
+                label: "Word Break font size",
+                type: "number", 
+                order: 12,
+                section: "Word Spacing",
+                placeholder: "Rem based font size" 
+            },
+            ds_fs_conditional: {
+                label: "Use default font size", 
+                type: "boolean",
+                order: 13,
+                section: "Word Spacing",
+                default: false
+            },
+            ds_fs: {
+                label: "Dynamic font size",
+                type: "number", 
+                order: 14,
+                section: "Word Spacing", 
+                placeholder: "View width based font size"
+            },
+
 
             showComparison: {
               label: "Show Comparison", 
@@ -51,7 +81,6 @@ looker.plugins.visualizations.add({
               section: "Comparison",
               default: false
             },
-
             valueLabels: {
               label: "Value Labels",
               type: "string",
