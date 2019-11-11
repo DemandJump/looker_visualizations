@@ -446,7 +446,7 @@ if (config.text_spacing == "dynamic_height") {
           arrowFontPass = '8.4vh';
       } else if (config.dh_fs == 'large') {
           value_fs = '34vh';
-          title_fs = '13vh';
+          title_fs = '11.5vh';
           header_fs = '10vh';
           arrowFontPass = '9.4vh';
       }
