@@ -443,12 +443,12 @@ if (config.text_spacing == "dynamic_height") {
           value_fs = '25vh';
           title_fs = '11vh';
           header_fs = '9vh';
-          arrowFontPass = '8.4vw';
+          arrowFontPass = '8.4vh';
       } else if (config.dh_fs == 'large') {
           value_fs = '34vh';
-          title_fs = '13vw';
-          header_fs = '10vw';
-          arrowFontPass = '9.4vw';
+          title_fs = '13vh';
+          header_fs = '10vh';
+          arrowFontPass = '9.4vh';
       }
   } else {
       value_fs = '20vh';
