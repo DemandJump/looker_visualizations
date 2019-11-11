@@ -396,18 +396,18 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
 if (config.text_spacing == "dynamic_size") { // based on whether the select statement for varying font size
     if (this.options.ds_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
         if (config.ds_fs == 'medium') {
-            value_fs = '22.4vw';
+            value_fs = '20.4vw';
             title_fs = '7.4vw';
             header_fs = '7vw';
             arrowFontPass = '6vw';
         } else if (config.ds_fs == 'large') {
             value_fs = '30.4vw';
-            title_fs = '9.8vw';
+            title_fs = '11vw';
             header_fs = '9vw';
             arrowFontPass = '7.4vw';
         } 
     } else {
-        value_fs = '18.4vw';
+        value_fs = '16.4vw';
         title_fs = '6.4vw';
         header_fs = '6vw';
         arrowFontPass = '5.2vw';
