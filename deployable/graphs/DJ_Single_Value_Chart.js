@@ -385,7 +385,7 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
 
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") { // based on whether the select statement for varying font size
-    if (this.options.df_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+    if (this.options.ds_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
         if (config.ds_fs == 'medium') {
             value_fs = '22.4vw';
             title_fs = '7.4vw';
@@ -539,10 +539,12 @@ if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional 
     }
 }
 
-if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
-    if (this.options.positiveSwitch.hidden == false) {
-        this.options.positiveSwitch.hidden = true;
-        this.trigger('registerOptions', this.options);
+if (config.showComparison == true) {
+    if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
+        if (this.options.positiveSwitch.hidden == false) {
+            this.options.positiveSwitch.hidden = true;
+            this.trigger('registerOptions', this.options);
+        }
     }
 }
 
