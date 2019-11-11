@@ -226,7 +226,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     
     if (calculation == 'one measure') {
-        measureOneName = queryResponse.fields.measures.name;
+        measureOneName = queryResponse.fields.measures[0].name;
         measure1 = data[0][measureOneName];
 
         console.log('This is measure one', measure1);
@@ -285,60 +285,112 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // based on which radio button they press, a different option will show which is a conditional that will open up the ability to choose between three font size
 
       // Clean up all the hidden params up selected radio button, then dive into the rest of the 'Word Spacing' configuration from here
-if (config.text_spacing == "dynamic_size" && this.options.ds_fs_conditional.hidden == true) {
-    this.options.ds_fs_conditional.hidden = false;
-    this.options.wb_fs_conditional.hidden = true;
-    this.options.wb_fs.hidden = true;
-    this.options.ds_fs.hidden = true;
-    this.trigger('registerOptions', this.options);
-}
-if (config.text_spacing == "word_break" && this.options.wb_fs_conditional.hidden == true) {
-    this.options.wb_fs_conditional.hidden == false;
-    this.options.ds_fs_conditional.hidden = true;
-    this.options.wb_fs.hidden = true;
-    this.options.ds_fs.hidden = true;
-    this.trigger('registerOptions', this.options);
-}
 
-if (config.text_spacing == "dynamic_size" && config.ds_fs_conditional == false && this.options.ds_fs.hidden == true) {
-    this.options.wb_fs.hidden = false; 
-    this.trigger('registerOptions', this.options);
-}
-if (config.text_spacing == "word_break" && config.wb_fs_conditional == false && this.options.wb_fs.hidden == true) {
-    this.options.ds_fs.hidden = false; 
-    this.trigger('registerOptions', this.options);
+if (config.text_spacing == "dynamic_size") { // If we select dynamic size
+    if (this.options.ds_fs_conditional.hidden == true) { // check if it's font sizing conditional is hidden, then show it
+        this.options.ds_fs_conditional.hidden = false;
+        this.options.wb_fs_conditional.hidden = true;
+        this.options.wb_fs.hidden = true; 
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (config.ds_fs_conditional == false && this.options.ds_fs.hidden == true) { // If it's not using default font size
+        this.options.ds_fs.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+    if (config.ds_fs_conditional == true && this.options.ds_fs.hidden == false) { // If it's using the default font size
+        this.options.ds_fs.hidden = true; 
+        this.trigger('registerOptions', this.options);
+    }
+
 }
 
+if (config.text_spacing == "word_break") {
+    if (this.options.wb_fs_conditional.hidden == true) {
+        this.options.wb_fs_conditional.hidden = false;
+        this.options.ds_fs_conditional.hidden = true;
+        this.options.ds_fs.hiddsn = true;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (config.wb_fs_conditional == false && this.options.wb_fs.hidden == true) {
+        this.options.wb_fs.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+    if (config.wb_fs_conditional == true && this.options.wb_fs.hidden == false) {
+        this.options.wb_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
 
-   
+    // So we have a Value, Title, and Header below with an arrow font pass. These values change based on the text_spacing value, and whether it's default or the 
+  // Insantiate variables based on the user input default or not, if not then change it based on the different sizes for each
+let value_fs = '4.5rem';
+let title_fs = '1.6rem';
+let header_fs = '1.2rem';
+let arrowFontPass = '1rem';  // Pass in the arrow font size based on the text config
+
+
 // d3.select(element).selectAll("*").remove();   // Before we start the visualization, remove all the stuff currently in the vis
-let arrowFontPass = '3vw';  // Pass in the arrow font size based on the text config
 d3.select('div.djvsValue').style('color', config.color);  // This colors the text based on the option given
 
     // This is for the font-styling radio buttons
-if (config.text_spacing == "dynamic_size") {
-      // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
-    d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '6.8vw'); // Original 3.4vw
-    d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '14.3vw'); // Original 9.4vw
-    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '6vw');  // Original 3vw
-    arrowFontPass = '6vw'; // Original 3vw
+if (config.text_spacing == "dynamic_size") { // based on whether the select statement for varying font size
+    if (this.options.df_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+        if (config.ds_fs == 'medium') {
+            value_fs = '22.4vw';
+            title_fs = '7.4vw';
+            header_fs = '7vw';
+            arrowFontPass = '6vw';
+        } else if (config.ds_fs == 'large') {
+            value_fs = '30.4vw';
+            title_fs = '9.8vw';
+            header_fs = '9vw';
+            arrowFontPass = '7.4vw';
+        } 
+    } else {
+        value_fs = '18.4vw';
+        title_fs = '6.4vw';
+        header_fs = '6vw';
+        arrowFontPass = '5.2vw';
+    }
+
+        // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
+    d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
+    d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', title_fs); // Original 3.4vw
+    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', header_fs);  // Original 3vw
 }
+
 if (config.text_spacing == "word_break") {
+    if (this.options.df_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+        if (config.ds_fs == 'medium') {
+            value_fs = '22.4vw';
+            title_fs = '7.4vw';
+            header_fs = '7vw';
+            arrowFontPass = '6vw';
+        } else if (config.ds_fs == 'large') {
+            value_fs = '30.4vw';
+            title_fs = '9.8vw';
+            header_fs = '9vw';
+            arrowFontPass = '7.4vw';
+        }
+    } else {
+        value_fs = '4.5rem';
+        title_fs = '1.6rem';
+        header_fs = '1.2rem';
+        arrowFontPass = '1rem';
+    }
+
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-    d3.select('div.djvsTitle').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '1.6rem');
     d3.select('div.djvsValue').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '4.5rem');
+    d3.select('div.djvsTitle').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '1.6rem');
     d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
     arrowFontPass = '1rem';
 }
-if (config.text_spacing == "ellipsis") {
-      // The original styling for the text and stuff
-    d3.select('div.djvsTitle').style('text-overflow', 'ellipsis') .style('overflow-wrap', 'normal').style('font-size', '1.6rem');
-    d3.select('div.djvsValue').style('text-overflow', 'ellipsis') .style('overflow-wrap', 'normal').style('font-size', '4.5rem');
-    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
-    arrowFontPass = '1rem';
-}
-    // This is for the title element based on the user input
+
+
+    // Change the Title of the vis based on user input
 if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); }
 else { d3.select('.djvsTitle').html(' '); }
 
