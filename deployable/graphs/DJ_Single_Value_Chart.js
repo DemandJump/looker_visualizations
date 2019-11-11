@@ -531,15 +531,14 @@ if (config.showLabel == false) {
     }
 }
 
-
-if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
-    if (this.options.positiveSwitch.hidden == true) {
-        this.options.positiveSwitch.hidden = false;
-        this.trigger('registerOptions', this.options);
-    }
-}
-
 if (config.showComparison == true) {
+    if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
+       if (this.options.positiveSwitch.hidden == true) {
+            this.options.positiveSwitch.hidden = false;
+            this.trigger('registerOptions', this.options);
+        }
+    }
+
     if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
         if (this.options.positiveSwitch.hidden == false) {
             this.options.positiveSwitch.hidden = true;
