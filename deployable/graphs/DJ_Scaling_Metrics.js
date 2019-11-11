@@ -219,7 +219,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('div')
                 .attr('class', `djsm_${node.name}`)
                 .style('display', 'block')
-                .style('font-size', findMSize(node))
+                .style('font-size', value_fs(node))
                 .style('margin', 'auto')
                 .html(node.valueFormat)
 
@@ -227,7 +227,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .select(function() { return this.parentNode; }).append('div')
                 .attr('class', 'djsmTitle')
                 .style('display', 'block')
-                .style('font-size', findTSize(node))
+                .style('font-size', label_fs(node))
                 .style('margin', 'auto')
                 .style('color', '#9CA0A1')
                 .html(node.label_short);
