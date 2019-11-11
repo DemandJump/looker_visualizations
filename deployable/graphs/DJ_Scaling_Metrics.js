@@ -83,8 +83,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // We want the visual to take up the space of the visual
             // unnanounced like a thief in the night, bridge ~ where can we go from here, time ain't nothing but time
-    let dimHeight = measures.length // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
-    let measureData = [] // Iterate through the dimensions, grab the names and values to store them into an array
+    let dimHeight = measures.length; // Use to scale the height of each based on this number, which will be determined by # of dimensions/measures
+    let measureData = []; // Iterate through the dimensions, grab the names and values to store them into an array
 
 
         // This is the data structure for each of the single value looks instnatiated into the visual. The way this was built is much fancier than the original single value look
@@ -103,14 +103,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
         if (newObject.rendered == null) newObject.rendered = newObject.value;
 
-        measureData.push(newObject)
+        measureData.push(newObject);
     })    
-    console.log('This is the measureData', measureData)
+    console.log('This is the measureData', measureData);
 
     /******************************************************************
      * Update the settings
     ******************************************************************/
-   let dynamicConfig = {}
+   let dynamicConfig = {};
 
 
     dynamicConfig["text_spacing"] = {
@@ -172,9 +172,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
 
 
-    this.options = dynamicConfig
+    this.options = dynamicConfig;
     if (this._mCounter == 0) {
-        this._mCounter ++ 
+        this._mCounter ++ ;
         this.trigger('registerOptions', this.options)
     }
 
@@ -191,7 +191,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***********************************
      * Update the Visualization *
     ***********************************/
-    update()
+    update();
     function update() {
         measureData.forEach(node => {
             // console.log('This is config', config) 
@@ -260,18 +260,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function findHeight() {
         let divHeight = 90 / dimHeight
         console.log('this is divHeight', divHeight)
-        return divHeight + 'vh'
+        return divHeight + 'vh';
     }
 
     function findMSize(d) {
         return config[d.name] == 'small' ? '3vw'
         : config[d.name] == 'medium' ? '4vw'
-        : '5.5vw'
+        : '5.5vw';
     }
     function findTSize(d) {
         return config[d.name] == 'small' ? '1.4vw'
         : config[d.name] == 'medium' ? '2.2vw'
-        : '3.2vw'
+        : '3.2vw';
     }
 
         // The config[d.name] passes in the name of the config operator that the user chooses to find the size. It will return small, medium or large. 
