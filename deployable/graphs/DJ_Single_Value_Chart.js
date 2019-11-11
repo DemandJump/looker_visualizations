@@ -39,10 +39,11 @@ looker.plugins.visualizations.add({
                 section: "Word Spacing",
                 display: "radio",
                 values: [
-                    {"Dynamic font based on element space": "dynamic_size"},
-                    {"Word Break on text overflow": "word_break"}
+                    {"Word Break on text overflow": "word_break"},
+                    {"Dynamic font based on viewport width": "dynamic_size"},
+                    {"Dynamic font based on viewport height": "dynamic_height"}
                 ],
-                default: "ellipsis"
+                default: "word_break"
             },
             wb_fs_conditional: {
                 label: "Use default font size", 
@@ -75,11 +76,32 @@ looker.plugins.visualizations.add({
                 hidden: true
             },
             ds_fs: {
-                label: "Dynamic font size",
+                label: "Dynamic vw font size",
                 type: "string", 
                 order: 14,
                 section: "Word Spacing",
                 display: "select",
+                values: [
+                    {"Small": "small"},
+                    {"Medium": "medium"},
+                    {"Large": "large"}
+                ],
+                default: "small",
+                hidden: true
+            },
+            dh_fs_conditional: {
+                label: "Use default font size", 
+                type: "boolean", 
+                order: 15,
+                section: "Word Spacing",
+                default: true,
+                hidden: true
+            },
+            dh_fs: {
+                label: "Dynamic vh font size",
+                type: "string",
+                order: 16,
+                section: "Word Spacing",
                 values: [
                     {"Small": "small"},
                     {"Medium": "medium"},
@@ -289,8 +311,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 if (config.text_spacing == "dynamic_size") { // If we select dynamic size
     if (this.options.ds_fs_conditional.hidden == true) { // check if it's font sizing conditional is hidden, then show it
         this.options.ds_fs_conditional.hidden = false;
+
         this.options.wb_fs_conditional.hidden = true;
-        this.options.wb_fs.hidden = true; 
+        this.options.wb_fs.hidden = true;
+        this.options.dh_fs_conditional.hidden = true; 
+        this.options.dh_fs.hidden = true;
         this.trigger('registerOptions', this.options);
     }
 
@@ -308,8 +333,11 @@ if (config.text_spacing == "dynamic_size") { // If we select dynamic size
 if (config.text_spacing == "word_break") {
     if (this.options.wb_fs_conditional.hidden == true) {
         this.options.wb_fs_conditional.hidden = false;
+
         this.options.ds_fs_conditional.hidden = true;
-        this.options.ds_fs.hiddsn = true;
+        this.options.ds_fs.hidden = true;
+        this.options.dh_fs_conditional.hidden = true;
+        this.options.dh_fs.hidden = true;
         this.trigger('registerOptions', this.options);
     }
 
@@ -320,6 +348,26 @@ if (config.text_spacing == "word_break") {
     if (config.wb_fs_conditional == true && this.options.wb_fs.hidden == false) {
         this.options.wb_fs.hidden = true;
         this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.text_spacing == "dynamic_height") {
+    if (this.options.dh_fs_conditional.hidden == true) {
+        this.options.dh_fs_conditional.hidden = false;
+
+        this.options.ds_fs_conditional.hidden = true;
+        this.options.ds_fs.hidden = true;
+        this.options.wb_fs_conditional.hidden = true; 
+        this.options.wb_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
+
+        if (config.dh_fs_conditional == false && this.options.dh_fs.hidden == true) {
+            this.options.dh_fs.hidden = false;
+            this.trigger('registerOptions', this.options);
+        }
+        if (config.dh_fs_conditional == true && this.options.dh_fs.hidden == false) {
+            this.options.dh_fs.hidden = true;
+        }
     }
 }
 
