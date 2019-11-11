@@ -64,7 +64,7 @@ looker.plugins.visualizations.add({
                     {"Medium": "medium"},
                     {"Large": "large"}
                 ],
-                default: "small",
+                default: "medium",
                 hidden: true
             },
             ds_fs_conditional: {
@@ -420,16 +420,16 @@ if (config.text_spacing == "dynamic_size") { // based on whether the select stat
 
 if (config.text_spacing == "word_break") {
     if (this.options.wb_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
-        if (config.wb_fs == 'medium') {
-            value_fs = '22.4vw';
-            title_fs = '7.4vw';
-            header_fs = '7vw';
-            arrowFontPass = '6vw';
+        if (config.wb_fs == 'small') {
+            value_fs = '3rem';
+            title_fs = '1.2rem';
+            header_fs = '1rem';
+            arrowFontPass = '.96rem';
         } else if (config.wb_fs == 'large') {
-            value_fs = '30.4vw';
-            title_fs = '9.8vw';
-            header_fs = '9vw';
-            arrowFontPass = '7.4vw';
+            value_fs = '6rem';
+            title_fs = '2rem';
+            header_fs = '1.6rem';
+            arrowFontPass = '1.45rem';
         }
     } else {
         value_fs = '4.5rem';
