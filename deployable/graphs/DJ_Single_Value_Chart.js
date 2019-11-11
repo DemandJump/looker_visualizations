@@ -242,10 +242,10 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
     // This is for the font-styling radio buttons
 if (config.text_spacing == "dynamic_size") {
       // We first must calculate the width of the element.. Ideally the value container, then change the font size depending on the width of the element so it doesn't null out the words and replace it with '...' we need word break, or dynamic font size so it doesn't do stuff like this to the text
-    d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '3.4vw');
-    d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '9.4vw');
-    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '3vw');      
-    arrowFontPass = '3vw';
+    d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '6.8vw'); // Original 3.4vw
+    d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', '14.3vw'); // Original 9.4vw
+    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '6vw');  // Original 3vw
+    arrowFontPass = '6vw'; // Original 3vw
 }
 if (config.text_spacing == "word_break") {
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
@@ -293,55 +293,58 @@ if (config.showTitle == false) {
 }
 
 
-if (config.showComparison == true) {
-    if (this.options.valueLabels.hidden == true) {
+
+      // Okay we're passing these variables in unison, but we'll getr 
+
+if (config.showComparison == true && this.options.valueLabels.hidden == true) {
+    // if (this.options.valueLabels.hidden == true) {
         this.options.valueLabels.hidden = false;
         this.options.positiveSwitch.hidden = false;
         this.options.showLabel.hidden = false;
         this.options.labelOverride.hidden = false;
         this.trigger('registerOptions', this.options);
-    }
+    // }
 }
 
-if (config.showComparison == false) {
-    if (this.options.valueLabels.hidden == false) {
+if (config.showComparison == false && this.options.valueLabels.hidden == false) {
+    // if (this.options.valueLabels.hidden == false) {
         this.options.valueLabels.hidden = true;
         this.options.positiveSwitch.hidden = true;
         this.options.showLabel.hidden = true;
         this.options.labelOverride.hidden = true;
         this.trigger('registerOptions', this.options);
-    }
+    // }
 }
 
     // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
-if (config.showLabel == true) { // Label override's switch
-    if (this.options.labelOverride.hidden == true) {
-        this.options.labelOverride.hidden = false;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.showLabel == true) { // Label override's switch
+//     if (this.options.labelOverride.hidden == true) {
+//         this.options.labelOverride.hidden = false;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
-if (config.showLabel == false) {
-    if (this.options.labelOverride.hidden == false) {
-        this.options.labelOverride.hidden = true;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.showLabel == false) {
+//     if (this.options.labelOverride.hidden == false) {
+//         this.options.labelOverride.hidden = true;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
 
-if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
-    if (this.options.valueLabels.hidden == true) {
-        this.options.valueLabels.hidden = false;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
+//     if (this.options.valueLabels.hidden == true) {
+//         this.options.valueLabels.hidden = false;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
-if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
-    if (this.options.valueLabels.hidden == false) {
-        this.options.valueLabels.hidden = true;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
+//     if (this.options.valueLabels.hidden == false) {
+//         this.options.valueLabels.hidden = true;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
