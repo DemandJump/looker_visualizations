@@ -49,28 +49,44 @@ looker.plugins.visualizations.add({
                 type: "boolean",
                 order: 11,
                 section: "Word Spacing", 
-                default: false
+                default: true,
+                hidden: true
             },
             wb_fs: {
                 label: "Word Break font size",
-                type: "number", 
+                type: "string", 
                 order: 12,
                 section: "Word Spacing",
-                placeholder: "Rem based font size" 
+                display: "select",
+                values: [
+                    {"Small": "small"},
+                    {"Medium": "medium"},
+                    {"Large": "large"}
+                ],
+                default: "small",
+                hidden: true
             },
             ds_fs_conditional: {
                 label: "Use default font size", 
                 type: "boolean",
                 order: 13,
                 section: "Word Spacing",
-                default: false
+                default: true,
+                hidden: true
             },
             ds_fs: {
                 label: "Dynamic font size",
-                type: "number", 
+                type: "string", 
                 order: 14,
-                section: "Word Spacing", 
-                placeholder: "View width based font size"
+                section: "Word Spacing",
+                display: "select",
+                values: [
+                    {"Small": "small"},
+                    {"Medium": "medium"},
+                    {"Large": "large"}
+                ],
+                default: "small",
+                hidden: true
             },
 
 
@@ -263,6 +279,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     * Setting up the Configuration Settings
 **************************************************************************************************************************/
             /*/ Onto building the settings of the visualization /*/
+
+
+// There's default font sizing, and conditional (small, medium, or large) based on come new configuration the user has for the 'Word Spacing' section
+      // based on which radio button they press, a different option will show which is a conditional that will open up the ability to choose between three font size
+
+      // Clean up all the hidden params up selected radio button, then dive into the rest of the 'Word Spacing' configuration from here
+if (config.text_spacing == "dynamic_size" && this.options.ds_fs_conditional.hidden == true) {
+    this.options.ds_fs_conditional.hidden = false;
+    this.options.wb_fs_conditional.hidden = true;
+    this.options.wb_fs.hidden = true;
+    this.options.ds_fs.hidden = true;
+    this.trigger('registerOptions', this.options);
+}
+if (config.text_spacing == "word_break" && this.options.wb_fs_conditional.hidden == true) {
+    this.options.wb_fs_conditional.hidden == false;
+    this.options.ds_fs_conditional.hidden = true;
+    this.options.wb_fs.hidden = true;
+    this.options.ds_fs.hidden = true;
+    this.trigger('registerOptions', this.options);
+}
+
+if (config.text_spacing == "dynamic_size" && config.ds_fs_conditional == false && this.options.ds_fs.hidden == true) {
+    this.options.wb_fs.hidden = false; 
+    this.trigger('registerOptions', this.options);
+}
+if (config.text_spacing == "word_break" && config.wb_fs_conditional == false && this.options.wb_fs.hidden == true) {
+    this.options.ds_fs.hidden = false; 
+    this.trigger('registerOptions', this.options);
+}
+
+
+
    
 // d3.select(element).selectAll("*").remove();   // Before we start the visualization, remove all the stuff currently in the vis
 let arrowFontPass = '3vw';  // Pass in the arrow font size based on the text config
@@ -326,23 +374,19 @@ if (config.showTitle == false) {
       // Okay we're passing these variables in unison, but we'll getr 
 
 if (config.showComparison == true && this.options.valueLabels.hidden == true) {
-    // if (this.options.valueLabels.hidden == true) {
         this.options.valueLabels.hidden = false;
         this.options.positiveSwitch.hidden = false;
         this.options.showLabel.hidden = false;
         this.options.labelOverride.hidden = false;
         this.trigger('registerOptions', this.options);
-    // }
 }
 
 if (config.showComparison == false && this.options.valueLabels.hidden == false) {
-    // if (this.options.valueLabels.hidden == false) {
         this.options.valueLabels.hidden = true;
         this.options.positiveSwitch.hidden = true;
         this.options.showLabel.hidden = true;
         this.options.labelOverride.hidden = true;
         this.trigger('registerOptions', this.options);
-    // }
 }
 
     // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
