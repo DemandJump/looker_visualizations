@@ -285,9 +285,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '4.5rem';
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
-          if (config[d.name] == "small") return '18.4vw';
-          if (config[d.name] == "medium") return '22.4vw';
-          if (config[d.name] == "large") return '30.4vw';
+          if (config[d.name] == "small") return '17.4vw';
+          if (config[d.name] == "medium") return '21.4vw';
+          if (config[d.name] == "large") return '29.4vw';
         } // End of text_spacing "dynamic_size"
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '20vh';
