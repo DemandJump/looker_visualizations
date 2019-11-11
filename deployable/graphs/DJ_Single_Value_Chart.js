@@ -431,10 +431,9 @@ if (config.text_spacing == "word_break") {
     }
 
       // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-    d3.select('div.djvsValue').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '4.5rem');
-    d3.select('div.djvsTitle').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '1.6rem');
-    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
-    arrowFontPass = '1rem';
+    d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
+    d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', title_fs); // Original 3.4vw
+    d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', header_fs);  // Original 3vw
 }
 
 if (config.text_spacing == "dynamic_height") {
@@ -458,10 +457,9 @@ if (config.text_spacing == "dynamic_height") {
   }
 
     // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
-  d3.select('div.djvsValue').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '4.5rem');
-  d3.select('div.djvsTitle').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '1.6rem');
-  d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
-  arrowFontPass = '1rem';
+  d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
+  d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', title_fs); // Original 3.4vw
+  d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', header_fs);  // Original 3vw
 }
 
 
