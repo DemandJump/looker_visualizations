@@ -270,6 +270,12 @@ else { d3.select('.djvsTitle').html(' '); }
 
 
 
+console.log('Entered configuration conditionals');
+console.log('valueLabels', this.options.valueLabels.hidden);
+console.log('positiveSwitch', this.options.positiveSwitch.hidden);
+console.log('showLabel', this.options.showLabel.hidden);
+console.log('labelOverride', this.options.labelOverride.hidden);
+
       /*/ SHOW/HIDING THE CONFIGURATION /*/
 
 // if (config.showTitle == true) {
@@ -350,78 +356,6 @@ if (config.showComparison == false) {
 }
 
 
-
-
-
-// if (config.showComparison == true) { // If it's true 
-//         // First we open up all the individual values, and then close others based on unique conditionals
-//     if (this.options.valueLabels.hidden == true) {
-//       this.options.valueLabels.hidden = false;
-//       this.trigger('registerOptions', this.options);
-//     }
-//     if (this.options.positiveSwitch.hidden == true) {
-//       this.options.valueLabels.hidden = false;
-//       if (config.valueLabels != 'compChan') this.options.positiveSwitch = true;
-//       this.trigger('registerOptions', this.options);
-//     }
-//     if (this.options.showLabel.hidden == true) {
-//       this.options.showLabel.hidden = false;
-//       if (config.showLabel == false) {  // Show label's boolean determines whether label statement will show/hide & if hidden remove it's config val
-//         this.options.labelOverride = false;
-//       }
-//       this.trigger('registerOptions', this.options);
-//     }
-//     if (this.options.labelOverride.hidden == true) {
-//       this.options.labelOverride = false;
-//       this.trigger('registerOptions', this.options);
-//     }
-// } // End of config == true
-// console.log('Entered showcomparison false conditional');
-// console.log('valueLabels', this.options.valueLabels.hidden);
-// console.log('positiveSwitch', this.options.positiveSwitch.hidden);
-// console.log('showLabel', this.options.showLabel.hidden);
-// console.log('labelOverride', this.options.labelOverride.hidden);
-
-// console.log('This is config', config.labelOverride);
-// if (config.showComparion == false) { 
-//         // Hide all the configuration settings and refresh    
-//     if (this.options.valueLabels.hidden == false) {
-//       console.log('Setting value labels to hidden');
-//       this.options.valueLabels.hidden = true;
-//       this.trigger('registerOptions', this.options);
-//     }
-//     if (this.options.positiveSwitch.hidden == false) {
-//       console.log('Setting positive switch to hidden');
-//       this.options.positiveSwitch = true;
-//       this.trigger('registerOptions', this.options);
-//     }
-//     if (this.options.showLabel.hidden == false) {
-//       console.log('Setting show label switch to hidden');
-//       this.options.showLabel = true;
-//       this.trigger('registerOptions', this.options);
-//     }
-//     if (this.options.labelOverride.hidden == false) {
-//       console.log('Setting label override to hidden');
-//       this.options.labelOverride.hidden = true;
-//       this.trigger('registerOptions', this.options);
-//     }
-// } // End of config == false
-
-//     // This hides/shows the title's input bar
-// // console.log('showTitle data', config.showTitle); // This is the title data 
-// if (config.showTitle == false && this.options.valueTitle.hidden == false) { // If they want to hide the title
-//     this.options.valueTitle.hidden = true; // Then set it to hidden
-//     this.trigger('registerOptions', this.options); // send the updated settings to the system
-//     d3.select('.djvsTitle').html(' ');
-// }
-// if (config.showTitle == true && this.options.valueTitle.hidden == true) { // Touche vice versa ~ ;p
-//         this.options.valueTitle.hidden = false;
-//         this.trigger('registerOptions', this.options);
-// }
-
-
-
-
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
 **************************************************************************************************************************/
@@ -431,7 +365,10 @@ if (config.showComparison == false) {
   if (config.labelOverride) {
       if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
   }
+
+      // If showlabel is off, null it out of the visual, including the header and secondary value
   if (config.showLabel == false ) headerRes = ' '; // Remove the label from the vis
+
 
   let lookValue2; // Second measure pass to the vis
   if (calculation == 'two measures') lookValue2 = measure2;
@@ -448,7 +385,7 @@ if (config.showComparison == true) {
         // They just add the numbers in bold beside the Field label 
       console.log('This is ths computing value configuration');
 
-      hReturnValue = `${lookValue.rendered} ${headerRes}`;
+      hReturnValue = `${lookValue2.rendered} ${headerRes}`;
       console.log(`String interpolating this stuff: ${lookValue.rendered} ${headerRes}`);
       console.log('This is the hReturn value format going through compute value', hReturnValue);
       d3.select('div.djvsHeader').style('background-image', 'none');
@@ -488,6 +425,7 @@ if (config.showComparison == true) {
       }
 
   }
+
 
 
 } // End of comparison function
