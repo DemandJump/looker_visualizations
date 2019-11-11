@@ -411,13 +411,13 @@ if (config.text_spacing == "dynamic_size") { // based on whether the select stat
 }
 
 if (config.text_spacing == "word_break") {
-    if (this.options.df_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
-        if (config.ds_fs == 'medium') {
+    if (this.options.wb_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+        if (config.wb_fs == 'medium') {
             value_fs = '22.4vw';
             title_fs = '7.4vw';
             header_fs = '7vw';
             arrowFontPass = '6vw';
-        } else if (config.ds_fs == 'large') {
+        } else if (config.wb_fs == 'large') {
             value_fs = '30.4vw';
             title_fs = '9.8vw';
             header_fs = '9vw';
@@ -436,6 +436,35 @@ if (config.text_spacing == "word_break") {
     d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
     arrowFontPass = '1rem';
 }
+
+if (config.text_spacing == "dynamic_height") {
+  if (this.options.dh_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
+      if (config.dh_fs == 'medium') {
+          value_fs = '22.4vw';
+          title_fs = '7.4vw';
+          header_fs = '7vw';
+          arrowFontPass = '6vw';
+      } else if (config.dh_fs == 'large') {
+          value_fs = '30.4vw';
+          title_fs = '9.8vw';
+          header_fs = '9vw';
+          arrowFontPass = '7.4vw';
+      }
+  } else {
+      value_fs = '4.5rem';
+      title_fs = '1.6rem';
+      header_fs = '1.2rem';
+      arrowFontPass = '1rem';
+  }
+
+    // We gotta break the words as they overflow in the element. So we'll select both the value and the title and add wordbreak
+  d3.select('div.djvsValue').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '4.5rem');
+  d3.select('div.djvsTitle').style('overflow-wrap', 'break-word') .style('text-overflow', 'clip').style('font-size', '1.6rem');
+  d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', '1.2rem');
+  arrowFontPass = '1rem';
+}
+
+
 
 
     // Change the Title of the vis based on user input
