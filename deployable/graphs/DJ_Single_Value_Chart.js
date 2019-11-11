@@ -367,14 +367,15 @@ if (config.text_spacing == "dynamic_height") {
         this.options.wb_fs.hidden = true;
         this.trigger('registerOptions', this.options);
 
-        if (config.dh_fs_conditional == false && this.options.dh_fs.hidden == true) {
-            this.options.dh_fs.hidden = false;
-            this.trigger('registerOptions', this.options);
-        }
-        if (config.dh_fs_conditional == true && this.options.dh_fs.hidden == false) {
-            this.options.dh_fs.hidden = true;
-            this.trigger('registerOptions', this.options);
-        }
+    }
+
+    if (config.dh_fs_conditional == false && this.options.dh_fs.hidden == true) {
+        this.options.dh_fs.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+    if (config.dh_fs_conditional == true && this.options.dh_fs.hidden == false) {
+        this.options.dh_fs.hidden = true;
+        this.trigger('registerOptions', this.options);
     }
 }
 
