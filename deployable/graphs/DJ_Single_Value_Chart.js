@@ -347,7 +347,7 @@ if (config.showComparison == true) {
 
 if (config.showComparison == false) {
     if (this.options.valueLabels.hidden == false) {
-        this.options.valueLabels = true;
+        this.options.valueLabels.hidden = true;
         this.options.positiveSwitch.hidden = true;
         this.options.showLabel.hidden = true;
         this.options.labelOverride.hidden = true;
