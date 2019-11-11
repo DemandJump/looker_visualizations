@@ -285,9 +285,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '4.5rem';
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
-          if (config[d.name] == "small") return '17.4vw';
-          if (config[d.name] == "medium") return '21.4vw';
-          if (config[d.name] == "large") return '29.4vw';
+          if (config[d.name] == "small") return '16.4vw';
+          if (config[d.name] == "medium") return '20.4vw';
+          if (config[d.name] == "large") return '28.4vw';
         } // End of text_spacing "dynamic_size"
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '20vh';
@@ -303,9 +303,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '1.4rem';
         }
         if (config.text_spacing == "dynamic_size") {
-            if (config[d.name] == "small") return '6vw';
-            if (config[d.name] == "medium") return '8vw';
-            if (config[d.name] == "large") return '10vw';
+            if (config[d.name] == "small") return '5.5vw';
+            if (config[d.name] == "medium") return '7.4vw';
+            if (config[d.name] == "large") return '8.6vw';
         }
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '9vh';
