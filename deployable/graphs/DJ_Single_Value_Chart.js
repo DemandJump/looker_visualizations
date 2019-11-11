@@ -465,12 +465,12 @@ d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow
 d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', header_fs);  // Original 3vw
 
 
-    // Change the Title of the vis based on user input
-if (config.valueTitle != '') { d3.select('.djvsTitle').html(config.valueTitle); }
-else { d3.select('.djvsTitle').html(' '); }
-
-
-
+            /*/ Title Configuration /*/
+if (config.showTitle == true) { // If the input is empty but they wanna show the title
+    if (config.valueTitle == '' || config.valueTitle == ' ') d3.select('.djvsTitle').html(queryResponse.fields.measures[0].label_short);
+    else d3.select('.djvsTitle').html(config.valueTitle); 
+}
+if (config.showTitle == false) d3.select('.djvstitle').html(' ');
 
 
 
