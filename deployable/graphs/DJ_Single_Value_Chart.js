@@ -329,25 +329,25 @@ if (config.showComparison == false) {
 }
 
 
-if (config.showComparison == true) {
-    if (this.options.valueLabels.hidden == true) {
-        this.options.valueLabels.hidden = false;
-        this.options.positiveSwitch.hidden = false;
-        this.options.showLabel.hidden = false;
-        this.options.labelOverride.hidden = false;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.showComparison == true) {
+//     if (this.options.valueLabels.hidden == true) {
+//         this.options.valueLabels.hidden = false;
+//         this.options.positiveSwitch.hidden = false;
+//         this.options.showLabel.hidden = false;
+//         this.options.labelOverride.hidden = false;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
-if (config.showComparison == false) {
-    if (this.options.valueLabels.hidden == false) {
-        this.options.valueLabels = true;
-        this.options.positiveSwitch.hidden = true;
-        this.options.showLabel.hidden = true;
-        this.options.labelOverride.hidden = true;
-        this.trigger('registerOptions', this.options);
-    }
-}
+// if (config.showComparison == false) {
+//     if (this.options.valueLabels.hidden == false) {
+//         this.options.valueLabels = true;
+//         this.options.positiveSwitch.hidden = true;
+//         this.options.showLabel.hidden = true;
+//         this.options.labelOverride.hidden = true;
+//         this.trigger('registerOptions', this.options);
+//     }
+// }
 
 
 
