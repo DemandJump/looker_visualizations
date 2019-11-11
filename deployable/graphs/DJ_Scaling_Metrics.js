@@ -303,9 +303,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '1.4rem';
         }
         if (config.text_spacing == "dynamic_size") {
-            if (config[d.name] == "small") return '5.6vw';
+            if (config[d.name] == "small") return '6vw';
             if (config[d.name] == "medium") return '7.4vw';
-            if (config[d.name] == "large") return '10vw';
+            if (config[d.name] == "large") return '9vw';
         }
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '9vh';
