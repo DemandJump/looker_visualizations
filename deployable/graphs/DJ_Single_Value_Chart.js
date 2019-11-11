@@ -467,7 +467,7 @@ d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wra
 
             /*/ Title Configuration /*/
 if (config.showTitle == true) { // If the input is empty but they wanna show the title
-    if (config.valueTitle == '' || config.valueTitle == ' ') d3.select('.djvsTitle').html(queryResponse.fields.measures[0].label_short);
+    if (config.valueTitle == '' || config.valueTitle == ' ' || !(config.valueTitle)) d3.select('.djvsTitle').html(queryResponse.fields.measures[0].label_short);
     else d3.select('.djvsTitle').html(config.valueTitle); 
 }
 if (config.showTitle == false) d3.select('.djvstitle').html(' ');
