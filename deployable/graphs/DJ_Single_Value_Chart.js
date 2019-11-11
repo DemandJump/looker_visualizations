@@ -566,11 +566,13 @@ if (config.showComparison == true) {
   let lookValue2; // Second measure pass to the vis
   if (calculation == 'two measures') lookValue2 = measure2;
   if (calculation == 'pivot measure') lookValue2 = previousPeriod;
-  if (lookValue2.rendered) {
-      lookValue2.artificialRender = false;
-  } else {
-      lookValue2.rendered = lookValue.value;
-      lookValue2.artificialRender = true;
+  if (calculation == 'two measures' || calculation == 'pivot measure') {
+      if (lookValue2.rendered) {
+          lookValue2.artificialRender = false;
+      } else {
+          lookValue2.rendered = lookValue.value;
+          lookValue2.artificialRender = true;
+      }
   }
 
   console.log('This is the lookValue', lookValue);
