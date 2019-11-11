@@ -122,7 +122,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           values: [
               {"Word Break on text overflow": "word_break"},
               {"Dynamic font based on viewport width": "dynamic_size"},
-              {"Dynamic font based on viewport height": "dynamic_height"}
+              // {"Dynamic font based on viewport height": "dynamic_height"}
           ],
           default: "word_break"
       };
@@ -280,39 +280,39 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function value_fs(d) {
             // first find the config text_spacing value
         if (config.text_spacing == "word_break") {
-            if (config[d.name] == "small") return '3rem';
-            if (config[d.name] == "medium") return '4.5rem';
-            if (config[d.name] == "large") return '6rem';
+            if (config[d.name] == "small") return '2rem';
+            if (config[d.name] == "medium") return '3rem';
+            if (config[d.name] == "large") return '4.5rem';
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
-          if (config[d.name] == "small") return '30.4vw';
+          if (config[d.name] == "small") return '18.4vw';
           if (config[d.name] == "medium") return '22.4vw';
-          if (config[d.name] == "large") return '18.4vw';
+          if (config[d.name] == "large") return '30.4vw';
         } // End of text_spacing "dynamic_size"
-        if (config.text_spacing == "dynamic_height") {
-            if (config[d.name] == "small") return '20vh';
-            if (config[d.name] == "medium") return '25vh';
-            if (config[d.name] == "large") return '34vh';
-        }
+        // if (config.text_spacing == "dynamic_height") {
+        //     if (config[d.name] == "small") return '20vh';
+        //     if (config[d.name] == "medium") return '25vh';
+        //     if (config[d.name] == "large") return '34vh';
+        // }
     } // End of value_fs function 
 
     function label_fs(d) {
         if (config.text_spacing == "word_break") {
-            if (config[d.name] == "small") return '1.2rem';
-            if (config[d.name] == "medium") return '1.6rem';
-            if (config[d.name] == "large") return '2rem';
+            if (config[d.name] == "small") return '0.9rem';
+            if (config[d.name] == "medium") return '1.2rem';
+            if (config[d.name] == "large") return '1.6rem';
         }
         if (config.text_spacing == "dynamic_size") {
             if (config[d.name] == "small") return '6vw';
-            if (config[d.name] == "medium") return '7.4vw';
-            if (config[d.name] == "large") return '9.8vw';
+            if (config[d.name] == "medium") return '8vw';
+            if (config[d.name] == "large") return '10vw';
         }
-        if (config.text_spacing == "dynamic_height") {
-            if (config[d.name] == "small") return '9vh';
-            if (config[d.name] == "medium") return '11vh';
-            if (config[d.name] == "large") return '13vh';
-        }
-    }
+        // if (config.text_spacing == "dynamic_height") {
+        //     if (config[d.name] == "small") return '9vh';
+        //     if (config[d.name] == "medium") return '11vh';
+        //     if (config[d.name] == "large") return '13vh';
+        // }
+    } // End of label_fs function 
 
 
 
