@@ -278,13 +278,56 @@ if (config.showTitle == true) {
         this.trigger('registerOptions', this.options);
     }
 }
-
-if (condif.showTitle == false) {
+if (config.showTitle == false) {
     if (this.options.valueTitle.hidden == false) {
         this.options.valueTitle.hidden = true;
         this.trigger('registerOptions', this.options); 
     }
 }
+
+if (config.showComparison == true) {
+    if (this.options.valueLabels.hidden == true) {
+        this.options.valueLabels.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (this.options.positiveSwitch.hidden == true) {
+        this.options.positiveSwitch.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (this.options.showLabel.hidden == true) {
+        this.options.showLabel.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (this.options.labelOverride.hidden == true) {
+        this.options.labelOVerride.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+if (config.showComparison == false) {
+    if (this.options.valueLabels.hidden == false) {
+        this.options.valueLabels.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (this.options.positiveSwitch.hidden == false) {
+        this.options.positiveSwitch.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (this.options.showLabel.hidden == false) {
+        this.options.showLabel.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+
+    if (this.options.labelOverride.hidden == false) {
+        this.options.labelOVerride.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
 
 
 
