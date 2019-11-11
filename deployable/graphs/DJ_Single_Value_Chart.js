@@ -272,6 +272,25 @@ else { d3.select('.djvsTitle').html(' '); }
 
       /*/ SHOW/HIDING THE CONFIGURATION /*/
 
+if (config.showTitle == true) {
+    if (this.options.valueTitle.hidden == true) {
+        this.options.valueTitle.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (condif.showTitle == false) {
+    if (this.options.valueTitle.hidden == false) {
+        this.options.valueTitle.hidden = true;
+        this.trigger('registerOptions', this.options); 
+    }
+}
+
+
+
+
+
+
 // if (config.showComparison == true) { // If it's true 
 //         // First we open up all the individual values, and then close others based on unique conditionals
 //     if (this.options.valueLabels.hidden == true) {
@@ -434,16 +453,6 @@ if (config.valueFormat) {
     d3.select('div.djvsValue').html(lookValue.rendered);
     d3.select('div.djvsHeader').html(hReturnValue);
 }
-
-
-
-
-
-
-
-
-
-
 
 /*******************************************************************
    * Functions Section *
