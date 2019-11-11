@@ -280,8 +280,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function value_fs(d) {
             // first find the config text_spacing value
         if (config.text_spacing == "word_break") {
-            if (config[d.name] == "small") return '2rem';
-            if (config[d.name] == "medium") return '3rem';
+            if (config[d.name] == "small") return '1.4rem';
+            if (config[d.name] == "medium") return '2.5rem';
             if (config[d.name] == "large") return '4.5rem';
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
@@ -299,8 +299,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function label_fs(d) {
         if (config.text_spacing == "word_break") {
             if (config[d.name] == "small") return '0.9rem';
-            if (config[d.name] == "medium") return '1.2rem';
-            if (config[d.name] == "large") return '1.6rem';
+            if (config[d.name] == "medium") return '1.1rem';
+            if (config[d.name] == "large") return '1.4rem';
         }
         if (config.text_spacing == "dynamic_size") {
             if (config[d.name] == "small") return '6vw';
