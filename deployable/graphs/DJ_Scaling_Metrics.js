@@ -14,7 +14,7 @@ create: function(element, config) {
         .style('box-sizing', 'border-box')
         .style('margin', 'auto')
         .style('position', 'relative')
-        .style('text-align', 'center')
+        .style('text-align', 'center');
 
 
         // Insert a <style> tag with some styles we'll use later.

@@ -173,13 +173,13 @@ create: function(element, config) {
       .style('margin', 'auto')
       .style('padding', '0')
       .style('position', 'relative')
-      .style('box-sizing', 'border-box');
+      .style('box-sizing', 'border-box')
 
 
         // Insert a <style> tag with some styles we'll use later.
     element.innerHTML = `
           <style>  
-            .djvsValue:hover { text-decoration: underline; }  
+            .djvsValue:hover { text-decoration: underline; }
           </style>
 
           <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
