@@ -102,6 +102,7 @@ looker.plugins.visualizations.add({
                 type: "string",
                 order: 16,
                 section: "Word Spacing",
+                display: "select",
                 values: [
                     {"Small": "small"},
                     {"Medium": "medium"},
@@ -284,7 +285,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // Measure one is always the look value, everything is is pretty much for comparison
     if (calculation == 'one measure' || calculation == 'two measures') lookValue = measure1;
     if (calculation == 'pivot measure') lookValue = currentPeriod;
-        // We may change this through conditionals to find the unrendered data
+    if (lookValue.rendered) {
+        lookValue.artificialRender = false;
+    } else {
+        lookValue.rendered = lookValue.value;
+        lookValue.artificialRender = true;
+    }
 
 
         // Then we need a header value
@@ -367,6 +373,7 @@ if (config.text_spacing == "dynamic_height") {
         }
         if (config.dh_fs_conditional == true && this.options.dh_fs.hidden == false) {
             this.options.dh_fs.hidden = true;
+            this.trigger('registerOptions', this.options);
         }
     }
 }
@@ -547,9 +554,12 @@ if (config.showComparison == true) {
     }
 }
 
-/**************************************************************************************************************************
-                                                                                    * End of the Configuration Settings
-**************************************************************************************************************************/
+
+/*********************************************************************************************************************************************************************
+      * End of the Configuration Settings *                                                                                    * End of the Configuration Settings *
+*********************************************************************************************************************************************************************/
+
+
       // So we're taking in hValue and editing it if it's one of these values
   console.log(`editHeader: entering hValue value: `, headerRes);
       // Set the label based on user's input or it's default label
@@ -564,6 +574,12 @@ if (config.showComparison == true) {
   let lookValue2; // Second measure pass to the vis
   if (calculation == 'two measures') lookValue2 = measure2;
   if (calculation == 'pivot measure') lookValue2 = previousPeriod;
+  if (lookValue2.rendered) {
+      lookValue2.artificialRender = false;
+  } else {
+      lookValue2.rendered = lookValue.value;
+      lookValue2.artificialRender = true;
+  }
 
   console.log('This is the lookValue', lookValue);
   console.log('This is the lookValue2', lookValue2);
