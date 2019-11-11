@@ -270,7 +270,7 @@ else { d3.select('.djvsTitle').html(' '); }
 
 
 
-console.log('Entered configuration conditionals');
+console.log('Entered options hidden conditionals');
 console.log('valueLabels', this.options.valueLabels.hidden);
 console.log('positiveSwitch', this.options.positiveSwitch.hidden);
 console.log('showLabel', this.options.showLabel.hidden);
@@ -278,61 +278,19 @@ console.log('labelOverride', this.options.labelOverride.hidden);
 
       /*/ SHOW/HIDING THE CONFIGURATION /*/
 
-// if (config.showTitle == true) {
-//     if (this.options.valueTitle.hidden == true) {
-//         this.options.valueTitle.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
-// if (config.showTitle == false) {
-//     if (this.options.valueTitle.hidden == false) {
-//         this.options.valueTitle.hidden = true;
-//         this.trigger('registerOptions', this.options); 
-//     }
-// }
+if (config.showTitle == true) { // Show title's configuration, this is the title override
+    if (this.options.valueTitle.hidden == true) {
+        this.options.valueTitle.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
-// if (config.showComparison == true) {
-//     if (this.options.valueLabels.hidden == true) {
-//         this.options.valueLabels.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-
-//     if (this.options.positiveSwitch.hidden == true) {
-//         this.options.positiveSwitch.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-
-//     if (this.options.showLabel.hidden == true) {
-//         this.options.showLabel.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-
-//     if (this.options.labelOverride.hidden == true) {
-//         this.options.labelOVerride.hidden = false;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
-// if (config.showComparison == false) {
-//     if (this.options.valueLabels.hidden == false) {
-//         this.options.valueLabels.hidden = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-
-//     if (this.options.positiveSwitch.hidden == false) {
-//         this.options.positiveSwitch.hidden = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-
-//     if (this.options.showLabel.hidden == false) {
-//         this.options.showLabel.hidden = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-
-//     if (this.options.labelOverride.hidden == false) {
-//         this.options.labelOverride.hidden = true;
-//         this.trigger('registerOptions', this.options);
-//     }
-// }
+if (config.showTitle == false) {
+    if (this.options.valueTitle.hidden == false) {
+        this.options.valueTitle.hidden = true;
+        this.trigger('registerOptions', this.options); 
+    }
+}
 
 
 if (config.showComparison == true) {
@@ -355,6 +313,35 @@ if (config.showComparison == false) {
     }
 }
 
+    // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
+if (config.showLabel == true) { // Label override's switch
+    if (this.options.labelOverride.hidden == true) {
+        this.options.labelOverride.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.showLabel == false) {
+    if (this.options.labelOverride.hidden == false) {
+        this.options.labelOverride.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+
+if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
+    if (this.options.valueLabels.hidden == true) {
+        this.options.valueLabels.hidden = false;
+        this.trigger('registerOptions', this.options);
+    }
+}
+
+if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
+    if (this.options.valueLabels.hidden == false) {
+        this.options.valueLabels.hidden = true;
+        this.trigger('registerOptions', this.options);
+    }
+}
 
 /**************************************************************************************************************************
                                                                                     * End of the Configuration Settings
