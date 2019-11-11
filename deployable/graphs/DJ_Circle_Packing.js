@@ -291,18 +291,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([12, 264])
         .range([6, 42]);
 
-    nodes.forEach( (node, i) => {
-        if (node.data.name == 'null') {
-            node.id = i;
-            node.r = 0;
-            node.value = 1;
-            if (node.children) {
-                node._children = node.children;
-                node.children = null;
-            }
-        }
 
-    });
+        
+    // nodes.forEach( (node, i) => {
+    //     if (node.data.name == 'null') {
+    //         node.id = i;
+    //         node.r = 0;
+    //         node.value = 1;
+    //         if (node.children) {
+    //             node._children = node.children;
+    //             node.children = null;
+    //         }
+    //     }
+
+    // });
 
     // for(let i = 0; i < nodes.length; i++) {
     //     console.log(`${i}:: This is the node`, nodes[i]);
