@@ -286,12 +286,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             d._children = []; 
             for (child in d.children) {
+                console.log('Child', child);
                 if (child.data.name == null || child.data.name == 'null') {
                     d._children.push(child); // Add child to side list
                     delete d.children[child]; 
                 }
             }
-            
+
         }
     } // End of collapse function
 
