@@ -340,7 +340,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes.forEach(node => {
         allNodes++;
         if(node.data.name == 'null' || node.data.name == null) {
-          delete node; 
           counter++;
         }
     });
@@ -377,14 +376,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => {
-                // if (d.children) { // Loop through all the children's radiuses, if all = 0, then return white
-                //     let check = 0;
-                //     d.children.forEach(node => {
-                //         if (node.r != 0) check++;
-                //     });
-                //     if (check = 0) return "white";
-                // }
-                return d.children ? color(d.depth) : "white";
+                if (d.children == [] || d.dchildren) { return color(d.depth); }
+                else { return "white"; }
+                // return d.children ? color(d.depth) : "white";
             })
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
