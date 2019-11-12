@@ -1736,7 +1736,7 @@ function numberWithCommas(number) { // Function that uses regex to add commas to
 
 
 /**************** Done! *****************/
-    doneRendering()     // Always call done to indicate a visualization has finished rendering
+    doneRendering();     // Always call done to indicate a visualization has finished rendering
     }
 });
 
