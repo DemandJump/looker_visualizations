@@ -281,11 +281,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children.forEach(collapse);
     function collapse(d) {
         if(d.children) {
-            d._children = d.children;
-            d._children.forEach(collapse);
-            d.children = null;
+            d.children.forEach(collapse);
+            if(d.data.name == null || d.data.name == 'null') {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+            } 
         }
-    }
+    } // End of collapse function
 
 
     let nodes = root.descendants().slice(1);
