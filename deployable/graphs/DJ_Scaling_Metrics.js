@@ -14,7 +14,7 @@ create: function(element, config) {
         .style('box-sizing', 'border-box')
         .style('margin', 'auto')
         .style('position', 'relative')
-        .style('text-align', 'center');
+        .style('text-align', 'center')
 
 
         // Insert a <style> tag with some styles we'll use later.
@@ -244,10 +244,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // Clear any errors from previous updates.
     this.clearErrors();
 
-    // if (queryResponse.fields.dimensions.length == 0) {
-    //     this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-    //     return;
-    // }
+        // Create different cases for potential errors that could occur
+    // Throw some errors and exit if the shape of the data isn't what this chart needs.
+    if (queryResponse.fields.dimensions.length == 0) {
+        this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
+        return;
+    }
+
+
 
     /*******************************************************************
      * Functions Section *
@@ -281,9 +285,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '4.5rem';
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
-          if (config[d.name] == "small") return '14.5vw';
-          if (config[d.name] == "medium") return '22.4vw';
-          if (config[d.name] == "large") return '29.4vw';
+          if (config[d.name] == "small") return '16.4vw';
+          if (config[d.name] == "medium") return '20.4vw';
+          if (config[d.name] == "large") return '28.4vw';
         } // End of text_spacing "dynamic_size"
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '20vh';
@@ -299,9 +303,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '1.4rem';
         }
         if (config.text_spacing == "dynamic_size") {
-            if (config[d.name] == "small") return '6vw';
-            if (config[d.name] == "medium") return '7.4vw';
-            if (config[d.name] == "large") return '9vw';
+            if (config[d.name] == "small") return '5.5vw';
+            if (config[d.name] == "medium") return '8vw';
+            if (config[d.name] == "large") return '10vw';
         }
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '9vh';
