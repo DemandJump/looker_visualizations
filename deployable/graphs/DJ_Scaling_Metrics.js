@@ -285,7 +285,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '4.5rem';
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
-          if (config[d.name] == "small") return '16.4vw';
+          if (config[d.name] == "small") return '13.4vw';
           if (config[d.name] == "medium") return '20.4vw';
           if (config[d.name] == "large") return '28.4vw';
         } // End of text_spacing "dynamic_size"
@@ -303,7 +303,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config[d.name] == "large") return '1.4rem';
         }
         if (config.text_spacing == "dynamic_size") {
-            if (config[d.name] == "small") return '5.5vw';
+            if (config[d.name] == "small") return '5.3vw';
             if (config[d.name] == "medium") return '8vw';
             if (config[d.name] == "large") return '10vw';
         }
