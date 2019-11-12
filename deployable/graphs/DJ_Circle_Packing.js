@@ -376,7 +376,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => {
-                if (d.children == [] || d.dchildren) { return color(d.depth); }
+                if (d.children == [] || d.children) { return color(d.depth); }
                 else { return "white"; }
                 // return d.children ? color(d.depth) : "white";
             })
