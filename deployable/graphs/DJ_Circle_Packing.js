@@ -297,9 +297,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     } // End of collapse function
 
-    // Check each child, and if null move it to ._children and
-
-
+    root.leaves.forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
 
     
@@ -376,9 +374,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => {
-                if (d.children == [] || d.children) { return color(d.depth); }
-                else { return "white"; }
-                // return d.children ? color(d.depth) : "white";
+                // if (d.children == [] || d.children) { return color(d.depth); }
+                // else { return "white"; }
+                if (d.color) return "white";
+                return d.children ? color(d.depth) : "white";
             })
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
