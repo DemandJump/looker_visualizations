@@ -284,18 +284,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(d.children) {
             d.children.forEach(collapse); // For each child run this collapse function
 
-            let splices = [];
             d._children = []; 
-            d.children.forEach( (child, index) => {
+            for (child in d.children) {
                 if (child.data.name == null || child.data.name == 'null') {
-                    splices.push(index);
+                    d._children.push(child); // Add child to side list
+                    delete d.children[child]; 
                 }
-            });
-            for(i = splices.length; i >= 0; i--) {
-                d._children.push(d.children[splices[i]]);
-                d.children.slice(splices[i], 1);
             }
-
+            
         }
     } // End of collapse function
 
