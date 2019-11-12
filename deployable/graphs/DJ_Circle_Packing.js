@@ -277,6 +277,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const root = pack(burrow);
     let focus = root;
     root.children[0].data.id = 'tether';
+
+    root.children.forEach(collapse);
+    function collapse(d) {
+        if(d.children) {
+            d._children = d.children;
+            d._children.forEach(collapse);
+            d.children = null;
+        }
+    }
+
+
     let nodes = root.descendants().slice(1);
 
     
@@ -322,6 +333,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     });
     console.log(`These are a total of ${allNodes} nodes, and ${counter} were null`);
+
+
+
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
