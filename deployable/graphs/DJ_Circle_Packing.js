@@ -312,10 +312,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     //         // i--;
     //     }
     // }
-    console.log('Nodes before!', nodes);
+    let allNodes = 0;
+    let counter = 0;
     nodes.forEach(node => {
-        if(node.data.name == 'null' || node.data.name == null) delete node;
+        allNodes++;
+        if(node.data.name == 'null' || node.data.name == null) {
+          delete node; 
+          counter++;
+        }
     });
+    console.log(`These are a total of ${allNodes} nodes, and ${counter} were null`);
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
