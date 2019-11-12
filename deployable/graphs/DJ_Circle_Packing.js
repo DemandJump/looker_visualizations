@@ -280,15 +280,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     root.children.forEach(collapse);
     function collapse(d) {
+        d._children = [];
         if(d.children) {
-            d.children.forEach(collapse);
-            if(d.data.name == null || d.data.name == 'null') {
-                d._children = d.children;
-                d._children.forEach(collapse);
-                d.children = null;
-            } 
+            d.children.forEach(collapse); // For each child run this collapse function
+
+            let splices = [];
+            d._children = []; 
+            d.children.forEach( (child, index) => {
+                if (child.data.name == null || child.data.name == 'null') {
+                    splices.push(index);
+                }
+            });
+            for(i = splices.length; i >= 0; i--) {
+                d._children.push(d.children[splices[i]]);
+                d.children.slice(splices[i], 1);
+            }
+
         }
     } // End of collapse function
+
+    // Check each child, and if null move it to ._children and
 
 
     let nodes = root.descendants().slice(1);
