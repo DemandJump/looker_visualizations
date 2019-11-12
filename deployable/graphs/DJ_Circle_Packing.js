@@ -290,7 +290,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (child.data.name == null || child.data.name == 'null') {
                     d._children.push(child); // Add child to side list
                     // delete d.children[child];
-                    d/children.splice(index, 1);
+                    d.children.splice(index, 1);
                 }
             });
 
