@@ -297,7 +297,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     } // End of collapse function
 
-    root.leaves.forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
+    root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
 
     
