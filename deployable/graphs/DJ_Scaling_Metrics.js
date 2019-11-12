@@ -285,8 +285,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         } // End of text_spacing "word_break"
         if (config.text_spacing == "dynamic_size") {
           if (config[d.name] == "small") return '13.4vw';
-          if (config[d.name] == "medium") return '20.4vw';
-          if (config[d.name] == "large") return '29.4vw';
+          if (config[d.name] == "medium") return '21.4vw';
+          if (config[d.name] == "large") return '30.4vw';
         } // End of text_spacing "dynamic_size"
         // if (config.text_spacing == "dynamic_height") {
         //     if (config[d.name] == "small") return '20vh';
