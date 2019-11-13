@@ -497,7 +497,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (updatInit == 0) {
       updatInit++;
       console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
-      container.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
+      container.translateBy(zoom_handler, root.x, root.y);
   }
 
   // Normalize for fixed-depth. because of collapse function 
