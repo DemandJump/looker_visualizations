@@ -494,11 +494,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   console.log('CalculatedLongest string!', linkAddition);
 
 
-  // if (updatInit == 0) {
-  //     updatInit++;
-  //     console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
-  //     zoom_handler.translateBy(container, root.x, root.y);
-  // }
+  if (updatInit == 0) {
+      updatInit++;
+      console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
+      zoom_handler.translateBy(container, root.x, root.y);
+  }
 
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ // This calculates the depth between the nodes!
