@@ -347,8 +347,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-    let header = this._header
-        .style('height' , headerSpace);
+    d3.select('.header').style('height', headerSpace);
 
     let container = this._container
         .style('box-sizing', 'border-box')
