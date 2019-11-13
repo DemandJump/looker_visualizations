@@ -103,7 +103,7 @@ create: function(element, config) {
         .attr('class', 'resetSingleNode djfhButton btn-small')
         .style('display', 'inline')
         .style('padding', '5px auto')
-        .html(`Reset selected node's position`);
+        .html(`Reset selected node`);
 
     this._resetBtn = d3.select('.holder').append('button')
         .attr('class', 'reset djfhButton btn-small')
