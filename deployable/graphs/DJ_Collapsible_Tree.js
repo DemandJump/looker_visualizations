@@ -360,7 +360,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // Zoom Stuff // 
   let zoom_handler = d3.zoom()
     .on('zoom', zoom_actions);
-  zoom_handler(container);
+  // zoom_handler(container);
   function zoom_actions() {
     svg.attr('transform', d3.event.transform)
   }
