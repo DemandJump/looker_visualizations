@@ -206,7 +206,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             /*/ / Get the unique values out of the grouping dimension / /*/
-    let uniqueValues = ['null'];
+    let uniqueValues = [];
+    uniqueValues.push(data[0][config.group]["value"]);
     if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
         if (config.groupSwitch == true) {
             if (config.group != 'null') {
