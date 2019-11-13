@@ -849,7 +849,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function colorByGroup(node) {
         if(node.children != []) {
-            node.group = parseDown(node.data.children[0]);
+            parseDown(node.data.children[0]);
 
             if (config.groupSwitch == true && config.group != "null") {
                 let fader = findUniqueValue(node);
@@ -865,6 +865,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (node.color) { if (node.color == 'white') return "white"; }
         return node.children ? color(node.depth) : "white";
 
+
+
         function parseDown(d) { // Find the phrase type or group value by parsing down the tree
             // console.log('This is d currently', d);
             if(d.children.length != 0) { 
@@ -872,11 +874,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
             else { 
                 // console.log('Found the end of the loop, this is the value', d);
+                // console.log("This is reference to the node that initialized this recursive function:", node);
                 let pass = d.data["groupColor"]["value"];
-                // console.log('Found end of loop, here is pass', pass);
-                console.log("This is reference to the node that initialized this recursive function:", node);
+                console.log('Found end of loop, here is pass', pass);
                 node.group = pass;
-                return pass;
             }
         }
     } // End of color by group function
