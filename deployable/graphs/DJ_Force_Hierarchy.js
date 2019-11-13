@@ -1028,6 +1028,9 @@ function update() { /* Initialize some parameters that we will need for */
             : lightenOrDarken(d, '#BDBDBD')
           } else { return lightenOrDarken(d, '#0a63c2'); }
 
+          // let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
+          // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
+
         } else { // Do and return the normal color function! ~ This is if they don't give us a type!
             return d.depth == 0 ? lightenOrDarken(d, "#c6dbef")
             : d.notch == 'a' ? lightenOrDarken(d, "#008CCD")

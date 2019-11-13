@@ -474,10 +474,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
                 return 'node';
             })
-            .attr("fill", d => {
-                if (d.color) {return "white";}
-                return d.children ? color(d.depth) : "white";
-            })
+            .attr("fill", d => colorByGroup(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -486,31 +483,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
             .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
-
-
-
-    function colorByGroup(node) {
-        if(node.children != []) {
-            parseDown(node.data.children[0]);
-
-            if (config.groupSwitch == true && config.group != "null") {
-
-            }
-        } else {
-            if (node.color) return "white";
-            return node.children ? color(node.depth) : "white";
-
-        }
-    } // End of color by group function
-
-    function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-        if(d.children != []) {
-            parseDown(d.data.children[0]);
-        } else {
-            node.group = d.data.groupColor;
-        }
-    }
-
 
 
     const label = svg.append("g")
@@ -872,6 +844,45 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : d.data.textuse == 3 ? `0px`
         : `${four}px`;
     }
+
+
+    function colorByGroup(node) {
+        if(node.children != []) {
+            parseDown(node.data.children[0]);
+
+            if (config.groupSwitch == true && config.group != "null") {
+                let fader = findUniqueValue(node);
+                let newColor = d3.scaleLinear()
+                    .domain([minDepth, maxDepth])
+                    .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
+                    .interpolate(d3.interpolateHcl);
+                
+                if (node.color) { if (node.color == 'white') return "white"; }
+                return node.children ? newColor(node.depth) : "white";
+            }
+        } 
+        if (node.color) { if (node.color == 'white') return "white"; }
+        return node.children ? color(node.depth) : "white";
+    } // End of color by group function
+    
+    function parseDown(d) { // Find the phrase type or group value by parsing down the tree
+        if(d.children != []) { parseDown(d.data.children[0]); }
+        else { node.group = d.data.groupColor; }
+    }
+    
+    function findUniqueValue(d) {
+        return d.group == uniqueValues[0] ? 'hsl(204, 70%, 53%)'
+            : d.group == uniqueValues[1] ? 'hsl(152, 80%, 80%)'
+            : d.group == uniqueValues[2] ? 'hsl(37, 90%, 51%)'
+            : d.group == uniqueValues[3] ? 'hsl(265, 91%, 66%)'
+            : d.group == uniqueValues[4] ? 'hsl(0, 100%, 85%)'
+            : d.group == uniqueValues[5] ? 'hsl(188, 61%, 52%)'
+            : d.group == uniqueValues[6] ? 'hsl(145, 63%, 49%)'
+            : d.group == uniqueValues[5] ? 'hsl(240, 69%, 46%)'
+            : 'hsl(0, 0%, 60%)';
+            // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
+    }
+
 
 
 
