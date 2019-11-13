@@ -6,13 +6,13 @@ looker.plugins.visualizations.add({
     label: 'Demand Jump Circle Packing Visual',
 
     options: {
-        limit_displayed_rows_values: {
+        node_sizing_header: {
             label: "Highly recommend using dynamic sizing.",
             order: 0,
             section: "Configuration",
             type: "sentence_maker",
             words: [
-                { type: "separator", text: "The visual looks much better when you choose dynamic node sizing" }
+                { type: "separator", text: "Add in a factor of influence for the nodes" }
             ]
         },
         influenceSwitch: {
@@ -39,6 +39,43 @@ looker.plugins.visualizations.add({
             order: 2,
             section: 'Configuration', 
             type: 'boolean',
+            default: true,
+            hidden: true
+        },
+
+        group_nodes_header: {
+            label: "Highly recommend using dynamic sizing.",
+            order: 3,
+            section: "Configuration",
+            type: "sentence_maker",
+            words: [
+                { type: "separator", text: "Group nodes together by color" }
+            ]
+        },
+        groupSwitch: {
+            label: "Group nodes by color", 
+            order: 4, 
+            section: "Configuration",
+            type: "boolean",
+            default: true
+        },
+        group: {
+            label: "Choose a grouping factor",
+            order: 4.1,
+            section: "Configuration",
+            values: [
+                {"None": "null"}
+            ],
+            default: "null",
+            type: "string",
+            type: "select",
+            hidden: true
+        },
+        useGroupInVis: {
+            label: "Use grouping factor in visual",
+            order: 5,
+            section: "Configuration",
+            type: "boolean",
             default: true,
             hidden: true
         }
@@ -165,29 +202,54 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         /* Input the dimension values in the options */ 
     this.options.influence['values'] = [];
+    this.options.group['values'] = [];
     let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
     this.options.influence['values'].push(val);
-
+    this.options.group['values'].push(val);
         // Adds all the different dimensions as 
     measures.forEach(mes => { // Value object >.>  {"name": "value"} 
         let key = mes.label; // Key of value pair
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-
-        this.options.influence['values'].push(val);
-    })
+        if (config.influenceSwitch) this.options.influence['values'].push(val);
+        if (config.groupSwitch) this.options.group['values'].push(val);
+    });
     dimensions.forEach(dimension => {
         let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
+        if (config.influenceSwitch) this.options.influence['values'].push(val);
+        if(config.groupSwitch) this.options.group['values'].push(val);
+    });
 
-        this.options.influence['values'].push(val);
-    })
+    
+            //*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*//
+    if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
+        taxonomyPass = [];
+        let pull = config.influence; // Grab the dimension that the influence is using..
+        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
+    }
+    if (config.groupSwitch == true && config.useGroupInVis == false && config.useInfluenceInVis == true) { // If group's dimension is being pulled but not influence
+        taxonomyPass = [];
+        let pull = config.group;
+        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
+    }
+    if (config.groupSwitch == true && config.influenceSwitch == true && config. useGroupInVis == false && config.useInfluenceInVis == false) {
+        taxonomyPass = [];
+        let groupDimen = config.group;
+        let influenceDimen = config.influence;
+        dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
+    }
+    console.log('This is the taxonomy pass', taxonomyPass);
 
-      // Show / Hide influence (Variable factor select statement)
-    if (config.influenceSwitch == false) { // Then hide the influence setting
+
+
+
+
+        // Show/Hide influence (Variable factor select statement) //
+      if (config.influenceSwitch == false) { // Then hide the influence setting
         if (this.options.influence.hidden == false) {
             this.options.influence.hidden = true;
             this.options.useInfluenceInVis.hidden = true;
@@ -202,20 +264,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           this.trigger('registerOptions', this.options);
         }
     }
-    
-          // Pull out dimension from taxonomy for the visual if useInfluenceInVis is false
-    if (config.influenceSwitch == true && config.useInfluenceInVis == false) {
-        taxonomyPass = [];
-        let pull = config.influence; // Grab the dimension that the influence is using..
-        dimensions.forEach(dimen => { 
-            if (dimen.name != pull)taxonomyPass.push(dimen);  
-        });
-        // console.log('This is the taxonomy pass', taxonomyPass);
+
+    if (config.groupSwitch == true) { // Same for the group settings
+        if (this.options.group.hidden == false) {
+            this.options.group.hidden = true;
+            this.options.useGroupInVis.hidden = true;
+            this.trigger('registerOptions', this.options);
+        }
+    }
+    if (config.groupSwitch == false) {
+        if (this.options.group.hidden == true) {
+            this.options.group.hidden = false;
+            this.options.useGroupInVis.hidden = false;
+            this.trigger('registerOptions', this.options);
+        }
     }
 
     // console.log('\n\n Configuration settings');
-    // console.log(`Influence Switch: ${config.influenceSwitch}`);
-    // console.log(`Measure Influence: ${config.influence}`);
+    // console.log(`Influence switch: ${config.influenceSwitch}`);
+    // console.log(`Influence value: ${config.influence}`);
+    // console.log(`Group value: ${config.group}`);
+    // console.log(`Group switch: ${config.influence}`);
+
+
+
+
+            /*/ / Get the unique values out of the grouping dimension / /*/
+    // if (config.group) {
+    //     if (config.groupSwitch) {}
+    // }
+
+
+
 
 
     /**********************
@@ -253,10 +333,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('value of each', node[config.influence].value);
             node['value'] = node[config.influence]['value'];
         });
-    } else {
-      data.forEach(node => { 
-        node['value'] = 1;
-      });
+    } else { 
+        data.forEach(node => node['value'] = 1); 
     }
 
         // Now run through the data, grab the min and max, then replace all the nulls with the min value
@@ -269,23 +347,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     data.forEach(node => { // If the node value is null, replace it with the min value
         node.nullVal = 'false';
         if (node.value == null || node.value == 'null') {
-          node.value = min;
-          node.nullVal = true;
+            node.value = min;
+            node.nullVal = true;
         }
     });
     // console.log(`The finished min ${min}, and max ${max}`);
- 
 
-    console.log(`Window height: ${window.innerHeight}, and Element height: ${element.clientHeight}`);
-    console.log(`Window width: ${window.innerWidth}, and Element width: ${element.clientWidth}`);
-    console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${window.innerWidth - element.clientWidth}px variance in width`);
+    
   
-        // Main variables for building the svg
-    let view;
+        /*/ / This is for sizing the svg and the header correctly / /*/
     let headerSpace;
     let width;
     let height;
     let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
+    // console.log(`Window height: ${window.innerHeight}, and Element height: ${element.clientHeight}`);
+    // console.log(`Window width: ${window.innerWidth}, and Element width: ${element.clientWidth}`);
+    // console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${window.innerWidth - element.clientWidth}px variance in width`);
 
     let circleHeight = window.innerHeight;
     if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
@@ -301,6 +378,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
         // Initialize the visual's data and construct the rest of the hierarchy
+    let view;
     const burrow = this.burrow(data, taxonomyPass); 
     const root = pack(burrow);
     let focus = root.children[0];
@@ -327,12 +405,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nodes = root.descendants().slice(1);
 
     
-    let vws = d3.scaleLinear()
-        .domain([20, 1200])
-        .range([2, 10]);
-    let vwsm = d3.scaleLinear()
-        .domain([20, 1200])
-        .range([.5, 5]);
     let psfs = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
