@@ -1,9 +1,9 @@
 // import * as d3 from 'd3';
-console.log('Rendering dj circle packing');
+console.log("Rendering dj circle packing");
 
 looker.plugins.visualizations.add({
-    id: 'dj_circle_packing',
-    label: 'Demand Jump Circle Packing Visual',
+    id: "dj_circle_packing",
+    label: "Demand Jump Circle Packing Visual",
 
     options: {
         node_sizing_header: {
@@ -16,29 +16,29 @@ looker.plugins.visualizations.add({
             ]
         },
         influenceSwitch: {
-            label: 'Dynamic node sizing',
+            label: "Dynamic node sizing",
             order: 1,
-            section: 'Configuration', 
-            type: 'boolean',
+            section: "Configuration", 
+            type: "boolean",
             default: false 
         },
         influence: {
-            label: 'Choose a variable factor',
+            label: "Choose a variable factor",
             order: 1.1, 
-            section: 'Configuration',
+            section: "Configuration",
             values: [
               {"None": "null"}
             ],
-            default: 'null',
-            type: 'string',
-            display: 'select', 
+            default: "null",
+            type: "string",
+            display: "select", 
             hidden: true
         },
         useInfluenceInVis: {
-            label: 'Use variable factor in visual',
+            label: "Use variable factor in visual",
             order: 2,
-            section: 'Configuration', 
-            type: 'boolean',
+            section: "Configuration", 
+            type: "boolean",
             default: true,
             hidden: true
         },
@@ -68,7 +68,7 @@ looker.plugins.visualizations.add({
             ],
             default: "null",
             type: "string",
-            type: "select",
+            display: "select",
             hidden: true
         },
         useGroupInVis: {
