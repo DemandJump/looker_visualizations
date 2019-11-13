@@ -283,19 +283,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let headerSpace;
     let width;
     let height;
-    let viewBoxFactor;
+    let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
 
     let circleHeight = window.innerHeight;
     if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
         headerSpace = 40;
         width = circleHeight - 40;
         height = circleHeight - 40;
-        viewBoxFactor = height + 35;
+        viewBoxFactor = height + 40;
     } else {
         headerSpace = circleHeight * .1;
         width = circleHeight * .9;
         height = circleHeight * .9;
-        viewBoxFactor = height + 35;
+        viewBoxFactor = height + 40;
     }
 
         // Initialize the visual's data and construct the rest of the hierarchy
