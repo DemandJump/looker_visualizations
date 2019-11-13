@@ -69,15 +69,16 @@ looker.plugins.visualizations.add({
               }
           </style>
         `;
-        this._header = d3.select(element).append('h2')
-            .attr('class', 'header')
+
+        // this._header = d3.select(element).append('h2')
+        //     .attr('class', 'header')
             // .style('text-align', 'center')
             // .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
             // .style('top', '4%') // Move halfway down the page
             // .style('left', '0%'); // Move to center of page
             // .style('transform', 'translateX(-50%)'); // Have the center of the element be the center of the page (Otherwise it starts at the center and moves right)
 
-            
+
         this._container = d3.select(element).append("div")
             .style('position', 'relative')
             .attr('class', 'container');
@@ -280,10 +281,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
     let view;
-    let vWidth = window.innerWidth - 20;
-    let vHeight = window.innerHeight - 20;
-    let width = window.innerHeight - 40;
-    let height = window.innerHeight - 40;
+    let vWidth = window.innerWidth;
+    let vHeight = window.innerHeight;
+    let width = window.innerHeight;
+    let height = window.innerHeight;
     let viewBoxFactor = height * 1.045;
     const root = pack(burrow);
     let focus = root.children[0];
