@@ -269,7 +269,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let height = window.innerHeight - 20;
     const root = pack(burrow);
     let focus = root.children[0];
-    root.children[1].data.id = 'tether';
+    root.children[0].data.id = 'tether';
 
     root.children.forEach(collapse);
     function collapse(d) {
