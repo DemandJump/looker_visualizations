@@ -848,7 +848,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function colorByGroup(node) {
         if(node.children != []) {
-            parseDown(node.data.children[0]);
+            node.group = parseDown(node.data.children[0]);
 
             if (config.groupSwitch == true && config.group != "null") {
                 let fader = findUniqueValue(node);
@@ -870,7 +870,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(d.children.length != 0) { 
             parseDown(d.children[0]); 
         }
-        else { node.group = d.data.groupColor.value; }
+        else { return d.data.groupColor.value; }
     }
     
     function findUniqueValue(d) {
