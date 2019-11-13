@@ -58,14 +58,14 @@ looker.plugins.visualizations.add({
               .text, .text2, .text3 { 
                   font-family: Roboto; 
                   font-weight: 300;
-                text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
+                  text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
               }
 
               .header {
                   font-family: Roboto;
                   font-weight: 300;
                   font-size: 1rem;
-
+                  text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
               }
           </style>
         `;
