@@ -871,7 +871,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if(d.children.length != 0) { 
             parseDown(d.children[0]); 
         }
-        else { return d.data.groupColor.value; }
+        else { 
+            console.log('Found the end of the loop, this is the value', d);
+            return d.data.groupColor.value; 
+        }
     }
     
     function findUniqueValue(d) {
