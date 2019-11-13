@@ -78,7 +78,7 @@ looker.plugins.visualizations.add({
             .style('position', 'relative')
             .attr('class', 'svg');
 
-        this._header = d3.select(element).append('h4')
+        this._header = d3.select(element).append('h2')
             .attr('class', 'header')
             .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
             .style('top', '0%') // Move halfway down the page
@@ -281,6 +281,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let vHeight = window.innerHeight - 20;
     let width = window.innerHeight - 40;
     let height = window.innerHeight - 40;
+    let viewBoxFactor = height * 1.045;
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
@@ -347,7 +348,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style('margin', '0 auto');
 
     let svg = this._svg        
-        .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
+        .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
         .style("max-width", window.innerHeight + 20) // This one makes it nice and spacy
