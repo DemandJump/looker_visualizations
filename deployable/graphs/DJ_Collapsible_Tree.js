@@ -500,11 +500,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // zoom_handler.translateBy(container, root.x, root.y);
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
       let x = -1 * root.x;
-      let y = -1 * root.y;
+      let y = root.y + 54;
 
       container.transition().duration(1200).call(
         zoom_handler.transform,
-        d3.zoomIdentity.translate(width / 2, height / 2).scale(1).translate(root.x, y)
+        d3.zoomIdentity.translate(width / 2, height / 2).scale(1).translate(y, x)
       );
   }
   
