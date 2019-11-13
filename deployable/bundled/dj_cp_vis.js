@@ -212,7 +212,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (config.group != 'null') {
                 let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
                 data.forEach(node => {
-                    node.color = node[grouper];
+                    node.groupColor = node[grouper];
                     let checker = 0;
                     for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
                         if (node[grouper] == uniqueValues[i]) checker++;
@@ -223,6 +223,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     }
     uniqueValues.slice(1); // Get rid of the null which was used to run the function
+    console.log('These are the unique values found: ', uniqueValues);
 
 
         /* Input the dimension values in the options */ 
@@ -472,7 +473,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 return 'node';
             })
             .attr("fill", d => {
-                // return '#008bcc';
                 if (d.color) {return "white";}
                 return d.children ? color(d.depth) : "white";
             })
@@ -484,6 +484,31 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
             .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+
+
+
+    function colorByGroup(node) {
+        if(node.children != []) {
+            parseDown(node.data.children[0]);
+
+            if (config.groupSwitch == true && config.group != "null") {
+
+            }
+        } else {
+            if (node.color) return "white";
+            return node.children ? color(node.depth) : "white";
+
+        }
+    } // End of color by group function
+
+    function parseDown(d) { // Find the phrase type or group value by parsing down the tree
+        if(d.children != []) {
+            parseDown(d.data.children[0]);
+        } else {
+            node.group = d.data.groupColor;
+        }
+    }
+
 
 
     const label = svg.append("g")
@@ -537,7 +562,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     zoomTo([root.x, root.y, root.r * 2]);
     simulateClick(document.querySelector('.tether'), 'click');
-
 
 
 
@@ -654,16 +678,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-        console.log('This is the pack function', data);
+        // console.log('This is the pack function', data);
         if (config.influenceSwitch == true && config.influence != 'null') {
-            console.log('Packing the data if they choose an influence');
+            // console.log('Packing the data if they choose an influence');
           
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('Sum function for pack if influence != null, this is d: ', d);
+                    // console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 1;
                     if (d.data) {
                         if (d.data.value) {
@@ -692,13 +716,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }));
 
         } else {
-            console.log("Packing function if they don't choose an influence");
+            // console.log("Packing function if they don't choose an influence");
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('This is the sum function for pack: ', d);
+                    // console.log('This is the sum function for pack: ', d);
                     d.value = 1;
                     return d.value;
                 })
