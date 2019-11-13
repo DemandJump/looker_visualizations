@@ -70,8 +70,8 @@ looker.plugins.visualizations.add({
           </style>
         `;
 
-        // this._header = d3.select(element).append('h2')
-        //     .attr('class', 'header')
+        this._header = d3.select(element).append('h2')
+            .attr('class', 'header')
             // .style('text-align', 'center')
             // .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
             // .style('top', '4%') // Move halfway down the page
@@ -281,11 +281,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
     let view;
-    let vWidth = window.innerWidth;
+    // let vWidth = window.innerWidth;
     let vHeight = window.innerHeight;
-    let width = window.innerHeight;
-    let height = window.innerHeight;
-    let viewBoxFactor = height * 1.045;
+    let headerSpace = vHeight * .1;
+    let width = vHeight * .9;
+    let height = vHeight * .9;
+    let viewBoxFactor = height + 35; // It's not a scale(We used 1.045 which didn't work with smaller media queries), it's a flat viewBox number of 35px for the third property to make sure the viewport doesn't take up extra space and become scrollable (^:; 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
@@ -346,6 +347,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
+    let header = this._header
+        .style('height' , headerSpace);
+
     let container = this._container
         .style('box-sizing', 'border-box')
         .style('text-align', 'center')
