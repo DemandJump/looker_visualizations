@@ -497,7 +497,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (updatInit == 0) {
       updatInit++;
       console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
-      container.translateBy(zoom_handler, root.x, root.y);
+      zoom_handler.translateBy(container, root.x, root.y);
   }
 
   // Normalize for fixed-depth. because of collapse function 

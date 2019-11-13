@@ -873,7 +873,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
         else { 
             // console.log('Found the end of the loop, this is the value', d);
-            return d.data["groupColor"]["value"];
+            let pass = d.data["groupColor"]["value"];
+            console.log('Found end of loop, here is pass', pass);
+            return pass;
         }
     }
     
