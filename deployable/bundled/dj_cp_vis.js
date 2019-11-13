@@ -873,7 +873,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // console.log('Found the end of the loop, this is the value', d);
                 // console.log("This is reference to the node that initialized this recursive function:", node);
                 let pass = d.data["groupColor"]["value"];
-                console.log('Found end of loop, here is pass', pass);
+                // console.log('Found end of loop, here is pass', pass);
                 node.group = pass;
             }
         }
@@ -882,7 +882,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     
     function findUniqueValue(d) {
-        console.log(`This is d.group`, d.group);
+        // console.log(`This is d.group`, d.group);
         return d.group == uniqueValues[0] ? 'hsl(152, 80%, 80%)'
             : d.group == uniqueValues[1] ? 'hsl(0, 100%, 85%)'
             : d.group == uniqueValues[2] ? 'hsl(265, 91%, 66%)'
