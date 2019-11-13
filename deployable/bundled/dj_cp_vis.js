@@ -868,7 +868,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function parseDown(d) { // Find the phrase type or group value by parsing down the tree
         if(d.children != []) { 
             console.log('This is d currently', d);
-            parseDown(d.data.children[0]); 
+            parseDown(d.children[0]); 
         }
         else { node.group = d.data.groupColor; }
     }
