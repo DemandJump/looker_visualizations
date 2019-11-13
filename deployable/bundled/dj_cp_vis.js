@@ -270,33 +270,32 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         // Show/Hide influence (Variable factor select statement) //
-      if (config.influenceSwitch == false) { // Then hide the influence setting
+    if (config.influenceSwitch == true) { // Then show the influence setting 
+        if (this.options.influence.hidden == true) { // Check if it's hidden, and unhide them if not
+          this.options.influence.hidden = false;
+          this.options.useInfluenceInVis.hidden = false;
+          this.trigger('registerOptions', this.options);
+        }
+    }
+    if (config.influenceSwitch == false) { // Then hide the influence setting
         if (this.options.influence.hidden == false) {
             this.options.influence.hidden = true;
             this.options.useInfluenceInVis.hidden = true;
             this.trigger('registerOptions', this.options);
         }
     } 
-    if (config.influenceSwitch == true) { // Then show the influence setting 
-          // Check if it's hidden, and unhide them if not
-        if (this.options.influence.hidden == true) {
-          this.options.influence.hidden = false;
-          this.options.useInfluenceInVis.hidden = false;
-          this.trigger('registerOptions', this.options);
-        }
-    }
 
     if (config.groupSwitch == true) { // Same for the group settings
-        if (this.options.group.hidden == false) {
-            this.options.group.hidden = true;
-            this.options.useGroupInVis.hidden = true;
+        if (this.options.group.hidden == true) {
+            this.options.group.hidden = false;
+            this.options.useGroupInVis.hidden = false;
             this.trigger('registerOptions', this.options);
         }
     }
     if (config.groupSwitch == false) {
-        if (this.options.group.hidden == true) {
-            this.options.group.hidden = false;
-            this.options.useGroupInVis.hidden = false;
+        if (this.options.group.hidden == false) {
+            this.options.group.hidden = true;
+            this.options.useGroupInVis.hidden = true;
             this.trigger('registerOptions', this.options);
         }
     }
@@ -307,7 +306,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`Group value: ${config.group}`);
     console.log(`Group switch: ${config.influence}`);
 
-    
+
     /**********************
      * Error Clauses 
     **********************/
