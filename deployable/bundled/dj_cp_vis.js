@@ -357,8 +357,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = this._svg        
         .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
         .style("cursor", "pointer")
-        .style("max-height", window.innerWidth) // Essential for responsive media
-        .style("max-width", window.innerHeight + 20) // This one makes it nice and spacy
+        .style("max-height", height) // Essential for responsive media
+        .style("max-width", width) // This one makes it nice and spacy
         .on("click", () => zoomThenRefactor(root)); // This zoom function 
 
     const node = svg.append("g")
