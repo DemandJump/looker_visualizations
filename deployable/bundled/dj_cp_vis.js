@@ -887,9 +887,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function findUniqueValue(d) {
         console.log(`This is d.group`, d.group);
         return d.group == uniqueValues[0] ? 'hsl(152, 80%, 80%)'
-            : d.group == uniqueValues[1] ? 'hsl(37, 90%, 51%)'
+            : d.group == uniqueValues[1] ? 'hsl(0, 100%, 85%)'
             : d.group == uniqueValues[2] ? 'hsl(265, 91%, 66%)'
-            : d.group == uniqueValues[3] ? 'hsl(0, 100%, 85%)'
+            : d.group == uniqueValues[3] ? 'hsl(37, 90%, 51%)'
             : d.group == uniqueValues[4] ? 'hsl(188, 61%, 52%)'
             : d.group == uniqueValues[5] ? 'hsl(145, 63%, 49%)'
             : d.group == uniqueValues[6] ? 'hsl(240, 69%, 46%)'
