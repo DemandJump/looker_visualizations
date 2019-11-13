@@ -59,6 +59,12 @@ looker.plugins.visualizations.add({
                   font-family: Roboto; 
                 text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
               }
+
+              .header {
+                  font-family: Roboto;
+                  font-size: 1rem;
+
+              }
           </style>
         `;
 
@@ -67,6 +73,13 @@ looker.plugins.visualizations.add({
 
         this._svg = d3.select('div.container').append("svg")
             .attr('class', 'svg');
+
+        this._header = d3.select('div.container').append('h4')
+            .attr('class', 'header')
+            .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
+            // .style('top', '50%') // Move halfway down the page
+            .style('left', '50%') // Move to center of page
+            .style('transform', 'translateX(-50%)'); // Have the center of the element be the center of the page (Otherwise it starts at the center and moves right)
 
     },
 
@@ -252,10 +265,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     });
     // console.log(`The finished min ${min}, and max ${max}`);
  
-    
+
     console.log(`Window height: ${window.innerHeight}, and Element height: ${element.clientHeight}`);
     console.log(`Window width: ${window.innerWidth}, and Element width: ${element.clientWidth}`);
-    console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${windown.innerWidth - element.clientWidth}px variance in width`);
+    console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${window.innerWidth - element.clientWidth}px variance in width`);
   
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
@@ -313,18 +326,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
         .interpolate(d3.interpolateHcl);
 
-
-
-
-    // let allNodes = 0;
-    // let counter = 0;
-    // nodes.forEach(node => {
-    //     allNodes++;
-    //     if(node.data.name == 'null' || node.data.name == null) {
-    //       counter++;
-    //     }
-    // });
-    // console.log(`These are a total of ${allNodes} nodes, and ${counter} were null`);
 
 
     // let nodes = root.descendants().slice(1); 
@@ -536,6 +537,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function zoomThenRefactor(d) {
         zoom(d);
         // refactor(d);
+
+            // Pass in the clicked node to the header!
+        this._header.html(d.data.name);
     }
 
     function pack(data) {
