@@ -864,20 +864,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         } 
         if (node.color) { if (node.color == 'white') return "white"; }
         return node.children ? color(node.depth) : "white";
+
+        function parseDown(d) { // Find the phrase type or group value by parsing down the tree
+            // console.log('This is d currently', d);
+            if(d.children.length != 0) { 
+                parseDown(d.children[0]); 
+            }
+            else { 
+                // console.log('Found the end of the loop, this is the value', d);
+                let pass = d.data["groupColor"]["value"];
+                // console.log('Found end of loop, here is pass', pass);
+                console.log("This is reference to the node that initialized this recursive function:", node);
+                node.group = pass;
+                return pass;
+            }
+        }
     } // End of color by group function
     
-    function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-        // console.log('This is d currently', d);
-        if(d.children.length != 0) { 
-            parseDown(d.children[0]); 
-        }
-        else { 
-            // console.log('Found the end of the loop, this is the value', d);
-            let pass = d.data["groupColor"]["value"];
-            console.log('Found end of loop, here is pass', pass);
-            return pass;
-        }
-    }
+
     
     function findUniqueValue(d) {
         console.log(`This is d.group`, d.group);
