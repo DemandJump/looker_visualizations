@@ -106,6 +106,10 @@ looker.plugins.visualizations.add({
                   margin: 0;
                   padding: 0;
               }
+
+              svg {
+                  border: 1px solid #BDBDBD;
+              }
           </style>
         `;
 
