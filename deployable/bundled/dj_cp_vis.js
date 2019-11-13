@@ -279,14 +279,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${window.innerWidth - element.clientWidth}px variance in width`);
   
         // Main variables for building the svg
-    const burrow = this.burrow(data, taxonomyPass);
     let view;
-    // let vWidth = window.innerWidth;
-    let vHeight = window.innerHeight;
-    let headerSpace = vHeight * .1;
-    let width = vHeight * .9;
-    let height = vHeight * .9;
-    let viewBoxFactor = height + 35; // It's not a scale(We used 1.045 which didn't work with smaller media queries), it's a flat viewBox number of 35px for the third property to make sure the viewport doesn't take up extra space and become scrollable (^:; 
+    let headerSpace;
+    let width;
+    let height;
+    let viewBoxFactor;
+
+    let circleHeight = window.innerHeight;
+    if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
+        headerSpace = 40;
+        width = circleHeight - 40;
+        height = circleHeight - 40;
+        viewBoxFactor = height + 35;
+    } else {
+        headerSpace = circleHeight * .1;
+        width = circleHeight * .9;
+        height = circleHeight * .9;
+        viewBoxFactor = height + 35;
+    }
+
+        // Initialize the visual's data and construct the rest of the hierarchy
+    const burrow = this.burrow(data, taxonomyPass); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
