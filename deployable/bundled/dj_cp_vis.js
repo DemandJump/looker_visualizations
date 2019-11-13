@@ -20,7 +20,7 @@ looker.plugins.visualizations.add({
             order: 1,
             section: 'Configuration', 
             type: 'boolean',
-            default: true
+            default: false 
         },
         influence: {
             label: 'Choose a variable factor',
@@ -57,7 +57,7 @@ looker.plugins.visualizations.add({
             order: 4, 
             section: "Configuration",
             type: "boolean",
-            default: true
+            default: false
         },
         group: {
             label: "Choose a grouping factor",
@@ -200,6 +200,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Configuring the settings
     ***************************************/
 
+
+            /*/ / Get the unique values out of the grouping dimension / /*/
+    let uniqueValues = ['null'];
+    if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
+        if (config.groupSwitch == true) {
+            if (config.group != 'null') {
+                let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
+                data.forEach(node => {
+                    node.color = node[grouper];
+                    let checker = 0;
+                    for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
+                        if (node[grouper] == uniqueValues[i]) checker++;
+                    } // If the counter equals 0, then add it to the set of unique values for the next iteration
+                    if (checker == 0) uniqueValues.append(node[grouper]);
+                });
+            }
+        }
+    }
+    uniqueValues.slice(1); // Get rid of the null which was used to run the function
+
+
         /* Input the dimension values in the options */ 
     this.options.influence['values'] = [];
     this.options.group['values'] = [];
@@ -280,24 +301,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     }
 
-    // console.log('\n\n Configuration settings');
-    // console.log(`Influence switch: ${config.influenceSwitch}`);
-    // console.log(`Influence value: ${config.influence}`);
-    // console.log(`Group value: ${config.group}`);
-    // console.log(`Group switch: ${config.influence}`);
+    console.log('\n\n Configuration settings');
+    console.log(`Influence switch: ${config.influenceSwitch}`);
+    console.log(`Influence value: ${config.influence}`);
+    console.log(`Group value: ${config.group}`);
+    console.log(`Group switch: ${config.influence}`);
 
-
-
-
-            /*/ / Get the unique values out of the grouping dimension / /*/
-    // if (config.group) {
-    //     if (config.groupSwitch) {}
-    // }
-
-
-
-
-
+    
     /**********************
      * Error Clauses 
     **********************/
