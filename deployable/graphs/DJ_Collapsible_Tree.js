@@ -386,9 +386,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   console.log('Show me the root for it"s coordinates', root);
       // We need to find the coordinates to the center of the visual 
 
-  svg.call(zoom_handler);
+  container.call(zoom_handler);
 
-  svg.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
+  // container.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
 
 
 
