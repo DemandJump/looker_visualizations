@@ -53,15 +53,17 @@ looker.plugins.visualizations.add({
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
         element.innerHTML =`
           <style>
-              @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+              @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
               
               .text, .text2, .text3 { 
                   font-family: Roboto; 
+                  font-weight: 300;
                 text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
               }
 
               .header {
                   font-family: Roboto;
+                  font-weight: 300;
                   font-size: 1rem;
 
               }
@@ -79,7 +81,7 @@ looker.plugins.visualizations.add({
         this._header = d3.select(element).append('h4')
             .attr('class', 'header')
             .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
-            // .style('top', '50%') // Move halfway down the page
+            .style('top', '0%') // Move halfway down the page
             .style('left', '50%') // Move to center of page
             .style('transform', 'translateX(-50%)'); // Have the center of the element be the center of the page (Otherwise it starts at the center and moves right)
 
