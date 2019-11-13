@@ -215,7 +215,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     node.groupColor = node[grouper];
                     let checker = 0;
                     for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
-                        if (node[grouper] == uniqueValues[i]) checker++;
+                        console.log(`This is the node's phrase type: ${node[grouper]}, and this is the current unique value: ${uniqueValues[i]}`)
+                        if (node[grouper] == uniqueValues[i]) { checker++; }
                     } // If the counter equals 0, then add it to the set of unique values for the next iteration
                     if (checker == 0) uniqueValues.push(node[grouper]);
                 });
