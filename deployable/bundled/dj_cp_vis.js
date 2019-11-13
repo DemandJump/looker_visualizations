@@ -251,22 +251,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     });
     // console.log(`The finished min ${min}, and max ${max}`);
-
-    console.log('window width', window.innerWidth);
-    console.log('window height', window.innerHeight);
-
-    console.log('element width', element.innerWidth);
-    console.log('element height', element.innerHeight);
-    console.log('element clientwidth', element.clientWidth);
-    console.log('element clientHeight', element.clientHeight);
+ 
+    
+    console.log(`Window height: ${window.innerHeight}, and Element height: ${element.clientHeight}`);
+    console.log(`Window width: ${window.innerWidth}, and Element width: ${element.clientWidth}`);
+    console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${windown.innerWidth - element.clientWidth}px variance in width`);
   
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
     let view;
     let vWidth = window.innerWidth - 20;
     let vHeight = window.innerHeight - 20;
-    let width = window.innerHeight - 20;
-    let height = window.innerHeight - 20;
+    let width = window.innerHeight - 40;
+    let height = window.innerHeight - 40;
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
