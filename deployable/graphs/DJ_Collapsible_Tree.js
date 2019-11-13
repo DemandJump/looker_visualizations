@@ -498,7 +498,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       updatInit++;
       console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
       // zoom_handler.translateBy(container, root.x, root.y);
-      container.transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
+      d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
   }
   
 
