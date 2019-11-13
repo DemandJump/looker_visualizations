@@ -69,12 +69,14 @@ looker.plugins.visualizations.add({
         `;
 
         this._container = d3.select(element).append("div")
+            .style('position', 'relative')
             .attr('class', 'container');
 
         this._svg = d3.select('div.container').append("svg")
+            .style('position', 'relative')
             .attr('class', 'svg');
 
-        this._header = d3.select('div.container').append('h4')
+        this._header = d3.select(element).append('h4')
             .attr('class', 'header')
             .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
             // .style('top', '50%') // Move halfway down the page
