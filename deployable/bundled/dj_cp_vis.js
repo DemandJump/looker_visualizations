@@ -866,11 +866,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of color by group function
     
     function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-        if(d.children != []) { 
-            console.log('This is d currently', d);
-            parseDown(d.children[0]); 
+        if(d.children) {
+            if(d.children != []) { 
+                console.log('This is d currently', d);
+                parseDown(d.children[0]); 
+            }
+        } else { 
+            node.group = d.data.groupColor; 
         }
-        else { node.group = d.data.groupColor; }
     }
     
     function findUniqueValue(d) {
