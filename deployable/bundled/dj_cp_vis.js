@@ -69,7 +69,15 @@ looker.plugins.visualizations.add({
               }
           </style>
         `;
+        this._header = d3.select(element).append('h2')
+            .attr('class', 'header')
+            // .style('text-align', 'center')
+            // .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
+            // .style('top', '4%') // Move halfway down the page
+            // .style('left', '0%'); // Move to center of page
+            // .style('transform', 'translateX(-50%)'); // Have the center of the element be the center of the page (Otherwise it starts at the center and moves right)
 
+            
         this._container = d3.select(element).append("div")
             .style('position', 'relative')
             .attr('class', 'container');
@@ -78,14 +86,7 @@ looker.plugins.visualizations.add({
             .style('position', 'relative')
             .attr('class', 'svg');
 
-        this._header = d3.select(element).append('h2')
-            .attr('class', 'header')
-            // .style('text-align', 'center')
-
-            // .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
-            // .style('top', '4%') // Move halfway down the page
-            // .style('left', '0%'); // Move to center of page
-            // .style('transform', 'translateX(-50%)'); // Have the center of the element be the center of the page (Otherwise it starts at the center and moves right)
+        
 
     },
 
