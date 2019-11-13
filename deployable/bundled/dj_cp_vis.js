@@ -873,9 +873,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
         else { 
             // console.log('Found the end of the loop, this is the value', d);
-            console.log('Found parseDown else statement. Here"S the first parse attempt', d.data["groupColor"]);
-            console.log('Second parse attempt', d.data["groupColor"]["value"]);
-            return d.data.groupColor.value; 
+            return d.data["groupColor"]["value"];
         }
     }
     
