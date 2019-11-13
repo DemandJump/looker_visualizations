@@ -537,9 +537,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function zoomThenRefactor(d) {
         zoom(d);
         // refactor(d);
-
-            // Pass in the clicked node to the header!
-        this._header.html(d.data.name);
+        d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
     }
 
     function pack(data) {
