@@ -866,7 +866,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of color by group function
     
     function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-        console.log('This is d currently', d);
+        // console.log('This is d currently', d);
         if(d.children.length != 0) { 
             parseDown(d.children[0]); 
         }
@@ -874,6 +874,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     
     function findUniqueValue(d) {
+        console.log(`This is d.group`, d.group);
         return d.group == uniqueValues[0] ? 'hsl(204, 70%, 53%)'
             : d.group == uniqueValues[1] ? 'hsl(152, 80%, 80%)'
             : d.group == uniqueValues[2] ? 'hsl(37, 90%, 51%)'
