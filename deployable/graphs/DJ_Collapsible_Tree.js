@@ -505,7 +505,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         zoom_handler.transform,
         d3.zoomIdentity.translate(height / 2, width / 2).scale(1).translate(root.x, root.y)
       );
-
   }
   
 
