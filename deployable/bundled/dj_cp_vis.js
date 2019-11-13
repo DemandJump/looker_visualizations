@@ -237,16 +237,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        if (config.influenceSwitch) this.options.influence['values'].push(val);
-        if (config.groupSwitch) this.options.group['values'].push(val);
+        this.options.influence['values'].push(val);
+        this.options.group['values'].push(val);
     });
     dimensions.forEach(dimension => {
         let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        if (config.influenceSwitch) this.options.influence['values'].push(val);
-        if(config.groupSwitch) this.options.group['values'].push(val);
+        this.options.influence['values'].push(val);
+        this.options.group['values'].push(val);
     });
 
     
