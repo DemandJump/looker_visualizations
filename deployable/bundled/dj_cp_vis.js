@@ -66,6 +66,8 @@ looker.plugins.visualizations.add({
                   font-weight: 300;
                   font-size: 2rem;
                   text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
+                  margin: 0;
+                  padding: 0;
               }
           </style>
         `;
@@ -290,12 +292,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         headerSpace = 40;
         width = circleHeight - 40;
         height = circleHeight - 40;
-        viewBoxFactor = height + 40;
+        viewBoxFactor = height + 35;
     } else {
         headerSpace = circleHeight * .1;
         width = circleHeight * .9;
         height = circleHeight * .9;
-        viewBoxFactor = height + 40;
+        viewBoxFactor = height + 35;
     }
 
         // Initialize the visual's data and construct the rest of the hierarchy
