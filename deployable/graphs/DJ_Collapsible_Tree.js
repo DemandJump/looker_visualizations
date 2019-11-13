@@ -364,9 +364,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function zoom_actions() {
     svg.attr('transform', d3.event.transform)
   }
-    // Selector for panning functions
-  let pan = d3.select('g.everything');
-  
+
+
     // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
   let root = d3.hierarchy(nested, function(d) { return d.children });
@@ -384,6 +383,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   //   }
   // }
   
+  console.log('Show me the root for it"s coordinates', root);
+      // We need to find the coordinates to the center of the visual 
+
+  svg.call(zoom);
+
+  svg.call(zoom.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
+
+
 
 
 
