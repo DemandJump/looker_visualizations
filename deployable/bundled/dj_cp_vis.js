@@ -237,16 +237,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        this.options.influence['values'].push(val);
-        this.options.group['values'].push(val);
+        if (config.influenceSwitch) this.options.influence['values'].push(val);
+        if (config.groupSwitch) this.options.group['values'].push(val);
     });
     dimensions.forEach(dimension => {
         let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        this.options.influence['values'].push(val);
-        this.options.group['values'].push(val);
+        if (config.influenceSwitch) this.options.influence['values'].push(val);
+        if(config.groupSwitch) this.options.group['values'].push(val);
     });
 
     
@@ -393,6 +393,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Initialize the visual's data and construct the rest of the hierarchy
     let view;
     const burrow = this.burrow(data, taxonomyPass); 
+    console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
@@ -653,14 +654,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
+        console.log('This is the pack function', data);
         if (config.influenceSwitch == true && config.influence != 'null') {
+            console.log('Packing the data if they choose an influence');
           
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    // console.log('Sum function for pack if influence != null, this is d: ', d);
+                    console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 1;
                     if (d.data) {
                         if (d.data.value) {
@@ -689,11 +692,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }));
 
         } else {
+            console.log("Packing function if they don't choose an influence");
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
+                    console.log('This is the sum function for pack: ', d);
                     d.value = 1;
                     return d.value;
                 })
