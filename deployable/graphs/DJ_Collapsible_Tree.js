@@ -388,7 +388,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   container.call(zoom_handler);
 
-  // container.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
+  console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
+  container.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
 
 
 
