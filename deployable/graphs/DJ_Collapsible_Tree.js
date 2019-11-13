@@ -502,7 +502,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       container.transition().duration(1200).call(
         zoom_handler.transform,
-        d3.zoomIdentity.translate(height / 2, width / 2).scale(2).translate(root.x, root.y)
+        d3.zoomIdentity.translate(width / 2, height / 2).scale(2).translate(root.x, root.y)
       );
   }
   
