@@ -876,14 +876,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     
     function findUniqueValue(d) {
         console.log(`This is d.group`, d.group);
-        return d.group == uniqueValues[0] ? 'hsl(204, 70%, 53%)'
-            : d.group == uniqueValues[1] ? 'hsl(152, 80%, 80%)'
-            : d.group == uniqueValues[2] ? 'hsl(37, 90%, 51%)'
-            : d.group == uniqueValues[3] ? 'hsl(265, 91%, 66%)'
-            : d.group == uniqueValues[4] ? 'hsl(0, 100%, 85%)'
-            : d.group == uniqueValues[5] ? 'hsl(188, 61%, 52%)'
-            : d.group == uniqueValues[6] ? 'hsl(145, 63%, 49%)'
-            : d.group == uniqueValues[5] ? 'hsl(240, 69%, 46%)'
+        return d.group == uniqueValues[0] ? 'hsl(152, 80%, 80%)'
+            : d.group == uniqueValues[1] ? 'hsl(37, 90%, 51%)'
+            : d.group == uniqueValues[2] ? 'hsl(265, 91%, 66%)'
+            : d.group == uniqueValues[3] ? 'hsl(0, 100%, 85%)'
+            : d.group == uniqueValues[4] ? 'hsl(188, 61%, 52%)'
+            : d.group == uniqueValues[5] ? 'hsl(145, 63%, 49%)'
+            : d.group == uniqueValues[6] ? 'hsl(240, 69%, 46%)'
             : 'hsl(0, 0%, 60%)';
             // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
     }
