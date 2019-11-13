@@ -387,10 +387,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // We need to find the coordinates to the center of the visual 
 
   container.call(zoom_handler);
-
-  console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
-  container.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
-
+  let updatInit = 0;
 
 
 
@@ -497,6 +494,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   console.log('CalculatedLongest string!', linkAddition);
 
 
+  if (updatInit == 0) {
+      updatInit++;
+      console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
+      container.call(zoom_handler.transform, d3.zoomIdentity.scale(20).translate(root.x, root.y));
+  }
 
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ // This calculates the depth between the nodes!
