@@ -64,7 +64,7 @@ looker.plugins.visualizations.add({
               .header {
                   font-family: Roboto;
                   font-weight: 300;
-                  font-size: 1rem;
+                  font-size: 3rem;
                   text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
               }
           </style>
