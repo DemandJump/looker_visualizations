@@ -877,9 +877,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             } else { 
                 console.log('Found the end of the loop, this is the value', d);
                 // console.log("This is reference to the node that initialized this recursive function:", node);
-                let pass = d.data["groupColor"]["value"];
-                // console.log('Found end of loop, here is pass', pass);
-                node.group = pass;
+                if (d.data.groupColor) {
+                    let pass = d.data["groupColor"]["value"];
+                    // console.log('Found end of loop, here is pass', pass);
+                    node.group = pass;
+                }
             }
         }
     } // End of color by group function
