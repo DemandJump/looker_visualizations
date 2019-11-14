@@ -434,7 +434,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     .interpolate(d3.interpolateHcl);
                 
                 if (node.color) { if (node.color == 'white') node.color = "white"; }
-                if (node.children) { newColor(node.depth) }
+                if (node.children) { node.color = newColor(node.depth) }
                 else {node.color = "white"; }
             }
         } 
