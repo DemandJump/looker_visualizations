@@ -500,7 +500,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // zoom_handler.translateBy(container, root.x, root.y);
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
       let x = -1 * root.x;
-      let y = root.y;
+      let y = root.y + window.innerHeight;
       console.log(`New x: ${x}, and y: ${y}`);
 
       container.transition().duration(1200).call(
