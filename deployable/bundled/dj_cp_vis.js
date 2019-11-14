@@ -423,9 +423,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     nodes.forEach(d => {
         if(d.data.name == 'null') { d.data.leaf = false; }
-        if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null'){ d.data.leaf = true; } }
+        if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null'){d.data.leaf = true;} }
     });
-
 
     
         // Find the min and max values of the hierarchy for the color scale function
@@ -436,55 +435,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (node.depth > maxDepth) maxDepth = node.depth;
     });
 
-    let psfs = d3.scaleLinear()
-        .domain([12, 264])
-        .range([6, 42]);
-
     let color = d3.scaleLinear()
         .domain([minDepth, maxDepth])
         .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
         .interpolate(d3.interpolateHcl);
+    
+    let psfs = d3.scaleLinear()
+        .domain([12, 264])
+        .range([6, 42]);
 
 
 
-    nodes.forEach(node => {
-        if(node.children != []) {
-            parseDown(node.data.children[0]);
-
-            if (config.groupSwitch == true && config.group != "null") {
-                let fader = findUniqueValue(node);
-                let newColor = d3.scaleLinear()
-                    .domain([minDepth, maxDepth])
-                    .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
-                    .interpolate(d3.interpolateHcl);
-                
-                if (node.color) { if (node.color == 'white') node.color = "white"; }
-                if (node.children) { node.color = newColor(node.depth) }
-                else {node.color = "white"; }
-            }
-        } 
-        if (node.color) { if (node.color == 'white') return "white"; }
-        return node.children ? color(node.depth) : "white";
-
-
-
-        function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-            // console.log('This is d currently', d);
-            if (d.children.length > 0) { 
-                parseDown(d.children[0]); 
-            } else { 
-                console.log('Found the end of the loop, this is the value', d);
-                // console.log("This is reference to the node that initialized this recursive function:", node);
-                let pass = d.data["groupColor"]["value"];
-                // console.log('Found end of loop, here is pass', pass);
-                node.group = pass;
-            }
-        } // End of parsedown function
-    }); // End of color by group function
-
-
-
-        
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
     console.log('nodes', nodes);
@@ -517,7 +478,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
                 return 'node';
             })
-            .attr("fill", d => d.color)
+            .attr("fill", d => colorByGroup(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -889,7 +850,39 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+    function colorByGroup(node) {
+        if(node.children != []) {
+            parseDown(node.data.children[0]);
 
+            if (config.groupSwitch == true && config.group != "null") {
+                let fader = findUniqueValue(node);
+                let newColor = d3.scaleLinear()
+                    .domain([minDepth, maxDepth])
+                    .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
+                    .interpolate(d3.interpolateHcl);
+                
+                if (node.color) { if (node.color == 'white') return "white"; }
+                return node.children ? newColor(node.depth) : "white";
+            }
+        } 
+        if (node.color) { if (node.color == 'white') return "white"; }
+        return node.children ? color(node.depth) : "white";
+
+
+
+        function parseDown(d) { // Find the phrase type or group value by parsing down the tree
+            // console.log('This is d currently', d);
+            if (d.children.length > 0) { 
+                parseDown(d.children[0]); 
+            } else { 
+                console.log('Found the end of the loop, this is the value', d);
+                // console.log("This is reference to the node that initialized this recursive function:", node);
+                let pass = d.data["groupColor"]["value"];
+                // console.log('Found end of loop, here is pass', pass);
+                node.group = pass;
+            }
+        }
+    } // End of color by group function
 
     
     function findUniqueValue(d) {
