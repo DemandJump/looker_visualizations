@@ -653,6 +653,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         zoom(d);
         // refactor(d);
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
+        console.log('This is d', d);
     }
 
     function pack(data) {
@@ -875,7 +876,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             if (d.children.length > 0) { 
                 parseDown(d.children[0]); 
             } else { 
-                console.log('Found the end of the loop, this is the value', d);
+                // console.log('Found the end of the loop, this is the value', d);
                 // console.log("This is reference to the node that initialized this recursive function:", node);
                 if (d.data.groupColor) {
                     let pass = d.data["groupColor"]["value"];
