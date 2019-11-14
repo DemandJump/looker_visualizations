@@ -420,8 +420,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
 
-    
-    nodes.forEach(node => findLeafNodes(node));
+
+    nodes.forEach(node => {
+        if(d.data.name == 'null') d.leaf = false;
+        if(d.children.length == 1 && d.children[0].data.name == 'null') { d.leaf = true; }
+    });
 
     
     let psfs = d3.scaleLinear()
@@ -881,12 +884,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     } // End of color by group function
-
-    function findLeafNodes(d) {
-        if(d.data.name == 'null') d.leaf = false;
-        if(d.children.length == 1 && d.children[0].data.name == 'null') { d.leaf = true; }
-    }
-    
 
     
     function findUniqueValue(d) {
