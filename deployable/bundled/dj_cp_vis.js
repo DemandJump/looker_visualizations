@@ -203,11 +203,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
             /*/ / Get the unique values out of the grouping dimension / /*/
+
     let uniqueValues = [];
-    uniqueValues.push(data[0][config.group]["value"]);
     if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
         if (config.groupSwitch == true) {
             if (config.group != 'null') {
+                uniqueValues.push(data[0][config.group]["value"]);
                 let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
                 data.forEach(node => {
                     node.groupColor = node[grouper];
@@ -891,7 +892,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             : d.group == uniqueValues[5] ? 'hsl(145, 63%, 49%)'
             : d.group == uniqueValues[6] ? 'hsl(240, 69%, 46%)'
             : 'hsl(0, 0%, 60%)';
-            // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
+
+        // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
     }
 
 
