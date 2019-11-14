@@ -97,7 +97,7 @@ looker.plugins.visualizations.add({
                   font-weight: 300;
                   text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
               }
-
+              
               .header {
                   font-family: Roboto;
                   font-weight: 300;
@@ -112,12 +112,6 @@ looker.plugins.visualizations.add({
 
         this._header = d3.select(element).append('h2')
             .attr('class', 'header')
-            // .style('text-align', 'center')
-            // .style('position', 'absolute') // Move this around the document without affecting the layout of other elements
-            // .style('top', '4%') // Move halfway down the page
-            // .style('left', '0%'); // Move to center of page
-            // .style('transform', 'translateX(-50%)'); // Have the center of the element be the center of the page (Otherwise it starts at the center and moves right)
-
 
         this._container = d3.select(element).append("div")
             .style('position', 'relative')
@@ -126,9 +120,6 @@ looker.plugins.visualizations.add({
         this._svg = d3.select('div.container').append("svg")
             .style('position', 'relative')
             .attr('class', 'svg');
-
-        
-
     },
 
       // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
@@ -180,19 +171,19 @@ looker.plugins.visualizations.add({
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5;
     this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
-    
 
           /* * * * * * CURRENT VERSION * * * * * */ 
-    // console.log('Fixed svg repsonsively, now working on settings and dynamic text sizing');
+    // console.log('Adding color by grouping functionality, and working towards finding the actual leaf nodes embedded around the nulls');
         // Just comment what your doing becuase looker takes forever to update server js file
 
         /****** UpdateAsync Built-in Functionality ******/
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
+    console.log(`config`, config);
+    console.log(`direct reference to settings (this.options)`, this.options);
+    console.log(`queryResponse`, queryResponse);
     console.log(`data`, data);
     // console.log(`element`, element);
-    console.log(`config`, config);
-    console.log(`queryResponse`, queryResponse);
-    console.log(`details`, details);
+    // console.log(`details`, details);
     let dimensions = queryResponse.fields.dimensions; // console.log(`Checking out query resposne dimension fields: `, dimensions);
     let measures = queryResponse.fields.measures; // console.log(`Checking out query resposne measure fields: `, measures);
     let taxonomyPass = dimensions;
@@ -201,9 +192,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Configuring the settings
     ***************************************/
 
-
             /*/ / Get the unique values out of the grouping dimension / /*/
-
     let uniqueValues = [];
     if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
         if (config.groupSwitch == true) {
@@ -226,7 +215,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('These are the unique values found: ', uniqueValues);
 
 
-        /* Input the dimension values in the options */ 
+            /*/ / Input the dimension values in the options / /*/ 
     this.options.influence['values'] = [];
     this.options.group['values'] = [];
     let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
@@ -271,45 +260,34 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('This is the taxonomy pass', taxonomyPass);
 
 
-
-
-
-        // Show/Hide influence (Variable factor select statement) //
-    if (config.influenceSwitch == true) { // Then show the influence setting 
-        if (this.options.influence.hidden == true) { // Check if it's hidden, and unhide them if not
+            /*/ / Show/Hide influence (Variable factor select statement) / /*/
+    if (config.influenceSwitch == true && this.options.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
           this.options.influence.hidden = false;
           this.options.useInfluenceInVis.hidden = false;
           this.trigger('registerOptions', this.options);
-        }
     }
-    if (config.influenceSwitch == false) { // Then hide the influence setting
-        if (this.options.influence.hidden == false) {
+    if (config.influenceSwitch == false && this.options.influence.hidden == false) { // Then hide the influence setting
             this.options.influence.hidden = true;
             this.options.useInfluenceInVis.hidden = true;
             this.trigger('registerOptions', this.options);
-        }
     } 
 
-    if (config.groupSwitch == true) { // Same for the group settings
-        if (this.options.group.hidden == true) {
+    if (config.groupSwitch == true && this.options.group.hidden == true) { // Same for the group settings
             this.options.group.hidden = false;
             this.options.useGroupInVis.hidden = false;
             this.trigger('registerOptions', this.options);
-        }
     }
-    if (config.groupSwitch == false) {
-        if (this.options.group.hidden == false) {
+    if (config.groupSwitch == false && this.options.group.hidden == false) {
             this.options.group.hidden = true;
             this.options.useGroupInVis.hidden = true;
             this.trigger('registerOptions', this.options);
-        }
     }
 
-    console.log('\n\n Configuration settings');
-    console.log(`Influence switch: ${config.influenceSwitch}`);
-    console.log(`Influence value: ${config.influence}`);
-    console.log(`Group value: ${config.group}`);
-    console.log(`Group switch: ${config.influence}`);
+    // console.log('Configuration settings');
+    // console.log(`Influence switch: ${config.influenceSwitch}`);
+    // console.log(`Influence value: ${config.influence}`);
+    // console.log(`Group value: ${config.group}`);
+    // console.log(`Group switch: ${config.influence}`);
 
 
     /**********************
@@ -396,16 +374,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Initialize the visual's data and construct the rest of the hierarchy
     let view;
     const burrow = this.burrow(data, taxonomyPass); 
-    console.log('This is the burrow data', burrow); 
+    // console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
-
-    root.children.forEach(collapse);
-    function collapse(d) {
+    root.children.forEach(collapseNulls);
+    function collapseNulls(d) {
         d._children = [];
         if(d.children) {
-            d.children.forEach(collapse); // For each child run this collapse function
+            d.children.forEach(collapseNulls); // For each child run this collapse function
 
             d._children = []; 
             d.children.forEach( (child, index) => {
@@ -417,17 +394,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         }
     } // End of collapse function
-
     root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
 
-
+        // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
     nodes.forEach(d => {
         if(d.data.name == 'null') { d.data.leaf = false; }
         if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null'){d.data.leaf = true;} }
     });
-
-    
         // Find the min and max values of the hierarchy for the color scale function
     let maxDepth = -10;
     let minDepth = 100;
@@ -436,21 +410,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (node.depth > maxDepth) maxDepth = node.depth;
     });
 
+        // These are the color scaling functions (one other is in the colorByGroup function)
     let color = d3.scaleLinear()
         .domain([minDepth, maxDepth])
         .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
         .interpolate(d3.interpolateHcl);
-    
     let psfs = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
 
 
-
-    // let nodes = root.descendants().slice(1); 
-    console.log('root', root);
+        
+    // console.log('root', root);
     console.log('nodes', nodes);
-
     // console.log('This is the focus', focus);
 
     /******************************************************************************************************************************************
