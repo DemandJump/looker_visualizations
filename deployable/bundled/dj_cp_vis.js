@@ -483,7 +483,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }); // End of color by group function
 
 
-    
+
         
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
@@ -517,7 +517,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
                 return 'node';
             })
-            .attr("fill", d => colorByGroup(d))
+            .attr("fill", d => d.color)
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
