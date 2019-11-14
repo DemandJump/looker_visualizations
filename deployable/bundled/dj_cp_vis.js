@@ -869,8 +869,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             console.log('This is d currently', d);
             if (d.children.length != 0) { 
                 parseDown(d.children[0]); 
-            }
-            else { 
+            } else { 
                 console.log('Found the end of the loop, this is the value', d);
                 // console.log("This is reference to the node that initialized this recursive function:", node);
                 let pass = d.data["groupColor"]["value"];
