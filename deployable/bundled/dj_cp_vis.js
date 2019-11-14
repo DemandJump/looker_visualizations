@@ -421,7 +421,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nodes = root.descendants().slice(1);
 
 
-    nodes.forEach(node => {
+    nodes.forEach(d => {
         if(d.data.name == 'null') d.leaf = false;
         if(d.children.length == 1 && d.children[0].data.name == 'null') { d.leaf = true; }
     });
