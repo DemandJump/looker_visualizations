@@ -486,13 +486,24 @@ function zoom(d) {
             .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
 }
 
-function pack(data) {
+function originalPack(data) {
     return d3.pack()
         .size([width - 2, height - 2])
         .padding(3)
     (d3.hierarchy(data)
         .sum(d => d.value)
         .sort((a, b) => b.value - a.value));
+}
+function pack(data) {
+    console.log('This is the data', data); // Seeing a new way to instantiate the data
+
+    let pass = d3.hierarchy(data, d => d.children);
+    console.log('This is the hierarchy', pass);
+    let pack = d3.pack()
+        .size([width - 2, height - 2])
+        .padding(3)
+    
+
 }
 
 function color(n) {
