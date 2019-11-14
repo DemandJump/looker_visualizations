@@ -421,6 +421,31 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nodes = root.descendants().slice(1);
 
 
+    nodes.forEach(d => {
+        if(d.data.name == 'null') { d.data.leaf = false; }
+        if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null'){ d.data.leaf = true; } }
+    });
+
+
+    
+        // Find the min and max values of the hierarchy for the color scale function
+    let maxDepth = -10;
+    let minDepth = 100;
+    nodes.forEach(node => {
+        if (node.depth < minDepth) minDepth = node.depth;
+        if (node.depth > maxDepth) maxDepth = node.depth;
+    });
+
+    let psfs = d3.scaleLinear()
+        .domain([12, 264])
+        .range([6, 42]);
+
+    let color = d3.scaleLinear()
+        .domain([minDepth, maxDepth])
+        .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
+        .interpolate(d3.interpolateHcl);
+
+
 
     nodes.forEach(node => {
         if(node.children != []) {
@@ -458,34 +483,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }); // End of color by group function
 
 
-    nodes.forEach(d => {
-        if(d.data.name == 'null') { d.data.leaf = false; }
-        if(d.children) {
-            if(d.children.length == 1 && d.children[0].data.name == 'null') { d.data.leaf = true; }
-        }
-    });
-
     
-    let psfs = d3.scaleLinear()
-        .domain([12, 264])
-        .range([6, 42]);
-
-    
-        // Find the min and max values of the hierarchy for the color scale function
-    let maxDepth = -10;
-    let minDepth = 100;
-    nodes.forEach(node => {
-        if (node.depth < minDepth) minDepth = node.depth;
-        if (node.depth > maxDepth) maxDepth = node.depth;
-    });
-
-    let color = d3.scaleLinear()
-        .domain([minDepth, maxDepth])
-        .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
-        .interpolate(d3.interpolateHcl);
-
-
-
+        
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
     console.log('nodes', nodes);
