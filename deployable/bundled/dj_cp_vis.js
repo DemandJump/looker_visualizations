@@ -867,10 +867,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         function parseDown(d) { // Find the phrase type or group value by parsing down the tree
             // console.log('This is d currently', d);
-            if(d.children.length != 0) { 
-                parseDown(d.children[0]); 
-            }
-            else { 
+            if (d.children) {
+                if (d.children.length != 0) { 
+                    parseDown(d.children[0]); 
+                }
+            } else { 
                 // console.log('Found the end of the loop, this is the value', d);
                 // console.log("This is reference to the node that initialized this recursive function:", node);
                 let pass = d.data["groupColor"]["value"];
