@@ -512,7 +512,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ // This calculates the depth between the nodes!
-    if(linkAddition.length >= 74) {
+    if(linkAddition.length >= 54) {
       d.y = d.depth * (linkAddition.length * 20);
     } else {
       d.y = d.depth * 1450;

@@ -223,7 +223,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     }
-    uniqueValues.slice(1); // Get rid of the null which was used to run the function
     console.log('These are the unique values found: ', uniqueValues);
 
 
