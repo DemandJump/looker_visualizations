@@ -422,7 +422,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     nodes.forEach(d => {
-        if(d.data.name == 'null') d.data.leaf = false;
+        if(d.data.name == 'null') { d.data.leaf = false; }
         if(d.children.length == 1 && d.children[0].data.name == 'null') { d..data.leaf = true; }
     });
 
