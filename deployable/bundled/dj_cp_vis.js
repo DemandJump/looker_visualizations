@@ -323,19 +323,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     
         // Check if the config.influence is a dimension, and if they're not numbers
-    if (config.influence != 'null' ) {
-        let numberchecker = 0;
-        let error = false;
-        data.forEach(node => {
-            // console.log(`Node error clause `, node[config.influence].value) 
-            if (typeof(node[config.influence].value) == 'number') numberchecker ++;
-            if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
-        })
-        if (numberchecker < 1 || error == true) {
-            this.addError({title: "Factor error", message: "The variable factor must be a number"})
+    if (config.influenceSwitch == true) {
+        if (config.influence != 'null' ) {
+            let numberchecker = 0;
+            let error = false;
+            data.forEach(node => {
+                // console.log(`Node error clause `, node[config.influence].value) 
+                if (typeof(node[config.influence].value) == 'number') numberchecker ++;
+                if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
+            })
+            if (numberchecker < 1 || error == true) {
+                this.addError({title: "Factor error", message: "The variable factor must be a number"})
+            }
         }
-    } 
-    
+    }
+     
     
     /*********************************************************
      * Preload the data for the visual 
