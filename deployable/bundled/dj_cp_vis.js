@@ -421,6 +421,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nodes = root.descendants().slice(1);
 
     
+    nodes.forEach(node => findLeafNodes(node));
+
+    
     let psfs = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
@@ -878,6 +881,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     } // End of color by group function
+
+    function findLeafNodes(d) {
+        if(d.data.name == 'null') d.leaf = false;
+        if(d.children.length == 1 && d.children[0].data.name == 'null') { d.leaf = true; }
+    }
     
 
     
