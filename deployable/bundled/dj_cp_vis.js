@@ -924,11 +924,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
                 let word = d.data.phrase_type; // .toLowerCase();
-                console.log(`This is word`, word);
+                console.log(`This is word(d.data.phrase_type)`, word);
 
                 if (d.data.phrase_type == 'search' || d.data.phrase_type == 'topic') { // Then blue
-                    console.log('Found phrase type', d.data.phrase_type);
-                    console.log('This is the current depth', d.depth);
+                    console.log('Phrase type Topic. This is the current depth', d.depth);
                     return d.depth == 0 ? '#009de9'
                     : d.depth == 1 ? '#009de9'
                     : d.depth == 2 ? '#19b8f7'
@@ -937,6 +936,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     : d.depth == 5 ? '#aef0ff'
                     : '#dcf7ff'; 
                 } else if (d.data.phrase_type == 'question') { // Then green
+                    console.log('Phrase type depth. This is the current depth', d.depth);
                     return d.depth == 0 ? '#3ec173'
                     : d.depth == 1 ? '#3ec173'
                     : d.depth == 2 ? '#3ec173'
@@ -947,6 +947,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 } else {
                     return color(d.depth);
                 }
+        } else { // Standard styling of visual!
+            return color(d.depth);
         }
     }
 
@@ -1052,7 +1054,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             node.data.name = content.slice(0, sq1); // The search query is the name anyways 
             node.data.phrase_type = content.slice(sq1 + 1, sq2);
             node.data.dj_score = content.slice(sq2 + 1);
-            
         });
     }
 
