@@ -385,6 +385,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Package data for the burrow function
     packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
     
+    // taxonomyPull();
         // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
     let newTaxonomy = [];
     taxonomyPass.forEach(dimension => {
@@ -935,10 +936,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
                 let word = d.data.phrase_type; // .toLowerCase();
-                console.log(`This is word(d.data.phrase_type)`, word);
+                // console.log(`This is word(d.data.phrase_type)`, word);
 
                 if (d.data.phrase_type == 'search' || d.data.phrase_type == 'topic') { // Then blue
-                    console.log('Phrase type Topic. This is the current depth', d.depth);
+                    // console.log('Phrase type Topic. This is the current depth', d.depth);
                     return d.depth == 0 ? '#009de9'
                     : d.depth == 1 ? '#009de9'
                     : d.depth == 2 ? '#19b8f7'
@@ -947,7 +948,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     : d.depth == 5 ? '#aef0ff'
                     : '#dcf7ff'; 
                 } else if (d.data.phrase_type == 'question') { // Then green
-                    console.log('Phrase type depth. This is the current depth', d.depth);
+                    // console.log('Phrase type depth. This is the current depth', d.depth);
                     return d.depth == 0 ? '#3ec173'
                     : d.depth == 1 ? '#3ec173'
                     : d.depth == 2 ? '#3ec173'
@@ -1036,6 +1037,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }); // End of data mutation
     }
 
+    // function taxonomyPull() {
+
+    // }
 
     function unpackageData() {
         let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
