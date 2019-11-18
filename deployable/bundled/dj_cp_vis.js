@@ -130,7 +130,7 @@ looker.plugins.visualizations.add({
         table.forEach((row, index) => {
                 //// start at root
             var layer = obj;
-            // console.log(`\n${index}: This is the current row(data)`, row);
+            console.log(`\n${index}: This is the current row(data)`, row);
             // console.log(`${index}: This is the current layer`, layer);
 
                 //// create children as nested objects
@@ -142,7 +142,7 @@ looker.plugins.visualizations.add({
                 // console.log(`${index}~descendant: This is their layer`, layer);
             });
             layer.__data = row;
-            // console.log('This is layer.__data = row', layer.__data);
+            console.log('This is layer.__data = row', layer.__data);
         });
 
             //// recursively create children array
