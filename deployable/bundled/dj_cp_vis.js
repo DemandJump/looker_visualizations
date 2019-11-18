@@ -463,7 +463,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
                 return 'node';
             })
-            .attr("fill", d => colorByGroup(d))
+            .attr("fill", d => color(d.depth))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
