@@ -124,20 +124,25 @@ looker.plugins.visualizations.add({
 
       // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
           // Careful the beginning of the hierarchy holds the table names and fans out to descendants, so they don't hold the data which may throw errors as d3 iterates through assignment operators when using those variables 
-    burrow: function(table, taxonomy) {
+    burrow: function(table, taxonomy) { // Table is the data, and taxonomy is the dimensions/measures/tableCalcs passed in
             // create nested object
         var obj = {};
-        table.forEach(function(row) {
+        table.forEach((row, index) => {
                 // start at root
             var layer = obj;
+            console.log(`\n${index}: This is the current row`, row);
+            console.log(`${index}: This is the current layer`, layer);
 
                 // create children as nested objects
-            taxonomy.forEach(function(t) {
+            taxonomy.forEach(t => {
                 var key = row[t.name].value;
-                layer[key] = key in layer ? layer[key] : {};
+                console.log(`${index}~descendant: This is the current key`, key);
+                layer[key] = key in layer ? layer[key] : {}; // If key is in layer object, it returns true and creates a new layer for this descendant
                 layer = layer[key];
+                console.log(`${index}~descendant: This is their layer`, layer);
             });
             layer.__data = row;
+            console.log('This is layer.__data = row', layer.__data);
         });
 
             // recursively create children array
@@ -626,7 +631,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         zoom(d);
         // refactor(d);
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-        console.log('This is d', d);
+        // console.log('This is d', d);
     }
 
     function pack(data) {
@@ -859,6 +864,32 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     } // End of color by group function
+
+
+    /*
+      Blue:
+        #009de9, #19b8f7, #43d3ff, #78e6ff, #aef0ff, #dcf7ff
+      Green:
+                 #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
+    */
+
+    function color(d) {
+            // Either by the default hsl based on depth or if the config is on
+        if (config.groupSwitch == true && config.group != "null") {
+                // We're hard coding in all the possibilities for topics or questions
+                let word = d['group'].toLowerCase();
+
+                if (word == 'topic' || 'search') {
+                  
+                } else if (word == 'question') {
+
+                } else {
+                  
+                }
+        }
+    }
+
+
 
     
     function findUniqueValue(d) {
