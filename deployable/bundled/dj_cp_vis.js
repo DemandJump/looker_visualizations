@@ -873,7 +873,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                  #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
     */
 
-    function color(d) {
+    function questionSearchColoring(d) {
             // Either by the default hsl based on depth or if the config is on
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
