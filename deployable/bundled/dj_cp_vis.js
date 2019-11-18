@@ -676,6 +676,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
+                    console.log('a', a.data);
+                    console.log('b', b.data);
 
                     if (a.data) {
                         if (a.data.dj_score) {
