@@ -658,7 +658,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('Sum function for pack if influence != null, this is d: ', d);
+                    // console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 74;
                     if (d.dj_score) {
                     //     if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
