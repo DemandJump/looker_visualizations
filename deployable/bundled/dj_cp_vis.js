@@ -984,7 +984,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function unpackageData() {
         let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
 
-        nodes.foreach(node => {
+        nodes.forEach(node => {
             content = d.data.name;
             sqs = false; // squiggle switch
             for(let i = 0; i < content.length; i++) { 
