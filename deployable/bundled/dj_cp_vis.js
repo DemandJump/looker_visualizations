@@ -466,13 +466,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             })
             .attr('id', d => {
                 uniqueId++;
+                d.data.uniqueId = uniqueId;
                 return uniqueId;
             })
-            .attr("fill", d => {
-              let c = questionSearchColoring(d);
-              console.log('This is c', c);
-              return c;
-            })
+            .attr("fill", d => questionSearchColoring(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
