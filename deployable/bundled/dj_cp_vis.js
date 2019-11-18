@@ -463,7 +463,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
                 return 'node';
             })
-            .attr("fill", d => color(d.depth))
+            .attr("fill", d => questionSearchColoring(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -875,41 +875,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     } // End of color by group function
 
-    /*
+
+    /*  This vis shouldn't go beyond 6 depths 
       Blue:
         #009de9, #19b8f7, #43d3ff, #78e6ff, #aef0ff, #dcf7ff
       Green:
                  #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
     */
-
     function questionSearchColoring(d) {
             // Either by the default hsl based on depth or if the config is on
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
-                let word = d['group'].toLowerCase();
+                let word = d['data']['phrase_type'].toLowerCase();
 
-                if (word == 'topic' || 'search') {
-                  
-                } else if (word == 'question') {
-
+                if (word == 'search' || word == 'topic') { // Then blue
+                    return d.depth == 0 || d.depth == 1 ? '#009de9'
+                    : d.depth == 2 ? '#19b8f7'
+                    : d.depth == 3 ? '#43d3ff'
+                    : d.depth == 4 ? '#78e6ff'
+                    : d.depth == 5 ? '#aef0ff'
+                    : '#dcf7ff'; 
+                } else if (word == 'question') { // Then green
+                    return d.depth == 0 || d.depth == 1 ? '#3ec173'
+                    : d.depth == 2 ? '#3ec173'
+                    : d.depth == 3 ? '#43dd81'
+                    : d.depth == 4 ? '#60f49c'
+                    : d.depth == 5 ? '#a4ffb3'
+                    : '#d4ffcc';
                 } else {
-                  
+                    return color(d.depth);
                 }
         }
-    }
-    
-    function findUniqueValue(d) {
-        // console.log(`This is d.group`, d.group);
-        return d.group == uniqueValues[0] ? 'hsl(152, 80%, 80%)'
-            : d.group == uniqueValues[1] ? 'hsl(0, 90%, 90%)'
-            : d.group == uniqueValues[2] ? 'hsl(265, 81%, 84%)'
-            : d.group == uniqueValues[3] ? 'hsl(37, 90%, 51%)'
-            : d.group == uniqueValues[4] ? 'hsl(188, 61%, 52%)'
-            : d.group == uniqueValues[5] ? 'hsl(145, 63%, 49%)'
-            : d.group == uniqueValues[6] ? 'hsl(240, 69%, 46%)'
-            : 'hsl(0, 0%, 60%)';
-
-        // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
     }
 
 
