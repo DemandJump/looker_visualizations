@@ -678,7 +678,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     let bval = 74;
 
                     if (a.data) {
-                        if (a.data.dj_score) {
+                        // if (a.data.dj_score) {
                             if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
                                 console.log('a: Dj score was blank or null, replacing it with', aval);
                                 aval = a.data.dj_score; 
@@ -687,10 +687,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                                 console.log('a: Dj score was not blank, replacing aval with dj score of', a.data.dj_score);
                                 a.data.dj_score = aval;
                             }
-                        }
+                        // }
                     }
                     if (b.data) {
-                        if (b.data.dj_score) {
+                        // if (b.data.dj_score) {
                             if(b.data.dj_score != '' || b.data.dj_score != 'null') {
                                 console.log('b: Dj score was blank or null, replacing it with', bval);
                                 bval = b.data.dj_score;
@@ -699,7 +699,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                                 console.log('b: Dj score was not blank, replacing aval with dj score of', b.data.dj_score);
                                 b.data.dj_score = bval;
                             }
-                        }
+                        // }
                     }
 
                         // We need to find a and b's data value then subtract them from one another
