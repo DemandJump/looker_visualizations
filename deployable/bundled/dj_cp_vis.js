@@ -657,7 +657,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    // console.log('Sum function for pack if influence != null, this is d: ', d);
+                    console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 74;
                     if (d.dj_score) {
                         if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
@@ -672,19 +672,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
-                    console.log(`Sort function: this is a`, a);
-                    console.log(`Sort function: this is b`, b);
+                    // console.log(`Sort function: this is a`, a);
+                    // console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
 
                     if (a.data) {
                         // if (a.data.dj_score) {
                             if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
-                                console.log('a: Dj score was blank or null, replacing it with', aval);
+                                // console.log('a: Dj score was blank or null, replacing it with', aval);
                                 aval = a.data.dj_score; 
                               }
                             if (a.data.dj_score == '' || a.data.dj_score == 'null') {
-                                console.log('a: Dj score was not blank, replacing aval with dj score of', a.data.dj_score);
+                                // console.log('a: Dj score was not blank, replacing aval with dj score of', a.data.dj_score);
                                 a.data.dj_score = aval;
                             }
                         // }
@@ -1016,6 +1016,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 djval = node[dj5].value;
                 node[sd5].value = `${sval}~${ftval}~${djval}`;
             }
+
+
 
         }); // End of data mutation
     }
