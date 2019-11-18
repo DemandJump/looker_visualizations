@@ -693,11 +693,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (b.data) {
                         // if (b.data.dj_score) {
                             if(b.data.dj_score != '' || b.data.dj_score != 'null') {
-                                console.log('b: Dj score was blank or null, replacing it with', bval);
+                                // console.log('b: Dj score was blank or null, replacing it with', bval);
                                 bval = b.data.dj_score;
                             }
                             if(b.data.dj_score == '' || b.data.dj_score == 'null') {
-                                console.log('b: Dj score was not blank, replacing aval with dj score of', b.data.dj_score);
+                                // console.log('b: Dj score was not blank, replacing aval with dj score of', b.data.dj_score);
                                 b.data.dj_score = bval;
                             }
                         // }
@@ -1024,14 +1024,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function taxonomyPull() {
-          // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
-          
-        console.log('taxonomyPass', taxonomyPass);
+            // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
         taxonomyPass.forEach(dimension => {
             if(dimension.name == 'nodes.type' || dimension.name == 'second_degree_dependencies.type' || dimension.name == 'third_degree_dependencies.type' || dimension.name == 'fourth_degree_dependencies.type' || dimension.name == 'fifth_degree_dependencies.type' || dimension.name == 'nodes.dj_score' || dimension.name == 'second_degree_dependencies.dj_score' || dimension.name == 'third_degree_dependencies.dj_score' || dimension.name == 'fourth_degree_dependencies.dj_score' || dimension.name == 'fifth_degree_dependencies.dj_score') {
                 delete dimension;
             }
         });
+        console.log('This is the new taxonomy', taxonomyPass)
     }
 
     function unpackageData() {
