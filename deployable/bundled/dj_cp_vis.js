@@ -676,20 +676,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 })
                 .sort((a, b) => {
                     console.log(`Sort function: this is a`, a);
-                    console.log(`Sore function: this is b`, b);
+                    console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
 
                     if (a.data) {
-                        if (a.data.phrase_type) {
-                            if (a.data.phrase_type != '' || a.data.phrase_type != 'null') aval = a.data.phrase_type;
-                            if (a.data.phrase_type == '' || a.data.phrase_type == 'null') a.data.phrase_type = aval;
+                        if (a.data.dj_score) {
+                            if (a.data.dj_score != '' || a.data.dj_score != 'null') aval = a.data.dj_score;
+                            if (a.data.dj_score == '' || a.data.dj_score == 'null') a.data.dj_score = aval;
                         }
                     }
                     if (b.data) {
-                        if (b.data.phrase_type) {
-                            if(b.data.phrase_type != '' || b.data.phrase_type != 'null') bval = b.data.phrase_type;
-                            if(b.data.phrase_type == '' || b.data.phrase_type == 'null') b.data.phrase_type = bval;
+                        if (b.data.dj_score) {
+                            if(b.data.dj_score != '' || b.data.dj_score != 'null') bval = b.data.dj_score;
+                            if(b.data.dj_score == '' || b.data.dj_score == 'null') b.data.dj_score = bval;
                         }
                     }
 
@@ -718,7 +718,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     d.value = 1;
                     return d.value;
                 })
-                .sort((a, b) => b.value - a.value ));
+                .sort((a, b) => b.value - a.value));
         }
 
     }
