@@ -657,15 +657,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             (d3.hierarchy(data)
                 .sum(d => {
                     console.log('Sum function for pack if influence != null, this is d: ', d);
-                    let dval = 74;
-                    if (d.dj_score) {
-                        if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
-                    }
-                    // if (d.data) {
-                    //     if (d.data.value) {
-                    //         return d.data.value;
-                    //     }
-                    // } 
+                    // let dval = 74;
+                    // if (d.dj_score) {
+                    //     if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
+                    // }
+                    if (d.data) {
+                        if (d.data.value) {
+                            return d.data.value;
+                        }
+                    } 
                     else {
                       return dval;
                     }
@@ -676,28 +676,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     let aval = 74; 
                     let bval = 74;
 
-                    if (a.data) {
-                        if (a.data.phrase_type) {
-                            if (a.data.phrase_type != '' || a.data.phrase_type != 'null') aval = a.data.phrase_type;
-                        }
-                    }
-                    if (b.data) {
-                        if (b.data.phrase_type) {
-                            if(b.data.phrase_type != '' || b.data.phrase_type != 'null') bval = b.data.phrase_type;
-                        }
-                    }
+                    // if (a.data) {
+                    //     if (a.data.phrase_type) {
+                    //         if (a.data.phrase_type != '' || a.data.phrase_type != 'null') aval = a.data.phrase_type;
+                    //     }
+                    // }
+                    // if (b.data) {
+                    //     if (b.data.phrase_type) {
+                    //         if(b.data.phrase_type != '' || b.data.phrase_type != 'null') bval = b.data.phrase_type;
+                    //     }
+                    // }
 
                         // We need to find a and b's data value then subtract them from one another
-                    // if (a.data) {
-                    //   if (a.data.data) {
-                    //     if (a.data.data.value) aval = a.data.data.value;
-                    //   }
-                    // }
-                    // if(b.data) {
-                    //   if (b.data.data) {
-                    //     if (b.data.data.value) bval = b.data.data.value;
-                    //   } 
-                    // }
+                    if (a.data) {
+                      if (a.data.data) {
+                        if (a.data.data.value) aval = a.data.data.value;
+                      }
+                    }
+                    if(b.data) {
+                      if (b.data.data) {
+                        if (b.data.data.value) bval = b.data.data.value;
+                      } 
+                    }
                     return bval - aval;
                 }));
 
