@@ -199,6 +199,74 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Configuring the settings
     ***************************************/
 
+                    /*/ / This is gonna get funky, we're gonna match the search queries with the phrases / /*/
+              // Put an object in place of the value, and pass more data into the burrow function
+            // The way it uses the prototype chain matches the values in a really intuitive way, so I'm gonna keep it together
+          // Instead I'm gonna link the data preemptively because I can't dynamically link this together. 
+        // link the search query degrees to the respective type degrees
+
+        let sd1 = 'nodes.search_query',
+        sd2 = 'second_degree_dependencies.search_query',
+        sd3 = 'third_degree_dependencies.search_query',
+        sd4 = 'fourth_degree_dependencies.search_query',
+        sd5 = 'fifth_degree_dependencies.search_query',
+        ft1 = 'nodes.type',
+        ft2 = 'second_degree_dependencies.type',
+        ft3 = 'third_degree_dependencies.type',
+        ft4 = 'fourth_degree_dependencies.type',
+        ft5 = 'fifth_degree_dependencies.type',
+        dj1 = 'nodes.dj_score',
+        dj2 = 'second_degree_dependencies.dj_score',
+        dj3 = 'third_degree_dependencies.dj_score',
+        dj4 = 'fourth.dj_score',
+        dj5 = 'fifth_degree_dependencies.dj_score';
+        data.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
+            let sval, ftval, djval;
+            /* 
+              sval.name {
+                value: 
+                  from "asdaljalksdja"
+                  to {"meihoimenoi", djspookscore, phrasetype}
+              }
+            */
+
+            if (node[sd1] && node[ft1] && node[dj1]) {
+                sval = node[sd1].value;
+                ftval = node[ft1].value;
+                djval = node[dj1].value;
+                node[sd1].value = `${sval}~${ftval}~${djval}`;
+            }
+
+            if (node[sd2] && node[ft2] && node[dj2]) {
+                sval = node[sd2].value;
+                ftval = node[ft2].value;
+                djval = node[dj2].value;
+                node[sd2].value = `${sval}~${ftval}~${djval}`;
+            }
+
+            if (node[sd3] && node[ft3] && node[dj3]) {
+                sval = node[sd3].value;
+                ftval = node[ft3].value;
+                djval = node[dj3].value;
+                node[sd3].value = `${sval}~${ftval}~${djval}`;
+            }
+
+            if (node[sd4] && node[ft4] && node[dj4]) {
+                sval = node[sd4].value;
+                ftval = node[ft4].value;
+                djval = node[dj4].value;
+                node[sd4].value = `${sval}~${ftval}~${djval}`;
+            }
+
+            if (node[sd5] && node[ft5] && node[dj5]) {
+                sval = node[sd5].value;
+                ftval = node[ft5].value;
+                djval = node[dj5].value;
+                node[sd5].value = `${sval}~${ftval}~${djval}`;
+            }
+
+        }); // End of data mutation
+
             /*/ / Get the unique values out of the grouping dimension / /*/
     let uniqueValues = [];
     if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
@@ -406,7 +474,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of collapse function
     root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
-    unpackageData(); // This edits the nodes and unpackages the concatenated data
+    let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
+        nodes.forEach(node => {
+            content = node.data.name;
+            sqs = false; // squiggle switch
+            for(let i = 0; i < content.length; i++) { 
+                if (content[i] == '~' && sqs == false) {
+                    sq1 = i;
+                    sqs = true; 
+                }
+                if (content[i] == '~' && sqs == true) sq2 = i;
+            } // End of squiggly search, now we can pull the specific data pieces out of the string
+            node.data.unpackagedData = content;
+            node.data.name = content.slice(0, sq1); // The search query is the name anyways 
+            node.data.phrase_type = content.slice(sq1 + 1, sq2);
+            node.data.dj_score = content.slice(sq2 + 1);
+            
+        });
 
 
         // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
@@ -909,101 +993,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // '#3498DB', '#F39C12', '#2ECC71', '#9C5CF7', '#FFB0B0', '#3abbcf', '#acea49', '#E74C3C', '#999999', '#2424c8'
     }
-
-
-    function packageData() {
-                /*/ / This is gonna get funky, we're gonna match the search queries with the phrases / /*/
-              // Put an object in place of the value, and pass more data into the burrow function
-            // The way it uses the prototype chain matches the values in a really intuitive way, so I'm gonna keep it together
-          // Instead I'm gonna link the data preemptively because I can't dynamically link this together. 
-        // link the search query degrees to the respective type degrees
-
-        let sd1 = 'nodes.search_query',
-        sd2 = 'second_degree_dependencies.search_query',
-        sd3 = 'third_degree_dependencies.search_query',
-        sd4 = 'fourth_degree_dependencies.search_query',
-        sd5 = 'fifth_degree_dependencies.search_query',
-        ft1 = 'nodes.type',
-        ft2 = 'second_degree_dependencies.type',
-        ft3 = 'third_degree_dependencies.type',
-        ft4 = 'fourth_degree_dependencies.type',
-        ft5 = 'fifth_degree_dependencies.type',
-        dj1 = 'nodes.dj_score',
-        dj2 = 'second_degree_dependencies.dj_score',
-        dj3 = 'third_degree_dependencies.dj_score',
-        dj4 = 'fourth.dj_score',
-        dj5 = 'fifth_degree_dependencies.dj_score';
-        data.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
-            let sval, ftval, djval;
-            /* 
-              sval.name {
-                value: 
-                  from "asdaljalksdja"
-                  to {"meihoimenoi", djspookscore, phrasetype}
-              }
-            */
-
-            if (node[sd1] && node[ft1] && node[dj1]) {
-                sval = node[sd1].value;
-                ftval = node[ft1].value;
-                djval = node[dj1].value;
-                node[sd1].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd2] && node[ft2] && node[dj2]) {
-                sval = node[sd2].value;
-                ftval = node[ft2].value;
-                djval = node[dj2].value;
-                node[sd2].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd3] && node[ft3] && node[dj3]) {
-                sval = node[sd3].value;
-                ftval = node[ft3].value;
-                djval = node[dj3].value;
-                node[sd3].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd4] && node[ft4] && node[dj4]) {
-                sval = node[sd4].value;
-                ftval = node[ft4].value;
-                djval = node[dj4].value;
-                node[sd4].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd5] && node[ft5] && node[dj5]) {
-                sval = node[sd5].value;
-                ftval = node[ft5].value;
-                djval = node[dj5].value;
-                node[sd5].value = `${sval}~${ftval}~${djval}`;
-            }
-
-        }); // End of data mutation
-    }
-
-    function unpackageData() {
-        let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
-
-        nodes.forEach(node => {
-            content = node.data.name;
-            sqs = false; // squiggle switch
-            for(let i = 0; i < content.length; i++) { 
-                if (content[i] == '~' && sqs == false) {
-                    sq1 = i;
-                    sqs = true; 
-                }
-                if (content[i] == '~' && sqs == true) sq2 = i;
-            } // End of squiggly search, now we can pull the specific data pieces out of the string
-            node.data.unpackagedData = content;
-            node.data.name = content.slice(0, sq1); // The search query is the name anyways 
-            node.data.phrase_type = content.slice(sq1 + 1, sq2);
-            node.data.dj_score = content.slice(sq2 + 1);
-            
-        });
-    }
-
-
-
 
 
 
