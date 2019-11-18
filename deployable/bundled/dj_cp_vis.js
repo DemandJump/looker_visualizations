@@ -384,7 +384,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Package data for the burrow function
     packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
-    taxonomyPull();
+    
+        // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
+    let newTaxonomy = [];
+    taxonomyPass.forEach(dimension => {
+        if(dimension.name != 'nodes.type' && dimension.name != 'second_degree_dependencies.type' && dimension.name != 'third_degree_dependencies.type' && dimension.name != 'fourth_degree_dependencies.type' && dimension.name != 'fifth_degree_dependencies.type' && dimension.name != 'nodes.dj_score' && dimension.name != 'second_degree_dependencies.dj_score' && dimension.name != 'third_degree_dependencies.dj_score' && dimension.name != 'fourth_degree_dependencies.dj_score' &&    dimension.name != 'fifth_degree_dependencies.dj_score') {
+            newTaxonomy.push(dimension);
+        }
+    });
+    taxonomyPass = newTaxonomy;
+    console.log('This is the new taxonomy', taxonomyPass);
+    
+
     const burrow = this.burrow(data, taxonomyPass); 
     // console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
@@ -1025,17 +1036,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }); // End of data mutation
     }
 
-    function taxonomyPull() {
-            // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
-        let newTaxonomy = [];
-        taxonomyPass.forEach(dimension => {
-            if(dimension.name != 'nodes.type' || dimension.name != 'second_degree_dependencies.type' || dimension.name != 'third_degree_dependencies.type' || dimension.name != 'fourth_degree_dependencies.type' || dimension.name != 'fifth_degree_dependencies.type' || dimension.name != 'nodes.dj_score' || dimension.name != 'second_degree_dependencies.dj_score' || dimension.name != 'third_degree_dependencies.dj_score' || dimension.name != 'fourth_degree_dependencies.dj_score' ||    dimension.name != 'fifth_degree_dependencies.dj_score') {
-                newTaxonomy.push(dimension);
-            }
-        });
-        taxonomyPass = newTaxonomy;
-        console.log('This is the new taxonomy', taxonomyPass)
-    }
 
     function unpackageData() {
         let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
