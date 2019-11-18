@@ -676,19 +676,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
-                    console.log('a', a.data);
-                    console.log('b', b.data);
 
                     if (a.data) {
                         if (a.data.dj_score) {
-                            if (a.data.dj_score != '' || a.data.dj_score != 'null') aval = a.data.dj_score;
-                            if (a.data.dj_score == '' || a.data.dj_score == 'null') a.data.dj_score = aval;
+                            if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
+                                console.log('a: Dj score was blank or null, replacing it with', aval);
+                                aval = a.data.dj_score; 
+                              }
+                            if (a.data.dj_score == '' || a.data.dj_score == 'null') {
+                                console.log('a: Dj score was not blank, replacing aval with dj score of', a.data.dj_score);
+                                a.data.dj_score = aval;
+                            }
                         }
                     }
                     if (b.data) {
                         if (b.data.dj_score) {
-                            if(b.data.dj_score != '' || b.data.dj_score != 'null') bval = b.data.dj_score;
-                            if(b.data.dj_score == '' || b.data.dj_score == 'null') b.data.dj_score = bval;
+                            if(b.data.dj_score != '' || b.data.dj_score != 'null') {
+                                console.log('b: Dj score was blank or null, replacing it with', bval);
+                                bval = b.data.dj_score;
+                            }
+                            if(b.data.dj_score == '' || b.data.dj_score == 'null') {
+                                console.log('b: Dj score was not blank, replacing aval with dj score of', b.data.dj_score);
+                                b.data.dj_score = bval;
+                            }
                         }
                     }
 
