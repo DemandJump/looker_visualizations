@@ -660,7 +660,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 74;
                     if (d.dj_score) {
-                        if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
+                    //     if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
                     }
                     // if (d.data) {
                     //     if (d.data.value) {
