@@ -380,6 +380,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Initialize the visual's data and construct the rest of the hierarchy
     let view;
+    let uniqueId = -1;
 
         // Package data for the burrow function
     packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
@@ -462,6 +463,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', d => {
                 if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
                 return 'node';
+            })
+            .attr('id', d => {
+                uniqueId++;
+                return uniqueId;
             })
             .attr("fill", d => questionSearchColoring(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
@@ -652,32 +657,47 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             (d3.hierarchy(data)
                 .sum(d => {
                     console.log('Sum function for pack if influence != null, this is d: ', d);
-                    let dval = 1;
-                    if (d.data) {
-                        if (d.data.value) {
-                            return d.data.value;
-                        }
-                    } else {
+                    let dval = 74;
+                    if (d.dj_score) {
+                        if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
+                    }
+                    // if (d.data) {
+                    //     if (d.data.value) {
+                    //         return d.data.value;
+                    //     }
+                    // } 
+                    else {
                       return dval;
                     }
                 })
                 .sort((a, b) => {
                     console.log(`Sort function: this is a`, a);
                     console.log(`Sore function: this is b`, b);
-                    let aval = 1; 
-                    let bval = 1;
+                    let aval = 74; 
+                    let bval = 74;
+
+                    if (a.data) {
+                        if (a.data.phrase_type) {
+                            if (a.data.phrase_type != '' || a.data.phrase_type != 'null') aval = a.data.phrase_type;
+                        }
+                    }
+                    if (b.data) {
+                        if (b.data.phrase_type) {
+                            if(b.data.phrase_type != '' || b.data.phrase_type != 'null') bval = b.data.phrase_type;
+                        }
+                    }
 
                         // We need to find a and b's data value then subtract them from one another
-                    if (a.data) {
-                      if (a.data.data) {
-                        if (a.data.data.value) aval = a.data.data.value;
-                      }
-                    }
-                    if(b.data) {
-                      if (b.data.data) {
-                        if (b.data.data.value) bval = b.data.data.value;
-                      } 
-                    }
+                    // if (a.data) {
+                    //   if (a.data.data) {
+                    //     if (a.data.data.value) aval = a.data.data.value;
+                    //   }
+                    // }
+                    // if(b.data) {
+                    //   if (b.data.data) {
+                    //     if (b.data.data.value) bval = b.data.data.value;
+                    //   } 
+                    // }
                     return bval - aval;
                 }));
 
@@ -890,14 +910,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 let word = d.data.phrase_type; // .toLowerCase();
                 console.log(`This is word`, word);
 
-                if (word == 'search' || word == 'topic') { // Then blue
+                if (d.data.phrase_type == 'search' || d.data.phrase_type == 'topic') { // Then blue
                     return d.depth == 0 || d.depth == 1 ? '#009de9'
                     : d.depth == 2 ? '#19b8f7'
                     : d.depth == 3 ? '#43d3ff'
                     : d.depth == 4 ? '#78e6ff'
                     : d.depth == 5 ? '#aef0ff'
                     : '#dcf7ff'; 
-                } else if (word == 'question') { // Then green
+                } else if (d.data.phrase_type == 'question') { // Then green
                     return d.depth == 0 || d.depth == 1 ? '#3ec173'
                     : d.depth == 2 ? '#3ec173'
                     : d.depth == 3 ? '#43dd81'
