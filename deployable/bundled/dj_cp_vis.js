@@ -151,8 +151,9 @@ looker.plugins.visualizations.add({
             var depth = depth || 0;
             console.log(`\ndescend: This is obj`, obj);
             for (var k in obj) {
-                if (k == '__data') { continue; }
                 console.log(`descend: This is k`, k);
+                console.log(k);
+                if (k == '__data') { continue; }
                 var child = {
                     name: k,
                     depth: depth,
