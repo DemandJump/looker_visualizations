@@ -651,7 +651,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    // console.log('Sum function for pack if influence != null, this is d: ', d);
+                    console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 1;
                     if (d.data) {
                         if (d.data.value) {
@@ -662,6 +662,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
+                    console.log(`Sort function: this is a`, a);
+                    console.log(`Sore function: this is b`, b);
                     let aval = 1; 
                     let bval = 1;
 
@@ -872,7 +874,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
         }
     } // End of color by group function
-
 
     /*
       Blue:
