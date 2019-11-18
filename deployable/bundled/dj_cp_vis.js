@@ -410,7 +410,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             d._children = []; 
             d.children.forEach( (child, index) => {
-                if (child.data.name == null || child.data.name == 'null~null~null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
+                if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
                     d._children.push(child); // Add child to side list
                     d.children.splice(index, 1);
                 }
@@ -673,13 +673,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     // console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 74;
                     if (d.dj_score) {
-                    //     if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
+                        if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
                     }
-                    // if (d.data) {
-                    //     if (d.data.value) {
-                    //         return d.data.value;
-                    //     }
-                    // } 
                     else {
                       return dval;
                     }
@@ -714,18 +709,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                             }
                         // }
                     }
-
-                        // We need to find a and b's data value then subtract them from one another
-                    // if (a.data) {
-                    //   if (a.data.data) {
-                    //     if (a.data.data.value) aval = a.data.data.value;
-                    //   }
-                    // }
-                    // if(b.data) {
-                    //   if (b.data.data) {
-                    //     if (b.data.data.value) bval = b.data.data.value;
-                    //   } 
-                    // }
                     return bval - aval;
                 }));
 
@@ -886,42 +869,42 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    function colorByGroup(node) {
-        if(node.children != []) {
-            parseDown(node.data.children[0]);
+    // function colorByGroup(node) {
+    //     if(node.children != []) {
+    //         parseDown(node.data.children[0]);
 
-            if (config.groupSwitch == true && config.group != "null") {
-                let fader = findUniqueValue(node);
-                let newColor = d3.scaleLinear()
-                    .domain([minDepth, maxDepth])
-                    .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
-                    .interpolate(d3.interpolateHcl);
+    //         if (config.groupSwitch == true && config.group != "null") {
+    //             let fader = findUniqueValue(node);
+    //             let newColor = d3.scaleLinear()
+    //                 .domain([minDepth, maxDepth])
+    //                 .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
+    //                 .interpolate(d3.interpolateHcl);
                 
-                if (node.color) { if (node.color == 'white') return "white"; }
-                return node.children ? newColor(node.depth) : "white";
-            }
-        } 
-        if (node.color) { if (node.color == 'white') return "white"; }
-        return node.children ? color(node.depth) : "white";
+    //             if (node.color) { if (node.color == 'white') return "white"; }
+    //             return node.children ? newColor(node.depth) : "white";
+    //         }
+    //     } 
+    //     if (node.color) { if (node.color == 'white') return "white"; }
+    //     return node.children ? color(node.depth) : "white";
 
 
 
-        function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-            // console.log('This is d currently', d);
-            if (d.children) { if (d.children.length > 0) {
-                parseDown(d.children[0]); 
-            }}
-            if (d.children.length = 0 || !(d.children)) {
-                // console.log('Found the end of the loop, this is the value', d);
-                // console.log("This is reference to the node that initialized this recursive function:", node);
-                if (d.data.groupColor) {
-                    let pass = d.data["groupColor"]["value"];
-                    // console.log('Found end of loop, here is pass', pass);
-                    node.group = pass;
-                }
-            }
-        }
-    } // End of color by group function
+    //     function parseDown(d) { // Find the phrase type or group value by parsing down the tree
+    //         // console.log('This is d currently', d);
+    //         if (d.children) { if (d.children.length > 0) {
+    //             parseDown(d.children[0]); 
+    //         }}
+    //         if (d.children.length = 0 || !(d.children)) {
+    //             // console.log('Found the end of the loop, this is the value', d);
+    //             // console.log("This is reference to the node that initialized this recursive function:", node);
+    //             if (d.data.groupColor) {
+    //                 let pass = d.data["groupColor"]["value"];
+    //                 // console.log('Found end of loop, here is pass', pass);
+    //                 node.group = pass;
+    //             }
+    //         }
+    //     }
+    // } // End of color by group function
 
 
     /*  This vis shouldn't go beyond 6 depths 
