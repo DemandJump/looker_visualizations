@@ -468,7 +468,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 uniqueId++;
                 return uniqueId;
             })
-            .attr("fill", d => questionSearchColoring(d))
+            .attr("fill", d => {
+              let c = questionSearchColoring(d);
+              console.log('This is c', c);
+              return c;
+            })
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -656,7 +660,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('Sum function for pack if influence != null, this is d: ', d);
+                    // console.log('Sum function for pack if influence != null, this is d: ', d);
                     let dval = 74;
                     if (d.dj_score) {
                         if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
@@ -671,19 +675,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
-                    console.log(`Sort function: this is a`, a);
-                    console.log(`Sore function: this is b`, b);
+                    // console.log(`Sort function: this is a`, a);
+                    // console.log(`Sore function: this is b`, b);
+                    console.log(`This is a: ${a.data.phrase_type}, and this is b: ${b.data.phrase_type}`);
                     let aval = 74; 
                     let bval = 74;
 
                     if (a.data) {
                         if (a.data.phrase_type) {
                             if (a.data.phrase_type != '' || a.data.phrase_type != 'null') aval = a.data.phrase_type;
+                            if (a.data.phrase_type == '' || a.data.phrase_type == 'null') a.data.phrase_type = aval;
                         }
                     }
                     if (b.data) {
                         if (b.data.phrase_type) {
                             if(b.data.phrase_type != '' || b.data.phrase_type != 'null') bval = b.data.phrase_type;
+                            if(b.data.phrase_type == '' || b.data.phrase_type == 'null') b.data.phrase_type = bval;
                         }
                     }
 
@@ -903,7 +910,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                  #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
     */
     function questionSearchColoring(d) {
-        console.log(`This is d`, d);
+        // console.log(`This is d`, d);
             // Either by the default hsl based on depth or if the config is on
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
