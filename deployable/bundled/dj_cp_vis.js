@@ -985,19 +985,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
 
         nodes.forEach(node => {
-            content = d.data.name;
+            content = node.data.name;
             sqs = false; // squiggle switch
             for(let i = 0; i < content.length; i++) { 
                 if (content[i] == '~' && sqs == false) {
                     sq1 = i;
                     sqs = true; 
                 }
-                if (conetnt[i] == '~' && sqs == true) sq2 = i;
+                if (content[i] == '~' && sqs == true) sq2 = i;
             } // End of squiggly search, now we can pull the specific data pieces out of the string
-            d.data.unpackagedData = content;
-            d.data.name = content.slice(0, sq1); // The search query is the name anyways 
-            d.data.phrase_type = content.slice(sq1 + 1, sq2);
-            d.data.dj_score = content.slice(sq2 + 1);
+            node.data.unpackagedData = content;
+            node.data.name = content.slice(0, sq1); // The search query is the name anyways 
+            node.data.phrase_type = content.slice(sq1 + 1, sq2);
+            node.data.dj_score = content.slice(sq2 + 1);
             
         });
     }
