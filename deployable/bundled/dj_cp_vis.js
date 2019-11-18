@@ -886,7 +886,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // Either by the default hsl based on depth or if the config is on
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
-                let word = d['data']['phrase_type'].toLowerCase();
+                let word = d.data.phrase_type; // .toLowerCase();
 
                 if (word == 'search' || word == 'topic') { // Then blue
                     return d.depth == 0 || d.depth == 1 ? '#009de9'
