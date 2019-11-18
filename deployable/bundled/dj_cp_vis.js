@@ -675,9 +675,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
-                    // console.log(`Sort function: this is a`, a);
-                    // console.log(`Sore function: this is b`, b);
-                    console.log(`This is a: ${a.data.phrase_type}, and this is b: ${b.data.phrase_type}`);
+                    console.log(`Sort function: this is a`, a);
+                    console.log(`Sore function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
 
@@ -918,14 +917,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 console.log(`This is word`, word);
 
                 if (d.data.phrase_type == 'search' || d.data.phrase_type == 'topic') { // Then blue
-                    return d.depth == 0 || d.depth == 1 ? '#009de9'
+                    console.log('Found phrase type', d.data.phrase_type);
+                    console.log('This is the current depth', d.depth);
+                    return d.depth == 0 ? '#009de9'
+                    : d.depth == 1 ? '#009de9'
                     : d.depth == 2 ? '#19b8f7'
                     : d.depth == 3 ? '#43d3ff'
                     : d.depth == 4 ? '#78e6ff'
                     : d.depth == 5 ? '#aef0ff'
                     : '#dcf7ff'; 
                 } else if (d.data.phrase_type == 'question') { // Then green
-                    return d.depth == 0 || d.depth == 1 ? '#3ec173'
+                    return d.depth == 0 ? '#3ec173'
+                    : d.depth == 1 ? '#3ec173'
                     : d.depth == 2 ? '#3ec173'
                     : d.depth == 3 ? '#43dd81'
                     : d.depth == 4 ? '#60f49c'
