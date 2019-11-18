@@ -883,10 +883,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                  #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
     */
     function questionSearchColoring(d) {
+        console.log(`This is d`, d);
             // Either by the default hsl based on depth or if the config is on
         if (config.groupSwitch == true && config.group != "null") {
                 // We're hard coding in all the possibilities for topics or questions
                 let word = d.data.phrase_type; // .toLowerCase();
+                console.log(`This is word`, word);
 
                 if (word == 'search' || word == 'topic') { // Then blue
                     return d.depth == 0 || d.depth == 1 ? '#009de9'
