@@ -1025,11 +1025,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function taxonomyPull() {
             // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
+        let newTaxonomy = [];
         taxonomyPass.forEach(dimension => {
-            if(dimension.name == 'nodes.type' || dimension.name == 'second_degree_dependencies.type' || dimension.name == 'third_degree_dependencies.type' || dimension.name == 'fourth_degree_dependencies.type' || dimension.name == 'fifth_degree_dependencies.type' || dimension.name == 'nodes.dj_score' || dimension.name == 'second_degree_dependencies.dj_score' || dimension.name == 'third_degree_dependencies.dj_score' || dimension.name == 'fourth_degree_dependencies.dj_score' || dimension.name == 'fifth_degree_dependencies.dj_score') {
-                delete dimension;
+            if(dimension.name != 'nodes.type' || dimension.name != 'second_degree_dependencies.type' || dimension.name != 'third_degree_dependencies.type' || dimension.name != 'fourth_degree_dependencies.type' || dimension.name != 'fifth_degree_dependencies.type' || dimension.name != 'nodes.dj_score' || dimension.name != 'second_degree_dependencies.dj_score' || dimension.name != 'third_degree_dependencies.dj_score' || dimension.name != 'fourth_degree_dependencies.dj_score' ||    dimension.name != 'fifth_degree_dependencies.dj_score') {
+                newTaxonomy.push(dimension);
             }
         });
+        taxonomyPass = newTaxonomy;
         console.log('This is the new taxonomy', taxonomyPass)
     }
 
