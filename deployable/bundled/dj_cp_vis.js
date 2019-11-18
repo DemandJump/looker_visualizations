@@ -149,7 +149,7 @@ looker.plugins.visualizations.add({
         var descend = function(obj, depth) {
             var arr = [];
             var depth = depth || 0;
-            console.log(`descend: This is obj`, obj);
+            console.log(`\ndescend: This is obj`, obj);
             for (var k in obj) {
                 console.log(`descend: This is k`, k);
                 if (k == '__data') { continue; }
@@ -191,13 +191,105 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`data`, data);
     // console.log(`element`, element);
     // console.log(`details`, details);
-    let dimensions = queryResponse.fields.dimensions; // console.log(`Checking out query resposne dimension fields: `, dimensions);
-    let measures = queryResponse.fields.measures; // console.log(`Checking out query resposne measure fields: `, measures);
+    let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
+    let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
     let taxonomyPass = dimensions;
 
     /***************************************
      * Configuring the settings
     ***************************************/
+
+             /*/ / This is gonna get funky, we're gonna match the search queries with the phrases / /*/
+          // Put an object in place of the value, and pass more data into the burrow function
+        // The way it uses the prototype chain matches the values in a really intuitive way, so I'm gonna keep it together
+      // Instead I'm gonna link the data preemptively because I can't dynamically link this together. 
+    // link the search query degrees to the respective type degrees
+    let sd1 = 'nodes.search_query',
+    sd2 = 'second_degree_dependencies.search_query',
+    sd3 = 'third_degree_dependencies.search_query',
+    sd4 = 'fourth_degree_dependencies.search_query',
+    sd5 = 'fifth_degree_dependencies.search_query',
+    ft1 = 'nodes.type',
+    ft2 = 'second_degree_dependencies.type',
+    ft3 = 'third_degree_dependencies.type',
+    ft4 = 'fourth_degree_dependencies.type',
+    ft5 = 'fifth_degree_dependencies.type',
+    dj1 = 'nodes.dj_score',
+    dj2 = 'second_degree_dependencies.dj_score',
+    dj3 = 'third_degree_dependencies.dj_score',
+    dj4 = 'fourth.dj_score',
+    dj5 = 'fifth_degree_dependencies.dj_score';
+    data.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
+        let sval, ftval, djval;
+        /* 
+          sval.name {
+            value: 
+              from "asdaljalksdja"
+              to {"meihoimenoi", djspookscore, phrasetype}
+          }
+        */
+
+        if (node[sd1] && node[ft1] && node[dj1]) {
+            sval = node[sd1];
+            ftval = node[ft1];
+            djval = node[dj1];
+            node[sd1].value = {
+                search_query: sval,
+                phrase_type: ftval, 
+                dj_score: djval
+            };
+        }
+
+        if (node[sd2] && node[ft2] && node[dj2]) {
+            sval = node[sd2];
+            ftval = node[ft2];
+            djval = node[dj2];
+            node[sd2].value = {
+                search_query: sval,
+                phrase_type: ftval, 
+                dj_score: djval
+            };
+        }
+
+        if (node[sd3] && node[ft3] && node[dj3]) {
+            sval = node[sd3];
+            ftval = node[ft3];
+            djval = node[dj3];
+            node[sd3].value = {
+                search_query: sval,
+                phrase_type: ftval, 
+                dj_score: djval
+            };
+        }
+
+        if (node[sd4] && node[ft4] && node[dj4]) {
+            sval = node[sd4];
+            ftval = node[ft4];
+            djval = node[dj4];
+            node[sd4].value = {
+                search_query: sval,
+                phrase_type: ftval, 
+                dj_score: djval
+            };
+        }
+
+        if (node[sd5] && node[ft5] && node[dj5]) {
+            sval = node[sd5];
+            ftval = node[ft5];
+            djval = node[dj5];
+            node[sd5].value = {
+                search_query: sval,
+                phrase_type: ftval, 
+                dj_score: djval
+            };
+        }
+
+    }); // End of data mutation
+    console.log('This is the augmented data', data);
+
+
+
+
 
             /*/ / Get the unique values out of the grouping dimension / /*/
     let uniqueValues = [];
