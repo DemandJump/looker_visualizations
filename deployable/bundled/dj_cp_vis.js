@@ -230,9 +230,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         */
 
         if (node[sd1] && node[ft1] && node[dj1]) {
-            sval = node[sd1];
-            ftval = node[ft1];
-            djval = node[dj1];
+            sval = node[sd1].value;
+            ftval = node[ft1].value;
+            djval = node[dj1].value;
             node[sd1].value = {
                 search_query: sval,
                 phrase_type: ftval, 
@@ -241,9 +241,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         if (node[sd2] && node[ft2] && node[dj2]) {
-            sval = node[sd2];
-            ftval = node[ft2];
-            djval = node[dj2];
+            sval = node[sd2].value;
+            ftval = node[ft2].value;
+            djval = node[dj2].value;
             node[sd2].value = {
                 search_query: sval,
                 phrase_type: ftval, 
@@ -252,9 +252,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         if (node[sd3] && node[ft3] && node[dj3]) {
-            sval = node[sd3];
-            ftval = node[ft3];
-            djval = node[dj3];
+            sval = node[sd3].value;
+            ftval = node[ft3].value;
+            djval = node[dj3].value;
             node[sd3].value = {
                 search_query: sval,
                 phrase_type: ftval, 
@@ -263,9 +263,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         if (node[sd4] && node[ft4] && node[dj4]) {
-            sval = node[sd4];
-            ftval = node[ft4];
-            djval = node[dj4];
+            sval = node[sd4].value;
+            ftval = node[ft4].value;
+            djval = node[dj4].value;
             node[sd4].value = {
                 search_query: sval,
                 phrase_type: ftval, 
@@ -274,9 +274,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         if (node[sd5] && node[ft5] && node[dj5]) {
-            sval = node[sd5];
-            ftval = node[ft5];
-            djval = node[dj5];
+            sval = node[sd5].value;
+            ftval = node[ft5].value;
+            djval = node[dj5].value;
             node[sd5].value = {
                 search_query: sval,
                 phrase_type: ftval, 
