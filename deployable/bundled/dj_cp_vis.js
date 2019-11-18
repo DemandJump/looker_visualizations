@@ -382,7 +382,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let view;
 
         // Package data for the burrow function
-    data = packageData(data);
+    packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
     const burrow = this.burrow(data, taxonomyPass); 
     // console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
@@ -406,13 +406,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of collapse function
     root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
-    nodes = unpackageData(nodes);
+    unpackageData(); // This edits the nodes and unpackages the concatenated data
 
 
         // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
     nodes.forEach(d => {
-        if(d.data.name == 'null') { d.data.leaf = false; }
-        if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null'){d.data.leaf = true;} }
+        if(d.data.name == 'null~null~null') { d.data.leaf = false; }
+        if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null~null~null'){d.data.leaf = true;} }
     });
         // Find the min and max values of the hierarchy for the color scale function
     let maxDepth = -10;
@@ -911,7 +911,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    function packageData(datum) {
+    function packageData() {
                 /*/ / This is gonna get funky, we're gonna match the search queries with the phrases / /*/
               // Put an object in place of the value, and pass more data into the burrow function
             // The way it uses the prototype chain matches the values in a really intuitive way, so I'm gonna keep it together
@@ -933,7 +933,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         dj3 = 'third_degree_dependencies.dj_score',
         dj4 = 'fourth.dj_score',
         dj5 = 'fifth_degree_dependencies.dj_score';
-        return datum.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
+        data.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
             let sval, ftval, djval;
             /* 
               sval.name {
@@ -981,10 +981,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }); // End of data mutation
     }
 
-    function unpackageData(nodeData) {
+    function unpackageData() {
         let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
 
-        return nodeData.foreach(node => {
+        nodes.foreach(node => {
             content = d.data.name;
             sqs = false; // squiggle switch
             for(let i = 0; i < content.length; i++) { 
