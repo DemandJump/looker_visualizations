@@ -149,7 +149,7 @@ looker.plugins.visualizations.add({
         var descend = function(obj, depth) {
             var arr = [];
             var depth = depth || 0;
-            console.log(`descend: This is obj`)
+            console.log(`descend: This is obj`, obj);
             for (var k in obj) {
                 console.log(`descend: This is k`, k);
                 if (k == '__data') { continue; }
