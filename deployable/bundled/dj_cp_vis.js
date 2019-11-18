@@ -450,7 +450,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let view;
 
         // Package data for the burrow function
-    packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
     const burrow = this.burrow(data, taxonomyPass); 
     // console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
