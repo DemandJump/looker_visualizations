@@ -136,7 +136,7 @@ looker.plugins.visualizations.add({
                 //// create children as nested objects
             taxonomy.forEach(t => {
                 var key = row[t.name].value;
-                // console.log(`${index}~descendant: This is the current key`, key);
+                console.log(`${index}~descendant: This is the current key`, key);
                 layer[key] = key in layer ? layer[key] : {}; // If key is in layer object, it returns true and creates a new layer for this descendant
                 layer = layer[key];
                 // console.log(`${index}~descendant: This is their layer`, layer);
@@ -151,9 +151,8 @@ looker.plugins.visualizations.add({
             var depth = depth || 0;
             console.log(`\ndescend: This is obj`, obj);
             for (var k in obj) {
-                console.log(`descend: This is k`, k);
-                console.log(k);
                 if (k == '__data') { continue; }
+                console.log(`descend: This is k`, k);
                 var child = {
                     name: k,
                     depth: depth,
