@@ -212,7 +212,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     
         // Check if the config.influence is a dimension, and if they're not numbers
+    let addError = false;
     checkSelectedInfluence();
+    if (addError) this.addError({title: "Factor error", message: "The variable factor must be a number"});
     
     /*********************************************************
      * Preload the data for the visual 
@@ -459,9 +461,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (typeof(node[config.influence].value) == 'number') numberchecker ++;
                 if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
             })
-            if (numberchecker < 1 || error == true) {
-                this.addError({title: "Factor error", message: "The variable factor must be a number"})
-            }
+            if (numberchecker < 1 || error == true) addError = true;
         }
       }
     } // End of checkSelectedInfluence
@@ -526,13 +526,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       } // End of collapse function
 
       function findActualLeafNodes() {
-        nodes.forEach(d => {
-          if(d.data.name == 'null~null~null') { d.data.leaf = false; }
-          if(d.children) { 
-            if(d.children.length == 1 && d.children[0].data.name == 'null~null~null'){d.data.leaf = true;}
-          } else { d.data.leaf = true; }
-        });
-      }
+          nodes.forEach(d => {
+              if(d.data.name == 'null~null~null') { d.data.leaf = false; }
+
+              if(d.children) { 
+                  if (d.children.length == 1 && d.children[0].data.name == 'null~null~null'){d.data.leaf = true;}
+              } else if(d._children) {
+                  if (d._children.length == 1) {
+                      if (d._children[0].data.name == 'null~null~null') d.data.leaf = true;
+                  } else if (d._children.length > 1) {
+                      let checker = false;
+                      for(let i = 0; i < d._children.length; i++) {
+                          if(d._children[i] == 'null')  {
+                              checker = true; 
+                              continue;
+                          } else if (d._children[i] == 'null~null~null') {
+                              checker = true;
+                              continue; 
+                          } else { break; }
+                      } // for loop end
+                  } // else if end 
+              } else { d.data.leaf = true; }
+          }); // forEach end
+      } // End of FindActualLeafNodes
 
       function findMinAndMaxDepth() {
         nodes.forEach(node => {
