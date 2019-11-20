@@ -182,13 +182,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /*/ / Input the dimension values in the options / /*/ 
     let settings = this.options;
+
     console.log('This is settings', settings); 
     console.log('This is options', this.options);
     if (settings == this.options) { console.log("These settings are identical!") } 
     else { console.log('These settings are not identical') }
     settings.influence['values'] = [];
     if (settings == this.options) { console.log("The settings have changed but the values are still declared the same.")}
-    else (settings == this.options) { console.log("The settings have changed and the values are declared not identical.")}
+    else { console.log("The settings have changed and the values are declared not identical.")}
 
 
     console.log('This is the options var inherited from the this.options var', settings);
