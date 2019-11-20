@@ -182,19 +182,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /*/ / Input the dimension values in the options / /*/ 
     let settings = this.options;
-
-    console.log('This is settings', settings); 
-    console.log('This is options', this.options);
-    if (settings == this.options) { console.log("These settings are identical!") } 
-    else { console.log('These settings are not identical') }
-    settings.influence['values'] = [];
-    let valobject = {"somethingnew": "Moar random datum"};
-    settings.influence['values'].push(valobject);
-    if (settings == this.options) { console.log("The settings have changed but the values are still declared the same.")}
-    else { console.log("The settings have changed and the values are declared not identical.")}
-
-
-    console.log('This is the options var inherited from the this.options var', settings);
     settings.influence['values'] = [];
     settings.group['values'] = [];
         // Manually insert the default values into the config, then configure the dimensions and measures into the vis
@@ -208,8 +195,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     configureBurrowTaxonomy();
 
             /*/ / Show/Hide influence (Variable factor select statement) / /*/
+    let updateSettings = false;
     configureDisplay();
-    if (this.options != settings) { // If the settings have changed, then change the display as a whole. This is a much cleaner and more efficient way than rerendering for each settings conditional
+    if (updateSettings) { // If the settings have changed, then change the display as a whole. This is a much cleaner and more efficient way than rerendering for each settings conditional
         this.trigger('registerOptions', settings);
         this.options = settings;
     }
@@ -432,19 +420,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (config.influenceSwitch == true && settings.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
           settings.influence.hidden = false;
           settings.useInfluenceInVis.hidden = false;
+          updateSettings = true;
       }
       if (config.influenceSwitch == false && settings.influence.hidden == false) { // Then hide the influence setting
             settings.influence.hidden = true;
             settings.useInfluenceInVis.hidden = true;
+            updateSettings = true;
       } 
 
       if (config.groupSwitch == true && settings.group.hidden == true) { // Same for the group settings
             settings.group.hidden = false;
             settings.useGroupInVis.hidden = false;
+            updateSettings = true;
       }
       if (config.groupSwitch == false && settings.group.hidden == false) {
             settings.group.hidden = true;
             settings.useGroupInVis.hidden = true;
+            updateSettings = true;
       }
 
       // console.log('Configuration settings');
