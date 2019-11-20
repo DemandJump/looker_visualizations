@@ -183,7 +183,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('Adding color by grouping functionality, and working towards finding the actual leaf nodes embedded around the nulls');
         // Just comment what your doing becuase looker takes forever to update server js file
 
-        /****** UpdateAsync Built-in Functionality ******/
+        /****** Initial Functions ******/
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
     console.log(`config`, config);
     console.log(`direct reference to settings (this.options)`, this.options);
@@ -201,50 +201,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /*/ / Get the unique values out of the grouping dimension / /*/
     let uniqueValues = [];
-    if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
-        if (config.groupSwitch == true) {
-            if (config.group != 'null') {
-                uniqueValues.push(data[0][config.group]["value"]);
-                let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
-                data.forEach(node => {
-                    node.groupColor = node[grouper];
-                    let checker = 0;
-                    for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
-                        // console.log(`This is the node's phrase type:`, node[grouper]);
-                        // console.log(`and this is the current unique value:`, uniqueValues[i]);
-                        if (node[grouper].value == uniqueValues[i]) { checker++; }
-                    } // If the counter equals 0, then add it to the set of unique values for the next iteration
-                    if (checker == 0) uniqueValues.push(node[grouper].value);
-                });
-            }
-        }
-    }
-    console.log('These are the unique values found: ', uniqueValues);
+    grabUniqueValues();
 
 
             /*/ / Input the dimension values in the options / /*/ 
     this.options.influence['values'] = [];
     this.options.group['values'] = [];
-    let val = {"None": "null"};   // This is for node influence option (dynamic node sizing )
+        // Manually insert the default values into the config. This is for node influence option (dynamic node sizing )
+    let val = {"None": "null"};  
     this.options.influence['values'].push(val);
     this.options.group['values'].push(val);
-        // Adds all the different dimensions as 
-    measures.forEach(mes => { // Value object >.>  {"name": "value"} 
-        let key = mes.label; // Key of value pair
-        let valuepair = mes.name; // value of value pair
-        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-        val[key] = valuepair;
-        if (config.influenceSwitch) this.options.influence['values'].push(val);
-        if (config.groupSwitch) this.options.group['values'].push(val);
-    });
-    dimensions.forEach(dimension => {
-        let key = dimension.label; // Key of value pair
-        let valuepair = dimension.name; // value of value pair
-        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-        val[key] = valuepair;
-        if (config.influenceSwitch) this.options.influence['values'].push(val);
-        if(config.groupSwitch) this.options.group['values'].push(val);
-    });
+
+    configureInfluenceAndGroup();
+    
 
     
             //*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*//
@@ -548,8 +517,60 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+
+
     /*******************************************************
-        * Functions Section *
+        * Configuration and Data's Functions Section *
+    *******************************************************/
+    function grabUniqueValues() {
+      if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
+        if (config.groupSwitch == true) {
+            if (config.group != 'null') {
+                uniqueValues.push(data[0][config.group]["value"]);
+                let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
+                data.forEach(node => {
+                    node.groupColor = node[grouper];
+                    let checker = 0;
+                    for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
+                        // console.log(`This is the node's phrase type:`, node[grouper]);
+                        // console.log(`and this is the current unique value:`, uniqueValues[i]);
+                        if (node[grouper].value == uniqueValues[i]) { checker++; }
+                    } // If the counter equals 0, then add it to the set of unique values for the next iteration
+                    if (checker == 0) uniqueValues.push(node[grouper].value);
+                });
+            }
+        }
+    }
+    console.log('These are the unique values found: ', uniqueValues);
+    } // End of grab uniqueValues
+
+
+    function configureInfluenceAndGroup() {
+            // Adds all the different dimensions as 
+      measures.forEach(mes => { // Value object >.>  {"name": "value"} 
+        let key = mes.label; // Key of value pair
+        let valuepair = mes.name; // value of value pair
+        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+        val[key] = valuepair;
+        if (config.influenceSwitch) this.options.influence['values'].push(val);
+        if (config.groupSwitch) this.options.group['values'].push(val);
+      });
+      dimensions.forEach(dimension => {
+        let key = dimension.label; // Key of value pair
+        let valuepair = dimension.name; // value of value pair
+        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+        val[key] = valuepair;
+        if (config.influenceSwitch) this.options.influence['values'].push(val);
+        if(config.groupSwitch) this.options.group['values'].push(val);
+      });
+    } // End of configureInfluenceAndGroup
+
+
+    
+
+
+    /*******************************************************
+        * Visual's Functions Section *
     *******************************************************/
     function zoomTo(v) {
         // console.log('zoomTo function: v', v); // coordinates and scale
