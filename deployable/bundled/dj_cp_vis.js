@@ -236,15 +236,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Preload the data for the visual 
     *********************************************************/
         // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-    if (config.influence != 'null') {
-        data.forEach(node => {
-            // console.log('data[config.influence]', node[config.influence]);
-            // console.log('value of each', node[config.influence].value);
-            node['value'] = node[config.influence]['value'];
-        });
-    } else { 
-        data.forEach(node => node['value'] = 1); 
-    }
+    clearInfluenceNulls();
 
         // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let min = 100000000000;
@@ -574,7 +566,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
     } // End of checkSelectedInfluence
 
-
+        
+        // We need a function that chooses between the data we append through the node hierarchy and this new visual
+    function clearInfluenceNulls() {
+      if (config.influence != 'null') {
+        data.forEach(node => {
+            // console.log('data[config.influence]', node[config.influence]);
+            // console.log('value of each', node[config.influence].value);
+            node['value'] = node[config.influence]['value'];
+        });
+      } else { 
+        data.forEach(node => node['value'] = 1); 
+      }
+    } // End of clearInfluence Nulls
 
 
 
