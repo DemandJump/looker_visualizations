@@ -203,20 +203,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let uniqueValues = [];
     grabUniqueValues();
 
-
             /*/ / Input the dimension values in the options / /*/ 
     this.options.influence['values'] = [];
     this.options.group['values'] = [];
-        // Manually insert the default values into the config, then configure the dimensions and measures into the vis. This is for node influence option (dynamic node sizing )
+        // Manually insert the default values into the config, then configure the dimensions and measures into the vis
     let val = {"None": "null"};  
     this.options.influence['values'].push(val);
     this.options.group['values'].push(val);
     configureInfluenceAndGroup();
 
-    
-            //*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*//
+            /*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*/
     configureBurrowTaxonomy();
-
 
             /*/ / Show/Hide influence (Variable factor select statement) / /*/
     configureDisplay();
@@ -484,6 +481,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     function configureInfluenceAndGroup() {
+      console.log('Tjos os the configuration');
+      console.log(this.options());
             // Adds all the different dimensions as 
       measures.forEach(mes => { // Value object >.>  {"name": "value"} 
         let key = mes.label; // Key of value pair
