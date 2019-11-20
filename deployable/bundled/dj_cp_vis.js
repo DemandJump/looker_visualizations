@@ -629,12 +629,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) { 
                     if (d.parent !== focus) this.style.display = "none";
-                    console.log('This is the focus', focus);
-                    console.log('This is the parent', d.parent);
-                    if (d.leaf) {
-                      if(d.leaf == true) this.style.display = "inline";
-                    }
-                    
+
                     d3.select(this)
                       .style("fill-opacity", d => {
                         if (d.leaf) { if(d.leaf == true) return 1; }
