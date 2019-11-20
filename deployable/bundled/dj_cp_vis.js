@@ -207,7 +207,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /*/ / Show/Hide influence (Variable factor select statement) / /*/
     configureDisplay();
-    this.options = settings;
+    if (this.options != settings) { // If the settings have changed, then change the display as a whole. This is a much cleaner and more efficient way than rerendering for each settings conditional
+        this.trigger('registerOptions', settings);
+        this.options = settings;
+    }
+
 
     /**********************
      * Error Clauses 
@@ -440,23 +444,23 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (config.influenceSwitch == true && settings.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
           settings.influence.hidden = false;
           settings.useInfluenceInVis.hidden = false;
-          this.trigger('registerOptions', settings);
+          // this.trigger('registerOptions', settings);
       }
       if (config.influenceSwitch == false && settings.influence.hidden == false) { // Then hide the influence setting
             settings.influence.hidden = true;
             settings.useInfluenceInVis.hidden = true;
-            this.trigger('registerOptions', settings);
+            // this.trigger('registerOptions', settings);
       } 
 
       if (config.groupSwitch == true && settings.group.hidden == true) { // Same for the group settings
             settings.group.hidden = false;
             settings.useGroupInVis.hidden = false;
-            this.trigger('registerOptions', settings);
+            // this.trigger('registerOptions', settings);
       }
       if (config.groupSwitch == false && settings.group.hidden == false) {
             settings.group.hidden = true;
             settings.useGroupInVis.hidden = true;
-            this.trigger('registerOptions', settings);
+            // this.trigger('registerOptions', settings);
       }
 
       // console.log('Configuration settings');
