@@ -868,7 +868,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // return '12px'; // Original styling 
         // return `${vws(d.nr)}vh`; // View height font scaling
         if (d.nr <= 14) { d.font = 0; }
-        else { d.font = psfs(d.nr); }
+        else { d.font = nullText(d.nr); }
         return `${d.font}px`; 
     }
 
