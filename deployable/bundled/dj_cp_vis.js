@@ -91,22 +91,9 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-              
-              .text, .text2, .text3 { 
-                  font-family: Roboto; 
-                  font-weight: 300;
-                  text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
-              }
-              
-              .header {
-                  font-family: Roboto;
-                  font-weight: 300;
-                  font-size: 2rem;
-                  text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
-                  margin: 0;
-                  padding: 0;
-              }
-
+              .text, .text2, .text3 { font-family: Roboto; font-weight: 300; }
+              .header { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
+              .header, .text, .text2, .text3 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
           </style>
         `;
 
@@ -122,37 +109,29 @@ looker.plugins.visualizations.add({
             .attr('class', 'svg');
     },
 
-      // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
-          // Careful the beginning of the hierarchy holds the table names and fans out to descendants, so they don't hold the data which may throw errors as d3 iterates through assignment operators when using those variables 
+
     burrow: function(table, taxonomy) { // Table is the data, and taxonomy is the dimensions/measures/tableCalcs passed in
             //// create nested object
         var obj = {};
         table.forEach((row, index) => {
                 //// start at root
             var layer = obj;
-            // console.log(`\n${index}: This is the current row(data)`, row);
-            // console.log(`${index}: This is the current layer`, layer);
 
                 //// create children as nested objects
             taxonomy.forEach(t => {
                 var key = row[t.name].value;
-                // console.log(`${index}~descendant: This is the current key`, key);
                 layer[key] = key in layer ? layer[key] : {}; // If key is in layer object, it returns true and creates a new layer for this descendant
                 layer = layer[key];
-                // console.log(`${index}~descendant: This is their layer`, layer);
             });
             layer.__data = row;
-            // console.log('This is layer.__data = row', layer.__data);
         });
 
             //// recursively create children array
         var descend = function(obj, depth) {
             var arr = [];
             var depth = depth || 0;
-            // console.log(`\ndescend: This is obj`, obj);
             for (var k in obj) {
                 if (k == '__data') { continue; }
-                // console.log(`descend: This is k`, k);
                 var child = {
                     name: k,
                     depth: depth,
@@ -181,7 +160,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
           /* * * * * * CURRENT VERSION * * * * * */ 
     // console.log('Adding color by grouping functionality, and working towards finding the actual leaf nodes embedded around the nulls');
-        // Just comment what your doing becuase looker takes forever to update server js file
 
         /****** Initial Functions ******/
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
@@ -189,8 +167,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log(`direct reference to settings (this.options)`, this.options);
     console.log(`queryResponse`, queryResponse);
     console.log(`data`, data);
-    // console.log(`element`, element);
-    // console.log(`details`, details);
+    // console.log(`element`, element); // console.log(`details`, details);
     let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
     let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
     let taxonomyPass = dimensions;
@@ -205,7 +182,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             /*/ / Input the dimension values in the options / /*/ 
     let settings = this.options;
-    console.log('This is the options var inherited from the this.options var', options);
+    console.log('This is the options var inherited from the this.options var', settings);
     settings.influence['values'] = [];
     settings.group['values'] = [];
         // Manually insert the default values into the config, then configure the dimensions and measures into the vis
@@ -226,8 +203,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     **********************/
     // this.clearErrors(); // Clear any errors from previous updates.
     if (queryResponse.fields.dimensions.length == 0) { // This throws error if there are no dimensions for the hierarchy
-      this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-      return;
+      this.addError({title: "No Dimensions", message: "This chart requires dimensions."}); return;
     }
     
         // Check if the config.influence is a dimension, and if they're not numbers
@@ -236,48 +212,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*********************************************************
      * Preload the data for the visual 
     *********************************************************/
-        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-    clearInfluenceNulls();
+    clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
 
-        // Now run through the data, grab the min and max, then replace all the nulls with the min value
+       // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let min = 100000000000;
     let max = -111111111111;
-    data.forEach(node => { // Find min and max values in data
-        if (min > node.value) min = node.value;
-        if (max < node.value) max = node.value;
-    });
-    data.forEach(node => { // If the node value is null, replace it with the min value
-        node.nullVal = 'false';
-        if (node.value == null || node.value == 'null') {
-            node.value = min;
-            node.nullVal = true;
-        }
-    });
-    // console.log(`The finished min ${min}, and max ${max}`);
+    minAndMaxInfluenceValues();
 
     
-  
         /*/ / This is for sizing the svg and the header correctly / /*/
     let headerSpace;
     let width;
     let height;
     let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
-    // console.log(`Window height: ${window.innerHeight}, and Element height: ${element.clientHeight}`);
-    // console.log(`Window width: ${window.innerWidth}, and Element width: ${element.clientWidth}`);
-    // console.log(`${window.innerHeight - element.clientHeight}px variance in height, and ${window.innerWidth - element.clientWidth}px variance in width`);
-
     let circleHeight = window.innerHeight;
-    if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
-        headerSpace = 40;
-        width = circleHeight - 40;
-        height = circleHeight - 40;
-        viewBoxFactor = height + 35;
-    } else {
-        headerSpace = circleHeight * .1;
-        width = circleHeight * .9;
-        height = circleHeight * .9;
-        viewBoxFactor = height + 35;
-    }
+    refactorCircleViewport();
 
         // Initialize the visual's data and construct the rest of the hierarchy
     let view;
@@ -286,24 +235,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Package data for the burrow function
     packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
     
-    // taxonomyPull();
         // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
     let newTaxonomy = [];
-    taxonomyPass.forEach(dimension => {
-        if(dimension.name != 'nodes.type' && dimension.name != 'second_degree_dependencies.type' && dimension.name != 'third_degree_dependencies.type' && dimension.name != 'fourth_degree_dependencies.type' && dimension.name != 'fifth_degree_dependencies.type' && dimension.name != 'nodes.dj_score' && dimension.name != 'second_degree_dependencies.dj_score' && dimension.name != 'third_degree_dependencies.dj_score' && dimension.name != 'fourth_degree_dependencies.dj_score' &&    dimension.name != 'fifth_degree_dependencies.dj_score') {
-            newTaxonomy.push(dimension);
-        }
-    });
-    taxonomyPass = newTaxonomy;
-    console.log('This is the new taxonomy', taxonomyPass);
-    
-
+    nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
     const burrow = this.burrow(data, taxonomyPass); 
     // console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
+
+    console.log('This is the root', root);
+
     function collapseNulls(d) {
         d._children = [];
         if(d.children) {
@@ -498,27 +441,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of configureInfluenceAndGroup
 
 
-    function configureBurrowTaxonomy() {
-      if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
-        taxonomyPass = [];
-        let pull = config.influence; // Grab the dimension that the influence is using..
-        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
-      }
-      if (config.groupSwitch == true && config.useGroupInVis == false && config.useInfluenceInVis == true) { // If group's dimension is being pulled but not influence
-        taxonomyPass = [];
-        let pull = config.group;
-        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
-      }
-      if (config.groupSwitch == true && config.influenceSwitch == true && config. useGroupInVis == false && config.useInfluenceInVis == false) {
-        taxonomyPass = [];
-        let groupDimen = config.group;
-        let influenceDimen = config.influence;
-        dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
-      }
-      console.log('This is the taxonomy pass', taxonomyPass);
-    } // End of configureBurrowTaxonomy
-
-
     function configureDisplay() {
       if (config.influenceSwitch == true && this.options.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
           this.options.influence.hidden = false;
@@ -581,8 +503,74 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
     } // End of clearInfluence Nulls
 
+    function minAndMaxInfluenceValues() {
+           // Now run through the data, grab the min and max, then replace all the nulls with the min value
+      data.forEach(node => { // Find min and max values in data
+        if (min > node.value) min = node.value;
+        if (max < node.value) max = node.value;
+      });
+      data.forEach(node => { // If the node value is null, replace it with the min value
+        node.nullVal = 'false';
+        if (node.value == null || node.value == 'null') {
+            node.value = min;
+            node.nullVal = true;
+        }
+      });
+      // console.log(`The finished min ${min}, and max ${max}`);
+      } // End of minAndMaxInfluenceValues
+
+      function refactorCircleViewport() {
+            // This ensures there's no scrolling for the viewport!
+        if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
+          headerSpace = 40;
+          width = circleHeight - 40;
+          height = circleHeight - 40;
+          viewBoxFactor = height + 35;
+        } else {
+          headerSpace = circleHeight * .1;
+          width = circleHeight * .9;
+          height = circleHeight * .9;
+          viewBoxFactor = height + 35;
+        }
+      } // End of refactorCircleViewport
 
 
+
+    /*******************************************************
+        * Taxonomy Functions Section *
+    *******************************************************/
+
+    function configureBurrowTaxonomy() {
+      if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
+        taxonomyPass = [];
+        let pull = config.influence; // Grab the dimension that the influence is using..
+        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
+      }
+      if (config.groupSwitch == true && config.useGroupInVis == false && config.useInfluenceInVis == true) { // If group's dimension is being pulled but not influence
+        taxonomyPass = [];
+        let pull = config.group;
+        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
+      }
+      if (config.groupSwitch == true && config.influenceSwitch == true && config. useGroupInVis == false && config.useInfluenceInVis == false) {
+        taxonomyPass = [];
+        let groupDimen = config.group;
+        let influenceDimen = config.influence;
+        dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
+      }
+      console.log('This is the taxonomy pass', taxonomyPass);
+    } // End of configureBurrowTaxonomy
+
+    function nodeHierarchyTaxonomyPull() {
+      taxonomyPass.forEach(dimension => {
+        if(dimension.name != 'nodes.type' && dimension.name != 'second_degree_dependencies.type' && dimension.name != 'third_degree_dependencies.type' && dimension.name != 'fourth_degree_dependencies.type' && dimension.name != 'fifth_degree_dependencies.type' && dimension.name != 'nodes.dj_score' && dimension.name != 'second_degree_dependencies.dj_score' && dimension.name != 'third_degree_dependencies.dj_score' && dimension.name != 'fourth_degree_dependencies.dj_score' &&    dimension.name != 'fifth_degree_dependencies.dj_score') {
+          newTaxonomy.push(dimension);
+        }
+      });
+      taxonomyPass = newTaxonomy;
+      console.log('This is the new taxonomy', taxonomyPass);
+    }
+
+    
     /*******************************************************
         * Visual's Functions Section *
     *******************************************************/

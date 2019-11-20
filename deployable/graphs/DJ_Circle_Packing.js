@@ -70,28 +70,35 @@ looker.plugins.visualizations.add({
 
       // This function takes in the looker taxonomy (pass in dimensions or measures, (or mix both in another array if you need)) and creates the hierarhcy structure for d3
           // Careful the beginning of the hierarchy holds the table names and fans out to descendants, so they don't hold the data which may throw errors as d3 iterates through assignment operators when using those variables 
-    burrow: function(table, taxonomy) {
-            // create nested object
+    burrow: function(table, taxonomy) { // Table is the data, and taxonomy is the dimensions/measures/tableCalcs passed in
+            //// create nested object
         var obj = {};
-        table.forEach(function(row) {
-                // start at root
+        table.forEach((row, index) => {
+                //// start at root
             var layer = obj;
+            // console.log(`\n${index}: This is the current row(data)`, row);
+            // console.log(`${index}: This is the current layer`, layer);
 
-                // create children as nested objects
-            taxonomy.forEach(function(t) {
+                //// create children as nested objects
+            taxonomy.forEach(t => {
                 var key = row[t.name].value;
-                layer[key] = key in layer ? layer[key] : {};
+                // console.log(`${index}~descendant: This is the current key`, key);
+                layer[key] = key in layer ? layer[key] : {}; // If key is in layer object, it returns true and creates a new layer for this descendant
                 layer = layer[key];
+                // console.log(`${index}~descendant: This is their layer`, layer);
             });
             layer.__data = row;
+            // console.log('This is layer.__data = row', layer.__data);
         });
 
-            // recursively create children array
+            //// recursively create children array
         var descend = function(obj, depth) {
             var arr = [];
             var depth = depth || 0;
+            // console.log(`\ndescend: This is obj`, obj);
             for (var k in obj) {
                 if (k == '__data') { continue; }
+                // console.log(`descend: This is k`, k);
                 var child = {
                     name: k,
                     depth: depth,
@@ -105,7 +112,7 @@ looker.plugins.visualizations.add({
             return arr;
         };
 
-            // use descend to create nested children arrys
+            //// use descend to create nested children arrys
         return {
             name: 'root',
             children: descend(obj, 1),
