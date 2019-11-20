@@ -267,9 +267,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nullText = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
-
-
-        
+ 
     // console.log('root', root);
     console.log('nodes', nodes);
     // console.log('This is the focus', focus);
@@ -296,10 +294,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .selectAll("circle")
         .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
-            .attr('class', d => {
-                if (d.data.id) { if (d.data.id == 'tether') return 'node tether'; }
-                return 'node';
-            })
+            .attr('class', d => {if(d.data.id){ if(d.data.id == 'tether')return 'node tether'; } return 'node'; })
             .attr('id', d => {
                 uniqueId++;
                 d.data.uniqueId = uniqueId;
@@ -309,8 +304,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
-                .attr("stroke", "#000")
-                .attr('stroke-width', d => `${d.height}px`); 
+                  .attr("stroke", "#000")
+                  .attr('stroke-width', d => `${d.height}px`); 
             }) // Highight the border based hover
             .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
             .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
@@ -363,7 +358,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .text(d => d.data.text4);
-
 
     zoomTo([root.x, root.y, root.r * 2]);
     simulateClick(document.querySelector('.tether'), 'click');
