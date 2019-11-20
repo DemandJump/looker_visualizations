@@ -267,24 +267,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
-    nodes.forEach(d => {
-        if(d.data.name == 'null~null~null') { d.data.leaf = false; }
-        if(d.children) { if(d.children.length == 1 && d.children[0].data.name == 'null~null~null'){d.data.leaf = true;} }
-    });
+    findActualLeafNodes();
+    
         // Find the min and max values of the hierarchy for the color scale function
     let maxDepth = -10;
     let minDepth = 100;
-    nodes.forEach(node => {
-        if (node.depth < minDepth) minDepth = node.depth;
-        if (node.depth > maxDepth) maxDepth = node.depth;
-    });
+    findMinAndMaxDepth();
 
         // These are the color scaling functions (one other is in the colorByGroup function)
     let color = d3.scaleLinear()
         .domain([minDepth, maxDepth])
         .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
         .interpolate(d3.interpolateHcl);
-    let psfs = d3.scaleLinear()
+    let nullText = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
 
@@ -543,6 +538,22 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
       } // End of collapse function
 
+      function findActualLeafNodes() {
+        nodes.forEach(d => {
+          if(d.data.name == 'null~null~null') { d.data.leaf = false; }
+          if(d.children) { 
+            if(d.children.length == 1 && d.children[0].data.name == 'null~null~null'){d.data.leaf = true;}
+          } else { d.data.leaf = true; }
+        });
+      }
+
+      function findMinAndMaxDepth() {
+        nodes.forEach(node => {
+          if (node.depth < minDepth) minDepth = node.depth;
+          if (node.depth > maxDepth) maxDepth = node.depth;
+        });
+      }
+
     /*******************************************************
         * Taxonomy Functions Section *
     *******************************************************/
@@ -761,7 +772,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
         if (d.nr <= 14) { d.font = 0; } 
-        else { d.font = psfs(d.nr); }
+        else { d.font = nullText(d.nr); }
         // console.log('This is d.font', d.font);
 
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
