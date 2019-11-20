@@ -640,9 +640,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         if (d.leaf) { if(d.leaf == true) return 1; }
                         return d.parent === focus ? 1 : 0; 
                       })
-                      .style("display", d => {
-                        if (d.leaf) { if(d.leaf == true) return "inline"; } 
-                      })
+                      // .style("display", d => {
+                      //   if (d.leaf) { if(d.leaf == true) return "inline"; } 
+                      // })
                       .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceOne)
                       .text(d => d.data.text1);
