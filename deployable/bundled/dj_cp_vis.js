@@ -207,91 +207,31 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             /*/ / Input the dimension values in the options / /*/ 
     this.options.influence['values'] = [];
     this.options.group['values'] = [];
-        // Manually insert the default values into the config. This is for node influence option (dynamic node sizing )
+        // Manually insert the default values into the config, then configure the dimensions and measures into the vis. This is for node influence option (dynamic node sizing )
     let val = {"None": "null"};  
     this.options.influence['values'].push(val);
     this.options.group['values'].push(val);
-
     configureInfluenceAndGroup();
-    
 
     
             //*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*//
-    if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
-        taxonomyPass = [];
-        let pull = config.influence; // Grab the dimension that the influence is using..
-        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
-    }
-    if (config.groupSwitch == true && config.useGroupInVis == false && config.useInfluenceInVis == true) { // If group's dimension is being pulled but not influence
-        taxonomyPass = [];
-        let pull = config.group;
-        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
-    }
-    if (config.groupSwitch == true && config.influenceSwitch == true && config. useGroupInVis == false && config.useInfluenceInVis == false) {
-        taxonomyPass = [];
-        let groupDimen = config.group;
-        let influenceDimen = config.influence;
-        dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
-    }
-    console.log('This is the taxonomy pass', taxonomyPass);
+    configureBurrowTaxonomy();
 
 
             /*/ / Show/Hide influence (Variable factor select statement) / /*/
-    if (config.influenceSwitch == true && this.options.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
-          this.options.influence.hidden = false;
-          this.options.useInfluenceInVis.hidden = false;
-          this.trigger('registerOptions', this.options);
-    }
-    if (config.influenceSwitch == false && this.options.influence.hidden == false) { // Then hide the influence setting
-            this.options.influence.hidden = true;
-            this.options.useInfluenceInVis.hidden = true;
-            this.trigger('registerOptions', this.options);
-    } 
-
-    if (config.groupSwitch == true && this.options.group.hidden == true) { // Same for the group settings
-            this.options.group.hidden = false;
-            this.options.useGroupInVis.hidden = false;
-            this.trigger('registerOptions', this.options);
-    }
-    if (config.groupSwitch == false && this.options.group.hidden == false) {
-            this.options.group.hidden = true;
-            this.options.useGroupInVis.hidden = true;
-            this.trigger('registerOptions', this.options);
-    }
-
-    // console.log('Configuration settings');
-    // console.log(`Influence switch: ${config.influenceSwitch}`);
-    // console.log(`Influence value: ${config.influence}`);
-    // console.log(`Group value: ${config.group}`);
-    // console.log(`Group switch: ${config.influence}`);
-
+    configureDisplay();
 
     /**********************
      * Error Clauses 
     **********************/
     // this.clearErrors(); // Clear any errors from previous updates.
-        // Create different cases for potential errors that could occur // Throw some errors and exit if the shape of the data isn't what this chart needs.
-    if (queryResponse.fields.dimensions.length == 0) {
+    if (queryResponse.fields.dimensions.length == 0) { // This throws error if there are no dimensions for the hierarchy
       this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
       return;
     }
     
         // Check if the config.influence is a dimension, and if they're not numbers
-    if (config.influenceSwitch == true) {
-        if (config.influence != 'null' ) {
-            let numberchecker = 0;
-            let error = false;
-            data.forEach(node => {
-                // console.log(`Node error clause `, node[config.influence].value) 
-                if (typeof(node[config.influence].value) == 'number') numberchecker ++;
-                if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
-            })
-            if (numberchecker < 1 || error == true) {
-                this.addError({title: "Factor error", message: "The variable factor must be a number"})
-            }
-        }
-    }
-     
+    checkSelectedInfluence();
     
     /*********************************************************
      * Preload the data for the visual 
@@ -517,8 +457,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-
-
     /*******************************************************
         * Configuration and Data's Functions Section *
     *******************************************************/
@@ -566,7 +504,77 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of configureInfluenceAndGroup
 
 
-    
+    function configureBurrowTaxonomy() {
+      if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
+        taxonomyPass = [];
+        let pull = config.influence; // Grab the dimension that the influence is using..
+        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
+      }
+      if (config.groupSwitch == true && config.useGroupInVis == false && config.useInfluenceInVis == true) { // If group's dimension is being pulled but not influence
+        taxonomyPass = [];
+        let pull = config.group;
+        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
+      }
+      if (config.groupSwitch == true && config.influenceSwitch == true && config. useGroupInVis == false && config.useInfluenceInVis == false) {
+        taxonomyPass = [];
+        let groupDimen = config.group;
+        let influenceDimen = config.influence;
+        dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
+      }
+      console.log('This is the taxonomy pass', taxonomyPass);
+    } // End of configureBurrowTaxonomy
+
+
+    function configureDisplay() {
+      if (config.influenceSwitch == true && this.options.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
+          this.options.influence.hidden = false;
+          this.options.useInfluenceInVis.hidden = false;
+          this.trigger('registerOptions', this.options);
+      }
+      if (config.influenceSwitch == false && this.options.influence.hidden == false) { // Then hide the influence setting
+            this.options.influence.hidden = true;
+            this.options.useInfluenceInVis.hidden = true;
+            this.trigger('registerOptions', this.options);
+      } 
+
+      if (config.groupSwitch == true && this.options.group.hidden == true) { // Same for the group settings
+            this.options.group.hidden = false;
+            this.options.useGroupInVis.hidden = false;
+            this.trigger('registerOptions', this.options);
+      }
+      if (config.groupSwitch == false && this.options.group.hidden == false) {
+            this.options.group.hidden = true;
+            this.options.useGroupInVis.hidden = true;
+            this.trigger('registerOptions', this.options);
+      }
+
+      // console.log('Configuration settings');
+      // console.log(`Influence switch: ${config.influenceSwitch}`);
+      // console.log(`Influence value: ${config.influence}`);
+      // console.log(`Group value: ${config.group}`);
+      // console.log(`Group switch: ${config.influence}`);
+
+    } // End of configureDisplay
+
+    function checkSelectedInfluence() {
+      if (config.influenceSwitch == true) {
+        if (config.influence != 'null' ) {
+            let numberchecker = 0;
+            let error = false;
+            data.forEach(node => {
+                // console.log(`Node error clause `, node[config.influence].value) 
+                if (typeof(node[config.influence].value) == 'number') numberchecker ++;
+                if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
+            })
+            if (numberchecker < 1 || error == true) {
+                this.addError({title: "Factor error", message: "The variable factor must be a number"})
+            }
+        }
+      }
+    } // End of checkSelectedInfluence
+
+
+
 
 
     /*******************************************************
