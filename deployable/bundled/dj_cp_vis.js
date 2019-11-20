@@ -631,6 +631,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none";
                     console.log('This is the focus', focus);
                     console.log('This is the parent', d.parent);
+                    if (focus.leaf) {
+                      if(focus.leaf == true) this.style.display = "inline";
+                    }
                     
                     d3.select(this)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
