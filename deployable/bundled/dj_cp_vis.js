@@ -204,15 +204,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     grabUniqueValues();
 
             /*/ / Input the dimension values in the options / /*/ 
-    let options = this.options;
+    let settings = this.options;
     console.log('This is the options var inherited from the this.options var', options);
-    options.influence['values'] = [];
-    options.group['values'] = [];
+    settings.influence['values'] = [];
+    settings.group['values'] = [];
         // Manually insert the default values into the config, then configure the dimensions and measures into the vis
     let val = {"None": "null"};  
-    options.influence['values'].push(val);
-    options.group['values'].push(val);
-    configureInfluenceAndGroup();
+    settings.influence['values'].push(val);
+    settings.group['values'].push(val);
+    configureInfluenceAndGroup(); 
+    this.options = settings;
 
             /*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*/
     configureBurrowTaxonomy();
@@ -475,24 +476,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     function configureInfluenceAndGroup() {
-      console.log('This is the configuration');
-      console.log(options());
+      console.log('This is the settings');
+      console.log(settings);
             // Adds all the different dimensions as 
       measures.forEach(mes => { // Value object >.>  {"name": "value"} 
         let key = mes.label; // Key of value pair
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        if (config.influenceSwitch) options.influence['values'].push(val);
-        if (config.groupSwitch) options.group['values'].push(val);
+        if (config.influenceSwitch) settings.influence['values'].push(val);
+        if (config.groupSwitch) settings.group['values'].push(val);
       });
       dimensions.forEach(dimension => {
         let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        if (config.influenceSwitch) options.influence['values'].push(val);
-        if(config.groupSwitch) options.group['values'].push(val);
+        if (config.influenceSwitch) settings.influence['values'].push(val);
+        if(config.groupSwitch) settings.group['values'].push(val);
       });
     } // End of configureInfluenceAndGroup
 
