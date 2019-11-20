@@ -527,26 +527,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       function findActualLeafNodes() {
           nodes.forEach(d => {
-              if(d.data.name == 'null~null~null') { d.data.leaf = false; }
+              if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
 
-              if(d.children) { 
-                  if (d.children.length == 1 && d.children[0].data.name == 'null~null~null'){d.data.leaf = true;}
-              } else if(d._children) {
+              if(d._children) {
                   if (d._children.length == 1) {
                       if (d._children[0].data.name == 'null~null~null') d.data.leaf = true;
+                      if (d._children[0].data.name == 'null') d.data.leaf= true;
                   } else if (d._children.length > 1) {
-                      let checker = false;
+                      let checker = true;
                       for(let i = 0; i < d._children.length; i++) {
-                          if(d._children[i] == 'null')  {
-                              checker = true; 
-                              continue;
-                          } else if (d._children[i] == 'null~null~null') {
-                              checker = true;
-                              continue; 
-                          } else { break; }
+                          if(d._children[i] != 'null')  {
+                              checker = false; 
+                              break;
+                          }
                       } // for loop end
+                      if(checker) {d.data.leaf = true}
                   } // else if end 
-              } else { d.data.leaf = true; }
+              } // end of d._children: We're only looking for the nodes that have all collapsed null values
+              if (!(d.children)) d.data.leaf = true;
           }); // forEach end
       } // End of FindActualLeafNodes
 
