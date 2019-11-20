@@ -188,6 +188,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (settings == this.options) { console.log("These settings are identical!") } 
     else { console.log('These settings are not identical') }
     settings.influence['values'] = [];
+    let valobject = {"somethingnew": "Moar random datum"};
+    settings.influence['values'].push(valobject);
     if (settings == this.options) { console.log("The settings have changed but the values are still declared the same.")}
     else { console.log("The settings have changed and the values are declared not identical.")}
 
@@ -228,12 +230,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Preload the data for the visual 
     *********************************************************/
     clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-
        // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let min = 100000000000;
     let max = -111111111111;
     minAndMaxInfluenceValues();
-
     
         /*/ / This is for sizing the svg and the header correctly / /*/
     let headerSpace;
@@ -241,15 +241,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let height;
     let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
     let circleHeight = window.innerHeight;
-    refactorCircleViewport();
-
+    refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
       // Initialize the visual's data and construct the rest of the hierarchy
     let view;
     let uniqueId = -1;
 
         // Package data for the burrow function
     packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
-    
         // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
     let newTaxonomy = [];
     nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
@@ -259,21 +257,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
-
-    console.log('This is the root', root);
-                    // root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes // This may be deprecated        
+    root.name = root.children[0].data.name;
     let nodes = root.descendants().slice(1);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
 
-
         // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
     findActualLeafNodes();
-    
         // Find the min and max values of the hierarchy for the color scale function
     let maxDepth = -10;
     let minDepth = 100;
     findMinAndMaxDepth();
-
         // These are the color scaling functions (one other is in the colorByGroup function)
     let color = d3.scaleLinear()
         .domain([minDepth, maxDepth])
