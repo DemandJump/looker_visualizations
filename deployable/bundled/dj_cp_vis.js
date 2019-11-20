@@ -531,8 +531,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
               if(d._children) {
                   if (d._children.length == 1) {
-                      if (d._children[0].data.name == 'null~null~null') d.data.leaf = true;
-                      if (d._children[0].data.name == 'null') d.data.leaf= true;
+                      if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
+                      if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
+                      // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
+                      // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
                   } else if (d._children.length > 1) {
                       let checker = true;
                       for(let i = 0; i < d._children.length; i++) {
