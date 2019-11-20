@@ -228,7 +228,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let circleHeight = window.innerHeight;
     refactorCircleViewport();
 
-        // Initialize the visual's data and construct the rest of the hierarchy
+      // Initialize the visual's data and construct the rest of the hierarchy
     let view;
     let uniqueId = -1;
 
@@ -246,23 +246,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children.forEach(collapseNulls);
 
     console.log('This is the root', root);
-
-    function collapseNulls(d) {
-        d._children = [];
-        if(d.children) {
-            d.children.forEach(collapseNulls); // For each child run this collapse function
-
-            d._children = []; 
-            d.children.forEach( (child, index) => {
-                if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
-                    d._children.push(child); // Add child to side list
-                    d.children.splice(index, 1);
-                }
-            });
-
-        }
-    } // End of collapse function
-    root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
+                    // root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes // This may be deprecated        
     let nodes = root.descendants().slice(1);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
 
@@ -534,7 +518,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
       } // End of refactorCircleViewport
 
-
+      function collapseNulls(d) {
+        d._children = [];
+        if(d.children) {
+            d.children.forEach(collapseNulls); // For each child run this collapse function
+            d._children = []; 
+            d.children.forEach( (child, index) => {
+                if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
+                    d._children.push(child); // Add child to side list
+                    d.children.splice(index, 1);
+                }
+            });
+        }
+      } // End of collapse function
 
     /*******************************************************
         * Taxonomy Functions Section *
