@@ -325,19 +325,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
             .attr('class', 'node')
-            // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
-            .attr("fill", d => {
-                if (d.color) return "white";
-                return d.children ? color(d.depth) : "white";
-            })
-            .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
-            .on("mouseover", function() { 
-              d3.select(this)
-                .attr("stroke", "#000")
-                .attr('stroke-width', d => `${d.height}px`); 
-            }) // Highight the border based hover
-            .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-            .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+            .attr('r', d => d.r)
+            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .attr('fill', d => d.children ? color(d.depth) : 'white')
+            .attr('pointer-events', d => !d.children ? 'none' : null)
 
     const label = svg.append("g")
         .attr('class', 'text')
@@ -346,6 +337,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .selectAll("text.text")
             .data(nodes, function(d) { return d} ).enter()
             .append("text")
+                .attr('class', 'text1')
+                .attr('transform', d => `translate(${d.x}, ${d.y})`)
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
@@ -359,6 +352,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .selectAll('text.text2')
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
+                .attr('class', 'text1')
+                .attr('transform', d => `translate(${d.x}, ${d.y})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
@@ -373,6 +368,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .selectAll('text.text3')
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
+                .attr('class', 'text1')
+                .attr('transform', d => `translate(${d.x}, ${d.y})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
@@ -386,6 +383,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .selectAll('text.text3')
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
+                .attr('class', 'text1')
+                .attr('transform', d => `translate(${d.x}, ${d.y})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
@@ -393,7 +392,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
 
-    zoomTo([root.x, root.y, root.r * 2]);
+
+    // zoomTo([root.x, root.y, root.r * 2]);
 
     /*******************************************************
         * Functions Section *

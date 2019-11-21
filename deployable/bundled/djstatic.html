@@ -409,82 +409,59 @@ let focus = root;
 let nodes = root.descendants();
 
 // console.log('format', format);
-console.log('Data: ', data);
+// console.log('Data: ', data);
 console.log('root', root);
 
 
 
-const svg = d3.select("body").append("svg")
+let svg = d3.select('body').append('svg')
     .attr('class', 'svg')
-    .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom 
-    .style("display", "block") 
-    .style("margin", "0 -14px")
-    .style("background", color(0))
-    .style("cursor", "pointer")
-    .style("max-height", window.innerWidth) // Essential for responsive media
-    .style("max-width", window.innerHeight) // This one makes it nice and spacy
-    .on("click", () => zoom(root)); // This zoom function 
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', color(0))
 
-const node = svg.append("g")
+let node = svg.append('g')
     .attr('class', 'nodes')
-    .selectAll("circle")
-    .data(nodes).enter()
-    .append("circle")
-        .attr('class', 'node')
-        .attr("fill", d => d.children ? color(d.depth) : "white")
-        .attr("pointer-events", d => !d.children ? "none" : null)
-        .on("mouseover", function() { d3.select(this).attr("stroke", "#000"); }) // Highight the border based hover
-        .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-        .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
-
-const label = svg.append("g")
-    .attr('class', 'text')
-    .style("font", "10px sans-serif")
-    .attr("pointer-events", "none")
-    .attr("text-anchor", "middle")
-        .selectAll("text")
+        .selectAll("circle")
         .data(nodes).enter()
-        .append("text")
-            .style("fill-opacity", d => d.parent === root ? 1 : 0)
-            .style("display", d => d.parent === root ? "inline" : "none")
-            .text(d => d.data.value);
-
-zoomTo([root.x, root.y, root.r * 2]);
-
-
+        .append("circle")
+            .attr('class', 'node')
+            .attr('r', d => d.r)
+            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .attr('fill', d => d.children ? color(d.depth) : 'white')
+            .attr('pointer-events', d => !d.children ? 'none' : null)
 
 
+            
 
-function zoomTo(v) {
-    // console.log('v', v); // coordinates and scale
-    const k = width / v[2]; // Divide the size of the svg based on the scale of the size
-    view = v;
 
-    label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    node.attr("r", d => d.r * k); // This changes the size of the nodes with reference to the change of the camera
-}
 
-function zoom(d) {
-    console.log('Focus', focus); // This is the current node that they're on 
-    const focus0 = focus;
-    focus = d;
 
-    const transition = svg.transition() 
-        .duration(d3.event.altKey ? 7400 : 740)  
-        .tween("zoom", d => { // Tween
-            const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-            return t => zoomTo(i(t));
-        });
 
-        // This is what chooses when the text elements are showing or not based on the focus(current node)
-    label
-        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-        .transition(transition)
-            .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function originalPack(data) {
     return d3.pack()
@@ -505,11 +482,9 @@ function color(n) {
 }
 
 
-    </script>
-</html>
-  
 
 
 
 
-
+</script>
+</script>
