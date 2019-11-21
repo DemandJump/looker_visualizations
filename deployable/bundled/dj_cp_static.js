@@ -188,11 +188,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('This is the taxonomy pass', taxonomyPass);
     }
 
-    // console.log('\n\n Configuration settings');
-    // console.log(`Influence Switch: ${config.influenceSwitch}`);
-    // console.log(`Measure Influence: ${config.influence}`);
-
-
     /**********************
      * Error Clauses 
     **********************/
@@ -300,27 +295,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
 
-        
-    // nodes.forEach( (node, i) => {
-    //     if (node.data.name == 'null') {
-    //         node.id = i;
-    //         node.r = 0;
-    //         node.value = 1;
-    //         if (node.children) {
-    //             node._children = node.children;
-    //             node.children = null;
-    //         }
-    //     }
-
-    // });
-
-    // for(let i = 0; i < nodes.length; i++) {
-    //     console.log(`${i}:: This is the node`, nodes[i]);
-    //     if (nodes[i].data.name == 'null') {
-    //         delete nodes[i];
-    //         // i--;
-    //     }
-    // }
     let allNodes = 0;
     let counter = 0;
     nodes.forEach(node => {
@@ -330,7 +304,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
     });
     console.log(`These are a total of ${allNodes} nodes, and ${counter} were null`);
-
 
 
 
@@ -352,7 +325,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
         .style("max-width", window.innerHeight + 20) // This one makes it nice and spacy
-        // .on("click", () => zoomThenRefactor(root)); // This zoom function 
+        .on("click", () => zoomThenRefactor(root)); // This zoom function 
 
     const node = svg.append("g")
         .attr('class', 'nodes')
@@ -362,8 +335,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             // .attr('id', d => { if(d.depth == 0){ return "root";} }) // Give root the id for notch selector
             .attr("fill", d => {
-                // if (d.children == [] || d.children) { return color(d.depth); }
-                // else { return "white"; }
                 if (d.color) return "white";
                 return d.children ? color(d.depth) : "white";
             })
@@ -373,8 +344,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr("stroke", "#000")
                 .attr('stroke-width', d => `${d.height}px`); 
             }) // Highight the border based hover
-            // .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-            // .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+            .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
+            .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
 
     const label = svg.append("g")
         .attr('class', 'text')
@@ -620,67 +591,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
         let tBox = 1;
 
-        // if (words.length <= 4) { // 
-            
-        //     for(i = 0; i < words.length; i++) {
-        //         if (tBox == 1) {
-        //             if (d.data.text1 == '') {
-        //                 d.data.text1 = words[i] + ' ';
-        //                 continue;
-        //             } else {
-        //                 if (words.length <= 5) {
-        //                     d.data.text1 = d.data.text1 + words[i] + ' ';
-        //                     d.data.textuse = 2;
-        //                     tBox ++;
-        //                     continue;
-        //                 }
-        //                 tBox ++;
-        //             }
-        //         }
-
-        //         if (tBox == 2) {
-        //             if (d.data.text2 == '') {
-        //                 d.data.text2 = words[i] + ' ';
-        //                 continue;
-        //             } else {
-        //                 if (words.length <= 5) {
-        //                     d.data.text2 = d.data.text2 + words[i] + ' ';
-        //                     d.data.textuse = 3;
-        //                     tBox ++;
-        //                     continue;
-        //                 }
-        //                 tBox ++;
-        //             }
-        //         }
-
-        //         if (tBox == 3) {
-        //             if (d.data.text3 == '') {
-        //                 d.data.text3 = words[i] + ' ';
-        //                 continue;
-        //             } else {
-        //                 if (words.length <= 5) {
-        //                     d.data.text3 = d.data.text3 + words[i] + ' ';
-        //                     d.data.textuse = 4;
-        //                     tBox ++;
-        //                     continue;
-        //                 }
-        //                 tBox ++;
-        //             }
-        //         }
-
-        //         if (tBox == 4) {
-        //             if (d.data.text4 == '') {
-        //                 d.data.text4 = words[i] + ' ';
-        //                 continue;
-        //             } else {
-        //                 d.data.text4 = d.data.text4 + words[i] + ' ';
-        //                 continue;
-        //             }
-        //         }
-
-        //     } // End of for loop
-
-        // } else {
             for(i = 0; i < words.length; i++) {
                 if (tBox == 1) {
                     if (d.data.text1 == '') {
@@ -804,14 +714,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : `${four}px`;
     }
 
-
-    /*
-      //4// t1: -24px, t2: -8px, t3:  8px, t4:  24px
-      //3// t1: -16px, t2:  0px, t3:  16px, t4:  0px
-      //2// t1: -8px, t2:  8px, t3:  0px, t4:  0px
-      //1// t1:  0px, t2:  0px, t3:  0px, t4:  0px
-    */
-        // based on d.data.textuse
     function spaceOne(d) {
         return d.data.textuse == 1 ? '0px'
         : d.data.textuse == 2 ? '-6px'
@@ -837,10 +739,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '18px';
     }
     
-
-
-
-
 
         // This is the function that simulates a click on a selected element
     function simulateClick(el, etype){
