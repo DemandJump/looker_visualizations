@@ -394,11 +394,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     zoomTo([root.x, root.y, root.r * 2]);
-    // simulateClick(document.querySelector('.node'), 'click');
-
-
-
-
 
     /*******************************************************
         * Functions Section *
@@ -731,23 +726,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : '18px';
     }
     
-
-        // This is the function that simulates a click on a selected element
-    function simulateClick(el, etype){
-        if (el.fireEvent) {
-            el.fireEvent('on' + etype);
-        } else {
-            var evObj = document.createEvent('MouseEvents');
-            evObj.initEvent(etype, true, false);
-            var canceled = !el.dispatchEvent(evObj);
-            if (canceled) { // A handler called preventDefault.
-                console.log("automatic click canceled");
-            } else {
-                // None of the handlers called preventDefault.
-            } 
-        }
-    }
-
     /**************** Done! *****************/
     doneRendering() // Always call done to indicate a visualization has finished rendering
 }
