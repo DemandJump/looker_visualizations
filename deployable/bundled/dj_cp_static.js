@@ -427,7 +427,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         nodes.forEach(d => {
             if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
 
-            if(d._children) {
+            if(!d.children && d._children) {
                 if (d._children.length == 1) {
                     if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
                     if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
