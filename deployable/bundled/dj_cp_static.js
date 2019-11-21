@@ -256,8 +256,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .attr('height', height)
         .style("background", color(0))
         .style("cursor", "pointer")
-        .style("max-height", window.innerWidth) // Essential for responsive media
-        .style("max-width", window.innerHeight + 20); // This one makes it nice and spacy
+        .style("max-height", height) // Essential for responsive media
+        .style("max-width", width); // This one makes it nice and spacy
 
     const node = svg.append("g")
         .attr('class', 'nodes')
@@ -268,7 +268,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('r', d => d.r)
             .attr('transform', d => `translate(${d.x}, ${d.y})`)
             .attr('fill', d => d.leaf ? 'white' : color(d.depth))
-            .attr('pointer-events', d => !d.children ? 'none' : null)
+            .attr('pointer-events', d => !d.children ? 'none' : null);
+            
 
     const label = svg.append("g")
         .attr('class', 'text')
