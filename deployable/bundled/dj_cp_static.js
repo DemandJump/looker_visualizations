@@ -51,8 +51,8 @@ looker.plugins.visualizations.add({
     
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
         element.innerHTML =`
-          <style>
-              @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+          <style>  
+              @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
               .text, .text2, .text3 { font-family: Roboto; font-weight: 300; }
               .header { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
               .header, .text, .text2, .text3 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
