@@ -269,7 +269,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             d._children = []; 
             d.children.forEach( (child, index) => {
-                console.log('Child', child);  
+                // console.log('Child', child);  
                 if (child.data.name == null || child.data.name == 'null') {
                     d._children.push(child); // Add child to side list
                     // delete d.children[child];
