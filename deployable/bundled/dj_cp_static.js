@@ -504,6 +504,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of refactorCircleViewport
 
     function showTextNodes(d) {
+      console.log('This is the first node!', node[0]);
+      console.log('This is the text node', d);
       if (d.parent.parent === root) return "inline";
       if (d.parent.parent !== root) return "none"; 
   }
