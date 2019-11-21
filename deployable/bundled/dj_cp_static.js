@@ -283,17 +283,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
 
-    
-    let vws = d3.scaleLinear()
-        .domain([20, 1200])
-        .range([2, 10]);
-    let vwsm = d3.scaleLinear()
-        .domain([20, 1200])
-        .range([.5, 5]);
     let psfs = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
-
 
     let allNodes = 0;
     let counter = 0;
@@ -401,7 +393,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
 
-    // zoomTo([root.x, root.y, root.r * 2]);
+    zoomTo([root.x, root.y, root.r * 2]);
     // simulateClick(document.querySelector('.node'), 'click');
 
 
