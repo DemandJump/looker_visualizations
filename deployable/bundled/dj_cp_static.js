@@ -286,8 +286,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .style("background", color(0))
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
-        .style("max-width", window.innerHeight + 20) // This one makes it nice and spacy
-        .on("click", () => zoomThenRefactor(root)); // This zoom function 
+        .style("max-width", window.innerHeight + 20); // This one makes it nice and spacy
 
     const node = svg.append("g")
         .attr('class', 'nodes')
