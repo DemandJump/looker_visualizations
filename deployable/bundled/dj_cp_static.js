@@ -210,65 +210,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
      * Preload the data for the visual 
     *********************************************************/
    clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-
-        // Now run through the data, grab the min and max, then replace all the nulls with the min value
-    let min = 100000000000;
+    let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let max = -111111111111;
     minAndMaxInfluenceValues();
-  
 
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
-    let view;
-        /*/ / This is for sizing the svg and the header correctly / /*/
     let headerSpace;
     let width;
     let height;
-    // let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
     let circleHeight = window.innerHeight;
     refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
-      // Initialize the visual's data and construct the rest of the hierarchy
 
     const root = pack(burrow);
     let focus = root;
     root.children[0].data.id = 'tether';
-
     root.children.forEach(collapse);
-    function collapse(d) {
-        d._children = [];
-        if(d.children) {
-            d.children.forEach(collapse); // For each child run this collapse function
-
-            d._children = []; 
-            d.children.forEach( (child, index) => {
-                // console.log('Child', child);  
-                if (child.data.name == null || child.data.name == 'null') {
-                    d._children.push(child); // Add child to side list
-                    // delete d.children[child];
-                    d.children.splice(index, 1);
-                }
-            });
-
-        }
-    } // End of collapse function
-
-    root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
+    findActualLeafNodes();  // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
 
     let nullText = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
-
-    let allNodes = 0;
-    let counter = 0;
-    nodes.forEach(node => {
-        node.nr = node.r;
-        allNodes++;
-        if(node.data.name == 'null' || node.data.name == null) {
-          counter++;
-        }
-    });
-
+        
 
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
@@ -280,7 +244,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
    d3.select('.header')
       .style('height', headerSpace)
       .html(nodes[0].data.name);
-
 
     let container = this._container
         .style('box-sizing', 'border-box')
@@ -304,7 +267,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             .attr('r', d => d.r)
             .attr('transform', d => `translate(${d.x}, ${d.y})`)
-            .attr('fill', d => d.children ? color(d.depth) : 'white')
+            .attr('fill', d => d.leaf ? 'white' : color(d.depth))
             .attr('pointer-events', d => !d.children ? 'none' : null)
 
     const label = svg.append("g")
@@ -389,6 +352,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function minAndMaxInfluenceValues() {
            // Now run through the data, grab the min and max, then replace all the nulls with the min value
       data.forEach(node => { // Find min and max values in data
+        node.nr = node.r; // This is just to give a reference to a deprecated transition variable
         if (min > node.value) min = node.value;
         if (max < node.value) max = node.value;
       });
@@ -441,6 +405,49 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.depth == 2) return "inline";
         return "none"
     }
+
+    function collapse(d) {
+        d._children = [];
+        if(d.children) {
+            d.children.forEach(collapse); // For each child run this collapse function
+
+            d._children = []; 
+            d.children.forEach( (child, index) => {
+                // console.log('Child', child);  
+                if (child.data.name == null || child.data.name == 'null') {
+                    d._children.push(child); // Add child to side list
+                    // delete d.children[child];
+                    d.children.splice(index, 1);
+                }
+            });
+
+        }
+    } // End of collapse function
+
+    function findActualLeafNodes() {
+        nodes.forEach(d => {
+            if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
+
+            if(d._children) {
+                if (d._children.length == 1) {
+                    if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
+                    if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
+                    // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
+                    // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
+                } else if (d._children.length > 1) {
+                    let checker = true;
+                    for(let i = 0; i < d._children.length; i++) {
+                        if(d._children[i] != 'null')  {
+                            checker = false; 
+                            break;
+                        }
+                    } // for loop end
+                  if(checker) {d.data.leaf = true}
+                } // else if end 
+            } // end of d._children: We're only looking for the nodes that have all collapsed null values
+            if (!(d.children)) d.data.leaf = true;
+        }); // forEach end
+    } // End of FindActualLeafNodes
     
     function pack(data) {
         if (config.influenceSwitch == true && config.influence != 'null') {
@@ -500,8 +507,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .interpolate(d3.interpolateHcl)
     }
 
-        
- 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
         if (d.nr <= 14) { d.font = 0; } 
