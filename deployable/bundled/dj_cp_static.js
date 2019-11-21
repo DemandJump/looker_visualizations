@@ -312,7 +312,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                .attr('dy', spaceOne)
+                .attr('dy', tspaceOne)
                 .text(d => d.data.text1);
               
     const label2 = svg.append("g")
@@ -327,7 +327,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .attr('dy', spaceTwo)
+                .attr('dy', tspaceTwo)
                 .text(d => d.data.text2);
 
 
@@ -343,7 +343,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .attr('dy', spaceThree)
+                .attr('dy', tspaceThree)
                 .text(d => d.data.text3);
 
     const label4 = svg.append("g")
@@ -358,7 +358,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .attr('dy', spaceFour)
+                .attr('dy', tspaceFour)
                 .text(d => d.data.text4);
 
 
