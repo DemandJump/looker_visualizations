@@ -631,13 +631,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none";
 
                     d3.select(this)
-                      .style("fill-opacity", d => {
-                        if (d.leaf) { if(d.leaf == true) return 1; }
-                        return d.parent === focus ? 1 : 0; 
+                      .style("display", d => {
+                        if (d.leaf) { if(d.leaf == true) return "inline"; } 
+                        else { if(d.parent === focus) return "none" }
                       })
-                      // .style("display", d => {
-                      //   if (d.leaf) { if(d.leaf == true) return "inline"; } 
-                      // })
                       .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                       .attr('dy', tSpaceOne)
                       .text(d => d.data.text1);
