@@ -277,7 +277,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-   d3.select('.header').style('height', headerSpace);
+   d3.select('.header')
+      .style('height', headerSpace)
+      .html(nodes[0].data.name);
 
     let svg = this._svg        
         // .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
