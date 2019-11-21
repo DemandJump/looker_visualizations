@@ -281,6 +281,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .style('height', headerSpace)
       .html(nodes[0].data.name);
 
+
+    let container = this._container
+        .style('box-sizing', 'border-box')
+        .style('text-align', 'center')
+        .style('margin', '0 auto');
+
     let svg = this._svg        
         // .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
         .attr('width', width)
@@ -363,88 +369,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
 
-
-    // zoomTo([root.x, root.y, root.r * 2]);
-
     /*******************************************************
         * Functions Section *
     *******************************************************/
-
-    function zoom(d) {
-        // console.log('Focus', focus) // This is the current node that they're on 
-        const focus0 = focus;
-        focus = d;
-
-        const transition = svg.transition() 
-            .duration(d3.event.altKey ? 6400 : 640)  
-            .tween("zoom", d => { // Tween
-                const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-                return t => zoomTo(i(t));
-            });
-
-        label
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none";
-                    
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceOne)
-                      .text(d => d.data.text1);
-                });
-
-
-
-
-        label2
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceTwo)
-                      .text(d => d.data.text2);
-                });
-
-        label3
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceThree)
-                      .text(d => d.data.text3);
-                });
-        label4
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceFour)
-                      .text(d => d.data.text4);
-                });
-
-    }
  
         // We need a function that chooses between the data we append through the node hierarchy and this new visual
     function clearInfluenceNulls() {
