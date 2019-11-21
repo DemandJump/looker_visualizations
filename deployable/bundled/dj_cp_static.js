@@ -309,6 +309,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('root', root);
     console.log('nodes', nodes);
     let v = [root.x, root.y, root.r];
+    v = [1, 1, root.r];
     let k = width / v[2];
 
     /******************************************************************************************************************************************
