@@ -253,10 +253,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
-    let view,
-    vWidth = window.innerWidth,
-    vHeight = window.innerHeight,
-    width = height = window.innerHeight;
+    let view;
+
+        /*/ / This is for sizing the svg and the header correctly / /*/
+    let headerSpace;
+    let width;
+    let height;
+    let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
+    let circleHeight = window.innerHeight;
+    refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
+      // Initialize the visual's data and construct the rest of the hierarchy
+
     const root = pack(burrow);
     let focus = root;
     root.children[0].data.id = 'tether';
@@ -309,7 +316,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ******************************************************************************************************************************************/
 
     let svg = this._svg        
-        .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
+        .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
         .style("background", color(0))
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
@@ -337,7 +344,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
-                .style("display", d => d.parent === root ? "inline" : "none")
+                .attr('display', d => showTextNodes(d))
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceOne)
                 .text(d => d.data.text1);
@@ -352,7 +359,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceTwo)
                 .text(d => d.data.text2);
@@ -368,7 +375,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceThree)
                 .text(d => d.data.text3);
@@ -383,7 +390,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
+                .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', spaceFour)
                 .text(d => d.data.text4);
@@ -422,6 +429,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       .attr('dy', tSpaceOne)
                       .text(d => d.data.text1);
                 });
+
+
+
 
         label2
             .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
@@ -469,6 +479,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     }
 
+
+    function refactorCircleViewport() {
+            // This ensures there's no scrolling for the viewport!
+        if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
+            headerSpace = 40;
+            width = circleHeight - 40;
+            height = circleHeight - 40;
+            viewBoxFactor = height + 35;
+        } else {
+            headerSpace = circleHeight * .1;
+            width = circleHeight * .9;
+            height = circleHeight * .9;
+            viewBoxFactor = height + 35;
+        }
+    } // End of refactorCircleViewport
+
+    function showTextNodes(d) {
+      if (d.parent.parent === root) return "inline";
+      if (d.parent.parent !== root) return "none"; 
+  }
     
     function pack(data) {
         if (config.influenceSwitch == true && config.influence != 'null') {
