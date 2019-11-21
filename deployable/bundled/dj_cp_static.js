@@ -290,14 +290,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let allNodes = 0;
     let counter = 0;
     nodes.forEach(node => {
-        d.nr = d.r;
+        node.nr = node.r;
         allNodes++;
         if(node.data.name == 'null' || node.data.name == null) {
           counter++;
         }
     });
-    console.log(`These are a total of ${allNodes} nodes, and ${counter} were null`);
-
 
 
     // let nodes = root.descendants().slice(1); 
@@ -307,10 +305,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-    let container = this._container
-        .style('box-sizing', 'boder-box')
-        .style('text-align', 'center')
-        .style('margin', '0 auto');
 
     let svg = this._svg        
         .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
@@ -399,22 +393,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*******************************************************
         * Functions Section *
     *******************************************************/
-    function zoomTo(v) {
-        // console.log('v', v); // coordinates and scale
-        const k = width / v[2]; // Divide the size of the svg based on the scale of the size
-        view = v;
-
-        label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        label4.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        node.attr("r", d => {
-            d.nr = d.r * k; // Variable to hold the changing radius size 
-            return d.r * k;
-        }); // This changes the size of the nodes with reference to the change of the camera
-
-    }
 
     function zoom(d) {
         // console.log('Focus', focus) // This is the current node that they're on 
@@ -489,19 +467,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     }
 
-    function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
-            // I instantiaed something wrong in the spacing, this works correctly!
-        label .attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
-        label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
-        label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
-        label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-    }
-
-    function zoomThenRefactor(d) {
-        zoom(d);
-        // refactor(d);
-    }
-
+    
     function pack(data) {
         if (config.influenceSwitch == true && config.influence != 'null') {
           
@@ -634,9 +600,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
             } // End of for loop 
 
-        // }
-
-// px linearscale to have reference from dy to the font size
 
         if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
             d.data.text1 = d.data.name;
@@ -702,30 +665,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : `${four}px`;
     }
 
-    function spaceOne(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '-6px'
-        : d.data.textuse == 3 ? '-12px'
-        : '-18px';
-    }
-    function spaceTwo(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '6px'
-        : d.data.textuse == 3 ? '0px'
-        : '-6px';
-    }
-    function spaceThree(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '0px'
-        : d.data.textuse == 3 ? '12px'
-        : '6px';
-    }
-    function spaceFour(d) {
-        return d.data.textuse == 1 ? '0px'
-        : d.data.textuse == 2 ? '0px'
-        : d.data.textuse == 3 ? '0px'
-        : '18px';
-    }
     
     /**************** Done! *****************/
     doneRendering() // Always call done to indicate a visualization has finished rendering
