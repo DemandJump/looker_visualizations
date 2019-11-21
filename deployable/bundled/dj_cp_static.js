@@ -209,10 +209,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*********************************************************
      * Preload the data for the visual 
     *********************************************************/
-   clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
+    clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
     let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let max = -111111111111;
     minAndMaxInfluenceValues();
+    
 
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
@@ -227,6 +228,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children[0].data.id = 'tether';
     root.children.forEach(collapse);
     let nodes = root.descendants().slice(1);
+    nodes.forEach(node => node.nr = node.r);
     findActualLeafNodes();  // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
 
     let nullText = d3.scaleLinear()
@@ -353,7 +355,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function minAndMaxInfluenceValues() {
            // Now run through the data, grab the min and max, then replace all the nulls with the min value
       data.forEach(node => { // Find min and max values in data
-        node.nr = node.r; // This is just to give a reference to a deprecated transition variable
         if (min > node.value) min = node.value;
         if (max < node.value) max = node.value;
       });
