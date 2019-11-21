@@ -290,6 +290,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let allNodes = 0;
     let counter = 0;
     nodes.forEach(node => {
+        d.nr = d.r;
         allNodes++;
         if(node.data.name == 'null' || node.data.name == null) {
           counter++;
