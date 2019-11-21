@@ -301,6 +301,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // let nodes = root.descendants().slice(1); 
     console.log('root', root);
     console.log('nodes', nodes);
+    let v = [root.x, root.y, root.r];
 
     /******************************************************************************************************************************************
         * Build the svg
@@ -321,7 +322,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .append("circle") 
             .attr('class', 'node')
             .attr('r', d => d.r)
-            .attr('transform', d => `translate(${d.x}, ${d.y})`)
+            .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
             .attr('fill', d => d.children ? color(d.depth) : 'white')
             .attr('pointer-events', d => !d.children ? 'none' : null)
 
@@ -333,7 +334,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append("text")
                 .attr('class', 'text1')
-                .attr('transform', d => `translate(${d.x}, ${d.y})`)
+                .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style("fill-opacity", d => d.parent === root ? 1 : 0)
                 .style("display", d => d.parent === root ? "inline" : "none")
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
@@ -348,7 +349,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .attr('class', 'text1')
-                .attr('transform', d => `translate(${d.x}, ${d.y})`)
+                .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
@@ -364,7 +365,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .attr('class', 'text1')
-                .attr('transform', d => `translate(${d.x}, ${d.y})`)
+                .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
@@ -379,7 +380,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .data(nodes, function(d) { return d} ).enter()
             .append('text')
                 .attr('class', 'text1')
-                .attr('transform', d => `translate(${d.x}, ${d.y})`)
+                .attr('transform', d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`)
                 .style('fill-opacity', d => d.parent === root ? 1 : 0)
                 .style('display', d => d.parent === root ? 'inline' : 'none')
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
