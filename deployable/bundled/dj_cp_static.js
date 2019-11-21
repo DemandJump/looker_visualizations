@@ -314,7 +314,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     ******************************************************************************************************************************************/
 
     let svg = this._svg        
-        .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
+        // .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
+        .attr('width', width)
+        .attr('height', height)
         .style("background", color(0))
         .style("cursor", "pointer")
         .style("max-height", window.innerWidth) // Essential for responsive media
