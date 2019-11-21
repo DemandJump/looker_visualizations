@@ -308,7 +308,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append("text")
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${d.x}, ${d.y})`)
-                .style("fill-opacity", d => d.parent === root ? 1 : 0)
+                .style("fill-opacity", d =>fillOpacity(d))
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', d => tSpaceOne(d))
@@ -323,7 +323,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${d.x}, ${d.y})`)
-                .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                .style('fill-opacity', d => fillOpacity(d))
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', d => tSpaceTwo(d))
@@ -339,7 +339,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${d.x}, ${d.y})`)
-                .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                .style('fill-opacity', d => fillOpacity(d))
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', d => tSpaceThree(d))
@@ -354,7 +354,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .append('text')
                 .attr('class', 'text1')
                 .attr('transform', d => `translate(${d.x}, ${d.y})`)
-                .style('fill-opacity', d => d.parent === root ? 1 : 0)
+                .style('fill-opacity', d => fillOpacity(d))
                 .attr('display', d => showTextNodes(d))
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .attr('dy', d => tSpaceFour(d))
@@ -504,12 +504,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of refactorCircleViewport
 
     function showTextNodes(d) {
-        console.log('This is the text node', d);
-        if (d.depth == 2) {
-            return "inline";
-          } else { 
-            return "none"; 
-        }
+        if (d.depth == 2) return "inline";
+        return "none";
+    }
+    
+    function fillOpacity(d) {
+        if (d.depth == 2) return "inline";
+        return "none"
     }
     
     function pack(data) {
