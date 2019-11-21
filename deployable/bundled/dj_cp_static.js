@@ -600,7 +600,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // of sizeText function ~ Builds text boxes and assigns font size
 
     function textSizing(d) {
-        if (d.data.id == 'tether') { return '54px'; }\
+        if (d.data.id == 'tether') { return '54px'; }
         if (d.r <= 14) { d.font = 0; }
         else { d.font = nullText(d.r); }
         return `${d.font}px`; 
