@@ -224,11 +224,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
 
     const root = pack(burrow);
-    let focus = root;
-    root.children[0].data.id = 'tether';
     root.children.forEach(collapse);
     let nodes = root.descendants().slice(1);
-    nodes.forEach(node => node.nr = node.r);
     findActualLeafNodes();  // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
 
     let nullText = d3.scaleLinear()
@@ -269,7 +266,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'node')
             .attr('r', d => d.r)
             .attr('transform', d => `translate(${d.x}, ${d.y})`)
-            .attr('fill', d => d.leaf ? 'white' : color(d.depth))
+            .attr('fill', d => d.data.leaf ? 'white' : color(d.depth))
             .attr('pointer-events', d => !d.children ? 'none' : null);
             
 
@@ -511,15 +508,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
-        if (d.nr <= 14) { d.font = 0; } 
-        else { d.font = nullText(d.nr); }
+        if (d.r <= 14) { d.font = 0; } 
+        else { d.font = nullText(d.r); }
         // console.log('This is d.font', d.font);
 
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
         d.data.textuse = 1;
         let words = d["data"]["name"].split(" ");
         let fchars = d.data.name.length;
-        let diameter = d.nr * 2; // Length of circle
+        let diameter = d.r * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
         let cirlen = diameter / 8.74;
         let t1 = Math.floor(fchars * .25); // : 22 // Desired percents of space each take up
@@ -599,16 +596,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (d.data.text3 == '') delete d.data.text3;
         if (d.data.text4 == '') delete d.data.text4;
           // Return the font size
-        // return '12px';  // return `${vws(d.nr)}vh`;
         return `${d.font}px`; 
     } // of sizeText function ~ Builds text boxes and assigns font size
 
     function textSizing(d) {
-        if (d.data.id == 'tether') { return '54px'; }
-        // return '12px'; // Original styling 
-        // return `${vws(d.nr)}vh`; // View height font scaling
-        if (d.nr <= 14) { d.font = 0; }
-        else { d.font = nullText(d.nr); }
+        if (d.data.id == 'tether') { return '54px'; }\
+        if (d.r <= 14) { d.font = 0; }
+        else { d.font = nullText(d.r); }
         return `${d.font}px`; 
     }
 
