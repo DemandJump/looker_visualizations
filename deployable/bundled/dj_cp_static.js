@@ -222,8 +222,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let height;
     let circleHeight = window.innerHeight;
     refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
-
-    const root = pack(burrow);
+    const root = pack(burrow); // Bread and butter for the circle packing layout
+    root.children[0].data.id = 'tether';
     root.children.forEach(collapse);
     let nodes = root.descendants().slice(1);
     findActualLeafNodes();  // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
