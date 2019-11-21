@@ -63,7 +63,8 @@ looker.plugins.visualizations.add({
             .attr('class', 'header')
 
         this._container = d3.select(element).append("div")
-            .attr('class', 'container');
+            .attr('class', 'container')
+            .attr('text-align', 'center');
 
         this._svg = d3.select('div.container').append("svg")
             .attr('class', 'svg');
