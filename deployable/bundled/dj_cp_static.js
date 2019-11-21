@@ -209,35 +209,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /*********************************************************
      * Preload the data for the visual 
     *********************************************************/
-        // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-    if (config.influence != 'null') {
-        data.forEach(node => {
-            // console.log('data[config.influence]', node[config.influence]);
-            // console.log('value of each', node[config.influence].value);
-            node['value'] = node[config.influence]['value'];
-        });
-    } else {
-      data.forEach(node => { 
-        node['value'] = 1;
-      });
-    }
+   clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
 
         // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let min = 100000000000;
     let max = -111111111111;
-    data.forEach(node => { // Find min and max values in data
-        if (min > node.value) min = node.value;
-        if (max < node.value) max = node.value;
-    });
-    data.forEach(node => { // If the node value is null, replace it with the min value
-        node.nullVal = 'false';
-        if (node.value == null || node.value == 'null') {
-          node.value = min;
-          node.nullVal = true;
-        }
-    });
-    console.log(`The finished min ${min}, and max ${max}`);
-
+    minAndMaxInfluenceValues();
   
 
         // Main variables for building the svg
@@ -278,7 +255,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.leaves().forEach(leaf => leaf.color = 'white'); // Add unique styling to leaf nodes
     let nodes = root.descendants().slice(1);
 
-    let psfs = d3.scaleLinear()
+    let nullText = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
 
@@ -467,6 +444,35 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 });
 
     }
+ 
+        // We need a function that chooses between the data we append through the node hierarchy and this new visual
+    function clearInfluenceNulls() {
+      if (config.influence != 'null') {
+        data.forEach(node => {
+            // console.log('data[config.influence]', node[config.influence]);
+            // console.log('value of each', node[config.influence].value);
+            node['value'] = node[config.influence]['value'];
+        });
+      } else { 
+        data.forEach(node => node['value'] = 1); 
+      }
+    } // End of clearInfluence Nulls
+
+    function minAndMaxInfluenceValues() {
+           // Now run through the data, grab the min and max, then replace all the nulls with the min value
+      data.forEach(node => { // Find min and max values in data
+        if (min > node.value) min = node.value;
+        if (max < node.value) max = node.value;
+      });
+      data.forEach(node => { // If the node value is null, replace it with the min value
+        node.nullVal = 'false';
+        if (node.value == null || node.value == 'null') {
+            node.value = min;
+            node.nullVal = true;
+        }
+      });
+      // console.log(`The finished min ${min}, and max ${max}`);
+    } // End of minAndMaxInfluenceValues
 
     function checkSelectedInfluence() {
       if (config.influenceSwitch == true) {
@@ -561,10 +567,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .interpolate(d3.interpolateHcl)
     }
 
+        
+ 
         // Have it break on words instead of through the text > Focus on words and char lengths
     function sizeText(d) {
         if (d.nr <= 14) { d.font = 0; } 
-        else { d.font = psfs(d.nr); }
+        else { d.font = nullText(d.nr); }
         // console.log('This is d.font', d.font);
 
         d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
@@ -573,14 +581,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let fchars = d.data.name.length;
         let diameter = d.nr * 2; // Length of circle
         let charlen = parseInt(fchars) * 8.74;
-        let cirlen = diameter / 8.74,
-        t1 = Math.floor(fchars * .25), // : 22 // Desired percents of space each take up
-        t2 = Math.floor(fchars * .42), // : 40 // This should be no more than the width of the diameter 
-        t3 = Math.floor(fchars * .25), // : 16
-        t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
+        let cirlen = diameter / 8.74;
+        let t1 = Math.floor(fchars * .25); // : 22 // Desired percents of space each take up
+        let t2 = Math.floor(fchars * .42); // : 40 // This should be no more than the width of the diameter 
+        let t3 = Math.floor(fchars * .25); // : 16
+        let t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
         let tBox = 1;
 
-            for(i = 0; i < words.length; i++) {
+            for(let i = 0; i < words.length; i++) {
                 if (tBox == 1) {
                     if (d.data.text1 == '') {
                         d.data.text1 = words[i] + ' ';
@@ -632,9 +640,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     continue;
                 }
 
-                if (textBox == 4) console.log('Error: word left out of textboxes: ', word);
+                if (tBox == 4) console.log('Error: word left out of textboxes: ', word);
             } // End of for loop 
 
+// px linearscale to have reference from dy to the font size
 
         if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
             d.data.text1 = d.data.name;
@@ -642,7 +651,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             delete d.data.text2;
             delete d.data.text3;
             delete d.data.text4;
-            return '36px';
+            return '54px';
         }
 
             // Clean up all the empty text boxes
@@ -659,14 +668,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // return '12px'; // Original styling 
         // return `${vws(d.nr)}vh`; // View height font scaling
         if (d.nr <= 14) { d.font = 0; }
-        else { d.font = psfs(d.nr); }
+        else { d.font = nullText(d.nr); }
         return `${d.font}px`; 
     }
 
     function tSpaceOne(d) {
-        let two = d.font * -.5,
-        three = d.font * -1,
-        four = d.font * -1.5;
+        let two = d.font * -.5;
+        let three = d.font * -1;
+        let four = d.font * -1.5;
         
         return d.data.textuse == 1 ? `0px`
         : d.data.textuse == 2 ? `${two}px`
@@ -674,8 +683,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : `${four}`;
     }
     function tSpaceTwo(d) {
-        let two = d.font * .5,
-        four = d.font * -.5;
+        let two = d.font * .5;
+        let four = d.font * -.5;
 
         return d.data.textuse == 1 ? `0px`
         : d.data.textuse == 2 ? `${two}px`
@@ -683,8 +692,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : `${four}px`;
     }
     function tSpaceThree(d) {
-        let three = d.font * 1,
-        four = d.font * .5;
+        let three = d.font * 1;
+        let four = d.font * .5;
 
         return d.data.textuse == 1 ? `0px`
         : d.data.textuse == 2 ? `0px`
