@@ -53,12 +53,14 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-              .text, .text2, .text3 { 
-                  font-family: Roboto; 
-                text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; 
-              }
+              .text, .text2, .text3 { font-family: Roboto; font-weight: 300; }
+              .header { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
+              .header, .text, .text2, .text3 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
           </style>
         `;
+
+        this._header = d3.select(element).append('h2')
+            .attr('class', 'header')
 
         this._container = d3.select(element).append("div")
             .attr('class', 'container');
@@ -254,12 +256,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Main variables for building the svg
     const burrow = this.burrow(data, taxonomyPass);
     let view;
-
         /*/ / This is for sizing the svg and the header correctly / /*/
     let headerSpace;
     let width;
     let height;
-    let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
+    // let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
     let circleHeight = window.innerHeight;
     refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
       // Initialize the visual's data and construct the rest of the hierarchy
@@ -312,6 +313,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
+   d3.select('.header').style('height', headerSpace);
 
     let svg = this._svg        
         // .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
