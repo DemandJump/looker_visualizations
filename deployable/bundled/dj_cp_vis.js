@@ -468,6 +468,7 @@ function refactor(d) {  // Refactors the text based on the node's radius after t
 //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
 //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
 //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
+    console.log('This is the focus', focus);
 
           // Then create a filter that displays the text of all the nodes 
     label.filter(function(d) { return d === focus }).transition(transition)
