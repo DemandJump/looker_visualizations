@@ -300,7 +300,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 d.data.uniqueId = uniqueId;
                 return uniqueId;
             })
-            .attr("fill", d => questionSearchColoring(d))
+            .attr('fill', d => d.data.leaf ? 'white' : color(d.depth))
+            // .attr("fill", d => questionSearchColoring(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -362,6 +363,122 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     zoomTo([root.x, root.y, root.r * 2]);
     simulateClick(document.querySelector('.tether'), 'click');
 
+
+
+    /*******************************************************
+        * Visual's Functions Section *
+    *******************************************************/
+   function zoomTo(v) {
+    // console.log('zoomTo function: v', v); // coordinates and scale
+    const k = width / v[2]; // Divide the size of the svg based on the scale of the size
+    view = v;
+
+    label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    label4.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+    node.attr("r", d => {
+        d.nr = d.r * k; // Variable to hold the changing radius size 
+        return d.r * k;
+    }); // This changes the size of the nodes with reference to the change of the camera
+
+}
+
+function zoom(d) {          
+    const focus0 = focus;
+    focus = d;
+    // console.log('Zoom function: Node ->', d);
+    // console.log('Zoom function: Focus', focus); // This is the current node that they're on
+
+
+    const transition = svg.transition() 
+        .duration(d3.event.altKey ? 6400 : 640)  
+        .tween("zoom", d => { // Tween
+            // console.log('Zoom function: This is view', view);
+            const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+            // console.log('Zoom function: This is i', i);
+            return t => zoomTo(i(t));
+        });
+
+    label
+        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .transition(transition)
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+            .on("end", function(d) { 
+                if (d.parent !== focus) this.style.display = "none";
+
+                d3.select(this)
+                  .style("display", d => {
+                    if (d.leaf) { if(d.leaf == true) return "inline"; } 
+                    else { if(d.parent === focus) return "none" }
+                  })
+                  .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                  .attr('dy', tSpaceOne)
+                  .text(d => d.data.text1);
+            });
+
+    label2
+        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .transition(transition)
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+            .on("end", function(d) { 
+                if (d.parent !== focus) this.style.display = "none"; 
+
+                d3.select(this)
+                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                  .attr('dy', tSpaceTwo)
+                  .text(d => d.data.text2);
+            });
+
+    label3
+        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .transition(transition)
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+            .on("end", function(d) { 
+                if (d.parent !== focus) this.style.display = "none"; 
+                
+                d3.select(this)
+                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                  .attr('dy', tSpaceThree)
+                  .text(d => d.data.text3);
+            });
+    label4
+        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .transition(transition)
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+            .on("end", function(d) { 
+                if (d.parent !== focus) this.style.display = "none"; 
+                
+                d3.select(this)
+                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                  .attr('dy', tSpaceFour)
+                  .text(d => d.data.text4);
+            });
+
+}
+
+// function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
+//         // I instantiaed something wrong in the spacing, this works correctly!
+//     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
+//     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
+//     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
+//     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
+// }
+
+function zoomThenRefactor(d) {
+    zoom(d);
+    // refactor(d);
+    d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
+    // console.log('This is d', d);
+}
 
 
 
@@ -583,122 +700,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       });
       taxonomyPass = newTaxonomy;
       console.log('This is the new taxonomy', taxonomyPass);
-    }
-
-    
-    /*******************************************************
-        * Visual's Functions Section *
-    *******************************************************/
-    function zoomTo(v) {
-        // console.log('zoomTo function: v', v); // coordinates and scale
-        const k = width / v[2]; // Divide the size of the svg based on the scale of the size
-        view = v;
-
-        label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        label4.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-        node.attr("r", d => {
-            d.nr = d.r * k; // Variable to hold the changing radius size 
-            return d.r * k;
-        }); // This changes the size of the nodes with reference to the change of the camera
-
-    }
-
-    function zoom(d) {          
-        const focus0 = focus;
-        focus = d;
-        // console.log('Zoom function: Node ->', d);
-        // console.log('Zoom function: Focus', focus); // This is the current node that they're on
-
-
-        const transition = svg.transition() 
-            .duration(d3.event.altKey ? 6400 : 640)  
-            .tween("zoom", d => { // Tween
-                // console.log('Zoom function: This is view', view);
-                const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-                // console.log('Zoom function: This is i', i);
-                return t => zoomTo(i(t));
-            });
-
-        label
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none";
-
-                    d3.select(this)
-                      .style("display", d => {
-                        if (d.leaf) { if(d.leaf == true) return "inline"; } 
-                        else { if(d.parent === focus) return "none" }
-                      })
-                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceOne)
-                      .text(d => d.data.text1);
-                });
-
-        label2
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceTwo)
-                      .text(d => d.data.text2);
-                });
-
-        label3
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceThree)
-                      .text(d => d.data.text3);
-                });
-        label4
-            .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', tSpaceFour)
-                      .text(d => d.data.text4);
-                });
-
-    }
-
-    // function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
-    //         // I instantiaed something wrong in the spacing, this works correctly!
-    //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
-    //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
-    //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
-    //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-    // }
-
-    function zoomThenRefactor(d) {
-        zoom(d);
-        // refactor(d);
-        d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-        // console.log('This is d', d);
     }
 
     function pack(data) {
