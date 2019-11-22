@@ -462,29 +462,29 @@ function zoom(d) {
 
       // Then create a filter that displays the text of all the nodes 
     label.filter(function(d) { return d === focus }).transition(transition)
-        .style("fill-opacity", d => d.leaf ? 1 : 0)
-        .style('display', d => d.leaf ? 'inline' : 'none')
+        .style("fill-opacity", d => d.leaf ? 0 : 1)
+        .style('display', d => d.leaf ? 'none' : 'inline')
         .style("font-size", d => d.leaf ? '12px' : sizeText(d))
         .attr('dy', d => tSpaceOne(d))
         .text(d => d.data.text1);
 
     label2.filter(function(d) { return d === focus }).transition(transition)
-        .style("fill-opacity", d => d.leaf ? 1 : 0)
-        .style('display', d => d.leaf ? 'inline' : 'none')
+        .style("fill-opacity", d => d.leaf ? 0 : 1)
+        .style('display', d => d.leaf ? 'none' : 'inline')
         .style("font-size", d => d.leaf ? '12px' : textSizing(d))
         .attr('dy', d => tSpaceOne(d))
         .text(d => d.data.text1);
 
     label3.filter(function(d) { return d === focus }).transition(transition)
-        .style("fill-opacity", d => d.leaf ? 1 : 0)
-        .style('display', d => d.leaf ? 'inline' : 'none')
+        .style("fill-opacity", d => d.leaf ? 0 : 1)
+        .style('display', d => d.leaf ? 'none' : 'inline')
         .style("font-size", d => d.leaf ? '12px' : textSizing(d))
         .attr('dy', d => tSpaceOne(d))
         .text(d => d.data.text1);
 
     label4.filter(function(d) { return d === focus }).transition(transition)
-        .style("fill-opacity", d => d.leaf ? 1 : 0)
-        .style('display', d => d.leaf ? 'inline' : 'none')
+        .style("fill-opacity", d => d.leaf ? 0 : 1)
+        .style('display', d => d.leaf ? 'none' : 'inline')
         .style("font-size", d => d.leaf ? '12px' : textSizing(d))
         .attr('dy', d => tSpaceOne(d))
         .text(d => d.data.text4);
