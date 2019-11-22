@@ -462,19 +462,12 @@ function zoom(d) {
 
 } // End of zoom function
 
-// function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
+function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
 //         // I instantiaed something wrong in the spacing, this works correctly!
 //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
 //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
 //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
 //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-// }
-
-function zoomThenRefactor(d) {
-    zoom(d);
-    // refactor(d);
-    d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-    // console.log('This is d', d);
 
           // Then create a filter that displays the text of all the nodes 
     label.filter(function(d) { return d === focus }).transition(transition)
@@ -503,8 +496,16 @@ function zoomThenRefactor(d) {
         .style('display', 'inline')
         .style("font-size", textSizing(d))
         .attr('dy', d => tSpaceOne(d))
-        .text(d => d.data.text4);
-      
+        .text(d => d.data.text4);     
+}
+
+function zoomThenRefactor(d) {
+    zoom(d);
+    d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
+    refactor(d);
+    // console.log('This is d', d);
+
+
 }
 
 
