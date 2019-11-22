@@ -409,15 +409,16 @@ function zoom(d) {
                 if (d.parent !== focus) this.style.display = "none";
 
                 d3.select(this)
-                .style("display", d => {
-                  if (d.leaf) { if(d.leaf == true) return "inline"; } 
-                  else { if(d.parent === focus) return "none" }
-                })
-                .style("fill-opacity", d => {
-                  if (d.leaf) { if(d.leaf == true) return 1; } 
-                  else { if(d.parent === focus) return 0 }
-                })
                   .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                  .style("display", d => {
+                    if (d.leaf) { 
+                      if(d.leaf == true) return "inline"; } 
+                    else { if(d.parent === focus) return "none" }
+                  })
+                  .style("fill-opacity", d => {
+                    if (d.leaf) { if(d.leaf == true) return 1; } 
+                    else { if(d.parent === focus) return 0 }
+                  })
                   .attr('dy', tSpaceOne)
                   .text(d => d.data.text1);
             });
@@ -431,8 +432,17 @@ function zoom(d) {
                 if (d.parent !== focus) this.style.display = "none"; 
 
                 d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                  // .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                   .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                  .style("display", d => {
+                    if (d.leaf) { 
+                      if(d.leaf == true) return "inline"; } 
+                    else { if(d.parent === focus) return "none" }
+                  })
+                  .style("fill-opacity", d => {
+                    if (d.leaf) { if(d.leaf == true) return 1; } 
+                    else { if(d.parent === focus) return 0 }
+                  })
                   .attr('dy', tSpaceTwo)
                   .text(d => d.data.text2);
             });
@@ -446,8 +456,17 @@ function zoom(d) {
                 if (d.parent !== focus) this.style.display = "none"; 
                 
                 d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                  // .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                   .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                  .style("display", d => {
+                    if (d.leaf) { 
+                      if(d.leaf == true) return "inline"; } 
+                    else { if(d.parent === focus) return "none" }
+                  })
+                  .style("fill-opacity", d => {
+                    if (d.leaf) { if(d.leaf == true) return 1; } 
+                    else { if(d.parent === focus) return 0 }
+                  })
                   .attr('dy', tSpaceThree)
                   .text(d => d.data.text3);
             });
@@ -460,8 +479,17 @@ function zoom(d) {
                 if (d.parent !== focus) this.style.display = "none"; 
                 
                 d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                  // .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                   .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                  .style("display", d => {
+                    if (d.leaf) { 
+                      if(d.leaf == true) return "inline"; } 
+                    else { if(d.parent === focus) return "none" }
+                  })
+                  .style("fill-opacity", d => {
+                    if (d.leaf) { if(d.leaf == true) return 1; } 
+                    else { if(d.parent === focus) return 0 }
+                  })
                   .attr('dy', tSpaceFour)
                   .text(d => d.data.text4);
             });
