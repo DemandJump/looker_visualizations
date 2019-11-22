@@ -300,8 +300,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 d.data.uniqueId = uniqueId;
                 return uniqueId;
             })
-            .attr('fill', d => d.data.leaf ? 'white' : color(d.depth))
-            // .attr("fill", d => questionSearchColoring(d))
+            .attr("fill", d => questionSearchColoring(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -410,10 +409,14 @@ function zoom(d) {
                 if (d.parent !== focus) this.style.display = "none";
 
                 d3.select(this)
-                  .style("display", d => {
-                    if (d.leaf) { if(d.leaf == true) return "inline"; } 
-                    else { if(d.parent === focus) return "none" }
-                  })
+                .style("display", d => {
+                  if (d.leaf) { if(d.leaf == true) return "inline"; } 
+                  else { if(d.parent === focus) return "none" }
+                })
+                .style("fill-opacity", d => {
+                  if (d.leaf) { if(d.leaf == true) return 1; } 
+                  else { if(d.parent === focus) return 0 }
+                })
                   .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                   .attr('dy', tSpaceOne)
                   .text(d => d.data.text1);
