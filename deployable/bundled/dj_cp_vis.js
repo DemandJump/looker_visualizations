@@ -524,32 +524,32 @@ function zoomThenRefactor(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', '40px')
-                        .style('dy', d => leafText1(d))
+                        .style('font-size', d => sizeText(d))
+                        .style('dy', d => tSpaceOne(d))
                 });
             label2.filter(function(node) {return node === d })
                 .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', '40px')
-                        .style('dy', d => leafText2(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceTwo(d))
                 });
             label3.filter(function(node) {return node === d })
                 .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', '40px')
-                        .style('dy', d => leafText3(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceThree(d))
                 });
             label4.filter(function(node) {return node === d })
                 .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', '40px')
-                        .style('dy', d => leafText4(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceFour(d))
                 });
 
         } // end of d.leaf condifitonals 
