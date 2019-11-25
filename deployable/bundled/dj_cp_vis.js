@@ -514,9 +514,9 @@ function zoomThenRefactor(d) {
     // console.log('This is d', d);
 
     console.log('This is the selected node', d);
-    if (d.leaf) {
-        if (d.leaf == true ) {
-            console.log('This is the selected node', d);
+    if (d.data.leaf) {
+        if (d.data.leaf == true ) {
+            console.log('This node has a leaf value');
             console.log(d3.select.this);
 
             label.filter(function(node) {return node === d })
