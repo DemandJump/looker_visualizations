@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
         node_sizing_header: {
             label: "Highly recommend using dynamic sizing.",
             order: 0,
-            section: "Configuration",
+            section: "Node Sizing",
             type: "sentence_maker",
             words: [
                 { type: "separator", text: "Add in a factor of influence for the nodes" }
@@ -18,14 +18,22 @@ looker.plugins.visualizations.add({
         influenceSwitch: {
             label: "Dynamic node sizing",
             order: 1,
-            section: "Configuration", 
+            section: "Node Sizing", 
             type: "boolean",
             default: false 
         },
+        useInfluenceInVis: {
+          label: "Use variable factor in visual",
+          order: 2,
+          section: "Node Sizing", 
+          type: "boolean",
+          default: true,
+          hidden: true
+      },
         influence: {
             label: "Choose a variable factor",
             order: 1.1, 
-            section: "Configuration",
+            section: "Node Sizing",
             values: [
               {"None": "null"}
             ],
@@ -34,19 +42,13 @@ looker.plugins.visualizations.add({
             display: "select", 
             hidden: true
         },
-        useInfluenceInVis: {
-            label: "Use variable factor in visual",
-            order: 2,
-            section: "Configuration", 
-            type: "boolean",
-            default: true,
-            hidden: true
-        },
+
+
 
         group_nodes_header: {
             label: "Highly recommend using dynamic sizing.",
             order: 3,
-            section: "Configuration",
+            section: "Node Coloring",
             type: "sentence_maker",
             words: [
                 { type: "separator", text: "Group nodes together by color" }
@@ -55,14 +57,14 @@ looker.plugins.visualizations.add({
         groupSwitch: {
             label: "Group nodes by color", 
             order: 4, 
-            section: "Configuration",
+            section: "Node Coloring",
             type: "boolean",
             default: false
         },
         group: {
             label: "Choose a grouping factor",
             order: 4.1,
-            section: "Configuration",
+            section: "Node Coloring",
             values: [
                 {"None": "null"}
             ],
@@ -74,13 +76,18 @@ looker.plugins.visualizations.add({
         useGroupInVis: {
             label: "Use grouping factor in visual",
             order: 5,
-            section: "Configuration",
+            section: "Node Coloring",
             type: "boolean",
             default: true,
             hidden: true
         }
+        
+
+
 
     },
+
+
 
         // Onto the create section 
     create: function(element, config) {
@@ -667,24 +674,28 @@ function zoomThenRefactor(d) {
           nodes.forEach(d => {
               if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
 
-              if(d.children.length == 0 && d._children) {
-                  if (d._children.length == 1) {
-                      if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
-                      if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
-                      // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
-                      // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
-                  } else if (d._children.length > 1) {
-                      let checker = true;
-                      for(let i = 0; i < d._children.length; i++) {
-                          if(d._children[i] != 'null')  {
-                              checker = false; 
-                              break;
-                          }
-                      } // for loop end
-                      if(checker) {d.data.leaf = true}
-                  } // else if end 
-              } // end of d._children: We're only looking for the nodes that have all collapsed null values
-              if (!(d.children)) d.data.leaf = true;
+              if(d.children) {
+                  if(d.children.length == 0 && d._children) {
+                      if (d._children.length == 1) {
+                          if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
+                          if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
+                          // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
+                          // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
+                      } else if (d._children.length > 1) {
+                          let checker = true;
+                          for(let i = 0; i < d._children.length; i++) {
+                              if(d._children[i] != 'null')  {
+                                  checker = false; 
+                                  break;
+                              }
+                          } // for loop end
+                          if(checker) {d.data.leaf = true}
+                      } // else if end 
+                  } // end of d._children: We're only looking for the nodes that have all collapsed null values
+              } else {
+                d.data.leaf = true;
+              }
+
           }); // forEach end
       } // End of FindActualLeafNodes
 
