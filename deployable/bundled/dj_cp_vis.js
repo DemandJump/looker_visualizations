@@ -480,37 +480,41 @@ function zoom(d) {
 
             label.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
                         .style('font-size', d => '20px')
                         .style('dy', d => leafText1(d))
                 });
             label2.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
                         .style('font-size', d => '20px')
                         .style('dy', d => leafText2(d))
                 });
             label3.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
                         .style('font-size', d => '20px')
                         .style('dy', d => leafText3(d))
                 });
             label4.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
                         .style('font-size', d => '20px')
                         .style('dy', d => leafText4(d))
                 });
