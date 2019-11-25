@@ -522,22 +522,22 @@ function zoomThenRefactor(d) {
             label.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', '12px')
+                .style('font-size', '20px')
                 .style('dy', d => leafText1(d))
             label2.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', '12px')
+                .style('font-size', '20px')
                 .style('dy', d => leafText2(d))
             label3.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', '12px')
+                .style('font-size', '20px')
                 .style('dy', d => leafText3(d))
             label4.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', '12px')
+                .style('font-size', '20px')
                 .style('dy', d => leafText4(d))
 
         } // end of d.leaf condifitonals 
@@ -547,25 +547,25 @@ function zoomThenRefactor(d) {
 function leafText1(d) {
     // fontSize = '12px';
     return d.data.textuse == 1 ? `0px`
-    : d.data.textuse == 2 ? `-6px`
-    : d.data.textuse == 3 ? `-12px`
-    : `-18px`;
+    : d.data.textuse == 2 ? `-10px`
+    : d.data.textuse == 3 ? `-20px`
+    : `-30px`;
 }
 
 function leafText2(d) {
     // fontSize = '12px';
     return d.data.textuse == 1 ? `0px`
-    : d.data.textuse == 2 ? `6px`
+    : d.data.textuse == 2 ? `10px`
     : d.data.textuse == 3 ? `0px`
-    : `-6px`;
+    : `-10px`;
 }
 
 function leafText3(d) {
     // fontSize = '12px';
     return d.data.textuse == 1 ? `0px`
     : d.data.textuse == 2 ? `0px`
-    : d.data.textuse == 3 ? `12px`
-    : `6px`;
+    : d.data.textuse == 3 ? `20px`
+    : `10px`;
 }
 
 function leafText4(d) {
@@ -573,7 +573,7 @@ function leafText4(d) {
     return d.data.textuse == 1 ? `0px`
     : d.data.textuse == 2 ? `0px`
     : d.data.textuse == 3 ? `0px`
-    : `18px`;
+    : `30px`;
 }
 
 
