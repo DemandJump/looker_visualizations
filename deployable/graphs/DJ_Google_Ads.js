@@ -366,8 +366,10 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
     * Main Functionalty
 ******************************************************************************************************************************************/
 console.log('config switch', config.switch);
-if (config.switch == false) { this._djgaContainer.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
-else { this._djgaContainer.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
+let container = d3.select('div.djgaContainer')
+if (config.switch == false) { container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
+else { container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
+
 
 function update() {
     let width = element.clientWidth; console.log('\nThis is the update function!') // Dimensions w & h
