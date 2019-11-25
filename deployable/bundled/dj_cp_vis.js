@@ -585,6 +585,11 @@ function zoomThenRefactor(d) {
     // refactor(d);
     d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
     // console.log('This is d', d);
+    if(d.data.leaf) {
+      if(d.data.leaf == true) {
+        this.style.display = 'inline';
+      }
+    }
 
     
 }
