@@ -485,8 +485,8 @@ function zoom(d) {
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('font-size', d => '20px')
-                        .style('dy', d => leafText1(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceOne(d))
                 });
             label2.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
@@ -495,8 +495,8 @@ function zoom(d) {
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('font-size', d => '20px')
-                        .style('dy', d => leafText2(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceTwo(d))
                 });
             label3.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
@@ -505,8 +505,8 @@ function zoom(d) {
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('font-size', d => '20px')
-                        .style('dy', d => leafText3(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceThree(d))
                 });
             label4.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
@@ -515,8 +515,8 @@ function zoom(d) {
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('font-size', d => '20px')
-                        .style('dy', d => leafText4(d))
+                        .style('font-size', d => textSizing(d))
+                        .style('dy', d => tSpaceFour(d))
                 });
 
         } // Leaf if statement
