@@ -519,57 +519,6 @@ function zoom(d) {
                     }}
                 }
             });
-
-            
-            /*/ This is for when you click on a leaf node ;p /*/
-    // if (d.data.leaf) {
-    //     if (d.data.leaf == true ) {
-    //         console.log('This is the selected leaf node', d);
-    //         console.log(d3.select.this);
-
-    //         label.filter(function(d) {return d === focus })
-    //             .transition(transition).duration(d3.event.altKey ? 6500 : 650)
-    //             .style('display', 'inline')
-    //             .style('fill-opacity', 1)
-    //             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-    //             .on("end", function(d) {
-    //                 d3.select(this)
-    //                     .style('font-size', d => sizeText(d))
-    //                     .style('dy', d => tSpaceOne(d))
-    //             });
-    //         label2.filter(function(d) {return d === focus })
-    //             .transition(transition).duration(d3.event.altKey ? 6500 : 650)
-    //             .style('display', 'inline')
-    //             .style('fill-opacity', 1)
-    //             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-    //             .on("end", function(d) {
-    //                 d3.select(this)
-    //                     .style('font-size', d => textSizing(d))
-    //                     .style('dy', d => tSpaceTwo(d))
-    //             });
-    //         label3.filter(function(d) {return d === focus })
-    //             .transition(transition).duration(d3.event.altKey ? 6500 : 650)
-    //             .style('display', 'inline')
-    //             .style('fill-opacity', 1)
-    //             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-    //             .on("end", function(d) {
-    //                 d3.select(this)
-    //                     .style('font-size', d => textSizing(d))
-    //                     .style('dy', d => tSpaceThree(d))
-    //             });
-    //         label4.filter(function(d) {return d === focus })
-    //             .transition(transition).duration(d3.event.altKey ? 6500 : 650)
-    //             .style('display', 'inline')
-    //             .style('fill-opacity', 1)
-    //             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-    //             .on("end", function(d) {
-    //                 d3.select(this)
-    //                     .style('font-size', d => textSizing(d))
-    //                     .style('dy', d => tSpaceFour(d))
-    //             });
-
-    //     } // Leaf if statement
-    // } // Leaf conditionals
       
 
 } // End of zoom function
