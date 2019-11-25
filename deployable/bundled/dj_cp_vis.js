@@ -522,26 +522,58 @@ function zoomThenRefactor(d) {
             label.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', d => sizeText(d))
+                .style('font-size', '12px')
                 .style('dy', d => tSpaceOne(d))
             label2.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', d => textSizing(d))
+                .style('font-size', '12px')
                 .style('dy', d => tSpaceTwo(d))
             label3.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', d => textSizing(d))
+                .style('font-size', '12px')
                 .style('dy', d => tSpaceThree(d))
             label4.filter(function(node) {return node === d })
                 .style('display', 'inline')
                 .style('fill-opacity', 1)
-                .style('font-size', d => textSizing(d))
+                .style('font-size', '12px')
                 .style('dy', d => tSpaceFour(d))
 
         } // end of d.leaf condifitonals 
     } 
+}
+
+function leafText1(d) {
+    // fontSize = '12px';
+    return d.data.textuse == 1 ? `0px`
+    : d.data.textuse == 2 ? `-6px`
+    : d.data.textuse == 3 ? `-12px`
+    : `-18px`;
+}
+
+function leafText2(d) {
+    // fontSize = '12px';
+    return d.data.textuse == 1 ? `0px`
+    : d.data.textuse == 2 ? `6px`
+    : d.data.textuse == 3 ? `0px`
+    : `-6px`;
+}
+
+function leafText3(d) {
+    // fontSize = '12px';
+    return d.data.textuse == 1 ? `0px`
+    : d.data.textuse == 2 ? `0px`
+    : d.data.textuse == 3 ? `12px`
+    : `6px`;
+}
+
+function leafText4(d) {
+    // fontSize = '12px';
+    return d.data.textuse == 1 ? `0px`
+    : d.data.textuse == 2 ? `0px`
+    : d.data.textuse == 3 ? `0px`
+    : `18px`;
 }
 
 
