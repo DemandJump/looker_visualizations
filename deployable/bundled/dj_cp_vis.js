@@ -418,11 +418,10 @@ function zoom(d) {
             .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
-                if (d.parent !== focus) this.style.display = "none";
-
-
 
                 if(d === focus) {
+                    this.style.display = "inline";
+
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
                       d3.select(this)
                         .style('display', 'inline')
@@ -431,6 +430,8 @@ function zoom(d) {
                         .style('dy', d => tSpaceOne(d));
                     }}
                 } else {
+                  if (d.parent !== focus) this.style.display = "none";
+
                   d3.select(this)
                       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                       .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
