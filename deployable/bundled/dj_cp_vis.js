@@ -500,6 +500,8 @@ function zoom(d) {
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
+
+                console.log('This is d from the filter function', d);
                 
                 d3.select(this)
                   .style("fill-opacity", d => d.parent === focus ? 1 : 0)
@@ -585,13 +587,7 @@ function zoomThenRefactor(d) {
     // refactor(d);
     d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
     // console.log('This is d', d);
-    if(d.data.leaf) {
-      if(d.data.leaf == true) {
-        this.style.display = 'inline';
-      }
-    }
 
-    
 }
 
 function leafText1(d) {
