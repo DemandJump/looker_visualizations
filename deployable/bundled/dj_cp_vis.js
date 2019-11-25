@@ -520,25 +520,37 @@ function zoomThenRefactor(d) {
             console.log(d3.select.this);
 
             label.filter(function(node) {return node === d })
-                .style('display', 'inline')
-                .style('fill-opacity', 1)
-                .style('font-size', '40px')
-                .style('dy', d => leafText1(d))
+                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                    d3.select(this)
+                        .style('display', 'inline')
+                        .style('fill-opacity', 1)
+                        .style('font-size', '40px')
+                        .style('dy', d => leafText1(d))
+                });
             label2.filter(function(node) {return node === d })
-                .style('display', 'inline')
-                .style('fill-opacity', 1)
-                .style('font-size', '40px')
-                .style('dy', d => leafText2(d))
+                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                    d3.select(this)
+                        .style('display', 'inline')
+                        .style('fill-opacity', 1)
+                        .style('font-size', '40px')
+                        .style('dy', d => leafText2(d))
+                });
             label3.filter(function(node) {return node === d })
-                .style('display', 'inline')
-                .style('fill-opacity', 1)
-                .style('font-size', '40px')
-                .style('dy', d => leafText3(d))
+                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                    d3.select(this)
+                        .style('display', 'inline')
+                        .style('fill-opacity', 1)
+                        .style('font-size', '40px')
+                        .style('dy', d => leafText3(d))
+                });
             label4.filter(function(node) {return node === d })
-                .style('display', 'inline')
-                .style('fill-opacity', 1)
-                .style('font-size', '40px')
-                .style('dy', d => leafText4(d))
+                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                    d3.select(this)
+                        .style('display', 'inline')
+                        .style('fill-opacity', 1)
+                        .style('font-size', '40px')
+                        .style('dy', d => leafText4(d))
+                });
 
         } // end of d.leaf condifitonals 
     } 
