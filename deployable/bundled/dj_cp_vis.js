@@ -485,7 +485,7 @@ function zoom(d) {
                 .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d) {
                     d3.select(this)
-                        .style('font-size', d => textSizing(d))
+                        .style('font-size', d => sizeText(d))
                         .style('dy', d => tSpaceOne(d))
                 });
             label2.filter(function(d) {return d === focus })
