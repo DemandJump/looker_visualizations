@@ -426,13 +426,15 @@ function zoom(d) {
                   .attr('dy', d => tSpaceOne(d))
                   .text(d => d.data.text1);
 
-                if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                    d3.select(this)
+                if(d === focus) {
+                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                      d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
                         .style('font-size', d => sizeText(d))
                         .style('dy', d => tSpaceOne(d));
-                }}
+                    }}
+                }
             });
 
     label2
@@ -449,13 +451,15 @@ function zoom(d) {
                   .attr('dy', d => tSpaceTwo(d))
                   .text(d => d.data.text2);
 
-                if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                    d3.select(this)
+                if(d === focus) {
+                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                      d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
                         .style('font-size', d => textSizing(d))
                         .style('dy', d => tSpaceTwo(d));
-                }}
+                    }}
+                }
             });
 
     label3
@@ -472,13 +476,15 @@ function zoom(d) {
                   .attr('dy', d => tSpaceThree(d))
                   .text(d => d.data.text3);
 
-                if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                    d3.select(this)
+                if(d === focus) {
+                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                      d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
                         .style('font-size', d => textSizing(d))
                         .style('dy', d => tSpaceThree(d));
-                }}
+                    }}
+                }
             });
     label4
         .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
@@ -494,14 +500,15 @@ function zoom(d) {
                   .attr('dy', d => tSpaceFour(d))
                   .text(d => d.data.text4);
 
-
-                if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                    d3.select(this)
+                if(d === focus) {
+                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                      d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
                         .style('font-size', d => textSizing(d))
                         .style('dy', d => tSpaceFour(d));
-                }}
+                    }}
+                }
             });
 
             
