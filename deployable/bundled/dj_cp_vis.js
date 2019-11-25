@@ -484,8 +484,8 @@ function zoom(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', d => sizeText(d))
-                        .style('dy', d => tSpaceOne(d))
+                        .style('font-size', d => '20px')
+                        .style('dy', d => leafText1(d))
                 });
             label2.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
@@ -493,8 +493,8 @@ function zoom(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceTwo(d))
+                        .style('font-size', d => '20px')
+                        .style('dy', d => leaftext2(d))
                 });
             label3.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
@@ -502,8 +502,8 @@ function zoom(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceThree(d))
+                        .style('font-size', d => '20px')
+                        .style('dy', d => leafText3(d))
                 });
             label4.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
@@ -511,8 +511,8 @@ function zoom(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceFour(d))
+                        .style('font-size', d => '20px')
+                        .style('dy', d => leafText4(d))
                 });
 
         } // Leaf if statement
