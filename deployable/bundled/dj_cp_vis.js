@@ -408,7 +408,12 @@ function zoom(d) {
         });
 
     label
-        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .filter(function(d) { 
+            // if(d.leaf){if(d.leaf == true){
+            //     return d === focus;
+            // }}
+            return d.parent === focus || this.style.display === "inline"; 
+        })
         .transition(transition)
             .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
@@ -466,14 +471,15 @@ function zoom(d) {
                   .text(d => d.data.text4);
             });
 
-
+            
+            /*/ This is for when you click on a leaf node ;p /*/
     if (d.data.leaf) {
         if (d.data.leaf == true ) {
             console.log('This is the selected leaf node', d);
             console.log(d3.select.this);
 
             label.filter(function(node) {return node === d })
-                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                .transition(transition).duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
@@ -481,7 +487,7 @@ function zoom(d) {
                         .style('dy', d => tSpaceOne(d))
                 });
             label2.filter(function(node) {return node === d })
-                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                .transition(transition).duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
@@ -489,7 +495,7 @@ function zoom(d) {
                         .style('dy', d => tSpaceTwo(d))
                 });
             label3.filter(function(node) {return node === d })
-                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                .transition(transition).duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
@@ -497,7 +503,7 @@ function zoom(d) {
                         .style('dy', d => tSpaceThree(d))
                 });
             label4.filter(function(node) {return node === d })
-                .transition().duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
+                .transition(transition).duration(d3.event.altKey ? 6500 : 650).on("end", function(d) {
                     d3.select(this)
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
