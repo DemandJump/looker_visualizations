@@ -512,6 +512,35 @@ function zoomThenRefactor(d) {
     // refactor(d);
     d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
     // console.log('This is d', d);
+
+    if (d.leaf) {
+        if (d.leaf == true ) {
+            console.log('This is the selected node', d);
+            console.log(d3.select.this);
+
+            label.filter(function(node) {return node === d })
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .style('font-size', d => sizeText(d))
+                .style('dy', d => tSpaceOne(d))
+            label2.filter(function(node) {return node === d })
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .style('font-size', d => textSizing(d))
+                .style('dy', d => tSpaceTwo(d))
+            label3.filter(function(node) {return node === d })
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .style('font-size', d => textSizing(d))
+                .style('dy', d => tSpaceThree(d))
+            label4.filter(function(node) {return node === d })
+                .style('display', 'inline')
+                .style('fill-opacity', 1)
+                .style('font-size', d => textSizing(d))
+                .style('dy', d => tSpaceFour(d))
+
+        } // end of d.leaf condifitonals 
+    } 
 }
 
 
