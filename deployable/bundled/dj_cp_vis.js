@@ -513,6 +513,7 @@ function zoomThenRefactor(d) {
     d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
     // console.log('This is d', d);
 
+    console.log('This is the selected node', d);
     if (d.leaf) {
         if (d.leaf == true ) {
             console.log('This is the selected node', d);
