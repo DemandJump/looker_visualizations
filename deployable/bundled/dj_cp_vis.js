@@ -409,9 +409,7 @@ function zoom(d) {
 
     label
         .filter(function(d) { 
-            // if(d.leaf){if(d.leaf == true){
-            //     return d === focus;
-            // }}
+            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
@@ -427,7 +425,6 @@ function zoom(d) {
                   .text(d => d.data.text1);
 
                 if(d === focus) {
-                    this.style.display = "inline";
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
                       d3.select(this)
                         .style('display', 'inline')
@@ -439,7 +436,10 @@ function zoom(d) {
             });
 
     label2
-        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .filter(function(d) { 
+            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            return d.parent === focus || this.style.display === "inline"; 
+        })
         .transition(transition)
             .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
@@ -453,7 +453,6 @@ function zoom(d) {
                   .text(d => d.data.text2);
 
                 if(d === focus) {
-                    this.style.display = "inline";
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
                       d3.select(this)
                         .style('display', 'inline')
@@ -465,7 +464,10 @@ function zoom(d) {
             });
 
     label3
-        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .filter(function(d) { 
+            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            return d.parent === focus || this.style.display === "inline"; 
+        })
         .transition(transition)
             .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
@@ -479,7 +481,6 @@ function zoom(d) {
                   .text(d => d.data.text3);
 
                 if(d === focus) {
-                    this.style.display = "inline";
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
                       d3.select(this)
                         .style('display', 'inline')
@@ -490,7 +491,10 @@ function zoom(d) {
                 }
             });
     label4
-        .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .filter(function(d) { 
+            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            return d.parent === focus || this.style.display === "inline"; 
+        })
         .transition(transition)
             .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
@@ -504,7 +508,6 @@ function zoom(d) {
                   .text(d => d.data.text4);
 
                 if(d === focus) {
-                    this.style.display = "inline"; 
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
                       d3.select(this)
                         .style('display', 'inline')
