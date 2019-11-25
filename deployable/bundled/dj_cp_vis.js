@@ -467,56 +467,9 @@ function zoom(d) {
             });
 
 
-    //   // Then create a filter that displays the text of all the nodes 
-    // label.filter(function(d) { return d === focus }).transition(transition)
-    //     .style("fill-opacity", d => d.leaf ? 0 : 1)
-    //     .style('display', d => d.leaf ? 'none' : 'inline')
-    //     .style("font-size", d => d.leaf ? '12px' : sizeText(d))
-    //     .attr('dy', d => tSpaceOne(d))
-    //     .text(d => d.data.text1);
-
-    // label2.filter(function(d) { return d === focus }).transition(transition)
-    //     .style("fill-opacity", d => d.leaf ? 0 : 1)
-    //     .style('display', d => d.leaf ? 'none' : 'inline')
-    //     .style("font-size", d => d.leaf ? '12px' : textSizing(d))
-    //     .attr('dy', d => tSpaceOne(d))
-    //     .text(d => d.data.text1);
-
-    // label3.filter(function(d) { return d === focus }).transition(transition)
-    //     .style("fill-opacity", d => d.leaf ? 0 : 1)
-    //     .style('display', d => d.leaf ? 'none' : 'inline')
-    //     .style("font-size", d => d.leaf ? '12px' : textSizing(d))
-    //     .attr('dy', d => tSpaceOne(d))
-    //     .text(d => d.data.text1);
-
-    // label4.filter(function(d) { return d === focus }).transition(transition)
-    //     .style("fill-opacity", d => d.leaf ? 0 : 1)
-    //     .style('display', d => d.leaf ? 'none' : 'inline')
-    //     .style("font-size", d => d.leaf ? '12px' : textSizing(d))
-    //     .attr('dy', d => tSpaceOne(d))
-    //     .text(d => d.data.text4);
-      
-
-} // End of zoom function
-
-// function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
-//         // I instantiaed something wrong in the spacing, this works correctly!
-//     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
-//     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
-//     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
-//     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-// }
-
-function zoomThenRefactor(d) {
-    zoom(d);
-    // refactor(d);
-    d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-    // console.log('This is d', d);
-
-    console.log('This is the selected node', d);
     if (d.data.leaf) {
         if (d.data.leaf == true ) {
-            console.log('This node has a leaf value');
+            console.log('This is the selected leaf node', d);
             console.log(d3.select.this);
 
             label.filter(function(node) {return node === d })
@@ -552,8 +505,27 @@ function zoomThenRefactor(d) {
                         .style('dy', d => tSpaceFour(d))
                 });
 
-        } // end of d.leaf condifitonals 
-    } 
+        } // Leaf if statement
+    } // Leaf conditionals
+      
+
+} // End of zoom function
+
+// function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
+//         // I instantiaed something wrong in the spacing, this works correctly!
+//     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
+//     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
+//     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
+//     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
+// }
+
+function zoomThenRefactor(d) {
+    zoom(d);
+    // refactor(d);
+    d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
+    // console.log('This is d', d);
+
+    
 }
 
 function leafText1(d) {
