@@ -420,11 +420,7 @@ function zoom(d) {
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none";
 
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceOne(d))
-                  .text(d => d.data.text1);
+
 
                 if(d === focus) {
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
@@ -434,6 +430,12 @@ function zoom(d) {
                         .style('font-size', d => sizeText(d))
                         .style('dy', d => tSpaceOne(d));
                     }}
+                } else {
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceOne(d))
+                      .text(d => d.data.text1);
                 }
             });
 
@@ -445,11 +447,7 @@ function zoom(d) {
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
 
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceTwo(d))
-                  .text(d => d.data.text2);
+
 
                 if(d === focus) {
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
@@ -459,6 +457,12 @@ function zoom(d) {
                         .style('font-size', d => textSizing(d))
                         .style('dy', d => tSpaceTwo(d));
                     }}
+                } else {
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceTwo(d))
+                      .text(d => d.data.text2);
                 }
             });
 
@@ -470,11 +474,7 @@ function zoom(d) {
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
                 
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceThree(d))
-                  .text(d => d.data.text3);
+
 
                 if(d === focus) {
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
@@ -484,6 +484,12 @@ function zoom(d) {
                         .style('font-size', d => textSizing(d))
                         .style('dy', d => tSpaceThree(d));
                     }}
+                } else {
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceThree(d))
+                      .text(d => d.data.text3);
                 }
             });
     label4
@@ -494,11 +500,7 @@ function zoom(d) {
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
                 
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceFour(d))
-                  .text(d => d.data.text4);
+
 
                 if(d === focus) {
                     if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
@@ -508,6 +510,12 @@ function zoom(d) {
                         .style('font-size', d => textSizing(d))
                         .style('dy', d => tSpaceFour(d));
                     }}
+                } else {
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceFour(d))
+                      .text(d => d.data.text4);
                 }
             });
 
