@@ -494,7 +494,7 @@ function zoom(d) {
                         .style('display', 'inline')
                         .style('fill-opacity', 1)
                         .style('font-size', d => '20px')
-                        .style('dy', d => leaftext2(d))
+                        .style('dy', d => leafText2(d))
                 });
             label3.filter(function(d) {return d === focus })
                 .transition(transition).duration(d3.event.altKey ? 6500 : 650)
