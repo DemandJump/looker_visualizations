@@ -16,7 +16,7 @@ looker.plugins.visualizations.add({
     },
     // Onto the create section 
 create: function(element, config) {
-    // let d3 = d3v5; // Pull in d3 selector as it's normal reference
+    let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
 
     d3.select(element)
@@ -154,7 +154,7 @@ cite.djgaIcon {
 },
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
-  // let d3 = d3v5; // Important!
+  let d3 = d3v5; // Important!
 /******************************************************************************************************************************************
     * Error Clauses 
 ******************************************************************************************************************************************/
@@ -366,10 +366,8 @@ if(config.link != "null" && config.domain != "null" && config.title != "null" &&
     * Main Functionalty
 ******************************************************************************************************************************************/
 console.log('config switch', config.switch);
-let container = d3.select('div.djgaContainer')
-if (config.switch == false) { container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
-else { container.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
-
+if (config.switch == false) { this._djgaContainer.selectAll("*").remove(); /* Clear out all the data upon startup! Then update: */ update(); } 
+else { this._djgaContainer.selectAll("*").remove(); /* Clear out all the data upon startup! Then update(organic): */ organic(); }
 
 function update() {
     let width = element.clientWidth; console.log('\nThis is the update function!') // Dimensions w & h
