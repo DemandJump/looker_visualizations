@@ -419,10 +419,7 @@ function zoom(d) {
                 if (d.parent !== focus) this.style.display = "none";
 
                 d3.select(this)
-                  .style("fill-opacity", d => {
-                    if(d === focus) { if(d.leaf) { if(d.leaf == true) { return 1}}}
-                    return d.parent === focus ? 0 : 0;
-                  })
+                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
                   .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
                   .attr('dy', d => tSpaceOne(d))
                   .text(d => d.data.text1);
@@ -444,10 +441,7 @@ function zoom(d) {
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
-            .style("fill-opacity", d => {
-              if(d === focus) { if(d.leaf) { if(d.leaf == true) { return 1}}}
-              return d.parent === focus ? 0 : 0;
-            })
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
@@ -475,10 +469,7 @@ function zoom(d) {
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
-            .style("fill-opacity", d => d => {
-              if(d === focus) { if(d.leaf) { if(d.leaf == true) { return 1}}}
-              return d.parent === focus ? 0 : 0;
-            })
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
@@ -505,10 +496,7 @@ function zoom(d) {
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
-            .style("fill-opacity", d => {
-              if(d === focus) { if(d.leaf) { if(d.leaf == true) { return 1}}}
-              return d.parent === focus ? 0 : 0;
-            })
+            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
