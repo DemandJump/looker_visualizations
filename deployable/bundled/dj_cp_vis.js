@@ -172,7 +172,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let d3 = d3v5;
     this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
-    console.log(`config`, config);
+    // console.log(`config`, config);
     console.log(`direct reference to settings (this.options)`, this.options);
     console.log(`queryResponse`, queryResponse);
     console.log(`data`, data);
@@ -210,7 +210,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-    console.log('This is the settings', settings);
+
         // Go through all the dimensions, and create the 
     let dimensionId = 1; // This is the dimensionid 
     let currentDimensions = this._currentDimensions;
@@ -309,6 +309,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             type: "boolean",
         }
       config.newDimension = true;
+      console.log('registering the new settings');
+      console.log('This is the settings', settings);
+      console.log('This is the settings', this.options);
       this.trigger('registerOptions', settings);
       this.options = settings;
     }
@@ -359,8 +362,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
     root.data.name = root.children[0].data.name;
-    console.log('This is the root name', root.data.name);
-    console.log('This is the root.children nam', root.children[0].data.name);
     let nodes = root.descendants().slice(1);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
 
@@ -701,7 +702,7 @@ function leafText4(d) {
             }
         }
     }
-    console.log('These are the unique values found: ', uniqueValues);
+    // console.log('These are the unique values found: ', uniqueValues);
     } // End of grab uniqueValues
 
 
@@ -893,7 +894,7 @@ function leafText4(d) {
         let influenceDimen = config.influence;
         dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
       }
-      console.log('This is the taxonomy pass', taxonomyPass);
+      // console.log('This is the taxonomy pass', taxonomyPass);
     } // End of configureBurrowTaxonomy
 
     function nodeHierarchyTaxonomyPull() {
