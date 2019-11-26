@@ -409,7 +409,7 @@ function zoom(d) {
 
     label
         .filter(function(d) { 
-            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
@@ -437,7 +437,7 @@ function zoom(d) {
 
     label2
         .filter(function(d) { 
-            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
@@ -465,7 +465,7 @@ function zoom(d) {
 
     label3
         .filter(function(d) { 
-            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
@@ -492,7 +492,7 @@ function zoom(d) {
             });
     label4
         .filter(function(d) { 
-            if(d === focus) { if(d.leaf){ if(d.leaf == true){return d === focus;} } }
+            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
             return d.parent === focus || this.style.display === "inline"; 
         })
         .transition(transition)
