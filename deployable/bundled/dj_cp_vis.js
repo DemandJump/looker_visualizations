@@ -210,6 +210,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+    console.log('This is the settings', settings);
         // Go through all the dimensions, and create the 
     let dimensionId = 1; // This is the dimensionid 
     let currentDimensions = this._currentDimensions;
