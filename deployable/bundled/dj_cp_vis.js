@@ -185,8 +185,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Manually insert the default values into the config, then configure the dimensions and measures into the vis
     if (config.influenceSwitch) settings.influence['values'] = valsArr;
     if (config.groupSwitch) settings.group['values'] = valsArr;
-
     this.options = settings;
+
+        // Go through all the dimensions
+
+
 
             /*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*/
     configureBurrowTaxonomy();
