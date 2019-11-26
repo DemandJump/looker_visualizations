@@ -80,13 +80,24 @@ looker.plugins.visualizations.add({
             type: "boolean",
             default: true,
             hidden: true
+        },
+
+
+        newDimension: {
+            label: "Add a new dimension?",
+            order: 100, 
+            section: "Configuration",
+            default: false,
+            type: "boolean",
         }
+
     },
 
 
         // Onto the create section 
     create: function(element, config) {
         let d3 = d3v5;
+        this._currentDimensions = 0;
         d3.select(element).style('box-sizing', 'border-box');
     
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
@@ -181,16 +192,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     settings.influence['values'] = [];
     settings.group['values'] = [];
     valsArr = [];
+    configArr = [];
     dimensionValueSettings(); // Grab all the dimensions for the settings
         // Manually insert the default values into the config, then configure the dimensions and measures into the vis
     if (config.influenceSwitch) settings.influence['values'] = valsArr;
     if (config.groupSwitch) settings.group['values'] = valsArr;
     this.options = settings;
-
-        // Go through all the dimensions
-
-
-
             /*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*/
     configureBurrowTaxonomy();
 
@@ -201,6 +208,113 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.trigger('registerOptions', settings);
         this.options = settings;
     }
+
+
+        // Go through all the dimensions, and create the 
+    let dimensionId = 1; // This is the dimensionid 
+    let currentDimensions = this._currentDimensions;
+    updateSettings = false;
+    function nodeConfiguration() {
+        console.log('These are the settings', settings);
+        let selectedDimension = {
+            label: `dimension_${dimensionId}`,
+            order: dimensionId, 
+            section: "Configuration",
+            values: valsArr,
+            default: "null",
+            type: "string",
+            display: "select", 
+            hidden: false
+        };
+
+        let dimensionSizing = {
+            label: "Node Sizing",
+            order: dimensionId + .1,
+            section: "Configuration",
+            values: valsArr,
+            default: "default",
+            type: "string",
+            display: "select",
+            display_size: "half",
+            hidden: false
+        };
+
+        let dimensionColoring = {
+            label: "Node Coloring",
+            order: dimensionId + .2,
+            section: "Configuration",
+            values: valsArr,
+            default: "default",
+            type: "string",
+            display: "select",
+            display_size: "half",
+            hidden: false
+        };
+
+        orderVals = [];
+        for(let i = 0; i< dimensionId.length; i++) {
+            let num = i.toString()
+            let val = {num: num}; 
+            orderVals.push(val); 
+        }
+        let dimensionOrder = { 
+            label: "Hierarchy Order",
+            order: dimensionId + .4,
+            section: "Configuration",
+            values: orderVals,
+            default: dimensionId,
+            type: "string",
+            display: "select"
+        };
+
+        let dimensionDelete = {
+            label: "Delete Node?",
+            order: selectedDimsnions + .5, 
+            section: "Configuration",
+            default: false,
+            type: "boolean",
+        };
+
+
+
+        if(config.newDimension){
+            if(config.newDimension == true) {
+                dimensionId++;
+                currentDimensions++;
+                delete settings['newDimension']
+                updateSettings = true;
+
+                settings[`dimension_${dimensionId}`] = selectedDimension;
+                settings[`dimension_${dimensionId}_sizing`] = dimensionSizing;
+                settings[`dimension_${dimensionId}_coloring`] = dimensionColoring;
+                settings[`dimension_${dimensionId}_order`] = dimensionOrder;
+                settings[`dimension_${dimensionId}_delete`] = dimensionDelete;
+
+
+                
+            } else {
+
+            }
+        }
+
+
+        
+    } // End of nodeConfiguration
+    this._currentDimensions = currentDimensions;
+    if (updateSettings) { // If the settings have changed, then change the display as a whole. This is a much cleaner and more efficient way than rerendering for each settings conditional
+        settings['newDimension'] = {
+            label: "Add a new dimension?",
+            order: 100, 
+            section: "Configuration",
+            default: false,
+            type: "boolean",
+        }
+      config.newDimension = true;
+      this.trigger('registerOptions', settings);
+      this.options = settings;
+    }
+
+
 
     /**********************
      * Error Clauses 
@@ -561,6 +675,8 @@ function leafText4(d) {
     function dimensionValueSettings() {
       let val = {"None": "null"};  
       valsArr.push(val);
+      val = {"Default": "default"}
+      configArr.push(val);
       
       measures.forEach(mes => { // Value object >.>  {"name": "value"} 
         let key = mes.label; // Key of value pair
@@ -568,6 +684,7 @@ function leafText4(d) {
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
         valsArr.push(val);
+        configArr.push(val);
       });
 
       dimensions.forEach(dimension => {
@@ -576,6 +693,7 @@ function leafText4(d) {
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
         valsArr.push(val);
+        configArr.push(val);
       });
     } // End of dimensionValueSettings
 
