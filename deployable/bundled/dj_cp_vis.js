@@ -215,6 +215,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimensionId = 1; // This is the dimensionid 
     let currentDimensions = this._currentDimensions;
     updateSettings = false;
+    nodeConfiguration();
     function nodeConfiguration() {
         console.log('These are the settings', settings);
         let selectedDimension = {
@@ -277,7 +278,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         };
 
 
-        console.log('This is the config currently', config);
         if(config.newDimension){
             if(config.newDimension == true) {
                 dimensionId++;
