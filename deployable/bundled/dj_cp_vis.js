@@ -405,6 +405,7 @@ function zoom(d) {
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none";
+                if (d === focus) { if(d.data.leaf){ if(d.data.leaf == true) { this.style.display = 'inline'}}}
 
                 d3.select(this)
                   .style("fill-opacity", d => d.parent === focus ? 1 : 0)
@@ -424,6 +425,7 @@ function zoom(d) {
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
+                if (d === focus) { if(d.data.leaf){ if(d.data.leaf == true) { this.style.display = 'inline'}}}
 
                 d3.select(this)
                   .style("fill-opacity", d => d.parent === focus ? 1 : 0)
@@ -443,6 +445,7 @@ function zoom(d) {
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
+                if (d === focus) { if(d.data.leaf){ if(d.data.leaf == true) { this.style.display = 'inline'}}}
                 
                 d3.select(this)
                   .style("fill-opacity", d => d.parent === focus ? 1 : 0)
@@ -461,6 +464,7 @@ function zoom(d) {
             .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
             .on("end", function(d) { 
                 if (d.parent !== focus) this.style.display = "none"; 
+                if (d === focus) { if(d.data.leaf){ if(d.data.leaf == true) { this.style.display = 'inline'}}}
 
                 console.log('This is d from the filter function', d);
                 
