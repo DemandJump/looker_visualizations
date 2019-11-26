@@ -271,7 +271,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         let dimensionDelete = {
             label: "Delete Node?",
-            order: selectedDimsnions + .5, 
+            order: dimensionId + .5, 
             section: "Configuration",
             default: false,
             type: "boolean",
