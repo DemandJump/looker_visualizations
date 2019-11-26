@@ -332,6 +332,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
 
+
+
+
     /*******************************************************
         * Functions Section *
     *******************************************************/

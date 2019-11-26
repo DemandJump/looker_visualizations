@@ -5,12 +5,6 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-      // autoColor: {
-      //   label: 'Autocolor Dimensions',
-      //   type: 'boolean',
-      //   section: 'Styling',
-      //   default: true
-      // },
       aResetColors: {
         label: 'Use default colors',
         type: 'boolean', 
@@ -26,11 +20,6 @@ create: function(element, config) {
     this._hidden = false // Set it to true for the commented out options values
     this._resetColors = true 
 
-    // Element is the Dom element that looker would like us to put our visualization into
-        // Looker formats it to the proper size, you just need to put the stuff here
-// We're essentially using vanilla javascript to create a visualization for looker to append!
-
-    // Insert a <style> tag with some styles we'll use later.
   d3.select('body')
       .style('position', 'fixed')
       .style('left', '0')
@@ -87,21 +76,10 @@ create: function(element, config) {
         }
         </style>
         `;
-        /*
-        <svg class="container">
-            <svg class="content">
-            </svg>
-        </svg>
-        */
+
        this._svg = d3.select(element).append('svg')
             .attr('class', 'container');
 
-            
-
-    /* 
-        So create is where you setup the visualization, then we render it in updateAsync
-            Note: Create is a convenient place t o do setup that only needs to happen once 
-    */
 
 },
 burrow: function(table, taxonomy) {
@@ -174,17 +152,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /**********************
      * Error Clauses 
     **********************/
-        // Clear any errors from previous updates.
-    // this.clearErrors(); /* !!! Important try keeping this off for now !!!
-
-
-        // Create different cases for potential errors that could occur
-    // Throw some errors and exit if the shape of the data isn't what this chart needs.
     if (queryResponse.fields.dimensions.length == 0) {
         this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
         return;
     }
-
 
     /************************************************************************************
     * Setting up the Dimension Options
@@ -233,80 +204,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         * Update the Options
 ****************************************************************/
     console.log('This is config', config)
-
-    // console.log('This is autoColor', config.autoColor)
-    //     // Based on hidden values of current config, we'll change the settings in our visual and apply it to the current visual
-    // if (config.autoColor == true) {  // Then we'll leave hidden as true and color it by the default dj colors
-    //     // Check the current settings and update then apply if they're not up to date 
-    //   dimensions.forEach( (dimension, i) => {
-    //     if (i == 0) { if (this._hidden == false) this.options['djdh_measures']['hidden'] = true }
-    //     if (this._hidden == false) this.options[dimension.name]['hidden'] = true
-    //   }) 
-    //   if (this._hidden == false) { 
-    //     this._hidden == true 
-    //     this.trigger('registerOptions', this.options)
-    //   }
-    // }
-
-    // if (config.autoColor == false) {
-    //     // Check the settings and apply dynamically
-    //   dimensions.forEach( (dimension, i) => { // Then we'll set hidden to false and let them choose the colors they want for each and every node
-    //     if (i == 0) {
-    //       if (this._hidden == true) this.options['djdh_measures']['hidden'] = false }
-    //     if (this._hidden == true) this.options[dimension.name]['hidden'] = false
-    //   })
-    //   if (this._hidden == true) { 
-    //     this._hidden == false
-    //     this.trigger('registerOptions', this.options) 
-    //   }
-    // }
-
     console.log('These are the current config instantiated', this.options)
 
 
-    // if (config.aResetColors == true) {
-    //   if (this._resetColors == false) {
-    //     console.log('this is options', this.options)
-    //     dimensions.forEach(dim => {
-    //       config[dim.name] = this.options[dim.name]["default"]
-    //     })
-    //     config['djdh_measures'] = this.options['djdh_measures']["default"]
-
-    //     this._resetColors = true
-    //   }
-    // }
-    // if (config.aResetColors == false) {
-    //   if (this._resetColors == true) {
-    //     console.log('this is options', this.options)
-    //     dimensions.forEach(dim => {
-    //       config[dim.name] = this.options[dim.name]["default"]
-    //     })
-    //     config['djdh_measures'] = this.options['djdh_measures']["default"]
-
-    //     this._resetColors = false
-    //   }
-    // }
-
-
-
-
-    
-
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
-
-      let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
-      dimensions.forEach(dim => {
-        let currentDim = dim.name
-          // Find the current dim's color value through config!
-        let currentColor = config[currentDim]
-        chosenColors.push(currentColor)
-      })
-        // then at the end of the array we add measure's color
-      // console.log('config djdh measures', config['djdh_measures'])
-      chosenColors.push(config['djdh_measures'])
-      // Now we have a full array of the colors in order by depth, and it is accurate
-
-            /* // End of Chosen colors array! Now we can just grab the values from the variable quickly without putting a lot on the cpu // */
+    let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
+    dimensions.forEach(dim => {
+      let currentDim = dim.name
+        // Find the current dim's color value through config!
+      let currentColor = config[currentDim]
+      chosenColors.push(currentColor)
+    })
+    chosenColors.push(config['djdh_measures'])
 
 
     if (config.aResetColors == true) {
@@ -315,36 +224,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
-    /* Object { // !!!Initial data given, we're gonna have to account for variation after this!!!
-            djb_scores.dj_score: { value: float, rendered:  num } // circle size 
-            djb_scores.phrase: { value: string } // child 
-            djb_scores.query_string: { value: string }  // parent
-    }
-    */
-
-            /* Temporary playground to formulate how to recreate this hierarchy with any given dimension */
-        // Start by finding out how Looker pulls data /dimensions 
-    // console.log('\n\n\ Initializing the node visual stuff');
-    // console.log(`LookerCharts`, LookerCharts);
-            
-
-  // console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions.length);
-  // console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures.length);
-    // Dimension and Measure length 
   let maxDimensions = queryResponse.fields.dimensions.length;
   let maxMeasures = queryResponse.fields.measures.length;
-    // The selector references for dimensions and length 
-
-
   let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
   let duration = 500;
-
-
-          //*// Burrowing into the Data //*//
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
-  // console.log('burrow function results on raw data: ', nested);
-
-    // Create the dimensions of the layout
   let width = element.clientWidth;
   let height = element.clientHeight;
 
@@ -383,22 +267,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   //   }
   // }
   
-  console.log('Show me the root for it"s coordinates', root);
-      // We need to find the coordinates to the center of the visual 
-
   container.call(zoom_handler);
   let updatInit = 0;
 
-
-
-
       // First we need to grab all the measures and their names for the object's we're adding
-    let mNodeRef = []; // Add all the measures as nodes within the visualization!
-    let mNodeLabel = []; // so first find all the names of the measures so we can reference them
-    let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-    measures.forEach(measure => {
-      mNodeRef.push(measure.name)
-      mNodeLabel.push(measure.label_short)
+  let mNodeRef = []; // Add all the measures as nodes within the visualization!
+  let mNodeLabel = []; // so first find all the names of the measures so we can reference them
+  let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
+  measures.forEach(measure => {
+    mNodeRef.push(measure.name)
+    mNodeLabel.push(measure.label_short)
     })
   //   console.log('These are the measure reference names', mNodeRef);
 
@@ -450,28 +328,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Main functionality (^:;
   function update(source) {
-    // console.log('i', i) // See how many times i's been reinstantiated
-      // Try changing the height of the viewport as you have more leaf nodes instantiated
   let leaves = root.leaves();
-  // console.log('leaves', leaves.length);
   height = 52 * leaves.length; // This calculates the space between the nodes!
-  // console.log('new height ', height);
-
   treemap = d3.tree().size([height, width]);
-  // Assigns the x and y position for the nodes
+    // Assigns the x and y position for the nodes
   let treeData = treemap(root);
-
-
-
   // Compute the new tree layout.
   let nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
-    console.log('\n\nnodes', nodes); //
-    console.log('links', links); // 
+  console.log('\n\nnodes', nodes); //
+  console.log('links', links); // 
+  let linkAddition = ""; // Saved longest string value 
 
-
-    let linkAddition = ""; // Saved longest string value 
-    // Let's run through the data and pull out the longest string in the array
           /* Maybe try to do it for everything but the leaf nodes.. I have a hunch (; */
   data.forEach(datum => {
     var keys = [];
@@ -492,7 +360,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     i++; // Used to show current iteration we're on
   });
   console.log('CalculatedLongest string!', linkAddition);
-
 
   if (updatInit == 0) {
       updatInit++;
@@ -579,7 +446,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       })
   }
 
-
   // UPDATE
   var nodeUpdate = nodeEnter.merge(node);
 
@@ -598,11 +464,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         : !d._children && !d.children ? chosenColors[d.depth] // "#FEBF43" 
         : "#999999"
     })
-    // .style('fill', d => chosenColors[d.depth])
-    // .style('stroke', d => {
-    //     return d.children ? "#008CCD" :
-    //     "#999999"
-    // })
     .style('stroke', d => {
       return d.children ? '#008CCD' : '#999999'
     })
@@ -690,67 +551,41 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     update(d);
     // Zoom to the selected node!
     console.log('this is the clicked node data', d);
-      // d.x is the desired x coordinate
-      // d.y is the desired y coordinate
-
-      // We need to create a variable for where it's translating to 
-    // console.log('this is really pan!', pan);
-    // let cScale = pan["_groups"][0][0]["transform"]["animVal"]["1"]["matrix"]["a"];
-    // let translate = [width / 2 - cScale * d.x, height / 2 - cScale * d.y];
-    // console.log('translate: ', translate);
-    // console.log('this is cScale ', cScale);
-    // zoom_handler.transition().duration(1250)
-    //   .attr('transform', `translate(` + translate + `) scale(` + cScale + `)`);
   }
 
   function colorCircles(d) {
     // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
         // Start from d level 1, 0 can have a unique styling
-  for(i = 0; i < maxDepth; i++) {
-    if (i == d.depth) {
-      return chosenColors[i]
+    for(i = 0; i < maxDepth; i++) {
+      if (i == d.depth) {
+        return chosenColors[i]
+      }
     }
   }
-}
 
-function textSize(d) {
-      // We need dynamic text size based on the depth of the hierarchy
-      /* 
-      0: 8rem
-      1: 4.5rem
-      2: 4rem
-      3: 3.4rem
-      4: 2rem
-      */
-  return d.depth == 0 ? '8rem'
-  : d.depth == 1 ? '4.5rem'
-  : d.depth == 2 ? '4rem'
-  : d.depth == 3 ? '3.4rem'
-  : d.depth == maxDepth ? '2rem'
-  : '2.25rem'
-}
-}
+  function textSize(d) {
+    return d.depth == 0 ? '8rem'
+    : d.depth == 1 ? '4.5rem'
+    : d.depth == 2 ? '4rem'
+    : d.depth == 3 ? '3.4rem'
+    : d.depth == maxDepth ? '2rem'
+    : '2.25rem'
+  }
 
-    /**********************
-     * Update the Options
-    **********************/
-    // Here's a check we add to the end of the update function to implement the options 
+} // End of update function 
 
 
     /**************** Done! *****************/
-    // Always call done to indicate a visualization has finished rendering
     doneRendering() 
 }
 });
 
-/*
-    git status
-    git add . 
-    git commit -m "experimenting"
-    git push -u origin master 
-    git status
 
-*/
+
+
+
+
+
 
 
 

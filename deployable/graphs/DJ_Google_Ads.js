@@ -188,15 +188,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /****** Log all these functions to see what we're working with ******/
 console.log(` ...UpdateAsync initialized, here is it's data:`);
 console.log('\n data', data);
-console.log('element', element);
 console.log('config', config);
 console.log('queryResponse', queryResponse);
-console.log('details', details);
+// console.log('element', element);
+// console.log('details', details);
     // Playing with dimensions and measures
-    let dimensions = queryResponse.fields.dimensions;
-    let measures = queryResponse.fields.measures;
-    console.log('Checking out query resposne dimension fields: ', dimensions);
-    console.log('Checking out query resposne measure fields: ', measures);
+let dimensions = queryResponse.fields.dimensions;   console.log('Checking out query resposne dimension fields: ', dimensions);
+let measures = queryResponse.fields.measures;   console.log('Checking out query resposne measure fields: ', measures);
 
 
 console.log('looking for the sql within queryResponse', queryResponse.sql);
@@ -466,15 +464,6 @@ function organic() {
 /******************************************************************************************************************************************
                                                                                                                 * End of Main Functionalty
 ******************************************************************************************************************************************/
-
-
-
-
-
-
-
-    
-
     /**************** Done! *****************/
     doneRendering()     // Always call done to indicate a visualization has finished rendering
 }

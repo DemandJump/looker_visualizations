@@ -81,12 +81,7 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: true
         }
-        
-
-
-
     },
-
 
 
         // Onto the create section 
@@ -160,21 +155,16 @@ looker.plugins.visualizations.add({
         };
     },
     
+
         // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5;
     this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
-
-          /* * * * * * CURRENT VERSION * * * * * */ 
-    // console.log('Adding color by grouping functionality, and working towards finding the actual leaf nodes embedded around the nulls');
-
-        /****** Initial Functions ******/
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
     console.log(`config`, config);
     console.log(`direct reference to settings (this.options)`, this.options);
     console.log(`queryResponse`, queryResponse);
     console.log(`data`, data);
-    // console.log(`element`, element); // console.log(`details`, details);
     let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
     let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
     let taxonomyPass = dimensions;
@@ -182,7 +172,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***************************************
      * Configuring the settings
     ***************************************/
-
             /*/ / Get the unique values out of the grouping dimension / /*/
     let uniqueValues = [];
     grabUniqueValues();
@@ -191,11 +180,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let settings = this.options;
     settings.influence['values'] = [];
     settings.group['values'] = [];
+    valsArr = [];
+    dimensionValueSettings(); // Grab all the dimensions for the settings
         // Manually insert the default values into the config, then configure the dimensions and measures into the vis
-    let val = {"None": "null"};  
-    settings.influence['values'].push(val);
-    settings.group['values'].push(val);
-    configureInfluenceAndGroup(); 
+    if (config.influenceSwitch) settings.influence['values'] = valsArr;
+    if (config.groupSwitch) settings.group['values'] = valsArr;
+
     this.options = settings;
 
             /*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*/
@@ -209,7 +199,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.options = settings;
     }
 
-
     /**********************
      * Error Clauses 
     **********************/
@@ -222,7 +211,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let addError = false;
     checkSelectedInfluence();
     if (addError) this.addError({title: "Factor error", message: "The variable factor must be a number"});
-    
     /*********************************************************
      * Preload the data for the visual 
     *********************************************************/
@@ -424,15 +412,6 @@ function zoom(d) {
                   .attr('dy', d => tSpaceOne(d))
                   .text(d => d.data.text1);
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => sizeText(d))
-                        .style('dy', d => tSpaceOne(d));
-                    }}
-                }
             });
 
     label2
@@ -452,15 +431,6 @@ function zoom(d) {
                   .attr('dy', d => tSpaceTwo(d))
                   .text(d => d.data.text2);
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceTwo(d));
-                    }}
-                }
             });
 
     label3
@@ -480,15 +450,6 @@ function zoom(d) {
                   .attr('dy', d => tSpaceThree(d))
                   .text(d => d.data.text3);
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceThree(d));
-                    }}
-                }
             });
     label4
         .filter(function(d) { 
@@ -509,15 +470,6 @@ function zoom(d) {
                   .attr('dy', d => tSpaceFour(d))
                   .text(d => d.data.text4);
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceFour(d));
-                    }}
-                }
             });
       
 
@@ -599,27 +551,26 @@ function leafText4(d) {
     } // End of grab uniqueValues
 
 
-    function configureInfluenceAndGroup() {
-      console.log('This is the settings');
-      console.log(settings);
-            // Adds all the different dimensions as 
+    function dimensionValueSettings() {
+      let val = {"None": "null"};  
+      valsArr.push(val);
+      
       measures.forEach(mes => { // Value object >.>  {"name": "value"} 
         let key = mes.label; // Key of value pair
         let valuepair = mes.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        if (config.influenceSwitch) settings.influence['values'].push(val);
-        if (config.groupSwitch) settings.group['values'].push(val);
+        valsArr.push(val);
       });
+
       dimensions.forEach(dimension => {
         let key = dimension.label; // Key of value pair
         let valuepair = dimension.name; // value of value pair
         let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
         val[key] = valuepair;
-        if (config.influenceSwitch) settings.influence['values'].push(val);
-        if(config.groupSwitch) settings.group['values'].push(val);
+        valsArr.push(val);
       });
-    } // End of configureInfluenceAndGroup
+    } // End of dimensionValueSettings
 
 
     function configureDisplay() {
@@ -1006,44 +957,6 @@ function leafText4(d) {
     }
 
 
-    // function colorByGroup(node) {
-    //     if(node.children != []) {
-    //         parseDown(node.data.children[0]);
-
-    //         if (config.groupSwitch == true && config.group != "null") {
-    //             let fader = findUniqueValue(node);
-    //             let newColor = d3.scaleLinear()
-    //                 .domain([minDepth, maxDepth])
-    //                 .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
-    //                 .interpolate(d3.interpolateHcl);
-                
-    //             if (node.color) { if (node.color == 'white') return "white"; }
-    //             return node.children ? newColor(node.depth) : "white";
-    //         }
-    //     } 
-    //     if (node.color) { if (node.color == 'white') return "white"; }
-    //     return node.children ? color(node.depth) : "white";
-
-
-
-    //     function parseDown(d) { // Find the phrase type or group value by parsing down the tree
-    //         // console.log('This is d currently', d);
-    //         if (d.children) { if (d.children.length > 0) {
-    //             parseDown(d.children[0]); 
-    //         }}
-    //         if (d.children.length = 0 || !(d.children)) {
-    //             // console.log('Found the end of the loop, this is the value', d);
-    //             // console.log("This is reference to the node that initialized this recursive function:", node);
-    //             if (d.data.groupColor) {
-    //                 let pass = d.data["groupColor"]["value"];
-    //                 // console.log('Found end of loop, here is pass', pass);
-    //                 node.group = pass;
-    //             }
-    //         }
-    //     }
-    // } // End of color by group function
-
-
     /*  This vis shouldn't go beyond 6 depths 
       Blue:
         #009de9, #19b8f7, #43d3ff, #78e6ff, #aef0ff, #dcf7ff
@@ -1086,12 +999,6 @@ function leafText4(d) {
 
 
     function packageData() {
-                /*/ / This is gonna get funky, we're gonna match the search queries with the phrases / /*/
-              // Put an object in place of the value, and pass more data into the burrow function
-            // The way it uses the prototype chain matches the values in a really intuitive way, so I'm gonna keep it together
-          // Instead I'm gonna link the data preemptively because I can't dynamically link this together. 
-        // link the search query degrees to the respective type degrees
-
         let sd1 = 'nodes.search_query',
         sd2 = 'second_degree_dependencies.search_query',
         sd3 = 'third_degree_dependencies.search_query',
@@ -1109,13 +1016,6 @@ function leafText4(d) {
         dj5 = 'fifth_degree_dependencies.dj_score';
         data.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
             let sval, ftval, djval;
-            /* 
-              sval.name {
-                value: 
-                  from "asdaljalksdja"
-                  to {"meihoimenoi", djspookscore, phrasetype}
-              }
-            */
 
             if (node[sd1] && node[ft1] && node[dj1]) {
                 sval = node[sd1].value;
@@ -1152,10 +1052,9 @@ function leafText4(d) {
                 node[sd5].value = `${sval}~${ftval}~${djval}`;
             }
 
-
-
         }); // End of data mutation
-    }
+    } // End of packageData
+
 
     // function taxonomyPull() {
 
@@ -1211,7 +1110,44 @@ function leafText4(d) {
 
 
 
+                                        //*// Deprecated //*//
 
+    // function colorByGroup(node) {
+    //     if(node.children != []) {
+    //         parseDown(node.data.children[0]);
+
+    //         if (config.groupSwitch == true && config.group != "null") {
+    //             let fader = findUniqueValue(node);
+    //             let newColor = d3.scaleLinear()
+    //                 .domain([minDepth, maxDepth])
+    //                 .range(["hsl(199, 100%, 40%)", fader]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
+    //                 .interpolate(d3.interpolateHcl);
+                
+    //             if (node.color) { if (node.color == 'white') return "white"; }
+    //             return node.children ? newColor(node.depth) : "white";
+    //         }
+    //     } 
+    //     if (node.color) { if (node.color == 'white') return "white"; }
+    //     return node.children ? color(node.depth) : "white";
+
+
+
+    //     function parseDown(d) { // Find the phrase type or group value by parsing down the tree
+    //         // console.log('This is d currently', d);
+    //         if (d.children) { if (d.children.length > 0) {
+    //             parseDown(d.children[0]); 
+    //         }}
+    //         if (d.children.length = 0 || !(d.children)) {
+    //             // console.log('Found the end of the loop, this is the value', d);
+    //             // console.log("This is reference to the node that initialized this recursive function:", node);
+    //             if (d.data.groupColor) {
+    //                 let pass = d.data["groupColor"]["value"];
+    //                 // console.log('Found end of loop, here is pass', pass);
+    //                 node.group = pass;
+    //             }
+    //         }
+    //     }
+    // } // End of color by group function
 
 
 
