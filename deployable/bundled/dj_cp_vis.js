@@ -277,7 +277,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         };
 
 
-
+        console.log('This is the config currently', config);
         if(config.newDimension){
             if(config.newDimension == true) {
                 dimensionId++;
