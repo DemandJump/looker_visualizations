@@ -214,6 +214,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Go through all the dimensions, and create the 
     let dimensionId = 1; // This is the dimensionid 
     let currentDimensions = this._currentDimensions;
+    let dimensionLinks = [];
     updateSettings = false;
     nodeConfiguration();
     function nodeConfiguration() {
@@ -290,6 +291,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 settings[`dimension_${dimensionId}_coloring`] = dimensionColoring;
                 settings[`dimension_${dimensionId}_order`] = dimensionOrder;
                 settings[`dimension_${dimensionId}_delete`] = dimensionDelete;
+                dimensionLinks[dimensionId] = { // References to the settings per each Id
+                    dimension_name: '',
+                    selectedDimension: `dimension_${dimensionId}`,
+                    dimensionSizing: `dimension_${dimensionId}_sizing`,
+                    dimensionColoring: `dimension_${dimensionId}_coloring`,
+                    dimensionOrder: `dimension_${dimensionId}_order`,
+                    dimensionDelete: `dimension_${dimensionId}_delete`
+                }
                 
             } else {
 
@@ -309,11 +318,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             type: "boolean",
         }
       config.newDimension = true;
-      console.log('registering the new settings');
       console.log('This is the settings', settings);
       console.log('This is the settings', this.options);
       this.trigger('registerOptions', settings);
       this.options = settings;
+    }
+
+
+
+
+  
+          // Iterate through all the settings 
+    updateSettings = false;
+    dimensionLinks.forEach(link => {
+            // Grab the dimension name
+        if (config[link.selectedDimension] != 'default') link.dimension_name = config[link.selectedDimension];
+        console.log('This is the link', link);
+
+            // Stream it all through by adding placeholder vars for defualts
+
+
+
+    });  
+    console.log('dimensionLinks', dimensionLinks);
+
+
+    if (updateSettings) {
+        this.trigger('registerOptions', settings);
     }
 
 
