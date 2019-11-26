@@ -89,7 +89,8 @@ looker.plugins.visualizations.add({
             section: "Configuration",
             default: false,
             type: "boolean",
-        }
+        },
+
 
     },
 
@@ -211,6 +212,77 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+
+
+
+
+
+
+    settings['notes'] = {
+      label: "Notes for building the dimension",
+      order: 0,
+      section: "Configure",
+      type: "sentence_maker",
+      words: [
+          { type: "separator", text: "You can have up to 5 dimensions in the hierarchy, Enter the mhere" }
+      ]
+    };
+
+    for(let i = 0; i < 5; i++) { // dim#, dim#s, dim#c are the config values
+      let dimName = `dim${i}`;
+      settings[dimName] = {
+          label: "Choose the first dimension of The hierarchy",
+          order: [i] + .1, 
+          section: "Configure",
+          values: valsArr,
+          default: "null",
+          type: "string",
+          display: "select", 
+          hidden: false
+      };
+
+      dimName = `dim${i}s`;
+      settings[dimName] = {
+          label: "Node Sizing",
+          order: [i] + .2,
+          section: "Configure",
+          values: configArr,
+          default: "default",
+          type: "string",
+          display: "select",
+          display_size: "half",
+          hidden: false
+      };
+
+      dimName `dim${i}c`;
+      settings[dimName] = {
+        label: "Node Coloring",
+        order: [i] + .3,
+        section: "Configure",
+        values: configArr,
+        default: "default",
+        type: "string",
+        display: "select",
+        display_size: "half",
+        hidden: false
+      };
+
+    } // End of for loop
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Go through all the dimensions, and create the 
     let dimensionId = 1; // This is the dimensionid 
     let currentDimensions = this._currentDimensions;
@@ -224,7 +296,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             order: dimensionId, 
             section: "Configuration",
             values: valsArr,
-            default: "null",
+            default: "default",
             type: "string",
             display: "select", 
             hidden: false
@@ -265,7 +337,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             order: dimensionId + .4,
             section: "Configuration",
             values: orderVals,
-            default: dimensionId,
+            default: 'default',
             type: "string",
             display: "select"
         };
