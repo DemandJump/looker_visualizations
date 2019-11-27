@@ -226,16 +226,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
-            let h = i * 40;
             d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
-                .style('top', h)
+                .style('top', i * 40)
                 .style('left', 0)
                 .style('height', '40px')
-                .html(`<style>top: ${h};</style>Breadcrumb number ${i}`);
+                .html(`Breadcrumb number ${i}`);
         } // end of for loop
+        for(let i = 0; i < breadCrumbIds.length; i++) {
+            let h = i * 40;
+            let id = `#${breadCrumbIds[i]}`;
+            d3.select(id).style('top', h);
+        }
 
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
