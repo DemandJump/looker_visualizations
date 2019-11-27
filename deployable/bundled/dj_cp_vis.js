@@ -107,28 +107,33 @@ looker.plugins.visualizations.add({
         this._currentDimensions = 0;
         this._configuration = false;
         this._configRef = 0;
+        this._breadCrumbInit = true;;
         d3.select(element).style('box-sizing', 'border-box');
     
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
         element.innerHTML =`
           <style>
               @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+              html, body { margin: 0; padding: 0; }
               .text, .text2, .text3 { font-family: Roboto; font-weight: 300; }
               .header { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
               .header, .text, .text2, .text3 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
           </style>
         `;
 
-        this._header = d3.select(element).append('h2')
-            .attr('class', 'header')
+        this._header = d3.select(element).append("h2")
+            .attr("class", "header")
+
+        this._breadcrumbs = d3.select(element).append("div")
+            .attr("class", "breadcrumbContainer")
 
         this._container = d3.select(element).append("div")
-            .style('position', 'relative')
-            .attr('class', 'container');
+            .style("position", "relative")
+            .attr("class", "container");
 
-        this._svg = d3.select('div.container').append("svg")
-            .style('position', 'relative')
-            .attr('class', 'svg');
+        this._svg = d3.select("div.container").append("svg")
+            .style("position", "relative")
+            .attr("class", "svg");
 
         
     },
@@ -297,13 +302,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+    let breadCrumbIds = []; 
+    function initBreadCrumbs(d) {
+        ////Maxdepth
+        console.log('This is the maxDepth', maxDepth);
+        console.log('[Breadcrumb]: This is the clicked node!', d);
+
+        for(let i = 1; i <= maxDepth.length; i++) {
+            let id = `bc${i}`;
+            breadCrumbIds.push(id);
+        }
+        for(let i = 0; i < breadCrumbIds.length; i++) {
+            d3.select('.breadcrumbContainer')
+                .attr('class', 'breadcrumbs')
+                .attr('id', breadCrumbIds[i])
+                .style('position', 'absolute')
+                .style('top', i * 40)
+                .style('right', 0)
+                .style('height', '40px')
+                .html(`Breadcrumb number ${i}`);
+                
+        } // end of for loop
+
+    } // End of initBreadCrumbs
 
     function breadCrumbs(d) {
-        ////Maxdepth
-        console.log('This is the clicked node!', d);
-        
-
-    }  
+        console.log('This will append the actual text of the breadcrumb nodes');
+    } // End of breadCrumbs 
 
     /******************************************************************************************************************************************
         * Build the svg
@@ -560,11 +585,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // }
 
     function zoomThenRefactor(d) {
+        // console.log('This is d', d);
         zoom(d);
         // refactor(d);
+
+
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-        // console.log('This is d', d);
-        initBreadcrumbs(d);
+        
+        if(this._breadCrumbInit) {
+            this._breadCrumbInit = false;
+            initBreadCrumbs(d);
+        }
+        breadCrumbs(d);
 
     }
 
