@@ -334,7 +334,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let configsize = config[confsize];
             let query = node[configname].value;
             let dycol = node[configcolor].value;
-            let dynsz = node[configsize].value; 
+            let dynsz = node[configsize].value;
+            console.log('confname', configname);
+            console.log('confname', confcolor);
+            console.log('confname', confsize);
+            console.log('confname', query);
+            console.log('confname', dycol);
+            console.log('confname', dynsz); 
 
             if(config.dynamicColoring == true && config[confcolor] != 'default') {
                 node[config[confname]].value = `${query}~${dycol}`;
