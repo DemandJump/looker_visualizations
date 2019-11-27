@@ -107,7 +107,6 @@ looker.plugins.visualizations.add({
         this._currentDimensions = 0;
         this._configuration = false;
         this._configRef = 0;
-        this._breadCrumbInit = true;;
         d3.select(element).style('box-sizing', 'border-box');
     
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
@@ -303,17 +302,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     let breadCrumbIds = []; 
-    let breadCrumbInit = this._breadCrumbInit;
+    for(let i = 1; i <= maxDepth.length; i++) {
+      let id = `bc${i}`;
+      breadCrumbIds.push(id);
+    }
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
         ////Maxdepth
         console.log('This is the maxDepth', maxDepth);
         console.log('[Breadcrumb]: This is the clicked node!', d);
 
-        for(let i = 1; i <= maxDepth.length; i++) {
-            let id = `bc${i}`;
-            breadCrumbIds.push(id);
-        }
+            // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
             d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
@@ -323,8 +322,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('right', 0)
                 .style('height', '40px')
                 .html(`Breadcrumb number ${i}`);
-                
         } // end of for loop
+
+
+        let id = `#bc${d.depth}`;
+        d3.select(id).html(d.data.name);
+        let node = d;
+        for(let i = d.depth; i > 1; i--) {
+            node = node.parent;
+            id = `#bc${i - 1}`;
+            d3.select(id).html(node.data.name);
+        }
 
     } // End of initBreadCrumbs
 
