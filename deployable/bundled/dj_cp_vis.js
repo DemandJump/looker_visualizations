@@ -598,13 +598,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         zoom(d);
         // refactor(d);
 
-
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-
-        if(d == nodes[0]) {
-            initBreadCrumbs(d);
-        }
-        breadCrumbs(d);
+        initBreadCrumbs();
 
     }
 
