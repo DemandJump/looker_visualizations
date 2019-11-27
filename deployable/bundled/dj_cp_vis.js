@@ -242,13 +242,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let id = `#${breadCrumbIds[i]}`;
             d3.select(id).style('top', h);
         }
+                // let ad = `#${breadCrumbIds[3]}`;
+        // d3.select(ad).style('top', '160px');
 
+
+        console.log('Iterating through the breadcrumbs now!\n\n');
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
         let node = d;
+        console.log('This is the selected node id', d);
         for(let i = d.depth; i > 1; i--) {
             node = node.parent;
             id = `#bc${i - 1}`;
+            console.log('Iteration ', i);
+            console.log('Parent node', node); 
+            console.log('Current id', id, '\n');
             d3.select(id).html(node.data.name);
         }
 
