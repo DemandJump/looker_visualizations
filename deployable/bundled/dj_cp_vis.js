@@ -366,9 +366,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             console.log('configname', config[confname]);
             console.log('configcolor', config[confcolor]);
             console.log('configsize', config[confsize]);
-            let query = node[configname];
-            let dycol = node[configcolor];
-            let dynsz = node[configsize];
+            let query = node[configname]['value'];
+            let dycol = node[configcolor]['value'];
+            let dynsz = node[configsize]['value'];
             console.log('Query', query);
             console.log('Dycol', dycol);
             console.log('Dynsz', dynsz);
