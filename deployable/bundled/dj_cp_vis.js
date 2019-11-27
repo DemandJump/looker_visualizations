@@ -432,7 +432,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
     root.data.name = root.children[0].data.name;
-    // let nodes = root.descendants().slice(1);
+    let nodes = root.descendants()//.slice(1);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
 
     findActualLeafNodes(); // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
