@@ -300,7 +300,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('This is the focus', focus);
 
 
-
     let breadCrumbIds = []; 
     for(let i = 1; i <= maxDepth.length; i++) {
       let id = `bc${i}`;
@@ -324,7 +323,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .html(`Breadcrumb number ${i}`);
         } // end of for loop
 
-
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
         let node = d;
@@ -337,7 +335,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of initBreadCrumbs
 
     function breadCrumbs(d) {
-        console.log('This will append the actual text of the breadcrumb nodes');
+        console.log('This is the breadCrumbs function', d);
+        // console.log('This will append the actual text of the breadcrumb nodes');
     } // End of breadCrumbs 
 
     /******************************************************************************************************************************************
