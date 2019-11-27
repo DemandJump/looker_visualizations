@@ -82,16 +82,6 @@ looker.plugins.visualizations.add({
             hidden: true
         },
 
-
-        newDimension: {
-            label: "Add a new dimension?",
-            order: 100, 
-            section: "Configuration",
-            default: false,
-            type: "boolean",
-        },
-
-
     },
 
 
@@ -223,7 +213,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     settings['notes'] = {
         label: "Notes for building the dimension",
         order: 0,
-        section: "Configure",
+        section: "Configuration",
         type: "sentence_maker",
         words: [
             { type: "separator", text: "You can have up to 5 dimensions in the hierarchy, Enter the mhere" }
@@ -233,7 +223,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     settings['dimensionAmount'] = {
         label: "Number of dimensions in hierarchy",
         order: .5,
-        section: "Configure",
+        section: "Configuration",
         type: "string", 
         display: "select",
         values: [],
@@ -258,7 +248,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       settings[dimName] = {
           label: "Choose the first dimension of The hierarchy",
           order: [i] + .1, 
-          section: "Configure",
+          section: "Configuration",
           values: valsArr,
           default: "null",
           type: "string",
@@ -270,7 +260,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       settings[dimName] = {
           label: "Node Sizing",
           order: [i] + .2,
-          section: "Configure",
+          section: "Configuration",
           values: configArr,
           default: "default",
           type: "string",
@@ -283,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       settings[dimName] = {
         label: "Node Coloring",
         order: [i] + .3,
-        section: "Configure",
+        section: "Configuration",
         values: configArr,
         default: "default",
         type: "string",
