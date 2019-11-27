@@ -209,6 +209,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     let breadCrumbIds = []; 
+    let breadCrumbInit = true;
     for(let i = 1; i <= maxDepth; i++) {
       let id = `bc${i}`;
       breadCrumbIds.push(id);
@@ -216,7 +217,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('These are the breadcrumb ids:', breadCrumbIds);
     function initBreadCrumbs(d) {
         // d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        for(let i = 0; i < breadCrumbIds.length; i++) { d3.select(breadCrumbIds[id]).remove(); } // Clear out the data before we add the vis
+        if(breadCrumbInit) {
+            breadCrumbInit = false;
+        } else {
+            for(let i = 0; i < breadCrumbIds.length; i++) { d3.select(breadCrumbIds[id]).remove(); } // Clear out the data before we add the vis
+        }
         console.log('This is the maxDepth', maxDepth);
 
             // Init the breadcrumbs
