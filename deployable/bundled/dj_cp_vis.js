@@ -260,6 +260,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.options = settings; 
     }
 
+    for(let i = 0; i < dimensions.length + measures.length; i++) {
+        let dimName = `dim${i}`;
+        delete settings[dimName];
+        dimName = `dim${i}s`;
+        delete settings[dimName];
+        dimName = `dim${i}c`;
+        delete settings[dimName]; 
+    }
+
         // Instantiate the dimensions
     let dimAmount = config['dimensionAmount']
     for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
@@ -332,12 +341,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let configname = config[confname];
             let configcolor = config[confcolor];
             let configsize = config[confsize];
-            let query = node[configname].value;
-            let dycol = node[configcolor].value;
-            let dynsz = node[configsize].value;
             console.log('confname', configname);
             console.log('confname', confcolor);
             console.log('confname', confsize);
+            let query = node[configname].value;
+            let dycol = node[configcolor].value;
+            let dynsz = node[configsize].value;
             console.log('confname', query);
             console.log('confname', dycol);
             console.log('confname', dynsz); 
