@@ -248,7 +248,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     for(let i = 0; i < dimensions.length + measures.length; i++) {
         let num = i.toString();
         let val = {num: num};
-        settings.dimensionAmount.push(val);
+        settings.dimensionAmount.values.push(val);
     }
         // Instantiate this setting for the next setting
     if(this._configuration == 0) {
