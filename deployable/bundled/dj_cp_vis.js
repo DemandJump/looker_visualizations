@@ -203,10 +203,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nullText = d3.scaleLinear()
         .domain([12, 264])
         .range([6, 42]);
- 
-    // console.log('root', root);
-    console.log('nodes', nodes);
-    // console.log('This is the focus', focus);
 
         // Initial parameters for breadcrumb function
     let breadCrumbIds = []; 
@@ -215,9 +211,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       let id = `bc${i}`;
       breadCrumbIds.push(id);
     }
-    console.log('These are the breadcrumb ids:', breadCrumbIds);
+    // console.log('These are the breadcrumb ids:', breadCrumbIds);
 
-
+     
+    // console.log('root', root);
+    console.log('nodes', nodes);
+    // console.log('This is the focus', focus);
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
@@ -786,7 +785,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        console.log('This is the maxDepth', maxDepth);
+        // console.log('This is the maxDepth', maxDepth);
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
@@ -873,10 +872,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         } // End of for loop 
 
-        console.log('This is the new taxonomy', userTaxonomy);
-        console.log('This is the new data', data);
-        console.log('This is the new settings', this.options);
-        console.log('This is the config', config); 
+        // console.log('This is the new taxonomy', userTaxonomy);
+        // console.log('This is the new data', data);
+        // console.log('This is the new settings', this.options);
+        // console.log('This is the config', config); 
     } // End of packageContentCreateTaxonomy
     
 
