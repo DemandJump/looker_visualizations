@@ -41,7 +41,7 @@ looker.plugins.visualizations.add({
               html, body { margin: 0; padding: 0; }
               .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
               .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
-              .header, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
+              .header, .breadcrumbContainer, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
           </style>
         `;
 
@@ -242,8 +242,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let id = `#${breadCrumbIds[i]}`;
             d3.select(id).style('top', h);
         }
-        // let ad = `#${breadCrumbIds[3]}`;
-        // d3.select(ad).style('top', '160px');
 
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
