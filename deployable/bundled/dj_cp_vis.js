@@ -374,16 +374,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             console.log('Dynsz', dynsz);
 
 
-            if(config.dynamicColoring == true && config[confcolor] != 'default') {
-                node[config[confname]].value = `${query}~${dycol}`;
+            if(config.dynamicColoring == true && configcolor != 'default') {
+                node[configname].value = `${query}~${dycol}`;
             } else {
-                node[config[confname]].value = `${query}~null`;
+                node[configname].value = `${query}~null`;
             }
 
             if(config.dynamicSizing == true && config[confsize] != 'default') {
-                node[config[confname]].value = node[config[confname]].value + `~${dynsz}`;
+                node[configname].value = node[configname].value + `~${dynsz}`;
             } else {
-                node[config[confname]].value = node[config[confname]].value + `~null`;
+                node[configname].value = node[configname].value + `~null`;
             }
 
         }); // End of the data loop
