@@ -207,7 +207,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('nodes', nodes);
     // console.log('This is the focus', focus);
 
-
+        // Initial parameters for breadcrumb function
     let breadCrumbIds = []; 
     let breadCrumbInit = true;
     for(let i = 1; i <= maxDepth; i++) {
@@ -215,52 +215,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       breadCrumbIds.push(id);
     }
     console.log('These are the breadcrumb ids:', breadCrumbIds);
-    function initBreadCrumbs(d) {
-        d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        // if(breadCrumbInit) {
-        //     breadCrumbInit = false;
-        // } else {
-        //     for(let i = 0; i < breadCrumbIds.length; i++) { d3.select(breadCrumbIds[id]).remove(); } // Clear out the data before we add the vis
-        // }
-        console.log('This is the maxDepth', maxDepth);
-
-            // Init the breadcrumbs
-        for(let i = 0; i < breadCrumbIds.length; i++) {
-            let h = i * 40;
-            let spacing = `${h}px`
-            d3.select('.breadcrumbContainer').append('div')
-                .attr('class', 'breadcrumbs')
-                .attr('id', breadCrumbIds[i])
-                .style('position', 'absolute')
-                .style('top', spacing)
-                .style('left', 0)
-                .style('height', '40px')
-                .html(`Breadcrumb number ${i}`);
-        } // end of for loop
-        for(let i = 0; i < breadCrumbIds.length; i++) {
-            let h = i * 40;
-            let id = `#${breadCrumbIds[i]}`;
-            d3.select(id).style('top', h);
-        }
-                // let ad = `#${breadCrumbIds[3]}`;
-        // d3.select(ad).style('top', '160px');
-
-
-        console.log('Iterating through the breadcrumbs now!\n\n');
-        let id = `#bc${d.depth}`;
-        d3.select(id).html(d.data.name);
-        let node = d;
-        console.log('This is the selected node id', d);
-        for(let i = d.depth; i > 1; i--) {
-            node = node.parent;
-            id = `#bc${i - 1}`;
-            console.log('Iteration ', i);
-            console.log('Parent node', node); 
-            console.log('Current id', id, '\n');
-            d3.select(id).html(node.data.name);
-        }
-
-    } // End of initBreadCrumbs
 
 
     /******************************************************************************************************************************************
@@ -828,6 +782,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         } // End of for loop
     } // End of configureDimensions
+
+    function initBreadCrumbs(d) {
+        d3.select('.breadcrumbContainer').selectAll("*").remove(); 
+        console.log('This is the maxDepth', maxDepth);
+
+            // Init the breadcrumbs
+        for(let i = 0; i < breadCrumbIds.length; i++) {
+            let h = i * 40;
+            let spacing = `${h}px`
+            d3.select('.breadcrumbContainer').append('div')
+                .attr('class', 'breadcrumbs')
+                .attr('id', breadCrumbIds[i])
+                .style('position', 'absolute')
+                .style('top', spacing)
+                .style('left', 0)
+                .style('height', '40px')
+                .html(` `);
+        } // end of for loop
+        for(let i = 0; i < breadCrumbIds.length; i++) {
+            let h = i * 40;
+            let id = `#${breadCrumbIds[i]}`;
+            d3.select(id).style('top', h);
+        }
+
+        let id = `#bc${d.depth}`;
+        d3.select(id).html(d.data.name);
+        let node = d;
+        for(let i = d.depth; i > 1; i--) {
+            node = node.parent;
+            id = `#bc${i - 1}`;
+            d3.select(id).html(node.data.name);
+        }
+
+    } // End of initBreadCrumbs
 
     /*******************************************************
         * Taxonomy Functions Section *
