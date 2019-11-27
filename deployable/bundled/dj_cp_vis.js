@@ -86,14 +86,16 @@ looker.plugins.visualizations.add({
           order: .1, 
           section: "Configuration",
           type: "boolean",
-          default: false
+          default: false,
+          hidden: false
         },
         dynamicColoring: {
           label: "Dynamic node Sizing", 
           order: .2, 
           section: "Configuration",
           type: "boolean",
-          default: false
+          default: false,
+          hidden: false
         },
 
     },
@@ -255,10 +257,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if(this._configuration == 0) {
         this._configuration = true;
         this.trigger('registerOptions', settings);
+        this.options = settings; 
     }
 
         // Instantiate the dimensions
-    let dimAmount = config[dimensionAmount]
+    let dimAmount = config['dimensionAmount']
     for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
       let dimName = `dim${i}`;
       settings[dimName] = {
