@@ -240,10 +240,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let id = `#${breadCrumbIds[i]}`;
             d3.select(id).style('top', h);
         }
-        let id = `#${breadCrumbIds[2]}`;
-        d3.select(id).style('top', 120);
-        let id = `#${breadCrumbIds[3]}`;
-        d3.select(id).style('top', '160px');
+        let ad = `#${breadCrumbIds[2]}`;
+        d3.select(ad).style('top', 120);
+        ad = `#${breadCrumbIds[3]}`;
+        d3.select(ad).style('top', '160px');
 
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
