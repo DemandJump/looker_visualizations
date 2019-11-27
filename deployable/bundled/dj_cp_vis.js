@@ -6,81 +6,6 @@ looker.plugins.visualizations.add({
     label: "Demand Jump Circle Packing Visual",
 
     options: {
-        node_sizing_header: {
-            label: "Highly recommend using dynamic sizing.",
-            order: 0,
-            section: "Node Sizing",
-            type: "sentence_maker",
-            words: [
-                { type: "separator", text: "Add in a factor of influence for the nodes" }
-            ]
-        },
-        influenceSwitch: {
-            label: "Dynamic node sizing",
-            order: 1,
-            section: "Node Sizing", 
-            type: "boolean",
-            default: false 
-        },
-        useInfluenceInVis: {
-          label: "Use variable factor in visual",
-          order: 2,
-          section: "Node Sizing", 
-          type: "boolean",
-          default: true,
-          hidden: true
-      },
-        influence: {
-            label: "Choose a variable factor",
-            order: 1.1, 
-            section: "Node Sizing",
-            values: [
-              {"None": "null"}
-            ],
-            default: "null",
-            type: "string",
-            display: "select", 
-            hidden: true
-        },
-
-
-        group_nodes_header: {
-            label: "Highly recommend using dynamic sizing.",
-            order: 3,
-            section: "Node Coloring",
-            type: "sentence_maker",
-            words: [
-                { type: "separator", text: "Group nodes together by color" }
-            ]
-        },
-        groupSwitch: {
-            label: "Group nodes by color", 
-            order: 4, 
-            section: "Node Coloring",
-            type: "boolean",
-            default: false
-        },
-        group: {
-            label: "Choose a grouping factor",
-            order: 4.1,
-            section: "Node Coloring",
-            values: [
-                {"None": "null"}
-            ],
-            default: "null",
-            type: "string",
-            display: "select",
-            hidden: true
-        },
-        useGroupInVis: {
-            label: "Use grouping factor in visual",
-            order: 5,
-            section: "Node Coloring",
-            type: "boolean",
-            default: true,
-            hidden: true
-        },
-
         dynamicSizing: {
           label: "Dynamic node sizing", 
           order: .1, 
@@ -199,33 +124,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***************************************
      * Configuring the settings
     ***************************************/
-            /*/ / Get the unique values out of the grouping dimension / /*/
-    let uniqueValues = [];
+    let uniqueValues = []; /*/ / Get the unique values out of the grouping dimension / /*/
     grabUniqueValues();
 
-            /*/ / Input the dimension values in the options / /*/ 
-    let settings = this.options;
+    let settings = this.options; /*/ / Input the dimension values in the options / /*/ 
     settings.influence['values'] = [];
     settings.group['values'] = [];
     valsArr = [];
     configArr = [];
     dimensionValueSettings(); // Grab all the dimensions for the settings
-        // Manually insert the default values into the config, then configure the dimensions and measures into the vis
-    if (config.influenceSwitch) settings.influence['values'] = valsArr;
-    if (config.groupSwitch) settings.group['values'] = valsArr;
+
     this.options = settings;
-            /*/ / Pull out dimension from taxonomy for the visual if useInfluenceInVis is false / /*/
-    configureBurrowTaxonomy();
-
-            /*/ / Show/Hide influence (Variable factor select statement) / /*/
-    let updateSettings = false;
-    configureDisplay();
-    if (updateSettings) { // If the settings have changed, then change the display as a whole. This is a much cleaner and more efficient way than rerendering for each settings conditional
-        this.trigger('registerOptions', settings);
-        this.options = settings;
-    }
-
-
+    // configureBurrowTaxonomy(); // Deprecated 
+    // configureDisplay(); // Deprecated
     configureNotes ();
             // Instantiate this setting for the next setting
     if(this._configuration == 0) {
