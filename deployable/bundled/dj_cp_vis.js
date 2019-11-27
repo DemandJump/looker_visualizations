@@ -412,13 +412,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (addError) this.addError({title: "Factor error", message: "The variable factor must be a number"});
     /*********************************************************
      * Preload the data for the visual 
-    *********************************************************/
-    clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
-       // Now run through the data, grab the min and max, then replace all the nulls with the min value
-    let min = 100000000000;
-    let max = -111111111111;
-    minAndMaxInfluenceValues();
-    
+    *********************************************************/    
         /*/ / This is for sizing the svg and the header correctly / /*/
     let headerSpace;
     let width;
@@ -430,13 +424,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let view;
     let uniqueId = -1;
 
-        // Package data for the burrow function
-    packageData(); // This concatenates data into the burrow to be used for the circle packing data. The prototype chain doesn't handle key references to link throughout the chain without a recursive breakdown, so we stringed it together instead of passing multiple strings through objects(which broke it for some unholy reason)
-        // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
-    let newTaxonomy = [];
-    nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
+    clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
+    let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
+    let max = -111111111111;
+    minAndMaxInfluenceValues();
+
+    let newTaxonomy = []; // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
+    // nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
+
     const burrow = this.burrow(data, taxonomyPass); 
-    // console.log('This is the burrow data', burrow); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
@@ -445,14 +441,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let nodes = root.descendants().slice(1);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
 
-        // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
-    findActualLeafNodes();
-        // Find the min and max values of the hierarchy for the color scale function
-    let maxDepth = -10;
+    findActualLeafNodes(); // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
+    let maxDepth = -10; // Find the min and max values of the hierarchy for the color scale function
     let minDepth = 100;
     findMinAndMaxDepth();
-        // These are the color scaling functions (one other is in the colorByGroup function)
-    let color = d3.scaleLinear()
+    let color = d3.scaleLinear() // These are the color scaling functions (one other is in the colorByGroup function)
         .domain([minDepth, maxDepth])
         .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
         .interpolate(d3.interpolateHcl);
@@ -1236,68 +1229,6 @@ function leafText4(d) {
         }
     }
 
-
-    function packageData() {
-        let sd1 = 'nodes.search_query',
-        sd2 = 'second_degree_dependencies.search_query',
-        sd3 = 'third_degree_dependencies.search_query',
-        sd4 = 'fourth_degree_dependencies.search_query',
-        sd5 = 'fifth_degree_dependencies.search_query',
-        ft1 = 'nodes.type',
-        ft2 = 'second_degree_dependencies.type',
-        ft3 = 'third_degree_dependencies.type',
-        ft4 = 'fourth_degree_dependencies.type',
-        ft5 = 'fifth_degree_dependencies.type',
-        dj1 = 'nodes.dj_score',
-        dj2 = 'second_degree_dependencies.dj_score',
-        dj3 = 'third_degree_dependencies.dj_score',
-        dj4 = 'fourth.dj_score',
-        dj5 = 'fifth_degree_dependencies.dj_score';
-        data.forEach(node => { // Create an object that holds the name, value, and dj score of each value!
-            let sval, ftval, djval;
-
-            if (node[sd1] && node[ft1] && node[dj1]) {
-                sval = node[sd1].value;
-                ftval = node[ft1].value;
-                djval = node[dj1].value;
-                node[sd1].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd2] && node[ft2] && node[dj2]) {
-                sval = node[sd2].value;
-                ftval = node[ft2].value;
-                djval = node[dj2].value;
-                node[sd2].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd3] && node[ft3] && node[dj3]) {
-                sval = node[sd3].value;
-                ftval = node[ft3].value;
-                djval = node[dj3].value;
-                node[sd3].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd4] && node[ft4] && node[dj4]) {
-                sval = node[sd4].value;
-                ftval = node[ft4].value;
-                djval = node[dj4].value;
-                node[sd4].value = `${sval}~${ftval}~${djval}`;
-            }
-
-            if (node[sd5] && node[ft5] && node[dj5]) {
-                sval = node[sd5].value;
-                ftval = node[ft5].value;
-                djval = node[dj5].value;
-                node[sd5].value = `${sval}~${ftval}~${djval}`;
-            }
-
-        }); // End of data mutation
-    } // End of packageData
-
-
-    // function taxonomyPull() {
-
-    // }
 
     function unpackageData() {
         let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
