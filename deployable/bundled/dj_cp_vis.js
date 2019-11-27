@@ -230,7 +230,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
-                .style('top', i * 40)
+                // .style('top', i * 40)
                 .style('left', 0)
                 .style('height', '40px')
                 .html(`Breadcrumb number ${i}`);
@@ -240,6 +240,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let id = `#${breadCrumbIds[i]}`;
             d3.select(id).style('top', h);
         }
+        let id = `#${breadCrumbIds[2]}`;
+        d3.select(id).style('top', 120);
+        let id = `#${breadCrumbIds[3]}`;
+        d3.select(id).style('top', '160px');
 
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
