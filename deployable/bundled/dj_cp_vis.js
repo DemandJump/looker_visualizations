@@ -186,7 +186,7 @@ looker.plugins.visualizations.add({
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5;
     this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
-    d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
+    // d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
     // console.log(`config`, config);
     console.log(`direct reference to settings (this.options)`, this.options);
@@ -334,10 +334,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     } // End of initBreadCrumbs
 
-    function breadCrumbs(d) {
-        console.log('This is the breadCrumbs function', d);
-        // console.log('This will append the actual text of the breadcrumb nodes');
-    } // End of breadCrumbs 
 
     /******************************************************************************************************************************************
         * Build the svg
