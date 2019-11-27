@@ -41,7 +41,7 @@ looker.plugins.visualizations.add({
               html, body { margin: 0; padding: 0; }
               .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
               .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
-              .header, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px white, -1px  1px 3px white, 1px -1px 3px white, 1px  1px 3px white; }
+              .header, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #F5F5F5, -1px  1px 3px #F5F5F5, 1px -1px 3px #F5F5F5, 1px  1px 3px #F5F5F5; }
           </style>
         `;
 
