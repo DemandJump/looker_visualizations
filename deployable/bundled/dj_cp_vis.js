@@ -215,19 +215,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     console.log('These are the breadcrumb ids:', breadCrumbIds);
     function initBreadCrumbs(d) {
-        d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
+        // d3.select('.breadcrumbContainer').selectAll("*").remove(); 
+        for(let i =0; i < breadCrumbIds.length) { d3.select(breadCrumbIds[id]).remove(); } // Clear out the data before we add the vis
         console.log('This is the maxDepth', maxDepth);
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
-            let h = i * 40;
             console.log(`This is the height from iteration ${i}:`, h); 
             console.log(`Creating breadcrumb #${i}`);
-            d3.select('.breadcrumbContainer').append('div')
+            d3.select('.container').append('div')
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
-                .style('top', h)
+                .style('top', i * 40)
                 .style('left', 0)
                 .style('height', '40px')
                 .html(`Breadcrumb number ${i}`);
