@@ -45,8 +45,8 @@ looker.plugins.visualizations.add({
           </style>
         `;
 
-        this._header = d3.select(element).append("h2")
-            .attr("class", "header")
+        // this._header = d3.select(element).append("h2")
+        //     .attr("class", "header")
 
         this._breadcrumbs = d3.select(element).append("div")
             .attr("class", "breadcrumbContainer")
@@ -522,7 +522,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         zoom(d);
         // refactor(d);
 
-        d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
+        // d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
         initBreadCrumbs(d);
     }
 
