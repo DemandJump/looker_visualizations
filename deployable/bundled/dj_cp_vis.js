@@ -787,7 +787,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        console.log('This is the maxDepth', maxDepth);
+        // console.log('This is the maxDepth', maxDepth);
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
