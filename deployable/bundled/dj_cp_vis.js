@@ -128,15 +128,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     grabUniqueValues();
 
     let settings = this.options; /*/ / Input the dimension values in the options / /*/ 
-    settings.influence['values'] = [];
-    settings.group['values'] = [];
     valsArr = [];
     configArr = [];
     dimensionValueSettings(); // Grab all the dimensions for the settings
 
     this.options = settings;
-    // configureBurrowTaxonomy(); // Deprecated 
-    // configureDisplay(); // Deprecated
     configureNotes ();
             // Instantiate this setting for the next setting
     if(this._configuration == 0) {
