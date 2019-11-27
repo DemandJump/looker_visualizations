@@ -280,7 +280,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Instantiate the dimensions
     let dimAmount = config['dimensionAmount']
-    let labels = ['root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
+    let labels = ['Root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
     for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
       let dimName = `dim${i}`;
       let dimLabel = `${labels[i]} Dimension`;
