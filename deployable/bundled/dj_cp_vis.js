@@ -49,15 +49,17 @@ looker.plugins.visualizations.add({
         //     .attr("class", "header")
 
         this._breadcrumbs = d3.select(element).append("div")
-            .attr("class", "breadcrumbContainer")
+            .attr("class", "breadcrumbContainer");
 
         this._container = d3.select(element).append("div")
-            .style("position", "relative")
-            .attr("class", "container");
+            .attr("class", "container")
+            .style("position", "relative");
 
         this._svg = d3.select("div.container").append("svg")
+            .attr("class", "svg")
             .style("position", "relative")
-            .attr("class", "svg");
+            .style("z-index", -1);
+
 
         
     },
@@ -797,6 +799,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('position', 'absolute')
                 .style('top', spacing)
                 .style('left', 0)
+                .style('z-index', 1)
                 .style('height', '40px')
                 .html(` `);
         } // end of for loop
