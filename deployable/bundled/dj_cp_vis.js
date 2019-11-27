@@ -41,7 +41,7 @@ looker.plugins.visualizations.add({
               html, body { margin: 0; padding: 0; }
               .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
               .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
-              .header, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #F5F5F5, -1px  1px 3px #F5F5F5, 1px -1px 3px #F5F5F5, 1px  1px 3px #F5F5F5; }
+              .header, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #BDBDBD, -1px  1px 3px #BDBDBD, 1px -1px 3px #BDBDBD, 1px  1px 3px #BDBDBD; }
           </style>
         `;
 
@@ -57,8 +57,7 @@ looker.plugins.visualizations.add({
 
         this._svg = d3.select("div.container").append("svg")
             .attr("class", "svg")
-            .style("position", "relative")
-            .style("z-index", -1);
+            .style("position", "relative");
 
 
         
@@ -787,7 +786,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        // console.log('This is the maxDepth', maxDepth);
+        console.log('This is the maxDepth', maxDepth);
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
