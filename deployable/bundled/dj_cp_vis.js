@@ -219,186 +219,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-
-
-
-        // Adds the configuration for dimensions in the hierarchy
-    settings['notes'] = {
-        label: "Notes for building the dimension",
-        order: .4,
-        section: "Configuration",
-        type: "sentence_maker",
-        words: [
-            { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
-        ]
-    };
-
-    settings['dimensionAmount'] = {
-        label: "Number of dimensions in hierarchy",
-        order: .5,
-        section: "Configuration",
-        type: "string", 
-        display: "select",
-        values: [],
-        default: "2",
-        hidden: false
-    };
-    settings['spacing'] = {
-        label: "Notes for building the dimension",
-        order: .4,
-        section: "Configuration",
-        type: "sentence_maker",
-        words: [
-            { type: "separator", text: " " }
-        ]
-    };
-
-    for(let i = 0; i < dimensions.length + measures.length; i++) {
-        let num = i.toString();
-        let val = {};
-        val[num] = num;
-        settings.dimensionAmount.values.push(val);
-    }
-        // Instantiate this setting for the next setting
+    configureNotes ();
+            // Instantiate this setting for the next setting
     if(this._configuration == 0) {
         this._configuration = true;
         this.trigger('registerOptions', settings);
         this.options = settings; 
     }
-
-    for(let i = 0; i < dimensions.length + measures.length; i++) {
-        let dimName = `dim${i}`;
-        delete settings[dimName];
-        dimName = `dim${i}s`;
-        delete settings[dimName];
-        dimName = `dim${i}c`;
-        delete settings[dimName]; 
-    }
-
-        // Instantiate the dimensions
-    let dimAmount = config['dimensionAmount']
-    let labels = ['Root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
-    for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
-      let dimName = `dim${i}`;
-      let dimLabel = `${labels[i]} Dimension`;
-      settings[dimName] = {
-          label: dimLabel,
-          order: [i] + 1.1, 
-          section: `Configuration`,
-          values: valsArr,
-          default: `null`,
-          type: `string`,
-          display: `select`, 
-          hidden: false
-      };
-
-      if(i != 0) { // The root will have nulls passed in!
-          dimName = `dim${i}s`;
-          settings[dimName] = {
-              label: `Node Sizing`,
-              order: [i] + 1.2,
-              section: `Configuration`,
-              values: configArr,
-              default: `default`,
-              type: `string`,
-              display: `select`,
-              display_size: `half`,
-              hidden: false
-          };
-    
-          dimName = `dim${i}c`;
-          settings[dimName] = {
-            label: `Node Coloring`,
-            order: [i] + 1.3,
-            section: `Configuration`,
-            values: configArr,
-            default: `default`,
-            type: `string`,
-            display: `select`,
-            display_size: `half`,
-            hidden: false
-          };
-      }
-
-      let spacing = `spacing${i}`;
-      settings[spacing] = {
-        label: `Notes for building the dimension`,
-        order: [i] + 1.4,
-        section: `Configuration`,
-        type: `sentence_maker`,
-        words: [
-            { type: `separator`, text: ` ` }
-        ]
-    };
-
-    } // End of for loop
-
+    configureDimensions();
     if(this._configRef != config.dimensionAmount) {
         this._configRef = config.dimensionAmount;
         this.options = settings;
         this.trigger('registerOptions', this.options);
     }
-
-
-        // dim#, dim#s, dim#c are the config values
-      // For the dimension amount, run through the config of these
-    let userTaxonomy = [];
-    for(let i = 0; i < config.dimensionAmount; i++) {
-        let confname = `dim${i}`;
-        let confcolor = `dim${i}c`;
-        let confsize = `dim${i}s`;
-
-        dimensions.forEach(dim => {
-            if(dim.name == config[confname]) userTaxonomy.push(dim);
-        });
-        measures.forEach(mes => {
-            if(mes.name == config[confname]) userTaxonomy.push(mes);
-        })
-
-            // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
-        data.forEach(node => {
-            let configname = config[confname];
-            let query = node[configname]['value'];
-            // console.log('configname', configname);
-
-            let configcolor;
-            let dycol;
-            let configsize;
-            let dynsz;
-            if (i != 0) {
-                configcolor = config[confcolor];
-                dycol = node[configcolor]['value'];
-                configsize = config[confsize];
-                dynsz = node[configsize]['value'];
-                // console.log('Query', query);
-                // console.log('Dycol', dycol);
-                // console.log('Dynsz', dynsz);
-            }
-
-            if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
-                node[configname].value = `${query}~null~null`;
-            } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
-                node[configname].value = `${query}~${dycol}~${dynsz}`;
-            } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
-                node[configname].value = `${query}~${dycol}~null`;
-            } else if(config.dynamicSizing == true && configsize != 'default') { // Just sizing
-                node[configname].value = `${query}~null~${dynsz}`;
-            } else { // Just name
-                node[configname].value = `${query}~null~null`;
-            }
-
-        }); // End of the data loop
-
-    } // End of for loop 
-
-    console.log('This is the new taxonomy', userTaxonomy);
-    console.log('This is the new data', data);
-    console.log('This is the new settings', this.options);
-    console.log('This is the config', config); 
-
-
-
-
 
     /**********************
      * Error Clauses 
@@ -431,8 +264,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let max = -111111111111;
     minAndMaxInfluenceValues();
 
-    let newTaxonomy = []; // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
-    // nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
+    let userTaxonomy = []; // Package the data and create the new taxonomy
+    packageContentCreateTaxonomy();
 
     const burrow = this.burrow(data, userTaxonomy); 
     const root = pack(burrow);
@@ -456,7 +289,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .domain([12, 264])
         .range([6, 42]);
  
-    console.log('root', root);
+    // console.log('root', root);
     console.log('nodes', nodes);
     // console.log('This is the focus', focus);
 
@@ -572,189 +405,155 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 }
 
-function zoom(d) {          
-    const focus0 = focus;
-    focus = d;
-    // console.log('Zoom function: Node ->', d);
-    // console.log('Zoom function: Focus', focus); // This is the current node that they're on
+    function zoom(d) {          
+        const focus0 = focus;
+        focus = d;
+        // console.log('Zoom function: Node ->', d);
+        // console.log('Zoom function: Focus', focus); // This is the current node that they're on
 
 
-    const transition = svg.transition() 
-        .duration(d3.event.altKey ? 6400 : 640)  
-        .tween("zoom", d => { // Tween
-            // console.log('Zoom function: This is view', view);
-            const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-            // console.log('Zoom function: This is i', i);
-            return t => zoomTo(i(t));
-        });
-
-    label
-        .filter(function(d) { 
-            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-            return d.parent === focus || this.style.display === "inline"; 
-        })
-        .transition(transition)
-            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { 
-                if (d.parent !== focus) this.style.display = "none";
-
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceOne(d))
-                  .text(d => d.data.text1);
-
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => sizeText(d))
-                        .style('dy', d => tSpaceOne(d));
-                    }}
-                }
-
+        const transition = svg.transition() 
+            .duration(d3.event.altKey ? 6400 : 640)  
+            .tween("zoom", d => { // Tween
+                // console.log('Zoom function: This is view', view);
+                const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+                // console.log('Zoom function: This is i', i);
+                return t => zoomTo(i(t));
             });
 
-    label2
-        .filter(function(d) { 
-            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-            return d.parent === focus || this.style.display === "inline"; 
-        })
-        .transition(transition)
-            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { 
-                if (d.parent !== focus) this.style.display = "none"; 
+        label
+            .filter(function(d) { 
+                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+                return d.parent === focus || this.style.display === "inline"; 
+            })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none";
 
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceTwo(d))
-                  .text(d => d.data.text2);
+                    d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceOne(d))
+                      .text(d => d.data.text1);
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceTwo(d));
-                    }}
-                }
+                    if(d === focus) {
+                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                            .style('display', 'inline')
+                            .style('fill-opacity', 1)
+                            .style('font-size', d => sizeText(d))
+                            .style('dy', d => tSpaceOne(d));
+                        }}
+                    }
 
-            });
+                });
 
-    label3
-        .filter(function(d) { 
-            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-            return d.parent === focus || this.style.display === "inline"; 
-        })
-        .transition(transition)
-            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { 
-                if (d.parent !== focus) this.style.display = "none"; 
-                
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceThree(d))
-                  .text(d => d.data.text3);
+        label2
+            .filter(function(d) { 
+                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+                return d.parent === focus || this.style.display === "inline"; 
+            })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceTwo(d));
-                    }}
-                }
+                    d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceTwo(d))
+                      .text(d => d.data.text2);
 
-            });
-    label4
-        .filter(function(d) { 
-            if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-            return d.parent === focus || this.style.display === "inline"; 
-        })
-        .transition(transition)
-            .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { 
-                if (d.parent !== focus) this.style.display = "none"; 
-                
-                d3.select(this)
-                  .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                  .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                  .attr('dy', d => tSpaceFour(d))
-                  .text(d => d.data.text4);
+                    if(d === focus) {
+                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                            .style('display', 'inline')
+                            .style('fill-opacity', 1)
+                            .style('font-size', d => textSizing(d))
+                            .style('dy', d => tSpaceTwo(d));
+                        }}
+                    }
 
-                if(d === focus) {
-                    if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                      d3.select(this)
-                        .style('display', 'inline')
-                        .style('fill-opacity', 1)
-                        .style('font-size', d => textSizing(d))
-                        .style('dy', d => tSpaceTwo(d));
-                    }}
-                }
+                });
 
-            });
-      
+        label3
+            .filter(function(d) { 
+                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+                return d.parent === focus || this.style.display === "inline"; 
+            })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    
+                    d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceThree(d))
+                      .text(d => d.data.text3);
 
-} // End of zoom function
+                    if(d === focus) {
+                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                            .style('display', 'inline')
+                            .style('fill-opacity', 1)
+                            .style('font-size', d => textSizing(d))
+                            .style('dy', d => tSpaceTwo(d));
+                        }}
+                    }
 
-// function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
-//         // I instantiaed something wrong in the spacing, this works correctly!
-//     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
-//     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
-//     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
-//     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-// }
+                });
+        label4
+            .filter(function(d) { 
+                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+                return d.parent === focus || this.style.display === "inline"; 
+            })
+            .transition(transition)
+                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    
+                    d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceFour(d))
+                      .text(d => d.data.text4);
 
-function zoomThenRefactor(d) {
-    zoom(d);
-    // refactor(d);
-    d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-    // console.log('This is d', d);
+                    if(d === focus) {
+                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                            .style('display', 'inline')
+                            .style('fill-opacity', 1)
+                            .style('font-size', d => textSizing(d))
+                            .style('dy', d => tSpaceTwo(d));
+                        }}
+                    }
 
-}
+                });
+          
 
-function leafText1(d) {
-    // fontSize = '12px';
-    return d.data.textuse == 1 ? `0px`
-    : d.data.textuse == 2 ? `-10px`
-    : d.data.textuse == 3 ? `-20px`
-    : `-30px`;
-}
+    } // End of zoom function
 
-function leafText2(d) {
-    // fontSize = '12px';
-    return d.data.textuse == 1 ? `0px`
-    : d.data.textuse == 2 ? `10px`
-    : d.data.textuse == 3 ? `0px`
-    : `-10px`;
-}
+    // function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
+    //         // I instantiaed something wrong in the spacing, this works correctly!
+    //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
+    //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
+    //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
+    //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
+    // }
 
-function leafText3(d) {
-    // fontSize = '12px';
-    return d.data.textuse == 1 ? `0px`
-    : d.data.textuse == 2 ? `0px`
-    : d.data.textuse == 3 ? `20px`
-    : `10px`;
-}
+    function zoomThenRefactor(d) {
+        zoom(d);
+        // refactor(d);
+        d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
+        // console.log('This is d', d);
 
-function leafText4(d) {
-    // fontSize = '12px';
-    return d.data.textuse == 1 ? `0px`
-    : d.data.textuse == 2 ? `0px`
-    : d.data.textuse == 3 ? `0px`
-    : `30px`;
-}
-
-
+    }
 
     /*******************************************************
         * Configuration and Data's Functions Section *
@@ -884,74 +683,241 @@ function leafText4(d) {
       // console.log(`The finished min ${min}, and max ${max}`);
       } // End of minAndMaxInfluenceValues
 
-      function refactorCircleViewport() {
-            // This ensures there's no scrolling for the viewport!
-        if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
-          headerSpace = 40;
-          width = circleHeight - 40;
-          height = circleHeight - 40;
-          viewBoxFactor = height + 35;
-        } else {
-          headerSpace = circleHeight * .1;
-          width = circleHeight * .9;
-          height = circleHeight * .9;
-          viewBoxFactor = height + 35;
-        }
-      } // End of refactorCircleViewport
-
-      function collapseNulls(d) {
-        d._children = [];
-        if(d.children) {
-            d.children.forEach(collapseNulls); // For each child run this collapse function
-            d._children = []; 
-            d.children.forEach( (child, index) => {
-                if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
-                    d._children.push(child); // Add child to side list
-                    d.children.splice(index, 1);
-                }
-            });
-        }
-      } // End of collapse function
-
-      function findActualLeafNodes() {
-          nodes.forEach(d => {
-              if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
-
-              if(d.children) {
-                  if(d.children.length == 0 && d._children) {
-                      if (d._children.length == 1) {
-                          if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
-                          if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
-                          // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
-                          // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
-                      } else if (d._children.length > 1) {
-                          let checker = true;
-                          for(let i = 0; i < d._children.length; i++) {
-                              if(d._children[i] != 'null')  {
-                                  checker = false; 
-                                  break;
-                              }
-                          } // for loop end
-                          if(checker) {d.data.leaf = true}
-                      } // else if end 
-                  } // end of d._children: We're only looking for the nodes that have all collapsed null values
-              } else {
-                d.data.leaf = true;
-              }
-
-          }); // forEach end
-      } // End of FindActualLeafNodes
-
-      function findMinAndMaxDepth() {
-        nodes.forEach(node => {
-          if (node.depth < minDepth) minDepth = node.depth;
-          if (node.depth > maxDepth) maxDepth = node.depth;
-        });
+    function refactorCircleViewport() {
+          // This ensures there's no scrolling for the viewport!
+      if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
+        headerSpace = 40;
+        width = circleHeight - 40;
+        height = circleHeight - 40;
+        viewBoxFactor = height + 35;
+      } else {
+        headerSpace = circleHeight * .1;
+        width = circleHeight * .9;
+        height = circleHeight * .9;
+        viewBoxFactor = height + 35;
       }
+    } // End of refactorCircleViewport
+
+    function collapseNulls(d) {
+      d._children = [];
+      if(d.children) {
+          d.children.forEach(collapseNulls); // For each child run this collapse function
+          d._children = []; 
+          d.children.forEach( (child, index) => {
+              if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
+                  d._children.push(child); // Add child to side list
+                  d.children.splice(index, 1);
+              }
+          });
+      }
+    } // End of collapse function
+
+    function findActualLeafNodes() {
+        nodes.forEach(d => {
+            if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
+
+            if(d.children) {
+                if(d.children.length == 0 && d._children) {
+                    if (d._children.length == 1) {
+                        if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
+                        if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
+                        // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
+                        // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
+                    } else if (d._children.length > 1) {
+                        let checker = true;
+                        for(let i = 0; i < d._children.length; i++) {
+                            if(d._children[i] != 'null')  {
+                                checker = false; 
+                                break;
+                            }
+                        } // for loop end
+                        if(checker) {d.data.leaf = true}
+                    } // else if end 
+                } // end of d._children: We're only looking for the nodes that have all collapsed null values
+            } else {
+              d.data.leaf = true;
+            }
+
+        }); // forEach end
+    } // End of FindActualLeafNodes
+
+    function findMinAndMaxDepth() {
+      nodes.forEach(node => {
+        if (node.depth < minDepth) minDepth = node.depth;
+        if (node.depth > maxDepth) maxDepth = node.depth;
+      });
+    }
+
+    function configureNotes() {
+            // Adds the configuration for dimensions in the hierarchy
+        settings['notes'] = {
+            label: "Notes for building the dimension",
+            order: .4,
+            section: "Configuration",
+            type: "sentence_maker",
+            words: [
+                { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
+            ]
+        };
+
+        settings['dimensionAmount'] = {
+            label: "Number of dimensions in hierarchy",
+            order: .5,
+            section: "Configuration",
+            type: "string", 
+            display: "select",
+            values: [],
+            default: "2",
+            hidden: false
+        };
+        settings['spacing'] = {
+            label: "Notes for building the dimension",
+            order: .6,
+            section: "Configuration",
+            type: "sentence_maker",
+            words: [
+                { type: "separator", text: " " }
+            ]
+        };
+
+        for(let i = 0; i < dimensions.length + measures.length; i++) {
+            let num = i.toString();
+            let val = {};
+            val[num] = num;
+            settings.dimensionAmount.values.push(val);
+        }
+    } // End of configureNotes
+
+    function configureDimensions() {
+            // Clean up the dimension settings before appending new ones
+        for(let i = 0; i < dimensions.length + measures.length; i++) {
+            let dimName = `dim${i}`;
+            delete settings[dimName];
+            dimName = `dim${i}s`;
+            delete settings[dimName];
+            dimName = `dim${i}c`;
+            delete settings[dimName]; 
+        }
+
+            // Instantiate the dimensions
+        let dimAmount = config['dimensionAmount']
+        let labels = ['Root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
+        for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
+            let dimName = `dim${i}`;
+            let dimLabel = `${labels[i]} Dimension`;
+            settings[dimName] = {
+                label: dimLabel,
+                order: [i] + 1.1, 
+                section: `Configuration`,
+                values: valsArr,
+                default: `null`,
+                type: `string`,
+                display: `select`, 
+                hidden: false
+            };
+
+          if(i != 0) { // The root will have nulls passed in!
+              dimName = `dim${i}s`;
+              settings[dimName] = {
+                  label: `Node Sizing`,
+                  order: [i] + 1.2,
+                  section: `Configuration`,
+                  values: configArr,
+                  default: `default`,
+                  type: `string`,
+                  display: `select`,
+                  display_size: `half`,
+                  hidden: false
+              };
+        
+              dimName = `dim${i}c`;
+              settings[dimName] = {
+                  label: `Node Coloring`,
+                  order: [i] + 1.3,
+                  section: `Configuration`,
+                  values: configArr,
+                  default: `default`,
+                  type: `string`,
+                  display: `select`,
+                  display_size: `half`,
+                  hidden: false
+              };
+          } // end of if i 1=0
+
+          let spacing = `spacing${i}`;
+          settings[spacing] = {
+              label: `Notes for building the dimension`,
+              order: [i] + 1.4,
+              section: `Configuration`,
+              type: `sentence_maker`,
+              words: [
+                  { type: `separator`, text: ` ` }
+              ]
+          };
+
+        } // End of for loop
+    } // End of configureDimensions
 
     /*******************************************************
         * Taxonomy Functions Section *
     *******************************************************/
+
+    
+    function packageContentCreateTaxonomy() {
+        for(let i = 0; i < config.dimensionAmount; i++) {
+            let confname = `dim${i}`;
+            let confcolor = `dim${i}c`;
+            let confsize = `dim${i}s`;
+
+            dimensions.forEach(dim => {
+                if(dim.name == config[confname]) userTaxonomy.push(dim);
+            });
+            measures.forEach(mes => {
+                if(mes.name == config[confname]) userTaxonomy.push(mes);
+            })
+
+                // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
+            data.forEach(node => {
+                let configname = config[confname];
+                let query = node[configname]['value'];
+                // console.log('configname', configname);
+
+                let configcolor;
+                let dycol;
+                let configsize;
+                let dynsz;
+                if (i != 0) {
+                    configcolor = config[confcolor];
+                    dycol = node[configcolor]['value'];
+                    configsize = config[confsize];
+                    dynsz = node[configsize]['value'];
+                    // console.log('Query', query);
+                    // console.log('Dycol', dycol);
+                    // console.log('Dynsz', dynsz);
+                }
+
+                if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
+                    node[configname].value = `${query}~null~null`;
+                } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
+                    node[configname].value = `${query}~${dycol}~${dynsz}`;
+                } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
+                    node[configname].value = `${query}~${dycol}~null`;
+                } else if(config.dynamicSizing == true && configsize != 'default') { // Just sizing
+                    node[configname].value = `${query}~null~${dynsz}`;
+                } else { // Just name
+                    node[configname].value = `${query}~null~null`;
+                }
+
+            }); // End of the data loop
+
+        } // End of for loop 
+
+        console.log('This is the new taxonomy', userTaxonomy);
+        console.log('This is the new data', data);
+        console.log('This is the new settings', this.options);
+        console.log('This is the config', config); 
+    } // End of packageContentCreateTaxonomy
+    
 
     function configureBurrowTaxonomy() {
       if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
