@@ -372,6 +372,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('Dycol', dycol);
             // console.log('Dynsz', dynsz);
 
+            
 
             if(configname == 'dim0') {
                 node[configname].value = `${query}~null~null`;
