@@ -173,7 +173,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let view;
     let uniqueId = -1;
 
-    clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
+    // clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
     let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
     let max = -111111111111;
     minAndMaxInfluenceValues();
