@@ -303,7 +303,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     let breadCrumbIds = []; 
+    let breadCrumbInit = this._breadCrumbInit;
     function initBreadCrumbs(d) {
+        d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
         ////Maxdepth
         console.log('This is the maxDepth', maxDepth);
         console.log('[Breadcrumb]: This is the clicked node!', d);
@@ -313,7 +315,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             breadCrumbIds.push(id);
         }
         for(let i = 0; i < breadCrumbIds.length; i++) {
-            d3.select('.breadcrumbContainer')
+            d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
@@ -591,9 +593,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-        
-        if(this._breadCrumbInit) {
-            this._breadCrumbInit = false;
+
+        if(d == nodes[0]) {
             initBreadCrumbs(d);
         }
         breadCrumbs(d);
