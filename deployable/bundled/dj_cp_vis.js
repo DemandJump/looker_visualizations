@@ -226,8 +226,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
-            console.log(`This is the height from iteration ${i}:`, h); 
-            console.log(`Creating breadcrumb #${i}`);
             d3.select('.container').append('div')
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
