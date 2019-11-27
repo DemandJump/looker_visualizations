@@ -326,10 +326,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
         data.forEach(node => {
-            let query = node[config[confname]].value;
-            let dycol = node[config[confcolor]].value;
-            let dynsz = node[config[confsize]].value; 
-            // node[sd1].value = `${query}~${dycol}~${dynsz}`;
+            let configname = config[confname];
+            let configcolor = config[confcolor];
+            let configsize = config[confsize];
+            let query = node[configname].value;
+            let dycol = node[configcolor].value;
+            let dynsz = node[configsize].value; 
 
             if(config.dynamicColoring == true && config[confcolor] != 'default') {
                 node[config[confname]].value = `${query}~${dycol}`;
