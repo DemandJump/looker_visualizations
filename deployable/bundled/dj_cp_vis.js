@@ -306,9 +306,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       let id = `bc${i}`;
       breadCrumbIds.push(id);
     }
+    console.log('These are the breadcrumb ids:', breadCrumbIds);
     function initBreadCrumbs(d) {
         console.log('This is the maxDepth', maxDepth);
-        console.log('[Breadcrumb]: This is the clicked node!', d);
+
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
