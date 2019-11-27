@@ -226,11 +226,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
+            let h = i * 40;
+            let spacing = `${h}px`
             d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
-                // .style('top', i * 40)
+                .style('top', spacing)
                 .style('left', 0)
                 .style('height', '40px')
                 .html(`Breadcrumb number ${i}`);
@@ -240,10 +242,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let id = `#${breadCrumbIds[i]}`;
             d3.select(id).style('top', h);
         }
-        let ad = `#${breadCrumbIds[2]}`;
-        d3.select(ad).style('top', 120);
-        ad = `#${breadCrumbIds[3]}`;
-        d3.select(ad).style('top', '160px');
+        // let ad = `#${breadCrumbIds[3]}`;
+        // d3.select(ad).style('top', '160px');
 
         let id = `#bc${d.depth}`;
         d3.select(id).html(d.data.name);
