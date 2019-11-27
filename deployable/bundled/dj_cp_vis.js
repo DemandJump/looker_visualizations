@@ -441,7 +441,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let newTaxonomy = []; // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
     // nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
 
-    const burrow = this.burrow(data, user taxonomy); 
+    const burrow = this.burrow(data, userTaxonomy); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
