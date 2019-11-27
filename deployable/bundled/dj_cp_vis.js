@@ -441,7 +441,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let newTaxonomy = []; // We're pulling out the specific dimensions from the taxonomy after grabbing it and appending it to the search queries
     // nodeHierarchyTaxonomyPull(); //// If you're using the standard node hierarchy, use this, then run the burrow function, else do the normal taxonomy pull based on the original config
 
-    const burrow = this.burrow(data, taxonomyPass); 
+    const burrow = this.burrow(data, user taxonomy); 
     const root = pack(burrow);
     let focus = root.children[0];
     root.children[0].data.id = 'tether';
@@ -1207,7 +1207,7 @@ function leafText4(d) {
     */
     function questionSearchColoring(d) {
         // console.log(`This is d`, d);
-        console.log(`This is the node's phrase type: `, d.data.phrase_type);
+        // console.log(`This is the node's phrase type: `, d.data.phrase_type);
         if (config.dynamicColoring == true) {
                 if (d.data.phrase_type == 'search' || d.data.phrase_type == 'Topic') { // Then blue
                     // console.log('Phrase type Topic. This is the current depth', d.depth);
