@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
             hidden: true
         },
 
-        dynamicColoring: {
+        dynamicSizing: {
           label: "Dynamic node sizing", 
           order: .1, 
           section: "Configuration",
@@ -374,17 +374,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             console.log('Dynsz', dynsz);
 
 
-            if(config.dynamicColoring == true && configcolor != 'default') {
-                node[configname].value = `${query}~${dycol}`;
-            } else {
-                node[configname].value = `${query}~null`;
+            if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
+                node[configname].value = `${query}~${dycol}~${dynsz}`;
+            } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
+                node[configname].value = `${query}~${dycol}~null`;
+            } else if(config.dynamicSizing == true && configsize != 'default') { // Just sizing
+                node[configname].value = `${query}~null~${dynsz}`;
+            } else { // Just name
+                node[configname].value = `${query}~null~null`;
             }
 
-            if(config.dynamicSizing == true && configsize != 'default') {
-                node[configname].value = node[configname].value + `~${dynsz}`;
-            } else {
-                node[configname].value = node[configname].value + `~null`;
-            }
 
         }); // End of the data loop
 
