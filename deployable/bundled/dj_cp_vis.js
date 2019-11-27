@@ -280,7 +280,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Instantiate the dimensions
     let dimAmount = config['dimensionAmount']
-    let labels = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
+    let labels = ['root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
     for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
       let dimName = `dim${i}`;
       let dimLabel = `${labels[i]} Dimension`;
@@ -295,31 +295,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           hidden: false
       };
 
-      dimName = `dim${i}s`;
-      settings[dimName] = {
-          label: `Node Sizing`,
-          order: [i] + 1.2,
-          section: `Configuration`,
-          values: configArr,
-          default: `default`,
-          type: `string`,
-          display: `select`,
-          display_size: `half`,
-          hidden: false
-      };
-
-      dimName = `dim${i}c`;
-      settings[dimName] = {
-        label: `Node Coloring`,
-        order: [i] + 1.3,
-        section: `Configuration`,
-        values: configArr,
-        default: `default`,
-        type: `string`,
-        display: `select`,
-        display_size: `half`,
-        hidden: false
-      };
+      if(i != 0) { // The root will have nulls passed in!
+          dimName = `dim${i}s`;
+          settings[dimName] = {
+              label: `Node Sizing`,
+              order: [i] + 1.2,
+              section: `Configuration`,
+              values: configArr,
+              default: `default`,
+              type: `string`,
+              display: `select`,
+              display_size: `half`,
+              hidden: false
+          };
+    
+          dimName = `dim${i}c`;
+          settings[dimName] = {
+            label: `Node Coloring`,
+            order: [i] + 1.3,
+            section: `Configuration`,
+            values: configArr,
+            default: `default`,
+            type: `string`,
+            display: `select`,
+            display_size: `half`,
+            hidden: false
+          };
+      }
 
       let spacing = `spacing${i}`;
       settings[spacing] = {
@@ -363,18 +365,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let configname = config[confname];
             let configcolor = config[confcolor];
             let configsize = config[confsize];
-            console.log('configname', config[confname]);
-            console.log('configcolor', config[confcolor]);
-            console.log('configsize', config[confsize]);
             let query = node[configname]['value'];
             let dycol = node[configcolor]['value'];
             let dynsz = node[configsize]['value'];
-            console.log('Query', query);
-            console.log('Dycol', dycol);
-            console.log('Dynsz', dynsz);
+            // console.log('Query', query);
+            // console.log('Dycol', dycol);
+            // console.log('Dynsz', dynsz);
 
 
-            if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
+            if(configname == 'dim0') {
+                node[configname].value = `${query}~null~null`;
+            } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
                 node[configname].value = `${query}~${dycol}~${dynsz}`;
             } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
                 node[configname].value = `${query}~${dycol}~null`;
@@ -383,7 +384,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             } else { // Just name
                 node[configname].value = `${query}~null~null`;
             }
-
 
         }); // End of the data loop
 
