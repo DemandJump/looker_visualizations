@@ -258,7 +258,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
         // Instantiate the dimensions
-    for(let i = 0; i < dimensions.length + measures.length; i++) { // dim#, dim#s, dim#c are the config values
+    let dimAmount = config[dimensionAmount]
+    for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
       let dimName = `dim${i}`;
       settings[dimName] = {
           label: "Choose the first dimension of The hierarchy",
@@ -346,7 +347,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     } // End of for loop 
 
-    console.log('This is the new taxonomy', newTaxonomy);
+    console.log('This is the new taxonomy', userTaxonomy);
     console.log('This is the new data', data);
     console.log('This is the new settings', this.options);
     console.log('This is the config', config); 
