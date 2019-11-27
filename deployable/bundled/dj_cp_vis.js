@@ -222,9 +222,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-
-
-
         // Adds the configuration for dimensions in the hierarchy
     settings['notes'] = {
         label: "Notes for building the dimension",
@@ -336,7 +333,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     } // End of for loop
 
-
     if(this._configRef != config.dimensionAmount) {
         this._configRef = config.dimensionAmount;
         this.options = settings;
@@ -344,8 +340,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
-       // dim#, dim#s, dim#c are the config values
-
+        // dim#, dim#s, dim#c are the config values
       // For the dimension amount, run through the config of these
     let userTaxonomy = [];
     for(let i = 0; i < config.dimensionAmount; i++) {
@@ -364,7 +359,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         data.forEach(node => {
             let configname = config[confname];
             let query = node[configname]['value'];
-            console.log('configname', configname);
+            // console.log('configname', configname);
 
             let configcolor;
             let dycol;
@@ -379,8 +374,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 // console.log('Dycol', dycol);
                 // console.log('Dynsz', dynsz);
             }
-
-
 
             if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
                 node[configname].value = `${query}~null~null`;
