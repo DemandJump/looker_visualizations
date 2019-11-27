@@ -380,7 +380,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 node[configname].value = `${query}~null`;
             }
 
-            if(config.dynamicSizing == true && config[confsize] != 'default') {
+            if(config.dynamicSizing == true && configsize != 'default') {
                 node[configname].value = node[configname].value + `~${dynsz}`;
             } else {
                 node[configname].value = node[configname].value + `~null`;
