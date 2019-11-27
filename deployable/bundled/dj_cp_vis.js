@@ -599,8 +599,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // refactor(d);
 
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
-        initBreadCrumbs();
-
+        initBreadCrumbs(d);
     }
 
     /*******************************************************
