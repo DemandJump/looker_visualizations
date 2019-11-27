@@ -82,7 +82,7 @@ looker.plugins.visualizations.add({
         },
 
         dynamicColoring: {
-          label: "Dynamic node Sizing", 
+          label: "Dynamic node sizing", 
           order: .1, 
           section: "Configuration",
           type: "boolean",
@@ -90,7 +90,7 @@ looker.plugins.visualizations.add({
           hidden: false
         },
         dynamicColoring: {
-          label: "Dynamic node Sizing", 
+          label: "Dynamic node coloring", 
           order: .2, 
           section: "Configuration",
           type: "boolean",
@@ -322,7 +322,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       let spacing = `spacing${i}`;
       settings[spacing] = {
         label: "Notes for building the dimension",
-        order: .4,
+        order: [i] + 1.4,
         section: "Configuration",
         type: "sentence_maker",
         words: [
