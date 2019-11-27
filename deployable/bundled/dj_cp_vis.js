@@ -99,6 +99,8 @@ looker.plugins.visualizations.add({
     create: function(element, config) {
         let d3 = d3v5;
         this._currentDimensions = 0;
+        this._configuration = false;
+        this._configRef = 0;
         d3.select(element).style('box-sizing', 'border-box');
     
             // This is inner styling of the visualization which looker gives to us as the variable 'element'
@@ -219,16 +221,39 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
     settings['notes'] = {
-      label: "Notes for building the dimension",
-      order: 0,
-      section: "Configure",
-      type: "sentence_maker",
-      words: [
-          { type: "separator", text: "You can have up to 5 dimensions in the hierarchy, Enter the mhere" }
-      ]
+        label: "Notes for building the dimension",
+        order: 0,
+        section: "Configure",
+        type: "sentence_maker",
+        words: [
+            { type: "separator", text: "You can have up to 5 dimensions in the hierarchy, Enter the mhere" }
+        ]
     };
 
-    for(let i = 0; i < 5; i++) { // dim#, dim#s, dim#c are the config values
+    settings['dimensionAmount'] = {
+        label: "Number of dimensions in hierarchy",
+        order: .5,
+        section: "Configure",
+        type: "string", 
+        display: "select",
+        values: [],
+        default: "2",
+        hidden: false
+    };
+
+    for(let i = 0; i < dimensions.length + measures.length; i++) {
+        let num = i.toString();
+        let val = {num: num};
+        settings.dimensionAmount.push(val);
+    }
+        // Instantiate this setting for the next setting
+    if(this._configuration == 0) {
+        this._configuration = true;
+        this.trigger('registerOptions', settings);
+    }
+
+        // Instantiate the dimensions
+    for(let i = 0; i < dimensions.length + measures.length; i++) { // dim#, dim#s, dim#c are the config values
       let dimName = `dim${i}`;
       settings[dimName] = {
           label: "Choose the first dimension of The hierarchy",
@@ -270,150 +295,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of for loop
 
 
-
-
-
-
-
-
-
-
-
-        // Go through all the dimensions, and create the 
-    let dimensionId = 1; // This is the dimensionid 
-    let currentDimensions = this._currentDimensions;
-    let dimensionLinks = [];
-    updateSettings = false;
-    nodeConfiguration();
-    function nodeConfiguration() {
-        console.log('These are the settings', settings);
-        let selectedDimension = {
-            label: `dimension_${dimensionId}`,
-            order: dimensionId, 
-            section: "Configuration",
-            values: valsArr,
-            default: "default",
-            type: "string",
-            display: "select", 
-            hidden: false
-        };
-
-        let dimensionSizing = {
-            label: "Node Sizing",
-            order: dimensionId + .1,
-            section: "Configuration",
-            values: valsArr,
-            default: "default",
-            type: "string",
-            display: "select",
-            display_size: "half",
-            hidden: false
-        };
-
-        let dimensionColoring = {
-            label: "Node Coloring",
-            order: dimensionId + .2,
-            section: "Configuration",
-            values: valsArr,
-            default: "default",
-            type: "string",
-            display: "select",
-            display_size: "half",
-            hidden: false
-        };
-
-        orderVals = [];
-        for(let i = 0; i< dimensionId.length; i++) {
-            let num = i.toString()
-            let val = {num: num}; 
-            orderVals.push(val); 
-        }
-        let dimensionOrder = { 
-            label: "Hierarchy Order",
-            order: dimensionId + .4,
-            section: "Configuration",
-            values: orderVals,
-            default: 'default',
-            type: "string",
-            display: "select"
-        };
-
-        let dimensionDelete = {
-            label: "Delete Node?",
-            order: dimensionId + .5, 
-            section: "Configuration",
-            default: false,
-            type: "boolean",
-        };
-
-
-        if(config.newDimension){
-            if(config.newDimension == true) {
-                dimensionId++;
-                currentDimensions++;
-                delete settings['newDimension']
-                updateSettings = true;
-
-                settings[`dimension_${dimensionId}`] = selectedDimension;
-                settings[`dimension_${dimensionId}_sizing`] = dimensionSizing;
-                settings[`dimension_${dimensionId}_coloring`] = dimensionColoring;
-                settings[`dimension_${dimensionId}_order`] = dimensionOrder;
-                settings[`dimension_${dimensionId}_delete`] = dimensionDelete;
-                dimensionLinks[dimensionId] = { // References to the settings per each Id
-                    dimension_name: '',
-                    selectedDimension: `dimension_${dimensionId}`,
-                    dimensionSizing: `dimension_${dimensionId}_sizing`,
-                    dimensionColoring: `dimension_${dimensionId}_coloring`,
-                    dimensionOrder: `dimension_${dimensionId}_order`,
-                    dimensionDelete: `dimension_${dimensionId}_delete`
-                }
-                
-            } else {
-
-            }
-        }
-
-
-        
-    } // End of nodeConfiguration
-    this._currentDimensions = currentDimensions;
-    if (updateSettings) { // If the settings have changed, then change the display as a whole. This is a much cleaner and more efficient way than rerendering for each settings conditional
-        settings['newDimension'] = {
-            label: "Add a new dimension?",
-            order: 100, 
-            section: "Configuration",
-            default: false,
-            type: "boolean",
-        }
-      config.newDimension = true;
-      console.log('This is the settings', settings);
-      console.log('This is the settings', this.options);
-      this.trigger('registerOptions', settings);
-      this.options = settings;
+    if(this._configRef != config.dimensionAmount) {
+        this._configRef = config.dimensionAmount;
+        this.options = settings;
+        this.trigger('registerOptions', this.options);
     }
 
 
 
 
-  
-          // Iterate through all the settings 
-    updateSettings = false;
-    dimensionLinks.forEach(link => {
-            // Grab the dimension name
-        if (config[link.selectedDimension] != 'default') link.dimension_name = config[link.selectedDimension];
-        console.log('This is the link', link);
-
-            // Stream it all through by adding placeholder vars for defualts
 
 
 
-    });  
-    console.log('dimensionLinks', dimensionLinks);
 
 
-    if (updateSettings) {
-        this.trigger('registerOptions', settings);
-    }
 
 
 
