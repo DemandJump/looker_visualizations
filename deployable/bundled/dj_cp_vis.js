@@ -44,7 +44,6 @@ looker.plugins.visualizations.add({
         },
 
 
-
         group_nodes_header: {
             label: "Highly recommend using dynamic sizing.",
             order: 3,
@@ -80,6 +79,21 @@ looker.plugins.visualizations.add({
             type: "boolean",
             default: true,
             hidden: true
+        },
+
+        dynamicColoring: {
+          label: "Dynamic node Sizing", 
+          order: .1, 
+          section: "Configuration",
+          type: "boolean",
+          default: false
+        },
+        dynamicColoring: {
+          label: "Dynamic node Sizing", 
+          order: .2, 
+          section: "Configuration",
+          type: "boolean",
+          default: false
         },
 
     },
@@ -209,10 +223,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-
+        // Adds the configuration for dimensions in the hierarchy
     settings['notes'] = {
         label: "Notes for building the dimension",
-        order: 0,
+        order: .4,
         section: "Configuration",
         type: "sentence_maker",
         words: [
@@ -247,7 +261,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       let dimName = `dim${i}`;
       settings[dimName] = {
           label: "Choose the first dimension of The hierarchy",
-          order: [i] + .1, 
+          order: [i] + 1.1, 
           section: "Configuration",
           values: valsArr,
           default: "null",
@@ -259,7 +273,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       dimName = `dim${i}s`;
       settings[dimName] = {
           label: "Node Sizing",
-          order: [i] + .2,
+          order: [i] + 1.2,
           section: "Configuration",
           values: configArr,
           default: "default",
@@ -269,10 +283,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           hidden: false
       };
 
-      dimName `dim${i}c`;
+      dimName = `dim${i}c`;
       settings[dimName] = {
         label: "Node Coloring",
-        order: [i] + .3,
+        order: [i] + 1.3,
         section: "Configuration",
         values: configArr,
         default: "default",
@@ -292,11 +306,49 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
 
+       // dim#, dim#s, dim#c are the config values
 
+      // For the dimension amount, run through the config of these
+    let userTaxonomy = [];
+    for(let i = 0; i < config.dimensionAmount; i++) {
+        let confname = `dim${i}`;
+        let confcolor = `dim${i}c`;
+        let confsize = `dim${i}s`;
 
+        dimensions.forEach(dim => {
+            if(dim.name == config[confname]) userTaxonomy.push(dim);
+        });
+        measures.forEach(mes => {
+            if(mes.name == config[confname]) userTaxonomy.push(mes);
+        })
 
+            // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
+        data.forEach(node => {
+            let query = node[config[confname]].value;
+            let dycol = node[config[confcolor]].value;
+            let dynsz = node[config[confsize]].value; 
+            // node[sd1].value = `${query}~${dycol}~${dynsz}`;
 
+            if(config.dynamicColoring == true && config[confcolor] != 'default') {
+                node[config[confname]].value = `${query}~${dycol}`;
+            } else {
+                node[config[confname]].value = `${query}~null`;
+            }
 
+            if(config.dynamicSizing == true && config[confsize] != 'default') {
+                node[config[confname]].value = node[config[confname]].value + `~${dynsz}`;
+            } else {
+                node[config[confname]].value = node[config[confname]].value + `~null`;
+            }
+
+        }); // End of the data loop
+
+    } // End of for loop 
+
+    console.log('This is the new taxonomy', newTaxonomy);
+    console.log('This is the new data', data);
+    console.log('This is the new settings', this.options);
+    console.log('This is the config', config); 
 
 
 
