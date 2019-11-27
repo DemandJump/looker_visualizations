@@ -129,6 +129,8 @@ looker.plugins.visualizations.add({
         this._svg = d3.select('div.container').append("svg")
             .style('position', 'relative')
             .attr('class', 'svg');
+
+        
     },
 
 
@@ -292,6 +294,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('root', root);
     console.log('nodes', nodes);
     // console.log('This is the focus', focus);
+
+
+
+
+    function breadCrumbs(d) {
+        ////Maxdepth
+        console.log('This is the clicked node!', d);
+        
+
+    }  
 
     /******************************************************************************************************************************************
         * Build the svg
@@ -552,6 +564,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // refactor(d);
         d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
         // console.log('This is d', d);
+        initBreadcrumbs(d);
 
     }
 
