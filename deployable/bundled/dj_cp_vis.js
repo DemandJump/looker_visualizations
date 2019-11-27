@@ -363,24 +363,28 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
         data.forEach(node => {
             let configname = config[confname];
-            let configcolor = config[confcolor];
-            let configsize = config[confsize];
-            console.log('configname', configname);
             let query = node[configname]['value'];
-            let dycol = node[configcolor]['value'];
-            let dynsz = node[configsize]['value'];
-            // console.log('Query', query);
-            // console.log('Dycol', dycol);
-            // console.log('Dynsz', dynsz);
+            console.log('configname', configname);
 
-
-
-            if(configname == 'dim0') {
-                node[configname].value = `${query}~null~null`;
-            } else {
-
+            let configcolor;
+            let dycol;
+            let configsize;
+            let dynsz;
+            if (i != 0) {
+                configcolor = config[confcolor];
+                dycol = node[configcolor]['value'];
+                configsize = config[confsize];
+                dynsz = node[configsize]['value'];
+                // console.log('Query', query);
+                // console.log('Dycol', dycol);
+                // console.log('Dynsz', dynsz);
             }
-            if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
+
+
+
+            if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
+                node[configname].value = `${query}~null~null`;
+            } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
                 node[configname].value = `${query}~${dycol}~${dynsz}`;
             } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
                 node[configname].value = `${query}~${dycol}~null`;
