@@ -186,6 +186,7 @@ looker.plugins.visualizations.add({
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5;
     this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
+    d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
     console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
     // console.log(`config`, config);
     console.log(`direct reference to settings (this.options)`, this.options);
@@ -306,8 +307,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       breadCrumbIds.push(id);
     }
     function initBreadCrumbs(d) {
-        d3.select('.breadcrumbContainer').selectAll("*").remove(); // Clear out the data before we add the vis
-        ////Maxdepth
         console.log('This is the maxDepth', maxDepth);
         console.log('[Breadcrumb]: This is the clicked node!', d);
 
