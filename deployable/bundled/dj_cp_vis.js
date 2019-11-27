@@ -232,7 +232,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         section: "Configuration",
         type: "sentence_maker",
         words: [
-            { type: "separator", text: "You can have up to 5 dimensions in the hierarchy, Enter the mhere" }
+            { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
         ]
     };
 
@@ -245,6 +245,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         values: [],
         default: "2",
         hidden: false
+    };
+    settings['spacing'] = {
+        label: "Notes for building the dimension",
+        order: .4,
+        section: "Configuration",
+        type: "sentence_maker",
+        words: [
+            { type: "separator", text: " " }
+        ]
     };
 
     for(let i = 0; i < dimensions.length + measures.length; i++) {
@@ -309,6 +318,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         display_size: "half",
         hidden: false
       };
+
+      let spacing = `spacing${i}`;
+      settings[spacing] = {
+        label: "Notes for building the dimension",
+        order: .4,
+        section: "Configuration",
+        type: "sentence_maker",
+        words: [
+            { type: "separator", text: " " }
+        ]
+    };
 
     } // End of for loop
 
