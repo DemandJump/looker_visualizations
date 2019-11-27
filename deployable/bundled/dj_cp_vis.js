@@ -216,17 +216,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
     console.log('These are the breadcrumb ids:', breadCrumbIds);
     function initBreadCrumbs(d) {
-        // d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        if(breadCrumbInit) {
-            breadCrumbInit = false;
-        } else {
-            for(let i = 0; i < breadCrumbIds.length; i++) { d3.select(breadCrumbIds[id]).remove(); } // Clear out the data before we add the vis
-        }
+        d3.select('.breadcrumbContainer').selectAll("*").remove(); 
+        // if(breadCrumbInit) {
+        //     breadCrumbInit = false;
+        // } else {
+        //     for(let i = 0; i < breadCrumbIds.length; i++) { d3.select(breadCrumbIds[id]).remove(); } // Clear out the data before we add the vis
+        // }
         console.log('This is the maxDepth', maxDepth);
 
             // Init the breadcrumbs
         for(let i = 0; i < breadCrumbIds.length; i++) {
-            d3.select('.container').append('div')
+            d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
                 .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
