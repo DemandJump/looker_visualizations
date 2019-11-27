@@ -415,7 +415,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text3);
 
     const label4 = svg.append("g")
-        .attr('class', 'text3')
+        .attr('class', 'text4')
         .attr('pointer-events', 'none')
         .attr('text-anchor', 'middle')
             .selectAll('text.text3')
