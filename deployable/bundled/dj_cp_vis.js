@@ -1198,7 +1198,7 @@ function leafText4(d) {
     function questionSearchColoring(d) {
         // console.log(`This is d`, d);
         console.log(`This is the node's phrase type: `, d.data.phrase_type);
-        if (config.groupSwitch == true && config.group != "null") {
+        if (config.dynamicColoring == true) {
                 if (d.data.phrase_type == 'search' || d.data.phrase_type == 'Topic') { // Then blue
                     // console.log('Phrase type Topic. This is the current depth', d.depth);
                     return d.depth == 0 ? '#009de9'
