@@ -365,6 +365,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let configname = config[confname];
             let configcolor = config[confcolor];
             let configsize = config[confsize];
+            console.log('configname', configname);
             let query = node[configname]['value'];
             let dycol = node[configcolor]['value'];
             let dynsz = node[configsize]['value'];
@@ -372,11 +373,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('Dycol', dycol);
             // console.log('Dynsz', dynsz);
 
-            
+
 
             if(configname == 'dim0') {
                 node[configname].value = `${query}~null~null`;
-            } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
+            } else {
+
+            }
+            if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
                 node[configname].value = `${query}~${dycol}~${dynsz}`;
             } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
                 node[configname].value = `${query}~${dycol}~null`;
