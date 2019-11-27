@@ -363,15 +363,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let configname = config[confname];
             let configcolor = config[confcolor];
             let configsize = config[confsize];
-            console.log('confname', configname.value);
-            console.log('confname', confcolor.value);
-            console.log('confname', confsize.value);
             let query = node[configname].value;
             let dycol = node[configcolor].value;
             let dynsz = node[configsize].value;
-            console.log('confname', query);
-            console.log('confname', dycol);
-            console.log('confname', dynsz); 
 
             if(config.dynamicColoring == true && config[confcolor] != 'default') {
                 node[config[confname]].value = `${query}~${dycol}`;
@@ -1197,13 +1191,8 @@ function leafText4(d) {
     */
     function questionSearchColoring(d) {
         // console.log(`This is d`, d);
-            // Either by the default hsl based on depth or if the config is on
         if (config.groupSwitch == true && config.group != "null") {
-                // We're hard coding in all the possibilities for topics or questions
-                let word = d.data.phrase_type; // .toLowerCase();
-                // console.log(`This is word(d.data.phrase_type)`, word);
-
-                if (d.data.phrase_type == 'search' || d.data.phrase_type == 'topic') { // Then blue
+                if (d.data.phrase_type == 'search' || d.data.phrase_type == 'Topic') { // Then blue
                     // console.log('Phrase type Topic. This is the current depth', d.depth);
                     return d.depth == 0 ? '#009de9'
                     : d.depth == 1 ? '#009de9'
@@ -1212,7 +1201,7 @@ function leafText4(d) {
                     : d.depth == 4 ? '#78e6ff'
                     : d.depth == 5 ? '#aef0ff'
                     : '#dcf7ff'; 
-                } else if (d.data.phrase_type == 'question') { // Then green
+                } else if (d.data.phrase_type == 'question' || d.data.phrase_type == 'Question') { // Then green
                     // console.log('Phrase type depth. This is the current depth', d.depth);
                     return d.depth == 0 ? '#3ec173'
                     : d.depth == 1 ? '#3ec173'
