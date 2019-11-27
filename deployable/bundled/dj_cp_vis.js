@@ -341,9 +341,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let configname = config[confname];
             let configcolor = config[confcolor];
             let configsize = config[confsize];
-            console.log('confname', configname);
-            console.log('confname', confcolor);
-            console.log('confname', confsize);
+            console.log('confname', configname.value);
+            console.log('confname', confcolor.value);
+            console.log('confname', confsize.value);
             let query = node[configname].value;
             let dycol = node[configcolor].value;
             let dynsz = node[configsize].value;
