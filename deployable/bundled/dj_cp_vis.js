@@ -280,53 +280,55 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Instantiate the dimensions
     let dimAmount = config['dimensionAmount']
+    let labels = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
     for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
       let dimName = `dim${i}`;
+      let dimLabel = `${labels[i]} Dimension`;
       settings[dimName] = {
-          label: "Choose the first dimension of The hierarchy",
+          label: dimLabel,
           order: [i] + 1.1, 
-          section: "Configuration",
+          section: `Configuration`,
           values: valsArr,
-          default: "null",
-          type: "string",
-          display: "select", 
+          default: `null`,
+          type: `string`,
+          display: `select`, 
           hidden: false
       };
 
       dimName = `dim${i}s`;
       settings[dimName] = {
-          label: "Node Sizing",
+          label: `Node Sizing`,
           order: [i] + 1.2,
-          section: "Configuration",
+          section: `Configuration`,
           values: configArr,
-          default: "default",
-          type: "string",
-          display: "select",
-          display_size: "half",
+          default: `default`,
+          type: `string`,
+          display: `select`,
+          display_size: `half`,
           hidden: false
       };
 
       dimName = `dim${i}c`;
       settings[dimName] = {
-        label: "Node Coloring",
+        label: `Node Coloring`,
         order: [i] + 1.3,
-        section: "Configuration",
+        section: `Configuration`,
         values: configArr,
-        default: "default",
-        type: "string",
-        display: "select",
-        display_size: "half",
+        default: `default`,
+        type: `string`,
+        display: `select`,
+        display_size: `half`,
         hidden: false
       };
 
       let spacing = `spacing${i}`;
       settings[spacing] = {
-        label: "Notes for building the dimension",
+        label: `Notes for building the dimension`,
         order: [i] + 1.4,
-        section: "Configuration",
-        type: "sentence_maker",
+        section: `Configuration`,
+        type: `sentence_maker`,
         words: [
-            { type: "separator", text: " " }
+            { type: `separator`, text: ` ` }
         ]
     };
 
