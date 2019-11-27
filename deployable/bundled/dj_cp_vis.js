@@ -1197,7 +1197,7 @@ function leafText4(d) {
                  #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
     */
     function questionSearchColoring(d) {
-        console.log(`This is d`, d);
+        // console.log(`This is d`, d);
         if (config.groupSwitch == true && config.group != "null") {
                 if (d.data.phrase_type == 'search' || d.data.phrase_type == 'Topic') { // Then blue
                     // console.log('Phrase type Topic. This is the current depth', d.depth);
