@@ -821,8 +821,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     node[configname].value = `${query}~null~null`;
                 }
 
-                if(node.dj_score == null) node.dj_score = dynsz;
-                if(node.dj_score == 'null' || node.dj_score == '-') node.dj_score = 74;
+                if (dynsz != null) {
+                  console.log('This is the current dj score', dynsz);
+                  node.dj_score = dynsz;
+                }
+                // if(node.dj_score == null) node.dj_score = dynsz;
+                // if(node.dj_score == 'null' || node.dj_score == '-') node.dj_score = 74;
 
             }); // End of the data loop
         } // End of for loop 
@@ -837,7 +841,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('sum function', d);
+                    // console.log('sum function', d);
                     let dval = 74;
 
                     if (d.dj_score) {
