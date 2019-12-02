@@ -216,10 +216,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // console.log('root', root);
     console.log('nodes', nodes);
     // console.log('This is the focus', focus);
+    let initialization = true;
     /******************************************************************************************************************************************
         * Build the svg
     ******************************************************************************************************************************************/
-    d3.select('.header').style('height', headerSpace);
 
     let container = this._container
         .style('box-sizing', 'border-box')
@@ -311,7 +311,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
     zoomTo([root.x, root.y, root.r * 2]);
-    simulateClick(document.getElementById('tether'), 'click');
 
 
 
@@ -333,6 +332,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         return d.r * k;
     }); // This changes the size of the nodes with reference to the change of the camera
 
+    if (initialization) {
+        initialization = false; 
+        simulateClick(document.getElementById('tether'), 'click');
+    }
 }
 
     function zoom(d) {          
