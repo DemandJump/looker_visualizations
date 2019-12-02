@@ -793,6 +793,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
             data.forEach(node => {
+                console.log('This is a node', node);
                 let configname = config[confname];
                 let query = node[configname]['value'];
                 // console.log('configname', configname);
