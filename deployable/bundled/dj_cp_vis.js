@@ -821,7 +821,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }
 
                 if (dynsz != null) {
-                  console.log('This is the current dj score', dynsz);
                   node.dj_score = dynsz;
                 }
                 // if(node.dj_score == null) node.dj_score = dynsz;
@@ -845,12 +844,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.data) {
                         if (d.data.dj_score) {
                             let ret = d.data.dj_score * 10;
+                            console.log('This is ret', ret);
                             return ret;
                         } else { 
                             let ret = dval * 10;
+                            console.log('Else ret', ret);
                             return ret;
                         }
                     } else {
+                        console.log('This is ret', ret);
                         let ret = dval * 10;
                         return ret;
                     }
