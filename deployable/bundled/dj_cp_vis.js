@@ -238,7 +238,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .selectAll("circle")
         .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
-            .attr('class', d => {if(d.data.id){ if(d.data.id == 'tether')return 'node tether'; } return 'node'; })
+            .attr('class', 'node')
+            .attr('id', d => { if(d.data.id) { if(d.data.id == 'tether') return 'tether'; } })
             .attr("fill", d => {
                 if (config.dynamicColoring == true) {
                     return questionSearchColoring(d);
