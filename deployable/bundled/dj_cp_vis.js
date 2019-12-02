@@ -792,7 +792,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             })
 
                 // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
-            data.forEach(node => node.dj_score = null);
             data.forEach(node => {
                 let configname = config[confname];
                 let query = node[configname]['value'];
@@ -843,6 +842,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .sum(d => {
                     // console.log('sum function', d);
                     let dval = 74;
+                    if (d.data) {
+                      console.log('found d.data');
+                      if (d.data.dj_score) {
+                        console.log('Found dj_score', d.data.dj_score);
+
+                      }
+                    }
 
                     if (d.dj_score) {
                         if (d.dj_score != 'null' && d.dj_score != '-') {
@@ -851,10 +857,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         } else { 
                             return dval; 
                         }
-                    }
-                    else { 
-                        return dval; 
-                    }
+                    } else { return dval; }
                 })
                 .sort((a, b) => {
                     // console.log(`Sort function: this is a`, a);
