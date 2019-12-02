@@ -311,7 +311,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
     zoomTo([root.x, root.y, root.r * 2]);
-    simulateClick(document.querySelector('.tether'), 'click');
+    simulateClick(document.getElementById('tether'), 'click');
 
 
 
