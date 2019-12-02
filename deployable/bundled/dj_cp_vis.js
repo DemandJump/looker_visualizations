@@ -309,8 +309,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .text(d => d.data.text4);
 
-    // zoomTo([root.x, root.y, root.r * 2]);
-    let c = simulateClick(document.getElementById('root'), 'click');
+    zoomTo([root.x, root.y, root.r * 2]);
+
+
+    let c = simulateClick(document.getElementById('tether'), 'click');
     zoomThenRefactor(simulateClick(document.getElementById('tether'), 'click'));
 
 
