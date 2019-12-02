@@ -532,37 +532,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of dimensionValueSettings
 
 
-    function configureDisplay() {
-      if (config.influenceSwitch == true && settings.influence.hidden == true) { // Then show the influence setting // Check if it's hidden, and unhide them if not
-          settings.influence.hidden = false;
-          settings.useInfluenceInVis.hidden = false;
-          updateSettings = true;
-      }
-      if (config.influenceSwitch == false && settings.influence.hidden == false) { // Then hide the influence setting
-            settings.influence.hidden = true;
-            settings.useInfluenceInVis.hidden = true;
-            updateSettings = true;
-      } 
-
-      if (config.groupSwitch == true && settings.group.hidden == true) { // Same for the group settings
-            settings.group.hidden = false;
-            settings.useGroupInVis.hidden = false;
-            updateSettings = true;
-      }
-      if (config.groupSwitch == false && settings.group.hidden == false) {
-            settings.group.hidden = true;
-            settings.useGroupInVis.hidden = true;
-            updateSettings = true;
-      }
-
-      // console.log('Configuration settings');
-      // console.log(`Influence switch: ${config.influenceSwitch}`);
-      // console.log(`Influence value: ${config.influence}`);
-      // console.log(`Group value: ${config.group}`);
-      // console.log(`Group switch: ${config.influence}`);
-
-    } // End of configureDisplay
-
     function checkSelectedInfluence() {
       if (config.influenceSwitch == true) {
         if (config.influence != 'null' ) {
@@ -578,17 +547,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
     } // End of checkSelectedInfluence
 
-        
-        // We need a function that chooses between the data we append through the node hierarchy and this new visual
-    function clearInfluenceNulls() {
-      if (config.influence != 'null') {
-        data.forEach(node => {
-            node['value'] = node[config.influence]['value'];
-        });
-      } else { 
-        data.forEach(node => node['value'] = 1); 
-      }
-    } // End of clearInfluence Nulls
 
     function minAndMaxInfluenceValues() {
            // Now run through the data, grab the min and max, then replace all the nulls with the min value
@@ -865,35 +823,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         } // End of for loop 
     } // End of packageContentCreateTaxonomy
     
-
-    function configureBurrowTaxonomy() {
-      if (config.influenceSwitch == true && config.useInfluenceInVis == false && config.useGroupInVis == true) { // If influence's dimension is being pulled but not group
-        taxonomyPass = [];
-        let pull = config.influence; // Grab the dimension that the influence is using..
-        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
-      }
-      if (config.groupSwitch == true && config.useGroupInVis == false && config.useInfluenceInVis == true) { // If group's dimension is being pulled but not influence
-        taxonomyPass = [];
-        let pull = config.group;
-        dimensions.forEach(dimen => { if (dimen.name != pull) taxonomyPass.push(dimen); });
-      }
-      if (config.groupSwitch == true && config.influenceSwitch == true && config. useGroupInVis == false && config.useInfluenceInVis == false) {
-        taxonomyPass = [];
-        let groupDimen = config.group;
-        let influenceDimen = config.influence;
-        dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
-      }
-    } // End of configureBurrowTaxonomy
-
-    function nodeHierarchyTaxonomyPull() {
-      taxonomyPass.forEach(dimension => {
-        if(dimension.name != 'nodes.type' && dimension.name != 'second_degree_dependencies.type' && dimension.name != 'third_degree_dependencies.type' && dimension.name != 'fourth_degree_dependencies.type' && dimension.name != 'fifth_degree_dependencies.type' && dimension.name != 'nodes.dj_score' && dimension.name != 'second_degree_dependencies.dj_score' && dimension.name != 'third_degree_dependencies.dj_score' && dimension.name != 'fourth_degree_dependencies.dj_score' &&    dimension.name != 'fifth_degree_dependencies.dj_score') {
-          newTaxonomy.push(dimension);
-        }
-      });
-      taxonomyPass = newTaxonomy;
-      console.log('This is the new taxonomy', taxonomyPass);
-    }
 
     function pack(data) {
         if (config.dynamicSizing == true) {
