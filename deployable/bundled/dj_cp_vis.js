@@ -843,18 +843,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     let dval = 74;
                     if (d.data) {
                         if (d.data.dj_score) {
-                            let ret = d.data.dj_score * 10;
-                            console.log('This is ret', ret);
-                            return ret;
+                            return d.data.dj_score;
                         } else { 
-                            let ret = dval * 10;
-                            console.log('Else ret', ret);
-                            return ret;
+                            return dval;
                         }
                     } else {
-                        let ret = dval * 10;
-                        console.log('This is ret', ret);
-                        return ret;
+                        return dval;
                     }
                 })
                 .sort((a, b) => {
