@@ -821,8 +821,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     node[configname].value = `${query}~null~null`;
                 }
 
+                node.dj_score = dycol;
+
             }); // End of the data loop
         } // End of for loop 
+        console.log('This is the new data', data);
     } // End of packageContentCreateTaxonomy
     
 
@@ -835,9 +838,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .sum(d => {
                     console.log('sum function', d);
                     let dval = 74;
-                    if(dval == 74) { console.log('Dval is true'); }
-                    let val = d.dj_score;
-                    console.log('This is val', val);
 
                     if (d.dj_score) {
                         if (d.dj_score != 'null' && d.dj_score != '-') {
