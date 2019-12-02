@@ -310,7 +310,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
     // zoomTo([root.x, root.y, root.r * 2]);
-    zoomThenRefactor(nodes[0]);
+    let c = simulateClick(document.getElementById('root'), 'click');
+    zoomThenRefactor(simulateClick(document.getElementById('tether'), 'click'));
 
 
 
