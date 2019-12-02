@@ -309,7 +309,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
                 .text(d => d.data.text4);
 
-    zoomTo([nodes[0].x, nodes[0].y, nodes[0].r * 2]);
+    // zoomTo([root.x, root.y, root.r * 2]);
+    zoomThenRefactor(nodes[0]);
 
 
 
