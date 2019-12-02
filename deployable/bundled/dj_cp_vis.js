@@ -896,10 +896,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     }
 
     function pack(data) {
-        // console.log('This is the pack function', data);
         if (config.dynamicSizing == true) {
-            // console.log('Packing the data if they choose an influence');
-          
             return d3.pack()
                 .size([width - 2, height - 2])
                 .padding(3)
@@ -908,40 +905,41 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     console.log('sum function', d);
                     let dval = 74;
                     if (d.dj_score) {
-                        if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
+                        if (d.dj_score == '' || d.dj_score == 'null') { 
+                            d.dj_score == 74; 
+                            return d.dj_score;
+                        }
                     }
                     else {
-                      return dval;
+                        return dval;
                     }
                     console.log('This is the new dj score', d);
                 })
                 .sort((a, b) => {
-                    console.log(`Sort function: this is a`, a);
-                    console.log(`Sort function: this is b`, b);
+                    // console.log(`Sort function: this is a`, a);
+                    // console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
 
                     if (a.data) {
-                        // if (a.data.dj_score) {
+                        if (a.data.dj_score) {
                             if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
                                 aval = a.data.dj_score; 
                               }
                             if (a.data.dj_score == '' || a.data.dj_score == 'null') {
                                 a.data.dj_score = aval;
                             }
-                        // }
+                        }
                     }
                     if (b.data) {
-                        // if (b.data.dj_score) {
+                        if (b.data.dj_score) {
                             if(b.data.dj_score != '' || b.data.dj_score != 'null') {
-                                // console.log('b: Dj score was blank or null, replacing it with', bval);
                                 bval = b.data.dj_score;
                             }
                             if(b.data.dj_score == '' || b.data.dj_score == 'null') {
-                                // console.log('b: Dj score was not blank, replacing aval with dj score of', b.data.dj_score);
                                 b.data.dj_score = bval;
                             }
-                        // }
+                        }
                     }
                     return bval - aval;
                 }));
