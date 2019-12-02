@@ -852,8 +852,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                             return ret;
                         }
                     } else {
-                        console.log('This is ret', ret);
                         let ret = dval * 10;
+                        console.log('This is ret', ret);
                         return ret;
                     }
                 })
