@@ -843,21 +843,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     // console.log('sum function', d);
                     let dval = 74;
                     if (d.data) {
-                      console.log('found d.data');
-                      if (d.data.dj_score) {
-                        console.log('Found dj_score', d.data.dj_score);
-
-                      }
-                    }
-
-                    if (d.dj_score) {
-                        if (d.dj_score != 'null' && d.dj_score != '-') {
-                            console.log('Returning this dj score:', d.dj_score);
-                            return parseInt(d.dj_score, 10);
+                        if (d.data.dj_score) {
+                            return d.data.dj_score;
                         } else { 
                             return dval; 
                         }
-                    } else { return dval; }
+                    } else {
+                        return dval;
+                    }
                 })
                 .sort((a, b) => {
                     // console.log(`Sort function: this is a`, a);
