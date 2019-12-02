@@ -902,18 +902,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('sum function', d);
+                    // console.log('sum function', d);
                     let dval = 74;
                     if (d.dj_score) {
                         if (d.dj_score == '' || d.dj_score == 'null') { 
                             d.dj_score == 74; 
+                            console.log('Returning this dj score:', d.dj_score);
                             return d.dj_score;
                         }
                     }
                     else {
-                        return dval;
+                        console.log('Returning default dval:', dval);
+                        return dval; 
                     }
-                    console.log('This is the new dj score', d);
                 })
                 .sort((a, b) => {
                     // console.log(`Sort function: this is a`, a);
