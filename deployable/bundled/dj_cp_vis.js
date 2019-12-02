@@ -838,10 +838,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         if (d.dj_score != 'null') {
                             console.log('Returning this dj score:', d.dj_score);
                             return parseInt(d.dj_score, 10);
+                        } else { 
+                            return dval; 
                         }
                     }
-                    else {
-                        console.log('Returning default dval:', dval);
+                    else { 
                         return dval; 
                     }
                 })
