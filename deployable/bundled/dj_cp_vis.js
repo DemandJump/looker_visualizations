@@ -890,7 +890,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('Else clause sum function within pack function: ', d);
                     d.value = 1;
                     return d.value;
                 })
