@@ -844,12 +844,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     let dval = 74;
                     if (d.data) {
                         if (d.data.dj_score) {
-                            return d.data.dj_score;
+                            let ret = d.data.dj_score * 10;
+                            return ret;
                         } else { 
-                            return dval; 
+                            let ret = dval * 10;
+                            return ret;
                         }
                     } else {
-                        return dval;
+                        let ret = dval * 10;
+                        return ret;
                     }
                 })
                 .sort((a, b) => {
