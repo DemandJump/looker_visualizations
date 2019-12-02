@@ -240,12 +240,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
             .attr('class', d => {if(d.data.id){ if(d.data.id == 'tether')return 'node tether'; } return 'node'; })
-            .attr('id', d => {
-                uniqueId++;
-                d.data.uniqueId = uniqueId;
-                return uniqueId;
+            .attr("fill", d => {
+                if (config.dynamicColoring == true) {
+                    questionSearchColoring(d);
+                } else {
+                    if(d.data) {
+                      if(d.data.leaf) {
+                          if(d.data.leaf == true) return 'white';
+                      }
+                    }
+                    return color(d.depth);
+                }
             })
-            .attr("fill", d => questionSearchColoring(d))
             .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
             .on("mouseover", function() { 
               d3.select(this)
@@ -911,7 +917,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function pack(data) {
         // console.log('This is the pack function', data);
-        if (config.influenceSwitch == true && config.influence != 'null') {
+        if (config.dynamicSizing == true) {
             // console.log('Packing the data if they choose an influence');
           
             return d3.pack()
@@ -919,7 +925,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    // console.log('Sum function for pack if influence != null, this is d: ', d);
+                    console.log('If clause for sum function within pack function', d);
                     let dval = 74;
                     if (d.dj_score) {
                         if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
@@ -968,7 +974,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    // console.log('This is the sum function for pack: ', d);
+                    console.log('Else clause sum function within pack function: ', d);
                     d.value = 1;
                     return d.value;
                 })
