@@ -112,9 +112,8 @@ looker.plugins.visualizations.add({
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5;
     this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
-    console.log(`\n\n\n\n UpdateAsync initialized, here is it's data: `);
     // console.log(`config`, config);
-    console.log(`direct reference to settings (this.options)`, this.options);
+    console.log(`\n\ndirect reference to settings (this.options)`, this.options);
     console.log(`queryResponse`, queryResponse);
     console.log(`data`, data);
     let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
@@ -242,7 +241,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', d => {if(d.data.id){ if(d.data.id == 'tether')return 'node tether'; } return 'node'; })
             .attr("fill", d => {
                 if (config.dynamicColoring == true) {
-                    questionSearchColoring(d);
+                    return questionSearchColoring(d);
                 } else {
                     if(d.data) {
                       if(d.data.leaf) {
@@ -478,11 +477,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     // }
 
     function zoomThenRefactor(d) {
-        // console.log('This is d', d);
         zoom(d);
         // refactor(d);
-
-        // d3.select('.header').html(d.data.name); // Pass in the clicked node to the header!
         initBreadCrumbs(d);
     }
 
@@ -499,8 +495,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     node.groupColor = node[grouper];
                     let checker = 0;
                     for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
-                        // console.log(`This is the node's phrase type:`, node[grouper]);
-                        // console.log(`and this is the current unique value:`, uniqueValues[i]);
                         if (node[grouper].value == uniqueValues[i]) { checker++; }
                     } // If the counter equals 0, then add it to the set of unique values for the next iteration
                     if (checker == 0) uniqueValues.push(node[grouper].value);
@@ -589,8 +583,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function clearInfluenceNulls() {
       if (config.influence != 'null') {
         data.forEach(node => {
-            // console.log('data[config.influence]', node[config.influence]);
-            // console.log('value of each', node[config.influence].value);
             node['value'] = node[config.influence]['value'];
         });
       } else { 
@@ -652,8 +644,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d._children.length == 1) {
                         if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
                         if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
-                        // let endingChars = d_children[0]['data']['name'].substr(-5, 5); // If it's configured 
-                        // if (endinChars == '~null') d.data.leaf = true; // This may actually not be needed because of how the code collapses nulls already! But whateverr 
                     } else if (d._children.length > 1) {
                         let checker = true;
                         for(let i = 0; i < d._children.length; i++) {
@@ -857,9 +847,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     dycol = node[configcolor]['value'];
                     configsize = config[confsize];
                     dynsz = node[configsize]['value'];
-                    // console.log('Query', query);
-                    // console.log('Dycol', dycol);
-                    // console.log('Dynsz', dynsz);
                 }
 
                 if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
@@ -875,13 +862,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }
 
             }); // End of the data loop
-
         } // End of for loop 
-
-        // console.log('This is the new taxonomy', userTaxonomy);
-        // console.log('This is the new data', data);
-        // console.log('This is the new settings', this.options);
-        // console.log('This is the config', config); 
     } // End of packageContentCreateTaxonomy
     
 
@@ -902,7 +883,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let influenceDimen = config.influence;
         dimensions.forEach(dimen => { if (dimen.name != groupDimen || dimen.name != influenceDimen) taxonomyPass.push(dimen); });
       }
-      // console.log('This is the taxonomy pass', taxonomyPass);
     } // End of configureBurrowTaxonomy
 
     function nodeHierarchyTaxonomyPull() {
@@ -925,7 +905,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .padding(3)
             (d3.hierarchy(data)
                 .sum(d => {
-                    console.log('If clause for sum function within pack function', d);
+                    console.log('sum function', d);
                     let dval = 74;
                     if (d.dj_score) {
                         if (d.dj_score == '' || d.dj_score == 'null') { d.dj_score == 74; }
@@ -933,21 +913,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     else {
                       return dval;
                     }
+                    console.log('This is the new dj score', d);
                 })
                 .sort((a, b) => {
-                    // console.log(`Sort function: this is a`, a);
-                    // console.log(`Sort function: this is b`, b);
+                    console.log(`Sort function: this is a`, a);
+                    console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
 
                     if (a.data) {
                         // if (a.data.dj_score) {
                             if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
-                                // console.log('a: Dj score was blank or null, replacing it with', aval);
                                 aval = a.data.dj_score; 
                               }
                             if (a.data.dj_score == '' || a.data.dj_score == 'null') {
-                                // console.log('a: Dj score was not blank, replacing aval with dj score of', a.data.dj_score);
                                 a.data.dj_score = aval;
                             }
                         // }
