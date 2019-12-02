@@ -835,8 +835,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     console.log('sum function', d);
                     let dval = 74;
                     if (d.dj_score) {
-                        console.log('The dj score param is not null');
-                        if (d.dj_Score != 'null') {
+                        if (d.dj_score != 'null') {
                             console.log('Returning this dj score:', d.dj_score);
                             return parseInt(d.dj_score, 10);
                         }
