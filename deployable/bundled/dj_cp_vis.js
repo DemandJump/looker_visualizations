@@ -642,7 +642,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         settings['dimensionAmount'] = {
             label: "Number of dimensions in hierarchy",
-            order: .5,
+            order: .3,
             section: "Configuration",
             type: "string", 
             display: "select",
