@@ -792,6 +792,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             })
 
                 // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
+            data.forEach(node => node.dj_score = null);
             data.forEach(node => {
                 let configname = config[confname];
                 let query = node[configname]['value'];
@@ -820,7 +821,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     node[configname].value = `${query}~null~null`;
                 }
 
-                node.dj_score = dycol;
+                if(node.dj_score == null) node.dj_score = dynsz;
+                if(node.dj_score == 'null' || node.dj_score == '-') node.dj_score = 74;
 
             }); // End of the data loop
         } // End of for loop 
