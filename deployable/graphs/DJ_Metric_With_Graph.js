@@ -7,10 +7,11 @@ looker.plugins.visualizations.add({
         element.innerHTML = `
             <style> /* Import the Roboto font for us to use. */
                 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-
+                
                 html, body {
                     margin: 0;
                     padding: 0;
+                    font-family: 'Roboto';
                 }
 
                 .axis path, .axis line {
@@ -19,7 +20,16 @@ looker.plugins.visualizations.add({
                   shape-rendering: crispEdges;
                 }
                 
-                .area { fill: #4ca3bd; }
+                .area { 
+                  fill: #4ca3bd; 
+                }
+
+                .label {
+                    font-size: 1rem;
+                }
+                .metric {
+                    font-size: 1.4rem;
+                }
             </style>
         `;
 
@@ -93,7 +103,7 @@ looker.plugins.visualizations.add({
             .range([0, width]);
 
         let y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.value[0])])
+            .domain([0, d3.max(data, d => d.values[0])])
             .range([height, 0]);
 
             // Create each of the axis
@@ -112,15 +122,17 @@ looker.plugins.visualizations.add({
 
         
         let label = d3.select('.container').append('div')
+            .attr('class', 'label')
+            .attr('text-align', 'left')
             .style('width', width)
             .style('height', '40px')
-            .attr('text-align', 'left')
             .html('The Label!');
 
         let metric = d3.select('.contianer').append('div')
+            .attr('class', 'metric')
+            .attr('text-align', 'center')
             .style('width', width)
             .style('height', '40px')
-            .attr('text-align', 'center')
             .html('This is the metric');
 
             // Create the layout of the visualization
