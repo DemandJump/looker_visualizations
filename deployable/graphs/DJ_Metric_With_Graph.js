@@ -71,8 +71,8 @@ looker.plugins.visualizations.add({
             data.forEach(node => {
                 measures.forEach( (mes, index) => {
                     let valueName = `value${index}`;
-                    data['values'] = [];
-                    data['values'][valueName] = data[mes.name];
+                    node['values'] = [];
+                    node['values'][valueName] = node[mes.name];
                 });
             }); // End of data loop
         } // End of grabValues file
