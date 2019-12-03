@@ -120,7 +120,6 @@ looker.plugins.visualizations.add({
         .append('g')
         .call(d3.axisLeft(y));
 
-        
 
 
 
