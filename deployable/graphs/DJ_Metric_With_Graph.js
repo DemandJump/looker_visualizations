@@ -107,8 +107,8 @@ looker.plugins.visualizations.add({
             .range([height, 0]);
 
             // Create each of the axis
-        let xAxis = d3.svg.axisBottom(x);
-        let yAxis = d3.svg.axisLeft(y);
+        let xAxis = d3.axisBottom(x);
+        let yAxis = d3.axisLeft(y);
         
         let area = d3.svg.area()
             .x(d => x(d.x))
