@@ -6,13 +6,20 @@ looker.plugins.visualizations.add({
         var d3 = d3v5; // Pull in your own d3 and overwrite the global selector
         element.innerHTML = `
             <style> /* Import the Roboto font for us to use. */
-            @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+                @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
-            html, body {
-                margin: 0;
-                padding: 0;
-            }
+                html, body {
+                    margin: 0;
+                    padding: 0;
+                }
 
+                .axis path, .axis line {
+                  fill: none;
+                  stroke: #000;
+                  shape-rendering: crispEdges;
+                }
+                
+                .area { fill: #4ca3bd; }
             </style>
         `;
 
