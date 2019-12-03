@@ -76,25 +76,6 @@ looker.plugins.visualizations.add({
         colorCodingKeys();
         grabValues(); 
 
-        let chartValues = [];
-        /* 
-        dimval
-          mesval1
-          mesval2
-          etc
-        */
-        function grabValues() {
-            data.forEach(node => {
-                measures.forEach( (mes, index) => {
-                    let valueName = `value${index}`;
-                    node['values'] = [];
-                    node['values'][valueName] = node[mes.name];
-                });
-            }); // End of data loop
-        } // End of grabValues file
-            
-        
-
 
         /*******************************************************
          * Visualization
@@ -236,6 +217,17 @@ looker.plugins.visualizations.add({
 
             });
         } // End of colorCodingKeys
+
+        function grabValues() {
+            data.forEach(node => {
+                measures.forEach( (mes, index) => {
+                    let valueName = `value${index}`;
+                    node['values'] = [];
+                    node['values'][valueName] = node[mes.name];
+                });
+            }); // End of data loop
+        } // End of grabValues file
+
             
 
 
