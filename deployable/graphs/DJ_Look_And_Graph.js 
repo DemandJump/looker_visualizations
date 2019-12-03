@@ -91,11 +91,11 @@ looker.plugins.visualizations.add({
 
         // set the dimensions and margins of the graph
         var margin = {top: 10, right: 40, bottom: 30, left: 30},
-            width = 450 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
+            width = window.innerWidth - margin.left - margin.right,
+            height = window.innerHeight - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
-        var sVg = d3.select("#Area")
+        var sVg = d3.select('.container')
         .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -125,7 +125,7 @@ looker.plugins.visualizations.add({
 
 
 
-        
+
         
         /************************************************************************
          * Functions
