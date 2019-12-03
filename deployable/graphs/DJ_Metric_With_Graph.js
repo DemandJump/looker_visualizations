@@ -116,8 +116,8 @@ looker.plugins.visualizations.add({
 
 
             // Create the min and max of each of the axes 
-        let x = d3.scaleTime().range([0, width]);
-        let y = d3.scaleLinear().range([height, 0]);
+        let x = d3.scaleLinear().domain([0, d3.max(data, d => d.chartName)]).range([0, width]);
+        let y = d3.scaleLinear().domain([0, d3.max(data, d => d.values[0])]).range([height, 0]);
 
             // Create each of the axis
         let xAxis = d3.axisBottom()
