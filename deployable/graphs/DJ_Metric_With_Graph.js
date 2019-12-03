@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
                 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
                 svg {
-                    border: 1px solid black; 
+                    border: 1px solid blue; 
                 }
 
                 html, body {
@@ -88,23 +88,6 @@ looker.plugins.visualizations.add({
         let containerHeight = window.innerHeight;
 
 
-            // Create the min and max of each of the axes 
-        let x = d3.scaleLinear()
-            .range([0, width]);
-
-        let y = d3.scaleLinear()
-            .range([height, 0]);
-
-            // Create each of the axis
-        let xAxis = d3.axisBottom(x);
-        let yAxis = d3.axisLeft(y);
-        
-        let area = d3.area()
-            .x(d => x(d.chartName))
-            .y0(height)
-            .y1(d => y(d.values[0]));
-
-        
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
             .attr('text-align', 'left')
@@ -138,6 +121,29 @@ looker.plugins.visualizations.add({
             // .style('height', '20px')
             .html('This is the metric label');
 
+
+            // Create the min and max of each of the axes 
+        let x = d3.scaleTime().range([0, width]);
+        let y = d3.scaleLinear().range([height, 0]);
+
+            // Create each of the axis
+        let xAxis = d3.axisBottom()
+            .scale(x);
+        let yAxis = d3.axisLeft()
+            .scale(y);
+        
+        // define the area
+        let area = d3.area()
+            .x(function(d) { return x(d.chartName); })
+            .y0(height)
+            .y1(function(d) { return y(d.values[0]); });
+
+        // define the line
+        let valueline = d3.line()
+            .x(function(d) { return x(d.chartName); })
+            .y(function(d) { return y(d.values[0]); });
+
+
             // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -150,6 +156,11 @@ looker.plugins.visualizations.add({
             .attr("class", "area")
             .attr("d", area);
 
+        svg.append("path")
+            .datum(data)
+            .attr("class", "line")
+            .attr("d", valueline);
+
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
@@ -159,10 +170,9 @@ looker.plugins.visualizations.add({
             .attr("class", "y axis")
             .call(yAxis);
 
+            
         label.html(dimensions[0].label_short);
-
         metric.html(data[0][dimensions[0].name].value);
-
         labelm.html(measures[0].label_short);
 
 
@@ -221,9 +231,8 @@ looker.plugins.visualizations.add({
         function grabValues() {
             data.forEach(node => {
                 measures.forEach( (mes, index) => {
-                    let valueName = `value${index}`;
                     node['values'] = [];
-                    node['values'][valueName] = node[mes.name];
+                    node['values'][index] = node[mes.name];
                 });
             }); // End of data loop
         } // End of grabValues file
