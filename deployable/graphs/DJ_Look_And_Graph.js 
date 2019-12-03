@@ -7,12 +7,13 @@ looker.plugins.visualizations.add({
         element.innerHTML = `
             <style> /* Import the Roboto font for us to use. */
             @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-            </style>
 
             html, body {
                 margin: 0;
                 padding: 0;
             }
+            
+            </style>
         `;
 
         this._container = d3.select(element).append('div')
@@ -120,7 +121,7 @@ looker.plugins.visualizations.add({
         .append('g')
         .call(d3.axisLeft(y));
 
-        
+
 
 
 
@@ -134,8 +135,8 @@ looker.plugins.visualizations.add({
         function maxAndMin() {
             data.forEach(node => {
                 measures.forEach(mes => {
-                    if (node[mes].value < min) min = node[mes].value;
-                    if (node[mes].value > max) max = node[mes].value;
+                    if (node[mes.name].value < min) min = node[mes.name].value;
+                    if (node[mes.name].value > max) max = node[mes.name].value;
                 });       
             });
             console.log(`This is the max: ${max}, and this is the min: ${min}`);
@@ -147,9 +148,9 @@ looker.plugins.visualizations.add({
                 node.chartName = '';
                 dimensions.forEach( (dim, index) => {
                     if (index != dimensions.length - 1) {
-                        node.chartName = node.chartName + node[dim].value + '-';
+                        node.chartName = node.chartName + node[dim.name].value + '-';
                     } else {
-                        node.chartName = node.chartName + node[dim].value;
+                        node.chartName = node.chartName + node[dim.name].value;
                     }
                 });
             });
