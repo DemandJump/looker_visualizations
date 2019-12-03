@@ -25,6 +25,7 @@ looker.plugins.visualizations.add({
 
         this._container = d3.select(element).append('div')
             .attr('class', 'container')
+            .attr('text-align', 'center')
             .style('width', window.innerWidth)
             .style('height', window.innerHeight);
 
@@ -82,9 +83,9 @@ looker.plugins.visualizations.add({
         /*******************************************************
          * Visualization
         *******************************************************/
-        let margin = {top: 10, right: 40, bottom: 30, left: 30},
-            width = window.innerWidth - margin.left - margin.right,
-            height = window.innerHeight - margin.top - margin.bottom;
+        let margin = {top: 10, right: 40, bottom: 30, left: 30};
+        let width = window.innerWidth - margin.left - margin.right;
+        let height = window.innerHeight - margin.top - margin.bottom;
 
             // Create the min and max of each of the axes 
         let x = d3.scaleLinear()
@@ -108,8 +109,20 @@ looker.plugins.visualizations.add({
             .x(d => x(d.x))
             .y0(height)
             .y1(d => y(d.y));
+
         
-            
+        let label = d3.select('.container').append('div')
+            .style('width', width)
+            .style('height', '40px')
+            .attr('text-align', 'left')
+            .html('The Label!');
+
+        let metric = d3.select('.contianer').append('div')
+            .style('width', width)
+            .style('height', '40px')
+            .attr('text-align', 'center')
+            .html('This is the metric');
+
             // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
             .attr("width", width + margin.left + margin.right)
