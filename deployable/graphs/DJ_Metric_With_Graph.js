@@ -8,6 +8,10 @@ looker.plugins.visualizations.add({
             <style> /* Import the Roboto font for us to use. */
                 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
+                svg {
+                    border: 1px solid black; 
+                }
+
                 html, body {
                     margin: 0;
                     padding: 0;
@@ -105,11 +109,9 @@ looker.plugins.visualizations.add({
 
             // Create the min and max of each of the axes 
         let x = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.chartName)])
             .range([0, width]);
 
         let y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.values[0])])
             .range([height, 0]);
 
             // Create each of the axis
@@ -117,9 +119,9 @@ looker.plugins.visualizations.add({
         let yAxis = d3.axisLeft(y);
         
         let area = d3.area()
-            .x(d => x(d.x))
+            .x(d => x(d.chartName))
             .y0(height)
-            .y1(d => y(d.y));
+            .y1(d => y(d.values[0]));
 
         
         let label = d3.select('.container').append('div')
