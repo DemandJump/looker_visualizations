@@ -7,7 +7,7 @@ looker.plugins.visualizations.add({
         element.innerHTML = `
             <style> /* Import the Roboto font for us to use. */
                 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
-                
+
                 html, body {
                     margin: 0;
                     padding: 0;
@@ -107,13 +107,8 @@ looker.plugins.visualizations.add({
             .range([height, 0]);
 
             // Create each of the axis
-        let xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        let yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left");
+        let xAxis = d3.svg.axisBottom(x);
+        let yAxis = d3.svg.axisLeft(y);
         
         let area = d3.svg.area()
             .x(d => x(d.x))
@@ -134,6 +129,13 @@ looker.plugins.visualizations.add({
             .style('width', width)
             .style('height', '40px')
             .html('This is the metric');
+
+        let labelm = d3.select('.contianer').append('div')
+            .attr('class', 'labelm')
+            .attr('text-align', 'center')
+            .style('width', width)
+            .style('height', '20px')
+            .html('This is the metric label');
 
             // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
@@ -156,6 +158,11 @@ looker.plugins.visualizations.add({
             .attr("class", "y axis")
             .call(yAxis);
 
+        label.html(dimensions[0].label_short);
+
+        metric.html(data[0][dimensions[0].name].value);
+
+        labelm.html(measures[0].label_short);
 
 
 
