@@ -37,10 +37,12 @@ looker.plugins.visualizations.add({
             .attr('class', 'container')
             .attr('text-align', 'center')
             .style('width', window.innerWidth)
-            .style('height', window.innerHeight);
+            .style('height', window.innerHeight)
+            .attr('position', 'relative');
 
         this._svg = d3.select('.container').append('svg')
-            .attr('class', 'svg');
+            .attr('class', 'svg')
+            .attr('position', 'relative');
 
     },
    
@@ -97,6 +99,10 @@ looker.plugins.visualizations.add({
         let width = window.innerWidth - margin.left - margin.right;
         let height = window.innerHeight - margin.top - margin.bottom;
 
+        let containerWidth = window.innerWidth;
+        let containerHeight = window.innerHeight;
+
+
             // Create the min and max of each of the axes 
         let x = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.chartName)])
@@ -119,22 +125,34 @@ looker.plugins.visualizations.add({
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
             .attr('text-align', 'left')
-            .style('width', width)
-            .style('height', '40px')
+            .style('position', 'absolute')
+            .style('top', '10%')
+            .style('left', '50%')
+            .style('transform', 'translate(-50%, -50%)')
+            // .style('width', width)
+            // .style('height', '40px')
             .html('The Label!');
 
         let metric = d3.select('.contianer').append('div')
             .attr('class', 'metric')
             .attr('text-align', 'center')
-            .style('width', width)
-            .style('height', '40px')
+            .style('position', 'absolute')
+            .style('top', '50%')
+            .style('left', '50%')
+            .style('transform', 'translate(-50%, -50%)')
+            // .style('width', width)
+            // .style('height', '40px')
             .html('This is the metric');
 
         let labelm = d3.select('.contianer').append('div')
             .attr('class', 'labelm')
             .attr('text-align', 'center')
-            .style('width', width)
-            .style('height', '20px')
+            .style('position', 'absolute')
+            .style('top', '60%')
+            .style('left', '50%')
+            .style('transform', 'translate(-50%, -50%)')
+            // .style('width', width)
+            // .style('height', '20px')
             .html('This is the metric label');
 
             // Create the layout of the visualization
