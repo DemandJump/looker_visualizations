@@ -48,34 +48,6 @@ looker.plugins.visualizations.add({
             .attr('class', 'svg')
             .attr('position', 'relative');
 
-
-        this._label = d3.select('.container').append('div')
-            .attr('class', 'label')
-            .attr('text-align', 'left')
-            .style('position', 'absolute')
-            .style('top', '10%')
-            .style('left', '50%')
-            .style('transform', 'translate(-50%, -50%)')
-            .html('The Label!');
-
-        this._metric = d3.select('.container').append('div')
-            .attr('class', 'metric')
-            .attr('text-align', 'center')
-            .style('position', 'absolute')
-            .style('top', '50%')
-            .style('left', '50%')
-            .style('transform', 'translate(-50%, -50%)')
-            .html('This is the metric');
-
-        this._labelm = d3.select('.container').append('div')
-            .attr('class', 'labelm')
-            .attr('text-align', 'center')
-            .style('position', 'absolute')
-            .style('top', '60%')
-            .style('left', '50%')
-            .style('transform', 'translate(-50%, -50%)')
-            .html('This is the metric label');
-
     },
    
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
@@ -114,6 +86,33 @@ looker.plugins.visualizations.add({
 
         let containerWidth = window.innerWidth;
         let containerHeight = window.innerHeight;
+
+        let label = d3.select('.container').append('div')
+            .attr('class', 'label')
+            .attr('text-align', 'left')
+            .style('position', 'absolute')
+            .style('top', '10%')
+            .style('left', '50%')
+            .style('transform', 'translate(-50%, -50%)')
+            .html('The Label!');
+
+        let metric = d3.select('.container').append('div')
+            .attr('class', 'metric')
+            .attr('text-align', 'center')
+            .style('position', 'absolute')
+            .style('top', '50%')
+            .style('left', '50%')
+            .style('transform', 'translate(-50%, -50%)')
+            .html('This is the metric');
+
+        let labelm = d3.select('.container').append('div')
+            .attr('class', 'labelm')
+            .attr('text-align', 'center')
+            .style('position', 'absolute')
+            .style('top', '60%')
+            .style('left', '50%')
+            .style('transform', 'translate(-50%, -50%)')
+            .html('This is the metric label');
 
 
             // Create the min and max of each of the axes 
