@@ -17,7 +17,9 @@ looker.plugins.visualizations.add({
         `;
 
         this._container = d3.select(element).append('div')
-            .attr('class', 'container');
+            .attr('class', 'container')
+            .style('width', window.innerWidth)
+            .style('height', window.innerHeight);
 
         this._svg = d3.select('.container').append('svg')
             .attr('class', 'svg');
@@ -48,7 +50,24 @@ looker.plugins.visualizations.add({
         chartNames();
         let measureNames = [];
         colorCodingKeys();
+        grabValues(); 
 
+        let chartValues = [];
+        /* 
+        dimval
+          mesval1
+          mesval2
+          etc
+        */
+        function grabValues() {
+            data.forEach(node => {
+                measures.forEach( (mes, index) => {
+                    let valueName = `value${index}`;
+                    data['values'] = [];
+                    data['values'][valueName] = data[mes.name];
+                });
+            }); // End of data loop
+        } // End of grabValues file
             
         
 
@@ -56,61 +75,54 @@ looker.plugins.visualizations.add({
         /*******************************************************
          * Visualization
         *******************************************************/
-        // let svg = this._svg
-        //     .style('width', window.innerWidth)
-        //     .style('height', window.innerHeight)
+            // Create the min and max of each of the axes 
+        let x = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.chartName)])
+            .range([0, width]);
 
+        let y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.value[0])])
+            .range([height, 0]);
 
-        // set the dimensions and margins of the graph
+            // Create each of the axis
+        let xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        let yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+        
+        let area = d3.svg.area()
+            .x(d => x(d.x))
+            .y0(height)
+            .y1(d => y(d.y));
+        
+
+            // Create the layout of the visualization
         let margin = {top: 10, right: 40, bottom: 30, left: 30},
             width = window.innerWidth - margin.left - margin.right,
             height = window.innerHeight - margin.top - margin.bottom;
 
-        // append the svg object to the body of the page
-        let svg = d3.select('.container')
-        .append("svg")
+        let svg = d3.select('.container').append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-        // translate this svg element to leave some margin.
-        .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        svg.append("path")
+            .datum(data)
+            .attr("class", "area")
+            .attr("d", area);
 
-  
-          // X axis: scale and draw:
-        let x = d3.scaleLinear()
-            .domain([0, 1000])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-            .range([0, width]);
         svg.append("g")
+            .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(xAxis);
 
-        // set the parameters for the histogram
-        let histogram = d3.histogram()
-            .value(function(d) { return d.price; })   // I need to give the vector of value
-            .domain(x.domain())  // then the domain of the graphic
-            .thresholds(x.ticks(70)); // then the numbers of bins
-
-        // And apply this function to data to get the bins
-        let bins = histogram(data);
-        console.log('Graph data: ', bins);
-
-        // Y axis: scale and draw:
-        let y = d3.scaleLinear()
-            .range([height, 0]);
-            y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
         svg.append("g")
-            .call(d3.axisLeft(y));
-
-        // append the bar rectangles to the svg element
-        svg.selectAll("rect")
-            .data(bins)
-            .enter()
-            .append("rect")
-              .attr("x", 1)
-              .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-              .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-              .attr("height", function(d) { return height - y(d.length); })
-              .style("fill", "#69b3a2")
+            .attr("class", "y axis")
+            .call(yAxis);
 
 
 
