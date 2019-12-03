@@ -12,7 +12,7 @@ looker.plugins.visualizations.add({
                 margin: 0;
                 padding: 0;
             }
-            
+
             </style>
         `;
 
@@ -85,9 +85,9 @@ looker.plugins.visualizations.add({
         /*******************************************************
          * Visualization
         *******************************************************/
-        let svg = this._svg
-            .style('width', window.innerWidth)
-            .style('height', window.innerHeight)
+        // let svg = this._svg
+        //     .style('width', window.innerWidth)
+        //     .style('height', window.innerHeight)
 
 
         // set the dimensions and margins of the graph
@@ -96,7 +96,7 @@ looker.plugins.visualizations.add({
             height = window.innerHeight - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
-        var sVg = d3.select('.container')
+        var svg = d3.select('.container')
         .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -108,18 +108,18 @@ looker.plugins.visualizations.add({
         var x = d3.scaleLinear()
             .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
             .range([0, width]);       // This is the corresponding value I want in Pixel
-        sVg
-        .append('g')
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        svg
+            .append('g')
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
 
         // X scale and Axis
         var y = d3.scaleLinear()
             .domain([0, 100])         // This is the min and the max of the data: 0 to 100 if percentages
             .range([height, 0]);       // This is the corresponding value I want in Pixel
-        sVg
-        .append('g')
-        .call(d3.axisLeft(y));
+        svg
+            .append('g')
+            .call(d3.axisLeft(y));
 
 
 
