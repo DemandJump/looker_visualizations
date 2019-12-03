@@ -82,6 +82,10 @@ looker.plugins.visualizations.add({
         /*******************************************************
          * Visualization
         *******************************************************/
+        let margin = {top: 10, right: 40, bottom: 30, left: 30},
+            width = window.innerWidth - margin.left - margin.right,
+            height = window.innerHeight - margin.top - margin.bottom;
+
             // Create the min and max of each of the axes 
         let x = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.chartName)])
@@ -105,12 +109,8 @@ looker.plugins.visualizations.add({
             .y0(height)
             .y1(d => y(d.y));
         
-
+            
             // Create the layout of the visualization
-        let margin = {top: 10, right: 40, bottom: 30, left: 30},
-            width = window.innerWidth - margin.left - margin.right,
-            height = window.innerHeight - margin.top - margin.bottom;
-
         let svg = d3.select('.container').append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
