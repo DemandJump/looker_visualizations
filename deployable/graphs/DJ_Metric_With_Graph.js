@@ -119,8 +119,6 @@ looker.plugins.visualizations.add({
         let x = d3.scaleTime().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
 
-        console.log('attempt to parse the data', data[0].values[0].value);
-        data.forEach(node => { if (node.values[0].value == 'null') node.values[0].value = min; });
         // define the area
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
@@ -231,6 +229,9 @@ looker.plugins.visualizations.add({
                     node['value'] = node[mes.name];
                 });
             }); // End of data loop
+            
+          // Replace nulls with min value
+          data.forEach(node => { if(node.value == 'null') node.value = min; });
         } // End of grabValues file
 
             
