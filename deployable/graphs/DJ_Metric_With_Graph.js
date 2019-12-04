@@ -18,7 +18,7 @@ looker.plugins.visualizations.add({
                     font-family: 'Roboto';
                 }
 
-                .axis path, .axis line {
+                .axis path, .axis {
                   fill: none;
                   stroke: #000;
                   shape-rendering: crispEdges;
@@ -121,27 +121,7 @@ looker.plugins.visualizations.add({
             .style('display', 'block')
             .html('This is the metric label');
 
-        // let metric = d3.select('.container').append('div')
-        //     .attr('class', 'metric')
-        //     .attr('text-align', 'center')
-        //     .attr('z-index', '1')
-        //     .style('position', 'absolute')
-        //     .style('top', '50%')
-        //     .style('left', '50%')
-        //     .style('transform', 'translate(-50%, -50%)')
-        //     .html('This is the metric');
 
-        // let labelm = d3.select('.container').append('div')
-        //     .attr('class', 'labelm')
-        //     .attr('text-align', 'center')
-        //     .attr('z-index', '1')
-        //     .style('position', 'absolute')
-        //     .style('top', '60%')
-        //     .style('left', '50%')
-        //     .style('transform', 'translate(-50%, -50%)')
-        //     .html('This is the metric label');
-
-            
 
         // // parse the date / time
         var format = d3.timeParse("%Y-%m-%d");
