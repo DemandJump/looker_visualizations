@@ -203,7 +203,10 @@ looker.plugins.visualizations.add({
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
             .attr("stroke-width", '1.25')
-            .attr("d", d => area(d));
+            .attr("d", d => {
+              console.log('This is d', d);
+              return area(d)
+            });
 
 
         // add the X Axis
