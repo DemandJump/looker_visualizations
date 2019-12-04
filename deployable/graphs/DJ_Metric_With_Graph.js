@@ -71,7 +71,19 @@ looker.plugins.visualizations.add({
         let max = -10000000000;
         let min = 100000000000;
         maxAndMin();
-        chartNames();
+        // chartNames();
+        data.forEach(node => {
+          node.chartName = '';
+          dimensions.forEach( (dim, index) => {
+              console.log(node[dim.name]['value']);
+              node.chartName = node[dim.name].value;
+              // if (index != dimensions.length - 1) {
+              //     node.chartName = node.chartName + node[dim.name].value + '-';
+              // } else {
+              //     node.chartName = node.chartName + node[dim.name].value;
+              // }
+          });
+        });
         let measureNames = [];
         colorCodingKeys();
         grabValues(); 
