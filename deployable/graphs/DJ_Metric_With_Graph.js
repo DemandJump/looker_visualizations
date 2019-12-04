@@ -189,6 +189,7 @@ looker.plugins.visualizations.add({
                     if (node[mes.name].value > max) max = node[mes.name].value;
                 });       
             });
+            if (min == 'null' || min == null) min = 0;
             console.log(`This is the max: ${max}, and this is the min: ${min}`);
         } // End of maxAndMin
 
