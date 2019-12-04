@@ -75,7 +75,6 @@ looker.plugins.visualizations.add({
         let measureNames = [];
         colorCodingKeys();
         grabValues(); 
-        let dimname = dimensions[0].name;
 
         /*******************************************************
          * Visualization
@@ -124,23 +123,23 @@ looker.plugins.visualizations.add({
 
         // define the area
         let area = d3.area()
-            .x(function(d) { return x(d[dimname].value); })
+            .x(function(d) { return x(d.chartName); })
             .y0(height)
             .y1(function(d) { return y(d.value); });
 
         // define the line
         let valueline = d3.line()
-            .x(function(d) { return x(d[dimname].value); })
+            .x(function(d) { return x(d.chartName); })
             .y(function(d) { return y(d.value); });
 
 
-        // parse the date / time
-        var parseTime = d3.timeParse("%d-%b-%y");
-        data.forEach(d => {
-            d.chartName = parseTime(d[dimname].value);
-        });
+        // // parse the date / time
+        // var parseTime = d3.timeParse("%d-%b-%y");
+        // data.forEach(d => {
+        //     d.chartName = parseTime(d.chartName);
+        // });
         // scale the range of the data
-        x.domain(d3.extent(data, function(d) { return d[dimname].value; }));
+        x.domain(d3.extent(data, function(d) { return d.chartName; }));
         y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 
