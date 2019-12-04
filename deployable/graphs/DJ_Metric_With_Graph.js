@@ -20,11 +20,11 @@ looker.plugins.visualizations.add({
 
                 .axis path, .axis line {
                   fill: none;
-                  stroke: #4ca3bd;
+                  stroke: #000;
                   shape-rendering: crispEdges;
                 }
                 
-                .area { 
+                .area, line { 
                   fill: #4ca3bd; 
                 }
 
