@@ -129,8 +129,7 @@ looker.plugins.visualizations.add({
         let y = d3.scaleLinear().range([height, 0]);
 
         // scale the range of the data
-        // x.domain(d3.extent(data, function(d) { return d.chartName; }));
-
+        x.domain(d3.extent(data, function(d) { return d.chartName; }));
         y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
         let xaxis = d3.axisBottom(x).ticks(data.length);
