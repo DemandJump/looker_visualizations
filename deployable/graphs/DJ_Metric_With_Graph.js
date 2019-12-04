@@ -151,9 +151,9 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
         // Append the data to the visual
-        label.attr('font-size', '2vw').html(dimensions[0].label_short);
+        label.attr('font-size', '2vw').html(dimensions[0].field_group_variant);
         metric.attr('font-size', '2.5vw').html(queryResponse.totals_data[measures[0].name].rendered);
-        labelm.attr('font-size', '1.6vw').html(measures[0].label_short);
+        labelm.attr('font-size', '1.6vw').html(measures[0].field_group_variant);
 
 
         // set the ranges - scale the range of the data
