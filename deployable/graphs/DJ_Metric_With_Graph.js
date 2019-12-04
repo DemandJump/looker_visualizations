@@ -303,7 +303,8 @@ looker.plugins.visualizations.add({
                   console.log('This is the layer', d);
                   currentStack.push({
                       values: d,
-                      data: d.data[i].chartName
+                      data: d.data.chartName,
+                      year: d.data[i].chartName
                   });
               });
               stackedData.push(currentStack);
