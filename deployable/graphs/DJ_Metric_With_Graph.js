@@ -151,9 +151,9 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
         // Append the data to the visual
-        label.html(dimensions[0].label_short);
-        metric.html(data[0].value);
-        labelm.html(measures[0].label_short);
+        label.attr('font-size', '2vw').html(dimensions[0].label_short);
+        metric.attr('font-size', '2.5vw')..html(data[0].value);
+        labelm.attr('font-size', '1.6vw')..html(measures[0].label_short);
 
 
         // set the ranges - scale the range of the data
@@ -193,18 +193,19 @@ looker.plugins.visualizations.add({
             .attr("stroke", "steelblue")
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
-            .attr("stroke-width", '1.25')
+            .attr("stroke-width", '1.6')
             .attr("d", d => area(d));
 
-        // stackLayout();
 
+
+
+        // stackLayout();
 
         // Highlighted area
         // svg.append("path")
         //     .datum(data)
         //     .attr("class", "area")
         //     .attr("d", area);
-
 
         // define the line
         // let valueline = d3.line()
