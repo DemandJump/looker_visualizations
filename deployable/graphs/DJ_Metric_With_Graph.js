@@ -203,6 +203,7 @@ looker.plugins.visualizations.add({
             data.forEach(node => {
                 node.chartName = '';
                 dimensions.forEach( (dim, index) => {
+                    console.log(node[dim.name]['value']);
                     node.chartName = node[dim.name].value;
                     // if (index != dimensions.length - 1) {
                     //     node.chartName = node.chartName + node[dim.name].value + '-';
