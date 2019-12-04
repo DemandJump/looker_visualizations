@@ -10,7 +10,7 @@ looker.plugins.visualizations.add({
 
                 svg {
                     margin: auto;
-                    border: 1px solid blue; 
+                    /*border: 1px solid blue;*/
                 }
 
                 div { 
@@ -40,12 +40,6 @@ looker.plugins.visualizations.add({
                   fill: lightsteelblue;
                 }
 
-                .label {
-                    font-size: 1rem;
-                }
-                .metric {
-                    font-size: 1.4rem;
-                }
             </style>
         `;
         d3.select(element)
@@ -137,7 +131,6 @@ looker.plugins.visualizations.add({
             .attr('class', 'metric')
             .style('text-align', 'center')
             .style('position', 'relative')
-            .style('font-size', '1.4rem')
             .style('display', 'block')
             .html('This is the metric');
 
@@ -145,7 +138,6 @@ looker.plugins.visualizations.add({
             .attr('class', 'labelm')
             .style('text-align', 'center')
             .style('position', 'relative')
-            .style('font-size', '1rem')
             .style('display', 'block')
             .html('This is the metric label');
 
