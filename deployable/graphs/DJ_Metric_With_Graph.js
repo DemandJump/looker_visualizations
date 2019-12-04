@@ -336,6 +336,9 @@ looker.plugins.visualizations.add({
       function stackLayout() {
         stackedData.forEach(stack => {
             console.log('This is the current stack', stack);
+            console.log('this is x', stack.x);
+            console.log('This is y0', stack.values[0]);
+            console.log('This is y1', stack.y1);
 
             let stackArea = d3.area()
                 .x(dataPoint => x(dataPoint.chartName))
