@@ -159,28 +159,29 @@ looker.plugins.visualizations.add({
             d.chartName = format(d.chartValue);
         });
 
-        // set the ranges
-        let x = d3.scaleTime().range([0, width]);
-        let y = d3.scaleLinear().range([height, 0]);
-        // scale the range of the data
-        x.domain(d3.extent(data, function(d) { return d.chartName; }));
-        // y.domain([0, d3.max(data, function(d) { return d.value; })]);
-        y.domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => dp[1])]);
-
-
         let xaxis = d3.axisBottom(x).ticks(data.length);
         let yaxis = d3.axisLeft(y);
 
+        // set the ranges - scale the range of the data
+        let x = d3.scaleTime()
+            .range([0, width])
+            .domain(d3.extent(data, dataPoint => dataPoint.chartName));;
+        let y = d3.scaleLinear()
+            .range([height, 0])
+            // .domain([0, d3.max(data, d => d.value)])
+            .domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => dp[1])]);
+
         // define the area
         let area = d3.area()
-            .x(function(d) { return x(d.chartName); })
-            .y0(height)
-            .y1(function(d) { return y(d.value); });
+            .x(dataPoint => x(dataPoint.chartName))
+            // .y0(height)
+            .y0(dataPoint => y(dataPoint.values[0]))
+            .y1(dataPoint => y(dataPoint.value[1]));
 
         // define the line
         let valueline = d3.line()
-            .x(function(d) { return x(d.chartName); })
-            .y(function(d) { return y(d.value); });
+            .x(dataPoint => x(dataPoint.chartName))
+            .y(dataPoint => y(dataPoint.value));
 
 
 
@@ -192,16 +193,31 @@ looker.plugins.visualizations.add({
                 // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
         // Highlighted area
-        svg.append("path")
-            .datum(data)
-            .attr("class", "area")
-            .attr("d", area);
+        // svg.append("path")
+        //     .datum(data)
+        //     .attr("class", "area")
+        //     .attr("d", area);
 
-        // Add the line
-        svg.append("path")
-            .datum(data)
-            .attr("class", "line")
-            .attr("d", valueline);
+        // // Add the line
+        // svg.append("path")
+        //     .datum(data)
+        //     .attr("class", "line")
+        //     .attr("d", valueline);
+
+        let series = svg.selectAll('.series')
+            .data(stackedData)
+            .enter()
+            .append('g')
+            .atter('class', 'series');
+
+        series.append('path')          
+            .style("fill", (d, i) => color[i])
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", strokeWidth)
+            .attr("d", d => area(d));
+
 
         // add the X Axis
         // svg.append("g")
