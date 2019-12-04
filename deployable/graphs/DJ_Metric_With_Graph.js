@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
                 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
                 svg {
-                    margin: auto
+                    margin: auto;
                     border: 1px solid blue; 
                 }
 
