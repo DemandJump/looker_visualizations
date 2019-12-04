@@ -24,7 +24,7 @@ looker.plugins.visualizations.add({
                   shape-rendering: crispEdges;
                 }
                 
-                .area, line { 
+                .area { 
                   fill: #4ca3bd; 
                 }
 
