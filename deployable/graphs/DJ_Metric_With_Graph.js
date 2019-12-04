@@ -6,7 +6,7 @@ looker.plugins.visualizations.add({
         var d3 = d3v5; // Pull in your own d3 and overwrite the global selector
         element.innerHTML = `
             <style> /* Import the Roboto font for us to use. */
-                @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+                @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
 
                 svg {
                     margin: auto;
@@ -15,6 +15,7 @@ looker.plugins.visualizations.add({
 
                 div { 
                     margin: auto;
+                    font-weight: 300;
                 }
 
                 html, body {
@@ -151,9 +152,9 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
         // Append the data to the visual
-        label.attr('font-size', '2vw').html(dimensions[0].field_group_variant);
-        metric.attr('font-size', '2.5vw').html(queryResponse.totals_data[measures[0].name].html);
-        labelm.attr('font-size', '1.6vw').html(measures[0].field_group_variant);
+        label.attr('font-size', '4vw').html(dimensions[0].field_group_variant);
+        metric.attr('font-size', '5vw').html(queryResponse.totals_data[measures[0].name].html);
+        labelm.attr('font-size', '3vw').html(measures[0].field_group_variant);
 
 
         // set the ranges - scale the range of the data
