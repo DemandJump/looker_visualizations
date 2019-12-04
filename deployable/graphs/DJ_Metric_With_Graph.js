@@ -235,9 +235,7 @@ looker.plugins.visualizations.add({
         function chartNames() { 
             data.forEach(node => {
                 dimensions.forEach( (dim, index) => {
-                    console.log(node[dim.name]['value']);
                     let chartValue = `${node[dim.name].value}`;
-                    console.log('This is the chartValue', chartValue);
                     if (index == 0) {
                         node.chartValue = chartValue;
                     } else {
@@ -279,6 +277,8 @@ looker.plugins.visualizations.add({
                 measures.forEach( (mes, index) => {
                     let name = `value${index}`;
                     node[name] = node[mes.name].value;
+
+                    if(node[name] == 'null' || node[name] == null) node[name] = min;
                 });
             }); // End of data loop
 
@@ -287,9 +287,6 @@ looker.plugins.visualizations.add({
               let key = `value${index}`;
               stackKeys.push(key);
           });
-            
-          // Replace nulls with min value
-          data.forEach(node => { if(node.value == 'null' || node.value == null) node.value = min; });
         } // End of grabValues file
 
             
