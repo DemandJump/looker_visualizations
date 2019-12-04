@@ -86,6 +86,8 @@ looker.plugins.visualizations.add({
         colorCodingKeys();
         let stackKeys = []; 
         grabValues(); 
+        formatDates();
+
         // Create stack
         let stack = d3.stack().keys(stackKeys);
         let stackedValues = stack(data);
@@ -142,12 +144,6 @@ looker.plugins.visualizations.add({
             .style('display', 'block')
             .html('This is the metric label');
 
-
-        // // parse the date / time
-        var format = d3.timeParse("%Y-%m-%d");
-        data.forEach(d => {
-            d.chartName = format(d.chartValue);
-        });
 
         // set the ranges - scale the range of the data
         let x = d3.scaleTime()
@@ -294,6 +290,15 @@ looker.plugins.visualizations.add({
               stackKeys.push(key);
           });
         } // End of grabValues file
+
+
+        function formatDates() {
+                // // parse the date / time
+            let format = d3.timeParse("%Y-%m-%d");
+            data.forEach(d => {
+                d.chartName = format(d.chartValue);
+            });
+        }
 
 
         function createStack() {
