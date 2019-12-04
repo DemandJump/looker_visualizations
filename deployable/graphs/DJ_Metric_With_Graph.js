@@ -305,7 +305,7 @@ looker.plugins.visualizations.add({
                   console.log('This is the chartname pull', d.data.chartName);
                   currentStack.push({
                       values: d,
-                      data: d.data.chartName,
+                      date: data[i].chartName
                   });
               });
               stackedData.push(currentStack);
