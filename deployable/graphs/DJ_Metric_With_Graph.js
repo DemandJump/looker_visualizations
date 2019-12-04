@@ -276,7 +276,7 @@ looker.plugins.visualizations.add({
             });
         } // End of colorCodingKeys
 
-        
+
         function grabValues() {
             data.forEach(node => {
                 node['value'] = [];
@@ -303,7 +303,7 @@ looker.plugins.visualizations.add({
                   console.log('This is the layer', d);
                   currentStack.push({
                       values: d,
-                      year: data[i].chartName
+                      data: d.data[i].chartName
                   });
               });
               stackedData.push(currentStack);
