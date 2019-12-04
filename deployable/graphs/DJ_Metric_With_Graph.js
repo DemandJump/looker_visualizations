@@ -135,8 +135,8 @@ looker.plugins.visualizations.add({
 
         
         // scale the range of the data
-        x.domain(d3.extent(data, d => d.chartName));
-        y.domain([0, d3.max(data, d => d.value)]);
+        x.domain(d3.extent(data, function(d) { return d.chartName; }));
+        y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 
         // Create the layout of the visualization
