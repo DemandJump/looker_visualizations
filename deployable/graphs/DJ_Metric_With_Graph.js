@@ -230,7 +230,7 @@ looker.plugins.visualizations.add({
         function grabValues() {
             data.forEach(node => {
                 measures.forEach( (mes, index) => {
-                    node['value'] = node[mes.name];
+                    node['value'] = node[mes.name].value;
                 });
             }); // End of data loop
             
