@@ -26,8 +26,8 @@ looker.plugins.visualizations.add({
                 
                 .line {
                   fill: none;
-                  stroke: steelblue;
-                  stroke-width: 2px;
+                  stroke: lightsteelblue;
+                  stroke-width: 1px;
                 }
                 
                 .area {
