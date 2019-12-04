@@ -84,7 +84,24 @@ looker.plugins.visualizations.add({
         chartNames();
         let measureNames = [];
         colorCodingKeys();
+        let stackKeys = []; 
         grabValues(); 
+        // Create stack
+        let stack = d3.stack().keys(stackKeys);
+        let stackedValues = stack(data);
+        // Copy stack back offsets back into the data
+        let stackedData = [];
+        stackedValues.forEach((layer, index) => {
+            const currentStack = [];
+            layer.forEach((d, i) => {
+                currentStack.push({
+                    values: d,
+                    year: data[i].year
+                });
+            });
+            stackedData.push(currentStack);
+        });
+        console.log('This is the stacked data', stackedData);
 
         /*******************************************************
          * Visualization
@@ -141,10 +158,11 @@ looker.plugins.visualizations.add({
         // set the ranges
         let x = d3.scaleTime().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
-
         // scale the range of the data
         x.domain(d3.extent(data, function(d) { return d.chartName; }));
-        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+        // y.domain([0, d3.max(data, function(d) { return d.value; })]);
+        y.domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => dp[1])]);
+
 
         let xaxis = d3.axisBottom(x).ticks(data.length);
         let yaxis = d3.axisLeft(y);
@@ -256,10 +274,18 @@ looker.plugins.visualizations.add({
 
         function grabValues() {
             data.forEach(node => {
+                node['value'] = [];
                 measures.forEach( (mes, index) => {
-                    node['value'] = node[mes.name].value;
+                    let name = `value${index}`;
+                    node['value'][index] = node[mes.name].value;
                 });
             }); // End of data loop
+
+            // Get all the stack keys
+            measures.forEach( (mes, index) => {
+              let key = `value${index}`;
+              stackKeys.append(key);
+          });
             
           // Replace nulls with min value
           data.forEach(node => { if(node.value == 'null' || node.value == null) node.value = min; });
