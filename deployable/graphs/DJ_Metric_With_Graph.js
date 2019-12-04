@@ -184,8 +184,8 @@ looker.plugins.visualizations.add({
             .attr('class', 'series');
 
         series.append('path')          
-            .style("fill", d => colors[i])
-            .attr("stroke", d => strokeColors[i])
+            .style("fill", (d, i) => colors[i])
+            .attr("stroke", (d, i) => strokeColors[i])
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
             .attr("stroke-width", '1.6')
