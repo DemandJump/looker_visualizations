@@ -168,8 +168,9 @@ looker.plugins.visualizations.add({
             .domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => dp[1])]);
 
         // define the area
+        let curve = d3.curveMonotoneX;
         let area = d3.area()
-            .interpolate("monotone")  //Here
+            .curve(curve)  //Here
             .x(dataPoint => x(dataPoint.date))
             // .y0(height)
             .y0(dataPoint => y(dataPoint.values[0]))
