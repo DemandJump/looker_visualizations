@@ -89,14 +89,16 @@ looker.plugins.visualizations.add({
         // Create stack
         let stack = d3.stack().keys(stackKeys);
         let stackedValues = stack(data);
+        console.log('stackedValues', stackedValues);
         // Copy stack back offsets back into the data
         let stackedData = [];
         stackedValues.forEach((layer, index) => {
             const currentStack = [];
             layer.forEach((d, i) => {
+                console.log('This is the layer', d);
                 currentStack.push({
                     values: d,
-                    year: data[i].chartName
+                    year: d[i].chartName
                 });
             });
             stackedData.push(currentStack);
@@ -110,7 +112,7 @@ looker.plugins.visualizations.add({
         // let width = window.innerWidth - margin.left - margin.right;
         // let height = window.innerHeight - margin.top - margin.bottom;
 
-        
+
         let width = (window.innerWidth / 2) - 50;
         let height = (window.innerHeight / 2) - 50;
 
