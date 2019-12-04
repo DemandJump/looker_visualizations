@@ -21,7 +21,7 @@ looker.plugins.visualizations.add({
                 .axis path, .axis line {
                   fill: none;
                   stroke: #000;
-                  shape-rendering: crispEdges;
+                  shape-rendering: geometricPrecision;
                 }
                 
                 .line {
