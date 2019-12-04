@@ -119,7 +119,7 @@ looker.plugins.visualizations.add({
             .attr('z-index', '1')
             .style('position', 'absolute')
             .style('top', '10%')
-            .style('left', '10%')
+            .style('left', '5%')
             .style('transform', 'translate(-50%, -50%)')
             .html('The Label!');
 
