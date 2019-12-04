@@ -93,18 +93,8 @@ looker.plugins.visualizations.add({
         console.log('stackedValues', stackedValues);
         // Copy stack back offsets back into the data
         let stackedData = [];
-        stackedValues.forEach((layer, index) => {
-            const currentStack = [];
-            layer.forEach((d, i) => {
-                console.log('This is the layer', d);
-                currentStack.push({
-                    values: d,
-                    year: data.chartName
-                });
-            });
-            stackedData.push(currentStack);
-        });
-        console.log('This is the stacked data', stackedData);
+        createStack();
+
 
         /*******************************************************
          * Visualization
@@ -173,7 +163,7 @@ looker.plugins.visualizations.add({
             .x(dataPoint => x(dataPoint.chartName))
             // .y0(height)
             .y0(dataPoint => y(dataPoint.values[0]))
-            .y1(dataPoint => y(dataPoint.value[1]));
+            .y1(dataPoint => y(dataPoint.values[1]));
 
         // define the line
         let valueline = d3.line()
@@ -286,6 +276,7 @@ looker.plugins.visualizations.add({
             });
         } // End of colorCodingKeys
 
+        
         function grabValues() {
             data.forEach(node => {
                 node['value'] = [];
@@ -303,6 +294,22 @@ looker.plugins.visualizations.add({
               stackKeys.push(key);
           });
         } // End of grabValues file
+
+
+        function createStack() {
+          stackedValues.forEach((layer, index) => {
+              const currentStack = [];
+              layer.forEach((d, i) => {
+                  console.log('This is the layer', d);
+                  currentStack.push({
+                      values: d,
+                      year: data[i].chartName
+                  });
+              });
+              stackedData.push(currentStack);
+          });
+          console.log('This is the stacked data', stackedData);
+      }
 
             
 
