@@ -57,8 +57,8 @@ looker.plugins.visualizations.add({
         console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
-        let dimensions = queryResponse.fields.dimension_like;  console.log(`Checking out query resposne dimension fields: `, dimensions);
-        let measures = queryResponse.fields.measure_like;  console.log(`Checking out query resposne measure fields: `, measures);
+        let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
+        let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
 
         /**********************
          * Error Clauses 
@@ -126,12 +126,12 @@ looker.plugins.visualizations.add({
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
             .y0(height)
-            .y1(function(d) { return y(d.values[0]); });
+            .y1(function(d) { return y(d.values[0].value); });
 
         // define the line
         let valueline = d3.line()
             .x(function(d) { return x(d.chartName); })
-            .y(function(d) { return y(d.values[0]); });
+            .y(function(d) { return y(d.values[0].value); });
 
         // format the data
         data.forEach(function(d) {
@@ -140,8 +140,8 @@ looker.plugins.visualizations.add({
         });
         
         // scale the range of the data
-        x.domain(d3.extent(data, d => d.date));
-        y.domain([0, d3.max(data, d => d.close)]);
+        x.domain(d3.extent(data, d => d.chartName));
+        y.domain([0, d3.max(data, d => d.values[0].value)]);
 
 
         // Create the layout of the visualization
@@ -175,7 +175,7 @@ looker.plugins.visualizations.add({
 
 
         label.html(dimensions[0].label_short);
-        metric.html(data[0][dimensions[0].name].value);
+        metric.html(data[0][measures[0].name].value);
         labelm.html(measures[0].label_short);
 
 
