@@ -301,8 +301,7 @@ looker.plugins.visualizations.add({
               const currentStack = [];
               layer.forEach((d, i) => {
                   console.log('This is the layer', d);
-                  console.log('This is the layer data', d.data);
-                  console.log('This is the chartname pull', d.data.chartName);
+                  console.log('This is the chartname pull', data[i].chartName);
                   currentStack.push({
                       values: d,
                       date: data[i].chartName
