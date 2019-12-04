@@ -36,10 +36,6 @@ looker.plugins.visualizations.add({
                   stroke-width: 1px;
                 }
                 
-                .area {
-                  fill: lightsteelblue;
-                }
-
             </style>
         `;
         d3.select(element)
@@ -146,9 +142,13 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
         // Append the data to the visual
-        label.style('font-size', '4vh').html(dimensions[0].field_group_variant);
-        metric.style('font-size', '5vh').html(queryResponse.totals_data[measures[0].name].html);
-        labelm.style('font-size', '3vh').html(`Total ${measures[0].field_group_variant}`);
+        label.html(dimensions[0].field_group_variant);
+        metric.html(queryResponse.totals_data[measures[0].name].html);
+        labelm.html(`Total ${measures[0].field_group_variant}`);
+
+        label.style('font-size', d => 'calc(1.2rem + 1.5vw)');
+        metric.style('font-size', 'calc(1.4rem + 1.5vw)');
+        labelm.style('font-size', 'calc(1rem + 1.5vw)');
 
 
         // set the ranges - scale the range of the data
