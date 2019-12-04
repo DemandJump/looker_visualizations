@@ -162,8 +162,8 @@ looker.plugins.visualizations.add({
         let area = d3.area()
             .x(dataPoint => x(dataPoint.chartName))
             // .y0(height)
-            .y0(dataPoint => y(dataPoint.values[0]))
-            .y1(dataPoint => y(dataPoint.values[1]));
+            .y0(dataPoint => y(dataPoint.values['0']))
+            .y1(dataPoint => y(dataPoint.values['1']));
 
         // define the line
         let valueline = d3.line()
