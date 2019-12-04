@@ -88,10 +88,8 @@ looker.plugins.visualizations.add({
         maxAndMin();
         chartNames();
         let measureNames = [];
-        let colors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
-        '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
-        '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
-         '#999999'];
+        let colors = ['rgba(0, 157, 233, 0.5)', 'rgba(62, 193, 115, 0.5)', 'rgba(56, 232, 131, 0.5)', 'rgba(74, 74, 255, 0.5)', 'rgba(22, 55, 150, 0.5)', 'rgba(92, 243, 255, 0.5)', 'rgba(249, 190, 61, 0.5)', 'rgba(226, 255, 110, 0.5)', 'rgba(172, 234, 73, 0.5)', 'rgba(255, 62, 95, 0.5)', 'rgba(172, 126, 183, 0.5)', 'rgba(92, 59, 195, 0.5)', 'rgba(82, 120, 206, 0.5)', 'rgba(161, 237, 255, 0.5)', 'rgba(5, 206, 90, 0.5)', 'rgba(74, 140, 4, 0.5)', 'rgba(58, 187, 207, 0.5)', 'rgba(236, 228, 40, 0.5)', 'rgba(153, 153, 153, 0.5)'];
+
         colorCodingKeys();
         let stackKeys = []; 
         grabValues(); 
@@ -142,7 +140,7 @@ looker.plugins.visualizations.add({
             .style('font-size', '1.4rem')
             .style('display', 'block')
             .html('This is the metric');
-            
+
         let labelm = d3.select('.holder').append('div')
             .attr('class', 'labelm')
             .style('text-align', 'center')
@@ -265,6 +263,10 @@ looker.plugins.visualizations.add({
 
 
         function colorCodingKeys() {
+            let originalColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
+        '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
+        '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
+         '#999999'];
             measures.forEach( (mes, index) => {
                 color = '#999999';
                 if (index < colors.length) color = colors[index];
