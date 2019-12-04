@@ -119,7 +119,7 @@ looker.plugins.visualizations.add({
             
 
         // // parse the date / time
-        var format = d3.time.format("%Y-%m-%d");
+        var format = d3.timeParse("%Y-%m-%d");
         data.forEach(d => {
             d.chartName = format(d.chartValue);
         });
