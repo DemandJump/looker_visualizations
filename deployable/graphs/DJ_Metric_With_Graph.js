@@ -116,10 +116,24 @@ looker.plugins.visualizations.add({
             .style('transform', 'translate(-50%, -50%)')
             .html('This is the metric label');
 
+            
+
+        // // parse the date / time
+        // var parseTime = d3.timeParse("%d-%b-%y");
+        // data.forEach(d => {
+        //     d.chartName = parseTime(d.chartName);
+        // });
 
         // set the ranges
         let x = d3.scaleTime().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
+
+        // scale the range of the data
+        // x.domain(d3.extent(data, function(d) { return d.chartName; }));
+        y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+        let xaxis = d3.axisBottom(x).ticks(data.length);
+        let yaxis = d3.axisLeft(y);
 
         // define the area
         let area = d3.area()
@@ -133,14 +147,6 @@ looker.plugins.visualizations.add({
             .y(function(d) { return y(d.value); });
 
 
-        // // parse the date / time
-        // var parseTime = d3.timeParse("%d-%b-%y");
-        // data.forEach(d => {
-        //     d.chartName = parseTime(d.chartName);
-        // });
-        // scale the range of the data
-        // x.domain(d3.extent(data, function(d) { return d.chartName; }));
-        y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
 
         // Create the layout of the visualization
@@ -165,11 +171,11 @@ looker.plugins.visualizations.add({
         // add the X Axis
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(xaxis);
 
         // add the Y Axis
         svg.append("g")
-            .call(d3.axisLeft(y));
+            .call(yaxis);
 
 
         label.html(dimensions[0].label_short);
