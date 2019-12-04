@@ -42,7 +42,9 @@ looker.plugins.visualizations.add({
                 }
             </style>
         `;
-        d3.select(element).style('box-sizing', 'border-box');
+        d3.select(element)
+            .style('box-sizing', 'border-box')
+            .style('text-align', 'center');
 
         this._container = d3.select(element).append('div')
             .attr('class', 'container')
@@ -53,6 +55,7 @@ looker.plugins.visualizations.add({
 
         this._svg = d3.select('.container').append('svg')
             .attr('class', 'svg')
+            .style('text-align', 'center')
             .attr('position', 'relative');
 
     },
