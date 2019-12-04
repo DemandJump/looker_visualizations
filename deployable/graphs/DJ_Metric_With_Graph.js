@@ -63,7 +63,7 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
         this._container.selectAll("*").remove(); // Clear out the data before we add the vis
-        console.log(`config`, config);
+        console.log(`\n\n\n\nconfig`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
