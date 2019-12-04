@@ -18,7 +18,7 @@ looker.plugins.visualizations.add({
                     font-family: 'Roboto';
                 }
 
-                .axis path, .axis {
+                .axis path, .axis line {
                   fill: none;
                   stroke: #000;
                   shape-rendering: crispEdges;
@@ -85,7 +85,7 @@ looker.plugins.visualizations.add({
 
         let containerWidth = window.innerWidth;
         let containerHeight = window.innerHeight;
-
+        
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
             .attr('text-align', 'left')
@@ -122,7 +122,6 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
 
-
         // // parse the date / time
         var format = d3.timeParse("%Y-%m-%d");
         data.forEach(d => {
@@ -144,7 +143,7 @@ looker.plugins.visualizations.add({
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
             .y0(height)
-            .y0(function(d) { return y(d.value); });
+            .y1(function(d) { return y(d.value); });
 
         // define the line
         let valueline = d3.line()
