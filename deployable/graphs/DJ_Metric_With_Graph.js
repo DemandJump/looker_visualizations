@@ -203,14 +203,19 @@ looker.plugins.visualizations.add({
             data.forEach(node => {
                 dimensions.forEach( (dim, index) => {
                     console.log(node[dim.name]['value']);
-                    node.chartName = node[dim.name].value;
-                    // if (index != dimensions.length - 1) {
-                    //     node.chartName = node.chartName + node[dim.name].value + '-';
-                    // } else {
-                    //     node.chartName = node.chartName + node[dim.name].value;
-                    // }
+                    if (index == 0) {
+                        node.chartName = node[dim.name].value;
+                    } else {
+                        if (index != dimensions.length - 1) {
+                            node.chartName = node.chartName + node[dim.name].value + '-';
+                        } else {
+                            node.chartName = node.chartName + node[dim.name].value;
+                        }
+                    }
+                    
                 });
             });
+            console.log('This is the finished data', data);
         } // End of chartNames function
 
 
