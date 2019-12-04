@@ -90,8 +90,8 @@ looker.plugins.visualizations.add({
         // let width = window.innerWidth - margin.left - margin.right;
         // let height = window.innerHeight - margin.top - margin.bottom;
 
-        let width = window.innerWidth;
-        let height = window.innerHeight;
+        let width = window.innerWidth - 50;
+        let height = window.innerHeight - 50;
 
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
