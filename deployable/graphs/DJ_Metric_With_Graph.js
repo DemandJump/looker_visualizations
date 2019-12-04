@@ -204,7 +204,7 @@ looker.plugins.visualizations.add({
             .data(stackedData)
             .enter()
             .append('g')
-            .atter('class', 'series');
+            .attr('class', 'series');
 
         series.append('path')          
             .style("fill", (d, i) => color[i])
