@@ -210,8 +210,6 @@ looker.plugins.visualizations.add({
 
 
         label.html(dimensions[0].label_short);
-        let mesname = measures[0].name;
-        console.log(data[0].mesname);
         metric.html(data[0].value);
         labelm.html(measures[0].label_short);
 
@@ -277,7 +275,7 @@ looker.plugins.visualizations.add({
                 node['value'] = [];
                 measures.forEach( (mes, index) => {
                     let name = `value${index}`;
-                    node['value'][index] = node[mes.name].value;
+                    node[name] = node[mes.name].value;
                 });
             }); // End of data loop
 
