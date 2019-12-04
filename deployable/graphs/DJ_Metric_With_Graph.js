@@ -92,7 +92,7 @@ looker.plugins.visualizations.add({
             .attr('z-index', '1')
             .style('position', 'absolute')
             .style('top', '10%')
-            .style('left', '50%')
+            .style('left', '10%')
             .style('transform', 'translate(-50%, -50%)')
             .html('The Label!');
 
@@ -180,7 +180,10 @@ looker.plugins.visualizations.add({
 
         label.html(dimensions[0].label_short);
         console.log('this is the metric data pass', data[0][measures[0].name].value);
-        metric.html(data[0][measures[0].name].value);
+        let mesname = measures[0].name;
+        console.log(data[0].mesname);
+        console.log(data[0].mesname.value);
+        metric.html(data[0][mesname].value);
         labelm.html(measures[0].label_short);
 
 
