@@ -155,12 +155,11 @@ looker.plugins.visualizations.add({
             .domain(d3.extent(data, dataPoint => dataPoint.chartName));;
         let y = d3.scaleLinear()
             .range([height, 0])
-            // .domain([0, d3.max(data, d => d.value)])
             .domain([0, max]);
 
         // define the area
         let area = d3.area()
-            .x(dataPoint => x(dataPoint.chartName))
+            .x(dataPoint => x(dataPoint.date))
             // .y0(height)
             .y0(dataPoint => y(dataPoint.values[0]))
             .y1(dataPoint => y(dataPoint.values[1]));
@@ -176,6 +175,26 @@ looker.plugins.visualizations.add({
 
         stackLayout();
         
+      function stackLayout() {
+        stackedData.forEach( (stack, i) => {
+            console.log('This is the current stack', stack);
+            console.log('this is x', stack[i].chartName);
+            console.log('This is y0', stack[i].values[0]);
+            console.log('This is y1', stack[i].values[1]);
+
+            let stackArea = d3.area()
+                .x(dataPoint => x(dataPoint.date))
+                .y0(dataPoint => y(dataPoint.values[0]))
+                .y1(dataPoint => y(dataPoint.values[1]));
+            
+            // add the area
+            svg.append("path")
+                .data([stack])
+                .attr("class", "area")
+                .attr("d", stackArea);
+
+        });
+    } // End of stackLayout
 
 
 
@@ -333,26 +352,6 @@ looker.plugins.visualizations.add({
       } // end of createStack
 
 
-      function stackLayout() {
-        stackedData.forEach( (stack, i) => {
-            console.log('This is the current stack', stack);
-            console.log('this is x', stack[i].chartName);
-            console.log('This is y0', stack[i].values[0]);
-            console.log('This is y1', stack[i].values[1]);
-
-            let stackArea = d3.area()
-                .x(dataPoint => x(dataPoint.chartName))
-                .y0(dataPoint => y(dataPoint.values[0]))
-                .y1(dataPoint => y(dataPoint.values[1]));
-            
-            // add the area
-            svg.append("path")
-                .data(stack)
-                .attr("class", "area")
-                .attr("d", stackArea);
-
-        });
-    } // End of stackLayout
 
             
 
