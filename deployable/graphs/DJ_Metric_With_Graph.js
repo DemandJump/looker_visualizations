@@ -156,10 +156,7 @@ looker.plugins.visualizations.add({
         let y = d3.scaleLinear()
             .range([height, 0])
             // .domain([0, d3.max(data, d => d.value)])
-            .domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => {
-                console.log('dp', dp);
-                return dp[1])}
-            ]);
+            .domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => dp[1])]);
 
         // define the area
         let area = d3.area()
