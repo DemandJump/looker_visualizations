@@ -235,7 +235,7 @@ looker.plugins.visualizations.add({
             }); // End of data loop
             
           // Replace nulls with min value
-          data.forEach(node => { if(node.value == 'null') node.value = min; });
+          data.forEach(node => { if(node.value == 'null' || node.value == null) node.value = min; });
         } // End of grabValues file
 
             
