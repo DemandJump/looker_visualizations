@@ -42,6 +42,7 @@ looker.plugins.visualizations.add({
                 }
             </style>
         `;
+        d3.select(element).style('box-sizing', 'border-box');
 
         this._container = d3.select(element).append('div')
             .attr('class', 'container')
