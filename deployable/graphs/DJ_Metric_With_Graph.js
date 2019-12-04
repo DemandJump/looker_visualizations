@@ -85,12 +85,12 @@ looker.plugins.visualizations.add({
         /*******************************************************
          * Visualization
         *******************************************************/
-        let margin = {top: 10, right: 40, bottom: 100, left: 60};
-        let width = window.innerWidth - margin.left - margin.right;
-        let height = window.innerHeight - margin.top - margin.bottom;
+        // let margin = {top: 10, right: 40, bottom: 100, left: 60};
+        // let width = window.innerWidth - margin.left - margin.right;
+        // let height = window.innerHeight - margin.top - margin.bottom;
 
-        let containerWidth = window.innerWidth;
-        let containerHeight = window.innerHeight;
+        let width = window.innerWidth;
+        let height = window.innerHeight;
 
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
@@ -160,10 +160,10 @@ looker.plugins.visualizations.add({
 
         // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width)
+            .attr("height", height)
             .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
         // Highlighted area
         svg.append("path")
