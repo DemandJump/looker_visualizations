@@ -119,6 +119,7 @@ looker.plugins.visualizations.add({
         let x = d3.scaleTime().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
 
+        console.log('attempt to parse the data', data[0].values[0].value);
         // define the area
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
