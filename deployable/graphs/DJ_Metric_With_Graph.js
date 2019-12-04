@@ -80,7 +80,7 @@ looker.plugins.visualizations.add({
         /*******************************************************
          * Visualization
         *******************************************************/
-        let margin = {top: 10, right: 40, bottom: 30, left: 30};
+        let margin = {top: 10, right: 40, bottom: 100, left: 60};
         let width = window.innerWidth - margin.left - margin.right;
         let height = window.innerHeight - margin.top - margin.bottom;
 
@@ -115,9 +115,6 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
 
-        // parse the date / time
-        let parseTime = d3.timeParse("%d-%b-%y");
-
         // set the ranges
         let x = d3.scaleTime().range([0, width]);
         let y = d3.scaleLinear().range([height, 0]);
@@ -133,11 +130,6 @@ looker.plugins.visualizations.add({
             .x(function(d) { return x(d.chartName); })
             .y(function(d) { return y(d.values[0].value); });
 
-        // format the data
-        data.forEach(function(d) {
-            d.chartName = parseTime(d.chartName);
-            // d.values[0] = +d.values[0];
-        });
         
         // scale the range of the data
         x.domain(d3.extent(data, d => d.chartName));
