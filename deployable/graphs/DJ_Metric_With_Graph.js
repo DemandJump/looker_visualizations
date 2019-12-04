@@ -159,9 +159,6 @@ looker.plugins.visualizations.add({
             d.chartName = format(d.chartValue);
         });
 
-        let xaxis = d3.axisBottom(x).ticks(data.length);
-        let yaxis = d3.axisLeft(y);
-
         // set the ranges - scale the range of the data
         let x = d3.scaleTime()
             .range([0, width])
@@ -182,7 +179,6 @@ looker.plugins.visualizations.add({
         let valueline = d3.line()
             .x(dataPoint => x(dataPoint.chartName))
             .y(dataPoint => y(dataPoint.value));
-
 
 
         // Create the layout of the visualization
@@ -220,11 +216,13 @@ looker.plugins.visualizations.add({
 
 
         // add the X Axis
+        // let xaxis = d3.axisBottom(x).ticks(data.length);
         // svg.append("g")
         //     .attr("transform", "translate(0," + height + ")")
         //     .call(xaxis);
 
         // // add the Y Axis
+        // let yaxis = d3.axisLeft(y);
         // svg.append("g")
         //     .call(yaxis);
 
