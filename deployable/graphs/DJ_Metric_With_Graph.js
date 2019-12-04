@@ -211,7 +211,7 @@ looker.plugins.visualizations.add({
             .attr("stroke", "steelblue")
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
-            .attr("stroke-width", strokeWidth)
+            .attr("stroke-width", '1.25')
             .attr("d", d => area(d));
 
 
