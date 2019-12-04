@@ -133,7 +133,12 @@ looker.plugins.visualizations.add({
             .x(function(d) { return x(d.chartName); })
             .y(function(d) { return y(d.value); });
 
-        
+            
+        // parse the date / time
+        var parseTime = d3.timeParse("%d-%b-%y");
+        data.forEach(node => {
+            node.chartName = parseTime(d.chartName);
+        });
         // scale the range of the data
         x.domain(d3.extent(data, function(d) { return d.chartName; }));
         y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -168,8 +173,8 @@ looker.plugins.visualizations.add({
             .call(d3.axisLeft(y));
 
 
-
         label.html(dimensions[0].label_short);
+        console.log('this is the metric data pass', data[0][measures[0].name].value);
         metric.html(data[0][measures[0].name].value);
         labelm.html(measures[0].label_short);
 
