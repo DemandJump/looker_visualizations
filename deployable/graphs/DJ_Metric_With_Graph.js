@@ -68,7 +68,6 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
         this._container.selectAll("*").remove(); // Clear out the data before we add the vis
-        console.log(`settings`, this.options);
         console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
@@ -96,12 +95,10 @@ looker.plugins.visualizations.add({
         let stackKeys = []; 
         grabValues(); 
         formatDates();
-
+        
         // Create stack
         let stack = d3.stack().keys(stackKeys);
         let stackedValues = stack(data);
-        console.log('These are the stack keys', stackKeys);
-        console.log('stackedValues', stackedValues);
         // Copy stack back offsets back into the data
         let stackedData = [];
         createStack();
@@ -242,7 +239,7 @@ looker.plugins.visualizations.add({
                 });       
             });
             if (min == 'null' || min == null) min = 0;
-            console.log(`This is the max: ${max}, and this is the min: ${min}`);
+            // console.log(`This is the max: ${max}, and this is the min: ${min}`);
         } // End of maxAndMin
 
 
@@ -262,7 +259,6 @@ looker.plugins.visualizations.add({
                     
                 });
             });
-            console.log('This is the finished data', data);
         } // End of chartNames function
 
 
