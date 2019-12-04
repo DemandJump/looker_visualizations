@@ -133,8 +133,7 @@ looker.plugins.visualizations.add({
             .style('position', 'absolute')
             .style('top', '50%')
             .style('left', '50%')
-            .style('transform', 'translate(-50%, -50%)')
-            .html('This is holds two elements')
+            .style('transform', 'translate(-50%, -50%)');
 
         let metric = d3.select('.holder').append('div')
             .attr('class', 'metric')
@@ -143,6 +142,7 @@ looker.plugins.visualizations.add({
             .style('font-size', '1.4rem')
             .style('display', 'block')
             .html('This is the metric');
+            
         let labelm = d3.select('.holder').append('div')
             .attr('class', 'labelm')
             .style('text-align', 'center')
