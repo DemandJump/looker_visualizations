@@ -334,7 +334,7 @@ looker.plugins.visualizations.add({
 
 
       function stackLayout() {
-        stackData.forEach(stack => {
+        stackedData.forEach(stack => {
             console.log('This is the current stack', stack);
 
             let stackArea = d3.area()
