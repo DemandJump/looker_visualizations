@@ -142,9 +142,9 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
         // Append the data to the visual
-        label.style('font-size', '4vw').html(dimensions[0].field_group_variant);
-        metric.style('font-size', '5vw').html(queryResponse.totals_data[measures[0].name].html);
-        labelm.style('font-size', '3vw').html(`Total ${measures[0].field_group_variant}`);
+        label.style('font-size', '4vh').html(dimensions[0].field_group_variant);
+        metric.style('font-size', '5vh').html(queryResponse.totals_data[measures[0].name].html);
+        labelm.style('font-size', '3vh').html(`Total ${measures[0].field_group_variant}`);
 
 
         // set the ranges - scale the range of the data
