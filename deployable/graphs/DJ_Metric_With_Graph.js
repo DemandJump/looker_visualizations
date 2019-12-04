@@ -83,6 +83,10 @@ looker.plugins.visualizations.add({
         maxAndMin();
         chartNames();
         let measureNames = [];
+        let colors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
+        '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
+        '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
+         '#999999'];
         colorCodingKeys();
         let stackKeys = []; 
         grabValues(); 
@@ -193,7 +197,7 @@ looker.plugins.visualizations.add({
             .attr('class', 'series');
 
         series.append('path')          
-            .style("fill", (d, i) => color[i])
+            .style("fill", (d, i) => colors[i])
             .attr("stroke", "steelblue")
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
@@ -254,11 +258,6 @@ looker.plugins.visualizations.add({
 
 
         function colorCodingKeys() {
-            let colors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
-            '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
-            '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
-             '#999999'];
-
             measures.forEach( (mes, index) => {
                 color = '#999999';
                 if (index < colors.length) color = colors[index];
