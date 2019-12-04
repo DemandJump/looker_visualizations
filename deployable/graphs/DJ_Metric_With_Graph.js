@@ -20,7 +20,7 @@ looker.plugins.visualizations.add({
 
                 .axis path, .axis line {
                   fill: none;
-                  stroke: #000;
+                  stroke: #4ca3bd;
                   shape-rendering: crispEdges;
                 }
                 
@@ -163,7 +163,7 @@ looker.plugins.visualizations.add({
         // define the area
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
-            // .y0(height)
+            .y0(height)
             .y0(function(d) { return y(d.value); });
 
         // define the line
