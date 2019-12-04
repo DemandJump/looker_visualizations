@@ -24,8 +24,14 @@ looker.plugins.visualizations.add({
                   shape-rendering: crispEdges;
                 }
                 
-                .area { 
-                  fill: #4ca3bd; 
+                .line {
+                  fill: none;
+                  stroke: steelblue;
+                  stroke-width: 2px;
+                }
+                
+                .area {
+                  fill: lightsteelblue;
                 }
 
                 .label {
@@ -85,7 +91,7 @@ looker.plugins.visualizations.add({
 
         let containerWidth = window.innerWidth;
         let containerHeight = window.innerHeight;
-        
+
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
             .attr('text-align', 'left')
