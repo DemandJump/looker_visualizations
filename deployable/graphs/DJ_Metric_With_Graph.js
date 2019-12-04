@@ -284,7 +284,7 @@ looker.plugins.visualizations.add({
             // Get all the stack keys
             measures.forEach( (mes, index) => {
               let key = `value${index}`;
-              stackKeys.append(key);
+              stackKeys.push(key);
           });
             
           // Replace nulls with min value
