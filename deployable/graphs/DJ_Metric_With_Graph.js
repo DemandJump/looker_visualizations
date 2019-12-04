@@ -96,7 +96,7 @@ looker.plugins.visualizations.add({
             layer.forEach((d, i) => {
                 currentStack.push({
                     values: d,
-                    year: data[i].year
+                    year: data[i].chartName
                 });
             });
             stackedData.push(currentStack);
