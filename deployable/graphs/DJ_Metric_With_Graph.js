@@ -119,10 +119,10 @@ looker.plugins.visualizations.add({
             
 
         // // parse the date / time
-        // var parseTime = d3.timeParse("%d-%b-%y");
-        // data.forEach(d => {
-        //     d.chartName = parseTime(d.chartName);
-        // });
+        var format = d3.time.format("%Y-%m-%d");
+        data.forEach(d => {
+            d.chartName = format(d.chartValue);
+        });
 
         // set the ranges
         let x = d3.scaleTime().range([0, width]);
@@ -130,6 +130,7 @@ looker.plugins.visualizations.add({
 
         // scale the range of the data
         // x.domain(d3.extent(data, function(d) { return d.chartName; }));
+
         y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
         let xaxis = d3.axisBottom(x).ticks(data.length);
@@ -208,15 +209,15 @@ looker.plugins.visualizations.add({
             data.forEach(node => {
                 dimensions.forEach( (dim, index) => {
                     console.log(node[dim.name]['value']);
-                    let chartName = `${node[dim.name].value}`;
-                    console.log('This is the chartname', chartName);
+                    let chartValue = `${node[dim.name].value}`;
+                    console.log('This is the chartValue', chartValue);
                     if (index == 0) {
-                        node.chartName = chartName;
+                        node.chartValue = chartValue;
                     } else {
                         if (index != dimensions.length - 1) {
-                            node.chartName = node.chartName + chartName + '-';
+                            node.chartValue = node.chartValue + chartValue + '-';
                         } else {
-                            node.chartName = node.chartName + chartName;
+                            node.chartValue = node.chartValue + chartValue;
                         }
                     }
                     
