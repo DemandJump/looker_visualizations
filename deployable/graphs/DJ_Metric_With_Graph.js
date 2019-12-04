@@ -106,20 +106,20 @@ looker.plugins.visualizations.add({
             .style('transform', 'translate(-50%, -50%)')
             .html('This is holds two elements')
 
-            let element1 = d3.select('.holder')
-                .attr('class', 'e1')
-                .style('text-align', 'center')
-                .style('position', 'relative')
-                .style('font-size', '1.4rem')
-                .style('display', 'block')
-                .html('Element 1');
-            let element2 = d3.select('.holder')
-                .attr('class', 'e1')
-                .style('text-align', 'center')
-                .style('position', 'relative')
-                .style('font-size', '1rem')
-                .style('display', 'block')
-                .html('Element 2');
+        let element1 = d3.select('.holder').append('div')
+            .attr('class', 'e1')
+            .style('text-align', 'center')
+            .style('position', 'relative')
+            .style('font-size', '1.4rem')
+            .style('display', 'block')
+            .html('Element 1');
+        let element2 = d3.select('.holder').append('div')
+            .attr('class', 'e2')
+            .style('text-align', 'center')
+            .style('position', 'relative')
+            .style('font-size', '1rem')
+            .style('display', 'block')
+            .html('Element 2');
 
         let metric = d3.select('.container').append('div')
             .attr('class', 'metric')
@@ -163,8 +163,8 @@ looker.plugins.visualizations.add({
         // define the area
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
-            .y0(height)
-            .y1(function(d) { return y(d.value); });
+            // .y0(height)
+            .y0(function(d) { return y(d.value); });
 
         // define the line
         let valueline = d3.line()
