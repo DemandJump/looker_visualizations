@@ -173,6 +173,23 @@ looker.plugins.visualizations.add({
             .append("g")
                 // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+
+        stackLayout();
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Highlighted area
         // svg.append("path")
         //     .datum(data)
@@ -313,7 +330,26 @@ looker.plugins.visualizations.add({
               stackedData.push(currentStack);
           });
           console.log('This is the stacked data', stackedData);
-      }
+      } // end of createStack
+
+
+      function stackLayout() {
+        stackData.forEach(stack => {
+            console.log('This is the current stack', stack);
+
+            let stackArea = d3.area()
+                .x(dataPoint => x(dataPoint.chartName))
+                .y0(dataPoint => y(dataPoint.values[0]))
+                .y1(dataPoint => y(dataPoint.values[1]));
+            
+            // add the area
+            svg.append("path")
+                .data([stack])
+                .attr("class", "area")
+                .attr("d", stackArea);
+
+        });
+    } // End of stackLayout
 
             
 
