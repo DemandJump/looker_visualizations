@@ -89,6 +89,7 @@ looker.plugins.visualizations.add({
         // Create stack
         let stack = d3.stack().keys(stackKeys);
         let stackedValues = stack(data);
+        console.log('These are the stack keys', stackKeys);
         console.log('stackedValues', stackedValues);
         // Copy stack back offsets back into the data
         let stackedData = [];
