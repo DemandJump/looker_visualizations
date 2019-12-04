@@ -126,17 +126,17 @@ looker.plugins.visualizations.add({
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
             .y0(height)
-            .y1(function(d) { return y(d.values[0].value); });
+            .y1(function(d) { return y(d.value); });
 
         // define the line
         let valueline = d3.line()
             .x(function(d) { return x(d.chartName); })
-            .y(function(d) { return y(d.values[0].value); });
+            .y(function(d) { return y(d.value); });
 
         
         // scale the range of the data
         x.domain(d3.extent(data, d => d.chartName));
-        y.domain([0, d3.max(data, d => d.values[0].value)]);
+        y.domain([0, d3.max(data, d => d.value)]);
 
 
         // Create the layout of the visualization
