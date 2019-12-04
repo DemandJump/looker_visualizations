@@ -304,7 +304,6 @@ looker.plugins.visualizations.add({
                   currentStack.push({
                       values: d,
                       data: d.data.chartName,
-                      year: d.data[i].chartName
                   });
               });
               stackedData.push(currentStack);
