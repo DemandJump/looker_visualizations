@@ -106,40 +106,40 @@ looker.plugins.visualizations.add({
             .style('transform', 'translate(-50%, -50%)')
             .html('This is holds two elements')
 
-        let element1 = d3.select('.holder').append('div')
-            .attr('class', 'e1')
+        let metric = d3.select('.holder').append('div')
+            .attr('class', 'metric')
             .style('text-align', 'center')
             .style('position', 'relative')
             .style('font-size', '1.4rem')
             .style('display', 'block')
-            .html('Element 1');
-        let element2 = d3.select('.holder').append('div')
-            .attr('class', 'e2')
+            .html('This is the metric');
+        let labelm = d3.select('.holder').append('div')
+            .attr('class', 'labelm')
             .style('text-align', 'center')
             .style('position', 'relative')
             .style('font-size', '1rem')
             .style('display', 'block')
-            .html('Element 2');
-
-        let metric = d3.select('.container').append('div')
-            .attr('class', 'metric')
-            .attr('text-align', 'center')
-            .attr('z-index', '1')
-            .style('position', 'absolute')
-            .style('top', '50%')
-            .style('left', '50%')
-            .style('transform', 'translate(-50%, -50%)')
-            .html('This is the metric');
-
-        let labelm = d3.select('.container').append('div')
-            .attr('class', 'labelm')
-            .attr('text-align', 'center')
-            .attr('z-index', '1')
-            .style('position', 'absolute')
-            .style('top', '60%')
-            .style('left', '50%')
-            .style('transform', 'translate(-50%, -50%)')
             .html('This is the metric label');
+
+        // let metric = d3.select('.container').append('div')
+        //     .attr('class', 'metric')
+        //     .attr('text-align', 'center')
+        //     .attr('z-index', '1')
+        //     .style('position', 'absolute')
+        //     .style('top', '50%')
+        //     .style('left', '50%')
+        //     .style('transform', 'translate(-50%, -50%)')
+        //     .html('This is the metric');
+
+        // let labelm = d3.select('.container').append('div')
+        //     .attr('class', 'labelm')
+        //     .attr('text-align', 'center')
+        //     .attr('z-index', '1')
+        //     .style('position', 'absolute')
+        //     .style('top', '60%')
+        //     .style('left', '50%')
+        //     .style('transform', 'translate(-50%, -50%)')
+        //     .html('This is the metric label');
 
             
 
