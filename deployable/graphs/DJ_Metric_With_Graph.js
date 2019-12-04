@@ -148,7 +148,6 @@ looker.plugins.visualizations.add({
 
 
 
-
         // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -179,17 +178,10 @@ looker.plugins.visualizations.add({
 
 
         label.html(dimensions[0].label_short);
-        console.log('this is the metric data pass', data[0][measures[0].name].value);
         let mesname = measures[0].name;
         console.log(data[0].mesname);
-        console.log(data[0].mesname.value);
-        metric.html(data[0][mesname].value);
+        metric.html(data[0].value);
         labelm.html(measures[0].label_short);
-
-
-
-
-
 
         
         /************************************************************************
