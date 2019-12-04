@@ -115,16 +115,13 @@ looker.plugins.visualizations.add({
             .html('This is the metric label');
 
 
-            // Create the min and max of each of the axes 
-        let x = d3.scaleLinear().domain([0, d3.max(data, d => d.chartName)]).range([0, width]);
-        let y = d3.scaleLinear().domain([0, d3.max(data, d => d.values[0])]).range([height, 0]);
+        // parse the date / time
+        let parseTime = d3.timeParse("%d-%b-%y");
 
-            // Create each of the axis
-        let xAxis = d3.axisBottom()
-            .scale(x);
-        let yAxis = d3.axisLeft()
-            .scale(y);
-        
+        // set the ranges
+        let x = d3.scaleTime().range([0, width]);
+        let y = d3.scaleLinear().range([height, 0]);
+
         // define the area
         let area = d3.area()
             .x(function(d) { return x(d.chartName); })
@@ -136,32 +133,45 @@ looker.plugins.visualizations.add({
             .x(function(d) { return x(d.chartName); })
             .y(function(d) { return y(d.values[0]); });
 
+        // format the data
+        data.forEach(function(d) {
+            d.chartName = parseTime(d.chartName);
+            // d.values[0] = +d.values[0];
+        });
+        
+        // scale the range of the data
+        x.domain(d3.extent(data, d => d.date));
+        y.domain([0, d3.max(data, d => d.close)]);
 
-            // Create the layout of the visualization
+
+        // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+        // Highlighted area
         svg.append("path")
             .datum(data)
             .attr("class", "area")
             .attr("d", area);
 
+        // Add the line
         svg.append("path")
             .datum(data)
             .attr("class", "line")
             .attr("d", valueline);
 
+        // add the X Axis
         svg.append("g")
-            .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis);
+            .call(d3.axisBottom(x));
 
+        // add the Y Axis
         svg.append("g")
-            .attr("class", "y axis")
-            .call(yAxis);
+            .call(d3.axisLeft(y));
+
 
 
         label.html(dimensions[0].label_short);

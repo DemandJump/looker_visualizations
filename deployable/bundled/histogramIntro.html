@@ -1,34 +1,13 @@
-<!DOCTYPE html> 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dynamic force layout</title>
-    <style>
-        .bar{
-            fill: steelblue;
-        }
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
 
-        .bar:hover{
-            fill: brown;
-        }
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
 
-            .axis {
-            font: 10px sans-serif;
-            }
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
 
-            .axis path,
-            .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-            }
-	</style>
-</head>
-
-<body>
-<script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
 
 <script>
 
@@ -82,13 +61,8 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
         .x(function(d) { return x(d.date) })
         .y0(y(0))
         .y1(function(d) { return y(d.value) })
-        );
-
-    console.log('This is the formatted data', data);
+        )
 
 })
 
 </script>
-
-</body>
-</html> 
