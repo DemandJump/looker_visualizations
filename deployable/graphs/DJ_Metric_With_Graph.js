@@ -152,7 +152,7 @@ looker.plugins.visualizations.add({
 
         // Append the data to the visual
         label.attr('font-size', '2vw').html(dimensions[0].field_group_variant);
-        metric.attr('font-size', '2.5vw').html(queryResponse.totals_data[measures[0].name].rendered);
+        metric.attr('font-size', '2.5vw').html(queryResponse.totals_data[measures[0].name].html);
         labelm.attr('font-size', '1.6vw').html(measures[0].field_group_variant);
 
 
