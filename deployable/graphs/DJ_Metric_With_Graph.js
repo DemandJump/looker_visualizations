@@ -178,13 +178,13 @@ looker.plugins.visualizations.add({
             .attr("d", valueline);
 
         // add the X Axis
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xaxis);
+        // svg.append("g")
+        //     .attr("transform", "translate(0," + height + ")")
+        //     .call(xaxis);
 
-        // add the Y Axis
-        svg.append("g")
-            .call(yaxis);
+        // // add the Y Axis
+        // svg.append("g")
+        //     .call(yaxis);
 
 
         label.html(dimensions[0].label_short);
