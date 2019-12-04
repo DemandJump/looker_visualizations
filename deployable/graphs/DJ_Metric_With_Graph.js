@@ -153,6 +153,11 @@ looker.plugins.visualizations.add({
             .style('display', 'block')
             .html('This is the metric label');
 
+        // Append the data to the visual
+        label.html(dimensions[0].label_short);
+        metric.html(data[0].value);
+        labelm.html(measures[0].label_short);
+
 
         // set the ranges - scale the range of the data
         let x = d3.scaleTime()
@@ -164,6 +169,7 @@ looker.plugins.visualizations.add({
 
         // define the area
         let area = d3.area()
+            .interpolate("monotone")  //Here
             .x(dataPoint => x(dataPoint.date))
             // .y0(height)
             .y0(dataPoint => y(dataPoint.values[0]))
@@ -177,6 +183,23 @@ looker.plugins.visualizations.add({
             .append("g")
                 // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+
+        let series = svg.selectAll('.series')
+            .data(stackedData)
+            .enter()
+            .append('g')
+            .attr('class', 'series');
+
+        series.append('path')          
+            .style("fill", (d, i) => colors[i])
+            .attr("stroke", "steelblue")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-width", '1.25')
+            .attr("d", d => area(d));
+
+        // stackLayout();
+
 
         // Highlighted area
         // svg.append("path")
@@ -196,23 +219,6 @@ looker.plugins.visualizations.add({
         //     .attr("class", "line")
         //     .attr("d", valueline);
 
-        let series = svg.selectAll('.series')
-            .data(stackedData)
-            .enter()
-            .append('g')
-            .attr('class', 'series');
-
-        series.append('path')          
-            .style("fill", (d, i) => colors[i])
-            .attr("stroke", "steelblue")
-            .attr("stroke-linejoin", "round")
-            .attr("stroke-linecap", "round")
-            .attr("stroke-width", '1.25')
-            .attr("d", d => area(d));
-
-        // stackLayout();
-
-
         // add the X Axis
         // let xaxis = d3.axisBottom(x).ticks(data.length);
         // svg.append("g")
@@ -223,12 +229,6 @@ looker.plugins.visualizations.add({
         // let yaxis = d3.axisLeft(y);
         // svg.append("g")
         //     .call(yaxis);
-
-
-        label.html(dimensions[0].label_short);
-        metric.html(data[0].value);
-        labelm.html(measures[0].label_short);
-
         
         /************************************************************************
          * Functions
