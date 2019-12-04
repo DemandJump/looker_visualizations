@@ -9,7 +9,12 @@ looker.plugins.visualizations.add({
                 @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
 
                 svg {
+                    margin: auto
                     border: 1px solid blue; 
+                }
+
+                div { 
+                    margin: auto;
                 }
 
                 html, body {
@@ -110,8 +115,8 @@ looker.plugins.visualizations.add({
         // let height = window.innerHeight - margin.top - margin.bottom;
 
 
-        let width = (window.innerWidth / 2) - 50;
-        let height = (window.innerHeight / 2) - 50;
+        let width = (window.innerWidth) - 50;
+        let height = (window.innerHeight) - 50;
 
         let label = d3.select('.container').append('div')
             .attr('class', 'label')
