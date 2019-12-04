@@ -180,7 +180,10 @@ looker.plugins.visualizations.add({
             .attr('class', 'series');
 
         series.append('path')          
-            .style("fill", (d, i) => colors[i])
+            .style("fill", (d, i) => {
+              console.log('This is iteration: ', i);
+              return colors[i]; 
+            })
             .attr("stroke", "steelblue")
             .attr("stroke-linejoin", "round")
             .attr("stroke-linecap", "round")
