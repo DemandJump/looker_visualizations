@@ -206,6 +206,9 @@ looker.plugins.visualizations.add({
         let svg = d3.select('.container').append("svg")
             .attr("width", width)
             .attr("height", height)
+            .style('position', 'relative')
+            // .style('top', '0')
+            // .style('left', '0')
             .append("g")
                 // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
