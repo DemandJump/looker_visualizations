@@ -2,8 +2,8 @@
 console.log("Rendering dj circle packing");
 
 looker.plugins.visualizations.add({
-    id: "dj_circle_packing",
-    label: "Demand Jump Circle Packing Visual",
+    id: "dj_circle_packing_v2",
+    label: "Demand Jump Circle Packing Visual (Version 2)",
 
     options: {
         dynamicSizing: {
