@@ -154,7 +154,7 @@ looker.plugins.visualizations.add({
         metric.html(queryResponse.totals_data[measures[0].name].html);
         labelm.html(`Total ${measures[0].field_group_variant}`);
         let diff = measures[0].field_group_variant - measures[1].field_group_variant;
-        let divi = measures[0].field_group_variant / measures[1].field_group_variant) * 100;
+        let divi = (measures[0].field_group_variant / measures[1].field_group_variant) * 100;
         let percent = divi.toFixed(2);
         let arrowDirection = true;
         if (diff < 0) arrowDirection = false;
@@ -342,35 +342,35 @@ looker.plugins.visualizations.add({
 
 
         function createStack() {
-          stackedValues.forEach((layer, index) => {
-              const currentStack = [];
-              layer.forEach((d, i) => {
-                  currentStack.push({
-                      values: d,
-                      date: data[i].chartName
-                  });
-              });
-              stackedData.push(currentStack);
-          });
-          console.log('This is the stacked data', stackedData);
-      } // end of createStack
+            stackedValues.forEach((layer, index) => {
+                const currentStack = [];
+                layer.forEach((d, i) => {
+                    currentStack.push({
+                        values: d,
+                        date: data[i].chartName
+                    });
+                });
+                stackedData.push(currentStack);
+            });
+            console.log('This is the stacked data', stackedData);
+        } // end of createStack
 
 
       function stackLayout() {
-        stackedData.forEach( (stack, i) => {
-            let stackArea = d3.area()
-                .x(dataPoint => x(dataPoint.date))
-                .y0(dataPoint => y(dataPoint.values[0]))
-                .y1(dataPoint => y(dataPoint.values[1]));
-            
-            // add the area
-            svg.append("path")
-                .data([stack])
-                .attr("class", "area")
-                .attr("d", stackArea);
+          stackedData.forEach( (stack, i) => {
+              let stackArea = d3.area()
+                  .x(dataPoint => x(dataPoint.date))
+                  .y0(dataPoint => y(dataPoint.values[0]))
+                  .y1(dataPoint => y(dataPoint.values[1]));
+              
+              // add the area
+              svg.append("path")
+                  .data([stack])
+                  .attr("class", "area")
+                  .attr("d", stackArea);
 
-        });
-    } // End of stackLayout
+          });
+      } // End of stackLayout
 
 
 
