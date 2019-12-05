@@ -165,17 +165,21 @@ looker.plugins.visualizations.add({
         let percent = divi.toFixed(2);
         console.log('percent', percent);
         let arrowDirection = true;
+        function numberWithCommas(num) {
+          return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        let rendiff = numberWithCommas(diff);
         if (diff < 0) arrowDirection = false;
         let arrowFontPass = 'calc(.14rem + 2.4vw)';
         if (arrowDirection) { // If it's positive
             changeComputation.html(`
                 <span style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> 
-                <span style="color: #5f9524;">${percent} (${diff})</span>
+                <span style="color: #5f9524;">${percent} (${rendiff})</span>
             `);
         } else { // If it's negative
             changeComputation.html(`
                 <span style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> 
-                <span style="color: #9b4e49;">${percent} (${diff})</span>
+                <span style="color: #9b4e49;">${percent} (${rendiff})</span>
             `);
         }
         label.style('font-size', 'calc(.5rem + 2.4vw)');
