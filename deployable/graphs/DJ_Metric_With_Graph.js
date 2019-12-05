@@ -154,8 +154,8 @@ looker.plugins.visualizations.add({
         metric.html(queryResponse.totals_data[measures[0].name].html);
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
-        console.log('measure 0 total', queryResponse[measures[0].field_group_variant].value);
-        console.log('measure 1 total', queryResponse[measures[1].field_group_variant].value); 
+        console.log('measure 0 total', queryResponse.totals_data[measures[0].field_group_variant].value);
+        console.log('measure 1 total', queryResponse.totals_data[measures[1].field_group_variant].value); 
         let diff = queryResponse[measures[0].field_group_variant].value - queryResponse[measures[1].field_group_variant].value;
         console.log('diff', diff);
         let divi = (measures[0].field_group_variant / measures[1].field_group_variant) * 100;
