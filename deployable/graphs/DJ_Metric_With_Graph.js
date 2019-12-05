@@ -118,7 +118,7 @@ looker.plugins.visualizations.add({
             .style('transform', 'translate(-50%, -50%)')
             .html('The Label!');
 
-        let mtainer = d3.select('.container').append('div')
+        let holder = d3.select('.container').append('div')
             .attr('class', 'holder')
             .style('text-align', 'center')
             .style('z-index', '1')
@@ -141,14 +141,39 @@ looker.plugins.visualizations.add({
             .style('display', 'block')
             .html('This is the metric label');
 
+        let changeComputation = d3.select('.holder').append('div')
+            .attr('class', 'compChan')
+            .style('text-align', 'center')
+            .style('position', 'relative')
+            .style('display', 'block')
+            .html('This is the change value~');
+
+            
         // Append the data to the visual
         label.html(dimensions[0].field_group_variant);
         metric.html(queryResponse.totals_data[measures[0].name].html);
         labelm.html(`Total ${measures[0].field_group_variant}`);
-
-        label.style('font-size', d => 'calc(.5rem + 2.4vw)');
+        let diff = measures[0].field_group_variant - measures[1].field_group_variant;
+        let divi = measures[0].field_group_variant / measures[1].field_group_variant) * 100;
+        let percent = divi.toFixed(2);
+        let arrowDirection = true;
+        if (diff < 0) arrowDirection = false;
+        let arrowFontPass = 'calc(.35rem + 2.4vw)';
+        if (arrowDirection) { // If it's positive
+            changeComputation.html(`
+                <span style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> 
+                <span style="color: #5f9524;">${percent} (${diff})</span>
+            `);
+        } else { // If it's negative
+            changeComputation.html(`
+                <span style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> 
+                <span style="color: #9b4e49;">${percent} (${diff})</span>
+            `);
+        }
+        label.style('font-size', 'calc(.5rem + 2.4vw)');
         metric.style('font-size', 'calc(.6rem + 2.4vw)');
         labelm.style('font-size', 'calc(.4rem + 2.4vw)');
+        changeComputation.style('font-size', 'calc(.3rem + 2.4vw)');
 
 
         // set the ranges - scale the range of the data
@@ -192,6 +217,25 @@ looker.plugins.visualizations.add({
             .attr("d", d => area(d));
 
 
+
+        /*/ Computing the change between the current metric and the previous metric /*/
+        if (config.valueLabels == 'compChan') { // Show as Change
+              // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
+            let difference = lookValue.value - lookValue2.value; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
+            
+            if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
+                if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+                if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+                d3.select('div.djvsHeader').style('backgroun-image', 'none');
+            }
+            if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
+                if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+                if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
+                d3.select('div.djvsHeader').style('backgroun-image', 'none');
+            }
+            d3.select('div.djvsHeader').style('background-image', 'none');
+            console.log('This is hreturn value being passed through computed change', hReturnValue);
+        }
 
 
         // stackLayout();
@@ -262,13 +306,10 @@ looker.plugins.visualizations.add({
             measures.forEach( (mes, index) => {
                 color = '#999999';
                 if (index < colors.length) color = colors[index];
-
-
                 measureNames[index] = {
                     name: mes.label_short,
                     color: color
                 };
-
             });
         } // End of colorCodingKeys
 
@@ -279,7 +320,6 @@ looker.plugins.visualizations.add({
                 measures.forEach( (mes, index) => {
                     let name = `value${index}`;
                     node[name] = node[mes.name].value;
-
                     if(node[name] == 'null' || node[name] == null) node[name] = min;
                 });
             }); // End of data loop
@@ -318,11 +358,6 @@ looker.plugins.visualizations.add({
 
       function stackLayout() {
         stackedData.forEach( (stack, i) => {
-            console.log('This is the current stack', stack);
-            console.log('this is x', stack[i].chartName);
-            console.log('This is y0', stack[i].values[0]);
-            console.log('This is y1', stack[i].values[1]);
-
             let stackArea = d3.area()
                 .x(dataPoint => x(dataPoint.date))
                 .y0(dataPoint => y(dataPoint.values[0]))
