@@ -153,9 +153,15 @@ looker.plugins.visualizations.add({
         label.html(dimensions[0].field_group_variant);
         metric.html(queryResponse.totals_data[measures[0].name].html);
         labelm.html(`Total ${measures[0].field_group_variant}`);
-        let diff = measures[0].field_group_variant - measures[1].field_group_variant;
+
+        console.log('measure 0 total', queryResponse[measures[0].field_group_variant].value);
+        console.log('measure 1 total', queryResponse[measures[1].field_group_variant].value); 
+        let diff = queryResponse[measures[0].field_group_variant].value - queryResponse[measures[1].field_group_variant].value;
+        console.log('diff', diff);
         let divi = (measures[0].field_group_variant / measures[1].field_group_variant) * 100;
+        console.log('divi', divi);
         let percent = divi.toFixed(2);
+        console.log('percent', percent);
         let arrowDirection = true;
         if (diff < 0) arrowDirection = false;
         let arrowFontPass = 'calc(.35rem + 2.4vw)';
