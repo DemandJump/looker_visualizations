@@ -103,7 +103,9 @@ looker.plugins.visualizations.add({
         // let margin = {top: 10, right: 40, bottom: 100, left: 60};
         // let width = window.innerWidth - margin.left - margin.right;
         // let height = window.innerHeight - margin.top - margin.bottom;
-
+        this._container
+            .style('width', window.innerWidth)
+            .style('height' window.innerHeight);
 
         let width = (window.innerWidth) - 50;
         let height = (window.innerHeight) - 50;
