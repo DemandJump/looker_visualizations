@@ -166,7 +166,7 @@ looker.plugins.visualizations.add({
         console.log('percent', percent);
         let arrowDirection = true;
         if (diff < 0) arrowDirection = false;
-        let arrowFontPass = 'calc(.29rem + 2.4vw)';
+        let arrowFontPass = 'calc(.14rem + 2.4vw)';
         if (arrowDirection) { // If it's positive
             changeComputation.html(`
                 <span style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> 
