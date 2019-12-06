@@ -117,7 +117,7 @@ looker.plugins.visualizations.add({
             .style('position', 'absolute')
             .style('top', '10%')
             .style('left', '5%')
-            .style('transform', 'translate(-50%, -50%)')
+            // .style('transform', 'translate(-50%, -50%)')
             .html('The Label!');
 
         let holder = d3.select('.container').append('div')
@@ -153,9 +153,14 @@ looker.plugins.visualizations.add({
             
         // Append the data to the visual
         label.html(measures[0].field_group_variant);
-        metric.html(queryResponse.totals_data[measures[0].name].html);
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
+        if (queryResponse.fields.pivots.length != 0) { // If it's a pivot calculation
+            metric.html()
+        } else {
+            metric.html(queryResponse.totals_data[measures[0].name].html);
+        }
+        
         console.log('measure 0 total', queryResponse.totals_data[measures[0].name].value);
         console.log('measure 1 total', queryResponse.totals_data[measures[1].name].value); 
         let diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
@@ -233,26 +238,6 @@ looker.plugins.visualizations.add({
 
 
 
-        /*/ Computing the change between the current metric and the previous metric /*/
-        if (config.valueLabels == 'compChan') { // Show as Change
-              // Colored arrow and number bolded beside Field label <Up arrow &#9650;> and <Down arrow &#9660;> based on positive or negative change
-            let difference = lookValue.value - lookValue2.value; // The difference shows the change, based on positive or negative, and if config.positiveSwitch's 
-            
-            if (config.positiveSwitch == false) { // If positive values are not bad: (diff = +) then _green ~ else _red
-                if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
-                if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
-                d3.select('div.djvsHeader').style('backgroun-image', 'none');
-            }
-            if (config.positiveSwitch == true) { // If positive values are bad: (diff = +) then _red ~ else _green
-                if (difference >= 0) hReturnValue = `<span class="djvsArrow" style="color: #9b4e49; font-size: ${arrowFontPass};">&#9650</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
-                if (difference <= 0) hReturnValue = `<span class="djvsArrow" style="color: #5f9524; font-size: ${arrowFontPass};">&#9660</span> <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
-                d3.select('div.djvsHeader').style('backgroun-image', 'none');
-            }
-            d3.select('div.djvsHeader').style('background-image', 'none');
-            console.log('This is hreturn value being passed through computed change', hReturnValue);
-        }
-
-
         // stackLayout();
 
         // Highlighted area
@@ -300,20 +285,35 @@ looker.plugins.visualizations.add({
 
         function chartNames() { 
             data.forEach(node => {
-                dimensions.forEach( (dim, index) => {
-                    let chartValue = `${node[dim.name].value}`;
-                    if (index == 0) {
-                        node.chartValue = chartValue;
-                    } else {
-                        if (index != dimensions.length - 1) {
-                            node.chartValue = node.chartValue + chartValue + '-';
+                if(queryResponse.fields.pivots.length != 0) { // If they're using a pivot
+                    queryResponse.fields.pivots.forEach( (pdiv, index) => {
+                        let chartValue = `${node[pdiv.name].value}`;
+                        if (index == 0) {
+                            node.chartValue = chartValue;
                         } else {
-                            node.chartValue = node.chartValue + chartValue;
+                            if (index != queryResponse.fields.pivots.length - 1) {
+                                node.chartValue = node.chartValue + chartValue + '-';
+                            } else {
+                                node.chartValue = node.chartValue + chartValue;
+                            }
                         }
-                    }
-                    
-                });
-            });
+                    });
+                } else { // if it's dimensions
+                    dimensions.forEach( (dim, index) => {
+                        let chartValue = `${node[dim.name].value}`;
+                        if (index == 0) {
+                            node.chartValue = chartValue;
+                        } else {
+                            if (index != dimensions.length - 1) {
+                                node.chartValue = node.chartValue + chartValue + '-';
+                            } else {
+                                node.chartValue = node.chartValue + chartValue;
+                            }
+                        }
+                    });
+                }
+
+            }); // End of data
         } // End of chartNames function
 
 
