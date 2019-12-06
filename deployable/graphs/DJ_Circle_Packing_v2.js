@@ -803,8 +803,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 let configsize;
                 let dynsz;
 
-                if (typeof node[configcolor] === 'undefined') node[configcolor]['value'] = 'null';
-                if (typeof node[configsize] === 'undefined') node[configsize]['value'] = 'null';
+                if (typeof node[configcolor] === 'undefined') {
+                    node[configcolor] = {};
+                    node[configcolor]['value'] = 'null';
+                  }
+                if (typeof node[configsize] === 'undefined') {
+                    node[configsize] = {};
+                    node[configsize]['value'] = 'null';
+                }
 
                 if (i != 0) {
                     configcolor = config[confcolor];
