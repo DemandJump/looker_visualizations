@@ -793,6 +793,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
             data.forEach(node => {
+                node['default'] = 'null';
                 
                 let configname = config[confname];
                 let query = node[configname]['value'];
@@ -803,27 +804,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 let configsize;
                 let dynsz;
 
-                if (typeof node[configcolor] === 'undefined') {
-                    node[configcolor] = {};
-                    node[configcolor]['value'] = 'null';
-                  }
-                if (typeof node[configsize] === 'undefined') {
-                    node[configsize] = {};
-                    node[configsize]['value'] = 'null';
+                if (typeof config[configcolor] === 'undefined') {
+
                 }
+                if (typeof config[configsize] === 'undefined') {
+
+                }
+
 
                 if (i != 0) {
                     console.log('This is the current node', node); 
-                    console.log('\n\n\n ', config[confcolor]);
-                    console.log(node[config[confcolor]]['value']);
-
-                    console.log('\n ', config[confsize]);
-                    console.log(node[config[confsize]]['value']);
-
                     configcolor = config[confcolor];
+                    console.log('This is the configcolor', configcolor);
                     dycol = node[configcolor]['value'];
+                    console.log('dycol', dycol); 
                     configsize = config[confsize];
+                    console.log('configsize', configsize);
                     dynsz = node[configsize]['value'];
+                    console.log('dynsz', dynsz);
                 }
 
                 if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
