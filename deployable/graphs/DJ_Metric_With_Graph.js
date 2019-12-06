@@ -152,7 +152,7 @@ looker.plugins.visualizations.add({
 
             
         // Append the data to the visual
-        label.html(dimensions[0].field_group_variant);
+        label.html(measures[0].field_group_variant);
         metric.html(queryResponse.totals_data[measures[0].name].html);
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
@@ -174,12 +174,12 @@ looker.plugins.visualizations.add({
         if (arrowDirection) { // If it's positive
             changeComputation.html(`
                 <span style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> 
-                <span style="color: #5f9524;">${percent} (${rendiff})</span>
+                <span style="color: #5f9524;">${percent}% (${rendiff})</span>
             `);
         } else { // If it's negative
             changeComputation.html(`
                 <span style="color: #9b4e49; font-size: ${arrowFontPass};">&#9660</span> 
-                <span style="color: #9b4e49;">${percent} (${rendiff})</span>
+                <span style="color: #9b4e49;">${percent}% (${rendiff})</span>
             `);
         }
         label.style('font-size', 'calc(.5rem + 2.4vw)');
