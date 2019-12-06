@@ -813,6 +813,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 }
 
                 if (i != 0) {
+                    console.log('This is the current node', node); 
+                    console.log('\n\n\n ', config[confcolor]);
+                    console.log(node[config[confcolor]]['value']);
+
+                    console.log('\n ', config[confsize]);
+                    console.log(node[config[confsize]]['value']);
+
                     configcolor = config[confcolor];
                     dycol = node[configcolor]['value'];
                     configsize = config[confsize];
