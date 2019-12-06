@@ -777,6 +777,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     
     function packageContentCreateTaxonomy() {
+        console.log('This is the config', config);
+
         for(let i = 0; i < config.dimensionAmount; i++) {
             let confname = `dim${i}`;
             let confcolor = `dim${i}c`;
@@ -791,6 +793,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
                 // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
             data.forEach(node => {
+                
                 let configname = config[confname];
                 let query = node[configname]['value'];
                 // console.log('configname', configname);
