@@ -804,24 +804,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 let configsize;
                 let dynsz;
 
-                if (typeof config[configcolor] === 'undefined') {
-
-                }
-                if (typeof config[configsize] === 'undefined') {
-
-                }
-
-
                 if (i != 0) {
-                    console.log('This is the current node', node); 
                     configcolor = config[confcolor];
-                    console.log('This is the configcolor', configcolor);
                     dycol = node[configcolor]['value'];
-                    console.log('dycol', dycol); 
                     configsize = config[confsize];
-                    console.log('configsize', configsize);
                     dynsz = node[configsize]['value'];
-                    console.log('dynsz', dynsz);
                 }
 
                 if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
