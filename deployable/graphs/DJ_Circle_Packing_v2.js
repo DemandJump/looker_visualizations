@@ -777,7 +777,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     
     function packageContentCreateTaxonomy() {
-        console.log('This is the config', config);
+        // console.log('This is the config', config);
 
         for(let i = 0; i < config.dimensionAmount; i++) {
             let confname = `dim${i}`;
