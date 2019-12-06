@@ -800,15 +800,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 let configsize;
                 let dynsz;
 
+                if (dycol == 'default') dycol = 'null';
+                if (dynsz == 'default') dynsz = 'null';
                 if (i != 0) {
                     configcolor = config[confcolor];
                     dycol = node[configcolor]['value'];
                     configsize = config[confsize];
                     dynsz = node[configsize]['value'];
                 }
-
-                if (dycol == 'default') dycol = 'null';
-                if (dynsz == 'default') dynsz = 'null';
 
                 if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
                     node[configname].value = `${query}~null~null`;
