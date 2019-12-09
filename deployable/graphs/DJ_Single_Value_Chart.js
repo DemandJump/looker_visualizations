@@ -405,13 +405,12 @@ if (config.text_spacing == "dynamic_size") { // based on whether the select stat
           title_fs = '11vw';
           header_fs = '9vw';
           arrowFontPass = '7.4vw';
-      } 
-  } else {
-      value_fs = '16.4vw';
-      title_fs = '6.4vw';
-      header_fs = '6vw';
-      arrowFontPass = '5.2vw';
-  }
+      } else {
+          value_fs = '16.4vw';
+          title_fs = '6.4vw';
+          header_fs = '6vw';
+          arrowFontPass = '5.2vw';
+      }
 
 }
 
@@ -427,13 +426,12 @@ if (config.text_spacing == "word_break") {
           title_fs = '2rem';
           header_fs = '1.6rem';
           arrowFontPass = '1.45rem';
+      } else {
+          value_fs = '4.5rem';
+          title_fs = '1.6rem';
+          header_fs = '1.2rem';
+          arrowFontPass = '1rem';
       }
-  } else {
-      value_fs = '4.5rem';
-      title_fs = '1.6rem';
-      header_fs = '1.2rem';
-      arrowFontPass = '1rem';
-  }
 
 }
 
@@ -449,13 +447,12 @@ if (this.options.dh_fs.hidden == false) { // If it's not hidden, then apply the 
         title_fs = '11.5vh';
         header_fs = '10vh';
         arrowFontPass = '9.4vh';
+    } else {
+        value_fs = '20vh';
+        title_fs = '9vh';
+        header_fs = '7.4vh';
+        arrowFontPass = '6.9vh';
     }
-} else {
-    value_fs = '20vh';
-    title_fs = '9vh';
-    header_fs = '7.4vh';
-    arrowFontPass = '6.9vh';
-}
 
 }
 
