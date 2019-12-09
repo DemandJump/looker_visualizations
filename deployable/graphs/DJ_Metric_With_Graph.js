@@ -217,8 +217,8 @@ looker.plugins.visualizations.add({
 
         // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
-            .attr("width", width)
-            .attr("height", height)
+            .attr("width", window.innerWidth)
+            .attr("height", window.innerHeight)
             .style('position', 'absolute')
             .style('top', '0')
             .style('left', '0')
