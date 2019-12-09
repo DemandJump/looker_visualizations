@@ -77,8 +77,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('\n data', data);
 
         // Playing with dimensions and measures
-    let dimensions = queryResponse.fields.dimensions_like; // console.log('Checking out query resposne dimension fields: ', dimensions);
-    let measures = queryResponse.fields.measures_like; // console.log('Checking out query resposne measure fields: ', measures);
+    let dimensions = queryResponse.fields.dimension_like; // console.log('Checking out query resposne dimension fields: ', dimensions);
+    let measures = queryResponse.fields.measure_like; // console.log('Checking out query resposne measure fields: ', measures);
 
                 //*// Data //*//
 
