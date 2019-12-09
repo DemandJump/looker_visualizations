@@ -21,12 +21,16 @@ create: function(element, config) {
     var css = element.innerHTML = `
         <style> 
         /* Import the Roboto font for us to use. */
-        @import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+        @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
                   
         html { 
             font-family: Roboto; 
             margin: 0px;
             padding: 0px;
+        }
+
+        div {
+            font-weight: 300;
         }
 
         .djsmContainer {

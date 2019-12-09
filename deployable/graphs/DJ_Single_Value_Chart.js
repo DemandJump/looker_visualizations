@@ -179,7 +179,9 @@ create: function(element, config) {
       // Insert a <style> tag with some styles we'll use later.
   element.innerHTML = `
         <style>  
-          .djvsValue:hover { text-decoration: underline; }
+            @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+            .djvsValue:hover { text-decoration: underline; }
+            div { font-weight: 300; font-family: 'Roboto'; }
         </style>
 
         <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
