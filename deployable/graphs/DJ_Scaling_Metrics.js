@@ -70,14 +70,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('\n\n\n\nReplicating the google ads based on a search query the same as you would see when you search for a thing online.');
         /****** Log all these functions to see what we're working with ******/
     console.log(` ...UpdateAsync initialized, here is it's data: `);
-    console.log('\n data', data);
     // console.log('element', element);
     console.log('config', config);
     console.log('queryResponse', queryResponse);
     // console.log('details', details);
+    console.log('\n data', data);
+
         // Playing with dimensions and measures
-    let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
-    let measures = queryResponse.fields.measures; // console.log('Checking out query resposne measure fields: ', measures);
+    let dimensions = queryResponse.fields.dimensions_like; // console.log('Checking out query resposne dimension fields: ', dimensions);
+    let measures = queryResponse.fields.measures_like; // console.log('Checking out query resposne measure fields: ', measures);
 
                 //*// Data //*//
 
@@ -198,7 +199,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             // console.log('This is the config for this node', config[node.format])
             node.valueFormat = node.rendered; // this is the value without the format
             console.log('config node format for current node', node);
-            console.log('config', config[node.format]);
             if (config[node.format]) {
                 if (config[node.format] != '') { // If there is a format applied, run the function for the format
                     node.valueFormat = formatValue(config[node.format], node.value);
