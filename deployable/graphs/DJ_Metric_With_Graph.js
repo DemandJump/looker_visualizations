@@ -80,7 +80,7 @@ looker.plugins.visualizations.add({
         let colors = ['rgba(0, 157, 233, 0.5)', 'rgba(62, 193, 115, 0.5)', 'rgba(56, 232, 131, 0.5)', 'rgba(74, 74, 255, 0.5)', 'rgba(22, 55, 150, 0.5)', 'rgba(92, 243, 255, 0.5)', 'rgba(249, 190, 61, 0.5)', 'rgba(226, 255, 110, 0.5)', 'rgba(172, 234, 73, 0.5)', 'rgba(255, 62, 95, 0.5)', 'rgba(172, 126, 183, 0.5)', 'rgba(92, 59, 195, 0.5)', 'rgba(82, 120, 206, 0.5)', 'rgba(161, 237, 255, 0.5)', 'rgba(5, 206, 90, 0.5)', 'rgba(74, 140, 4, 0.5)', 'rgba(58, 187, 207, 0.5)', 'rgba(236, 228, 40, 0.5)', 'rgba(153, 153, 153, 0.5)'];
         let max = -10000000000;
         let min = 100000000000;
-        let iterations = (data.length / 2) * -1;
+        let iterations = data.length / 2;
 
         maxAndMin();
         chartNames();
@@ -136,16 +136,7 @@ looker.plugins.visualizations.add({
         grabValues();
         formatDates();
 
-        let newData = [];
-        if (calculation == 'pivot') {
-            data.forEach((node, index) => {
-              if(index < iterations) {
-                  console.log('This is the node', node);
-                  newData[index] = node;
-              }
-            })
-            console.log('This is the new data', newData);
-        }
+        if (calculation == 'pivot') data = data.slice(0, iterations * -1);
         stack = d3.stack().keys(stackKeys);
         stackedValues = stack(data);
         createStack();
