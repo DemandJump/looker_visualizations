@@ -132,6 +132,7 @@ looker.plugins.visualizations.add({
         stackedValues = stack(data);
         createStack();
 
+        console.log('This measures', measures);
 
         /*******************************************************
          * Visualization
