@@ -342,6 +342,11 @@ looker.plugins.visualizations.add({
                   let key = `value${index}`;
                   stackKeys.push(key);
                 });
+            } else {
+                let keyOne = `value0`;
+                let keyTwo = `value1`;
+                stackKeys.push(keyOne);
+                stackKeys.push(keyTwo); 
             }
 
           console.log('These are the stack keys', stackKeys);
