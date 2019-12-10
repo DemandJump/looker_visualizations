@@ -124,12 +124,29 @@ looker.plugins.visualizations.add({
             console.log('This is the Previous period', prevPer);
 
             for(let i = 0; i < iterations; i++) {
-                newData[i]['value1'] = prevPer[i];
-                newData[i]['value0'] = currPer[i];
+                let obj = {
+                  value1: prevPer[i],
+                  value0: currPer[i]
+                }
             }
             console.log('This is newData', newData);
             if (calculation == 'pivot') data = data.slice(0, iterations * -1);
 
+        }
+
+
+        let curPer = [];
+        let prePer = [];
+        if (calculation == 'pivot') {
+            data.forEach((node, index) => {
+                if (index < iterations) {
+                    let cp = node[measures[0].name]['Current Period'];
+                    curPer.push(cp);
+                } else {
+                    let pp = node[measures[0].name]['Previous Period'];
+                    prePer.push(pp);
+                }
+            });
         }
 
         // Copy stack back offsets back into the data
