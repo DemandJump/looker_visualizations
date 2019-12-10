@@ -246,7 +246,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // This is for conditionals to see what calculation it is 
   let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
   if (measures[1]) calculation = 'two measures';
-  if (queryResponse.pivots.length >= 1) calculation = 'pivot measure';
+  if (queryResponse.fields.pivots.length >= 1) calculation = 'pivot measure';
   console.log('calculation is ', calculation);
 
   
@@ -269,8 +269,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       console.log('This is renderedChange', renderedChange);
   } else if (calculation == 'pivot measure') {
         // We need to find the pivot name then data.name.pivname.rendered
-      cpName = queryResponse.pivots[0]['key'];
-      ppName = queryResponse.pivots[1]['key'];
+      cpName = queryResponse.fields.pivots[0]['key'];
+      ppName = queryResponse.fields.pivots[1]['key'];
       measureOneName = queryResponse.fields.measures[0].name;
       currentPeriod = data[0][measureOneName][cpName];
       previousPeriod = data[0][measureOneName][ppName];
@@ -472,7 +472,7 @@ if (config.showTitle == true) { // If the input is empty but they wanna show the
         } else if (calculation == 'pivot measure') {
             d3.select('.djvsTitle').html(queryResponse.fields.pivots[0].label_short);
         }
-        
+
     } else {
         d3.select('.djvsTitle').html(config.valueTitle); 
     }
