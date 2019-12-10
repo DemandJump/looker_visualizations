@@ -117,7 +117,7 @@ looker.plugins.visualizations.add({
         }
         console.log('This is curPer', curPer);
         console.log('This is prePer', prePer);
-        
+
 
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
@@ -146,7 +146,7 @@ looker.plugins.visualizations.add({
                   value1: prevPer[i],
                   value0: currPer[i]
                 }
-                newData.push(obj)l
+                newData.push(obj);
             }
             console.log('This is newData', newData);
             if (calculation == 'pivot') data = data.slice(0, iterations * -1);
