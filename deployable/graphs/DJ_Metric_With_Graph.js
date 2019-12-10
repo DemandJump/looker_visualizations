@@ -223,7 +223,7 @@ looker.plugins.visualizations.add({
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
         if (queryResponse.fields.pivots.length != 0) { // If it's a pivot calculation
-            // metric.html()
+            metric.html()
         } else {
             metric.html(queryResponse.totals_data[measures[0].name].html);
         }
@@ -231,16 +231,21 @@ looker.plugins.visualizations.add({
 
         if (measures.length < 2) {
             changeComputation.html('');
-        } else {
-            console.log('measure 0 total', queryResponse.totals_data[measures[0].name].value);
-            console.log('measure 1 total', queryResponse.totals_data[measures[1].name].value); 
-            let diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
-            console.log('diff', diff);
-            let divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100;
-            console.log('divi', divi);
-            let percent = divi.toFixed(2);
-            console.log('percent', percent);
+        } else { 
+            let diff;
+            let divi;
+            let percent;
             let arrowDirection = true;
+
+            if (calculation == 'pivot') {
+                diff = queryResponse.totals_data[measures[0].name]['Current Period'].value - queryResponse.totals_data[measures[0].name]['Previous Period'].value;
+                divi = (queryResponse.totals_data[measures[0].name]['Current Period'].value / queryResponse.totals_data[measures[0].name]['Previous Period'].value) * 100;
+            } else {  
+                let diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
+                let divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
+            }
+
+            let percent = divi.toFixed(2);
             let rendiff = numberWithCommas(diff);
 
             if (diff < 0) arrowDirection = false;
