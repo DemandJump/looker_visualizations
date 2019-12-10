@@ -156,7 +156,11 @@ looker.plugins.visualizations.add({
 
 
         stack = d3.stack().keys(stackKeys);
-        stackedValues = stack(newData);
+        if (calculation == 'pivot') {
+            stackedValues = stack(newData);
+        } else {
+            stackedValues = stack(data);
+        }
         createStack();
 
 
