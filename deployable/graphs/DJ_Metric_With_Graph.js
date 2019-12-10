@@ -125,12 +125,12 @@ looker.plugins.visualizations.add({
             console.log('This is the Previous period', prevPer);
 
             for(let i = 0; i < iterations; i++) {
-                data[i]['value1'] = prevPer[i];
-                data[i]['value0'] = currPer[i];
+                data[i]['value0'] = prevPer[i];
+                data[i]['value1'] = currPer[i];
             }
 
-            // if (calculation == 'pivot') data = data.slice(0, iterations * -1);
-            // console.log('This is the new data', data);
+            if (calculation == 'pivot') data = data.slice(0, iterations * -1);
+            console.log('This is the new data', data);
 
         }
 
