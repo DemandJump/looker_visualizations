@@ -335,7 +335,6 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
 
   // This is for the font-styling radio buttons
 if (font_style == "dynamic_size") { // based on whether the select statement for varying font size // config.text_spacing == "dynamic_size"
-    if (this.options.ds_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
         if (config.ds_fs == 'medium') {
             value_fs = '20.4vw';
             title_fs = '7.4vw';
@@ -352,11 +351,9 @@ if (font_style == "dynamic_size") { // based on whether the select statement for
             header_fs = '6vw';
             arrowFontPass = '5.2vw';
         }
-    }
 }
 
 if (font_style == "word_break") {
-    if (this.options.wb_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
         if (config.wb_fs == 'small') {
             value_fs = '3rem';
             title_fs = '1.2rem';
@@ -373,7 +370,6 @@ if (font_style == "word_break") {
             header_fs = '1.2rem';
             arrowFontPass = '1rem';
         }
-    }
 }
 
 
