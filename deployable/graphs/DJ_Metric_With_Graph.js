@@ -99,8 +99,8 @@ looker.plugins.visualizations.add({
             let currCounter = 0;
             let prevCounter = 0;
             data.forEach(count => {
-                if (node[pivotName]['Current Period'].value != null) currCounter++;
-                if (node[pivotName]['Previous Period'].value != null) prevCounter++;
+                if (count[pivotName]['Current Period'].value != null) currCounter++;
+                if (count[pivotName]['Previous Period'].value != null) prevCounter++;
             });
             let iterations;
             if (prevCounter >= currCounter) iterations = prevCounter;
