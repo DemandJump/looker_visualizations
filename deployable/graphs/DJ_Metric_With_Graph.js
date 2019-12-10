@@ -110,6 +110,8 @@ looker.plugins.visualizations.add({
             if (currCounter >= prevCounter) iterations = currCounter;
 
             data.forEach( (node, index) => {
+                console.log('This is the node', node);
+
                 let pp = node[pivotName]['Current Period'];
                 let cp = node[pivotName]['Previous Period'];
 
@@ -122,10 +124,12 @@ looker.plugins.visualizations.add({
                 node['currentPeriod'] = pp;
                 node['previousPeriod'] = cp;
             });
+            console.log('This is the current period', currPer);
+            console.log('This is the Previous period', prevPer);
 
             for(let i = 0; i < iterations.length; i++) {
                 data[i]['value1'] = prevPer[i];
-                data[i]['value0'] = currPer[i]; 
+                data[i]['value0'] = currPer[i];
             }
 
         }
@@ -367,11 +371,10 @@ looker.plugins.visualizations.add({
 
 
         function createStack() {
-            console.log('This is stackedValues', stackedValues); 
+            console.log('This is stackedValues', stackedValues);
             stackedValues.forEach((layer, index) => {
                 const currentStack = [];
                 layer.forEach((d, i) => {
-                    console.log('This is d', d);
                     currentStack.push({
                         values: d,
                         date: data[i].chartName
