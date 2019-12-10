@@ -99,28 +99,35 @@ looker.plugins.visualizations.add({
             let pivotName = queryResponse.fields.pivots[0].name;
             let currCounter = 0;
             let prevCounter = 0;
+            data.forEach(count => {
+                if (node[pivotName]['Current Period'].value != null) currCounter++;
+                if (node[pivotName]['Previous Period'].value != null) prevCounter++;
+            });
+            let iterations;
+            if (prevCounter >= currCounter) iterations = prevCounter;
+            if (currCounter >= prevCounter) iterations = currCounter;
+
             let prevPer = [];
             let currPer = [];
             data.forEach(node => {
                 let pp = node[pivotName]['Current Period'].value;
                 let cp = node[pivotName]['Previous Period'].value;
 
-                if (pp != null) { 
-                    prevPer.push(pp);
-                    prevCounter++;
-                }
-                if (cp != null) {
+                if (index < iterations) {
                     currPer.push(cp);
-                    currCounter++;
+                } else {
+                    prevPer.push(pp);
                 }
+
             });
 
-            let iterations;
-            if (prevCounter >= currCounter) iterations = prevCounter;
-            if (currCounter >= prevCounter) iterations = currCounter;
             for(let i = 0; i < iterations.length; i++) {
-                data[]
+                data['prevPer'] = prevPer[i];
+                data['currPer'] = currPer[i]; 
             }
+
+
+
 
         } else {
                 // Format the measure data
@@ -356,9 +363,11 @@ looker.plugins.visualizations.add({
 
 
         function createStack() {
+            console.log('This is stackedValues', stackedValues); 
             stackedValues.forEach((layer, index) => {
                 const currentStack = [];
                 layer.forEach((d, i) => {
+                    console.log('This is d', d);
                     currentStack.push({
                         values: d,
                         date: data[i].chartName
