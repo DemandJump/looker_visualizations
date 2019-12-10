@@ -310,7 +310,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
   if (element_spacing == 'dynamic_size') {
-      d3.select(.djvsElement)
+      d3.select('.djvsElement')
           .style('text-align', 'center')
           .style('padding', '0')
           .style('margin', '0')
