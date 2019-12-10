@@ -143,7 +143,7 @@ looker.plugins.visualizations.add({
 
 
         stack = d3.stack().keys(stackKeys);
-        stackedValues = stack(newData);
+        stackedValues = stack(data);
         createStack();
 
 
