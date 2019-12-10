@@ -314,7 +314,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   let font_style = 'word_break'; // wb: word break, vw: viewport width // 
   let width = window.innerWidth;
-  if (window.innerWidth > 350) font_style = 'dynamic_size';
+  if (window.innerWidth < 350) font_style = 'dynamic_size';
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
@@ -322,61 +322,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /**************************************************************************************************************************
   * Setting up the Configuration Settings
 **************************************************************************************************************************/
-          /*/ Onto building the settings of the visualization /*/
 
-
-// There's default font sizing, and conditional (small, medium, or large) based on come new configuration the user has for the 'Word Spacing' section
-    // based on which radio button they press, a different option will show which is a conditional that will open up the ability to choose between three font size
-
-    // Clean up all the hidden params up selected radio button, then dive into the rest of the 'Word Spacing' configuration from here
-
-if (config.text_spacing == "dynamic_size") { // If we select dynamic size
-  if (this.options.ds_fs_conditional.hidden == true) { // check if it's font sizing conditional is hidden, then show it
-      this.options.ds_fs_conditional.hidden = false;
-
-      this.options.wb_fs_conditional.hidden = true;
-      this.options.wb_fs.hidden = true;
-      this.options.dh_fs_conditional.hidden = true; 
-      this.options.dh_fs.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
-
-  if (config.ds_fs_conditional == false && this.options.ds_fs.hidden == true) { // If it's not using default font size
-      this.options.ds_fs.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-  if (config.ds_fs_conditional == true && this.options.ds_fs.hidden == false) { // If it's using the default font size
-      this.options.ds_fs.hidden = true; 
-      this.trigger('registerOptions', this.options);
-  }
-
-}
-
-if (config.text_spacing == "word_break") {
-  if (this.options.wb_fs_conditional.hidden == true) {
-      this.options.wb_fs_conditional.hidden = false;
-
-      this.options.ds_fs_conditional.hidden = true;
-      this.options.ds_fs.hidden = true;
-      this.options.dh_fs_conditional.hidden = true;
-      this.options.dh_fs.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
-
-  if (config.wb_fs_conditional == false && this.options.wb_fs.hidden == true) {
-      this.options.wb_fs.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-  if (config.wb_fs_conditional == true && this.options.wb_fs.hidden == false) {
-      this.options.wb_fs.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
-}
-
-
-
-
-  // So we have a Value, Title, and Header below with an arrow font pass. These values change based on the text_spacing value, and whether it's default or the 
+// So we have a Value, Title, and Header below with an arrow font pass. These values change based on the text_spacing value, and whether it's default or the 
 // Insantiate variables based on the user input default or not, if not then change it based on the different sizes for each
 let value_fs = '4.5rem';
 let title_fs = '1.6rem';
@@ -450,80 +397,6 @@ if (config.showTitle == true) { // If the input is empty but they wanna show the
     }
 }
 if (config.showTitle == false) d3.select('.djvsTitle').html(' ');
-
-
-
-console.log('Entered options hidden conditionals');
-console.log('valueLabels', this.options.valueLabels.hidden);
-console.log('positiveSwitch', this.options.positiveSwitch.hidden);
-console.log('showLabel', this.options.showLabel.hidden);
-console.log('labelOverride', this.options.labelOverride.hidden);
-
-        /*/ SHOW/HIDING THE CONFIGURATION /*/
-
-if (config.showTitle == true) { // Show title's configuration, this is the title override
-  if (this.options.valueTitle.hidden == true) {
-      this.options.valueTitle.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-}
-
-if (config.showTitle == false) {
-  if (this.options.valueTitle.hidden == false) {
-      this.options.valueTitle.hidden = true;
-      this.trigger('registerOptions', this.options); 
-  }
-}
-
-
-
-    // Okay we're passing these variables in unison, but we'll getr 
-if (config.showComparison == true && this.options.valueLabels.hidden == true) {
-      this.options.valueLabels.hidden = false;
-      this.options.positiveSwitch.hidden = false;
-      this.options.showLabel.hidden = false;
-      this.options.labelOverride.hidden = false;
-      this.trigger('registerOptions', this.options);
-}
-
-if (config.showComparison == false && this.options.valueLabels.hidden == false) {
-      this.options.valueLabels.hidden = true;
-      this.options.positiveSwitch.hidden = true;
-      this.options.showLabel.hidden = true;
-      this.options.labelOverride.hidden = true;
-      this.trigger('registerOptions', this.options);
-}
-
-  // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
-if (config.showLabel == true) { // Label override's switch
-  if (this.options.labelOverride.hidden == true) {
-      this.options.labelOverride.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-}
-
-if (config.showLabel == false) {
-  if (this.options.labelOverride.hidden == false) {
-      this.options.labelOverride.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
-}
-
-if (config.showComparison == true) {
-  if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
-     if (this.options.positiveSwitch.hidden == true) {
-          this.options.positiveSwitch.hidden = false;
-          this.trigger('registerOptions', this.options);
-      }
-  }
-
-  if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
-      if (this.options.positiveSwitch.hidden == false) {
-          this.options.positiveSwitch.hidden = true;
-          this.trigger('registerOptions', this.options);
-      }
-  }
-}
 
 
 /*********************************************************************************************************************************************************************
@@ -615,7 +488,7 @@ if (config.showComparison == false) { // Cleans up the visual when comparison is
 }
 console.log('This is hReturnValue after the editHeader function', hReturnValue);
 /*********************************************************************************************************
-  * Instatiation and Functions
+  * Instatiation
 *********************************************************************************************************/
 
 
@@ -632,6 +505,86 @@ if (config.valueFormat) {
   console.log('This is the valueReturn passed in (skipped formatvalue function)', lookValue);
   d3.select('div.djvsValue').html(lookValue.rendered);
   d3.select('div.djvsHeader').html(hReturnValue);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*********************************************************************************************************
+  * Configuration's show/hide functions
+*********************************************************************************************************/
+
+        /*/ SHOW/HIDING THE CONFIGURATION /*/
+if (config.showTitle == true) { // Show title's configuration, this is the title override
+  if (this.options.valueTitle.hidden == true) {
+      this.options.valueTitle.hidden = false;
+      this.trigger('registerOptions', this.options);
+  }
+}
+
+if (config.showTitle == false) {
+  if (this.options.valueTitle.hidden == false) {
+      this.options.valueTitle.hidden = true;
+      this.trigger('registerOptions', this.options); 
+  }
+}
+
+    // Okay we're passing these variables in unison, but we'll getr 
+if (config.showComparison == true && this.options.valueLabels.hidden == true) {
+      this.options.valueLabels.hidden = false;
+      this.options.positiveSwitch.hidden = false;
+      this.options.showLabel.hidden = false;
+      this.options.labelOverride.hidden = false;
+      this.trigger('registerOptions', this.options);
+}
+
+if (config.showComparison == false && this.options.valueLabels.hidden == false) {
+      this.options.valueLabels.hidden = true;
+      this.options.positiveSwitch.hidden = true;
+      this.options.showLabel.hidden = true;
+      this.options.labelOverride.hidden = true;
+      this.trigger('registerOptions', this.options);
+}
+
+  // After we use value labels to unify all the properties, let's reconfigure the unique hidden properties (Positive switch, and show label)
+if (config.showLabel == true) { // Label override's switch
+  if (this.options.labelOverride.hidden == true) {
+      this.options.labelOverride.hidden = false;
+      this.trigger('registerOptions', this.options);
+  }
+}
+
+if (config.showLabel == false) {
+  if (this.options.labelOverride.hidden == false) {
+      this.options.labelOverride.hidden = true;
+      this.trigger('registerOptions', this.options);
+  }
+}
+
+if (config.showComparison == true) {
+  if (config.valueLabels == 'compChan') { // Positive switch's hidden conditional (^:;
+     if (this.options.positiveSwitch.hidden == true) {
+          this.options.positiveSwitch.hidden = false;
+          this.trigger('registerOptions', this.options);
+      }
+  }
+
+  if (config.valueLabels == 'compVal' || config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') {
+      if (this.options.positiveSwitch.hidden == false) {
+          this.options.positiveSwitch.hidden = true;
+          this.trigger('registerOptions', this.options);
+      }
+  }
 }
 
 /*******************************************************************
