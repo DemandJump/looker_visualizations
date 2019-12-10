@@ -90,7 +90,7 @@ looker.plugins.visualizations.add({
         let stackKeys = []; 
         let stack;
         let stackedValues;
-        let stackedData;
+        let stackedData = [];
 
         let prevPer = [];
         let currPer = [];
@@ -130,14 +130,14 @@ looker.plugins.visualizations.add({
 
         }
 
-        stack = d3.stack().keys(stackKeys);
-        stackedValues = stack(data);
         // Copy stack back offsets back into the data
         stackedData = [];
-        grabValues(); 
-
-        createStack();
+        grabValues();
         formatDates();
+
+        stack = d3.stack().keys(stackKeys);
+        stackedValues = stack(data);
+        createStack();
 
 
         /*******************************************************
