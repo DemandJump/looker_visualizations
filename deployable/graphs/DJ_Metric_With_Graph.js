@@ -117,23 +117,17 @@ looker.plugins.visualizations.add({
         if (calculation == 'pivot') {
                 // Mutate the data so that it's side by side
             let pivotName = measures[0].name;
-
             data.forEach( (node, index) => {
                 let pp = node[pivotName]['Current Period'];
                 let cp = node[pivotName]['Previous Period'];
-
                 if (index < iterations) {
                     currPer.push(node[pivotName]['Current Period'].value);
                 } else {
                     prevPer.push(node[pivotName]['Previous Period'].value);
                 }
-
                 node['currentPeriod'] = pp;
                 node['previousPeriod'] = cp;
-
             });
-            console.log('This is the current period', currPer);
-            console.log('This is the Previous period', prevPer);
 
             for(let i = 0; i < iterations; i++) {
                 let obj = {
@@ -143,18 +137,14 @@ looker.plugins.visualizations.add({
                 newData.push(obj);
             }
             console.log('This is newData', newData);
-
             data = data.slice(0, iterations * -1);
         }
+        
 
-
-
-        // Copy stack back offsets back into the data
+            // Copy stack back offsets back into the data
         stackedData = [];
         grabValues();
         formatDates();
-
-
         stack = d3.stack().keys(stackKeys);
         if (calculation == 'pivot') {
             stackedValues = stack(newData);
