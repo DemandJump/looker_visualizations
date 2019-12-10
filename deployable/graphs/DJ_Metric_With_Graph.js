@@ -119,8 +119,8 @@ looker.plugins.visualizations.add({
             measures[1] = [];
             measures[1].name = 'previous_period';
             data.forEach((node, index) => {
-                node['current_period'] = previousPeriods[index];
-                node[measures[0].name] = currentPeriods[index];
+                node[measures[1].name] = previousPeriods[index];
+                node['current_period'] = currentPeriods[index];
             }); 
 
             console.log('This is the old data', data);
