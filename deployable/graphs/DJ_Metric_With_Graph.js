@@ -128,8 +128,8 @@ looker.plugins.visualizations.add({
                 data[i]['value1'] = prevPer[i];
                 data[i]['value0'] = currPer[i];
             }
-            if (calculation == 'pivot') data = data.slice(0, iterations * -1);
-            console.log('This is the new data', data);
+            if (calculation == 'pivot') newData = data.slice(0, iterations * -1);
+            console.log('This is the new data', newData);
 
         }
 
@@ -140,7 +140,7 @@ looker.plugins.visualizations.add({
 
 
         stack = d3.stack().keys(stackKeys);
-        stackedValues = stack(data);
+        stackedValues = stack(newData);
         createStack();
 
 
