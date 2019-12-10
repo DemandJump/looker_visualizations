@@ -113,14 +113,9 @@ looker.plugins.visualizations.add({
                 let pp = node[pivotName]['Current Period'];
                 let cp = node[pivotName]['Previous Period'];
 
-                console.log('This is the previous period', pp);
-                console.log('This is the current period', cp);
-
                 if (index < iterations) {
-                    console.log('This is the node pivotname', node[pivotName]['Current Period'].value);
                     currPer.push(node[pivotName]['Current Period'].value);
                 } else {
-                    console.log('This is the nod previous pivot name', node[pivotName]['Previous Period'].value);
                     prevPer.push(node[pivotName]['Previous Period'].value);
                 }
 
@@ -131,8 +126,9 @@ looker.plugins.visualizations.add({
             console.log('This is the current period', currPer);
             console.log('This is the Previous period', prevPer);
 
-            for(let i = 0; i < iterations.length; i++) {
-                console.log('This is value1', )
+            console.log('This is iterations', iterations);
+            for(let i = 0; i < iterations; i++) {
+                console.log('This is value1', );
                 data[i]['value1'] = prevPer[i];
                 data[i]['value0'] = currPer[i];
             }
