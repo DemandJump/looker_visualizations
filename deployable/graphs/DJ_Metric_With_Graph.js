@@ -127,11 +127,8 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < iterations; i++) {
                 data[i]['value1'] = prevPer[i];
                 data[i]['value0'] = currPer[i];
-
-                console.log('parsing to prev period', data[i][measures[0].name]['Previous Period']);
-                data[i][measures[0].name]['Previous Period'] = currPer[i];
             }
-            if (calculation == 'pivot') newData = data.slice(0, iterations * -1);
+            if (calculation == 'pivot') data = data.slice(0, iterations * -1);
             console.log('This is the new data', newData);
 
         }
@@ -258,7 +255,7 @@ looker.plugins.visualizations.add({
         // define the area
         let curve = d3.curveMonotoneX;
         let area = d3.area()
-            .curve(curve)  //Here
+            // .curve(curve)  //Here
             .x(dataPoint => x(dataPoint.date))
             // .y0(height)
             .y0(dataPoint => y(dataPoint.values[0]))
