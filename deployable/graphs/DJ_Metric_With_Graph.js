@@ -138,9 +138,12 @@ looker.plugins.visualizations.add({
 
         let newData = [];
         if (calculation == 'pivot') {
-            for(let i = 0; i < iterations; i++) {
-                newData[i] = data[i];
-            }
+            data.forEach((node, index) => {
+              if(index < iterations) {
+                  console.log('This is the node', node);
+                  newData[index] = node;
+              }
+            })
             console.log('This is the new data', newData);
         }
         stack = d3.stack().keys(stackKeys);
