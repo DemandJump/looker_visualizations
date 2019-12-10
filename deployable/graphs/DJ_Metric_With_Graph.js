@@ -349,7 +349,7 @@ looker.plugins.visualizations.add({
                 stackKeys.push(keyTwo); 
             }
 
-          console.log('These are the stack keys', stackKeys);
+            console.log('These are the stack keys', stackKeys);
         } // End of grabValues file
 
 
