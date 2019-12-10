@@ -109,9 +109,6 @@ looker.plugins.visualizations.add({
                 }
             });
         }
-        console.log('This is curPer', curPer);
-        console.log('This is prePer', prePer);
-
 
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
