@@ -92,10 +92,6 @@ looker.plugins.visualizations.add({
         let stack;
         let stackedValues;
         let stackedData = [];
-
-        let prevPer = [];
-        let currPer = [];
-
         let currentPeriods = [];
         let previousPeriods = [];
 
@@ -132,8 +128,6 @@ looker.plugins.visualizations.add({
         stackedData = [];
         grabValues();
         formatDates();
-
-
         stack = d3.stack().keys(stackKeys);
         stackedValues = stack(data);
         createStack();
