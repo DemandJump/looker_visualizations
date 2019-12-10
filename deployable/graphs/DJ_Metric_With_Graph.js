@@ -204,7 +204,7 @@ looker.plugins.visualizations.add({
         }
         
 
-        if (measures.length < 2) {
+        if (measures.length < 2 && calculation == 'measure') {
             changeComputation.html('');
         } else {
             console.log('measure 0 total', queryResponse.totals_data[measures[0].name].value);
