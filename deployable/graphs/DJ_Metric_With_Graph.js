@@ -98,6 +98,10 @@ looker.plugins.visualizations.add({
         let curPer = [];
         let prePer = [];
         if (calculation == 'pivot') {
+            if (measures.length < 2) {
+                measures[1] = []; 
+                measires[1].name = 'Current Period';
+            }
             data.forEach((node, index) => {
                 if (index < iterations) {
                     let cp = node[measures[0].name]['Current Period'];
