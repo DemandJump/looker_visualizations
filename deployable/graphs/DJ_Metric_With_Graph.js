@@ -80,6 +80,7 @@ looker.plugins.visualizations.add({
         let colors = ['rgba(0, 157, 233, 0.5)', 'rgba(62, 193, 115, 0.5)', 'rgba(56, 232, 131, 0.5)', 'rgba(74, 74, 255, 0.5)', 'rgba(22, 55, 150, 0.5)', 'rgba(92, 243, 255, 0.5)', 'rgba(249, 190, 61, 0.5)', 'rgba(226, 255, 110, 0.5)', 'rgba(172, 234, 73, 0.5)', 'rgba(255, 62, 95, 0.5)', 'rgba(172, 126, 183, 0.5)', 'rgba(92, 59, 195, 0.5)', 'rgba(82, 120, 206, 0.5)', 'rgba(161, 237, 255, 0.5)', 'rgba(5, 206, 90, 0.5)', 'rgba(74, 140, 4, 0.5)', 'rgba(58, 187, 207, 0.5)', 'rgba(236, 228, 40, 0.5)', 'rgba(153, 153, 153, 0.5)'];
         let max = -10000000000;
         let min = 100000000000;
+        let iterations = data.length / 2;
 
         maxAndMin();
         chartNames();
@@ -105,9 +106,6 @@ looker.plugins.visualizations.add({
                 if (count[pivotName]['Current Period'].value != null) currCounter++;
                 if (count[pivotName]['Previous Period'].value != null) prevCounter++;
             });
-            let iterations;
-            if (prevCounter >= currCounter) iterations = prevCounter;
-            if (currCounter >= prevCounter) iterations = currCounter;
 
             data.forEach( (node, index) => {
                 let pp = node[pivotName]['Current Period'];
@@ -126,9 +124,7 @@ looker.plugins.visualizations.add({
             console.log('This is the current period', currPer);
             console.log('This is the Previous period', prevPer);
 
-            console.log('This is iterations', iterations);
             for(let i = 0; i < iterations; i++) {
-                console.log('This is value1', );
                 data[i]['value1'] = prevPer[i];
                 data[i]['value0'] = currPer[i];
             }
