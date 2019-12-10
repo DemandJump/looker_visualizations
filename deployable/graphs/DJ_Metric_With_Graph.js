@@ -110,14 +110,13 @@ looker.plugins.visualizations.add({
             if (currCounter >= prevCounter) iterations = currCounter;
 
             data.forEach( (node, index) => {
-                console.log('This is the node', node);
 
                 let pp = node[pivotName]['Current Period'];
                 let cp = node[pivotName]['Previous Period'];
 
                 console.log('This is the previous period', pp);
                 console.log('This is the current period', cp);
-                
+
                 if (index < iterations) {
                     currPer.push(cp.value);
                 } else {
