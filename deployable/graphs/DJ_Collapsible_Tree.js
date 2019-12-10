@@ -258,14 +258,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
-  // root.children.forEach(collapse);
-  // function collapse(d) {
-  //   if(d.children) {
-  //     d._children = d.children
-  //     d._children.forEach(collapse)
-  //     d.children = null
-  //   }
-  // }
+  root.children.forEach(collapse);
+  function collapse(d) {
+    if(d.children) {
+      d._children = d.children
+      d._children.forEach(collapse)
+      d.children = null
+    }
+  }
   
   container.call(zoom_handler);
   let updatInit = 0;
