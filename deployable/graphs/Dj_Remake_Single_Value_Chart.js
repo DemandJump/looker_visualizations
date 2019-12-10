@@ -89,28 +89,6 @@ looker.plugins.visualizations.add({
               default: "small",
               hidden: true
           },
-          dh_fs_conditional: {
-              label: "Use default font size", 
-              type: "boolean", 
-              order: 15,
-              section: "Word Spacing",
-              default: true,
-              hidden: true
-          },
-          dh_fs: {
-              label: "Dynamic vh font size",
-              type: "string",
-              order: 16,
-              section: "Word Spacing",
-              display: "select",
-              values: [
-                  {"Small": "small"},
-                  {"Medium": "medium"},
-                  {"Large": "large"}
-              ],
-              default: "small",
-              hidden: true
-          },
 
 
           showComparison: {
@@ -188,12 +166,17 @@ create: function(element, config) {
                 display: block;
                 text-align: center;
                 font-size: 1.4rem;
+                position: absolute; 
+                transform: translate(-50%, -50%);
             }
 
             .djvsValue {
+                top: 50%;
+                left: 50%;
             }
-
             .djvsTitle {
+                top: 70%;
+                left: 50%;
                 color: #A5A9AA;
             }
         </style>
@@ -329,6 +312,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (calculation == 'pivot measure') headerRes = ppName;
   let hReturnValue = headerRes;
 
+  let font_style = 'word_break'; // wb: word break, vw: viewport width // 
+  let width = window.innerWidth;
+  if (window.innerWidth > 350) font_style = 'dynamic_size';
+
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
 *********************************************************************************************************************/    
@@ -386,28 +373,6 @@ if (config.text_spacing == "word_break") {
   }
 }
 
-if (config.text_spacing == "dynamic_height") {
-  if (this.options.dh_fs_conditional.hidden == true) {
-      this.options.dh_fs_conditional.hidden = false;
-
-      this.options.ds_fs_conditional.hidden = true;
-      this.options.ds_fs.hidden = true;
-      this.options.wb_fs_conditional.hidden = true; 
-      this.options.wb_fs.hidden = true;
-      this.trigger('registerOptions', this.options);
-
-  }
-
-  if (config.dh_fs_conditional == false && this.options.dh_fs.hidden == true) {
-      this.options.dh_fs.hidden = false;
-      this.trigger('registerOptions', this.options);
-  }
-  if (config.dh_fs_conditional == true && this.options.dh_fs.hidden == false) {
-      this.options.dh_fs.hidden = true;
-      this.trigger('registerOptions', this.options);
-  }
-}
-
 
 
 
@@ -422,7 +387,7 @@ let arrowFontPass = '1rem';  // Pass in the arrow font size based on the text co
 d3.select('div.djvsValue').style('color', config.color);  // This colors the text based on the option given
 
   // This is for the font-styling radio buttons
-if (config.text_spacing == "dynamic_size") { // based on whether the select statement for varying font size
+if (font_style == "dynamic_size") { // based on whether the select statement for varying font size // config.text_spacing == "dynamic_size"
     if (this.options.ds_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
         if (config.ds_fs == 'medium') {
             value_fs = '20.4vw';
@@ -443,7 +408,7 @@ if (config.text_spacing == "dynamic_size") { // based on whether the select stat
     }
 }
 
-if (config.text_spacing == "word_break") {
+if (font_style == "word_break") {
     if (this.options.wb_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
         if (config.wb_fs == 'small') {
             value_fs = '3rem';
@@ -464,26 +429,6 @@ if (config.text_spacing == "word_break") {
     }
 }
 
-if (config.text_spacing == "dynamic_height") {
-    if (this.options.dh_fs.hidden == false) { // If it's not hidden, then apply the dynamic font size 
-        if (config.dh_fs == 'medium') {
-            value_fs = '25vh';
-            title_fs = '11vh';
-            header_fs = '9vh';
-            arrowFontPass = '7vh';
-        } else if (config.dh_fs == 'large') {
-            value_fs = '34vh';
-            title_fs = '11.5vh';
-            header_fs = '10vh';
-            arrowFontPass = '9.4vh';
-        } else {
-            value_fs = '20vh';
-            title_fs = '9vh';
-            header_fs = '7.4vh';
-            arrowFontPass = '6.9vh';
-        }
-    }
-}
 
   // After changing the font settings, instantiate them here
 d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
