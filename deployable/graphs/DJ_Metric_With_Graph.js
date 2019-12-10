@@ -136,7 +136,7 @@ looker.plugins.visualizations.add({
         grabValues();
         formatDates();
 
-        if (calculation == 'pivot') data.splice(0, iterations);
+        if (calculation == 'pivot') data = data.splice(0, iterations);
         stack = d3.stack().keys(stackKeys);
         stackedValues = stack(data);
         createStack();
