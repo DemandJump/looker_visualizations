@@ -309,18 +309,12 @@ looker.plugins.visualizations.add({
         //     .attr("d", valueline);
 
         // add the X Axis
-        // let x = d3.scaleTime()
-        // .range([0, width])
-        // .domain(d3.extent(data, dataPoint => dataPoint.chartName));;
         // let xaxis = d3.axisBottom(x).ticks(data.length);
         // svg.append("g")
         //     .attr("transform", "translate(0," + height + ")")
         //     .call(xaxis);
 
         // add the Y Axis
-        let y = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, d3.max(stackedValues[stackedValues.length - 1], dp => dp[1])]);
         let yaxis = d3.axisLeft(y);
         svg.append("g")
             .call(yaxis);
