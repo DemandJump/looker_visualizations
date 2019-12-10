@@ -428,26 +428,6 @@ looker.plugins.visualizations.add({
                   .attr("d", stackArea);
 
           });
-
-                  // stackLayout();
-
-        // Highlighted area
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "area")
-        //     .attr("d", area);
-
-        // define the line
-        // let valueline = d3.line()
-        //     .x(dataPoint => x(dataPoint.chartName))
-        //     .y(dataPoint => y(dataPoint.value));
-
-        // // Add the line
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "line")
-        //     .attr("d", valueline);
-
       } // End of stackLayout
 
       function numberWithCommas(num) {
@@ -456,8 +436,6 @@ looker.plugins.visualizations.add({
 
 
 
-            
-
 
         /**************** Done! *****************/
         doneRendering()     // Always call done to indicate a visualization has finished rendering
@@ -465,37 +443,6 @@ looker.plugins.visualizations.add({
 }); // looker.plugins.visualizations
 
 
-
-                /* Notes on the y axis
-
-                    It's media responsive, and here's how it works
-            
-                        if the viewport has less than 50 pixels there's no y axis or x axis, it just shows the bro bars
-                            25px on the bottom, 12 on the top 
-
-                        if the viewporrt has more than 50 pixels the y's bottom is zero and top is whatever the max is set to, no middle values or x axis vals
-                            25px on the bottom, roughly 10 on the top
-
-                        if the viewport has 125 then 80 pixels the y has a min, max, and median value each given 40px spacing, no x values
-                            25px on the bottom, the rest of the spacing is from the top half of the text from the max y axis value
-
-                        if the viewport has 160 pixels it reverts to min and max values only, but with the labels for each chart appended to the table
-                            25px on the bottom, the rest follows suit
-
-                        if the viewport has 165 pixels it gives the color coded key and shruncates the spacing between the min and max to 35, all labels visible
-                            50 px for the labels of each bar, 35 for color coded key, 25px for bottom spacing
-
-                        then it seems from that point on it gives each a percent of the viewport for how much space they can take up, and sizing the elements for the chart's y axis and the labels accordingly
-                            the bottom has a max-height of 40px up to the colorcodingkeys, then everything gets distributed pixels to size their stuff! 
-                         
-
-                the spacing of the y-axis nodes should be in increments of 40 until you can fit all the increments and go from there. 
-
-
-
-                The y-axis side values run in queries of 10s, 50s, 100s, 500s, 1000s, then multiples of ten from here
-
-                */
 
 
 
