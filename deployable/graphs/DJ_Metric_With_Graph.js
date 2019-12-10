@@ -148,6 +148,8 @@ looker.plugins.visualizations.add({
                 }
             });
         }
+        console.log('This is curPer', curPer);
+        console.log('This is prePer', prePer);
 
         // Copy stack back offsets back into the data
         stackedData = [];
