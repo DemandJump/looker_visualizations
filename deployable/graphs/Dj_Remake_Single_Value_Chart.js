@@ -170,7 +170,7 @@ create: function(element, config) {
         <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
   `;
   d3.select(element)
-    .attr('class', 'djvsContainer')
+    .attr('class', 'djvsElement')
     .style('margin', '0')
     .style('padding', '0')
     .style('text-align', 'center');
@@ -310,6 +310,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
   if (element_spacing == 'dynamic_size') {
+      d3.select(.djvsElement)
+          .style('text-align', 'center')
+          .style('padding', '0')
+          .style('margin', 'auto');
       element.innerHTML = `
           <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
