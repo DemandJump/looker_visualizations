@@ -87,7 +87,6 @@ looker.plugins.visualizations.add({
         let calculation = 'measure';
         if (queryResponse.fields.pivots.length != 0) calculation = 'pivot';
 
-        let measureNames = [];
         let stackKeys = []; 
         let stack;
         let stackedValues;
@@ -122,25 +121,19 @@ looker.plugins.visualizations.add({
             });
 
             for(let i = 0; i < iterations.length; i++) {
-                data['prevPer'] = prevPer[i];
-                data['currPer'] = currPer[i]; 
+                data['value1'] = prevPer[i];
+                data['value0'] = currPer[i]; 
             }
 
-
-
-
-        } else {
-                // Format the measure data
-            grabValues(); 
-            formatDates();
-                // Create stack
-            stack = d3.stack().keys(stackKeys);
-            stackedValues = stack(data);
-            // Copy stack back offsets back into the data
-            stackedData = [];
-            createStack();
         }
-
+        
+        stack = d3.stack().keys(stackKeys);
+        stackedValues = stack(data);
+        // Copy stack back offsets back into the data
+        stackedData = [];
+        createStack();
+        grabValues(); 
+        formatDates();
 
 
         /*******************************************************
@@ -334,20 +327,22 @@ looker.plugins.visualizations.add({
 
 
         function grabValues() {
-            data.forEach(node => {
-                node['value'] = [];
-                measures.forEach( (mes, index) => {
-                    let name = `value${index}`;
-                    node[name] = node[mes.name].value;
-                    if(node[name] == 'null' || node[name] == null) node[name] = min;
-                });
-            }); // End of data loop
 
-            // Get all the stack keys
-            measures.forEach( (mes, index) => {
-              let key = `value${index}`;
-              stackKeys.push(key);
-          });
+            if(calculation == 'measure') {
+                data.forEach(node => {
+                    measures.forEach( (mes, index) => {
+                        let name = `value${index}`;
+                        node[name] = node[mes.name].value;
+                        if(node[name] == 'null' || node[name] == null) node[name] = min;
+                    });
+                }); // End of data loop
+
+                // Get all the stack keys
+                measures.forEach( (mes, index) => {
+                  let key = `value${index}`;
+                  stackKeys.push(key);
+                });
+            }
 
           console.log('These are the stack keys', stackKeys);
         } // End of grabValues file
