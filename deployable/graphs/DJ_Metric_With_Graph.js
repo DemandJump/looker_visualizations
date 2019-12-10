@@ -95,6 +95,32 @@ looker.plugins.visualizations.add({
 
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
+                // Mutate the data so that it's side by side
+            let pivotName = queryResponse.fields.pivots[0].name;
+            let currCounter = 0;
+            let prevCounter = 0;
+            let prevPer = [];
+            let currPer = [];
+            data.forEach(node => {
+                let pp = node[pivotName]['Current Period'].value;
+                let cp = node[pivotName]['Previous Period'].value;
+
+                if (pp != null) { 
+                    prevPer.push(pp);
+                    prevCounter++;
+                }
+                if (cp != null) {
+                    currPer.push(cp);
+                    currCounter++;
+                }
+            });
+
+            let iterations;
+            if (prevCounter >= currCounter) iterations = prevCounter;
+            if (currCounter >= prevCounter) iterations = currCounter;
+            for(let i = 0; i < iterations.length; i++) {
+                data[]
+            }
 
         } else {
                 // Format the measure data
@@ -315,6 +341,8 @@ looker.plugins.visualizations.add({
               let key = `value${index}`;
               stackKeys.push(key);
           });
+
+          console.log('These are the stack keys', stackKeys);
         } // End of grabValues file
 
 
