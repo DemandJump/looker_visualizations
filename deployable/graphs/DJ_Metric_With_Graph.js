@@ -137,8 +137,8 @@ looker.plugins.visualizations.add({
 
             for(let i = 0; i < iterations; i++) {
                 let obj = {
-                  value0: prevPer[i],
-                  value1: currPer[i]
+                  value1: prevPer[i],
+                  value0: currPer[i]
                 }
                 newData.push(obj);
             }
