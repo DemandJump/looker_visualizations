@@ -92,47 +92,53 @@ looker.plugins.visualizations.add({
         let stack;
         let stackedValues;
         let stackedData = [];
+
+        let prevPer = [];
+        let currPer = [];
+
         let currentPeriods = [];
         let previousPeriods = [];
 
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
-            let mesName = measures[0].name;
-            let currentPeriod;
-            let previousPeriod;
+                // Mutate the data so that it's side by side
+            let pivotName = measures[0].name;
 
-            data.forEach((node, index) => { // Store all the data
-                currentPeriod = node[measures[0].name]['Current Period'];
-                previousPeriod = node[measures[0].name]['Previous Period'];
+            data.forEach( (node, index) => {
+                let pp = node[pivotName]['Current Period'];
+                let cp = node[pivotName]['Previous Period'];
 
                 if (index < iterations) {
-                    currentPeriods.push(currentPeriod);
+                    currPer.push(node[pivotName]['Current Period'].value);
                 } else {
-                    previousPeriods.push(previousPeriod);
+                    prevPer.push(node[pivotName]['Previous Period'].value);
                 }
+
+                node['currentPeriod'] = pp;
+                node['previousPeriod'] = cp;
+
             });
+            console.log('This is the current period', currPer);
+            console.log('This is the Previous period', prevPer);
 
-            measures[1] = [];
-            measures[1].name = 'previous_period';
-            data.forEach((node, index) => {
-                node[measures[1].name] = previousPeriods[index];
-                node['current_period'] = currentPeriods[index];
-            }); 
-            console.log('This is the old data', data);
-
-
+            for(let i = 0; i < iterations; i++) {
+                data[i]['value1'] = prevPer[i];
+                data[i]['value0'] = currPer[i];
+            }
             if (calculation == 'pivot') data = data.slice(0, iterations * -1);
+
         }
 
         // Copy stack back offsets back into the data
         stackedData = [];
         grabValues();
         formatDates();
+
+
         stack = d3.stack().keys(stackKeys);
         stackedValues = stack(data);
         createStack();
 
-        console.log('This measures', measures);
 
         /*******************************************************
          * Visualization
@@ -199,7 +205,7 @@ looker.plugins.visualizations.add({
         }
         
 
-        if (measures.length < 2 || calculation == 'pivot') {
+        if (measures.length < 2) {
             changeComputation.html('');
         } else {
             console.log('measure 0 total', queryResponse.totals_data[measures[0].name].value);
@@ -356,12 +362,12 @@ looker.plugins.visualizations.add({
 
 
         function grabValues() {
+
+            if(calculation == 'measure') {
                 data.forEach(node => {
                     measures.forEach( (mes, index) => {
                         let name = `value${index}`;
                         node[name] = node[mes.name].value;
-                        console.log('This is the current node', node);
-                        console.log('This is the measure values', node[name]);
                         if(node[name] == 'null' || node[name] == null) node[name] = min;
                     });
                 }); // End of data loop
@@ -371,6 +377,12 @@ looker.plugins.visualizations.add({
                   let key = `value${index}`;
                   stackKeys.push(key);
                 });
+            } else {
+                let keyOne = `value0`;
+                let keyTwo = `value1`;
+                stackKeys.push(keyOne);
+                stackKeys.push(keyTwo); 
+            }
 
             console.log('These are the stack keys', stackKeys);
         } // End of grabValues file
