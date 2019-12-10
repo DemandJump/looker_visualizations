@@ -198,7 +198,7 @@ looker.plugins.visualizations.add({
         }
         
 
-        if (measures.length < 2 && calculation == 'measure') {
+        if (measures.length < 2 || calculation == 'pivot') {
             changeComputation.html('');
         } else {
             console.log('measure 0 total', queryResponse.totals_data[measures[0].name].value);
