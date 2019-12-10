@@ -100,7 +100,7 @@ looker.plugins.visualizations.add({
         if (calculation == 'pivot') {
             if (measures.length < 2) {
                 measures[1] = []; 
-                measires[1].name = 'Current Period';
+                measures[1].name = 'Current Period';
             }
             data.forEach((node, index) => {
                 if (index < iterations) {
