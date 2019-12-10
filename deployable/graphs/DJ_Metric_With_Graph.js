@@ -129,7 +129,6 @@ looker.plugins.visualizations.add({
                 data[i]['value0'] = currPer[i];
             }
             if (calculation == 'pivot') data = data.slice(0, iterations * -1);
-            console.log('This is the new data', newData);
 
         }
 
