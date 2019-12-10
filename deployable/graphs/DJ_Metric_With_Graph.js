@@ -73,28 +73,41 @@ looker.plugins.visualizations.add({
         /***********************************
          * Configuration
         ***********************************/
-        let max = -10000000000;
-        let min = 100000000000;
-        maxAndMin();
-        chartNames();
-        let measureNames = [];
         let strokeColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
         '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
         '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
          '#999999'];
         let colors = ['rgba(0, 157, 233, 0.5)', 'rgba(62, 193, 115, 0.5)', 'rgba(56, 232, 131, 0.5)', 'rgba(74, 74, 255, 0.5)', 'rgba(22, 55, 150, 0.5)', 'rgba(92, 243, 255, 0.5)', 'rgba(249, 190, 61, 0.5)', 'rgba(226, 255, 110, 0.5)', 'rgba(172, 234, 73, 0.5)', 'rgba(255, 62, 95, 0.5)', 'rgba(172, 126, 183, 0.5)', 'rgba(92, 59, 195, 0.5)', 'rgba(82, 120, 206, 0.5)', 'rgba(161, 237, 255, 0.5)', 'rgba(5, 206, 90, 0.5)', 'rgba(74, 140, 4, 0.5)', 'rgba(58, 187, 207, 0.5)', 'rgba(236, 228, 40, 0.5)', 'rgba(153, 153, 153, 0.5)'];
+        let max = -10000000000;
+        let min = 100000000000;
 
-        colorCodingKeys();
-        let stackKeys = []; 
-        grabValues(); 
-        formatDates();
+        maxAndMin();
+        chartNames();
         
-        // Create stack
-        let stack = d3.stack().keys(stackKeys);
-        let stackedValues = stack(data);
-        // Copy stack back offsets back into the data
-        let stackedData = [];
-        createStack();
+        let calculation = 'measure';
+        if (queryResponse.fields.pivots.length != 0) calculation = 'pivot';
+
+        let measureNames = [];
+        let stackKeys = []; 
+        let stack;
+        let stackedValues;
+        let stackedData;
+
+              // We need to create two different stacks based on whether it's measures or a pivot calculation
+        if (calculation == 'pivot') {
+
+        } else {
+                // Format the measure data
+            grabValues(); 
+            formatDates();
+                // Create stack
+            stack = d3.stack().keys(stackKeys);
+            stackedValues = stack(data);
+            // Copy stack back offsets back into the data
+            stackedData = [];
+            createStack();
+        }
+
 
 
         /*******************************************************
@@ -156,7 +169,7 @@ looker.plugins.visualizations.add({
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
         if (queryResponse.fields.pivots.length != 0) { // If it's a pivot calculation
-            metric.html()
+            // metric.html()
         } else {
             metric.html(queryResponse.totals_data[measures[0].name].html);
         }
@@ -241,47 +254,28 @@ looker.plugins.visualizations.add({
             .attr("d", d => area(d));
 
 
-
-        // stackLayout();
-
-        // Highlighted area
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "area")
-        //     .attr("d", area);
-
-        // define the line
-        // let valueline = d3.line()
-        //     .x(dataPoint => x(dataPoint.chartName))
-        //     .y(dataPoint => y(dataPoint.value));
-
-        // // Add the line
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "line")
-        //     .attr("d", valueline);
-
-        // add the X Axis
-        // let xaxis = d3.axisBottom(x).ticks(data.length);
-        // svg.append("g")
-        //     .attr("transform", "translate(0," + height + ")")
-        //     .call(xaxis);
-
-        // // add the Y Axis
-        // let yaxis = d3.axisLeft(y);
-        // svg.append("g")
-        //     .call(yaxis);
-        
         /************************************************************************
          * Functions
         ************************************************************************/
         function maxAndMin() {
-            data.forEach(node => {
-                measures.forEach(mes => {
-                    if (node[mes.name].value < min) min = node[mes.name].value;
-                    if (node[mes.name].value > max) max = node[mes.name].value;
-                });       
-            });
+            if (queryResponse.fields.pivots.length != 0) {
+                data.forEach(node => {
+                    queryResponse.fields.pivots.forEach(piv => {
+                        if (node[piv.name]['Current Period'].value < min) min = node[piv.name]['Current Period'].value;
+                        if (node[piv.name]['Current Period'].value > max) max = node[piv.name]['Current Period'].value;
+
+                        if (node[piv.name]['Previous Period'].value < min) min = node[piv.name]['Previous Period'].value;
+                        if (node[piv.name]['Previous Period'].value > max) max = node[piv.name]['Previous Period'].value;
+                    })
+                })
+            } else {
+                data.forEach(node => {
+                    measures.forEach(mes => {
+                        if (node[mes.name].value < min) min = node[mes.name].value;
+                        if (node[mes.name].value > max) max = node[mes.name].value;
+                    });       
+                }); 
+            }
             if (min == 'null' || min == null) min = 0;
             // console.log(`This is the max: ${max}, and this is the min: ${min}`);
         } // End of maxAndMin
@@ -289,20 +283,6 @@ looker.plugins.visualizations.add({
 
         function chartNames() { 
             data.forEach(node => {
-                if(queryResponse.fields.pivots.length != 0) { // If they're using a pivot
-                    queryResponse.fields.pivots.forEach( (pdiv, index) => {
-                        let chartValue = `${node[pdiv.name].value}`;
-                        if (index == 0) {
-                            node.chartValue = chartValue;
-                        } else {
-                            if (index != queryResponse.fields.pivots.length - 1) {
-                                node.chartValue = node.chartValue + chartValue + '-';
-                            } else {
-                                node.chartValue = node.chartValue + chartValue;
-                            }
-                        }
-                    });
-                } else { // if it's dimensions
                     dimensions.forEach( (dim, index) => {
                         let chartValue = `${node[dim.name].value}`;
                         if (index == 0) {
@@ -315,22 +295,9 @@ looker.plugins.visualizations.add({
                             }
                         }
                     });
-                }
 
             }); // End of data
         } // End of chartNames function
-
-
-        function colorCodingKeys() {
-            measures.forEach( (mes, index) => {
-                color = '#999999';
-                if (index < colors.length) color = colors[index];
-                measureNames[index] = {
-                    name: mes.label_short,
-                    color: color
-                };
-            });
-        } // End of colorCodingKeys
 
 
         function grabValues() {
