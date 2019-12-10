@@ -359,6 +359,8 @@ looker.plugins.visualizations.add({
                     measures.forEach( (mes, index) => {
                         let name = `value${index}`;
                         node[name] = node[mes.name].value;
+                        console.log('This is the current node', node);
+                        console.log('This is the measure values', node[name]);
                         if(node[name] == 'null' || node[name] == null) node[name] = min;
                     });
                 }); // End of data loop
