@@ -108,7 +108,7 @@ looker.plugins.visualizations.add({
 
             let prevPer = [];
             let currPer = [];
-            data.forEach(node => {
+            data.forEach( (node, index) => {
                 let pp = node[pivotName]['Current Period'].value;
                 let cp = node[pivotName]['Previous Period'].value;
 
