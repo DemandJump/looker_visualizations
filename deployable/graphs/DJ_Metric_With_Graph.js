@@ -92,15 +92,9 @@ looker.plugins.visualizations.add({
         let stack;
         let stackedValues;
         let stackedData = [];
-
         let prevPer = [];
         let currPer = [];
-
-        let currentPeriods = [];
-        let previousPeriods = [];
-
         let newData = [];
-
         let curPer = [];
         let prePer = [];
         if (calculation == 'pivot') {
@@ -143,14 +137,14 @@ looker.plugins.visualizations.add({
 
             for(let i = 0; i < iterations; i++) {
                 let obj = {
-                  value1: prevPer[i],
-                  value0: currPer[i]
+                  value0: prevPer[i],
+                  value1: currPer[i]
                 }
                 newData.push(obj);
             }
             console.log('This is newData', newData);
-            if (calculation == 'pivot') data = data.slice(0, iterations * -1);
 
+            data = data.slice(0, iterations * -1);
         }
 
 
@@ -162,7 +156,7 @@ looker.plugins.visualizations.add({
 
 
         stack = d3.stack().keys(stackKeys);
-        stackedValues = stack(data);
+        stackedValues = stack(newData);
         createStack();
 
 
