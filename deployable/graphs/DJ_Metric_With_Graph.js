@@ -122,7 +122,6 @@ looker.plugins.visualizations.add({
                 node[measures[1].name] = previousPeriods[index];
                 node['current_period'] = currentPeriods[index];
             }); 
-
             console.log('This is the old data', data);
 
 
