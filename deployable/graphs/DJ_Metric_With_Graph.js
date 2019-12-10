@@ -101,6 +101,24 @@ looker.plugins.visualizations.add({
 
         let newData = [];
 
+        let curPer = [];
+        let prePer = [];
+        if (calculation == 'pivot') {
+            data.forEach((node, index) => {
+                if (index < iterations) {
+                    let cp = node[measures[0].name]['Current Period'];
+                    curPer.push(cp);
+                }
+                if (index > iterations) {
+                    let pp = node[measures[0].name]['Previous Period'];
+                    prePer.push(pp);
+                }
+            });
+        }
+        console.log('This is curPer', curPer);
+        console.log('This is prePer', prePer);
+        
+
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
                 // Mutate the data so that it's side by side
@@ -128,6 +146,7 @@ looker.plugins.visualizations.add({
                   value1: prevPer[i],
                   value0: currPer[i]
                 }
+                newData.push(obj)l
             }
             console.log('This is newData', newData);
             if (calculation == 'pivot') data = data.slice(0, iterations * -1);
@@ -135,22 +154,6 @@ looker.plugins.visualizations.add({
         }
 
 
-        let curPer = [];
-        let prePer = [];
-        if (calculation == 'pivot') {
-            data.forEach((node, index) => {
-                if (index < iterations) {
-                    let cp = node[measures[0].name]['Current Period'];
-                    curPer.push(cp);
-                }
-                if (index > iterations) {
-                    let pp = node[measures[0].name]['Previous Period'];
-                    prePer.push(pp);
-                }
-            });
-        }
-        console.log('This is curPer', curPer);
-        console.log('This is prePer', prePer);
 
         // Copy stack back offsets back into the data
         stackedData = [];
