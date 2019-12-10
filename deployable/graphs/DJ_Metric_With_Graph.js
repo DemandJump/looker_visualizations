@@ -124,20 +124,20 @@ looker.plugins.visualizations.add({
             console.log('This is the current period', currPer);
             console.log('This is the Previous period', prevPer);
 
-            for(let i = 0; i < iterations; i++) {
-                data[i]['value1'] = prevPer[i];
-                data[i]['value0'] = currPer[i];
-            }
-
-            if (calculation == 'pivot') data = data.slice(0, iterations * -1);
-            console.log('This is the new data', data);
-
         }
 
         // Copy stack back offsets back into the data
         stackedData = [];
         grabValues();
         formatDates();
+
+
+            for(let i = 0; i < iterations; i++) {
+                data[i]['value1'] = prevPer[i];
+                data[i]['value0'] = currPer[i];
+            }
+            if (calculation == 'pivot') data = data.slice(0, iterations * -1);
+            console.log('This is the new data', data);
 
 
         stack = d3.stack().keys(stackKeys);
@@ -315,9 +315,9 @@ looker.plugins.visualizations.add({
         //     .call(xaxis);
 
         // add the Y Axis
-        let yaxis = d3.axisLeft(y);
-        svg.append("g")
-            .call(yaxis);
+        // let yaxis = d3.axisLeft(y);
+        // svg.append("g")
+        //     .call(yaxis);
 
 
         /************************************************************************
