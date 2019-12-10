@@ -106,8 +106,8 @@ looker.plugins.visualizations.add({
             let previousPeriod;
 
             data.forEach((node, index) => { // Store all the data
-                currentPeriod = node[pivotName]['Current Period'];
-                previousPeriod = node[pivotName]['Previous Period'];
+                currentPeriod = node[measures[0].name]['Current Period'];
+                previousPeriod = node[measures[0].name]['Previous Period'];
 
                 if (index < iterations) {
                     currentPeriods.push(currentPeriod);
