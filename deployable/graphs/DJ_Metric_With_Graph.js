@@ -127,6 +127,7 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < iterations; i++) {
                 data[i]['value1'] = prevPer[i];
                 data[i]['value0'] = currPer[i];
+                data[i][measures[0].name]['Previous Periods'] = currPer[i];
             }
             if (calculation == 'pivot') newData = data.slice(0, iterations * -1);
             console.log('This is the new data', newData);
