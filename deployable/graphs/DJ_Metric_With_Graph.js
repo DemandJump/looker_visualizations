@@ -139,7 +139,7 @@ looker.plugins.visualizations.add({
             console.log('This is newData', newData);
             data = data.slice(0, iterations * -1);
         }
-        
+
 
             // Copy stack back offsets back into the data
         stackedData = [];
@@ -303,24 +303,6 @@ looker.plugins.visualizations.add({
             .attr("d", d => area(d));
 
 
-        // stackLayout();
-
-        // Highlighted area
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "area")
-        //     .attr("d", area);
-
-        // define the line
-        // let valueline = d3.line()
-        //     .x(dataPoint => x(dataPoint.chartName))
-        //     .y(dataPoint => y(dataPoint.value));
-
-        // // Add the line
-        // svg.append("path")
-        //     .datum(data)
-        //     .attr("class", "line")
-        //     .attr("d", valueline);
 
         // add the X Axis
         // let xaxis = d3.axisBottom(x).ticks(data.length);
@@ -446,6 +428,26 @@ looker.plugins.visualizations.add({
                   .attr("d", stackArea);
 
           });
+
+                  // stackLayout();
+
+        // Highlighted area
+        // svg.append("path")
+        //     .datum(data)
+        //     .attr("class", "area")
+        //     .attr("d", area);
+
+        // define the line
+        // let valueline = d3.line()
+        //     .x(dataPoint => x(dataPoint.chartName))
+        //     .y(dataPoint => y(dataPoint.value));
+
+        // // Add the line
+        // svg.append("path")
+        //     .datum(data)
+        //     .attr("class", "line")
+        //     .attr("d", valueline);
+
       } // End of stackLayout
 
       function numberWithCommas(num) {
