@@ -99,6 +99,8 @@ looker.plugins.visualizations.add({
         let currentPeriods = [];
         let previousPeriods = [];
 
+        let newData = [];
+
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
                 // Mutate the data so that it's side by side
@@ -122,9 +124,10 @@ looker.plugins.visualizations.add({
             console.log('This is the Previous period', prevPer);
 
             for(let i = 0; i < iterations; i++) {
-                data[i]['value1'] = prevPer[i];
-                data[i]['value0'] = currPer[i];
+                newData[i]['value1'] = prevPer[i];
+                newData[i]['value0'] = currPer[i];
             }
+            console.log('This is newData', newData);
             if (calculation == 'pivot') data = data.slice(0, iterations * -1);
 
         }
@@ -251,7 +254,7 @@ looker.plugins.visualizations.add({
         // define the area
         let curve = d3.curveMonotoneX;
         let area = d3.area()
-            // .curve(curve)  //Here
+            .curve(curve)  //Here
             .x(dataPoint => x(dataPoint.date))
             // .y0(height)
             .y0(dataPoint => y(dataPoint.values[0]))
