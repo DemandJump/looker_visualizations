@@ -245,7 +245,7 @@ looker.plugins.visualizations.add({
                 let divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
             }
 
-            let percent = divi.toFixed(2);
+            percent = divi.toFixed(2);
             let rendiff = numberWithCommas(diff);
 
             if (diff < 0) arrowDirection = false;
