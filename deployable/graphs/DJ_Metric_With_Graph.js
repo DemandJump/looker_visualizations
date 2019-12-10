@@ -355,8 +355,6 @@ looker.plugins.visualizations.add({
 
 
         function grabValues() {
-
-            if(calculation == 'measure') {
                 data.forEach(node => {
                     measures.forEach( (mes, index) => {
                         let name = `value${index}`;
@@ -370,12 +368,6 @@ looker.plugins.visualizations.add({
                   let key = `value${index}`;
                   stackKeys.push(key);
                 });
-            } else {
-                let keyOne = `value0`;
-                let keyTwo = `value1`;
-                stackKeys.push(keyOne);
-                stackKeys.push(keyTwo); 
-            }
 
             console.log('These are the stack keys', stackKeys);
         } // End of grabValues file
