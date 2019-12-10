@@ -142,7 +142,8 @@ looker.plugins.visualizations.add({
                 if (index < iterations) {
                     let cp = node[measures[0].name]['Current Period'];
                     curPer.push(cp);
-                } else {
+                }
+                if (index > iterations) {
                     let pp = node[measures[0].name]['Previous Period'];
                     prePer.push(pp);
                 }
