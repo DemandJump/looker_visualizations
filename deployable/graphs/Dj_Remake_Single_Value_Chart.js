@@ -160,40 +160,13 @@ create: function(element, config) {
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
             .djvsValue:hover { text-decoration: underline; }
             div { font-weight: 300; font-family: 'Roboto'; }
-
-            .djvsValue, djvsTitle {
-                margin: auto;
-                display: block;
-                text-align: center;
-                font-size: 1.4rem;
-                position: absolute; 
-                transform: translate(-50%, -50%);
-            }
-
-            .djvsValue {
-                top: 50%;
-                left: 50%;
-            }
-            .djvsTitle {
-                top: 70%;
-                left: 50%;
-                color: #A5A9AA;
-            }
         </style>
 
-        <!--
         <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
             <div class="djvsValue" style="margin: auto;  display: block;  position: relative;  font-size: 9vw;  font-style: normal;"></div>
             <div class="djvsTitle" style="margin: auto;  display: block;  position: relative;  font-size: 1.6rem;  color: #A5A9AA;"></div>
         </div>
-        -->
 
-        <div class="djvsValue">
-        </div>
-        <div class="djvsTitle">
-        </div>
-
-        
         <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
   `;
   d3.select(element)
@@ -313,8 +286,45 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let hReturnValue = headerRes;
 
   let font_style = 'word_break'; // wb: word break, vw: viewport width // 
-  let width = window.innerWidth;
   if (window.innerWidth < 350) font_style = 'dynamic_size';
+  let element_spacing = 'word_break';
+  if (window.innerHeight < 150) element_spacing = 'dynamic_size';
+
+
+
+  if (element_spacing == 'word_break') {
+      element.innerHTML = `
+          <style>  
+              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+              .djvsValue:hover { text-decoration: underline; }
+              div { font-weight: 300; font-family: 'Roboto'; }
+          </style>
+
+          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div class="djvsValue" style="margin: auto;  display: block;  position: relative;  font-size: 9vw;  font-style: normal;"></div>
+              <div class="djvsTitle" style="margin: auto;  display: block;  position: relative;  font-size: 1.6rem;  color: #A5A9AA;"></div>
+          </div>
+
+          <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
+      `;
+  }
+
+  if (element_spacing == 'dynamic_size') {
+      element.innerHTML = `
+          <style>  
+              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+              .djvsValue:hover { text-decoration: underline; }
+              div { font-weight: 300; font-family: 'Roboto'; }
+          </style>
+
+          <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  text-align: center; padding: 0;">
+              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;"></div>
+              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;"></div>
+          </div>
+
+          <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
+      `;
+  }
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
