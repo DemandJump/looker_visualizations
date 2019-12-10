@@ -313,7 +313,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       d3.select(.djvsElement)
           .style('text-align', 'center')
           .style('padding', '0')
-          .style('margin', 'auto');
+          .style('margin', '0')
+          .style('display', 'block');
       element.innerHTML = `
           <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
