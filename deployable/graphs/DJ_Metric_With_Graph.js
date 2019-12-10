@@ -92,6 +92,9 @@ looker.plugins.visualizations.add({
         let stackedValues;
         let stackedData;
 
+        let prevPer = [];
+        let currPer = [];
+
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
                 // Mutate the data so that it's side by side
@@ -106,16 +109,14 @@ looker.plugins.visualizations.add({
             if (prevCounter >= currCounter) iterations = prevCounter;
             if (currCounter >= prevCounter) iterations = currCounter;
 
-            let prevPer = [];
-            let currPer = [];
             data.forEach( (node, index) => {
-                let pp = node[pivotName]['Current Period'].value;
-                let cp = node[pivotName]['Previous Period'].value;
+                let pp = node[pivotName]['Current Period'];
+                let cp = node[pivotName]['Previous Period'];
 
                 if (index < iterations) {
-                    currPer.push(cp);
+                    currPer.push(cp.value);
                 } else {
-                    prevPer.push(pp);
+                    prevPer.push(pp.value);
                 }
 
                 node['currentPeriod'] = pp;
@@ -123,8 +124,8 @@ looker.plugins.visualizations.add({
             });
 
             for(let i = 0; i < iterations.length; i++) {
-                data['value1'] = prevPer[i];
-                data['value0'] = currPer[i]; 
+                data[i]['value1'] = prevPer[i];
+                data[i]['value0'] = currPer[i]; 
             }
 
         }
@@ -134,7 +135,7 @@ looker.plugins.visualizations.add({
         // Copy stack back offsets back into the data
         stackedData = [];
         grabValues(); 
-        
+
         createStack();
         formatDates();
 
