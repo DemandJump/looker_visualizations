@@ -118,6 +118,8 @@ looker.plugins.visualizations.add({
                     prevPer.push(pp);
                 }
 
+                node['currentPeriod'] = pp;
+                node['previousPeriod'] = cp;
             });
 
             for(let i = 0; i < iterations.length; i++) {
