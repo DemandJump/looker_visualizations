@@ -126,7 +126,7 @@ looker.plugins.visualizations.add({
             }
 
         }
-        
+
         stack = d3.stack().keys(stackKeys);
         stackedValues = stack(data);
         // Copy stack back offsets back into the data
@@ -286,7 +286,7 @@ looker.plugins.visualizations.add({
         function maxAndMin() {
             if (queryResponse.fields.pivots.length != 0) {
                 data.forEach(node => {
-                    queryResponse.fields.pivots.forEach(piv => {
+                    measures.forEach(piv => {
                         if (node[piv.name]['Current Period'].value < min) min = node[piv.name]['Current Period'].value;
                         if (node[piv.name]['Current Period'].value > max) max = node[piv.name]['Current Period'].value;
 
