@@ -133,8 +133,9 @@ looker.plugins.visualizations.add({
         stackedValues = stack(data);
         // Copy stack back offsets back into the data
         stackedData = [];
-        createStack();
         grabValues(); 
+        
+        createStack();
         formatDates();
 
 
