@@ -7,6 +7,7 @@
     options: {
       aResetColors: {
         label: 'Use default colors',
+        order: 0,
         type: 'boolean', 
         section: 'Styling',
         default: false
@@ -160,8 +161,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       this._counter ++;
       this.trigger('registerOptions', this.options);
     }
-
-    if (config.collapseDepth) { if (config.collapseDepth != this._collapseAmount) changed = true; }
+    
+    if (dimensions.length != this._collapseAmount) changed = true; 
     console.log('This is changed', changed);
     if (changed) this.trigger('registerOptions', this.options);
 
@@ -520,7 +521,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         dimensions.forEach((dimension, index) => {
             configuration[dimension.name] = {
                 label: dimension.name, 
-                order: index,
+                order: index + 1,
                 type: 'string',
                 section: 'Styling',
                 display: 'color',
@@ -550,8 +551,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         
         let dimensionLength = dimensions.length; 
         for(let i = 0; i < dimensionLength; i++) {
-            let key = i;
-            let valuepair = i; 
+            let key = toString(i);
+            let valuepair = toString(i); 
             let val = {};
             val[key] = valuepair;
             configuration['collapseDepth'].values.push(val);
