@@ -317,21 +317,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         * Visual's Functions Section *
     *******************************************************/
    function zoomTo(v) {
-    // console.log('zoomTo function: v', v); // coordinates and scale
-    const k = width / v[2]; // Divide the size of the svg based on the scale of the size
-    view = v;
+      // console.log('zoomTo function: v', v); // coordinates and scale
+      const k = width / v[2]; // Divide the size of the svg based on the scale of the size
+      view = v;
 
-    label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    label4.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
-    node.attr("r", d => {
-        d.nr = d.r * k; // Variable to hold the changing radius size 
-        return d.r * k;
-    }); // This changes the size of the nodes with reference to the change of the camera
-
-}
+      label.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+      label2.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+      label3.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+      label4.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+      node.attr("transform", d => `translate(${(d.x - v[0]) * k},${(d.y - v[1]) * k})`);
+      node.attr("r", d => {
+          d.nr = d.r * k; // Variable to hold the changing radius size 
+          return d.r * k;
+      }); // This changes the size of the nodes with reference to the change of the camera
+   }
 
     function zoom(d) {          
         const focus0 = focus;
@@ -738,11 +737,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-        // console.log('This is the maxDepth', maxDepth);
-
             // Init the breadcrumbs
-        for(let i = 0; i < breadCrumbIds.length; i++) {
-            let h = i * 40;
+            let h = 40;
             let spacing = `${h}px`
             d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
@@ -750,26 +746,53 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .style('position', 'absolute')
                 .style('top', spacing)
                 .style('left', 0)
+                .style('top', 40)
                 .style('z-index', 1)
                 .style('height', '40px')
                 .html(` `);
-        } // end of for loop
-        for(let i = 0; i < breadCrumbIds.length; i++) {
-            let h = i * 40;
-            let id = `#${breadCrumbIds[i]}`;
-            d3.select(id).style('top', h);
-        }
 
-        let id = `#bc${d.depth}`;
-        d3.select(id).html(d.data.name);
+        let breadcrumb = `${d.data.name}`;
         let node = d;
         for(let i = d.depth; i > 1; i--) {
             node = node.parent;
-            id = `#bc${i - 1}`;
-            d3.select(id).html(node.data.name);
+            breadcrumb = breadcrumb + node.data.name;
         }
-
+        d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
+    // function initBreadCrumbs(d) {
+    //     d3.select('.breadcrumbContainer').selectAll("*").remove(); 
+    //     // console.log('This is the maxDepth', maxDepth);
+
+    //         // Init the breadcrumbs
+    //     for(let i = 0; i < breadCrumbIds.length; i++) {
+    //         let h = i * 40;
+    //         let spacing = `${h}px`
+    //         d3.select('.breadcrumbContainer').append('div')
+    //             .attr('class', 'breadcrumbs')
+    //             .attr('id', breadCrumbIds[i])
+    //             .style('position', 'absolute')
+    //             .style('top', spacing)
+    //             .style('left', 0)
+    //             .style('z-index', 1)
+    //             .style('height', '40px')
+    //             .html(` `);
+    //     } // end of for loop
+    //     for(let i = 0; i < breadCrumbIds.length; i++) {
+    //         let h = i * 40;
+    //         let id = `#${breadCrumbIds[i]}`;
+    //         d3.select(id).style('top', h);
+    //     }
+
+    //     let id = `#bc${d.depth}`;
+    //     d3.select(id).html(d.data.name);
+    //     let node = d;
+    //     for(let i = d.depth; i > 1; i--) {
+    //         node = node.parent;
+    //         id = `#bc${i - 1}`;
+    //         d3.select(id).html(node.data.name);
+    //     }
+
+    // } // End of initBreadCrumbs
 
     /*******************************************************
         * Taxonomy Functions Section *
