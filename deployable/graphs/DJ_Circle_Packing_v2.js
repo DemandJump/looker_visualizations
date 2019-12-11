@@ -736,7 +736,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         } // End of for loop
     } // End of configureDimensions
 
-    function initBreadCrumbs(d) {
+    function initBreadCrumbss(d) {
         d3.select('.breadcrumbContainer').selectAll("*").remove(); 
             // Init the breadcrumbs
             let h = 40;
@@ -760,7 +760,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
 
-    function breadCrumbLinks(d) {
+    function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll('*').remove();
         d3.select('.breadcrumbContainer').style('display', 'inline-block');
 
