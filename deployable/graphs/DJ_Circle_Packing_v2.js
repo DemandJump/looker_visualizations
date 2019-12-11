@@ -803,11 +803,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function crumbZoom(d) {
         console.log('This is crumb zoom d: ', d);
         let bcSelect = nodes.filter(node => d.index == node.index);
-        console.log('This is the filtered node!', bcselect);
+        console.log('This is the filtered node!', bcSelect);
         zoomThenRefactor(bsSelect);
 
         // let id = `#${d.index}`;
-        simulateClick(document.getElementById(`${d.index}`), 'click');
+        // simulateClick(document.getElementById(`${d.index}`), 'click');
     }
 
     // function initBreadCrumbs(d) {
