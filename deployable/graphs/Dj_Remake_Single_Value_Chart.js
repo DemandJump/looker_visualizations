@@ -173,7 +173,9 @@ create: function(element, config) {
     .attr('class', 'djvsElement')
     .style('margin', '0')
     .style('padding', '0')
-    .style('text-align', 'center');
+    .style('text-align', 'center')
+    .style('width', '100%')
+    .style('height', '100%');
 // .value -> max-width: 344px; color: rgba(58, 66, 69, 0.5);
   
 },
