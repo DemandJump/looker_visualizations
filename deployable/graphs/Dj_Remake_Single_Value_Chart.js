@@ -304,7 +304,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
               .djvsValue:hover { text-decoration: underline; }
-              div { font-weight: 300; font-family: 'Roboto'; }
+              div { font-weight: 300; font-family: 'Roboto'; margin: 0; padding: 0; text-align: center; }
           </style>
 
           <!--
