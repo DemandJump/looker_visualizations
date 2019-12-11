@@ -187,6 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
     let nodes = root.descendants().slice(1);
+    nodes.forEach((node, index) => node.id = i);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
     root.data.name = root.children[0].data.name; // Grab the unpackaged data's name
 
@@ -235,7 +236,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const node = svg.append("g")
         .attr('class', 'nodes')
         .selectAll("circle")
-        .data(nodes, function(d) { return d} ).enter()
+        .data(nodes, function(d) { return d.id} ).enter()
         .append("circle") 
             .attr('class', 'node')
             .attr('id', d => { if(d.data.id) { if(d.data.id == 'tether') return 'tether'; } })
