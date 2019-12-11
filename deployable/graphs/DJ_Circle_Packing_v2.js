@@ -793,9 +793,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               console.log('This is d', d);
               return d.breadCrumbId;
             })
-            .html(`Bread crumb with id of: ${d.breadCrumbId}`);   
-                
-        breadCrumbs.on("click", d => crumbZoom(d));
+            .html(`Bread crumb with id of: ${d.breadCrumbId}`)
+            .on("click", d => {
+              console.log('This is the click function data: ', d);
+              return crumbZoom(d)
+            });
     }
 
     function crumbZoom(d) {
