@@ -17,8 +17,10 @@
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
     this._counter = 0;
-    this._hidden = false // Set it to true for the commented out options values
-    this._resetColors = true 
+    this._hidden = false; // Set it to true for the commented out options values
+    this._resetColors = true;
+    this._collapseAmount = 0;
+
 
   d3.select('body')
       .style('position', 'fixed')
@@ -213,14 +215,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.x0 = height / 2;
     root.y0 = 0;
 
-  // console.log('root', root);
-    // Collapse the nodes, or comment this out to see the whole layout
+
+  if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
   root.children.forEach(collapse);
   function collapse(d) {
     if(d.children) {
-      d._children = d.children
-      d._children.forEach(collapse)
-      d.children = null
+      if (d.depth > this._collapseAmount) d._children = d.children;
+      d._children.forEach(collapse);
+      if (d.depth > this._collapseAmount) d.children = null;
     }
   }
   
@@ -530,9 +532,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function configureSettings() {
           // This is a loop for all the dimensions to color 
-        dimensions.forEach(dimension => {
+        dimensions.forEach((dimension, index) => {
             configuration[dimension.name] = {
                 label: dimension.name, 
+                order: index,
                 type: 'string',
                 section: 'Styling',
                 display: 'color',
@@ -544,6 +547,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           // This is the color for the measures altogether
         configuration['djdh_measures'] = {
             label: 'measures',
+            order: 11,
             type: 'string',
             section: 'Styling', 
             display: 'color',
@@ -552,6 +556,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         configuration['collapseDepth'] = {
             label: 'Expand the tree out multiple levels',
+            order: 12,
             type: 'string',
             sections: 'Styling',
             display: 'select',
