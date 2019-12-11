@@ -546,13 +546,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             type: 'string',
             sections: 'Styling',
             display: 'select',
-            values: []
+            values: [],
+            default: '0'
         };
         
         let dimensionLength = dimensions.length; 
         for(let i = 0; i < dimensionLength; i++) {
-            let key = toString(i);
-            let valuepair = toString(i); 
+            let key = `${i}`;
+            let valuepair = `${i}`; 
             let val = {};
             val[key] = valuepair;
             configuration['collapseDepth'].values.push(val);
