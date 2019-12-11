@@ -332,7 +332,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               div { font-weight: 300; font-family: 'Roboto'; }
           </style>
 
-          <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  text-align: center; padding: 0; position: relative; left: 50%; vertical-align: middle;">
+          <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
               <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
               <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
