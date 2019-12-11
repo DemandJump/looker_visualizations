@@ -180,25 +180,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         default: '#FFE09B'
     };
 
-    // this.options['collapseDepth'] = {
-    //     label: 'Expand the tree out multiple levels',
-    //     order: 12,
-    //     type: 'string',
-    //     sections: 'Nodes',
-    //     display: 'select',
-    //     values: [],
-    //     default: '0'
-    // };
-    
-    // let dimensionLength = dimensions.length; 
-    // for(let i = 0; i < dimensionLength; i++) {
-    //     let key = `${i}`;
-    //     let valuepair = `${i}`; 
-    //     let val = {};
-    //     val[key] = valuepair;
-    //     this.options['collapseDepth'].values.push(val);
-    // }
-
     this.options['collapseDepth'] = {
         label: 'Expand the tree out multiple levels',
         order: 12,
@@ -206,18 +187,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         display: 'select',
         section: 'Styling',
         values: [
-          {'0': '0'},
-          {'1': '1'},
-          {'2': '2'},
-          {'3': '3'},
-          {'4': '4'},
-          {'5': '5'},
-          {'6': '6'},
-          {'7': '7'},
-          {'8': '8'},
-          {'9': '9'},
+          // {'0': '0'},
+          // {'1': '1'},
+          // {'2': '2'},
+          // {'3': '3'},
+          // {'4': '4'},
+          // {'5': '5'},
+          // {'6': '6'},
+          // {'7': '7'},
+          // {'8': '8'},
+          // {'9': '9'},
         ],
         default: '0'
+    }
+
+    let dimensionLength = dimensions.length; 
+    for(let i = 0; i < dimensionLength; i++) {
+        let key = `${i}`;
+        let valuepair = `${i}`; 
+        let val = {};
+        val[key] = valuepair;
+        this.options['collapseDepth'].values.push(val);
     }
 
     if (this._counter == 0) {
