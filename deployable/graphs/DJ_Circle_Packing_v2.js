@@ -766,11 +766,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('id', d => {
               return d.breadCrumbId;
             })
-            .html(d => {
-                if (breadCrumbs[breadCrumbs.length -1]) {
-                  return d.data.name;
-                }
-                return `${d.data.name} >`;
+            .html((d, i) => {
+                if(i == 0) return d.data.name;
+                return `> ${d.data.name}`;
             })
             .on("click", d => crumbZoom(d));
     }
