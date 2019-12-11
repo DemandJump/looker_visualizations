@@ -154,16 +154,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let configuration = this.options;
     let changed = false;
     configureSettings();
-
+    this.options = configuration;
+    
     if (this._counter == 0) {
       this._counter ++;
-      this.trigger('registerOptions', configuration);
+      this.trigger('registerOptions', this.options);
     }
+
     if (config.collapseDepth) { if (config.collapseDepth != this._collapseAmount) changed = true; }
-    if (changed) {
-      this.trigger('registerOptions', configuration);
-    }
-    this.options = configuration;
+    console.log('This is changed', changed);
+    if (changed) this.trigger('registerOptions', this.options);
 
 /****************************************************************
         * Update the Options
