@@ -184,7 +184,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const burrow = this.burrow(data, userTaxonomy); 
     const root = pack(burrow);
     let focus = root.children[0];
-    root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
     let nodes = root.descendants().slice(1);
     nodes.forEach((node, index) => node.index = index);
@@ -239,12 +238,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, function(d) { return d.id} ).enter()
         .append("circle") 
             .attr('class', 'node')
-            .attr('id', d => { 
-                if(d.data.id) { 
-                    if(d.data.id == 'tether') return `tether ${d.index}`; 
-                }
-                return `${d.index}`;
-            })
+            .attr('id', d => d.index)
             .attr("fill", d => {
                 if (config.dynamicColoring == true) {
                     return questionSearchColoring(d);
@@ -316,8 +310,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .text(d => d.data.text4);
 
     zoomTo([root.x, root.y, root.r * 2]);
-    simulateClick(document.getElementById('tether'), 'click');
-    simulateClick(document.getElementById('tether'), 'click');
+    simulateClick(document.getElementById('0'), 'click');
+    simulateClick(document.getElementById('0'), 'click');
 
     /*******************************************************
         * Visual's Functions Section *
@@ -1034,7 +1028,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 // px linearscale to have reference from dy to the font size
 
-        if (d.data.id == 'tether') { // Unique styling if it's root (circle) 
+        if (d.data.id == '0') { // Unique styling if it's root (circle) 
             d.data.text1 = d.data.name;
             d.data.textuse = 1;
             delete d.data.text2;
@@ -1053,7 +1047,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // of sizeText function ~ Builds text boxes and assigns font size
 
     function textSizing(d) {
-        if (d.data.id == 'tether') { return '54px'; }
+        if (d.data.id == '0') { return '54px'; }
         // return '12px'; // Original styling 
         // return `${vws(d.nr)}vh`; // View height font scaling
         if (d.nr <= 14) { d.font = 0; }
