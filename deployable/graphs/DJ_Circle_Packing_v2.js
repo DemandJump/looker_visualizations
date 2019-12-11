@@ -770,6 +770,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if(i == 0) return d.data.name;
                 return `> ${d.data.name}`;
             })
+            .style('font-size', '1rem')
             .on("click", d => crumbZoom(d));
     }
 
