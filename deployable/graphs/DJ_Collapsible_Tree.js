@@ -208,12 +208,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function zoom_actions() {
     svg.attr('transform', d3.event.transform)
   }
-
-    // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
   let root = d3.hierarchy(nested, function(d) { return d.children });
     root.x0 = height / 2;
     root.y0 = 0;
+  container.call(zoom_handler);
+
 
 
   if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
@@ -230,7 +230,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
   }
   
-  container.call(zoom_handler);
+
   let updatInit = 0;
   let mNodeRef = []; // Add all the measures as nodes within the visualization!
   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
@@ -239,9 +239,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       mNodeRef.push(measure.name)
       mNodeLabel.push(measure.label_short)
   });
-
-
-      // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
   root.leaves().forEach(leaf => {
     let newChildren = [];
     mNodeRef.forEach(mnode => { // We're replicating the node within the node!
@@ -264,7 +261,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   })
 
 
-
       // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
   let maxDepth = 0
   root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
@@ -277,29 +273,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // console.log('This is the new max depth', maxDepth)
 
 
-
-
-
-
-
-
-      update(root);
-
-        // Main functionality (^:;
+  update(root);
   function update(source) {
   let leaves = root.leaves();
   height = 52 * leaves.length; // This calculates the space between the nodes!
   treemap = d3.tree().size([height, width]);
-    // Assigns the x and y position for the nodes
   let treeData = treemap(root);
-  // Compute the new tree layout.
   let nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
   console.log('\n\nnodes', nodes); //
   console.log('links', links); // 
-  let linkAddition = ""; // Saved longest string value 
-
-          /* Maybe try to do it for everything but the leaf nodes.. I have a hunch (; */
+  let linkAddition = "";  
   data.forEach(datum => {
     var keys = [];
     for (var key in datum) {      
@@ -308,17 +292,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     for (var k = 0 ; k<keys.length; k++) { 
       // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
       let currentString = datum[keys[k]].value
-
       if(currentString != null) {
         if(linkAddition.length < currentString.length) {
           linkAddition = currentString;
         }
-        // console.log(`Current longest string(${linkAddition.length})`, linkAddition);
       }
    }
     i++; // Used to show current iteration we're on
   });
   console.log('CalculatedLongest string!', linkAddition);
+
+  // ****************** Move camera to center of tree ***************************
 
   if (updatInit == 0) {
       updatInit++;
@@ -335,6 +319,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       );
   }
   
+  // ****************** Link width ***************************
 
   // Normalize for fixed-depth. because of collapse function 
   nodes.forEach(function(d){ // This calculates the depth between the nodes!
