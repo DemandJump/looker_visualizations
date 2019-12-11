@@ -186,18 +186,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         type: 'string', 
         display: 'select',
         section: 'Styling',
-        values: [
-          // {'0': '0'},
-          // {'1': '1'},
-          // {'2': '2'},
-          // {'3': '3'},
-          // {'4': '4'},
-          // {'5': '5'},
-          // {'6': '6'},
-          // {'7': '7'},
-          // {'8': '8'},
-          // {'9': '9'},
-        ],
+        values: [],
         default: '0'
     }
 
@@ -215,16 +204,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       this.trigger('registerOptions', this.options);
     }
     
-    if (dimensions.length != this._collapseAmount) changed = true; 
-    console.log('This is changed', changed);
-    if (changed) this.trigger('registerOptions', this.options);
+    // if (dimensions.length != this._collapseAmount) changed = true; 
+    // console.log('This is changed', changed);
+    // if (changed) this.trigger('registerOptions', this.options);
 
 /****************************************************************
         * Update the Options
 ****************************************************************/
 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
-    let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
+    let chosenColors = ['#008CCD']; // Construct the colors of each dimension order by depth
     dimensions.forEach(dim => {
       let currentDim = dim.name;
         // Find the current dim's color value through config!
@@ -268,6 +257,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
   if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
+  console.log('collapse depth', config.collapseDepth);
+  console.log('collapse amount', this._collapseAmount);
+
   root.children.forEach(collapse);
   function collapse(d) {
       if(d.children) {
