@@ -144,14 +144,13 @@ looker.plugins.visualizations.add({
 create: function(element, config) {
   let d3 = d3v5; // Pull in d3 selector as it's normal reference
 
-
   d3.select(element)
     .style('display', 'inline-block')
     .style('text-align', 'center')
     .style('margin', 'auto')
     .style('padding', '0')
     .style('position', 'relative')
-    .style('box-sizing', 'border-box')
+    .style('box-sizing', 'border-box');
 
 
       // Insert a <style> tag with some styles we'll use later.
