@@ -42,6 +42,7 @@ looker.plugins.visualizations.add({
               .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
               .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
               .header, .breadcrumbContainer, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #F5F5F5, -1px  1px 3px #F5F5F5, 1px -1px 3px #F5F5F5, 1px  1px 3px #F5F5F5; }
+              .breadcrumbContainer { position: absolute; top: 0; left: 0; }
           </style>
         `;
 
@@ -770,6 +771,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 if(i == 0) return d.data.name;
                 return `> ${d.data.name}`;
             })
+            .style('position', 'relative')
             .style('font-size', '1rem')
             .on("click", d => crumbZoom(d));
     }
