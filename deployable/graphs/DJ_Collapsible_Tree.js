@@ -266,12 +266,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
       // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
-  let maxDepth = 0
-  root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth })
+  let maxDepth = 0;
+  root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
   root.descendants().forEach(node => {
     if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-      node._children = node.children
-      node.children = null 
+      node._children = node.children;
+      node.children = null ;
     }
   })
   // console.log('This is the new max depth', maxDepth)
@@ -283,8 +283,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   height = 52 * leaves.length; // This calculates the space between the nodes!
   treemap = d3.tree().size([height, width]);
   let treeData = treemap(root);
-  let nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
+  let nodes = treeData.descendants();
+  let links = treeData.descendants().slice(1);
   console.log('\n\nnodes', nodes); //
   console.log('links', links); // 
   let linkAddition = "";  
@@ -295,7 +295,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // Put keys into an array then display them in the data set
     for (var k = 0 ; k<keys.length; k++) { 
       // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
-      let currentString = datum[keys[k]].value
+      let currentString = datum[keys[k]].value;
       if(currentString != null) {
         if(linkAddition.length < currentString.length) {
           linkAddition = currentString;
@@ -355,7 +355,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'djctCircle')
       .attr('r', '25px')
-      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5")
+      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5");
 
 
   // Add labels for the nodes
@@ -364,12 +364,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .attr("dy", ".35em")
       .attr("x", d => {
         if(d.mCount) { return "20px" }
-        else { return d.children || d._children ? "-31.4px" : "29.4px" }
+        else { return d.children || d._children ? "-31.4px" : "29.4px"; }
       })
       .style("font-size", d => d.children || d._children ? textSize(d) : "2rem" )
       .attr("text-anchor", d => {
         if(d.mCount) { return "start" }
-        else { return d.children || d._children ? "end" : "start" }
+        else { return d.children || d._children ? "end" : "start"; }
       })
       .text(d => d.data.name);
 
@@ -380,16 +380,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .attr('dy', '.35em')
       .attr('x', d => {
         if (d.mCount) { return "-20px" }
-        d.children || d._children ? "29.4px" : "-31.4px" 
+        return d.children || d._children ? "29.4px" : "-31.4px";
       })
       .style('font-size', d => d.children || d._children ? "2rem" : textSize(d) )
       .attr('text-anchor', d => {
-        if (d.mCount) { return "end"}
-        else { return d.children || d._children ? "start" : "end" }
+        if (d.mCount) { return "end"; }
+        else { return d.children || d._children ? "start" : "end"; }
       })
       .text(d => {
         if (d.mCount) { // If this is a looker measure, then we're appending this
-          return d.mCount
+          return d.mCount;
         }
       })
   }
@@ -410,10 +410,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     .style('fill', d => {
         return d._children ? chosenColors[d.depth] // "#008CCD" 
         : !d._children && !d.children ? chosenColors[d.depth] // "#FEBF43" 
-        : "#999999"
+        : "#999999";
     })
     .style('stroke', d => {
-      return d.children ? '#008CCD' : '#999999'
+      return d.children ? '#008CCD' : '#999999';
     })
     .attr('cursor', 'pointer');
 
@@ -462,8 +462,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   var linkExit = link.exit().transition()
       .duration(duration)
       .attr('d', function(d) {
-        var o = {x: source.x, y: source.y}
-        return diagonal(o, o)
+        var o = {x: source.x, y: source.y};
+        return diagonal(o, o);
       })
       .remove();
 
@@ -481,7 +481,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               ${(s.y + d.y) / 2} ${d.x},
               ${d.y} ${d.x}`
 
-    return path
+    return path;
   }
 
     // We're gonna need to create a zoom function reference
@@ -506,7 +506,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Start from d level 1, 0 can have a unique styling
     for(i = 0; i < maxDepth; i++) {
       if (i == d.depth) {
-        return chosenColors[i]
+        return chosenColors[i];
       }
     }
   }
@@ -517,7 +517,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     : d.depth == 2 ? '4rem'
     : d.depth == 3 ? '3.4rem'
     : d.depth == maxDepth ? '2rem'
-    : '2.25rem'
+    : '2.25rem';
   }
 
 } // End of update function
@@ -534,7 +534,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 display: 'color',
                 default: defaultColors[colorCounter]
             }
-            colorCounter++
+            colorCounter++;
         });
 
           // This is the color for the measures altogether
