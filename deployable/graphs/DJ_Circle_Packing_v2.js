@@ -780,7 +780,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d3.select(id).html(` > ${node.data.name}`);
 
             node.breadCrumbId = id;
-            breadCrumbData.push(node);
+            breadCrumbData.unshift(node);
         }
 
 
