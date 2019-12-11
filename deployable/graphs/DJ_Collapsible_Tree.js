@@ -209,7 +209,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 ****************************************************************/
 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
-    let chosenColors = ['#008CCD']; // Construct the colors of each dimension order by depth
+    let chosenColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
+    '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
+    '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
+     '#999999']; // Construct the colors of each dimension order by depth
     dimensions.forEach(dim => {
       let currentDim = dim.name;
         // Find the current dim's color value through config!
