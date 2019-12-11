@@ -128,23 +128,11 @@ burrow: function(table, taxonomy) {
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
-    // This helps us visualize the interactive data!
-    // This function is called any time the chart is supposed to visualize changes, or when any other event happens that might affect how your chart is rendered.
-    
-                            /* CURRENT VERSION */ 
-    console.log('Adding in new classes for the universal styling, added in optional measures for the visualizations too!');
-        // Just comment what your doing becuase looker takes forever to update server js file
 
-        // Try implementing d3
-    console.log('d3v5 initialized', d3);
-        /****** Log all these functions to see what we're working with ******/
-    console.log(`\n\n\n\n\nUpdateAsync initialized, here is it's data: `);
     console.log('data', data);
     console.log('element', element);
     console.log('config', config);
     console.log('queryResponse', queryResponse);
-    console.log('details', details);
-
     
     console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
     console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
@@ -160,45 +148,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /************************************************************************************
     * Setting up the Dimension Options
     ************************************************************************************/
-        // Let's figure out a representable list of the dj brand colors, and start there
-    // #000000, #999999, #008CCD, #FF6B00, #B6DCB7, #F8B0A3, #FDBC40, #FFE09B, #D9524A,
+    let dimensions = queryResponse.fields.dimensions;
+    let measures = queryResponse.fields.measures;
+    let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999'];
+    let colorCounter = 0;
+    let settings = [];
 
-      // Lets grab all the dimensions and measure
-    let dimensions = queryResponse.fields.dimensions
-    let measures = queryResponse.fields.measures
-    let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999']
-    let colorCounter = 0
-    let settings = []
-          // Autocolor dimensions boolean switch if on, set up the dimension depth to have default DJ colors.
+    let configuration = this.options;
+    let changed = false;
+    configureSettings();
 
-
-      // This is a loop for all the dimensions to color 
-    dimensions.forEach(dimension => {
-      this.options[dimension.name] = {
-        label: dimension.name, 
-        type: 'string',
-        section: 'Styling',
-        display: 'color',
-        default: defaultColors[colorCounter],
-        hidden: this._hidden
-      }
-      colorCounter++
-    })
-
-      // This is the color for the measures altogether
-    this.options['djdh_measures'] = {
-      label: 'measures',
-      type: 'string',
-      section: 'Styling', 
-      display: 'color',
-      default: '#FFE09B',
-      hidden: this._hidden
-    }
-
-    console.log('this._counter', this._counter)
     if (this._counter == 0) {
-      this._counter ++
-      this.trigger('registerOptions', this.options)
+      this._counter ++;
+      this.trigger('registerOptions', configuration);
+      this.options = configuration;
     }
 /****************************************************************
         * Update the Options
@@ -233,22 +196,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let height = element.clientHeight;
 
   let container = this._svg 
-    .html('')
-    .attr('width', width)
-    .attr('height', height);
+      .html('')
+      .attr('width', width)
+      .attr('height', height);
 
-    // Selector to hold everything
   let svg = container.append('g')
-    .attr('class', 'everything');
-
-  // Zoom Stuff // 
+      .attr('class', 'everything');
   let zoom_handler = d3.zoom()
-    .on('zoom', zoom_actions);
-  // zoom_handler(container);
+      .on('zoom', zoom_actions);
   function zoom_actions() {
     svg.attr('transform', d3.event.transform)
   }
-
 
     // Initialize the tree layout!
   let treemap = d3.tree().size([height, width]);
@@ -256,7 +214,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.x0 = height / 2;
     root.y0 = 0;
 
-    
   // console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
   // root.children.forEach(collapse);
@@ -270,21 +227,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   
   container.call(zoom_handler);
   let updatInit = 0;
-
-      // First we need to grab all the measures and their names for the object's we're adding
   let mNodeRef = []; // Add all the measures as nodes within the visualization!
   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
   let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
   measures.forEach(measure => {
-    mNodeRef.push(measure.name)
-    mNodeLabel.push(measure.label_short)
-    });
-  //   console.log('These are the measure reference names', mNodeRef);
+      mNodeRef.push(measure.name)
+      mNodeLabel.push(measure.label_short)
+  });
 
 
       // Instead of leaf nodes, we may need to calculate this before that with a foreach of all nodes w/conditional that checks if the measure is in the data.data
   root.leaves().forEach(leaf => {
-      // All the leaves have the measure data attached to them, and it's where we wanna instantiate the data
     let newChildren = [];
     mNodeRef.forEach(mnode => { // We're replicating the node within the node!
       // childeren object for this jazz
@@ -573,7 +526,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     : '2.25rem'
   }
 
-} // End of update function 
+} // End of update function
+
+
+    function configureSettings() {
+          // This is a loop for all the dimensions to color 
+        dimensions.forEach(dimension => {
+            configuration[dimension.name] = {
+                label: dimension.name, 
+                type: 'string',
+                section: 'Styling',
+                display: 'color',
+                default: defaultColors[colorCounter],
+                hidden: this._hidden
+            }
+            colorCounter++
+        });
+
+          // This is the color for the measures altogether
+        configuration['djdh_measures'] = {
+            label: 'measures',
+            type: 'string',
+            section: 'Styling', 
+            display: 'color',
+            default: '#FFE09B',
+            hidden: this._hidden
+        };
+    } // End of configureSettings
 
 
     /**************** Done! *****************/
