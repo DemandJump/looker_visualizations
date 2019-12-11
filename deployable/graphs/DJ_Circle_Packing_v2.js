@@ -790,7 +790,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .attr('id', d => {
                   console.log('Going through and appending data and span breadcrumbs!');
                   console.log('This is d', d);
-                  d.breadCrumbId
+                  return d.breadCrumbId;
                 })
                 .html(`Bread crumb with id of: ${d.breadCrumbId}`);   
                 
