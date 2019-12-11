@@ -211,6 +211,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       breadCrumbIds.push(id);
     }
     // console.log('These are the breadcrumb ids:', breadCrumbIds);
+    let breadCrumbData = [];
+    let breadCrumbs;
 
      
     // console.log('root', root);
@@ -759,8 +761,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
 
-    let breadCrumbData;
-    let breadCrumbs;
+
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll('*').remove();
         d3.select('.breadcrumbContainer').style('display', 'inline-block');
@@ -782,7 +783,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             breadCrumbData.push(node);
         }
 
-        
+
         breadCrumbs = d3.select('.breadcrumbContainer').selectAll('span')
             .data(breadCrumbData).append('span')
                 .attr('class', 'breadCrumb')
@@ -790,8 +791,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 .html(`Bread crumb with id of: ${d.breadCrumbId}`);   
                 
         breadCrumbs.on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation()));
+        console.log('This is the breadcrumb data', breadCrumbData);
     }
-    console.log('This is the breadcrumb data', breadCrumbData);
 
     function crumbZoom(d) {
         
