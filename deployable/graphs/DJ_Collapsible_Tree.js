@@ -502,7 +502,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d._children = null;
       }
     update(d);
-    // Zoom to the selected node!
     console.log('this is the clicked node data', d);
   }
 
