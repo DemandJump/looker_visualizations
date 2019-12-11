@@ -347,8 +347,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
       // zoom_handler.translateBy(container, root.x, root.y);
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
-      let x = -1 * (root.x - (window.innerHeight / 2));
-      let y = root.y + (window.innerWidth / 4);
+      console.log('This is the root', root);
+      let x = -1 * (root.children[0].x - (window.innerHeight / 2));
+      let y = root.children[0].y + (window.innerWidth / 4);
       // console.log(`New x: ${x}, and y: ${y}`);
 
       container.transition().duration(1200).call(
