@@ -130,14 +130,10 @@ burrow: function(table, taxonomy) {
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
-
-    console.log('data', data);
-    console.log('element', element);
+    console.log('Original settings', this.options);
     console.log('config', config);
     console.log('queryResponse', queryResponse);
-    
-    console.log('Checking out query resposne dimension fields: ', queryResponse.fields.dimensions);
-    console.log('Checking out query resposne measure fields: ', queryResponse.fields.measures);
+    console.log('data', data);
 
     /**********************
      * Error Clauses 
@@ -150,8 +146,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /************************************************************************************
     * Setting up the Dimension Options
     ************************************************************************************/
-    let dimensions = queryResponse.fields.dimensions;
-    let measures = queryResponse.fields.measures;
+    let dimensions = queryResponse.fields.dimension_like;
+    let measures = queryResponse.fields.measure_like;
     let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999'];
     let colorCounter = 0;
 
@@ -172,9 +168,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /****************************************************************
         * Update the Options
 ****************************************************************/
-    console.log('This is config', config);
-    console.log('These are the current config instantiated', this.options);
-
 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
     let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
@@ -187,9 +180,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     chosenColors.push(config['djdh_measures']);
 
 
-    if (config.aResetColors == true) {
-        chosenColors = defaultColors;
-     } console.log('chosen colors', chosenColors);
+    if (config.aResetColors == true) chosenColors = defaultColors; 
+    // console.log('chosen colors', chosenColors);
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
@@ -305,18 +297,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
    }
     i++; // Used to show current iteration we're on
   });
-  console.log('CalculatedLongest string!', linkAddition);
+  // console.log('Calculated longest string!', linkAddition);
 
   // ****************** Move camera to center of tree ***************************
 
   if (updatInit == 0) {
       updatInit++;
-      console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
+      // console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
       // zoom_handler.translateBy(container, root.x, root.y);
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
       let x = -1 * (root.x - (window.innerHeight / 2));
       let y = root.y + (window.innerWidth / 4);
-      console.log(`New x: ${x}, and y: ${y}`);
+      // console.log(`New x: ${x}, and y: ${y}`);
 
       container.transition().duration(1200).call(
         zoom_handler.transform,
