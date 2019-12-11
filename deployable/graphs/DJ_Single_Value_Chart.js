@@ -322,7 +322,7 @@ if (config.text_spacing == "dynamic_size") { // If we select dynamic size
 
       this.options.wb_fs_conditional.hidden = true;
       this.options.wb_fs.hidden = true;
-      this.options.dh_fs_conditional.hidden = true; 
+      this.options.dh_fs_conditional.hidden = true;     
       this.options.dh_fs.hidden = true;
       this.trigger('registerOptions', this.options);
   }
