@@ -768,8 +768,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               return d.breadCrumbId;
             })
             .html((d, i) => {
-                if(i == 0) return d.data.name;
-                return `> ${d.data.name}`;
+                if(i == 0) return ' ' + d.data.name + ' ';
+                return ` > ${d.data.name} `;
             })
             .style('position', 'relative')
             .style('font-size', '1rem')
