@@ -446,8 +446,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeUpdate.select('circle.djctNode')
     .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
     .style('fill', d => {
-        return d._children ? chosenColors[d.depth] // "#008CCD" 
-        : !d._children && !d.children ? chosenColors[d.depth] // "#FEBF43" 
+        return d.children ? chosenColors[d.depth] // "#008CCD" 
+        : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
         : "#008CCD";
     })
     .style('stroke', d => {
@@ -2704,7 +2704,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       mediumblue: 0x0000cd,
       mediumorchid: 0xba55d3,
       mediumpurple: 0x9370db,
-      mediumseagreen: 0x3cb371,
+      mediumseagreen: 0x3cn371,
       mediumslateblue: 0x7b68ee,
       mediumspringgreen: 0x00fa9a,
       mediumturquoise: 0x48d1cc,
