@@ -352,7 +352,7 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
   // This is for the font-styling radio buttons
 if (font_style == "dynamic_size") { // based on whether the select statement for varying font size // config.text_spacing == "dynamic_size"
     let innerWidth = window.innerWidth;
-    let innerHeight = windown.innerHeight;
+    let innerHeight = window.innerHeight;
     
     if (innerWidth > innerHeight * 1.5) {
         
