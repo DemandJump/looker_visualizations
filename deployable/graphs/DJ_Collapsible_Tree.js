@@ -152,7 +152,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let measures = queryResponse.fields.measures;
     let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999'];
     let colorCounter = 0;
-    let settings = [];
 
     let configuration = this.options;
     let changed = false;
@@ -216,14 +215,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // console.log('root', root);
     // Collapse the nodes, or comment this out to see the whole layout
-  // root.children.forEach(collapse);
-  // function collapse(d) {
-  //   if(d.children) {
-  //     d._children = d.children
-  //     d._children.forEach(collapse)
-  //     d.children = null
-  //   }
-  // }
+  root.children.forEach(collapse);
+  function collapse(d) {
+    if(d.children) {
+      d._children = d.children
+      d._children.forEach(collapse)
+      d.children = null
+    }
+  }
   
   container.call(zoom_handler);
   let updatInit = 0;
@@ -537,8 +536,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 type: 'string',
                 section: 'Styling',
                 display: 'color',
-                default: defaultColors[colorCounter],
-                hidden: this._hidden
+                default: defaultColors[colorCounter]
             }
             colorCounter++
         });
@@ -549,9 +547,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             type: 'string',
             section: 'Styling', 
             display: 'color',
-            default: '#FFE09B',
-            hidden: this._hidden
+            default: '#FFE09B'
         };
+
+        configuration['collapseDepth'] = {
+            label: 'Expand the tree out multiple levels',
+            type: 'string',
+            sections: 'Styling',
+            display: 'select',
+            values: []
+        };
+        
+        let dimensionLength = dimensions.length; 
+        for(let i = 0; i < dimensionLength; i++) {
+            let key = i;
+            let valuepair = i; 
+            let val = {};
+            val[key] = valuepair;
+            configuration['collapseDepth'].values.push(val);
+        }
+        
     } // End of configureSettings
 
 

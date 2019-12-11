@@ -113,7 +113,7 @@ looker.plugins.visualizations.add({
                 }
             });
         }
-
+      }
               // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
                 // Mutate the data so that it's side by side
