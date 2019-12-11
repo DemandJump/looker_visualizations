@@ -237,7 +237,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     const node = svg.append("g")
         .attr('class', 'nodes')
         .selectAll("circle")
-        .data(nodes, function(d) { return d.id} ).enter()
+        .data(nodes, function(d) { return d} ).enter()
         .append("circle") 
             .attr('class', 'node')
             .attr('id', d => d.index)
@@ -785,26 +785,21 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
         breadCrumbs = d3.select('.breadcrumbContainer');
-        console.log('This is the breadcrumb data', breadCrumbData);
+        // console.log('This is the breadcrumb data', breadCrumbData);
         breadCrumbs.selectAll('span').data(breadCrumbData).enter().append('span')
             .attr('class', 'breadCrumb')
             .attr('id', d => {
-              console.log('Going through and appending data and span breadcrumbs!');
-              console.log('This is d', d);
               return d.breadCrumbId;
             })
             .html(`Bread crumb with id of: ${d.breadCrumbId}`)
-            .on("click", d => {
-              console.log('This is the click function data: ', d);
-              return crumbZoom(d)
-            });
+            .on("click", d => crumbZoom(d));
     }
 
     function crumbZoom(d) {
         console.log('This is crumb zoom d: ', d);
         let bcSelect = nodes.filter(node => d.index == node.index);
         console.log('This is the filtered node!', bcSelect);
-        zoomThenRefactor(bsSelect);
+        if (bcSelect.length != 0) zoomThenRefactor(bsSelect[0]);
 
         // let id = `#${d.index}`;
         // simulateClick(document.getElementById(`${d.index}`), 'click');
