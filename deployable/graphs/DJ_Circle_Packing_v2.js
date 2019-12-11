@@ -754,7 +754,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let node = d;
         for(let i = d.depth; i > 1; i--) {
             node = node.parent;
-            breadcrumb = breadcrumb + node.data.name;
+            breadcrumb = node.data.name + breadcrumb;
         }
         d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
