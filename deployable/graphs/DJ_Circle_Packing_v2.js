@@ -187,7 +187,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.children[0].data.id = 'tether';
     root.children.forEach(collapseNulls);
     let nodes = root.descendants().slice(1);
-    nodes.forEach((node, index) => node.id = i);
+    nodes.forEach((node, index) => node.index = index);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
     root.data.name = root.children[0].data.name; // Grab the unpackaged data's name
 
