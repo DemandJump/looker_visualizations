@@ -166,8 +166,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (config.collapseDepth) { if (config.collapseDepth != this._collapseAmount) changed = true; }
     if (changed) {
       this.trigger('registerOptions', configuration);
-      this.options = configuration;
     }
+    this.options = configuration;
+
 /****************************************************************
         * Update the Options
 ****************************************************************/
@@ -564,6 +565,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             val[key] = valuepair;
             configuration['collapseDepth'].values.push(val);
         }
+        console.log('This is the new configuration settings', configuration);
         
     } // End of configureSettings
 
