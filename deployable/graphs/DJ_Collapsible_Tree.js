@@ -7,7 +7,7 @@
     options: {
       aResetColors: {
         label: 'Use default colors',
-        order: 0,
+        order: 0.1,
         type: 'boolean', 
         section: 'Styling',
         default: false
@@ -178,7 +178,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     this.options['collapseDepth'] = {
         label: 'Expand the tree out multiple levels',
-        order: 12,
+        order: 0,
         type: 'string', 
         display: 'select',
         section: 'Styling',
