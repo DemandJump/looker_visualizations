@@ -263,7 +263,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   root.children.forEach(collapse);
   function collapse(d) {
       if(d.children) {
-          if (d.depth > this._collapseAmount) {
+          console.log(`depth: ${d.depth}, and collapseDepth: ${config.collapseDepth}`);
+          console.log('This is the depth', d);
+          if (d.depth > config.collapseDepth) {
               d._children = d.children;
               d._children.forEach(collapse);
               d.children = null;
