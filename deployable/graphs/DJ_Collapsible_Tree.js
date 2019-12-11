@@ -154,8 +154,51 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let configuration = this.options;
     let changed = false;
-    configureSettings();
-    this.options = configuration;
+
+
+
+        // This is a loop for all the dimensions to color 
+    dimensions.forEach((dimension, index) => {
+        this.options[dimension.name] = {
+            label: dimension.name, 
+            order: index + 1,
+            type: 'string',
+            section: 'Styling',
+            display: 'color',
+            default: defaultColors[colorCounter]
+        }
+        colorCounter++;
+    });
+
+      // This is the color for the measures altogether
+    this.options['djdh_measures'] = {
+        label: 'measures',
+        order: 11,
+        type: 'string',
+        section: 'Styling', 
+        display: 'color',
+        default: '#FFE09B'
+    };
+
+    this.options['collapseDepth'] = {
+        label: 'Expand the tree out multiple levels',
+        order: 12,
+        type: 'string',
+        sections: 'Nodes',
+        display: 'select',
+        values: [],
+        default: '0'
+    };
+    
+    let dimensionLength = dimensions.length; 
+    for(let i = 0; i < dimensionLength; i++) {
+        let key = `${i}`;
+        let valuepair = `${i}`; 
+        let val = {};
+        val[key] = valuepair;
+        this.options['collapseDepth'].values.push(val);
+    }
+
 
     if (this._counter == 0) {
       this._counter ++;
@@ -514,54 +557,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
 } // End of update function
-
-
-    function configureSettings() {
-          // This is a loop for all the dimensions to color 
-        dimensions.forEach((dimension, index) => {
-            configuration[dimension.name] = {
-                label: dimension.name, 
-                order: index + 1,
-                type: 'string',
-                section: 'Styling',
-                display: 'color',
-                default: defaultColors[colorCounter]
-            }
-            colorCounter++;
-        });
-
-          // This is the color for the measures altogether
-        configuration['djdh_measures'] = {
-            label: 'measures',
-            order: 11,
-            type: 'string',
-            section: 'Styling', 
-            display: 'color',
-            default: '#FFE09B'
-        };
-
-        configuration['collapseDepth'] = {
-            label: 'Expand the tree out multiple levels',
-            order: 12,
-            type: 'string',
-            sections: 'Nodes',
-            display: 'select',
-            values: [],
-            default: '0'
-        };
-        
-        let dimensionLength = dimensions.length; 
-        for(let i = 0; i < dimensionLength; i++) {
-            let key = `${i}`;
-            let valuepair = `${i}`; 
-            let val = {};
-            val[key] = valuepair;
-            configuration['collapseDepth'].values.push(val);
-        }
-        console.log('This is the new configuration settings', configuration);
-        
-    } // End of configureSettings
-
 
     /**************** Done! *****************/
     doneRendering() 
