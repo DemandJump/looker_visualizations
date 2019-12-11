@@ -752,22 +752,26 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let node = d;
         for(let i = d.depth; i > 1; i--) {
             node = node.parent;
-            id = `#bc${i - 1}`;
-            d3.select(id).html(` > ${node.data.name}`);
-
+            // id = `#bc${i - 1}`;
+            // d3.select(id).html(` > ${node.data.name}`);
             node.breadCrumbId = id;
             breadCrumbData.unshift(node);
         }
 
 
         breadCrumbs = d3.select('.breadcrumbContainer');
-        // console.log('This is the breadcrumb data', breadCrumbData);
+        console.log('This is the breadcrumb data', breadCrumbData);
         breadCrumbs.selectAll('span').data(breadCrumbData).enter().append('span')
             .attr('class', 'breadCrumb')
             .attr('id', d => {
               return d.breadCrumbId;
             })
-            .html(d.data.name)
+            .html(d => {
+                if (breadCrumbs[breadCrumbs.length -1]) {
+                  return d.data.name;
+                }
+                return `${d.data.name} >`;
+            })
             .on("click", d => crumbZoom(d));
     }
 
