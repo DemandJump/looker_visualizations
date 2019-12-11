@@ -162,29 +162,33 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     if (this._counter == 0) {
       this._counter ++;
       this.trigger('registerOptions', configuration);
+    }
+    if (config.collapseDepth) { if (config.collapseDepth != this._collapseAmount) changed = true; }
+    if (changed) {
+      this.trigger('registerOptions', configuration);
       this.options = configuration;
     }
 /****************************************************************
         * Update the Options
 ****************************************************************/
-    console.log('This is config', config)
-    console.log('These are the current config instantiated', this.options)
+    console.log('This is config', config);
+    console.log('These are the current config instantiated', this.options);
 
 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
     let chosenColors = ['#008CCD'] // Construct the colors of each dimension order by depth
     dimensions.forEach(dim => {
-      let currentDim = dim.name
+      let currentDim = dim.name;
         // Find the current dim's color value through config!
-      let currentColor = config[currentDim]
-      chosenColors.push(currentColor)
+      let currentColor = config[currentDim];
+      chosenColors.push(currentColor);
     })
-    chosenColors.push(config['djdh_measures'])
+    chosenColors.push(config['djdh_measures']);
 
 
     if (config.aResetColors == true) {
-        chosenColors = defaultColors 
-     } console.log('chosen colors', chosenColors)
+        chosenColors = defaultColors;
+     } console.log('chosen colors', chosenColors);
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
@@ -206,7 +210,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let zoom_handler = d3.zoom()
       .on('zoom', zoom_actions);
   function zoom_actions() {
-    svg.attr('transform', d3.event.transform)
+    svg.attr('transform', d3.event.transform);
   }
   let treemap = d3.tree().size([height, width]);
   let root = d3.hierarchy(nested, function(d) { return d.children });
@@ -236,8 +240,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
   let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
   measures.forEach(measure => {
-      mNodeRef.push(measure.name)
-      mNodeLabel.push(measure.label_short)
+      mNodeRef.push(measure.name);
+      mNodeLabel.push(measure.label_short);
   });
   root.leaves().forEach(leaf => {
     let newChildren = [];
@@ -252,13 +256,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
       mNodeObj.data["name"] = mNodeObj.data.value;
         // Pass it into leaf children as collapsed descendants
-      newChildren.push(mNodeObj)
-      mCounter++
+      newChildren.push(mNodeObj);
+      mCounter++;
     })
-    leaf._children = null
-    leaf.children = newChildren // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
-    mCounter = 0 // Reset the counter for the next leaf node
-  })
+    leaf._children = null;
+    leaf.children = newChildren; // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
+    mCounter = 0; // Reset the counter for the next leaf node
+  });
 
 
       // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
