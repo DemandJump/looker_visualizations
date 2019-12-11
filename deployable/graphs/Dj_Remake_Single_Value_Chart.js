@@ -292,6 +292,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+  d3.select('.djvsElement')
+      .style('text-align', 'center')
+      .style('padding', '0')
+      .style('margin', '0')
+      .style('display', 'block');
+
   if (element_spacing == 'word_break') {
       element.innerHTML = `
           <style>  
@@ -310,11 +316,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
   if (element_spacing == 'dynamic_size') {
-      d3.select('.djvsElement')
-          .style('text-align', 'center')
-          .style('padding', '0')
-          .style('margin', '0')
-          .style('display', 'block');
       element.innerHTML = `
           <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
@@ -322,9 +323,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               div { font-weight: 300; font-family: 'Roboto'; }
           </style>
 
-          <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
-              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;"></div>
-              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;"></div>
+          <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  position: relative;  text-align: center; padding: 0; vertical-align: middle;">
+              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
+              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
 
           <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
@@ -350,6 +351,14 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
 
   // This is for the font-styling radio buttons
 if (font_style == "dynamic_size") { // based on whether the select statement for varying font size // config.text_spacing == "dynamic_size"
+    let innerWidth = window.innerWidth;
+    let innerHeight = windown.innerHeight;
+    
+    if (innerWidth > innerHeight * 1.5) {
+        
+    }
+
+
         if (config.ds_fs == 'medium') {
             value_fs = '20.4vw';
             title_fs = '7.4vw';

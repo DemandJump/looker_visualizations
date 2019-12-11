@@ -277,7 +277,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   measures.forEach(measure => {
     mNodeRef.push(measure.name)
     mNodeLabel.push(measure.label_short)
-    })
+    });
   //   console.log('These are the measure reference names', mNodeRef);
 
 
