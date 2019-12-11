@@ -292,12 +292,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
-  d3.select('.djvsElement')
-      .style('text-align', 'center')
-      .style('padding', '0')
-      .style('margin', '0')
-      .style('vertical-align', ',middle')
-      .style('display', 'block');
+  // d3.select('.djvsElement')
+  //     .style('text-align', 'center')
+  //     .style('padding', '0')
+  //     .style('margin', '0')
+  //     .style('vertical-align', ',middle')
+  //     .style('display', 'block');
 
   if (element_spacing == 'word_break') {
       element.innerHTML = `
@@ -312,7 +312,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               <div class="djvsTitle" style="margin: auto;  display: block;  position: relative;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>
 
+          <!--
           <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
+          -->
+          <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
+
       `;
   }
 
