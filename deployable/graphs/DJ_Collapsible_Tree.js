@@ -389,7 +389,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   nodeEnter.append('circle')
       .attr('class', 'djctCircle')
       .attr('r', '25px')
-      .style('fill', d => d.children ? "#008CCD" : "#a5a5a5");
+      .style('fill', "#008CCD")
+      .style('stroke', '#999999');
 
 
   // Add labels for the nodes
