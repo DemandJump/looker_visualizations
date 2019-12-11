@@ -787,7 +787,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         breadCrumbs = d3.select('.breadcrumbContainer').selectAll('span')
             .data(breadCrumbData).append('span')
                 .attr('class', 'breadCrumb')
-                .attr('id', d => d.breadCrumbId)
+                .attr('id', d => {
+                  console.log('Going through and appending data and span breadcrumbs!');
+                  console.log('This is d', d);
+                  d.breadCrumbId
+                })
                 .html(`Bread crumb with id of: ${d.breadCrumbId}`);   
                 
         breadCrumbs.on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation()));
