@@ -239,7 +239,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .data(nodes, function(d) { return d.id} ).enter()
         .append("circle") 
             .attr('class', 'node')
-            .attr('id', d => { if(d.data.id) { if(d.data.id == 'tether') return 'tether'; } })
+            .attr('id', d => { 
+                if(d.data.id) { 
+                    if(d.data.id == 'tether') return `tether ${d.index}`; 
+                }
+                return `${d.index}`;
+            })
             .attr("fill", d => {
                 if (config.dynamicColoring == true) {
                     return questionSearchColoring(d);
@@ -760,31 +765,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
 
+    let breadCrumbData;
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll('*').remove();
         d3.select('.breadcrumbContainer').style('display', 'inline-block');
+        breadCrumbData = [];
 
-        for(let i = 0; i < breadCrumbIds.length; i++) {
-            d3.select('.breadcrumbContainer').append('span')
-                .attr('class', 'breadcrumbs')
-                .attr('id', breadCrumbIds[i])
-                .style('position', 'absolute')
-                .style('top', 0)
-                .style('top', 40)
-                .style('z-index', 1)
-                .style('height', '40px')
-                .html(` `);
-            }
+        d3.select('.breadcrumbContainer').selectAll('span')
+            .data(breadCrumbData).append('span')
+                .attr('class', 'breadCrumb')
+                .attr('id', d => d.breadCrumbId)
+                .html(`Bread crumb with id of: ${d.breadCrumbId}`);
+        
     
-          let id = `#bc${d.depth}`;
-          d3.select(id).html(d.data.name);
-          let node = d;
-          for(let i = d.depth; i > 1; i--) {
-              node = node.parent;
-              id = `#bc${i - 1}`;
-              d3.select(id).html(` > ${node.data.name}`);
-          }
+        let id = `#bc${d.depth}`;
+        d3.select(id).html(d.data.name);
+
+        d.breadCrumbId = id;
+        breadCrumbData.push(d);
+
+        let node = d;
+        for(let i = d.depth; i > 1; i--) {
+            node = node.parent;
+            id = `#bc${i - 1}`;
+            d3.select(id).html(` > ${node.data.name}`);
+
+            node.breadCrumbId = id;
+            breadCrumbData.push(node);
+        }
     }
+    console.log('This is the breadcrumb data', breadCrumbData);
 
     // function initBreadCrumbs(d) {
     //     d3.select('.breadcrumbContainer').selectAll("*").remove(); 
