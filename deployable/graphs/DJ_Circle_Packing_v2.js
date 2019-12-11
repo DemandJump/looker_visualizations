@@ -799,10 +799,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('This is crumb zoom d: ', d);
         let bcSelect = nodes.filter(node => d.index == node.index);
         console.log('This is the filtered node!', bcSelect);
-        if (bcSelect.length != 0) zoomThenRefactor(bsSelect[0]);
+        if (bcSelect.length != 0) zoomThenRefactor(bcSelect[0]);
 
         // let id = `#${d.index}`;
-        // simulateClick(document.getElementById(`${d.index}`), 'click');
+        // if (d.index) simulateClick(document.getElementById(`${d.index}`), 'click');
     }
 
     // function initBreadCrumbs(d) {
