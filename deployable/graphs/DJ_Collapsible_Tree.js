@@ -219,11 +219,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
   root.children.forEach(collapse);
   function collapse(d) {
-    if(d.children) {
-      if (d.depth > this._collapseAmount) d._children = d.children;
-      d._children.forEach(collapse);
-      if (d.depth > this._collapseAmount) d.children = null;
-    }
+      if(d.children) {
+          if (d.depth > this._collapseAmount) {
+              d._children = d.children;
+              d._children.forEach(collapse);
+              d.children = null;
+          } else {
+              d.children.forEach(collapse);
+          }
+      }
   }
   
   container.call(zoom_handler);
