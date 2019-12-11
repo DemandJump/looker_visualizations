@@ -742,7 +742,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let spacing = `${h}px`
             d3.select('.breadcrumbContainer').append('div')
                 .attr('class', 'breadcrumbs')
-                .attr('id', breadCrumbIds[i])
                 .style('position', 'absolute')
                 .style('top', spacing)
                 .style('left', 0)
@@ -759,6 +758,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
         d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
+
     // function initBreadCrumbs(d) {
     //     d3.select('.breadcrumbContainer').selectAll("*").remove(); 
     //     // console.log('This is the maxDepth', maxDepth);
