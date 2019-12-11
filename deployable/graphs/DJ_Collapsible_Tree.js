@@ -155,7 +155,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let changed = false;
     configureSettings();
     this.options = configuration;
-    
+
     if (this._counter == 0) {
       this._counter ++;
       this.trigger('registerOptions', this.options);
@@ -491,7 +491,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d.children = null;
       }
     update(d);
-    console.log('this is the clicked node data', d);
+    // console.log('this is the clicked node data', d);
   }
 
   function colorCircles(d) {
