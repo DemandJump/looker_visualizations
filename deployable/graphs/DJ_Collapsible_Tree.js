@@ -494,7 +494,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // Toggle children on click.
   function click(d) {
-    if (d.children) {
+    if (d.children || d.children.length == 0) {
         d._children = d.children;
         d.children = null;
       } else {
