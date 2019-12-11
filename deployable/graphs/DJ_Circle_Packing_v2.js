@@ -795,11 +795,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             })
             .html(`Bread crumb with id of: ${d.breadCrumbId}`);   
                 
-        breadCrumbs.on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation()));
+        breadCrumbs.on("click", d => focus !== d && (crumbZoom(d), d3.event.stopPropagation()));
     }
 
     function crumbZoom(d) {
-        
+        let bcSelect = nodes.filter(node => d.index == node.index);
+        console.log('This is the filtered node!', bcselect);
+        zoomThenRefactor(bsSelect);
     }
 
     // function initBreadCrumbs(d) {
