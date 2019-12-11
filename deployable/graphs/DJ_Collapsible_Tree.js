@@ -544,7 +544,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             label: 'Expand the tree out multiple levels',
             order: 12,
             type: 'string',
-            sections: 'Styling',
+            sections: 'Nodes',
             display: 'select',
             values: [],
             default: '0'
