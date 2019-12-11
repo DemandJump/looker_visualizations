@@ -759,6 +759,32 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
     } // End of initBreadCrumbs
 
+    function breadCrumbLinks(d) {
+        d3.select('.breadcrumbContainer').selectAll('*').remove();
+        d3.select('.breadcrumbContainer').style('display', 'inline-block');
+
+        for(let i = 0; i < breadCrumbIds.length; i++) {
+            d3.select('.breadcrumbContainer').append('span')
+                .attr('class', 'breadcrumbs')
+                .attr('id', breadCrumbIds[i])
+                .style('position', 'absolute')
+                .style('top', 0)
+                .style('top', 40)
+                .style('z-index', 1)
+                .style('height', '40px')
+                .html(` `);
+            }
+    
+          let id = `#bc${d.depth}`;
+          d3.select(id).html(d.data.name);
+          let node = d;
+          for(let i = d.depth; i > 1; i--) {
+              node = node.parent;
+              id = `#bc${i - 1}`;
+              d3.select(id).html(` > ${node.data.name}`);
+          }
+    }
+
     // function initBreadCrumbs(d) {
     //     d3.select('.breadcrumbContainer').selectAll("*").remove(); 
     //     // console.log('This is the maxDepth', maxDepth);
