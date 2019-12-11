@@ -737,30 +737,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         } // End of for loop
     } // End of configureDimensions
 
-    function initBreadCrumbss(d) {
-        d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-            // Init the breadcrumbs
-            let h = 40;
-            let spacing = `${h}px`
-            d3.select('.breadcrumbContainer').append('div')
-                .attr('class', 'breadcrumbs')
-                .style('position', 'absolute')
-                .style('top', spacing)
-                .style('left', 0)
-                .style('top', 40)
-                .style('z-index', 1)
-                .style('height', '40px')
-                .html(` `);
-
-        let breadcrumb = `${d.data.name}`;
-        let node = d;
-        for(let i = d.depth; i > 1; i--) {
-            node = node.parent;
-            breadcrumb = node.data.name + breadcrumb;
-        }
-        d3.select('.breadcrumbContainer').append('div').html(breadcrumb);
-    } // End of initBreadCrumbs
-
 
     function initBreadCrumbs(d) {
         d3.select('.breadcrumbContainer').selectAll('*').remove();
@@ -791,54 +767,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('id', d => {
               return d.breadCrumbId;
             })
-            .html(`Bread crumb with id of: ${d.breadCrumbId}`)
+            .html(d.data.name)
             .on("click", d => crumbZoom(d));
     }
 
     function crumbZoom(d) {
-        console.log('This is crumb zoom d: ', d);
         let bcSelect = nodes.filter(node => d.index == node.index);
-        console.log('This is the filtered node!', bcSelect);
         if (bcSelect.length != 0) zoomThenRefactor(bcSelect[0]);
-
         // let id = `#${d.index}`;
         // if (d.index) simulateClick(document.getElementById(`${d.index}`), 'click');
     }
 
-    // function initBreadCrumbs(d) {
-    //     d3.select('.breadcrumbContainer').selectAll("*").remove(); 
-    //     // console.log('This is the maxDepth', maxDepth);
-
-    //         // Init the breadcrumbs
-    //     for(let i = 0; i < breadCrumbIds.length; i++) {
-    //         let h = i * 40;
-    //         let spacing = `${h}px`
-    //         d3.select('.breadcrumbContainer').append('div')
-    //             .attr('class', 'breadcrumbs')
-    //             .attr('id', breadCrumbIds[i])
-    //             .style('position', 'absolute')
-    //             .style('top', spacing)
-    //             .style('left', 0)
-    //             .style('z-index', 1)
-    //             .style('height', '40px')
-    //             .html(` `);
-    //     } // end of for loop
-    //     for(let i = 0; i < breadCrumbIds.length; i++) {
-    //         let h = i * 40;
-    //         let id = `#${breadCrumbIds[i]}`;
-    //         d3.select(id).style('top', h);
-    //     }
-
-    //     let id = `#bc${d.depth}`;
-    //     d3.select(id).html(d.data.name);
-    //     let node = d;
-    //     for(let i = d.depth; i > 1; i--) {
-    //         node = node.parent;
-    //         id = `#bc${i - 1}`;
-    //         d3.select(id).html(node.data.name);
-    //     }
-
-    // } // End of initBreadCrumbs
 
     /*******************************************************
         * Taxonomy Functions Section *
