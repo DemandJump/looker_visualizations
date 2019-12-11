@@ -255,27 +255,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   container.call(zoom_handler);
 
 
-
-  if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
-  console.log('collapse depth', config.collapseDepth);
-  console.log('collapse amount', this._collapseAmount);
-
-  root.children.forEach(collapse);
-  function collapse(d) {
-      if(d.children) {
-          console.log(`depth: ${d.depth}, and collapseDepth: ${config.collapseDepth}`);
-          console.log('This is the depth', d);
-          if (d.depth > config.collapseDepth) {
-              d._children = d.children;
-              d._children.forEach(collapse);
-              d.children = null;
-          } else {
-              d.children.forEach(collapse);
-          }
-      }
-  }
-  
-
   let updatInit = 0;
   let mNodeRef = []; // Add all the measures as nodes within the visualization!
   let mNodeLabel = []; // so first find all the names of the measures so we can reference them
@@ -308,14 +287,36 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
   let maxDepth = 0;
-  root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
-  root.descendants().forEach(node => {
-    if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-      node._children = node.children;
-      node.children = null ;
-    }
-  })
-  // console.log('This is the new max depth', maxDepth)
+  if (measures.length != 0) {
+      root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
+      root.descendants().forEach(node => {
+        if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+          node._children = node.children;
+          node.children = null;
+        }
+      })
+      // console.log('This is the new max depth', maxDepth);
+  }
+
+
+  if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
+  console.log('collapse depth', config.collapseDepth);
+  console.log('collapse amount', this._collapseAmount);
+  root.children.forEach(collapse);
+  function collapse(d) {
+      if(d.children) {
+          console.log(`depth: ${d.depth}, and collapseDepth: ${config.collapseDepth}`);
+          console.log('This is the depth', d);
+          if (d.depth > config.collapseDepth) {
+              d._children = d.children;
+              d._children.forEach(collapse);
+              d.children = null;
+          } else {
+              d.children.forEach(collapse);
+          }
+      }
+  }
+  
 
 
   update(root);
