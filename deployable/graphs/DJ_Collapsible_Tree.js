@@ -131,7 +131,7 @@ burrow: function(table, taxonomy) {
     // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
     let d3 = d3v5; // Pull in the d3 selector as it's normal reference 
-    console.log('Original settings', this.options);
+    console.log('\n\n\n\nOriginal settings', this.options);
     console.log('config', config);
     console.log('queryResponse', queryResponse);
     console.log('data', data);
