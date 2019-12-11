@@ -773,7 +773,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             })
             .style('position', 'relative')
             .style('z-index', '1')
-            .style('font-size', '1rem')
+            .style('font-size', '1.2rem')
             .on("click", d => crumbZoom(d));
     }
 
