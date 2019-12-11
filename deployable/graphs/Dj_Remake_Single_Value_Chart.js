@@ -296,7 +296,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .style('text-align', 'center')
       .style('padding', '0')
       .style('margin', '0')
-      .style('vertical-align', 'center')
+      .style('vertical-align', ',middle')
       .style('display', 'block');
 
   if (element_spacing == 'word_break') {
