@@ -538,7 +538,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d.children = null;
       }
     update(d);
-    // console.log('this is the clicked node data', d);
+    console.log('this is the clicked node data', d);
   }
 
   function colorCircles(d) {
