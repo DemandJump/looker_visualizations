@@ -482,7 +482,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   // Toggle children on click.
   function click(d) {
-    console.log('Before click of node', d); 
     if (d.children == null) {
         d.children = d._children;
         d._children = null;
