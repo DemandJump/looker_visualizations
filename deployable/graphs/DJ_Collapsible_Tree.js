@@ -452,7 +452,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     .style('fill', d => {
         return d._children ? chosenColors[d.depth] // "#008CCD" 
         : !d._children && !d.children ? chosenColors[d.depth] // "#FEBF43" 
-        : "#999999";
+        : "#008CCD";
     })
     .style('stroke', d => {
       return d.children ? '#008CCD' : '#999999';
