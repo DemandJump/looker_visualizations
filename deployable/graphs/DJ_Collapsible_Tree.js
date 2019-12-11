@@ -152,10 +152,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999'];
     let colorCounter = 0;
 
-    let configuration = this.options;
-    let changed = false;
-
-
 
         // This is a loop for all the dimensions to color 
     dimensions.forEach((dimension, index) => {
