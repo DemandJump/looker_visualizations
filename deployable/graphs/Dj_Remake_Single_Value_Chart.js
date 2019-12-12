@@ -152,7 +152,7 @@ create: function(element, config) {
     .style('padding', '0')
     .style('position', 'relative')
     .style('vertical-align', ',middle');
-    
+
 
       // Insert a <style> tag with some styles we'll use later.
   element.innerHTML = `
