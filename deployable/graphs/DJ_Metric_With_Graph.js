@@ -113,18 +113,20 @@ looker.plugins.visualizations.add({
                 }
             });
         }
-              // We need to create two different stacks based on whether it's measures or a pivot calculation
+        
+          // We need to create two different stacks based on whether it's measures or a pivot calculation
         if (calculation == 'pivot') {
                 // Mutate the data so that it's side by side
             let pivotName = measures[0].name;
             data.forEach( (node, index) => {
                 let pp = node[pivotName]['Current Period'];
                 let cp = node[pivotName]['Previous Period'];
-                if (index < iterations) {
+                if (index < iterations - 1) {
                     currPer.push(node[pivotName]['Current Period'].value);
                 } else {
                     prevPer.push(node[pivotName]['Previous Period'].value);
                 }
+
                 node['currentPeriod'] = pp;
                 node['previousPeriod'] = cp;
             });
@@ -136,6 +138,11 @@ looker.plugins.visualizations.add({
                 }
                 newData.push(obj);
             }
+            newData.forEach(node => {
+                if (node.value1 == null || node.value1 == undefined) node.value1 = 0;
+                if (node.value0 == null || node.value0 == undefined) node.value0 = 0;
+            });
+
             console.log('This is newData', newData);
             data = data.slice(0, iterations * -1);
         }
