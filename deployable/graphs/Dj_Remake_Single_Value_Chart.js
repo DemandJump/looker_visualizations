@@ -145,6 +145,7 @@ create: function(element, config) {
   let d3 = d3v5; // Pull in d3 selector as it's normal reference
 
   d3.select(element)
+    .attr('class', 'djvsElement')
     .style('display', 'block')
     .style('box-sizing', 'border-box')
     .style('text-align', 'center')
@@ -169,13 +170,6 @@ create: function(element, config) {
 
         <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
   `;
-  d3.select(element)
-    .attr('class', 'djvsElement')
-    .style('margin', '0')
-    .style('padding', '0')
-    .style('text-align', 'center')
-    .style('width', '100%')
-    .style('height', '100%');
 // .value -> max-width: 344px; color: rgba(58, 66, 69, 0.5);
   
 },
@@ -302,7 +296,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </style>
 
           <!--
-          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+          <div class="djvsContainer" style="margin: auto;  display: inline-block;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
               <div class="djvsValue" style="margin: auto;  display: block;  position: relative;  font-size: 9vw;  font-style: normal;"></div>
               <div class="djvsTitle" style="margin: auto;  display: block;  position: relative;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>
