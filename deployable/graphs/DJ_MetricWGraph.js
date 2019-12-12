@@ -120,8 +120,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let cp = node[pivotName]['Previous Period'];
             if (index < iterations) {
                 currPer.push(node[pivotName]['Current Period'].value);
-            } 
-            if (index >= iterations) {
+                console.log('Current period v0', node[pivotName]['Current Period'].value); 
+            } else {
+                console.log('Previous period v1', node[pivotName]['Previous Period'].value); 
                 prevPer.push(node[pivotName]['Previous Period'].value);
             }
             node['currentPeriod'] = pp;
