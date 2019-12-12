@@ -586,6 +586,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
 
+
       /******************************************/
 /******************************************************
                     * D3 LIBRARY *
