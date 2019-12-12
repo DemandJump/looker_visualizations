@@ -401,6 +401,7 @@ looker.plugins.visualizations.add({
 
 
         function createStack() {
+            console.log('This is stackedValues', stackedValues);
             stackedValues.forEach((layer, index) => {
                 const currentStack = [];
                 layer.forEach((d, i) => {
