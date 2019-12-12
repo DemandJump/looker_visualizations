@@ -226,7 +226,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
   if (measures[1]) calculation = 'two measures';
   if (queryResponse.fields.pivots.length >= 1) calculation = 'pivot measure';
-  console.log('calculation is ', calculation);
+  // console.log('calculation is ', calculation);
 
   
   if (calculation == 'one measure') {
