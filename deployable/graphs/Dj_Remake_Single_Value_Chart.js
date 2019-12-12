@@ -284,7 +284,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let font_style = 'word_break'; // wb: word break, vw: viewport width // 
   if (window.innerWidth < 350) font_style = 'dynamic_size';
   let element_spacing = 'word_break';
-  if (window.innerHeight < 200) element_spacing = 'dynamic_size';
+  let spacing = 200;
+  if (config.showLabel == true) spacing = 350;
+  if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
 
 
   if (element_spacing == 'word_break') {
