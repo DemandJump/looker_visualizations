@@ -119,12 +119,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let pp = node[pivotName]['Current Period'];
             let cp = node[pivotName]['Previous Period'];
             if (index < iterations - 1) {
-                if (cp == null) cp = 0;
-                currPer.push(cp.value);
+                if (node[pivotName]['Current Period'].value == null || typeof node[pivotName]['Current Period'].value == 'undefined') {
+                    currPer.push(0);
+                } else { currPer.push(node[pivotName]['Current Period'].value); }
             } else {
-                if (pp == null) pp = 0;
-                prevPer.push(pp.value);
+                if (node[pivotName]['Previous Period'].value == null || typeof node[pivotName]['Previous Period'].value == 'undefined') {
+                    prevPer.push(0);
+                } else { prevPer.push(node[pivotName]['Previous Period'].value); }
             }
+
             node['currentPeriod'] = pp;
             node['previousPeriod'] = cp;
         });
