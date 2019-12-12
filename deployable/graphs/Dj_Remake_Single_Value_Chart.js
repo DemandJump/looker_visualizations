@@ -145,13 +145,14 @@ create: function(element, config) {
   let d3 = d3v5; // Pull in d3 selector as it's normal reference
 
   d3.select(element)
-    .style('display', 'inline-block')
+    .style('display', 'block')
+    .style('box-sizing', 'border-box')
     .style('text-align', 'center')
-    .style('margin', 'auto')
+    .style('margin', '0')
     .style('padding', '0')
     .style('position', 'relative')
-    .style('box-sizing', 'border-box');
-
+    .style('vertical-align', ',middle');
+    
 
       // Insert a <style> tag with some styles we'll use later.
   element.innerHTML = `
@@ -291,14 +292,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let element_spacing = 'word_break';
   if (window.innerHeight < 150) element_spacing = 'dynamic_size';
 
-
-
-  // d3.select('.djvsElement')
-  //     .style('text-align', 'center')
-  //     .style('padding', '0')
-  //     .style('margin', '0')
-  //     .style('vertical-align', ',middle')
-  //     .style('display', 'block');
 
   if (element_spacing == 'word_break') {
       element.innerHTML = `
