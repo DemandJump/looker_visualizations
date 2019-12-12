@@ -234,6 +234,8 @@ looker.plugins.visualizations.add({
                 let diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
                 let divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
             }
+            console.log('This is diff', diff);
+            console.log('This is divi', divi);
 
             percent = divi.toFixed(2);
             let rendiff = numberWithCommas(diff);
@@ -399,7 +401,6 @@ looker.plugins.visualizations.add({
 
 
         function createStack() {
-            console.log('This is stackedValues', stackedValues);
             stackedValues.forEach((layer, index) => {
                 const currentStack = [];
                 layer.forEach((d, i) => {
