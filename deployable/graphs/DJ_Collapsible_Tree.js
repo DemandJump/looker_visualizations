@@ -11,6 +11,16 @@
         type: 'boolean', 
         section: 'Styling',
         default: false
+      }, 
+
+      notes: {
+        label: "Title notes",
+        order: .4,
+        section: "Styling",
+        type: "sentence_maker",
+        words: [
+            { type: "separator", text: "Choose the color for each corresponding dimension" }
+        ]
       }
     },
 
@@ -156,7 +166,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // This is a loop for all the dimensions to color 
     dimensions.forEach((dimension, index) => {
         this.options[dimension.name] = {
-            label: dimension.name, 
+            label: dimension.label_short, 
             order: index + 1,
             type: 'string',
             section: 'Styling',
