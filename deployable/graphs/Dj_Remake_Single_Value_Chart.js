@@ -333,15 +333,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               div { font-weight: 300; font-family: 'Roboto'; margin: 0; padding: 0; text-align: center; }
           </style>
 
-          <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
 
           <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
+              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
               <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
 
           <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
       `;
   }
+  console.log('This is the window innerwidth', window.innerWidth);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
@@ -364,11 +365,6 @@ d3.select('div.djvsValue').style('color', config.color);  // This colors the tex
 if (font_style == "dynamic_size") { // based on whether the select statement for varying font size // config.text_spacing == "dynamic_size"
     let innerWidth = window.innerWidth;
     let innerHeight = window.innerHeight;
-    
-    if (innerWidth > innerHeight * 1.5) {
-        
-    }
-
 
         if (config.ds_fs == 'medium') {
             value_fs = '20.4vw';
