@@ -231,8 +231,8 @@ looker.plugins.visualizations.add({
                 diff = queryResponse.totals_data[measures[0].name]['Current Period'].value - queryResponse.totals_data[measures[0].name]['Previous Period'].value;
                 divi = (queryResponse.totals_data[measures[0].name]['Current Period'].value / queryResponse.totals_data[measures[0].name]['Previous Period'].value) * 100;
             } else {  
-                let diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
-                let divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
+                diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
+                divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
             }
             console.log('This is diff', diff);
             console.log('This is divi', divi);
