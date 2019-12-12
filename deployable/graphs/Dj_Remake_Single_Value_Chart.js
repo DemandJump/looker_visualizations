@@ -284,7 +284,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let font_style = 'word_break'; // wb: word break, vw: viewport width // 
   if (window.innerWidth < 350) font_style = 'dynamic_size';
   let element_spacing = 'word_break';
-  if (window.innerHeight < 150) element_spacing = 'dynamic_size';
+  if (window.innerHeight < 200) element_spacing = 'dynamic_size';
 
 
   if (element_spacing == 'word_break') {
@@ -300,15 +300,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               <div class="djvsTitle" style="margin: auto;  display: block;  position: relative;  font-size: 1.6rem;  color: #A5A9AA;"></div>
           </div>
           <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>   
-
-
-          <!--
-          <div class="djvsContainer" style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
-              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
-              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
-          </div>
-          <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
-          -->
       `;
   }
 
@@ -321,7 +312,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </style>
 
 
-          <div class="djvsContainer" style="margin: auto;  display; block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
+          <div class="djvsContainer" style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
               <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
               <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
