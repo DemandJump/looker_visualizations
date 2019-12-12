@@ -119,19 +119,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             let pp = node[pivotName]['Current Period'];
             let cp = node[pivotName]['Previous Period'];
             if (index < iterations - 1) {
-                if (node[pivotName]['Current Period'].value == null || typeof node[pivotName]['Current Period'].value == 'undefined') {
-                    currPer.push(0);
-                } else { currPer.push(node[pivotName]['Current Period'].value); }
+                currPer.push(node[pivotName]['Current Period'].value);
             } else {
-                if (node[pivotName]['Previous Period'].value == null || typeof node[pivotName]['Previous Period'].value == 'undefined') {
-                    prevPer.push(0);
-                } else { prevPer.push(node[pivotName]['Previous Period'].value); }
+                prevPer.push(node[pivotName]['Previous Period'].value);
             }
 
             node['currentPeriod'] = pp;
             node['previousPeriod'] = cp;
         });
 
+        
         for(let i = 0; i < iterations; i++) {
             let obj = {
               value1: prevPer[i],
@@ -139,6 +136,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
             newData.push(obj);
         }
+        newData.forEach(node => {
+            if (node.value1 == null || node.value1 == undefined) node.value1 = 0;
+            if (node.value0 == null || node.value0 == undefined) node.value0 = 0;
+        });
+
+
         console.log('This is newData', newData);
         data = data.slice(0, iterations * -1);
     }
