@@ -360,15 +360,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
       // zoom_handler.translateBy(container, root.x, root.y);
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
-      let x = -1 * (root.x - (window.innerHeight / 2)); // 2 
-      let y = root.y + (window.innerWidth / 4); // 4
-      container.transition().duration(1200).call(
-        zoom_handler.transform,
-        d3.zoomIdentity.translate(y, x).scale(1) // 1
-      );
 
-      let tf = zoom_handler.transform;
-      console.log('This is the zoom handler transform object', tf);
+      // let x = -1 * (root.x - (window.innerHeight / 2)); // 2 
+      // let y = root.y + (window.innerWidth / 4); // 4
+      // container.transition().duration(1200).call(
+      //   zoom_handler.transform,
+      //   d3.zoomIdentity.translate(y, x).scale(1) // 1
+      // );
+      
+      rsvg.transition().duration(740).call(
+        zoom.transform,
+        d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-root.y, -root.x),
+        // d3.mouse(rsvg.node())
+      );
 
   }
   
