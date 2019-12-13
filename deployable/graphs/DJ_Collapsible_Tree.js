@@ -360,20 +360,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
       // zoom_handler.translateBy(container, root.x, root.y);
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
-      let x = -1 * (root.x - (window.innerHeight / 2));
-      let y = root.y + (window.innerWidth / 4);
+      let x = -1 * (root.x - (window.innerHeight / 4)); // 2 
+      let y = root.y + (window.innerWidth / 8); // 4
       // console.log(`New x: ${x}, and y: ${y}`);
 
       container.transition().duration(1200).call(
         zoom_handler.transform,
-        d3.zoomIdentity.translate(y, x).scale(1)
+        d3.zoomIdentity.translate(y, x).scale(.5) // 1
       );
 
       let tf = zoom_handler.transform;
       console.log('This is the zoom handler transform object', tf);
-      console.log(tf.x);
-      console.log(tf.y);
-      console.log(tf.k);
 
   }
   
