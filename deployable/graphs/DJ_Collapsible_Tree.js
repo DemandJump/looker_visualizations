@@ -164,7 +164,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     let settings = this.options;
     configureDimensionColors();
-    if (dimensionss.length != this._collapseAmount) {
+    if (dimensions.length != this._collapseAmount) {
         this._collapseAmount = dimensions.length;
         this.options = settings;
         this.trigger('registerOption', this.options);
