@@ -285,7 +285,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (window.innerWidth < 350) font_style = 'dynamic_size';
   let element_spacing = 'word_break';
   let spacing = 200;
-  if (config.showLabel == true) spacing = 250;
+  if (config.showLabel == true) spacing = 300;
   if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
 
 
@@ -347,41 +347,41 @@ if (font_style == "dynamic_size") { // based on whether the select statement for
     let innerWidth = window.innerWidth;
     let innerHeight = window.innerHeight;
 
-        if (config.ds_fs == 'medium') {
-            value_fs = '20.4vw';
-            title_fs = '7.4vw';
-            header_fs = '7vw';
-            arrowFontPass = '6vw';
-        } else if (config.ds_fs == 'large') {
-            value_fs = '30.4vw';
-            title_fs = '11vw';
-            header_fs = '9vw';
-            arrowFontPass = '7.4vw';
-        } else {
+        // if (config.ds_fs == 'medium') {
+        //     value_fs = '20.4vw';
+        //     title_fs = '7.4vw';
+        //     header_fs = '7vw';
+        //     arrowFontPass = '6vw';
+        // } else if (config.ds_fs == 'large') {
+        //     value_fs = '30.4vw';
+        //     title_fs = '11vw';
+        //     header_fs = '9vw';
+        //     arrowFontPass = '7.4vw';
+        // } else {
             value_fs = '16.4vw';
             title_fs = '6.4vw';
             header_fs = '6vw';
             arrowFontPass = '5.2vw';
-        }
+        // }
 }
 
 if (font_style == "word_break") {
-        if (config.wb_fs == 'small') {
-            value_fs = '3rem';
-            title_fs = '1.2rem';
-            header_fs = '1rem';
-            arrowFontPass = '.96rem';
-        } else if (config.wb_fs == 'large') {
-            value_fs = '6rem';
-            title_fs = '2rem';
-            header_fs = '1.6rem';
-            arrowFontPass = '1.45rem';
-        } else {
+        // if (config.wb_fs == 'small') {
+        //     value_fs = '3rem';
+        //     title_fs = '1.2rem';
+        //     header_fs = '1rem';
+        //     arrowFontPass = '.96rem';
+        // } else if (config.wb_fs == 'large') {
+        //     value_fs = '6rem';
+        //     title_fs = '2rem';
+        //     header_fs = '1.6rem';
+        //     arrowFontPass = '1.45rem';
+        // } else {
             value_fs = '4.5rem';
             title_fs = '1.6rem';
             header_fs = '1.2rem';
             arrowFontPass = '1rem';
-        }
+        // }
 }
 
 
