@@ -555,7 +555,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d3.event.stopPropagation();
     container.transition().duration(740).call(
       zoom_handler.transform,
-      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-d.y, -d.x),
+      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.5).translate(-d.y, -d.x),
       d3.mouse(container.node())
     );
   }
