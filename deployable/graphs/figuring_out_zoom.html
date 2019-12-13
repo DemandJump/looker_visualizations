@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <style>
+html, body {
+  margin: 0;
+  padding: 0;
+}
 
 .node circle {
   fill: #fff;
@@ -19,13 +23,15 @@
 }
 
 </style>
-
-<body>
-
 <!-- load the d3.js library -->	
 <!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script> 
 
+
+<body>
+    <svg class="svgs">
+            <g class="container"></g>
+</svg>
 
 <script>
 
@@ -44,35 +50,33 @@ var treeData =
     ]
   };
 
-// Set the dimensions and margins of the diagram
+
+let rsvg = d3.select('svg.svgs')
+    .attr('width', window.innerWidth)
+    .attr('height', window.innerHeight);
+let svg = d3.select('g.container');
 
 
-// append the svg object to the body of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-var svg = d3.select("body").append("svg")
-    .attr("width", window.innerWidth)
-    .attr("height", window.innerHeight)
-  .append("g")
-    .attr('class', 'everything');
-    // .attr("transform", "translate("
-    //       + margin.left + "," + margin.top + ")");
+let zoom = d3.zoom().on('zoom', zoom_actions);
+function zoom_actions() {
+    svg.attr('transform', d3.event.transform);
+}
+rsvg.call(zoom);
 
-var i = 0,
+
+
+
+
+let i = 0,
     duration = 750,
     root;
-
-// declares a tree layout and assigns the size
-var treemap = d3.tree().size([window.innerHeight, window.innerWidth]);
-
-// Assigns parent, children, height, depth
+let treemap = d3.tree().size([window.innerHeight, window.innerWidth]);
 root = d3.hierarchy(treeData, function(d) { return d.children; });
 root.x0 = window.innerHeight / 2;
 root.y0 = 0;
 
 // Collapse after the second level
 root.children.forEach(collapse);
-
 update(root);
 
 // Collapse the node and all it's children
@@ -83,23 +87,6 @@ function collapse(d) {
     d.children = null
   }
 }
-
-
-let zoom_handler = d3.zoom()
-      .on('zoom', zoom_actions);
-let zbElement = d3.select('.everything'); // Zoom base element
-svg.call(zoom_handler);
-
-  // Zoom handler
-// let tr = d3.event.transform;
-// console.log('This is transform', tr);
-function zoom_actions() {
-    zbElement.attr('transform', d3.event.transform);
-  }
-
-
-
-
 
 function update(source) {
 
@@ -242,6 +229,13 @@ function update(source) {
 
 
     console.log('Click: this is d', d);
+    d3.event.stopPropagation();
+    rsvg.transition().duration(740).call(
+      zoom.transform,
+      d3.zoomIdentity.translate(width / 2, height / 2).scale(40).translate(-d.x, -d.y),
+      d3.mouse(rsvg.node())
+    );
+
 
 
   }
