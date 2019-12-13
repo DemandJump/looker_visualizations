@@ -328,7 +328,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   update(root);
   function update(source) {
   let leaves = root.leaves();
-  height = 54 * leaves.length; // This calculates the space between the nodes!
+  height = 84 * leaves.length; // This calculates the space between the nodes!
   treemap = d3.tree().size([height, width]);
   let treeData = treemap(root);
   let nodes = treeData.descendants();
