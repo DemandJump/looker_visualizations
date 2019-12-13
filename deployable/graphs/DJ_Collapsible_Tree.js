@@ -212,8 +212,43 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let mNodeRef = []; // Add all the measures as nodes within the visualization!
     let mNodeLabel = []; // so first find all the names of the measures so we can reference them
     let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-    appendLeafNodes(); 
-    collapseLeafNodes();
+    // appendLeafNodes(); 
+
+      measures.forEach(measure => {
+          mNodeRef.push(measure.name);
+          mNodeLabel.push(measure.label_short);
+      });
+      root.leaves().forEach(leaf => {
+          let newChildren = [];
+          mNodeRef.forEach(mnode => {
+              let newDepth = leaf.depth + 1
+              let mNodeObj = {
+                  mCount: mNodeLabel[mCounter], 
+                  data: leaf.data.data[mnode],
+                  depth: newDepth,
+                  parent: leaf
+              };
+              mNodeObj.data["name"] = mNodeObj.data.value;
+              newChildren.push(mNodeObj);
+              mCounter++;
+          });
+          leaf._children = null;
+          leaf.children = newChildren;
+          mCounter = 0; 
+      });
+
+    let maxDepth = 0;
+    // collapseLeafNodes();
+        if (measures.length != 0) {
+            root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
+            root.descendants().forEach(node => {
+                if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+                    node._children = node.children;
+                    node.children = null;
+                }
+            })
+            // console.log('This is the new max depth', maxDepth);
+        }
 
     if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
     root.children.forEach(collapse);
@@ -481,7 +516,6 @@ function update(source) {
 
 
     function collapseLeafNodes() {
-        let maxDepth = 0;
         if (measures.length != 0) {
             root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
             root.descendants().forEach(node => {
