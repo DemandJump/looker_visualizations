@@ -364,7 +364,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       let y = root.y + (window.innerWidth / 4); // 4
       container.transition().duration(1200).call(
         zoom_handler.transform,
-        d3.zoomIdentity.translate(y, x).scale(.5) // 1
+        d3.zoomIdentity.translate(y, x).scale(1) // 1
       );
 
       let tf = zoom_handler.transform;
@@ -547,12 +547,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d.children = null;
       }
     update(d);
-    console.log('this is the clicked node data', d);
-    let x = -1 * (d.x - (window.innerHeight / 2)); // 2 
-    let y = d.y + (window.innerWidth / 4); // 4
-    container.transition().duration(500).call(
-      zoom_handler.transform,
-      d3.zoomIdentity.translate(y, x).scale(1) // 1
+    console.log('this is the clicked node data', d);    
+    d3.event.stopPropagation();
+    rsvg.transition().duration(740).call(
+      zoom.transform,
+      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-d.y, -d.x),
+      d3.mouse(rsvg.node())
     );
   }
 
