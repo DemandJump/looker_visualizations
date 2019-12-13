@@ -369,11 +369,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         d3.zoomIdentity.translate(y, x).scale(1)
       );
 
-      let zhtf = zoom_handler.transform;
-      console.log('This is the zoom handler transform object', zhtf);
-      
-      let tf = d3.event.transform;
-      console.log('This is the transform object', tf);
+      let tf = zoom_handler.transform;
+      console.log('This is the zoom handler transform object', tf);
+      console.log(tf.x);
+      console.log(tf.y);
+      console.log(tf.k);
 
   }
   
