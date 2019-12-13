@@ -78,7 +78,7 @@ create: function(element, config) {
           stroke-width: 2px;
         }
         
-        .djctText text { /* Cool trick to make the captions on the links more readable! */
+        .djctText, text { /* Cool trick to make the captions on the links more readable! */
             text-shadow:
              -1px -1px 3px white,
              -1px  1px 3px white,
@@ -87,6 +87,7 @@ create: function(element, config) {
             pointer-events: none; /* This hides the edit cursor when you hover over the labels */
             font-family: 'Playfair Display', serif;
         }
+        svg { border: 1px solid black; }
         </style>
         `;
 
@@ -554,7 +555,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d3.event.stopPropagation();
     container.transition().duration(740).call(
       zoom_handler.transform,
-      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 4).scale(1).translate(-d.y, -d.x),
+      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-d.y, -d.x),
       d3.mouse(container.node())
     );
   }
