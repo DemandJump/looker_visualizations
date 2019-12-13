@@ -362,8 +362,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
       let x = -1 * (root.x - (window.innerHeight / 4)); // 2 
       let y = root.y + (window.innerWidth / 8); // 4
-      // console.log(`New x: ${x}, and y: ${y}`);
-
       container.transition().duration(1200).call(
         zoom_handler.transform,
         d3.zoomIdentity.translate(y, x).scale(.5) // 1
@@ -550,6 +548,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       }
     update(d);
     console.log('this is the clicked node data', d);
+    let x = -1 * (d.x - (window.innerHeight / 2)); // 2 
+    let y = d.y + (window.innerWidth / 4); // 4
+    container.transition().duration(500).call(
+      zoom_handler.transform,
+      d3.zoomIdentity.translate(y, x).scale(1) // 1
+    );
   }
 
   function colorCircles(d) {
