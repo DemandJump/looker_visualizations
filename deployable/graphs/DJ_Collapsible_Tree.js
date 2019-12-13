@@ -551,7 +551,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d3.event.stopPropagation();
     rsvg.transition().duration(740).call(
       zoom.transform,
-      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-d.y, -d.x),
+      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 4).scale(1).translate(-d.y, -d.x),
       d3.mouse(rsvg.node())
     );
   }
