@@ -212,8 +212,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let mNodeRef = []; // Add all the measures as nodes within the visualization!
     let mNodeLabel = []; // so first find all the names of the measures so we can reference them
     let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-    // appendLeafNodes(); 
 
+    // appendLeafNodes(); 
       measures.forEach(measure => {
           mNodeRef.push(measure.name);
           mNodeLabel.push(measure.label_short);
@@ -238,17 +238,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       });
 
     let maxDepth = 0;
+
     // collapseLeafNodes();
-        if (measures.length != 0) {
-            root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
-            root.descendants().forEach(node => {
-                if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-                    node._children = node.children;
-                    node.children = null;
-                }
-            })
-            // console.log('This is the new max depth', maxDepth);
-        }
+    if (measures.length != 0) {
+        root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
+        root.descendants().forEach(node => {
+            if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+                node._children = node.children;
+                node.children = null;
+            }
+        })
+        // console.log('This is the new max depth', maxDepth);
+    }
 
     if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
     root.children.forEach(collapse);
