@@ -271,6 +271,7 @@ function update(source) {
   let leaves = root.leaves();
   height = 84 * leaves.length; // This calculates the text space between the nodes!
   treemap = d3.tree().size([height, width]);
+  console.log('This is root', root);
   let treeData = treemap(root);
   let nodes = treeData.descendants();
   let links = treeData.descendants().slice(1);
