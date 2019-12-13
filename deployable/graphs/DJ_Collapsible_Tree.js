@@ -369,7 +369,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // );
       
       container.transition().duration(740).call(
-        zoom.transform,
+        zoom_handler.transform,
         d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-root.y, -root.x),
         // d3.mouse(rsvg.node())
       );
@@ -554,7 +554,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     console.log('this is the clicked node data', d);    
     d3.event.stopPropagation();
     container.transition().duration(740).call(
-      zoom.transform,
+      zoom_handler.transform,
       d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 4).scale(1).translate(-d.y, -d.x),
       d3.mouse(rsvg.node())
     );
