@@ -306,7 +306,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // ****************** Move camera to center of tree ***************************
 
   if (updatInit == 0) {
-      updateInit++;
+      updatInit++;
       
       container.transition().duration(740).call(
         zoom_handler.transform,
