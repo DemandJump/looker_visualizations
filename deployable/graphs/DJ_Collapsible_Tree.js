@@ -27,7 +27,6 @@
     // Onto the create section 
 create: function(element, config) {
     let d3 = d3v5; // Pull in d3 selector as it's normal reference
-    this._counter = 0;
     this._hidden = false; // Set it to true for the commented out options values
     this._resetColors = true;
     this._collapseAmount = 0;
@@ -163,67 +162,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let defaultColors = ['#999999', '#B6DCB7', '#FF6B00', '#008CCD', '#F8B0A3', '#FDBC40', '#D9524A', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999', '#999999'];
     let colorCounter = 0;
 
-
-        // This is a loop for all the dimensions to color 
-    dimensions.forEach((dimension, index) => {
-        this.options[dimension.name] = {
-            label: dimension.label_short, 
-            order: index + 1,
-            type: 'string',
-            section: 'Styling',
-            display: 'color',
-            default: defaultColors[colorCounter]
-        }
-        colorCounter++;
-    });
-
-      // This is the color for the measures altogether
-    this.options['djdh_measures'] = {
-        label: 'measures',
-        order: 11,
-        type: 'string',
-        section: 'Styling', 
-        display: 'color',
-        default: '#FFE09B'
-    };
-
-    this.options['collapseDepth'] = {
-        label: 'Expand the tree out multiple levels',
-        order: 0,
-        type: 'string', 
-        display: 'select',
-        section: 'Styling',
-        values: [],
-        default: '0'
-    }
-
-    let dimensionLength = dimensions.length; 
-    for(let i = 0; i < dimensionLength; i++) {
-        let key = `${i}`;
-        let valuepair = `${i}`; 
-        let val = {};
-        val[key] = valuepair;
-        this.options['collapseDepth'].values.push(val);
-    }
-
-    if (this._counter == 0) {
-      this._counter ++;
+    let settings = this.options;
+    configureSettings();
+    if (this._collapseAmount != dimensions.length) {
+      this.collapseAmount = dimensions.length;
+      this.options = settings;
       this.trigger('registerOptions', this.options);
     }
-    
-    // if (dimensions.length != this._collapseAmount) changed = true; 
-    // console.log('This is changed', changed);
-    // if (changed) this.trigger('registerOptions', this.options);
-
 /****************************************************************
         * Update the Options
 ****************************************************************/
 
             /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
-    let chosenColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', 
-    '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', 
-    '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428',
-     '#999999']; // Construct the colors of each dimension order by depth
+    let chosenColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428', '#999999']; // Construct the colors of each dimension order by depth
     dimensions.forEach(dim => {
       let currentDim = dim.name;
         // Find the current dim's color value through config!
@@ -238,8 +189,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
-  let maxDimensions = queryResponse.fields.dimensions.length;
-  let maxMeasures = queryResponse.fields.measures.length;
   let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
   let duration = 500;
   let nested = this.burrow(data, queryResponse.fields.dimension_like);
@@ -357,23 +306,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // ****************** Move camera to center of tree ***************************
 
   if (updatInit == 0) {
-      updatInit++;
-      // console.log(`Coordinates to head to => x: ${root.x}, and y: ${root.y}.`);
-      // zoom_handler.translateBy(container, root.x, root.y);
-      // d3.select('.everything').transition().duration(1000).call(zoom_handler.translateBy, root.x, root.y);
-
-      // let x = -1 * (root.x - (window.innerHeight / 2)); // 2 
-      // let y = root.y + (window.innerWidth / 4); // 4
-      // container.transition().duration(1200).call(
-      //   zoom_handler.transform,
-      //   d3.zoomIdentity.translate(y, x).scale(1) // 1
-      // );
+      updateInit++;
       
       container.transition().duration(740).call(
         zoom_handler.transform,
-        d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(1).translate(-root.y, -root.x),
+        d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
       );
-
   }
   
   // ****************** Link width ***************************
@@ -555,7 +493,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d3.event.stopPropagation();
     container.transition().duration(740).call(
       zoom_handler.transform,
-      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.5).translate(-d.y, -d.x),
+      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-d.y, -d.x),
       d3.mouse(container.node())
     );
   }
@@ -580,6 +518,59 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
 } // End of update function
+
+
+
+
+
+
+
+    function configureSettings() {
+          // This is a loop for all the dimensions to color 
+        dimensions.forEach((dimension, index) => {
+            settings[dimension.name] = {
+                label: dimension.label_short, 
+                order: index + 1,
+                type: 'string',
+                section: 'Styling',
+                display: 'color',
+                default: defaultColors[colorCounter]
+            }
+            colorCounter++;
+        });
+
+        // This is the color for the measures altogether
+        settings['djdh_measures'] = {
+            label: 'measures',
+            order: 11,
+            type: 'string',
+            section: 'Styling', 
+            display: 'color',
+            default: '#FFE09B'
+        };
+
+        settings['collapseDepth'] = {
+            label: 'Expand the tree out multiple levels',
+            order: 0,
+            type: 'string', 
+            display: 'select',
+            section: 'Styling',
+            values: [],
+            default: '0'
+        }
+
+        let dimensionLength = dimensions.length; 
+        for(let i = 0; i < dimensionLength; i++) {
+            let key = `${i}`;
+            let valuepair = `${i}`; 
+            let val = {};
+            val[key] = valuepair;
+            settings['collapseDepth'].values.push(val);
+        }
+    } // End of configureSettings
+
+
+
 
     /**************** Done! *****************/
     doneRendering() 
