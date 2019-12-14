@@ -165,53 +165,39 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let settings = this.options;
     configureSettings();
     if (this._collapseAmount != dimensions.length) {
-      this.collapseAmount = dimensions.length;
-      this.options = settings;
-      this.trigger('registerOptions', this.options);
+        this.collapseAmount = dimensions.length;
+        this.options = settings;
+        this.trigger('registerOptions', this.options);
     }
-/****************************************************************
-        * Update the Options
-****************************************************************/
 
-            /* // Chosen colors is an array that will be used in a function, we're preloading the data so it doesn't build this for every iteration // */
     let chosenColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428', '#999999']; // Construct the colors of each dimension order by depth
-    dimensions.forEach(dim => {
-      let currentDim = dim.name;
-        // Find the current dim's color value through config!
-      let currentColor = config[currentDim];
-      chosenColors.push(currentColor);
-    })
-    chosenColors.push(config['djdh_measures']);
-
-
+    colorAttributes();
     if (config.aResetColors == true) chosenColors = defaultColors; 
-    // console.log('chosen colors', chosenColors);
     /***************************************************************************************************************************
                         * Update the Visualization *
     ***************************************************************************************************************************/
-  let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
-  let duration = 500;
-  let nested = this.burrow(data, queryResponse.fields.dimension_like);
-  let width = element.clientWidth;
-  let height = element.clientHeight;
+    let i = 0; // This is a counter for all the individual instantiated nodes originially used to test the collapse function
+    let duration = 500;
+    let nested = this.burrow(data, queryResponse.fields.dimension_like);
+    let width = element.clientWidth;
+    let height = element.clientHeight;
 
-  let container = this._svg 
-      .html('')
-      .attr('width', width)
-      .attr('height', height);
+    let container = this._svg 
+        .html('')
+        .attr('width', width)
+        .attr('height', height);
 
-  let svg = container.append('g')
-      .attr('class', 'everything');
-  let zoom_handler = d3.zoom()
-      .on('zoom', zoom_actions);
-  function zoom_actions() {
-    svg.attr('transform', d3.event.transform);
-  }
-  let treemap = d3.tree().size([height, width]);
-  let root = d3.hierarchy(nested, function(d) { return d.children });
+    let svg = container.append('g')
+        .attr('class', 'everything');
+    let zoom_handler = d3.zoom()
+        .scaleExtent(.25, 40)
+        .on('zoom', zoom_actions);
+    function zoom_actions() { svg.attr('transform', d3.event.transform); }
+    let treemap = d3.tree().size([height, width]);
+    let root = d3.hierarchy(nested, function(d) { return d.children });
     root.x0 = height / 2;
     root.y0 = 0;
-  container.call(zoom_handler);
+    container.call(zoom_handler);
 
 
   let updatInit = 0;
@@ -286,20 +272,20 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   console.log('links', links); // 
   let linkAddition = "";  
   data.forEach(datum => {
-    var keys = [];
-    for (var key in datum) {      
-        if (datum.hasOwnProperty(key)) keys.push(key);
-    } // Put keys into an array then display them in the data set
-    for (var k = 0 ; k<keys.length; k++) { 
-      // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
-      let currentString = datum[keys[k]].value;
-      if(currentString != null) {
-        if(linkAddition.length < currentString.length) {
-          linkAddition = currentString;
-        }
+      var keys = [];
+      for (var key in datum) {      
+          if (datum.hasOwnProperty(key)) keys.push(key);
+      } // Put keys into an array then display them in the data set
+      for (var k = 0 ; k<keys.length; k++) { 
+          // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
+          let currentString = datum[keys[k]].value;
+          if(currentString != null) {
+              if(linkAddition.length < currentString.length) {
+                  linkAddition = currentString;
+              }
+          }
       }
-   }
-    i++; // Used to show current iteration we're on
+      i++; // Used to show current iteration we're on
   });
   // console.log('Calculated longest string!', linkAddition);
 
@@ -309,8 +295,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       updatInit++;
       
       container.transition().duration(740).call(
-        zoom_handler.transform,
-        d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
+          zoom_handler.transform,
+          d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
       );
   }
   
@@ -570,6 +556,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of configureSettings
 
 
+    function colorAttributes() {
+        dimensions.forEach(dim => {
+            let currentDim = dim.name;
+            let currentColor = config[currentDim];
+            chosenColors.push(currentColor);
+        });
+        chosenColors.push(config['djdh_measures']);
+    }
 
 
     /**************** Done! *****************/
