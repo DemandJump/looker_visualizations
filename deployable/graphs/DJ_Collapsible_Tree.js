@@ -86,7 +86,7 @@ create: function(element, config) {
             pointer-events: none; /* This hides the edit cursor when you hover over the labels */
             font-family: 'Playfair Display', serif;
         }
-        svg { border: 1px solid black; }
+        svg { border: 1px solid blue; }
         </style>
         `;
 
@@ -272,7 +272,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (updatInit == 0) {
       updatInit++;
       
-      container.transition().duration(740).call(
+      container.transition().duration(0).call(
           zoom_handler.transform,
           d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
       );
