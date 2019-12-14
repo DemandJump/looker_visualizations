@@ -190,7 +190,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = container.append('g')
         .attr('class', 'everything');
     let zoom_handler = d3.zoom()
-        .scaleExtent(1, 40)
+        // .scaleExtent(1, 40)
         .on('zoom', zoom_actions);
     function zoom_actions() { svg.attr('transform', d3.event.transform); }
     let treemap = d3.tree().size([height, width]);
@@ -208,280 +208,245 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let maxDepth = 0;
     collapseNodes();
 
-    function collapseNodes() {
-        if (measures.length != 0) {
-            root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
-            root.descendants().forEach(node => {
-              if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-                node._children = node.children;
-                node.children = null;
+
+
+    update(root);
+
+
+    function update(source) {
+        let leaves = root.leaves();
+        height = 84 * leaves.length; // This calculates the space between the nodes!
+        treemap = d3.tree().size([height, width]);
+        let treeData = treemap(root);
+        let nodes = treeData.descendants();
+        let links = treeData.descendants().slice(1);
+        console.log('\n\nnodes', nodes); //
+        console.log('links', links); // 
+        let linkAddition = "";  
+        data.forEach(datum => {
+            var keys = [];
+            for (var key in datum) {      
+                if (datum.hasOwnProperty(key)) keys.push(key);
+            } // Put keys into an array then display them in the data set
+            for (var k = 0 ; k<keys.length; k++) { 
+                // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
+                let currentString = datum[keys[k]].value;
+                if(currentString != null) {
+                    if(linkAddition.length < currentString.length) {
+                        linkAddition = currentString;
+                    }
+                }
+            }
+            i++; // Used to show current iteration we're on
+        });
+        // console.log('Calculated longest string!', linkAddition);
+
+        // ****************** Move camera to center of tree ***************************
+
+        if (updatInit == 0) {
+            updatInit++;
+            
+            container.transition().duration(0).call(
+                zoom_handler.transform,
+                d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
+            );
+        }
+        
+        // ****************** Link width ***************************
+
+        // Normalize for fixed-depth. because of collapse function 
+        nodes.forEach(function(d){ // This calculates the depth between the nodes!
+          if(linkAddition.length >= 54) {
+            d.y = d.depth * (linkAddition.length * 20);
+          } else {
+            d.y = d.depth * 1450;
+            // console.log('d.y = ', d.y);
+          }
+        });
+      //   console.log('new Nodes: ', nodes)
+
+        // ****************** Nodes section ***************************
+
+        // Update the nodes...
+        var node = svg.selectAll('g.djctNode')
+            .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+        // Enter any new modes at the parent's previous position.
+        var nodeEnter = node.enter().append('g')
+            .attr('class', 'djctNode')
+            .attr("transform", function(d) {
+              return "translate(" + source.y0 + "," + source.x0 + ")";
+          })
+          .on('click', click);
+
+          
+        // Add Circle for the nodes
+        nodeEnter.append('circle')
+            .attr('class', 'djctCircle')
+            .attr('r', '25px')
+            .style('fill', "#008CCD")
+            .style('stroke', '#999999');
+
+
+        // Add labels for the nodes
+        nodeEnter.append('text')
+            .attr('class', 'djctText')
+            .attr("dy", ".35em")
+            .attr("x", d => {
+              if(d.mCount) { return "20px" }
+              else { return d.children || d._children ? "-31.4px" : "29.4px"; }
+            })
+            .style("font-size", d => d.children || d._children ? textSize(d) : "2rem" )
+            .attr("text-anchor", d => {
+              if(d.mCount) { return "start" }
+              else { return d.children || d._children ? "end" : "start"; }
+            })
+            .text(d => d.data.name);
+
+        if(measures[0] != null) {
+              // Second label for measure leaf nodes only
+          nodeEnter.append('text')
+            .attr('class', 'djctText')
+            .attr('dy', '.35em')
+            .attr('x', d => {
+              if (d.mCount) { return "-20px" }
+              return d.children || d._children ? "29.4px" : "-31.4px";
+            })
+            .style('font-size', d => d.children || d._children ? "2rem" : textSize(d) )
+            .attr('text-anchor', d => {
+              if (d.mCount) { return "end"; }
+              else { return d.children || d._children ? "start" : "end"; }
+            })
+            .text(d => {
+              if (d.mCount) { // If this is a looker measure, then we're appending this
+                return d.mCount;
               }
             })
-            // console.log('This is the new max depth', maxDepth);
         }
-    }
+
+        // UPDATE
+        var nodeUpdate = nodeEnter.merge(node);
+
+        // Transition to the proper position for the node
+        nodeUpdate.transition()
+          .duration(duration)
+          .attr("transform", function(d) { 
+              return "translate(" + d.y + "," + d.x + ")";
+          });
+
+        // Update the node attributes and style
+        nodeUpdate.select('circle.djctNode')
+          .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
+          .style('fill', d => {
+              return d.children ? chosenColors[d.depth] // "#008CCD" 
+              : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
+              : "#008CCD";
+          })
+          .style('stroke', d => {
+            return d.children ? '#008CCD' : '#999999';
+          })
+          .attr('cursor', 'pointer');
 
 
-  if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
-  root.children.forEach(collapse);
-  function collapse(d) {
-      if(d.children) {
-          if (d.depth > config.collapseDepth) {
-              d._children = d.children;
-              d._children.forEach(collapse);
-              d.children = null;
-          } else {
-              d.children.forEach(collapse);
-          }
-      }
-  }
-  
+        // Remove any exiting nodes
+        var nodeExit = node.exit().transition()
+            .duration(duration)
+            .attr("transform", d => "translate(" + source.y + "," + source.x + ")")
+            .remove();
+
+        // On exit reduce the node circles size to 0
+        nodeExit.select('circle')
+          .attr('r', 1e-6);
+
+        // On exit reduce the opacity of text labels
+        nodeExit.select('text')
+          .style('fill-opacity', 1e-6);
+
+        // ****************** links section ***************************
+
+        // Update the links...
+        var link = svg.selectAll('path.djctLink')
+            .data(links, function(d) { return d.id; });
+
+        // Enter any new links at the parent's previous position.
+        var linkEnter = link.enter().insert('path', "g")
+            .attr("class", "djctLink")
+            .attr("opacity", "0.64")
+            .style("stroke", "#008CCD")
+            .attr('d', function(d){
+              var o = {x: source.x0, y: source.y0}
+              return diagonal(o, o)
+            });
+
+        // UPDATE
+        var linkUpdate = linkEnter.merge(link);
+
+        // Transition back to the parent element position
+        linkUpdate.transition()
+            .duration(duration)
+            .attr('d', function(d){ return diagonal(d, d.parent) });
+
+        // Remove any exiting links
+        var linkExit = link.exit().transition()
+            .duration(duration)
+            .attr('d', function(d) {
+              var o = {x: source.x, y: source.y};
+              return diagonal(o, o);
+            })
+            .remove();
+
+        // Store the old positions for transition.
+        nodes.forEach(function(d){
+          d.x0 = d.x;
+          d.y0 = d.y;
+        });
+
+      //   Creates a curved (diagonal) path from parent to the child nodes
+        function diagonal(s, d) {
+
+          path = `M ${s.y} ${s.x}
+                  C ${(s.y + d.y) / 2} ${s.x},
+                    ${(s.y + d.y) / 2} ${d.x},
+                    ${d.y} ${d.x}`
+
+          return path;
+        }
 
 
-  update(root);
-  function update(source) {
-  let leaves = root.leaves();
-  height = 84 * leaves.length; // This calculates the space between the nodes!
-  treemap = d3.tree().size([height, width]);
-  let treeData = treemap(root);
-  let nodes = treeData.descendants();
-  let links = treeData.descendants().slice(1);
-  console.log('\n\nnodes', nodes); //
-  console.log('links', links); // 
-  let linkAddition = "";  
-  data.forEach(datum => {
-      var keys = [];
-      for (var key in datum) {      
-          if (datum.hasOwnProperty(key)) keys.push(key);
-      } // Put keys into an array then display them in the data set
-      for (var k = 0 ; k<keys.length; k++) { 
-          // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
-          let currentString = datum[keys[k]].value;
-          if(currentString != null) {
-              if(linkAddition.length < currentString.length) {
-                  linkAddition = currentString;
+        function click(d) {
+            if (d.children == null) {
+                  d.children = d._children;
+                  d._children = null;
+              } else {
+                  d._children = d.children;
+                  d.children = null;
               }
-          }
-      }
-      i++; // Used to show current iteration we're on
-  });
-  // console.log('Calculated longest string!', linkAddition);
-
-  // ****************** Move camera to center of tree ***************************
-
-  if (updatInit == 0) {
-      updatInit++;
-      
-      container.transition().duration(0).call(
-          zoom_handler.transform,
-          d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
-      );
-  }
-  
-  // ****************** Link width ***************************
-
-  // Normalize for fixed-depth. because of collapse function 
-  nodes.forEach(function(d){ // This calculates the depth between the nodes!
-    if(linkAddition.length >= 54) {
-      d.y = d.depth * (linkAddition.length * 20);
-    } else {
-      d.y = d.depth * 1450;
-      // console.log('d.y = ', d.y);
-    }
-  });
-//   console.log('new Nodes: ', nodes)
-
-  // ****************** Nodes section ***************************
-
-  // Update the nodes...
-  var node = svg.selectAll('g.djctNode')
-      .data(nodes, function(d) {return d.id || (d.id = ++i); });
-
-  // Enter any new modes at the parent's previous position.
-  var nodeEnter = node.enter().append('g')
-      .attr('class', 'djctNode')
-      .attr("transform", function(d) {
-        return "translate(" + source.y0 + "," + source.x0 + ")";
-    })
-    .on('click', click);
-
-     
-  // Add Circle for the nodes
-  nodeEnter.append('circle')
-      .attr('class', 'djctCircle')
-      .attr('r', '25px')
-      .style('fill', "#008CCD")
-      .style('stroke', '#999999');
-
-
-  // Add labels for the nodes
-  nodeEnter.append('text')
-      .attr('class', 'djctText')
-      .attr("dy", ".35em")
-      .attr("x", d => {
-        if(d.mCount) { return "20px" }
-        else { return d.children || d._children ? "-31.4px" : "29.4px"; }
-      })
-      .style("font-size", d => d.children || d._children ? textSize(d) : "2rem" )
-      .attr("text-anchor", d => {
-        if(d.mCount) { return "start" }
-        else { return d.children || d._children ? "end" : "start"; }
-      })
-      .text(d => d.data.name);
-
-  if(measures[0] != null) {
-         // Second label for measure leaf nodes only
-    nodeEnter.append('text')
-      .attr('class', 'djctText')
-      .attr('dy', '.35em')
-      .attr('x', d => {
-        if (d.mCount) { return "-20px" }
-        return d.children || d._children ? "29.4px" : "-31.4px";
-      })
-      .style('font-size', d => d.children || d._children ? "2rem" : textSize(d) )
-      .attr('text-anchor', d => {
-        if (d.mCount) { return "end"; }
-        else { return d.children || d._children ? "start" : "end"; }
-      })
-      .text(d => {
-        if (d.mCount) { // If this is a looker measure, then we're appending this
-          return d.mCount;
+              update(d);
+              console.log('this is the clicked node data', d);    
+              d3.event.stopPropagation();
+              container.transition().duration(740).call(
+                  zoom_handler.transform,
+                  d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.35).translate(-d.y, -d.x),
+                  d3.mouse(container.node())
+              );
         }
-      })
-  }
 
-  // UPDATE
-  var nodeUpdate = nodeEnter.merge(node);
+        function colorCircles(d) {
+            for(i = 0; i < maxDepth; i++) {
+                if (i == d.depth) return chosenColors[i];
+            }
+        }
 
-  // Transition to the proper position for the node
-  nodeUpdate.transition()
-    .duration(duration)
-    .attr("transform", function(d) { 
-        return "translate(" + d.y + "," + d.x + ")";
-     });
+        function textSize(d) {
+            return d.depth == 0 ? '8rem'
+            : d.depth == 1 ? '4.5rem'
+            : d.depth == 2 ? '4rem'
+            : d.depth == 3 ? '3.4rem'
+            : d.depth == maxDepth ? '2rem'
+            : '2.25rem';
+        }
 
-  // Update the node attributes and style
-  nodeUpdate.select('circle.djctNode')
-    .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-    .style('fill', d => {
-        return d.children ? chosenColors[d.depth] // "#008CCD" 
-        : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
-        : "#008CCD";
-    })
-    .style('stroke', d => {
-      return d.children ? '#008CCD' : '#999999';
-    })
-    .attr('cursor', 'pointer');
-
-
-  // Remove any exiting nodes
-  var nodeExit = node.exit().transition()
-      .duration(duration)
-      .attr("transform", function(d) {
-          return "translate(" + source.y + "," + source.x + ")";
-      })
-      .remove();
-
-  // On exit reduce the node circles size to 0
-  nodeExit.select('circle')
-    .attr('r', 1e-6);
-
-  // On exit reduce the opacity of text labels
-  nodeExit.select('text')
-    .style('fill-opacity', 1e-6);
-
-  // ****************** links section ***************************
-
-  // Update the links...
-  var link = svg.selectAll('path.djctLink')
-      .data(links, function(d) { return d.id; });
-
-  // Enter any new links at the parent's previous position.
-  var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "djctLink")
-      .attr("opacity", "0.64")
-      .style("stroke", "#008CCD")
-      .attr('d', function(d){
-        var o = {x: source.x0, y: source.y0}
-        return diagonal(o, o)
-      });
-
-  // UPDATE
-  var linkUpdate = linkEnter.merge(link);
-
-  // Transition back to the parent element position
-  linkUpdate.transition()
-      .duration(duration)
-      .attr('d', function(d){ return diagonal(d, d.parent) });
-
-  // Remove any exiting links
-  var linkExit = link.exit().transition()
-      .duration(duration)
-      .attr('d', function(d) {
-        var o = {x: source.x, y: source.y};
-        return diagonal(o, o);
-      })
-      .remove();
-
-  // Store the old positions for transition.
-  nodes.forEach(function(d){
-    d.x0 = d.x;
-    d.y0 = d.y;
-  });
-
-//   Creates a curved (diagonal) path from parent to the child nodes
-  function diagonal(s, d) {
-
-    path = `M ${s.y} ${s.x}
-            C ${(s.y + d.y) / 2} ${s.x},
-              ${(s.y + d.y) / 2} ${d.x},
-              ${d.y} ${d.x}`
-
-    return path;
-  }
-
-    // We're gonna need to create a zoom function reference
-  var zoom = d3.zoom();
-
-  // Toggle children on click.
-  function click(d) {
-    if (d.children == null) {
-        d.children = d._children;
-        d._children = null;
-      } else {
-        d._children = d.children;
-        d.children = null;
-      }
-    update(d);
-    console.log('this is the clicked node data', d);    
-    d3.event.stopPropagation();
-    container.transition().duration(740).call(
-      zoom_handler.transform,
-      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.35).translate(-d.y, -d.x),
-      d3.mouse(container.node())
-    );
-  }
-
-  function colorCircles(d) {
-    // We're using defaultColors array, and the settings have the vlaues ew need, but the dimensions array pulls them in the order we need. 
-        // Start from d level 1, 0 can have a unique styling
-    for(i = 0; i < maxDepth; i++) {
-      if (i == d.depth) {
-        return chosenColors[i];
-      }
-    }
-  }
-
-  function textSize(d) {
-    return d.depth == 0 ? '8rem'
-    : d.depth == 1 ? '4.5rem'
-    : d.depth == 2 ? '4rem'
-    : d.depth == 3 ? '3.4rem'
-    : d.depth == maxDepth ? '2rem'
-    : '2.25rem';
-  }
-
-} // End of update function
+    } // End of update function
 
 
 
@@ -568,6 +533,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             mCounter = 0; // Reset the counter for the next leaf node
         });
     }
+
+
+    function collapseNodes() {
+        if (measures.length != 0) {
+            root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
+            root.descendants().forEach(node => {
+              if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+                node._children = node.children;
+                node.children = null;
+              }
+            })
+            // console.log('This is the new max depth', maxDepth);
+        }
+
+            // Then this is the configuration settings
+        if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
+        root.children.forEach(collapse);
+        function collapse(d) {
+            if(d.children) {
+                if (d.depth > config.collapseDepth) {
+                    d._children = d.children;
+                    d._children.forEach(collapse);
+                    d.children = null;
+                } else {
+                    d.children.forEach(collapse);
+                }
+            }
+        }
+
+    }
+
 
 
     /**************** Done! *****************/
