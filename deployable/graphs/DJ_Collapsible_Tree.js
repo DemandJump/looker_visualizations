@@ -190,7 +190,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = container.append('g')
         .attr('class', 'everything');
     let zoom_handler = d3.zoom()
-        .scaleExtent(.25, 40)
+        // .scaleExtent(.25, 40)
         .on('zoom', zoom_actions);
     function zoom_actions() { svg.attr('transform', d3.event.transform); }
     let treemap = d3.tree().size([height, width]);
@@ -199,49 +199,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     root.y0 = 0;
     container.call(zoom_handler);
 
+    let updatInit = 0;
+    let mNodeRef = []; // Add all the measures as nodes within the visualization!
+    let mNodeLabel = []; // so first find all the names of the measures so we can reference them
+    let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
+    createLeafNodes();
 
-  let updatInit = 0;
-  let mNodeRef = []; // Add all the measures as nodes within the visualization!
-  let mNodeLabel = []; // so first find all the names of the measures so we can reference them
-  let mCounter = 0; // We need this for the nodeLabel to be in sync with the foreach iteration of the Node Reference
-  measures.forEach(measure => {
-      mNodeRef.push(measure.name);
-      mNodeLabel.push(measure.label_short);
-  });
-  root.leaves().forEach(leaf => {
-    let newChildren = [];
-    mNodeRef.forEach(mnode => { // We're replicating the node within the node!
-      // childeren object for this jazz
-      let newDepth = leaf.depth + 1
-      let mNodeObj = {
-        mCount: mNodeLabel[mCounter], 
-        data: leaf.data.data[mnode],
-        depth: newDepth,
-        parent: leaf
-      }
-      mNodeObj.data["name"] = mNodeObj.data.value;
-        // Pass it into leaf children as collapsed descendants
-      newChildren.push(mNodeObj);
-      mCounter++;
-    })
-    leaf._children = null;
-    leaf.children = newChildren; // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
-    mCounter = 0; // Reset the counter for the next leaf node
-  });
+    let maxDepth = 0;
+    collapseNodes();
 
-
-      // This is for the initial run of the update function, to calculate the data then collapse the leaf nodes before we run the visualization
-  let maxDepth = 0;
-  if (measures.length != 0) {
-      root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
-      root.descendants().forEach(node => {
-        if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
-          node._children = node.children;
-          node.children = null;
+    function collapseNodes() {
+        if (measures.length != 0) {
+            root.descendants().forEach(node => { if (maxDepth < node.depth) maxDepth = node.depth; })
+            root.descendants().forEach(node => {
+              if (node.depth == maxDepth - 1) { // Right before the leaf nodes, we're collapsing the children
+                node._children = node.children;
+                node.children = null;
+              }
+            })
+            // console.log('This is the new max depth', maxDepth);
         }
-      })
-      // console.log('This is the new max depth', maxDepth);
-  }
+    }
 
 
   if (config.collapseDepth) this._collapseAmount = Number(config.collapseDepth);
@@ -479,7 +457,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     d3.event.stopPropagation();
     container.transition().duration(740).call(
       zoom_handler.transform,
-      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-d.y, -d.x),
+      d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.35).translate(-d.y, -d.x),
       d3.mouse(container.node())
     );
   }
@@ -563,6 +541,32 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             chosenColors.push(currentColor);
         });
         chosenColors.push(config['djdh_measures']);
+    }
+
+    
+    function createLeafNodes() {
+        measures.forEach(measure => {
+            mNodeRef.push(measure.name);
+            mNodeLabel.push(measure.label_short);
+        });
+        root.leaves().forEach(leaf => {
+            let newChildren = [];
+            mNodeRef.forEach(mnode => { // We're replicating the node within the node!
+                let newDepth = leaf.depth + 1;
+                let mNodeObj = {
+                    mCount: mNodeLabel[mCounter], 
+                    data: leaf.data.data[mnode],
+                    depth: newDepth,
+                    parent: leaf
+                };
+                mNodeObj.data["name"] = mNodeObj.data.value;
+                newChildren.push(mNodeObj);
+                mCounter++;
+            })
+            leaf._children = null;
+            leaf.children = newChildren; // Pass in the array of children you just created (hopefully they calculate it's position in the update function with just this data!)
+            mCounter = 0; // Reset the counter for the next leaf node
+        });
     }
 
 
