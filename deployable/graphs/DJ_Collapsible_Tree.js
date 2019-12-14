@@ -190,7 +190,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = container.append('g')
         .attr('class', 'everything');
     let zoom_handler = d3.zoom()
-        // .scaleExtent(.25, 40)
+        .scaleExtent(-1, 40)
         .on('zoom', zoom_actions);
     function zoom_actions() { svg.attr('transform', d3.event.transform); }
     let treemap = d3.tree().size([height, width]);
