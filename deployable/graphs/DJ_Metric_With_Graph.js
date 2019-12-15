@@ -162,8 +162,20 @@ looker.plugins.visualizations.add({
 
 
             // Grabbing the Totals calculation (if there was one)
-        let totalsHtml = '';
-        if (queryResponse.totals_data) totalsHtml = queryResponse.totals_data[measures[0].name].html;
+        let totals = false;
+        let totalsHtml;
+        let pivotPrevTotal;
+        let pivotCurrTotal;
+
+        if (queryResponse.totals_data) {
+            totals = true;
+            totalsHtml = queryResponse.totals_data[measures[0].name].html;
+            if (calculation == 'pivot') { 
+                pivotPrevTotal = queryResponse.totals_data[measures[0].name]['Current Period'].html;
+                pivotCurrTotal = queryResponse.totals_data[measures[0].name]['Previous Period'].html;
+            }
+        }
+
 
 
         /*******************************************************
@@ -224,8 +236,8 @@ looker.plugins.visualizations.add({
         label.html(dimensions[0].field_group_variant);
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
-        if (queryResponse.fields.pivots.length != 0) { // If it's a pivot calculation
-            metric.html(``)
+        if (calculation == 'pivot') { // If it's a pivot calculation
+            metric.html(pivotCurrTotal);
         } else {
             console.log('else totalsHtml', totalsHtml);
             metric.html(totalsHtml);
@@ -239,7 +251,6 @@ looker.plugins.visualizations.add({
             let divi;
             let percent;
             let arrowDirection = true;
-            let totals = true;
 
             if (queryResponse.totals_data) {
                 if (calculation == 'pivot') {
