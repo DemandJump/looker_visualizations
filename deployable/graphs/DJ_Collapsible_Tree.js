@@ -240,7 +240,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         nodeEnter.append('circle')
             .attr('class', 'djctCircle')
             .attr('r', '25px')
-            .style('fill', "#008CCD")
+            // .style('fill', "#008CCD")
+            .style('fill', d => colorCircles(d))
             .style('stroke', '#999999');
 
 
