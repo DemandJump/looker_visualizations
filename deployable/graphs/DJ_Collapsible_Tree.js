@@ -40,7 +40,7 @@ create: function(element, config) {
       .style('bottom', '0')
       .style('margin', '0')
       .style('overflow', 'hidden')
-      .style('display', 'block')
+      .style('display', 'block');
 
 
     element.innerHTML = `
@@ -453,6 +453,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function configureSettings() {
           // This is a loop for all the dimensions to color 
+          /*
         dimensions.forEach((dimension, index) => {
             settings[dimension.name] = {
                 label: dimension.label_short, 
@@ -464,6 +465,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
             colorCounter++;
         });
+          */
 
         // This is the color for the measures altogether
         settings['djdh_measures'] = {
