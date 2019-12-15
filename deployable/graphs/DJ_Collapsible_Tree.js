@@ -289,11 +289,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Update the node attributes and style
         nodeUpdate.select('circle.djctNode')
             .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-            .style('fill', d => {
-                return d.children ? chosenColors[d.depth] // "#008CCD" 
-                : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
-                : "#008CCD";
-            })
+            // .style('fill', d => {
+            //     return d.children ? chosenColors[d.depth] // "#008CCD" 
+            //     : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
+            //     : "#008CCD";
+            // })
+            .style('fill', d => colorCircles(d))
             .style('stroke', d => d.children ? '#008CCD' : '#999999')
             .attr('cursor', 'pointer');
 
