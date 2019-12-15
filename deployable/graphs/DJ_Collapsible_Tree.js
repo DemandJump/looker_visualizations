@@ -465,7 +465,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             }
             colorCounter++;
         });
-          */
 
         // This is the color for the measures altogether
         settings['djdh_measures'] = {
@@ -476,6 +475,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             display: 'color',
             default: '#FFE09B'
         };
+        */
 
         settings['collapseDepth'] = {
             label: 'Expand the tree out multiple levels',

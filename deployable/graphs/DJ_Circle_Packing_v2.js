@@ -169,10 +169,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
     let circleHeight = window.innerHeight;
     refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
-      // Initialize the visual's data and construct the rest of the hierarchy
     let view;
-    let uniqueId = -1;
-
     // clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
 
     let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
@@ -190,12 +187,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     nodes.forEach((node, index) => node.index = index);
     unpackageData(); // This edits the nodes and unpackages the concatenated data
     root.data.name = root.children[0].data.name; // Grab the unpackaged data's name
-
-
     findActualLeafNodes(); // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
+
     let maxDepth = -10; // Find the min and max values of the hierarchy for the color scale function
     let minDepth = 100;
     findMinAndMaxDepth();
+
     let color = d3.scaleLinear() // These are the color scaling functions (one other is in the colorByGroup function)
         .domain([minDepth, maxDepth])
         .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
@@ -208,8 +205,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let breadCrumbIds = []; 
     let breadCrumbInit = true;
     for(let i = 1; i <= maxDepth; i++) {
-      let id = `bc${i}`;
-      breadCrumbIds.push(id);
+        let id = `bc${i}`;
+        breadCrumbIds.push(id);
     }
     // console.log('These are the breadcrumb ids:', breadCrumbIds);
     let breadCrumbData = [];
