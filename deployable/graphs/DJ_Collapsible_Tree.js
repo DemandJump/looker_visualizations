@@ -222,60 +222,30 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         let links = treeData.descendants().slice(1);
         console.log('\n\nnodes', nodes); //
         console.log('links', links); // 
-        let linkAddition = "";  
-        data.forEach(datum => {
-            var keys = [];
-            for (var key in datum) {      
-                if (datum.hasOwnProperty(key)) keys.push(key);
-            } // Put keys into an array then display them in the data set
-            for (var k = 0 ; k<keys.length; k++) { 
-                // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
-                let currentString = datum[keys[k]].value;
-                if(currentString != null) {
-                    if(linkAddition.length < currentString.length) {
-                        linkAddition = currentString;
-                    }
-                }
-            }
-            i++; // Used to show current iteration we're on
-        });
-        // console.log('Calculated longest string!', linkAddition);
+        let linkAddition = "";
 
-        // ****************** Move camera to center of tree ***************************
-
-        if (updatInit == 0) {
+        if (updatInit == 0) { // Move camera to center of tree
             updatInit++;
-            
             container.transition().duration(0).call(
                 zoom_handler.transform,
                 d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
             );
         }
+        calculateLinkSpacing();
+        linkSpacing();
         
-        // ****************** Link width ***************************
-
-        // Normalize for fixed-depth. because of collapse function 
-        nodes.forEach(function(d){ // This calculates the depth between the nodes!
-          if(linkAddition.length >= 54) {
-            d.y = d.depth * (linkAddition.length * 20);
-          } else {
-            d.y = d.depth * 1450;
-            // console.log('d.y = ', d.y);
-          }
-        });
-      //   console.log('new Nodes: ', nodes)
 
         // ****************** Nodes section ***************************
 
         // Update the nodes...
-        var node = svg.selectAll('g.djctNode')
-            .data(nodes, function(d) {return d.id || (d.id = ++i); });
+        let node = svg.selectAll('g.djctNode')
+            .data(nodes, d => d.id || (d.id = ++i));
 
         // Enter any new modes at the parent's previous position.
-        var nodeEnter = node.enter().append('g')
+        let nodeEnter = node.enter().append('g')
             .attr('class', 'djctNode')
             .attr("transform", function(d) {
-              return "translate(" + source.y0 + "," + source.x0 + ")";
+                return "translate(" + source.y0 + "," + source.x0 + ")";
           })
           .on('click', click);
 
@@ -293,13 +263,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'djctText')
             .attr("dy", ".35em")
             .attr("x", d => {
-              if(d.mCount) { return "20px" }
-              else { return d.children || d._children ? "-31.4px" : "29.4px"; }
+                if(d.mCount) { return "20px" }
+                else { return d.children || d._children ? "-31.4px" : "29.4px"; }
             })
             .style("font-size", d => d.children || d._children ? textSize(d) : "2rem" )
             .attr("text-anchor", d => {
-              if(d.mCount) { return "start" }
-              else { return d.children || d._children ? "end" : "start"; }
+                if(d.mCount) { return "start" }
+                else { return d.children || d._children ? "end" : "start"; }
             })
             .text(d => d.data.name);
 
@@ -309,85 +279,85 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'djctText')
             .attr('dy', '.35em')
             .attr('x', d => {
-              if (d.mCount) { return "-20px" }
-              return d.children || d._children ? "29.4px" : "-31.4px";
+                if (d.mCount) { return "-20px" }
+                return d.children || d._children ? "29.4px" : "-31.4px";
             })
             .style('font-size', d => d.children || d._children ? "2rem" : textSize(d) )
             .attr('text-anchor', d => {
-              if (d.mCount) { return "end"; }
-              else { return d.children || d._children ? "start" : "end"; }
+                if (d.mCount) { return "end"; }
+                else { return d.children || d._children ? "start" : "end"; }
             })
             .text(d => {
-              if (d.mCount) { // If this is a looker measure, then we're appending this
-                return d.mCount;
-              }
+                if (d.mCount) { // If this is a looker measure, then we're appending this
+                    return d.mCount;
+                }
             })
         }
 
         // UPDATE
-        var nodeUpdate = nodeEnter.merge(node);
+        let nodeUpdate = nodeEnter.merge(node);
 
         // Transition to the proper position for the node
         nodeUpdate.transition()
-          .duration(duration)
-          .attr("transform", function(d) { 
-              return "translate(" + d.y + "," + d.x + ")";
-          });
+            .duration(duration)
+            .attr("transform", function(d) { 
+                return "translate(" + d.y + "," + d.x + ")";
+            });
 
         // Update the node attributes and style
         nodeUpdate.select('circle.djctNode')
-          .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
-          .style('fill', d => {
-              return d.children ? chosenColors[d.depth] // "#008CCD" 
-              : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
-              : "#008CCD";
-          })
-          .style('stroke', d => {
-            return d.children ? '#008CCD' : '#999999';
-          })
-          .attr('cursor', 'pointer');
+            .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
+            .style('fill', d => {
+                return d.children ? chosenColors[d.depth] // "#008CCD" 
+                : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
+                : "#008CCD";
+            })
+            .style('stroke', d => {
+                return d.children ? '#008CCD' : '#999999';
+            })
+            .attr('cursor', 'pointer');
 
 
         // Remove any exiting nodes
-        var nodeExit = node.exit().transition()
+        let nodeExit = node.exit().transition()
             .duration(duration)
             .attr("transform", d => "translate(" + source.y + "," + source.x + ")")
             .remove();
 
         // On exit reduce the node circles size to 0
         nodeExit.select('circle')
-          .attr('r', 1e-6);
+            .attr('r', 1e-6);
 
         // On exit reduce the opacity of text labels
         nodeExit.select('text')
-          .style('fill-opacity', 1e-6);
+            .style('fill-opacity', 1e-6);
 
         // ****************** links section ***************************
 
         // Update the links...
-        var link = svg.selectAll('path.djctLink')
+        let link = svg.selectAll('path.djctLink')
             .data(links, function(d) { return d.id; });
 
         // Enter any new links at the parent's previous position.
-        var linkEnter = link.enter().insert('path', "g")
+        let linkEnter = link.enter().insert('path', "g")
             .attr("class", "djctLink")
             .attr("opacity", "0.64")
             .style("stroke", "#008CCD")
-            .attr('d', function(d){
-              var o = {x: source.x0, y: source.y0}
-              return diagonal(o, o)
+            .attr('d', d => {
+                let o = {x: source.x0, y: source.y0}
+                return diagonal(o, o)
             });
 
         // UPDATE
-        var linkUpdate = linkEnter.merge(link);
+        let linkUpdate = linkEnter.merge(link);
 
         // Transition back to the parent element position
         linkUpdate.transition()
             .duration(duration)
-            .attr('d', function(d){ return diagonal(d, d.parent) });
+            .attr('d', d => diagonal(d, d.parent));
 
         // Remove any exiting links
-        var linkExit = link.exit().transition()
+        let linkExit = link.exit().transition()
             .duration(duration)
             .attr('d', function(d) {
               var o = {x: source.x, y: source.y};
@@ -397,19 +367,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Store the old positions for transition.
         nodes.forEach(function(d){
-          d.x0 = d.x;
-          d.y0 = d.y;
+            d.x0 = d.x;
+            d.y0 = d.y;
         });
 
       //   Creates a curved (diagonal) path from parent to the child nodes
         function diagonal(s, d) {
-
-          path = `M ${s.y} ${s.x}
-                  C ${(s.y + d.y) / 2} ${s.x},
-                    ${(s.y + d.y) / 2} ${d.x},
-                    ${d.y} ${d.x}`
-
-          return path;
+            path = `M ${s.y} ${s.x}
+                    C ${(s.y + d.y) / 2} ${s.x},
+                      ${(s.y + d.y) / 2} ${d.x},
+                      ${d.y} ${d.x}`
+            return path;
         }
 
 
@@ -563,6 +531,40 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
     }
+
+
+    function calculateLinkSpacing() {
+        data.forEach(datum => {
+            var keys = [];
+            for (var key in datum) {      
+                if (datum.hasOwnProperty(key)) keys.push(key);
+            } // Put keys into an array then display them in the data set
+            for (var k = 0 ; k<keys.length; k++) { 
+                // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
+                let currentString = datum[keys[k]].value;
+                if(currentString != null) {
+                    if(linkAddition.length < currentString.length) {
+                        linkAddition = currentString;
+                    }
+                }
+            }
+            i++; // Used to show current iteration we're on
+        });
+        // console.log('Calculated longest string!', linkAddition);
+    }
+
+  
+  function linkSpacing() {
+      nodes.forEach(function(d){ // This calculates the depth between the nodes!
+          if(linkAddition.length >= 54) {
+              d.y = d.depth * (linkAddition.length * 20);
+          } else {
+              d.y = d.depth * 1450;
+              // console.log('d.y = ', d.y);
+          }
+      });
+      //   console.log('new Nodes: ', nodes)
+  }
 
 
 
