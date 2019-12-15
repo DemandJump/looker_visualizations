@@ -225,8 +225,9 @@ looker.plugins.visualizations.add({
         labelm.html(`Total ${measures[0].field_group_variant}`);
 
         if (queryResponse.fields.pivots.length != 0) { // If it's a pivot calculation
-            metric.html()
+            metric.html(``)
         } else {
+            console.log('else totalsHtml', totalsHtml);
             metric.html(totalsHtml);
         }
         
@@ -258,6 +259,7 @@ looker.plugins.visualizations.add({
             percent = divi.toFixed(2);
             let rendiff = numberWithCommas(diff);
 
+            console.log
             if (diff < 0) arrowDirection = false;
             let arrowFontPass = 'calc(.14rem + 2.4vw)';
             if (totals == false) {
