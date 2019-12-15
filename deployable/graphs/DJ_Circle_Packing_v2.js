@@ -244,9 +244,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     return questionSearchColoring(d);
                 } else {
                     if(d.data) {
-                      if(d.data.leaf) {
-                          if(d.data.leaf == true) return 'white';
-                      }
+                        if(d.data.leaf) {
+                            if(d.data.leaf == true) return 'white';
+                        }
                     }
                     return color(d.depth);
                 }
@@ -360,18 +360,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none";
 
                     d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', d => tSpaceOne(d))
-                      .text(d => d.data.text1);
+                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                        .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                        .attr('dy', d => tSpaceOne(d))
+                        .text(d => d.data.text1);
 
                     if(d === focus) {
                         if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                          d3.select(this)
-                            .style('display', 'inline')
-                            .style('fill-opacity', 1)
-                            .style('font-size', d => sizeText(d))
-                            .style('dy', d => tSpaceOne(d));
+                            d3.select(this)
+                                .style('display', 'inline')
+                                .style('fill-opacity', 1)
+                                .style('font-size', d => sizeText(d))
+                                .style('dy', d => tSpaceOne(d));
                         }}
                     }
 
@@ -389,18 +389,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
 
                     d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', d => tSpaceTwo(d))
-                      .text(d => d.data.text2);
+                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                        .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                        .attr('dy', d => tSpaceTwo(d))
+                        .text(d => d.data.text2);
 
                     if(d === focus) {
                         if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                          d3.select(this)
-                            .style('display', 'inline')
-                            .style('fill-opacity', 1)
-                            .style('font-size', d => textSizing(d))
-                            .style('dy', d => tSpaceTwo(d));
+                            d3.select(this)
+                                .style('display', 'inline')
+                                .style('fill-opacity', 1)
+                                .style('font-size', d => textSizing(d))
+                                .style('dy', d => tSpaceTwo(d));
                         }}
                     }
 
@@ -418,18 +418,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
                     
                     d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', d => tSpaceThree(d))
-                      .text(d => d.data.text3);
+                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                        .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                        .attr('dy', d => tSpaceThree(d))
+                        .text(d => d.data.text3);
 
                     if(d === focus) {
                         if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                          d3.select(this)
-                            .style('display', 'inline')
-                            .style('fill-opacity', 1)
-                            .style('font-size', d => textSizing(d))
-                            .style('dy', d => tSpaceTwo(d));
+                            d3.select(this)
+                                .style('display', 'inline')
+                                .style('fill-opacity', 1)
+                                .style('font-size', d => textSizing(d))
+                                .style('dy', d => tSpaceTwo(d));
                         }}
                     }
 
@@ -446,18 +446,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     if (d.parent !== focus) this.style.display = "none"; 
                     
                     d3.select(this)
-                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                      .attr('dy', d => tSpaceFour(d))
-                      .text(d => d.data.text4);
+                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                        .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                        .attr('dy', d => tSpaceFour(d))
+                        .text(d => d.data.text4);
 
                     if(d === focus) {
                         if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                          d3.select(this)
-                            .style('display', 'inline')
-                            .style('fill-opacity', 1)
-                            .style('font-size', d => textSizing(d))
-                            .style('dy', d => tSpaceTwo(d));
+                            d3.select(this)
+                                .style('display', 'inline')
+                                .style('fill-opacity', 1)
+                                .style('font-size', d => textSizing(d))
+                                .style('dy', d => tSpaceTwo(d));
                         }}
                     }
 
@@ -511,37 +511,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       configArr.push(val);
       
       measures.forEach(mes => { // Value object >.>  {"name": "value"} 
-        let key = mes.label; // Key of value pair
-        let valuepair = mes.name; // value of value pair
-        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-        val[key] = valuepair;
-        valsArr.push(val);
-        configArr.push(val);
+          let key = mes.label; // Key of value pair
+          let valuepair = mes.name; // value of value pair
+          let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+          val[key] = valuepair;
+          valsArr.push(val);
+          configArr.push(val);
       });
 
       dimensions.forEach(dimension => {
-        let key = dimension.label; // Key of value pair
-        let valuepair = dimension.name; // value of value pair
-        let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-        val[key] = valuepair;
-        valsArr.push(val);
-        configArr.push(val);
+          let key = dimension.label; // Key of value pair
+          let valuepair = dimension.name; // value of value pair
+          let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+          val[key] = valuepair;
+          valsArr.push(val);
+          configArr.push(val);
       });
     } // End of dimensionValueSettings
 
 
     function checkSelectedInfluence() {
       if (config.influenceSwitch == true) {
-        if (config.influence != 'null' ) {
-            let numberchecker = 0;
-            let error = false;
-            data.forEach(node => {
-                // console.log(`Node error clause `, node[config.influence].value) 
-                if (typeof(node[config.influence].value) == 'number') numberchecker ++;
-                if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
-            })
-            if (numberchecker < 1 || error == true) addError = true;
-        }
+          if (config.influence != 'null' ) {
+              let numberchecker = 0;
+              let error = false;
+              data.forEach(node => {
+                  // console.log(`Node error clause `, node[config.influence].value) 
+                  if (typeof(node[config.influence].value) == 'number') numberchecker ++;
+                  if (typeof(node[config.influence].value) != 'number' && typeof(node[config.influence]) != 'object' ) error = true;
+              })
+              if (numberchecker < 1 || error == true) addError = true;
+          }
       }
     } // End of checkSelectedInfluence
 
@@ -549,15 +549,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function minAndMaxInfluenceValues() {
            // Now run through the data, grab the min and max, then replace all the nulls with the min value
       data.forEach(node => { // Find min and max values in data
-        if (min > node.value) min = node.value;
-        if (max < node.value) max = node.value;
+          if (min > node.value) min = node.value;
+          if (max < node.value) max = node.value;
       });
       data.forEach(node => { // If the node value is null, replace it with the min value
-        node.nullVal = 'false';
-        if (node.value == null || node.value == 'null') {
-            node.value = min;
-            node.nullVal = true;
-        }
+          node.nullVal = 'false';
+          if (node.value == null || node.value == 'null') {
+              node.value = min;
+              node.nullVal = true;
+          }
       });
       // console.log(`The finished min ${min}, and max ${max}`);
       } // End of minAndMaxInfluenceValues
@@ -565,15 +565,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     function refactorCircleViewport() {
           // This ensures there's no scrolling for the viewport!
       if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
-        headerSpace = 40;
-        width = circleHeight - 40;
-        height = circleHeight - 40;
-        viewBoxFactor = height + 35;
+          headerSpace = 40;
+          width = circleHeight - 40;
+          height = circleHeight - 40;
+          viewBoxFactor = height + 35;
       } else {
-        headerSpace = circleHeight * .1;
-        width = circleHeight * .9;
-        height = circleHeight * .9;
-        viewBoxFactor = height + 35;
+          headerSpace = circleHeight * .1;
+          width = circleHeight * .9;
+          height = circleHeight * .9;
+          viewBoxFactor = height + 35;
       }
     } // End of refactorCircleViewport
 
@@ -620,8 +620,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function findMinAndMaxDepth() {
       nodes.forEach(node => {
-        if (node.depth < minDepth) minDepth = node.depth;
-        if (node.depth > maxDepth) maxDepth = node.depth;
+          if (node.depth < minDepth) minDepth = node.depth;
+          if (node.depth > maxDepth) maxDepth = node.depth;
       });
     }
 
@@ -762,7 +762,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         breadCrumbs.selectAll('span').data(breadCrumbData).enter().append('span')
             .attr('class', 'breadCrumb')
             .attr('id', d => {
-              return d.breadCrumbId;
+                return d.breadCrumbId;
             })
             .html((d, i) => {
                 if(i == 0) return ' ' + d.data.name + ' ';
@@ -875,7 +875,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                         if (a.data.dj_score) {
                             if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
                                 aval = a.data.dj_score; 
-                              }
+                            }
                             if (a.data.dj_score == '' || a.data.dj_score == 'null') {
                                 a.data.dj_score = aval;
                             }
