@@ -60,8 +60,6 @@ looker.plugins.visualizations.add({
             .attr("class", "svg")
             .style("position", "relative");
 
-
-        
     },
 
 
