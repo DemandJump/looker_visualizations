@@ -176,8 +176,6 @@ looker.plugins.visualizations.add({
             }
         }
 
-
-
         /*******************************************************
          * Visualization
         *******************************************************/
@@ -243,7 +241,6 @@ looker.plugins.visualizations.add({
             metric.html(totalsHtml);
         }
         
-
         if (measures.length < 2) {
             changeComputation.html('');
         } else { 
@@ -311,7 +308,6 @@ looker.plugins.visualizations.add({
             .y0(dataPoint => y(dataPoint.values[0]))
             .y1(dataPoint => y(dataPoint.values[1]));
 
-
         // Create the layout of the visualization
         let svg = d3.select('.container').append("svg")
             .attr("width", window.innerWidth)
@@ -322,7 +318,6 @@ looker.plugins.visualizations.add({
             .append("g")
                 // .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-
         let series = svg.selectAll('.series')
             .data(stackedData)
             .enter()
@@ -338,7 +333,6 @@ looker.plugins.visualizations.add({
             .attr("d", d => area(d));
 
 
-
         // add the X Axis
         // let xaxis = d3.axisBottom(x).ticks(data.length);
         // svg.append("g")
@@ -350,10 +344,10 @@ looker.plugins.visualizations.add({
         // svg.append("g")
         //     .call(yaxis);
 
-
         /************************************************************************
          * Functions
         ************************************************************************/
+
         function maxAndMin() {
             if (queryResponse.fields.pivots.length != 0) {
                 data.forEach(node => {
@@ -398,7 +392,6 @@ looker.plugins.visualizations.add({
 
 
         function grabValues() {
-
             if(calculation == 'measure') {
                 data.forEach(node => {
                     measures.forEach( (mes, index) => {
