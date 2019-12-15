@@ -291,7 +291,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr("r", d => d.children || d._children ? '25px' : '12.5px' )
             // .style('fill', d => {
             //     return d.children ? chosenColors[d.depth] // "#008CCD" 
-            //     : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
+            //     : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43"
             //     : "#008CCD";
             // })
             .style('fill', d => colorCircles(d))
