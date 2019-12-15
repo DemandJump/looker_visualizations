@@ -194,7 +194,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .on('zoom', zoom_actions);
     function zoom_actions() { svg.attr('transform', d3.event.transform); }
     let treemap = d3.tree().size([height, width]);
-    let root = d3.hierarchy(nested, function(d) { return d.children });
+    let root = d3.hierarchy(nested, d => d.children);
     root.x0 = height / 2;
     root.y0 = 0;
     container.call(zoom_handler);
@@ -209,10 +209,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     collapseNodes();
 
 
-
     update(root);
-
-
     function update(source) {
         let leaves = root.leaves();
         height = 84 * leaves.length; // This calculates the space between the nodes!
@@ -223,18 +220,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         console.log('\n\nnodes', nodes); //
         console.log('links', links); // 
         let linkAddition = "";
-
-        if (updatInit == 0) { // Move camera to center of tree
-            updatInit++;
-            container.transition().duration(0).call(
-                zoom_handler.transform,
-                d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
-            );
-        }
         calculateLinkSpacing();
         linkSpacing();
+        centerCamera(); 
         
-
         // ****************** Nodes section ***************************
 
         // Update the nodes...
@@ -244,10 +233,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Enter any new modes at the parent's previous position.
         let nodeEnter = node.enter().append('g')
             .attr('class', 'djctNode')
-            .attr("transform", function(d) {
-                return "translate(" + source.y0 + "," + source.x0 + ")";
-          })
-          .on('click', click);
+            .attr("transform", d => "translate(" + source.y0 + "," + source.x0 + ")")
+            .on('click', click);
 
           
         // Add Circle for the nodes
@@ -288,9 +275,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 else { return d.children || d._children ? "start" : "end"; }
             })
             .text(d => {
-                if (d.mCount) { // If this is a looker measure, then we're appending this
-                    return d.mCount;
-                }
+                if (d.mCount) return d.mCount;
             })
         }
 
@@ -300,9 +285,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Transition to the proper position for the node
         nodeUpdate.transition()
             .duration(duration)
-            .attr("transform", function(d) { 
-                return "translate(" + d.y + "," + d.x + ")";
-            });
+            .attr("transform", d => "translate(" + d.y + "," + d.x + ")");
 
         // Update the node attributes and style
         nodeUpdate.select('circle.djctNode')
@@ -312,9 +295,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43" 
                 : "#008CCD";
             })
-            .style('stroke', d => {
-                return d.children ? '#008CCD' : '#999999';
-            })
+            .style('stroke', d => d.children ? '#008CCD' : '#999999')
             .attr('cursor', 'pointer');
 
 
@@ -336,7 +317,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
         // Update the links...
         let link = svg.selectAll('path.djctLink')
-            .data(links, function(d) { return d.id; });
+            .data(links, d => d.id);
 
         // Enter any new links at the parent's previous position.
         let linkEnter = link.enter().insert('path', "g")
@@ -359,14 +340,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // Remove any exiting links
         let linkExit = link.exit().transition()
             .duration(duration)
-            .attr('d', function(d) {
+            .attr('d', d => {
               var o = {x: source.x, y: source.y};
               return diagonal(o, o);
             })
             .remove();
 
         // Store the old positions for transition.
-        nodes.forEach(function(d){
+        nodes.forEach(d => {
             d.x0 = d.x;
             d.y0 = d.y;
         });
@@ -400,7 +381,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
         function colorCircles(d) {
-            for(i = 0; i < maxDepth; i++) {
+            for(let i = 0; i < maxDepth; i++) {
                 if (i == d.depth) return chosenColors[i];
             }
         }
@@ -553,18 +534,29 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         // console.log('Calculated longest string!', linkAddition);
     }
 
-  
-  function linkSpacing() {
-      nodes.forEach(function(d){ // This calculates the depth between the nodes!
-          if(linkAddition.length >= 54) {
-              d.y = d.depth * (linkAddition.length * 20);
-          } else {
-              d.y = d.depth * 1450;
-              // console.log('d.y = ', d.y);
-          }
-      });
-      //   console.log('new Nodes: ', nodes)
-  }
+    
+    function linkSpacing() {
+        nodes.forEach(function(d){ // This calculates the depth between the nodes!
+            if(linkAddition.length >= 54) {
+                d.y = d.depth * (linkAddition.length * 20);
+            } else {
+                d.y = d.depth * 1450;
+                // console.log('d.y = ', d.y);
+            }
+        });
+        //   console.log('new Nodes: ', nodes)
+    }
+
+
+    function centerCamera() {
+        if (updatInit == 0) { // Move camera to center of tree
+            updatInit++;
+            container.transition().duration(0).call(
+                zoom_handler.transform,
+                d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
+            );
+        }
+    }
 
 
 
