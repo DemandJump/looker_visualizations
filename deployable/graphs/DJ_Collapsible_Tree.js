@@ -376,7 +376,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               d3.event.stopPropagation();
               container.transition().duration(740).call(
                   zoom_handler.transform,
-                  d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.35).translate(-d.y, -d.x),
+                  d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.30).translate(-d.y, -d.x),
                   d3.mouse(container.node())
               );
         }
@@ -418,8 +418,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             });
             // console.log('Calculated longest string!', linkAddition);
         }
-  
-      
         function linkSpacing() {
             nodes.forEach(function(d){ // This calculates the depth between the nodes!
                 if(linkAddition.length >= 54) {
@@ -429,7 +427,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     // console.log('d.y = ', d.y);
                 }
             });
-            //   console.log('new Nodes: ', nodes)
         }
   
   
