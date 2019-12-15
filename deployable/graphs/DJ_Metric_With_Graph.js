@@ -161,6 +161,11 @@ looker.plugins.visualizations.add({
         createStack();
 
 
+            // Grabbing the Totals calculation (if there was one)
+        let totalsHtml = '';
+        if (queryResponse.totals_data) totalsHtml = queryResponse.totals_data[measures[0].name].html;
+
+
         /*******************************************************
          * Visualization
         *******************************************************/
@@ -222,7 +227,7 @@ looker.plugins.visualizations.add({
         if (queryResponse.fields.pivots.length != 0) { // If it's a pivot calculation
             metric.html()
         } else {
-            metric.html(queryResponse.totals_data[measures[0].name].html);
+            metric.html(totalsHtml);
         }
         
 
@@ -233,10 +238,17 @@ looker.plugins.visualizations.add({
             let divi;
             let percent;
             let arrowDirection = true;
+            let totals = true;
 
             if (calculation == 'pivot') {
-                diff = queryResponse.totals_data[measures[0].name]['Current Period'].value - queryResponse.totals_data[measures[0].name]['Previous Period'].value;
-                divi = (queryResponse.totals_data[measures[0].name]['Current Period'].value / queryResponse.totals_data[measures[0].name]['Previous Period'].value) * 100;
+                if (queryResponse.totals_data) {
+                    diff = queryResponse.totals_data[measures[0].name]['Current Period'].value - queryResponse.totals_data[measures[0].name]['Previous Period'].value;
+                    divi = (queryResponse.totals_data[measures[0].name]['Current Period'].value / queryResponse.totals_data[measures[0].name]['Previous Period'].value) * 100;
+                } else {
+                    totals = false;
+                    div = 0;
+                    diff = 0;
+                }
             } else {  
                 diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
                 divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
@@ -249,7 +261,9 @@ looker.plugins.visualizations.add({
 
             if (diff < 0) arrowDirection = false;
             let arrowFontPass = 'calc(.14rem + 2.4vw)';
-            if (arrowDirection) { // If it's positive
+            if (totals == false) {
+                changeComputation.html(``);
+            } else if (arrowDirection) { // If it's positive
                 changeComputation.html(`
                     <span style="color: #5f9524; font-size: ${arrowFontPass};">&#9650</span> 
                     <span style="color: #5f9524;">${percent}% (${rendiff})</span>
