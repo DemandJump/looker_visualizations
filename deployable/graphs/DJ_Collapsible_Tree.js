@@ -169,7 +169,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         this.trigger('registerOptions', this.options);
     }
 
-    let chosenColors = ['#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428', '#999999']; // Construct the colors of each dimension order by depth
+    let chosenColors = ['#008CCD', '#009DE9', '#3ec173', '#38e883', '#4a4aff', '#163796', '#5cf3ff', '#F9BE3D', '#E2FF6E', '#acea49', '#ff3e5f', '#ac7eb7', '#5c3bc3', '#5278ce', '#a1edff', '#05ce5a', '#4a8c04', '#3abbcf', '#ece428', '#999999']; // Construct the colors of each dimension order by depth
     colorAttributes();
     if (config.aResetColors == true) chosenColors = defaultColors; 
     /***************************************************************************************************************************
@@ -189,7 +189,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let svg = container.append('g')
         .attr('class', 'everything');
     let zoom_handler = d3.zoom()
-        // .scaleExtent(1, 40)
+        // .scaleExtent(1, 42)
         .on('zoom', zoom_actions);
     function zoom_actions() { svg.attr('transform', d3.event.transform); }
     let treemap = d3.tree().size([height, width]);
@@ -241,7 +241,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             .attr('class', 'djctCircle')
             .attr('r', '25px')
             // .style('fill', "#008CCD")
-            .style('fill', d => colorCircles(d))
+            .style('fill', d => chosenColors[d.depth])
             .style('stroke', '#999999');
 
 
@@ -295,7 +295,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             //     : !d.children && !d._children ? chosenColors[d.depth] // "#FEBF43"
             //     : "#008CCD";
             // })
-            .style('fill', d => colorCircles(d))
+            .style('fill', d => chosenColors[d.depth])
             .style('stroke', d => d.children ? '#008CCD' : '#999999')
             .attr('cursor', 'pointer');
 
@@ -506,6 +506,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             chosenColors.push(currentColor);
         });
         chosenColors.push(config['djdh_measures']);
+        console.log('Different colors', )
     }
 
     
