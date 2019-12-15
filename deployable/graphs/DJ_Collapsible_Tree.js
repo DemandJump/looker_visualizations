@@ -394,6 +394,54 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             : '2.25rem';
         }
 
+
+        function calculateLinkSpacing() {
+            data.forEach(datum => {
+                var keys = [];
+                for (var key in datum) {      
+                    if (datum.hasOwnProperty(key)) keys.push(key);
+                } // Put keys into an array then display them in the data set
+                for (var k = 0 ; k<keys.length; k++) { 
+                    // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
+                    let currentString = datum[keys[k]].value;
+                    if(currentString != null) {
+                        if(linkAddition.length < currentString.length) {
+                            linkAddition = currentString;
+                        }
+                    }
+                }
+                i++; // Used to show current iteration we're on
+            });
+            // console.log('Calculated longest string!', linkAddition);
+        }
+  
+      
+        function linkSpacing() {
+            nodes.forEach(function(d){ // This calculates the depth between the nodes!
+                if(linkAddition.length >= 54) {
+                    d.y = d.depth * (linkAddition.length * 20);
+                } else {
+                    d.y = d.depth * 1450;
+                    // console.log('d.y = ', d.y);
+                }
+            });
+            //   console.log('new Nodes: ', nodes)
+        }
+  
+  
+        function centerCamera() {
+            if (updatInit == 0) { // Move camera to center of tree
+                updatInit++;
+                container.transition().duration(0).call(
+                    zoom_handler.transform,
+                    d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
+                );
+            }
+        }
+
+
+
+
     } // End of update function
 
 
@@ -511,52 +559,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         }
 
     }
-
-
-    function calculateLinkSpacing() {
-        data.forEach(datum => {
-            var keys = [];
-            for (var key in datum) {      
-                if (datum.hasOwnProperty(key)) keys.push(key);
-            } // Put keys into an array then display them in the data set
-            for (var k = 0 ; k<keys.length; k++) { 
-                // console.log(keys[k], datum[keys[k]]); // This is referencing the name key, then the value pair of each specific one!
-                let currentString = datum[keys[k]].value;
-                if(currentString != null) {
-                    if(linkAddition.length < currentString.length) {
-                        linkAddition = currentString;
-                    }
-                }
-            }
-            i++; // Used to show current iteration we're on
-        });
-        // console.log('Calculated longest string!', linkAddition);
-    }
-
-    
-    function linkSpacing() {
-        nodes.forEach(function(d){ // This calculates the depth between the nodes!
-            if(linkAddition.length >= 54) {
-                d.y = d.depth * (linkAddition.length * 20);
-            } else {
-                d.y = d.depth * 1450;
-                // console.log('d.y = ', d.y);
-            }
-        });
-        //   console.log('new Nodes: ', nodes)
-    }
-
-
-    function centerCamera() {
-        if (updatInit == 0) { // Move camera to center of tree
-            updatInit++;
-            container.transition().duration(0).call(
-                zoom_handler.transform,
-                d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
-            );
-        }
-    }
-
 
 
     /**************** Done! *****************/
