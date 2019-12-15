@@ -240,21 +240,20 @@ looker.plugins.visualizations.add({
             let arrowDirection = true;
             let totals = true;
 
-            if (calculation == 'pivot') {
-                if (queryResponse.totals_data) {
+            if (queryResponse.totals_data) {
+                if (calculation == 'pivot') {
                     diff = queryResponse.totals_data[measures[0].name]['Current Period'].value - queryResponse.totals_data[measures[0].name]['Previous Period'].value;
                     divi = (queryResponse.totals_data[measures[0].name]['Current Period'].value / queryResponse.totals_data[measures[0].name]['Previous Period'].value) * 100;
-                } else {
-                    totals = false;
-                    div = 0;
-                    diff = 0;
+                } else {  
+                    diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
+                    divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
                 }
-            } else {  
-                diff = queryResponse.totals_data[measures[0].name].value - queryResponse.totals_data[measures[1].name].value;
-                divi = (queryResponse.totals_data[measures[0].name].value / queryResponse.totals_data[measures[1].name].value) * 100; 
+            } else {
+                totals = false;
+                divi = 0;
+                diff = 0;
             }
-            console.log('This is diff', diff);
-            console.log('This is divi', divi);
+            console.log(`Diff: ${diff}, Div: ${divi}, Totals: ${totals}`);
 
             percent = divi.toFixed(2);
             let rendiff = numberWithCommas(diff);
