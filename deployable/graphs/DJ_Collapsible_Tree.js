@@ -435,7 +435,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 updatInit++;
                 container.transition().duration(1200).call(
                     zoom_handler.transform,
-                    d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.25).translate(-root.y, -root.x),
+                    d3.zoomIdentity.translate(window.innerWidth / 2, window.innerHeight / 2).scale(0.20).translate(-root.y, -root.x),
                 );
             }
         }
