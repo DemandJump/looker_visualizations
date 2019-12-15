@@ -351,7 +351,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
             d.y0 = d.y;
         });
 
-      //   Creates a curved (diagonal) path from parent to the child nodes
+        //   Creates a curved (diagonal) path from parent to the child nodes
         function diagonal(s, d) {
             path = `M ${s.y} ${s.x}
                     C ${(s.y + d.y) / 2} ${s.x},
@@ -379,11 +379,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               );
         }
 
+
         function colorCircles(d) {
             for(let i = 0; i < maxDepth; i++) {
                 if (i == d.depth) return chosenColors[i];
             }
         }
+
 
         function textSize(d) {
             return d.depth == 0 ? '8rem'
