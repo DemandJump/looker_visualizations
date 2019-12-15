@@ -5,23 +5,23 @@
     id: 'hello_world_test',
     label: 'Looker Custom Visualization Test',
     options: {
-      aResetColors: {
-        label: 'Use default colors',
-        order: 0.1,
-        type: 'boolean', 
-        section: 'Styling',
-        default: false
-      }, 
+      // aResetColors: {
+        //   label: 'Use default colors',
+        //   order: 0.1,
+        //   type: 'boolean', 
+        //   section: 'Styling',
+        //   default: false
+      // }, 
 
-      notes: {
-        label: "Title notes",
-        order: .4,
-        section: "Styling",
-        type: "sentence_maker",
-        words: [
-            { type: "separator", text: "Choose the color for each corresponding dimension" }
-        ]
-      }
+      // notes: {
+      //     label: "Title notes",
+      //     order: .4,
+      //     section: "Styling",
+      //     type: "sentence_maker",
+      //     words: [
+      //         { type: "separator", text: "Choose the color for each corresponding dimension" }
+      //     ]
+      // }
     },
 
     // Onto the create section 
