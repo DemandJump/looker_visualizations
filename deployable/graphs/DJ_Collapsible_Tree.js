@@ -86,7 +86,6 @@ create: function(element, config) {
             pointer-events: none; /* This hides the edit cursor when you hover over the labels */
             font-family: 'Playfair Display', serif;
         }
-        svg { border: 1px solid black; }
         </style>
         `;
 
