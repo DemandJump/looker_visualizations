@@ -187,7 +187,7 @@ looker.plugins.visualizations.add({
             .style('top', '10%')
             .style('left', '5%')
             // .style('transform', 'translate(-50%, -50%)')
-            .html('The Label!');
+            .html('');
 
         let holder = d3.select('.container').append('div')
             .attr('class', 'holder')
@@ -203,21 +203,21 @@ looker.plugins.visualizations.add({
             .style('text-align', 'center')
             .style('position', 'relative')
             .style('display', 'block')
-            .html('This is the metric');
+            .html('');
 
         let labelm = d3.select('.holder').append('div')
             .attr('class', 'labelm')
             .style('text-align', 'center')
             .style('position', 'relative')
             .style('display', 'block')
-            .html('This is the metric label');
+            .html('');
 
         let changeComputation = d3.select('.holder').append('div')
             .attr('class', 'compChan')
             .style('text-align', 'center')
             .style('position', 'relative')
             .style('display', 'block')
-            .html('This is the change value~');
+            .html('');
 
             
         // Append the data to the visual
