@@ -304,25 +304,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let elementHeight = window.innerHeight * .9;
   if (element_spacing == 'word_break') {
       element.innerHTML = `
-      <style>  
-          @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-          .djvsValue:hover { 
-            text-decoration: underline; 
-          }
-          div { 
-            font-weight: 300; 
-            font-family: 'Roboto';
-            margin: 0;
-            padding: 0;
-            text-align: center;
-          }
-          html, body { 
-            display: inline-block;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-          }
-      </style>
+          <style>  
+              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+              .djvsValue:hover { 
+                text-decoration: underline; 
+              }
+              div { 
+                font-weight: 300; 
+                font-family: 'Roboto';
+                margin: 0;
+                padding: 0;
+                text-align: center;
+              }
+              html, body { 
+                display: inline-block;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+              }
+          </style>
 
           <div class="djvsContainer" style="margin: auto;  display: inline-block;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
               <div class="djvsValue" style="margin: auto;  display: block;  position: relative;  font-size: 9vw;  font-style: normal;"></div>
@@ -334,25 +334,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   if (element_spacing == 'dynamic_size') {
       element.innerHTML = `
-      <style>  
-          @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-          .djvsValue:hover { 
-            text-decoration: underline; 
-          }
-          div { 
-            font-weight: 300; 
-            font-family: 'Roboto';
-            margin: 0;
-            padding: 0;
-            text-align: center;
-          }
-          html, body { 
-            display: inline-block;
-            margin: 0;
-            padding: 0;
-            text-align: center;
-          }
-      </style>
+          <style>  
+              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+              .djvsValue:hover { 
+                text-decoration: underline; 
+              }
+              div { 
+                font-weight: 300; 
+                font-family: 'Roboto';
+                margin: 0;
+                padding: 0;
+                text-align: center;
+              }
+              html, body { 
+                display: inline-block;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+              }
+          </style>
 
           <div class="djvsContainer" width: ${elementWidth}; height: ${elementHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
               <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
