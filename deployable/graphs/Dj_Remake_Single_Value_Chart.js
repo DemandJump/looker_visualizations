@@ -199,41 +199,24 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 /**************************************************************************************************************************************
   * Initialization / Setup
-**************************************************************************************************************************************/
-      // Clear out all the data upon startup! 
+**************************************************************************************************************************************/ 
   // this._container.selectAll("*").remove();
-
-              /* CURRENT VERSION */ // Just comment what your doing becuase looker takes forever to update server js file
-  console.log('\n\n\n\n\n Working on the styling of the elements and all that jazz');
-  /****** Log all these functions to see what we're working with ******/
-  // console.log(` ...UpdateAsync initialized, here is it's data:`);
   console.log('\n data', data);
   console.log('queryResponse', queryResponse);
-  // console.log('details', details);
   // let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
   let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
   console.log('referencing the options', this.options);
   console.log('This is the config itself', config);
-  // console.log('This is looker charts Utils', LookerCharts);
 
-  
-      // One/Two measure data
   let measure1;
   let measure2;
-      // Pivot data 
   let currentPeriod;
   let previousPeriod;
   let cpName;
   let ppName;
-
-        // Variables to find each of these
-
   let measureOneName; // The identifier to parse into the data
   let measureTwoName; // The identifier to parse into the data
-
   let renderedChange; // Computed between both measures // Comparison operator
-
-      // This is for conditionals to see what calculation it is 
   let calculation = 'one measure'; // 'one measure', 'two measures', or 'pivot measure'
   if (measures[1]) calculation = 'two measures';
   if (queryResponse.fields.pivots.length >= 1) calculation = 'pivot measure';
@@ -355,8 +338,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </style>
 
           <div class="djvsContainer" width: ${elementWidth}; height: ${elementHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
-              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
-              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
+              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle; left: 50%; transform: translateX(-50%); position: relative;"></div>
+              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle; left: 50%; transform: translateX(-50%); position: relative;"></div>
           </div>
 
           <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
@@ -386,41 +369,17 @@ if (font_style == "dynamic_size") { // based on whether the select statement for
     let innerWidth = window.innerWidth;
     let innerHeight = window.innerHeight;
 
-        // if (config.ds_fs == 'medium') {
-        //     value_fs = '20.4vw';
-        //     title_fs = '7.4vw';
-        //     header_fs = '7vw';
-        //     arrowFontPass = '6vw';
-        // } else if (config.ds_fs == 'large') {
-        //     value_fs = '30.4vw';
-        //     title_fs = '11vw';
-        //     header_fs = '9vw';
-        //     arrowFontPass = '7.4vw';
-        // } else {
             value_fs = '16.4vw';
             title_fs = '6.4vw';
             header_fs = '6vw';
             arrowFontPass = '5.2vw';
-        // }
 }
 
 if (font_style == "word_break") {
-        // if (config.wb_fs == 'small') {
-        //     value_fs = '3rem';
-        //     title_fs = '1.2rem';
-        //     header_fs = '1rem';
-        //     arrowFontPass = '.96rem';
-        // } else if (config.wb_fs == 'large') {
-        //     value_fs = '6rem';
-        //     title_fs = '2rem';
-        //     header_fs = '1.6rem';
-        //     arrowFontPass = '1.45rem';
-        // } else {
             value_fs = '4.5rem';
             title_fs = '1.6rem';
             header_fs = '1.2rem';
             arrowFontPass = '1rem';
-        // }
 }
 
 
