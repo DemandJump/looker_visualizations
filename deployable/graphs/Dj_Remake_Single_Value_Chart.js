@@ -305,6 +305,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 padding: 0;
                 text-align: center;
               }
+              .djvsValue, djvsTitle, djvsHeader {
+                margin: auto;
+                padding: 0;
+              }
           </style>
 
           <div class="djvsContainer" style="margin: auto;  display: inline-block;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
@@ -335,11 +339,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 padding: 0;
                 text-align: center;
               }
+              .djvsValue, djvsTitle, djvsHeader {
+                margin: auto;
+                padding: 0;
+              }
           </style>
 
           <div class="djvsContainer" width: ${elementWidth}; height: ${elementHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
-              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle; left: 50%; transform: translateX(-50%); position: relative;"></div>
-              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle; left: 50%; transform: translateX(-50%); position: relative;"></div>
+              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
+              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
 
           <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
