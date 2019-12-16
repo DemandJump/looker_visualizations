@@ -32,63 +32,63 @@ looker.plugins.visualizations.add({
           },
 
 
-          text_spacing: {
-              label: "Dynamic font types. Change the styling to fit your needs",
-              type: "string",
-              order: 10,
-              section: "Word Spacing",
-              display: "radio",
-              values: [
-                  {"Word Break on text overflow": "word_break"},
-                  {"Dynamic font based on viewport width": "dynamic_size"},
-                  {"Dynamic font based on viewport height": "dynamic_height"}
-              ],
-              default: "word_break"
-          },
-          wb_fs_conditional: {
-              label: "Use default font size", 
-              type: "boolean",
-              order: 11,
-              section: "Word Spacing", 
-              default: true,
-              hidden: true
-          },
-          wb_fs: {
-              label: "Word Break font size",
-              type: "string", 
-              order: 12,
-              section: "Word Spacing",
-              display: "select",
-              values: [
-                  {"Small": "small"},
-                  {"Medium": "medium"},
-                  {"Large": "large"}
-              ],
-              default: "medium",
-              hidden: true
-          },
-          ds_fs_conditional: {
-              label: "Use default font size", 
-              type: "boolean",
-              order: 13,
-              section: "Word Spacing",
-              default: true,
-              hidden: true
-          },
-          ds_fs: {
-              label: "Dynamic vw font size",
-              type: "string", 
-              order: 14,
-              section: "Word Spacing",
-              display: "select",
-              values: [
-                  {"Small": "small"},
-                  {"Medium": "medium"},
-                  {"Large": "large"}
-              ],
-              default: "small",
-              hidden: true
-          },
+          // text_spacing: {
+          //     label: "Dynamic font types. Change the styling to fit your needs",
+          //     type: "string",
+          //     order: 10,
+          //     section: "Word Spacing",
+          //     display: "radio",
+          //     values: [
+          //         {"Word Break on text overflow": "word_break"},
+          //         {"Dynamic font based on viewport width": "dynamic_size"},
+          //         {"Dynamic font based on viewport height": "dynamic_height"}
+          //     ],
+          //     default: "word_break"
+          // },
+          // wb_fs_conditional: {
+          //     label: "Use default font size", 
+          //     type: "boolean",
+          //     order: 11,
+          //     section: "Word Spacing", 
+          //     default: true,
+          //     hidden: true
+          // },
+          // wb_fs: {
+          //     label: "Word Break font size",
+          //     type: "string", 
+          //     order: 12,
+          //     section: "Word Spacing",
+          //     display: "select",
+          //     values: [
+          //         {"Small": "small"},
+          //         {"Medium": "medium"},
+          //         {"Large": "large"}
+          //     ],
+          //     default: "medium",
+          //     hidden: true
+          // },
+          // ds_fs_conditional: {
+          //     label: "Use default font size", 
+          //     type: "boolean",
+          //     order: 13,
+          //     section: "Word Spacing",
+          //     default: true,
+          //     hidden: true
+          // },
+          // ds_fs: {
+          //     label: "Dynamic vw font size",
+          //     type: "string", 
+          //     order: 14,
+          //     section: "Word Spacing",
+          //     display: "select",
+          //     values: [
+          //         {"Small": "small"},
+          //         {"Medium": "medium"},
+          //         {"Large": "large"}
+          //     ],
+          //     default: "small",
+          //     hidden: true
+          // },
 
 
           showComparison: {
@@ -146,7 +146,7 @@ create: function(element, config) {
 
   d3.select(element)
     .attr('class', 'djvsElement')
-    .style('display', 'block')
+    .style('display', 'inline-block')
     .style('box-sizing', 'border-box')
     .style('text-align', 'center')
     .style('margin', '0')
@@ -159,8 +159,19 @@ create: function(element, config) {
   element.innerHTML = `
         <style>  
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-            .djvsValue:hover { text-decoration: underline; }
-            div { font-weight: 300; font-family: 'Roboto'; }
+            .djvsValue:hover { 
+              text-decoration: underline; 
+            }
+            div { 
+              font-weight: 300; 
+              font-family: 'Roboto'; 
+            }
+            html, body { 
+              display: inline-block;
+              margin: 0;
+              padding: 0;
+              text-align: center;
+            }
         </style>
 
         <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
@@ -293,11 +304,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let elementHeight = window.innerHeight * .9;
   if (element_spacing == 'word_break') {
       element.innerHTML = `
-          <style>  
-              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-              .djvsValue:hover { text-decoration: underline; }
-              div { font-weight: 300; font-family: 'Roboto'; margin: 0; padding: 0; text-align: center; }
-          </style>
+      <style>  
+          @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+          .djvsValue:hover { 
+            text-decoration: underline; 
+          }
+          div { 
+            font-weight: 300; 
+            font-family: 'Roboto';
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+          html, body { 
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+      </style>
 
           <div class="djvsContainer" style="margin: auto;  display: inline-block;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
               <div class="djvsValue" style="margin: auto;  display: block;  position: relative;  font-size: 9vw;  font-style: normal;"></div>
@@ -309,11 +334,25 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   if (element_spacing == 'dynamic_size') {
       element.innerHTML = `
-          <style>  
-              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-              .djvsValue:hover { text-decoration: underline; }
-              div { font-weight: 300; font-family: 'Roboto'; margin: 0; padding: 0; text-align: center; }
-          </style>
+      <style>  
+          @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+          .djvsValue:hover { 
+            text-decoration: underline; 
+          }
+          div { 
+            font-weight: 300; 
+            font-family: 'Roboto';
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+          html, body { 
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+      </style>
 
           <div class="djvsContainer" width: ${elementWidth}; height: ${elementHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
               <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
