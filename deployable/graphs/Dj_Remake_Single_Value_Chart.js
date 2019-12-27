@@ -348,7 +348,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       `;
       element.innerHTML = innerHtml;
   }
-  console.log(`innerWidth: ${window.innerWidth}~350, innerHeight: ${window.innerHeight}~${spacing}, element spacing: ${element_spacing}`);
+  // console.log(`innerWidth: ${window.innerWidth}~350, innerHeight: ${window.innerHeight}~${spacing}, element spacing: ${element_spacing}`);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
