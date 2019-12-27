@@ -354,7 +354,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               <div class="djvsValue"></div>
               <div class="djvsTitle"></div>
           </div>
-          <div class="djvsHeader></div>   
+          <div class="djvsHeader>selected element</div>   
       `;
       element.innerHTML = innerHtml; 
   }
@@ -410,7 +410,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   <div class="djvsValue"></div>
                   <div class="djvsTitle"></div>
           </div>
-          <div class="djvsHeader"></div>
+          <div class="djvsHeader">selected element</div>
       `;
       element.innerHTML = innerHtml;
   }
