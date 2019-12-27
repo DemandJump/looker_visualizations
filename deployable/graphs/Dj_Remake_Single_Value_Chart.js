@@ -351,10 +351,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </style>
 
           <div class="djvsContainer">
-              <div class="djvsValue">value</div>
-              <div class="djvsTitle">label</div>
+                  <div class="djvsValue">value</div>
+                  <div class="djvsTitle">label</div>
           </div>
-          <div class="djvsHeader>measure</div>   
+          <div class="djvsHeader">measure</div>
       `;
       element.innerHTML = innerHtml; 
   }
