@@ -368,11 +368,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 9vw;
               text-align: center; 
               padding: 0;
-              vertical-align: middle; 
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
+              vertical-align: middle;
           }
 
           .djvsValue {
@@ -399,10 +395,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 1.4rem;
               color: #A5A9AA;
               vertical-align: bottom;
-              position: absolute;
-              left: 50%;
-              bottom: 0%; 
-              transform: translateX(-50%);
           }
           </style>
 
