@@ -282,16 +282,34 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               color: #A5A9AA;
               position: relative;
           }
+          `;
 
-          .djvsHeader {
-              margin: auto;
-              color: #A5A9AA;
-              position: absolute;
-              top: 100%;
-              left: 50%;
-              transform: translate(-50%, -25%);
-              width: ${window.innerWidth}px;
+          if (window.innerHeight < 234) {
+              innerHtml = innerHtml + `
+                  .djvsHeader { 
+                      margin: auto;
+                      color: #A5A9AA;
+                      position: relative;
+                      width: ${window.innerWidth}px;
+                  }
+              `;
+          } else {
+              innerHtml = innerHtml + `
+                  .djvsHeader {
+                      margin: auto;
+                      color: #A5A9AA;
+                      position: absolute;
+                      top: 100%;
+                      left: 50%;
+                      transform: translate(-50%, -25%);
+                      width: ${window.innerWidth}px;
+                  }
+              `;
           }
+
+
+          innerHtml = innerHtml + `
+
           </style>
 
           <div class="djvsContainer">
