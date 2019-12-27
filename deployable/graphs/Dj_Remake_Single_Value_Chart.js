@@ -306,6 +306,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 width: ${window.innerWidth};
                 margin: auto;
                 padding: 0;
+                width: 100%;
               }
 
   `;
