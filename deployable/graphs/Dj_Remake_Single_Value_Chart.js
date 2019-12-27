@@ -306,6 +306,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 text-align: center;
               }
               .djvsValue, djvsTitle, djvsHeader {
+                width: ${window.innerWidth};
                 margin: auto;
                 padding: 0;
               }
@@ -351,6 +352,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 text-align: center;
               }
               .djvsValue, djvsTitle, djvsHeader {
+                width: ${window.innerWidth};
                 margin: auto;
                 padding: 0;
               }
