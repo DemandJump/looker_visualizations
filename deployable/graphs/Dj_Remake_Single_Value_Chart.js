@@ -389,17 +389,24 @@ d3.select('div.djvsValue').style('color', config.color);
 
   // This is for the font-styling radio buttons
 if (font_style == "dynamic_size") {
-            value_fs = '16.4vw';
-            title_fs = '6.4vw';
-            header_fs = '6vw';
-            arrowFontPass = '5.2vw';
+    value_fs = '16.4vw';
+    title_fs = '6.4vw';
+    header_fs = '6vw';
+    arrowFontPass = '5.2vw';
 }
 
 if (font_style == "word_break") {
-            value_fs = '4.5rem';
-            title_fs = '1.6rem';
-            header_fs = '1.2rem';
-            arrowFontPass = '1rem';
+    value_fs = '4.5rem';
+    title_fs = '1.6rem';
+    header_fs = '1.2rem';
+    arrowFontPass = '1rem';
+
+    if (window.innerHeight < 225) {
+        value_fs = '4rem';
+        title_fs = '1.45rem';
+        header_fs = '1.1rem';
+        arrowFontPass = '.9rem';
+    }
 }
 
 d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
