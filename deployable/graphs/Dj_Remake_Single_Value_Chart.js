@@ -329,6 +329,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               position: relative; 
               font-size: 9vw;
               font-style: normal;
+              vertical-align: middle;
           }
 
           .djvsTitle {
@@ -337,16 +338,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               position: relative;
               font-size: 1.6rem;
               color: #A5A9AA;
+              vertical-align: middle;
           }
 
           .djvsHeader {
               margin: auto;
               font-size: 1.4rem;
               color: #A5A9AA;
-              position: absolute;
-              left: 50%;
-              bottom: 0%;
-              transform: translateX(-50%);
+              position: relative;
+              vertical-align: bottom;
           }
           </style>
 
@@ -414,8 +414,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       `;
       element.innerHTML = innerHtml;
   }
-
-  console.log('This is the innerHtml', innerHtml);
   console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}, element spacing: ${element_spacing}, current spacing: ${spacing}`);
 
 /*********************************************************************************************************************
@@ -451,18 +449,13 @@ d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wra
 
 
           /*/ Title Configuration /*/
-console.log('config.showTitle', config.showTitle);
 if (config.showTitle == true) { // If the input is empty but they wanna show the title
-    console.log('config showtitle is true');
     if (config.valueTitle == '' || config.valueTitle == ' ' || !(config.valueTitle)) {
         if (calculation == 'one measure' || calculation == 'two measures') {
-            console.log('one or two measure', queryResponse.fields.measures[0].label_short);
             d3.select('.djvsTitle').html(queryResponse.fields.measures[0].label_short); 
         } else if (calculation == 'pivot measure') {
-            console.log('pivot', queryResponse.pivots[0].label_short);
             d3.select('.djvsTitle').html(queryResponse.fields.pivots[0].label_short);
         }
-
     } else {
         d3.select('.djvsTitle').html(config.valueTitle); 
     }
@@ -576,8 +569,8 @@ if (config.valueFormat) {
   d3.select('div.djvsHeader').html(hReturnValue);
 }
 
-console.log(`Value`, lookValue);
-console.log(`Header`, hReturnValue)
+console.log(`Value: `, lookValue);
+console.log(`Header: `, hReturnValue)
 
 
 
