@@ -277,11 +277,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   let font_style = 'word_break'; // wb: word break, vw: viewport width // 
   if (window.innerWidth < 350) font_style = 'dynamic_size';
+
   let element_spacing = 'word_break';
   let spacing = 200;
   if (config.showLabel == true) spacing = 300;
   if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
-
 
   let innerHtml = `
       <style>  
@@ -308,6 +308,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 padding: 0;
               }
   `;
+
 
   if (element_spacing == 'word_break') {
       innerHtml = innerHtml + `
@@ -355,7 +356,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </div>
           <div class="djvsHeader></div>   
       `;
-
       element.innerHTML = innerHtml; 
   }
 
@@ -406,7 +406,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </div>
           <div class="djvsHeader"></div>
       `;
-      
       element.innerHTML = innerHtml;
   }
 
