@@ -353,7 +353,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       `;
 
 
-      if (window.innerWidth < 225) {
+      if (window.innerHeight < 225) {
           innerHtml = innerHtml + `
               .djvsHeader {
                   margin: auto;
