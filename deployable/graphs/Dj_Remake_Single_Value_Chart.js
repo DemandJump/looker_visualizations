@@ -345,11 +345,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               margin: auto;
               font-size: 1.4rem;
               color: #A5A9AA;
+              position: relative; 
+              
               vertical-align: bottom;
-              position: absolute;
-              bottom: 0%;
-              left: 50%;
-              transform: translateX(-50%);
           }
           </style>
 
