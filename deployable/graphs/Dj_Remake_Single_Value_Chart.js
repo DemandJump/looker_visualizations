@@ -279,7 +279,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   let element_spacing = 'word_break';
   let spacing = 200;
-  if (config.showLabel == true) spacing = 250;
+  if (config.showLabel == true) spacing = 350;
   if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
 
   let innerHtml = ``;
@@ -407,7 +407,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       `;
       element.innerHTML = innerHtml;
   }
-  console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}, element spacing: ${element_spacing}, current spacing: ${spacing}`);
+  console.log(`innerWidth: ${window.innerWidth}~350, innerHeight: ${window.innerHeight}~${spacing}, element spacing: ${element_spacing}`);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
@@ -562,7 +562,6 @@ if (config.valueFormat) {
   d3.select('div.djvsHeader').html(hReturnValue);
 }
 
-console.log('Innerhtml', innerHtml);
 
 
 
