@@ -285,9 +285,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   let elementWidth = window.innerWidth * .9; 
   let elementHeight = window.innerHeight * .9;
-  if (element_spacing == 'word_break') {
-      element.innerHTML = `
-          <style>  
+  let innerHtml = `
+      <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
               .djvsValue:hover { 
                 text-decoration: underline; 
@@ -310,62 +309,107 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 margin: auto;
                 padding: 0;
               }
+  `;
+
+  if (element_spacing == 'word_break') {
+      innerHtml = innerHtml + `
+          .djvsContainer {
+              margin: auto;
+              display: inline-block;
+              font-size: 9vw;
+              text-align: center; 
+              position: absolute; 
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+          }
+
+          .djvsValue {
+              margin: auto;
+              display: inline-block;
+              position: relative; 
+              font-size: 9vw;
+              font-style: normal;
+          }
+
+          .djvsTitle {
+              margin: auto;
+              display: inline-block;
+              position: relative;
+              font-size: 1.6rem;
+              color: #A5A9AA;
+          }
+
+          .djvsHeader {
+              margin: auto;
+              font-size: 1.4rem;
+              color: #A5A9AA;
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%);
+              bottom: 0%;
+          }
           </style>
 
-
-          <div class="djvsContainer" style="margin: auto;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="djvsValue" style="margin: auto;  font-size: 9vw;  font-style: normal;"></div>
-              <div class="djvsTitle" style="margin: auto;  font-size: 1.6rem;  color: #A5A9AA;"></div>
+          <div class="djvsContainer">
+              <div class="djvsValue"></div>
+              <div class="djvsTitle"></div>
           </div>
-          
-          <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>
-
-
-          <!--
-          <div class="djvsContainer" style="margin: auto;  display: inline-block;  font-size: 9vw;  text-align: center;  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="djvsValue" style="margin: auto;  display: block;  position: relative;  font-size: 9vw;  font-style: normal;"></div>
-              <div class="djvsTitle" style="margin: auto;  display: block;  position: relative;  font-size: 1.6rem;  color: #A5A9AA;"></div>
-          </div>
-          <div class="djvsHeader" style="margin: auto; font-size: 1.4rem;  color: #A5A9AA; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0%;  width: 100%;  padding: 10px;">selected dimension</div>   
-          -->
+          <div class="djvsHeader></div>   
       `;
+
+      element.innerHTML = innerHtml; 
   }
 
   if (element_spacing == 'dynamic_size') {
-      element.innerHTML = `
-          <style>  
-              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-              .djvsValue:hover { 
-                text-decoration: underline; 
-              }
-              div { 
-                font-weight: 300; 
-                font-family: 'Roboto';
-                margin: 0;
-                padding: 0;
-                text-align: center;
-              }
-              html, body { 
-                display: inline-block;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-              }
-              .djvsValue, djvsTitle, djvsHeader {
-                width: ${window.innerWidth};
-                margin: auto;
-                padding: 0;
-              }
+      innerHtml = innerHtml + `
+
+          .djvsContainer { 
+              margin: auto;
+              display: inline-block;
+              font-size: 9vw;
+              text-align: center; 
+              padding: 0;
+              vertical-align: middle; 
+              position: absolute;
+              top: 50%;
+              left 50%;
+              transform: translate(-50%, -50%);
+          }
+
+          .djvsValue {
+              margin: auto;
+              display: inline-block;
+              font-size: 9vw;
+              font-style: normal;
+              vertical-align: middle;
+          }
+
+          .djvsTitle {
+              margin: auto;
+              display: inline-block;
+              font-size: 1.6rem;
+              color: #A5A9AA;
+              vertical-align: middle;
+          }
+
+          .djvsHeader {
+              margin: auto;
+              display: inline-block;
+              font-size: 1.4rem;
+              color: #A5A9AA;
+              vertical-align: bottom;
+          }
           </style>
 
-          <div class="djvsContainer" width: ${window.innerWidth}; height: ${window.innerHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
-              <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
+          <div class="djvsContainer">
+                  <div class="djvsValue"></div>
+                  <div class="djvsTitle"></div>
           </div>
-
-          <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
+          <div class="djvsHeader"></div>
       `;
   }
+
   console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}`);
   console.log(`elementWidth: ${elementWidth}, elementHeight: ${elementHeight}`);
   console.log(`Element spacing: ${element_spacing}`);
