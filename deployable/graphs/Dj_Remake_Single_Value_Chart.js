@@ -285,27 +285,27 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let innerHtml = ``;
   let innerStyle = `
       <style>  
-              @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
-              .djvsValue:hover { 
-                text-decoration: underline; 
-              }
-              div { 
-                font-weight: 300; 
-                font-family: 'Roboto';
-                margin: 0;
-                padding: 0;
-                text-align: center;
-              }
-              html, body { 
-                display: inline-block;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-              }
-              .djvsValue, djvsTitle, djvsHeader {
-                margin: auto;
-                padding: 0;
-              }
+          @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+          .djvsValue:hover { 
+            text-decoration: underline; 
+          }
+          div { 
+            font-weight: 300; 
+            font-family: 'Roboto';
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+          html, body { 
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+          }
+          .djvsValue, djvsTitle, djvsHeader {
+            margin: auto;
+            padding: 0;
+          }
 
   `;
 
