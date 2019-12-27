@@ -350,7 +350,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               top: 100%;
               left: 50%;
               transform: translate(-50%, -25%);
-              width: ${window.innerWidth}; 
+              width: ${window.innerWidth}px;
           }
           </style>
 
