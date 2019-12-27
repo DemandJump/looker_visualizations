@@ -1,4 +1,7 @@
 looker.plugins.visualizations.add({
+
+  id: 'DJ_Single_Value_Look',
+  label: 'Demand Jump Single Value Look',
   options: {
           color: {
               label: "Value Color",
