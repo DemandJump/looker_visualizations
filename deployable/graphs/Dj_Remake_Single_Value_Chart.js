@@ -366,6 +366,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
   console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}`);
   console.log(`elementWidth: ${elementWidth}, elementHeight: ${elementHeight}`);
+  console.log(`Element spacing: ${element_spacing}`);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
