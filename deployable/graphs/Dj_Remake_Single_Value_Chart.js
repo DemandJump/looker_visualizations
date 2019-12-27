@@ -340,12 +340,18 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           }
           </style>
 
+          <!-- 
           <div class="djvsContainer">
                   <div class="djvsValue">value</div>
                   <div class="djvsTitle">label</div>
           </div>
           <div class="djvsHeader">measure</div>
+          -->
       `;
+      d3.select(element).append('div').attr('class', 'djvsContainer');
+      d3.select('.djvsContainer').append('div').attr('class', 'djvsValue');
+      d3.select('.djvsContainer').append('div').attr('class', 'djvsTitle');
+      d3.select(element).append('div').attr('class', 'djvsHeader');
       element.innerHTML = innerHtml;
   }
   console.log(`innerWidth: ${window.innerWidth}~350, innerHeight: ${window.innerHeight}~${spacing}, element spacing: ${element_spacing}`);
