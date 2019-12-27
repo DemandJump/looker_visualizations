@@ -237,9 +237,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       renderedChange = (measure1.value / measure2.value) * 100;
       renderedChange = Math.trunc(renderedChange);
 
-      console.log('This is measure one', measure1);
-      console.log('This is measure two', measure2);
-      console.log('This is renderedChange', renderedChange);
+      // console.log('This is measure one', measure1);
+      // console.log('This is measure two', measure2);
+      // console.log('This is renderedChange', renderedChange);
   } else if (calculation == 'pivot measure') {
         // We need to find the pivot name then data.name.pivname.rendered
       cpName = queryResponse.fields.pivots[0]['key'];
@@ -250,9 +250,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       renderedChange = data[0]['previous_period']['value'] * 100;
       renderedChange = Math.trunc(renderedChange);
 
-      console.log('This is renderedChange', renderedChange);
-      console.log('This is current period', currentPeriod);
-      console.log('This is previous period', previousPeriod);
+      // console.log('This is renderedChange', renderedChange);
+      // console.log('This is current period', currentPeriod);
+      // console.log('This is previous period', previousPeriod);
   }
 
 
@@ -432,7 +432,7 @@ if (config.showTitle == false) d3.select('.djvsTitle').html(' ');
 
 
     // So we're taking in hValue and editing it if it's one of these values
-console.log(`editHeader: entering hValue value: `, headerRes);
+// console.log(`editHeader: entering hValue value: `, headerRes);
     // Set the label based on user's input or it's default label
 if (config.labelOverride) {
     if (config.labelOverride != '' || config.labelOverride != ' ') headerRes = config.labelOverride;
@@ -463,11 +463,10 @@ if (calculation == 'one measure') this.addError({title: "Error Calculating", mes
 
 if (config.valueLabels == 'compVal') { // Show as Value
       // They just add the numbers in bold beside the Field label 
-    console.log('This is ths computing value configuration');
 
     hReturnValue = `${lookValue2.rendered} ${headerRes}`;
-    console.log(`String interpolating this stuff: ${lookValue.rendered} ${headerRes}`);
-    console.log('This is the hReturn value format going through compute value', hReturnValue);
+    // console.log(`This is ths computing value configuration's string interpolating this stuff: ${lookValue.rendered} ${headerRes}`);
+    // console.log('This is the hReturn value format going through compute value', hReturnValue);
     d3.select('div.djvsHeader').style('background-image', 'none');
 }
 
@@ -486,7 +485,7 @@ if (config.valueLabels == 'compChan') { // Show as Change
         d3.select('div.djvsHeader').style('backgroun-image', 'none');
     }
     d3.select('div.djvsHeader').style('background-image', 'none');
-    console.log('This is hreturn value being passed through computed change', hReturnValue);
+    // console.log('This is hreturn value being passed through computed change', hReturnValue);
 }
 
 if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { // Calculate Progress (with Percentage)
@@ -496,12 +495,12 @@ if (config.valueLabels == 'calcPercent' || config.valueLabels == 'calcProg') { /
 
     if (config.valueLabels == 'calcPercent') { // Calculate as percent
         hReturnValue = `<span style=" color: #979B9D;">${renderedChange}%</span> of <span style=" color: #979B9D;">${lookValue2.rendered}</span> ` + headerRes;
-        console.log(`This is hreturn value being passed through calculated percent`, hReturnValue);
+        // console.log(`This is hreturn value being passed through calculated percent`, hReturnValue);
     }
         // Calculate progress
     if (config.valueLabels == `calcProg`) {
         hReturnValue = headerRes;
-        console.log(`This is the hreturn value being passed through the calclated progress`, hReturnValue);
+        // console.log(`This is the hreturn value being passed through the calclated progress`, hReturnValue);
     }
 
 }
@@ -513,7 +512,7 @@ if (config.showComparison == false) { // Cleans up the visual when comparison is
     d3.select('div.djvsHeader').style('background-image', 'none');
     hReturnValue = '';
 }
-console.log('This is hReturnValue after the editHeader function', hReturnValue);
+// console.log('This is hReturnValue after the editHeader function', hReturnValue);
 /*********************************************************************************************************
   * Instatiation
 *********************************************************************************************************/
