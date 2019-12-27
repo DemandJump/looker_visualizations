@@ -561,8 +561,7 @@ if (config.valueFormat) {
   d3.select('div.djvsHeader').html(hReturnValue);
 }
 
-console.log(`Value: `, lookValue);
-console.log(`Header: `, hReturnValue)
+console.log('Innerhtml', innerHtml);
 
 
 
