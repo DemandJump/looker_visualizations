@@ -410,10 +410,10 @@ if (font_style == "word_break") {
     arrowFontPass = '1rem';
 
     if (window.innerHeight < 225 && window.innerWidth > 325) {
-        value_fs = '4rem';
-        title_fs = '1.45rem';
-        header_fs = '1.1rem';
-        arrowFontPass = '.9rem';
+        value_fs = '3rem';
+        title_fs = '1.2rem';
+        header_fs = '.8rem';
+        arrowFontPass = '.64rem';
     }
 }
 
