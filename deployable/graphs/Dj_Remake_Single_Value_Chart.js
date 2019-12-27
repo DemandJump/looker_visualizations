@@ -498,8 +498,8 @@ if (calculation == 'two measures' || calculation == 'pivot measure') {
     }
 }
 
-console.log('This is the lookValue', lookValue);
-console.log('This is the lookValue2', lookValue2);
+// console.log('This is the lookValue', lookValue);
+// console.log('This is the lookValue2', lookValue2);
 
           // / // Onto the comparison operators // / // 
 if (config.showComparison == true) {
@@ -567,12 +567,12 @@ if (config.showComparison == false) { // Cleans up the visual when comparison is
 if (config.valueFormat) {
   if (config.valueFormat != '') {
       lookValue.userFormat = formatValue(config.valueFormat, lookValue.value); // Pass in the value and return a new one
-      console.log('This is the returned value from the formatValue function', lookValue);
+      // console.log('This is the returned value from the formatValue function', lookValue);
       d3.select('div.djvsValue').html(lookValue.userFormat);
       d3.select('div.djvsHeader').html(hReturnValue);
   } 
 } else {
-  console.log('This is the valueReturn passed in (skipped formatvalue function)', lookValue);
+  // console.log('This is the valueReturn passed in (skipped formatvalue function)', lookValue);
   d3.select('div.djvsValue').html(lookValue.rendered);
   d3.select('div.djvsHeader').html(hReturnValue);
 }
