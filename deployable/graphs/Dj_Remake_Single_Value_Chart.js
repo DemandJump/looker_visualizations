@@ -317,16 +317,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 9vw;
               text-align: center; 
-              position: absolute; 
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
+              vertical-align: middle;
           }
 
           .djvsValue {
               margin: auto;
               display: inline-block;
-              position: relative; 
               font-size: 9vw;
               font-style: normal;
               vertical-align: middle;
@@ -335,7 +331,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsTitle {
               margin: auto;
               display: inline-block;
-              position: relative;
               font-size: 1.6rem;
               color: #A5A9AA;
               vertical-align: middle;
@@ -345,8 +340,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               margin: auto;
               font-size: 1.4rem;
               color: #A5A9AA;
-              position: relative; 
-              
               vertical-align: bottom;
           }
           </style>
