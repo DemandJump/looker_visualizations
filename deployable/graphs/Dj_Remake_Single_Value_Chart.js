@@ -395,7 +395,7 @@ if (font_style == "dynamic_size") {
     header_fs = '6vw';
     arrowFontPass = '5.2vw';
 
-    if (window.innerHeight < 225) {
+    if (window.innerHeight < 225 && window.innerWidth > 325) {
         value_fs = '13.4vw';
         title_fs = '5.4vw'; 
         header_fs = '4vw';
@@ -409,7 +409,7 @@ if (font_style == "word_break") {
     header_fs = '1.2rem';
     arrowFontPass = '1rem';
 
-    if (window.innerHeight < 225) {
+    if (window.innerHeight < 225 && window.innerWidth > 325) {
         value_fs = '4rem';
         title_fs = '1.45rem';
         header_fs = '1.1rem';
