@@ -358,7 +358,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               }
           </style>
 
-          <div class="djvsContainer" width: ${window.innerWidth}; height: ${window.innerHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
+          <div class="djvsContainer" width: ${window.innerWidth}; height: ${window.innerHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
               <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
               <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
