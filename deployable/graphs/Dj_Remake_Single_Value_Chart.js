@@ -451,6 +451,7 @@ d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wra
 
 
           /*/ Title Configuration /*/
+console.log('config.showTitle', config.showTitle);
 if (config.showTitle == true) { // If the input is empty but they wanna show the title
     console.log('config showtitle is true');
     if (config.valueTitle == '' || config.valueTitle == ' ' || !(config.valueTitle)) {
@@ -576,7 +577,6 @@ if (config.valueFormat) {
 }
 
 console.log(`Value`, lookValue);
-console.log(`Title`, );
 console.log(`Header`, hReturnValue)
 
 
