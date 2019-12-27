@@ -321,8 +321,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   
               `;
           }
-
-      element.innerHTML = innerHtml; 
   }
 
   if (element_spacing == 'dynamic_size') {
@@ -371,8 +369,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </div>
           <div class="djvsHeader">measure</div>
       `;
-      element.innerHTML = innerHtml;
+
+
   }
+
+  element.innerHTML = innerHtml;
   console.log(`innerWidth: ${window.innerWidth}~350, innerHeight: ${window.innerHeight}~${spacing}, element spacing: ${element_spacing}`);
 
 /*********************************************************************************************************************
@@ -393,6 +394,13 @@ if (font_style == "dynamic_size") {
     title_fs = '6.4vw';
     header_fs = '6vw';
     arrowFontPass = '5.2vw';
+
+    if (window.innerHeight < 225) {
+        value_fs = '13.4vw';
+        title_fs = '5.4vw'; 
+        header_fs = '4vw';
+        arrowFontPass = '4.2vw';
+    }
 }
 
 if (font_style == "word_break") {
