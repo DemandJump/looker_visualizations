@@ -292,6 +292,13 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       position: relative;
                       width: ${window.innerWidth}px;
                   }
+                  </style>
+
+                  <div class="djvsContainer">
+                          <div class="djvsValue">value</div>
+                          <div class="djvsTitle">label</div>
+                          <div class="djvsHeader">measure</div>
+                  </div>
               `;
           } else {
               innerHtml = innerHtml + `
@@ -304,20 +311,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       transform: translate(-50%, -25%);
                       width: ${window.innerWidth}px;
                   }
+                  </style>
+
+                  <div class="djvsContainer">
+                          <div class="djvsValue">value</div>
+                          <div class="djvsTitle">label</div>
+                  </div>
+                  <div class="djvsHeader">measure</div>
+                  
               `;
           }
 
-
-          innerHtml = innerHtml + `
-
-          </style>
-
-          <div class="djvsContainer">
-                  <div class="djvsValue">value</div>
-                  <div class="djvsTitle">label</div>
-          </div>
-          <div class="djvsHeader">measure</div>
-      `;
       element.innerHTML = innerHtml; 
   }
 
