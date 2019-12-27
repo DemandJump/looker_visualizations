@@ -257,7 +257,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
 
   let lookValue; // The data will be an object so we have access to the undrendered data for formatvalue as well
-    // Measure one is always the look value, everything is is pretty much for comparison
   if (calculation == 'one measure' || calculation == 'two measures') lookValue = measure1;
   if (calculation == 'pivot measure') lookValue = currentPeriod;
   if (lookValue.rendered) {
@@ -420,22 +419,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 /**************************************************************************************************************************
   * Setting up the Configuration Settings
 **************************************************************************************************************************/
-
-// So we have a Value, Title, and Header below with an arrow font pass. These values change based on the text_spacing value, and whether it's default or the 
-// Insantiate variables based on the user input default or not, if not then change it based on the different sizes for each
 let value_fs = '4.5rem';
 let title_fs = '1.6rem';
 let header_fs = '1.2rem';
-let arrowFontPass = '1rem';  // Pass in the arrow font size based on the text config
-
-// d3.select(element).selectAll("*").remove();   // Before we start the visualization, remove all the stuff currently in the vis
-d3.select('div.djvsValue').style('color', config.color);  // This colors the text based on the option given
+let arrowFontPass = '1rem'; 
+d3.select('div.djvsValue').style('color', config.color); 
 
   // This is for the font-styling radio buttons
-if (font_style == "dynamic_size") { // based on whether the select statement for varying font size // config.text_spacing == "dynamic_size"
-    let innerWidth = window.innerWidth;
-    let innerHeight = window.innerHeight;
-
+if (font_style == "dynamic_size") {
             value_fs = '16.4vw';
             title_fs = '6.4vw';
             header_fs = '6vw';
@@ -449,8 +440,6 @@ if (font_style == "word_break") {
             arrowFontPass = '1rem';
 }
 
-
-  // After changing the font settings, instantiate them here
 d3.select('div.djvsValue').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', value_fs); // Original 9.4vw
 d3.select('div.djvsTitle').style('overflow-wrap', 'normal').style('text-overflow', 'clip').style('font-size', title_fs); // Original 3.4vw
 d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wrap', 'clip').style('font-size', header_fs);  // Original 3vw
@@ -470,7 +459,6 @@ if (config.showTitle == true) { // If the input is empty but they wanna show the
     }
 }
 if (config.showTitle == false) d3.select('.djvsTitle').html(' ');
-
 
 /*********************************************************************************************************************************************************************
     * End of the Configuration Settings *                                                                                    * End of the Configuration Settings *
