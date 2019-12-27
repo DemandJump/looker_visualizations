@@ -261,7 +261,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       innerHtml = innerStyle + `
           .djvsContainer {
               margin: auto;
-              display: inline-block;
+              display: block;
               text-align: center; 
               position: absolute;
               top: 50%;
@@ -271,64 +271,66 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
           .djvsValue {
               margin: auto;
-              display: inline-block;
+              display: block;
               font-style: normal;
               position: relative;
           }
 
           .djvsTitle {
               margin: auto;
-              display: inline-block;
+              display: block;
               color: #A5A9AA;
               position: relative;
           }
-      `;
+          `;
 
-      if (window.innerHeight < 225) {
-          innerHtml = innerHtml + `
-              .djvsHeader { 
-                  margin: auto;
-                  color: #A5A9AA;
-                  position: relative;
-                  width: ${window.innerWidth}px;
-              }
-              </style>
+          if (window.innerHeight < 225) {
+              innerHtml = innerHtml + `
+                  .djvsHeader { 
+                      margin: auto;
+                      color: #A5A9AA;
+                      position: relative;
+                      width: ${window.innerWidth}px;
+                  }
+                  </style>
 
-              <div class="djvsContainer">
-                  <div class="djvsValue">value</div>
-                  <div class="djvsTitle">label</div>
+                  <div class="djvsContainer">
+                          <div class="djvsValue">value</div>
+                          <div class="djvsTitle">label</div>
+                          <div class="djvsHeader">measure</div>
+                  </div>
+              `;
+          } else {
+              innerHtml = innerHtml + `
+                  .djvsHeader {
+                      margin: auto;
+                      color: #A5A9AA;
+                      position: absolute;
+                      top: 100%;
+                      left: 50%;
+                      transform: translate(-50%, -25%);
+                      width: ${window.innerWidth}px;
+                  }
+                  </style>
+
+                  <div class="djvsContainer">
+                          <div class="djvsValue">value</div>
+                          <div class="djvsTitle">label</div>
+                  </div>
                   <div class="djvsHeader">measure</div>
-              </div>
-          `;
-      } else {
-          innerHtml = innerHtml + `
-              .djvsHeader {
-                  margin: auto;
-                  color: #A5A9AA;
-                  position: absolute;
-                  top: 100%;
-                  left: 50%;
-                  transform: translate(-50%, -25%);
-                  width: ${window.innerWidth}px;
-              }
-              </style>
+                  
+              `;
+          }
 
-              <div class="djvsContainer">
-                  <div class="djvsValue">value</div>
-                  <div class="djvsTitle">label</div>
-              </div>
-              <div class="djvsHeader">measure</div>
-              
-          `;
-      }
+      element.innerHTML = innerHtml; 
   }
-
 
   if (element_spacing == 'dynamic_size') {
       innerHtml = innerStyle + `
+
           .djvsContainer { 
               margin: auto;
-              display: inline-block;
+              display: block;
               text-align: center; 
               padding: 0;
               position: absolute;
@@ -339,61 +341,38 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
           .djvsValue {
               margin: auto;
-              display: inline-block;
+              display: block;
               font-style: normal;
               position: relative;
           }
 
           .djvsTitle {
               margin: auto;
-              display: inline-block;
+              display: block;
               color: #A5A9AA;
               position: relative;
           }
-      `;
 
+          .djvsHeader {
+              margin: auto;
+              display: block;
+              color: #A5A9AA;
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              transform: translate(-50%, -25%);
+              width: ${window.innerWidth}px;
+          }
+          </style>
 
-      if (window.innerHeight < 225) {
-          innerHtml = innerHtml + `
-              .djvsHeader {
-                  margin: auto;
-                  display: inline-block;
-                  color: #A5A9AA;
-                  position: absolute;
-                  top: 100%;
-                  left: 50%;
-                  transform: translate(-50%, -25%);
-                  width: ${window.innerWidth}px;
-              }
-            </style>
-
-            <div class="djvsContainer">
-                <div class="djvsValue">value</div>
-                <div class="djvsTitle">label</div>
-            </div>
-            <div class="djvsHeader">measure</div>
-          `;
-      } else {
-          innerHtml = innerHtml + `
-              .djvsHeader {
-                  margin: auto;
-                  display: inline-block;
-                  color: #A5A9AA;
-                  position: relative;
-                  width: ${window.innerWidth}px;
-              }
-              </style>
-
-              <div class="djvsContainer">
+          <div class="djvsContainer">
                   <div class="djvsValue">value</div>
                   <div class="djvsTitle">label</div>
-                  <div class="djvsHeader">measure</div>
-              </div>
-          `;
-      }
+          </div>
+          <div class="djvsHeader">measure</div>
+      `;
+      element.innerHTML = innerHtml;
   }
-
-  element.innerHTML = innerHtml;
   console.log(`innerWidth: ${window.innerWidth}~350, innerHeight: ${window.innerHeight}~${spacing}, element spacing: ${element_spacing}`);
 
 /*********************************************************************************************************************
