@@ -32,65 +32,6 @@ looker.plugins.visualizations.add({
           },
 
 
-          // text_spacing: {
-          //     label: "Dynamic font types. Change the styling to fit your needs",
-          //     type: "string",
-          //     order: 10,
-          //     section: "Word Spacing",
-          //     display: "radio",
-          //     values: [
-          //         {"Word Break on text overflow": "word_break"},
-          //         {"Dynamic font based on viewport width": "dynamic_size"},
-          //         {"Dynamic font based on viewport height": "dynamic_height"}
-          //     ],
-          //     default: "word_break"
-          // },
-          // wb_fs_conditional: {
-          //     label: "Use default font size", 
-          //     type: "boolean",
-          //     order: 11,
-          //     section: "Word Spacing", 
-          //     default: true,
-          //     hidden: true
-          // },
-          // wb_fs: {
-          //     label: "Word Break font size",
-          //     type: "string", 
-          //     order: 12,
-          //     section: "Word Spacing",
-          //     display: "select",
-          //     values: [
-          //         {"Small": "small"},
-          //         {"Medium": "medium"},
-          //         {"Large": "large"}
-          //     ],
-          //     default: "medium",
-          //     hidden: true
-          // },
-          // ds_fs_conditional: {
-          //     label: "Use default font size", 
-          //     type: "boolean",
-          //     order: 13,
-          //     section: "Word Spacing",
-          //     default: true,
-          //     hidden: true
-          // },
-          // ds_fs: {
-          //     label: "Dynamic vw font size",
-          //     type: "string", 
-          //     order: 14,
-          //     section: "Word Spacing",
-          //     display: "select",
-          //     values: [
-          //         {"Small": "small"},
-          //         {"Medium": "medium"},
-          //         {"Large": "large"}
-          //     ],
-          //     default: "small",
-          //     hidden: true
-          // },
-
-
           showComparison: {
             label: "Show Comparison", 
             type: "boolean",
@@ -201,12 +142,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   * Initialization / Setup
 **************************************************************************************************************************************/ 
   // this._container.selectAll("*").remove();
-  console.log('\n data', data);
+  console.log('\n\n\n\n data', data);
   console.log('queryResponse', queryResponse);
   // let dimensions = queryResponse.fields.dimensions; // console.log('Checking out query resposne dimension fields: ', dimensions);
   let measures = queryResponse.fields.measures; console.log('Checking out query resposne measure fields: ', measures);
-  console.log('referencing the options', this.options);
-  console.log('This is the config itself', config);
+  // console.log('referencing the options', this.options);
+  // console.log('This is the config itself', config);
 
   let measure1;
   let measure2;
