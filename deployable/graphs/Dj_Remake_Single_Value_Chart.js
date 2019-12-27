@@ -318,7 +318,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsContainer {
               margin: auto;
               display: inline-block;
-              font-size: 9vw;
               text-align: center; 
               position: absolute;
               top: 50%;
@@ -329,7 +328,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsValue {
               margin: auto;
               display: inline-block;
-              font-size: 9vw;
               font-style: normal;
               position: relative;
           }
@@ -337,14 +335,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsTitle {
               margin: auto;
               display: inline-block;
-              font-size: 1.6rem;
               color: #A5A9AA;
               position: relative;
           }
 
           .djvsHeader {
               margin: auto;
-              font-size: 1.4rem;
               color: #A5A9AA;
               position: absolute;
               top: 100%;
@@ -369,7 +365,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsContainer { 
               margin: auto;
               display: inline-block;
-              font-size: 9vw;
               text-align: center; 
               padding: 0;
               position: absolute;
@@ -381,7 +376,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsValue {
               margin: auto;
               display: inline-block;
-              font-size: 9vw;
               font-style: normal;
               position: relative;
           }
@@ -389,7 +383,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsTitle {
               margin: auto;
               display: inline-block;
-              font-size: 1.6rem;
               color: #A5A9AA;
               position: relative;
           }
@@ -397,7 +390,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           .djvsHeader {
               margin: auto;
               display: inline-block;
-              font-size: 1.4rem;
               color: #A5A9AA;
               position: absolute;
               top: 100%;
