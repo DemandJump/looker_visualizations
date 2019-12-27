@@ -345,7 +345,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               }
           </style>
 
-          <div class="djvsContainer" width: ${elementWidth}; height: ${elementHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
+          <div class="djvsContainer" width: ${window.innerWidth}; height: ${window.innerHeight}; style="margin: auto;  display; inline-block; font-size: 9vw;  text-align: center; padding: 0; vertical-align: middle;">
               <div class="djvsValue" style="margin: auto;  display: block; font-size: 9vw;  font-style: normal;  vertical-align: middle;"></div>
               <div class="djvsTitle" style="margin: auto;  display: block; font-size: 1.6rem;  color: #A5A9AA;  vertical-align: middle;"></div>
           </div>
@@ -353,7 +353,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           <div class="djvsHeader" style="margin: auto;  display: block;  font-size: 1.4rem;  color: #A5A9AA;  vertical-align: bottom;  width: 100%;  padding: 10px;">selected dimension</div>
       `;
   }
-  console.log('This is the window innerwidth', window.innerWidth);
+  console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}`);
+  console.log(`elementWidth: ${elementWidth}, elementHeight: ${elementHeight}`);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
