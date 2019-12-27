@@ -351,10 +351,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </style>
 
           <div class="djvsContainer">
-              <div class="djvsValue"></div>
-              <div class="djvsTitle"></div>
+              <div class="djvsValue">value</div>
+              <div class="djvsTitle">label</div>
           </div>
-          <div class="djvsHeader>selected element</div>   
+          <div class="djvsHeader>measure</div>   
       `;
       element.innerHTML = innerHtml; 
   }
@@ -407,10 +407,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </style>
 
           <div class="djvsContainer">
-                  <div class="djvsValue"></div>
-                  <div class="djvsTitle"></div>
+                  <div class="djvsValue">value</div>
+                  <div class="djvsTitle">label</div>
           </div>
-          <div class="djvsHeader">selected element</div>
+          <div class="djvsHeader">measure</div>
       `;
       element.innerHTML = innerHtml;
   }
@@ -452,10 +452,13 @@ d3.select('div.djvsHeader').style('overflow-wrap', 'normal').style('overflow-wra
 
           /*/ Title Configuration /*/
 if (config.showTitle == true) { // If the input is empty but they wanna show the title
+    console.log('config showtitle is true');
     if (config.valueTitle == '' || config.valueTitle == ' ' || !(config.valueTitle)) {
         if (calculation == 'one measure' || calculation == 'two measures') {
+            console.log('one or two measure', queryResponse.fields.measures[0].label_short);
             d3.select('.djvsTitle').html(queryResponse.fields.measures[0].label_short); 
         } else if (calculation == 'pivot measure') {
+            console.log('pivot', queryResponse.pivots[0].label_short);
             d3.select('.djvsTitle').html(queryResponse.fields.pivots[0].label_short);
         }
 
@@ -572,6 +575,9 @@ if (config.valueFormat) {
   d3.select('div.djvsHeader').html(hReturnValue);
 }
 
+console.log(`Value`, lookValue);
+console.log(`Title`, );
+console.log(`Header`, hReturnValue)
 
 
 
