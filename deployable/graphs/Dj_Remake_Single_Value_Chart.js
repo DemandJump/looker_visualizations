@@ -283,8 +283,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
 
 
-  let elementWidth = window.innerWidth * .9; 
-  let elementHeight = window.innerHeight * .9;
   let innerHtml = `
       <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
@@ -408,11 +406,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           </div>
           <div class="djvsHeader"></div>
       `;
+      
+      element.innerHTML = innerHtml;
   }
 
   console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}`);
-  console.log(`elementWidth: ${elementWidth}, elementHeight: ${elementHeight}`);
-  console.log(`Element spacing: ${element_spacing}`);
+  console.log(`Element spacing: ${element_spacing}, current spacing: ${spacing}`);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
