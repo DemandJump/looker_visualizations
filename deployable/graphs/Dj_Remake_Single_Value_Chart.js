@@ -367,7 +367,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 9vw;
               text-align: center; 
               padding: 0;
-              vertical-align: middle;
               position: absolute;
               top: 50%;
               left: 50%;
@@ -395,17 +394,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 1.4rem;
               color: #A5A9AA;
-              vertical-align: bottom;
-              position: relative;
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              transform: translate(-50%, -25%);
+              width: ${window.innerWidth};
           }
           </style>
 
           <div class="djvsContainer">
                   <div class="djvsValue">value</div>
                   <div class="djvsTitle">label</div>
-
-                  <div class="djvsHeader">measure</div>
           </div>
+          <div class="djvsHeader">measure</div>
       `;
       element.innerHTML = innerHtml;
   }
