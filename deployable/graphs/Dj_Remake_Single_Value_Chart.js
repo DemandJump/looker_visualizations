@@ -309,6 +309,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   `;
 
+  d3.select('.djvsElement')
+      .style('width', window.innerWidth)
+      .style('height', window.innerHeight);
 
   if (element_spacing == 'word_break') {
       innerHtml = innerStyle + `
