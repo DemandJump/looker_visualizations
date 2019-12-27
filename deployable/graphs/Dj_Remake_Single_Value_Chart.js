@@ -279,7 +279,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   let element_spacing = 'word_break';
   let spacing = 200;
-  if (config.showLabel == true) spacing = 300;
+  if (config.showLabel == true) spacing = 250;
   if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
 
   let innerHtml = ``;
