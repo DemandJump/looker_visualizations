@@ -283,7 +283,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   if (config.showLabel == true) spacing = 300;
   if (window.innerHeight < spacing) element_spacing = 'dynamic_size';
 
-  let innerHtml = `
+  let innerHtml = ``;
+  let innerStyle = `
       <style>  
               @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
               .djvsValue:hover { 
@@ -307,11 +308,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                 margin: auto;
                 padding: 0;
               }
+
   `;
 
 
   if (element_spacing == 'word_break') {
-      innerHtml = innerHtml + `
+      innerHtml = innerStyle + `
           .djvsContainer {
               margin: auto;
               display: inline-block;
@@ -360,7 +362,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
 
   if (element_spacing == 'dynamic_size') {
-      innerHtml = innerHtml + `
+      innerHtml = innerStyle + `
 
           .djvsContainer { 
               margin: auto;
@@ -409,8 +411,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       element.innerHTML = innerHtml;
   }
 
-  console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}`);
-  console.log(`Element spacing: ${element_spacing}, current spacing: ${spacing}`);
+  console.log('This is the innerHtml', innerHtml);
+  console.log(`innerWidth: ${window.innerWidth}, innerHeight: ${window.innerHeight}, element spacing: ${element_spacing}, current spacing: ${spacing}`);
 
 /*********************************************************************************************************************
                                                                               * End of Dimension Initialization
