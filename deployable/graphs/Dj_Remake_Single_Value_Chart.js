@@ -346,8 +346,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               color: #A5A9AA;
               position: absolute;
               left: 50%;
-              transform: translateX(-50%);
               bottom: 0%;
+              transform: translateX(-50%);
           }
           </style>
 
@@ -372,7 +372,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               vertical-align: middle; 
               position: absolute;
               top: 50%;
-              left 50%;
+              left: 50%;
               transform: translate(-50%, -50%);
           }
 
@@ -381,6 +381,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 9vw;
               font-style: normal;
+              position: relative;
               vertical-align: middle;
           }
 
@@ -389,6 +390,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 1.6rem;
               color: #A5A9AA;
+              position: relative;
               vertical-align: middle;
           }
 
@@ -398,6 +400,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 1.4rem;
               color: #A5A9AA;
               vertical-align: bottom;
+              position: absolute;
+              left: 50%;
+              bottom: 0%; 
+              transform: translateX(-50%);
           }
           </style>
 
