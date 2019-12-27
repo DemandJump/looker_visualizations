@@ -317,7 +317,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 9vw;
               text-align: center; 
-              vertical-align: middle;
+
           }
 
           .djvsValue {
@@ -325,7 +325,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 9vw;
               font-style: normal;
-              vertical-align: middle;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
           }
 
           .djvsTitle {
@@ -333,14 +336,16 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 1.6rem;
               color: #A5A9AA;
-              vertical-align: middle;
           }
 
           .djvsHeader {
               margin: auto;
               font-size: 1.4rem;
               color: #A5A9AA;
-              vertical-align: bottom;
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              transform: translate(-50%, -25%);
           }
           </style>
 
@@ -362,7 +367,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 9vw;
               text-align: center; 
               padding: 0;
-              vertical-align: middle;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
           }
 
           .djvsValue {
@@ -371,7 +379,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 9vw;
               font-style: normal;
               position: relative;
-              vertical-align: middle;
           }
 
           .djvsTitle {
@@ -380,7 +387,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               font-size: 1.6rem;
               color: #A5A9AA;
               position: relative;
-              vertical-align: middle;
           }
 
           .djvsHeader {
@@ -388,7 +394,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               display: inline-block;
               font-size: 1.4rem;
               color: #A5A9AA;
-              vertical-align: bottom;
+              position: absolute;
+              top: 100%;
+              left: 50%;
+              transform: translate(-50%, -25%);
+
           }
           </style>
 
