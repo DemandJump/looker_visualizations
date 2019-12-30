@@ -187,6 +187,7 @@ looker.plugins.visualizations.add({
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
                 .style('background-color', d => everyOtherRow(d))
+                .style('text-align', d => textAlign(d))
                 .text(d => cellText(d));
 
 
@@ -212,6 +213,11 @@ looker.plugins.visualizations.add({
                 counter++;
                 columnIteration = 1;
             }
+        }
+
+        function textAlign(d) {
+            if (d.type == 'index') return 'right';
+            else return 'left';
         }
 
             /**************** Done! *****************/
