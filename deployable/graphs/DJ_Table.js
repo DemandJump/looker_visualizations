@@ -116,6 +116,10 @@ looker.plugins.visualizations.add({
                 if (dimensions[i].name == name) {
                     let obj = {
                         name: name,
+                        label: dimensions[i].label,
+                        label_short: dimensions[i].label_short,
+                        view_label: dimensions[i].view_label,
+                        field_group_variant: dimensions[i].field_group_variant,
                         type: 'dimensions'
                     };
                     columnData.push(obj);
@@ -125,6 +129,10 @@ looker.plugins.visualizations.add({
                 if (measures[i].name == name) {
                     let obj = {
                         name: name,
+                        label: dimensions[i].label,
+                        label_short: dimensions[i].label_short,
+                        view_label: dimensions[i].view_label,
+                        field_group_variant: dimensions[i].field_group_variant,
                         type: 'measures'
                     };
                     columnData.push(obj);
