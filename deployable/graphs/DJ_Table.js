@@ -60,6 +60,11 @@ looker.plugins.visualizations.add({
                 }
                 th.dimensions, th.index { background-color: #CCD8E4; }
                 th.measures { background-color: #E4D1BD; }
+
+                .bold {
+                    font-size: 11px;
+                    font-weight: bold; 
+                }
             </style>
         `;
 
@@ -172,7 +177,7 @@ looker.plugins.visualizations.add({
         header.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
-                .html(d => `${d.view_label} <b>${d.field_group_variant}</b>`);
+                .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`);
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
