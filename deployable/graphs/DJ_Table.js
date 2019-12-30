@@ -124,10 +124,11 @@ looker.plugins.visualizations.add({
             }
         });
         console.log('Column Data: ', columnData);
+        console.log('columns', columns);
 
         data.forEach(row => {
             let newRow = [];
-            for(let i = 0; i < columns; i++) { 
+            for(let i = 0; i < columnData.length; i++) { 
                 console.log('current column', columnData[i])
                 newRow.push(row[columnData[i].name]); 
                 newRow[i].type = columnData[i].type;
