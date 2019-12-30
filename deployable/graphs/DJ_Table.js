@@ -48,11 +48,11 @@ looker.plugins.visualizations.add({
                     /* Color ever other cell */
                 tr.index { background-color: #CCD8E4;}
 
-                    /* Highlight the hovered cell */
-                tr:hover {background-color: #E6E8EC;}
-
                 /* Color the cells */
                 tr:nth-child(even){background-color: #F5F8FA;}
+
+                /* Highlight the hovered cell */
+                tr:hover {background-color: #E6E8EC;}
                 
                     /* Header colors */
                 th {
