@@ -49,8 +49,8 @@ looker.plugins.visualizations.add({
                 tr.index { background-color: #CCD8E4;}
 
                 /* Color the cells */
-                td.dimensions:nth-child(even){background-color: #F5F8FA;}
-                td.measures:nth-child(even){background-color: #F7F2ED;}
+                tr.dimensions:nth-child(even){background-color: #F5F8FA;}
+                tr.measures:nth-child(even){background-color: #F7F2ED;}
 
                 /* Highlight the hovered cell */
                 tr:hover {background-color: #E6E8EC;}
