@@ -129,10 +129,10 @@ looker.plugins.visualizations.add({
                 if (measures[i].name == name) {
                     let obj = {
                         name: name,
-                        label: dimensions[i].label,
-                        label_short: dimensions[i].label_short,
-                        view_label: dimensions[i].view_label,
-                        field_group_variant: dimensions[i].field_group_variant,
+                        label: measures[i].label,
+                        label_short: measures[i].label_short,
+                        view_label: measures[i].view_label,
+                        field_group_variant: measures[i].field_group_variant,
                         type: 'measures'
                     };
                     columnData.push(obj);
