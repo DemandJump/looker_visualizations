@@ -67,7 +67,7 @@ looker.plugins.visualizations.add({
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
         // this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
-        console.log(`\n\ndirect reference to settings (this.options)`, this.options);
+        console.log(`\n\n\n\ndirect reference to settings (this.options)`, this.options);
         console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
@@ -101,7 +101,7 @@ looker.plugins.visualizations.add({
                 }
             });
         }
-        console.log('Column Order: ', columnOrder);
+        // console.log('Column Order: ', columnOrder);
 
         let columnData = [];
         columnOrder.forEach((name, index) => {
@@ -129,6 +129,9 @@ looker.plugins.visualizations.add({
             rowData.push(newRow);
         });
         console.log('This is the row data', rowData);
+
+
+
 
             /**************** Done! *****************/
     doneRendering(); // Always call done to indicate a visualization has finished rendering
