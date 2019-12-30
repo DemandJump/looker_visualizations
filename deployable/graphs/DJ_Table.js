@@ -22,7 +22,7 @@ looker.plugins.visualizations.add({
                     border-collapse: collapse;
                     font-family: 'Roboto', Arial, Helvetica, sans-serif;
                     font-weight: 300;
-                    font-size: 12px;
+                    font-size: 11px;
                     border-spacing: 0px;
                     width: 100%;
                 }
@@ -36,7 +36,7 @@ looker.plugins.visualizations.add({
                 td, th {
                     padding: 2px 5px;
                     text-decoration: none;
-                    font-weight: lighter;
+                    font-weight: normal;
                 }
             
                     /* Table borders */
@@ -61,7 +61,7 @@ looker.plugins.visualizations.add({
                 th.measures { background-color: #E4D1BD; }
 
                 .bold {
-                    font-size: 12px;
+                    font-size: 11px;
                     font-weight: bold; 
                 }
             </style>
