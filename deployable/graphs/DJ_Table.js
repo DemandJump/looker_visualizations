@@ -80,10 +80,14 @@ looker.plugins.visualizations.add({
         let columnNames = [];
         let columnOrder = [];
 
-      // Store those names, then iterate the data into rowData
+            // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
+
+        /***************************************
+         * Configuring the data
+        ***************************************/
         let sql = queryResponse.sql;
         for(let i = 0; i < sql.length; i++) {
             columnNames.forEach((name, index) =>{
@@ -141,12 +145,47 @@ looker.plugins.visualizations.add({
         })
         console.log('This is the row data', rowData);
 
+        
+        /***************************************
+         * Build the visual
+        ***************************************/
+        let table = this._table;
+        var header = table.append("thead").append("tr");
+        header
+                .selectAll("th")
+                .data(columnOrder)
+                .enter()
+                .append("th")
+                .text(function(d) { 
+                    console.log('header text function: ', d);
+                    return d; 
+                });
+        var tablebody = table.append("tbody");
+        rows = tablebody
+                .selectAll("tr")
+                .data(rowData)
+                .enter()
+                .append("tr");
+        // We built the rows using the nested array - now each row has its own array.
+        cells = rows.selectAll("td")
+            // each row has data associated; we get it and enter it for the cells.
+                .data(function(d) {
+                    console.log('cells data function: ', d);
+                    return d;
+                })
+                .enter()
+                .append("td")
+                .text(function(d) {
+                    console.log('cells text function: ', d);
+                    return d;
+                });
 
 
 
+                
             /**************** Done! *****************/
     doneRendering(); // Always call done to indicate a visualization has finished rendering
-}
+    }
 });
 
 
