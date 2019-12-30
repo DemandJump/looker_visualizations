@@ -194,7 +194,12 @@ looker.plugins.visualizations.add({
 
 
         function hover(d) {
-            console.log('hover', d);
+            cells.filter(d => d)
+                .style('background-color', '#E6E8EC');
+        }
+        function unhover(d) {
+            cells.filter(d => d)
+                .style('background-color', everyOtherRow(d));
         }
 
 
