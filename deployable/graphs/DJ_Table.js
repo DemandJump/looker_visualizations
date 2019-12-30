@@ -59,7 +59,7 @@ looker.plugins.visualizations.add({
             </style>
         `;
 
-        d3.select('#table')
+        this._table = d3.select(element).append('table')
             .attr('class', 'table');
 
     },
@@ -130,12 +130,15 @@ looker.plugins.visualizations.add({
         data.forEach(row => {
             let newRow = [];
             for(let i = 0; i < columns; i++) { 
-                console.log('current column', columnData[i])
                 newRow.push(row[columnData[i].name]); 
                 newRow[i].type = columnData[i].type;
             }
             rowData.push(newRow);
         });
+        rowData.forEach((row, index) => {
+            if (index != 0) row.unshift({value: index});
+            else row.unshift({value: ' '});
+        })
         console.log('This is the row data', rowData);
 
 
