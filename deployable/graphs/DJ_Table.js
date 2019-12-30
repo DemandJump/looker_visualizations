@@ -149,6 +149,7 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
+        let columnIteration = 0;
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
@@ -158,14 +159,15 @@ looker.plugins.visualizations.add({
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
-                .attr('class', (d, i) => columnData[i].type);
+                .attr('class', d => {
+                    columnIteration++;
+                    return columnData[columnIteration - 1].type;
+                });
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
                 .text(d => cellText(d));
-
-
 
 
 
