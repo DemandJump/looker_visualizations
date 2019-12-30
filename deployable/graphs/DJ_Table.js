@@ -153,6 +153,7 @@ looker.plugins.visualizations.add({
         ***************************************/
         let table = this._table;
         let columnIteration = 0;
+        let counter = 0; 
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
@@ -161,15 +162,12 @@ looker.plugins.visualizations.add({
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
-            .data(rowData).enter().append("tr")
-                .attr('class', d => {
-                    console.log('This is tr d', d);
-                    return d.type;
-                });
+            .data(rowData).enter().append("tr");
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
+                .attr('color', d => everyOtherRow(d))
                 .text(d => cellText(d));
 
 
@@ -182,6 +180,19 @@ looker.plugins.visualizations.add({
         function cellText(d) {
             if(d.rendered) return d.rendered;
             else return d.value;
+        }
+
+        function everyOtherRow(d) {
+            columnIteration++;
+            if (columnIteration <= columnData.length) {
+                if (counter % 2 != 0) {
+                    if (d.type == 'dimensions') return '#F5F8FA';
+                    if (d.type == 'measures') return '#F7F2ED';
+                }
+            } else {
+                counter++;
+                columnIteration = 1;
+            }
         }
 
             /**************** Done! *****************/
