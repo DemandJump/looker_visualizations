@@ -162,6 +162,7 @@ looker.plugins.visualizations.add({
             .data(rowData).enter().append("tr")
                 .attr('class', d => {
                     columnIteration++;
+                    console.log('columnData', columnData[columnIteration - 1].type);
                     return columnData[columnIteration - 1].type;
                 });
 
