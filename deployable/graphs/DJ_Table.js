@@ -188,6 +188,7 @@ looker.plugins.visualizations.add({
                 .attr('class', d => d.type)
                 .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
+                .style('color', textColor(d))
                 .text(d => cellText(d));
 
 
@@ -218,6 +219,11 @@ looker.plugins.visualizations.add({
         function textAlign(d) {
             if (d.type == 'index') return 'right';
             else return 'left';
+        }
+
+        function textColor(d) {
+            if (d.type == 'index') return '#C2C2C2';
+            else 'black';
         }
 
             /**************** Done! *****************/
