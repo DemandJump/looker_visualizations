@@ -154,7 +154,7 @@ looker.plugins.visualizations.add({
         header.selectAll("th")
             .data(columnOrder).enter().append("th")
                 .attr('class', d => d.type)
-                .text(d => headerText(d));
+                .text(d => d);
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -175,11 +175,6 @@ looker.plugins.visualizations.add({
         /***************************************
          * Functions section
         ***************************************/
-        function headerText(d) {
-            if(d.rendered) return d.rendered;
-            else return d.value;
-        }
-
         function cellText(d) {
             if(d.rendered) return d.rendered;
             else return d.value;
