@@ -161,10 +161,12 @@ looker.plugins.visualizations.add({
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
                 .attr('class', d => {
-                    columnIteration++;
-                    let res = columnData[columnIteration - 1].type;
-                    console.log('res', res);
-                    return res;
+                    if (d) {
+                        columnIteration++;
+                        let res = columnData[columnIteration - 1].type;
+                        console.log('res', res);
+                        return res;
+                    }
                 });
 
         let cells = rows.selectAll("td")
