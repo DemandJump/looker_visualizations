@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Loading CSV Data with D3</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<style>
+    /* Import the Roboto font for us to use. */
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300, 400,700&display=swap');
+    html {
+        margin: 0;
+        padding: 0; 
+        box-sizing: border-box;
+    }
+
+    table { 
+        border-collapse: collapse;
+        font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 11px;
+        border-spacing: 0px;
+        width: 100%;
+    }
+
+    #w3table { 
+        height: 200px;
+        overflow-x: auto;
+
+    }
+
+    /* Inside cell spacing */
+    td, th {
+        padding: 2px 5px;
+    }
+
+    /* Table borders */
+    td:not(:first-child) {
+        border-left: 1px solid #C2CDD8;
+    }
+    th:not(:first-child) {
+        border-left: 1px solid #C2CDD8;
+    }
+
+    /* Color ever other cell */
+    tr:nth-child(even){background-color: #F5F8FA;}
+    /* Highlight the hovered cell */
+    tr:hover {background-color: #E6E8EC;}
+
+    /* Header colors */
+    th {
+        padding: 2px 5px;
+        text-align: left;
+        background-color: #CCD8E4;
+        color: #2E343F;
+    }
+
+</style>
+
+
+<body>
+    <h1>W3 Schools table</h1>
+    <div id="w3table">
+        <table>
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Savings</th>
+                    <th>Company</th>
+                    <th>Contact</th>
+                    <th>Country</th>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Maria Anders</td>
+                    <td>Germany</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Berglunds snabbköp</td>
+                    <td>Christina Berglund</td>
+                    <td>Sweden</td>
+                </tr>
+                <tr>
+                    <td>Joe</td>
+                    <td>Swanson</td>
+                    <td>$300</td>
+                    <td>Centro comercial Moctezuma</td>
+                    <td>Francisco Chang</td>
+                    <td>Mexico</td>
+                </tr>
+                <tr>
+                    <td>Cleveland</td>
+                    <td>Brown</td>
+                    <td>$250</td>
+                    <td>Ernst Handel</td>
+                    <td>Roland Mendel</td>
+                    <td>Austria</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>Island Trading</td>
+                    <td>Helen Bennett</td>
+                    <td>UK</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Königlich Essen</td>
+                    <td>Philip Cramer</td>
+                    <td>Germany</td>
+                </tr>
+                <tr>
+                    <td>Joe</td>
+                    <td>Swanson</td>
+                    <td>$300</td>
+                    <td>Laughing Bacchus Winecellars</td>
+                    <td>Yoshi Tannamuri</td>
+                    <td>Canada</td>
+                </tr>
+                <tr>
+                    <td>Cleveland</td>
+                    <td>Brown</td>
+                    <td>$250</td>
+                    <td>Magazzini Alimentari Riuniti</td>
+                    <td>Giovanni Rovelli</td>
+                    <td>Italy</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>North/South</td>
+                    <td>Simon Crowther</td>
+                    <td>UK</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Paris spécialités</td>
+                    <td>Marie Bertrand</td>
+                    <td>France</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Maria Anders</td>
+                    <td>Germany</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Berglunds snabbköp</td>
+                    <td>Christina Berglund</td>
+                    <td>Sweden</td>
+                </tr>
+                <tr>
+                    <td>Joe</td>
+                    <td>Swanson</td>
+                    <td>$300</td>
+                    <td>Centro comercial Moctezuma</td>
+                    <td>Francisco Chang</td>
+                    <td>Mexico</td>
+                </tr>
+                <tr>
+                    <td>Cleveland</td>
+                    <td>Brown</td>
+                    <td>$250</td>
+                    <td>Ernst Handel</td>
+                    <td>Roland Mendel</td>
+                    <td>Austria</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>Island Trading</td>
+                    <td>Helen Bennett</td>
+                    <td>UK</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Königlich Essen</td>
+                    <td>Philip Cramer</td>
+                    <td>Germany</td>
+                </tr>
+                <tr>
+                    <td>Joe</td>
+                    <td>Swanson</td>
+                    <td>$300</td>
+                    <td>Laughing Bacchus Winecellars</td>
+                    <td>Yoshi Tannamuri</td>
+                    <td>Canada</td>
+                </tr>
+                <tr>
+                    <td>Cleveland</td>
+                    <td>Brown</td>
+                    <td>$250</td>
+                    <td>Magazzini Alimentari Riuniti</td>
+                    <td>Giovanni Rovelli</td>
+                    <td>Italy</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>North/South</td>
+                    <td>Simon Crowther</td>
+                    <td>UK</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Paris spécialités</td>
+                    <td>Marie Bertrand</td>
+                    <td>France</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Maria Anders</td>
+                    <td>Germany</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Berglunds snabbköp</td>
+                    <td>Christina Berglund</td>
+                    <td>Sweden</td>
+                </tr>
+                <tr>
+                    <td>Joe</td>
+                    <td>Swanson</td>
+                    <td>$300</td>
+                    <td>Centro comercial Moctezuma</td>
+                    <td>Francisco Chang</td>
+                    <td>Mexico</td>
+                </tr>
+                <tr>
+                    <td>Cleveland</td>
+                    <td>Brown</td>
+                    <td>$250</td>
+                    <td>Ernst Handel</td>
+                    <td>Roland Mendel</td>
+                    <td>Austria</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>Island Trading</td>
+                    <td>Helen Bennett</td>
+                    <td>UK</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Königlich Essen</td>
+                    <td>Philip Cramer</td>
+                    <td>Germany</td>
+                </tr>
+                <tr>
+                    <td>Joe</td>
+                    <td>Swanson</td>
+                    <td>$300</td>
+                    <td>Laughing Bacchus Winecellars</td>
+                    <td>Yoshi Tannamuri</td>
+                    <td>Canada</td>
+                </tr>
+                <tr>
+                    <td>Cleveland</td>
+                    <td>Brown</td>
+                    <td>$250</td>
+                    <td>Magazzini Alimentari Riuniti</td>
+                    <td>Giovanni Rovelli</td>
+                    <td>Italy</td>
+                </tr>
+                <tr>
+                    <td>Peter</td>
+                    <td>Griffin</td>
+                    <td>$100</td>
+                    <td>North/South</td>
+                    <td>Simon Crowther</td>
+                    <td>UK</td>
+                </tr>
+                <tr>
+                    <td>Lois</td>
+                    <td>Griffin</td>
+                    <td>$150</td>
+                    <td>Paris spécialités</td>
+                    <td>Marie Bertrand</td>
+                    <td>France</td>
+                </tr>
+
+        </table>
+    </div>
+
+
+    <h1>Eastern Asia Improved the Most</h1>
+    <p>This table shows regional access to improved water over a random set of time. </p>
+    <p>Source: WHO/UNICEF (2012) Progress on Sanitation and Drinking Water: 2012 Update</p>
+    <div id="table"></div>
+</body>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<script type="text/javascript" src="tabulate.js"></script>
+<script type="text/javascript">
+
+    //Load in contents of CSV file, and do things to the data.
+    d3.csv("water_improvement_data.csv", function(error, myData) {
+        if (error) console.log("Had an error loading file.");
+
+        // We'll be using simpler data as values, not objects.
+        var myArray = [];
+        myData.forEach(function(d, i){
+            // now we add another data object value, a calculated value.
+            // here we are making strings into numbers using type coercion
+            d.year1990 = +d.year1990;
+            d.year2015 = +d.year2015;
+            d.difference = d.year2015 - d.year1990;
+            if (d.name === "Developing regions") {
+                d.name = "Developing Regions";
+            }
+            if (d.name === "Developed regions") {
+                d.name = "Developed Regions";
+            }
+            // Add a new array with the values of each:
+            myArray.push([d.name, d.year1990, d.year2015, d.difference]);
+        });
+        console.log('myData:', myData);
+        console.log('myArray', myArray);
+        //sort data by difference
+        myArray.sort(function (a, b) {
+            return a[3]-b[3];
+        });
+        // You could also have made the new array with a map function!
+        //using colors and fonts from the UNICEF Style Guide
+        var table = d3.select("#table").append("table");
+        var header = table.append("thead").append("tr");
+        header
+                .selectAll("th")
+                .data(["Region", "1990", "2015", "Difference"])
+                .enter()
+                .append("th")
+                .text(function(d) { return d; });
+        var tablebody = table.append("tbody");
+        rows = tablebody
+                .selectAll("tr")
+                .data(myArray)
+                .enter()
+                .append("tr");
+        // We built the rows using the nested array - now each row has its own array.
+        cells = rows.selectAll("td")
+            // each row has data associated; we get it and enter it for the cells.
+                .data(function(d) {
+                    console.log(d);
+                    return d;
+                })
+                .enter()
+                .append("td")
+                .text(function(d) {
+                    return d;
+                });
+    });
+</script>
+
+</html>
