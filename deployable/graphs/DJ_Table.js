@@ -180,7 +180,9 @@ looker.plugins.visualizations.add({
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
-            .data(rowData).enter().append("tr");
+            .data(rowData).enter().append("tr")
+                .on('mouseover', d => hover(d))
+                // .on('mouseout' unhover(d))
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
@@ -190,6 +192,10 @@ looker.plugins.visualizations.add({
                 .style('color', d => textColor(d))
                 .text(d => cellText(d));
 
+
+        function hover(d) {
+            console.log('hover', d);
+        }
 
 
 
