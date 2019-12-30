@@ -161,6 +161,8 @@ looker.plugins.visualizations.add({
             .data(rowData).enter().append("tr")
                 .attr('class', d => {
                     columnIteration++;
+                    console.log('This is columnData', columnData); 
+                    console.log('This is columndata on Iteration', columnData[columnIteration - 1]); 
                     return columnData[columnIteration - 1].type;
                 });
 
