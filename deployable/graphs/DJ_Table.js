@@ -217,12 +217,12 @@ looker.plugins.visualizations.add({
         }
 
         function textAlign(d) {
-            if (d.type == 'index') return 'right';
+            if (d.index) return 'right';
             else return 'left';
         }
 
         function textColor(d) {
-            if (d.type == 'index') return '#C2C2C2';
+            if (d.index) return '#C2C2C2';
             else '#323232';
         }
 
