@@ -160,9 +160,7 @@ looker.plugins.visualizations.add({
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
-                .attr('class', d => {
-                    console.log('This is d', d);
-                });
+                .attr('class', d => d.type);
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
