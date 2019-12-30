@@ -35,6 +35,7 @@ looker.plugins.visualizations.add({
                     /* Inside cell spacing */
                 td, th {
                     padding: 2px 5px;
+                    text-decoration: none;
                 }
             
                     /* Table borders */
@@ -154,7 +155,7 @@ looker.plugins.visualizations.add({
             rowData.push(newRow);
         });
         rowData.forEach((row, index) => {
-            row.unshift({value: index + 1, type: 'dimensions'});
+            row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: ''});
         })
         columnData.unshift({name: '', type: 'dimensions'});
         console.log('This is the row data', rowData);
