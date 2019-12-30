@@ -224,7 +224,7 @@ looker.plugins.visualizations.add({
 
         function textColor(d) {
             if (d.type == 'index') return '#C2C2C2';
-            else 'black';
+            else '#696969';
         }
 
             /**************** Done! *****************/
