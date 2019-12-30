@@ -142,6 +142,7 @@ looker.plugins.visualizations.add({
         rowData.forEach((row, index) => {
             row.unshift({value: index + 1});
         })
+        columnData.unshift({name: '', type: 'dimensions'});
         console.log('This is the row data', rowData);
 
         
@@ -160,15 +161,8 @@ looker.plugins.visualizations.add({
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
                 .attr('class', d => {
-                    if (columnIteration == 0) {
-                        columnIteration++;
-                        return 'index';
-                    } else {
-                        columnIteration++;
-                        console.log('This is columnData', columnData); 
-                        console.log('This is columndata on Iteration', columnData[columnIteration - 1]); 
-                        return columnData[columnIteration - 1].type;
-                    }
+                    columnIteration++;
+                    return columnData[columnIteration - 1].type;
                 });
 
         let cells = rows.selectAll("td")
