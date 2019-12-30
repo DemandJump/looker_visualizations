@@ -150,26 +150,31 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
-        var header = table.append("thead").append("tr");
+        let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnOrder).enter().append("th")
                 .attr('class', d => d.type)
                 .text(d => headerText(d));
 
-        var tablebody = table.append("tbody");
-        rows = tablebody.selectAll("tr")
+        let tablebody = table.append("tbody");
+        let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
                 .attr('class', d => d.type);
 
-        cells = rows.selectAll("td")
+        let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
                 .text(d => cellText(d));
 
 
 
-                
 
+
+
+
+        /***************************************
+         * Functions section
+        ***************************************/
         function headerText(d) {
             if(d.rendered) return d.rendered;
             else return d.value;
