@@ -57,267 +57,6 @@ looker.plugins.visualizations.add({
                 th.dimensions { background-color: #CCD8E4; }
                 th.measures { background-color: #E4D1BD; }
             </style>
-
-
-            <h1>W3 Schools table</h1>
-            <div id="w3table">
-                <table>
-                        <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Savings</th>
-                            <th>Company</th>
-                            <th>Contact</th>
-                            <th>Country</th>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>Alfreds Futterkiste</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Berglunds snabbköp</td>
-                            <td>Christina Berglund</td>
-                            <td>Sweden</td>
-                        </tr>
-                        <tr>
-                            <td>Joe</td>
-                            <td>Swanson</td>
-                            <td>$300</td>
-                            <td>Centro comercial Moctezuma</td>
-                            <td>Francisco Chang</td>
-                            <td>Mexico</td>
-                        </tr>
-                        <tr>
-                            <td>Cleveland</td>
-                            <td>Brown</td>
-                            <td>$250</td>
-                            <td>Ernst Handel</td>
-                            <td>Roland Mendel</td>
-                            <td>Austria</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>Island Trading</td>
-                            <td>Helen Bennett</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Königlich Essen</td>
-                            <td>Philip Cramer</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Joe</td>
-                            <td>Swanson</td>
-                            <td>$300</td>
-                            <td>Laughing Bacchus Winecellars</td>
-                            <td>Yoshi Tannamuri</td>
-                            <td>Canada</td>
-                        </tr>
-                        <tr>
-                            <td>Cleveland</td>
-                            <td>Brown</td>
-                            <td>$250</td>
-                            <td>Magazzini Alimentari Riuniti</td>
-                            <td>Giovanni Rovelli</td>
-                            <td>Italy</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>North/South</td>
-                            <td>Simon Crowther</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Paris spécialités</td>
-                            <td>Marie Bertrand</td>
-                            <td>France</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>Alfreds Futterkiste</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Berglunds snabbköp</td>
-                            <td>Christina Berglund</td>
-                            <td>Sweden</td>
-                        </tr>
-                        <tr>
-                            <td>Joe</td>
-                            <td>Swanson</td>
-                            <td>$300</td>
-                            <td>Centro comercial Moctezuma</td>
-                            <td>Francisco Chang</td>
-                            <td>Mexico</td>
-                        </tr>
-                        <tr>
-                            <td>Cleveland</td>
-                            <td>Brown</td>
-                            <td>$250</td>
-                            <td>Ernst Handel</td>
-                            <td>Roland Mendel</td>
-                            <td>Austria</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>Island Trading</td>
-                            <td>Helen Bennett</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Königlich Essen</td>
-                            <td>Philip Cramer</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Joe</td>
-                            <td>Swanson</td>
-                            <td>$300</td>
-                            <td>Laughing Bacchus Winecellars</td>
-                            <td>Yoshi Tannamuri</td>
-                            <td>Canada</td>
-                        </tr>
-                        <tr>
-                            <td>Cleveland</td>
-                            <td>Brown</td>
-                            <td>$250</td>
-                            <td>Magazzini Alimentari Riuniti</td>
-                            <td>Giovanni Rovelli</td>
-                            <td>Italy</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>North/South</td>
-                            <td>Simon Crowther</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Paris spécialités</td>
-                            <td>Marie Bertrand</td>
-                            <td>France</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>Alfreds Futterkiste</td>
-                            <td>Maria Anders</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Berglunds snabbköp</td>
-                            <td>Christina Berglund</td>
-                            <td>Sweden</td>
-                        </tr>
-                        <tr>
-                            <td>Joe</td>
-                            <td>Swanson</td>
-                            <td>$300</td>
-                            <td>Centro comercial Moctezuma</td>
-                            <td>Francisco Chang</td>
-                            <td>Mexico</td>
-                        </tr>
-                        <tr>
-                            <td>Cleveland</td>
-                            <td>Brown</td>
-                            <td>$250</td>
-                            <td>Ernst Handel</td>
-                            <td>Roland Mendel</td>
-                            <td>Austria</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>Island Trading</td>
-                            <td>Helen Bennett</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Königlich Essen</td>
-                            <td>Philip Cramer</td>
-                            <td>Germany</td>
-                        </tr>
-                        <tr>
-                            <td>Joe</td>
-                            <td>Swanson</td>
-                            <td>$300</td>
-                            <td>Laughing Bacchus Winecellars</td>
-                            <td>Yoshi Tannamuri</td>
-                            <td>Canada</td>
-                        </tr>
-                        <tr>
-                            <td>Cleveland</td>
-                            <td>Brown</td>
-                            <td>$250</td>
-                            <td>Magazzini Alimentari Riuniti</td>
-                            <td>Giovanni Rovelli</td>
-                            <td>Italy</td>
-                        </tr>
-                        <tr>
-                            <td>Peter</td>
-                            <td>Griffin</td>
-                            <td>$100</td>
-                            <td>North/South</td>
-                            <td>Simon Crowther</td>
-                            <td>UK</td>
-                        </tr>
-                        <tr>
-                            <td>Lois</td>
-                            <td>Griffin</td>
-                            <td>$150</td>
-                            <td>Paris spécialités</td>
-                            <td>Marie Bertrand</td>
-                            <td>France</td>
-                        </tr>
-                </table>
-            </div>
-
-
-            <h1>Eastern Asia Improved the Most</h1>
-            <p>This table shows regional access to improved water over a random set of time. </p>
-            <p>Source: WHO/UNICEF (2012) Progress on Sanitation and Drinking Water: 2012 Update</p>
-            <div id="table"></div>
         `;
 
         d3.select('#table')
@@ -326,25 +65,21 @@ looker.plugins.visualizations.add({
     },
     
 
-    updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
-        let d3 = d3v5;
+    updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
         // this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
         console.log(`\n\ndirect reference to settings (this.options)`, this.options);
         console.log(`config`, config);
-        console.log(`element`, element);
-        console.log(`details`, details); 
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
+
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
-
         let columns = dimensions.length + measures.length;
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
 
-        // Find the order of the dimensions/measures
-        // Store those names, then iterate the data into rowData
+      // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
@@ -359,7 +94,6 @@ looker.plugins.visualizations.add({
                             break;
                         }
                     }
-
                     if (found == true) {
                         columnOrder.push(name);
                         columnNames.splice(index, 1);
@@ -367,14 +101,31 @@ looker.plugins.visualizations.add({
                 }
             });
         }
-        console.log('Column Names: ', columnNames);
         console.log('Column Order: ', columnOrder);
+
+        let columnData = [];
+        columnOrder.forEach((name, index) => {
+            for(let i = 0; i < dimensions.length; i++) {
+                if (dimensions[i].name == name) {
+                    let obj = {
+                        name: name,
+                        type: 'dimension'
+                    };
+                    columnData.push(obj);
+                }
+                if (measures[i].name == name) {
+                    let obj = {
+                        name: name,
+                        type: 'measure'
+                    };
+                    columnData.push(obj);
+                }
+            }
+        });
 
         data.forEach(row => {
             let newRow = [];
-            for(let i = 0; i < columns; i++) {
-                newRow.push(row[columnOrder[i]]);
-            }
+            for(let i = 0; i < columns; i++) { newRow.push(row[columnData[i]]); }
             rowData.push(newRow);
         });
         console.log('This is the row data', rowData);
