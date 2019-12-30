@@ -44,7 +44,7 @@ looker.plugins.visualizations.add({
                     /* Color ever other cell */
                 tr.dimensions:nth-child(even) { background-color: #F5F8FA; }
                 tr.measures:nth-child(even) { background-color: #F7F2ED; }
-                
+
                     /* Highlight the hovered cell */
                 tr:hover { background-color: #E6E8EC; }
             
@@ -328,7 +328,7 @@ looker.plugins.visualizations.add({
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
         let d3 = d3v5;
-        this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
+        // this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
         console.log(`\n\ndirect reference to settings (this.options)`, this.options);
         console.log(`config`, config);
         console.log(`element`, element);
@@ -356,20 +356,20 @@ looker.plugins.visualizations.add({
 });
 
 
-"SELECT
-	djdh_sessions.pdomain  AS `djdh_sessions.domain`,
-	COALESCE(djdh_sessions.channel,'Other')  AS `djdh_sessions.marketing_channel`,
-	djdh_sessions.marketing_source  AS `djdh_sessions.marketing_source`,
-	djdh_sessions.marketing_campaign  AS `djdh_sessions.marketing_campaign`,
-	COUNT(DISTINCT djdh_sessions.session_id ) AS `djdh_sessions.session_count`,
-	COUNT(DISTINCT CASE WHEN djdh_sessions.page_views = 1  THEN djdh_sessions.user_domain_id  ELSE NULL END) AS `djdh_sessions.bounced_user_count`,
-	COUNT(DISTINCT djdh_sessions.user_canonical_id ) AS `djdh_sessions.canonical_user_count`,
-	COUNT(DISTINCT CASE WHEN djdh_sessions.session_index = 1 THEN djdh_sessions.session_id  ELSE NULL END) AS `djdh_sessions.first_session_count`,
-	COUNT(DISTINCT CASE WHEN djdh_sessions.device_is_mobile  THEN djdh_sessions.session_id  ELSE NULL END) AS `djdh_sessions.mobile_session_count`,
-	(COALESCE(SUM(djdh_sessions.page_views ), 0)) / NULLIF((COUNT(DISTINCT djdh_sessions.session_id )),0)  AS `djdh_sessions.pages_per_session`
-FROM presentation.sessions  AS djdh_sessions
+// "SELECT
+// 	djdh_sessions.pdomain  AS `djdh_sessions.domain`,
+// 	COALESCE(djdh_sessions.channel,'Other')  AS `djdh_sessions.marketing_channel`,
+// 	djdh_sessions.marketing_source  AS `djdh_sessions.marketing_source`,
+// 	djdh_sessions.marketing_campaign  AS `djdh_sessions.marketing_campaign`,
+// 	COUNT(DISTINCT djdh_sessions.session_id ) AS `djdh_sessions.session_count`,
+// 	COUNT(DISTINCT CASE WHEN djdh_sessions.page_views = 1  THEN djdh_sessions.user_domain_id  ELSE NULL END) AS `djdh_sessions.bounced_user_count`,
+// 	COUNT(DISTINCT djdh_sessions.user_canonical_id ) AS `djdh_sessions.canonical_user_count`,
+// 	COUNT(DISTINCT CASE WHEN djdh_sessions.session_index = 1 THEN djdh_sessions.session_id  ELSE NULL END) AS `djdh_sessions.first_session_count`,
+// 	COUNT(DISTINCT CASE WHEN djdh_sessions.device_is_mobile  THEN djdh_sessions.session_id  ELSE NULL END) AS `djdh_sessions.mobile_session_count`,
+// 	(COALESCE(SUM(djdh_sessions.page_views ), 0)) / NULLIF((COUNT(DISTINCT djdh_sessions.session_id )),0)  AS `djdh_sessions.pages_per_session`
+// FROM presentation.sessions  AS djdh_sessions
 
-WHERE (djdh_sessions.app_id = '1230010009-01')
-GROUP BY 1,2,3,4
-ORDER BY `djdh_sessions.domain` DESC,`djdh_sessions.marketing_channel` DESC,`djdh_sessions.marketing_source` DESC,`djdh_sessions.session_count` DESC
-LIMIT 50"
+// WHERE (djdh_sessions.app_id = '1230010009-01')
+// GROUP BY 1,2,3,4
+// ORDER BY `djdh_sessions.domain` DESC,`djdh_sessions.marketing_channel` DESC,`djdh_sessions.marketing_source` DESC,`djdh_sessions.session_count` DESC
+// LIMIT 50"
