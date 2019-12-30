@@ -22,7 +22,7 @@ looker.plugins.visualizations.add({
                     border-collapse: collapse;
                     font-family: 'Roboto', Arial, Helvetica, sans-serif;
                     font-weight: 300;
-                    font-size: 11px;
+                    font-size: 12px;
                     border-spacing: 0px;
                     width: 100%;
                 }
@@ -36,7 +36,7 @@ looker.plugins.visualizations.add({
                 td, th {
                     padding: 2px 5px;
                     text-decoration: none;
-                    font-weight: normal;
+                    font-weight: lighter;
                 }
             
                     /* Table borders */
@@ -46,8 +46,6 @@ looker.plugins.visualizations.add({
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
             
                     /* Color ever other cell */
-                tr.dimensions:nth-child(even) { background-color: #F5F8FA; }
-                tr.measures:nth-child(even) { background-color: #F7F2ED; }
                 tr.index { background-color: #CCD8E4;}
 
                     /* Highlight the hovered cell */
@@ -63,7 +61,7 @@ looker.plugins.visualizations.add({
                 th.measures { background-color: #E4D1BD; }
 
                 .bold {
-                    font-size: 11px;
+                    font-size: 12px;
                     font-weight: bold; 
                 }
             </style>
@@ -162,9 +160,9 @@ looker.plugins.visualizations.add({
             rowData.push(newRow);
         });
         rowData.forEach((row, index) => {
-            row.unshift({value: index + 1, type: 'index', view_label: '', field_group_variant: ''});
+            row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
         })
-        columnData.unshift({name: '', type: 'dimensions', view_label: '', field_group_variant: ''});
+        columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
         console.log('This is the row data', rowData);
 
         
