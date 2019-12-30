@@ -36,7 +36,7 @@ looker.plugins.visualizations.add({
                 td, th {
                     padding: 2px 5px;
                     text-decoration: none;
-                    font-weight: normal;
+                    font-weight: lighter;
                 }
             
                     /* Table borders */
