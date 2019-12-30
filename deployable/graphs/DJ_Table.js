@@ -36,7 +36,7 @@ looker.plugins.visualizations.add({
                 td, th {
                     padding: 2px 5px;
                     text-decoration: none;
-                    font-weight: lighter;
+                    font-weight: normal;
                 }
             
                     /* Table borders */
@@ -51,7 +51,7 @@ looker.plugins.visualizations.add({
                 tr.index { background-color: #CCD8E4;}
 
                     /* Highlight the hovered cell */
-                tr:hover { background-color: #E6E8EC; }
+                tr:hover { background-color: #696969; }
             
                     /* Header colors */
                 th {
