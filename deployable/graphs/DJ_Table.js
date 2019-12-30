@@ -167,7 +167,7 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                .attr('color', d => everyOtherRow(d))
+                .style('background-color', d => everyOtherRow(d))
                 .text(d => cellText(d));
 
 
