@@ -193,16 +193,6 @@ looker.plugins.visualizations.add({
                 .text(d => cellText(d));
 
 
-        function hover(d) {
-            cells.filter(d => d)
-                .style('background-color', '#E6E8EC');
-        }
-        function unhover(d) {
-            cells.filter(d => d)
-                .style('background-color', everyOtherRow(d));
-        }
-
-
 
 
         /***************************************
@@ -235,6 +225,16 @@ looker.plugins.visualizations.add({
             if (d.type == 'index') return '#C2C2C2';
             else '#000000';
         }
+
+        function hover(d) {
+            cells.filter(d => d)
+                .style('background-color', '#E6E8EC');
+        }
+        function unhover(d) {
+            cells.filter(d => d)
+                .style('background-color', everyOtherRow(d));
+        }
+
 
             /**************** Done! *****************/
     doneRendering(); // Always call done to indicate a visualization has finished rendering
