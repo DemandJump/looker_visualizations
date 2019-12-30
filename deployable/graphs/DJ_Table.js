@@ -122,6 +122,7 @@ looker.plugins.visualizations.add({
                 }
             }
         });
+        console.log('Column Data: ', columnData);
 
         data.forEach(row => {
             let newRow = [];
