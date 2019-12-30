@@ -49,8 +49,8 @@ looker.plugins.visualizations.add({
                 tr.index { background-color: #CCD8E4;}
 
                     /* Highlight the hovered cell */
-                tr:hover { background-color: #696969; }
-            
+                tr:hover {background-color: #E6E8EC;}
+                
                     /* Header colors */
                 th {
                     padding: 2px 5px;
@@ -222,7 +222,7 @@ looker.plugins.visualizations.add({
 
         function textColor(d) {
             if (d.type == 'index') return '#C2C2C2';
-            else '#696969';
+            else '#000000';
         }
 
             /**************** Done! *****************/
