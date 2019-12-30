@@ -227,7 +227,10 @@ looker.plugins.visualizations.add({
         }
 
         function hover(d) {
-            cells.filter(d => d)
+            cells.filter(d => {
+                console.log('filter d', d);
+                return d;
+            })
                 .style('background-color', '#E6E8EC');
         }
         function unhover(d) {
