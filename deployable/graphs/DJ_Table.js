@@ -189,7 +189,7 @@ looker.plugins.visualizations.add({
                 .attr('class', d => d.type)
                 .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
-                .style('color', textColor(d))
+                .style('color', d => textColor(d))
                 .text(d => cellText(d));
 
 
