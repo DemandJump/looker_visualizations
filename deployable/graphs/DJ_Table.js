@@ -67,7 +67,7 @@ looker.plugins.visualizations.add({
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
         this._table.selectAll("*").remove(); // Clear out the data before we add the vis
-        console.log(`\n\n\n\n`);
+        console.log(`\n\n\n\n\n\n\n\n\n\n`);
         console.log(`direct reference to settings (this.options)`, this.options);
         console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
