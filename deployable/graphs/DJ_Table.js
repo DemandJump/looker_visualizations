@@ -151,17 +151,14 @@ looker.plugins.visualizations.add({
         let table = this._table;
         let header = table.append("thead").append("tr");
         header.selectAll("th")
-            .data(columnOrder).enter().append("th")
+            .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
-                .text(d => d);
+                .text(d => d.name);
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
-                .attr('class', d => {
-                    console.log('this is type', d.type);
-                    return d.type;
-                });
+                .attr('class', (d, i) => columnData[i].type);
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
