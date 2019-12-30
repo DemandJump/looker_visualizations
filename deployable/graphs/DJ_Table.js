@@ -47,6 +47,7 @@ looker.plugins.visualizations.add({
                     /* Color ever other cell */
                 tr.dimensions:nth-child(even) { background-color: #F5F8FA; }
                 tr.measures:nth-child(even) { background-color: #F7F2ED; }
+                tr.index { background-color: #CCD8E4;}
 
                     /* Highlight the hovered cell */
                 tr:hover { background-color: #E6E8EC; }
@@ -57,7 +58,7 @@ looker.plugins.visualizations.add({
                     text-align: left;
                     color: #2E343F;
                 }
-                th.dimensions { background-color: #CCD8E4; }
+                th.dimensions, th.index { background-color: #CCD8E4; }
                 th.measures { background-color: #E4D1BD; }
             </style>
         `;
@@ -155,7 +156,7 @@ looker.plugins.visualizations.add({
             rowData.push(newRow);
         });
         rowData.forEach((row, index) => {
-            row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: ''});
+            row.unshift({value: index + 1, type: 'index', view_label: '', field_group_variant: ''});
         })
         columnData.unshift({name: '', type: 'dimensions'});
         console.log('This is the row data', rowData);
