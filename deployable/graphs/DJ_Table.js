@@ -348,14 +348,36 @@ looker.plugins.visualizations.add({
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
-        let sql = query
-        for(let i = 0; i < )
+        let sql = queryResponse.sql;
+        for(let i = 0; i < sql.length; i++) {
+            columnNames.forEach((name, index) =>{
+                if (name[0] == sql[i]) {
+                    let found = true;
+                    for (let j = 0; j < name.length; j++) {
+                        if (name[j] != sql[i + j]) {
+                            found = false;
+                            break;
+                        }
+                    }
 
+                    if (found == true) {
+                        columnOrder.push(name);
+                        columnNames.splice(index, 1);
+                    }
+                }
+            });
+        }
+        console.log('Column Names: ', columnNames);
+        console.log('Column Order: ', columnOrder);
 
         data.forEach(row => {
-            // rowData.push(row.)
+            let newRow = [];
+            for(let i = 0; i < columns; i++) {
+                newRow.push(row[columnOrder[i]]);
+            }
+            rowData.push(newRow);
         });
-    
+        console.log('This is the row data', rowData);
 
             /**************** Done! *****************/
     doneRendering(); // Always call done to indicate a visualization has finished rendering
