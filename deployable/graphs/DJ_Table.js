@@ -140,7 +140,7 @@ looker.plugins.visualizations.add({
             rowData.push(newRow);
         });
         rowData.forEach((row, index) => {
-            row.unshift({value: index + 1});
+            row.unshift({value: index + 1, type: 'dimensions'});
         })
         columnData.unshift({name: '', type: 'dimensions'});
         console.log('This is the row data', rowData);
