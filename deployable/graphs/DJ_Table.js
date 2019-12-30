@@ -49,7 +49,10 @@ looker.plugins.visualizations.add({
                 tr.index { background-color: #CCD8E4;}
 
                     /* Highlight the hovered cell */
-                tr:hover {background-color: #E6E8EC !important;}
+                tr:hover {background-color: #E6E8EC;}
+
+                /* Color the cells */
+                tr:nth-child(even){background-color: #F5F8FA;}
                 
                     /* Header colors */
                 th {
