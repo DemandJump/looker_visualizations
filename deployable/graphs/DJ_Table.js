@@ -223,7 +223,7 @@ looker.plugins.visualizations.add({
 
         function textColor(d) {
             if (d.type == 'index') return '#C2C2C2';
-            else '#000000';
+            else '#323232';
         }
 
         function hover(d) {
