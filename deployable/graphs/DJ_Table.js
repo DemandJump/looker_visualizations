@@ -39,7 +39,7 @@ looker.plugins.visualizations.add({
             
                     /* Table borders */
                 td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
             
                     /* Color ever other cell */
                 tr.dimensions:nth-child(even) { background-color: #F5F8FA; }
@@ -158,7 +158,10 @@ looker.plugins.visualizations.add({
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
-                .attr('class', d => d.type);
+                .attr('class', d => {
+                    console.log('this is type', d.type);
+                    return d.type;
+                });
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
