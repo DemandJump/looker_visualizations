@@ -39,6 +39,8 @@ looker.plugins.visualizations.add({
             
                     /* Table borders */
                 td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
             
                     /* Color ever other cell */
@@ -162,7 +164,7 @@ looker.plugins.visualizations.add({
             .data(rowData).enter().append("tr")
                 .attr('class', d => {
                     console.log('This is tr d', d);
-                    return d.type
+                    return d.type;
                 });
 
         let cells = rows.selectAll("td")
