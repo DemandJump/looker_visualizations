@@ -97,71 +97,14 @@ looker.plugins.visualizations.add({
          * Configuring the data
         ***************************************/
         let sql = queryResponse.sql;
-        for(let i = 0; i < sql.length; i++) {
-            columnNames.forEach((name, index) =>{
-                if (name[0] == sql[i]) {
-                    let found = true;
-                    for (let j = 0; j < name.length; j++) {
-                        if (name[j] != sql[i + j]) {
-                            found = false;
-                            break;
-                        }
-                    }
-                    if (found == true) {
-                        columnOrder.push(name);
-                        columnNames.splice(index, 1);
-                    }
-                }
-            });
-        }
+        findColumnOrder();
         // console.log('Column Order: ', columnOrder);
 
         let columnData = [];
-        columnOrder.forEach((name, index) => {
-            for(let i = 0; i < dimensions.length; i++) {
-                if (dimensions[i].name == name) {
-                    let obj = {
-                        name: name,
-                        label: dimensions[i].label,
-                        label_short: dimensions[i].label_short,
-                        view_label: dimensions[i].view_label,
-                        field_group_variant: dimensions[i].field_group_variant,
-                        type: 'dimensions'
-                    };
-                    columnData.push(obj);
-                }
-            }
-            for(let i = 0; i < measures.length; i++) {
-                if (measures[i].name == name) {
-                    let obj = {
-                        name: name,
-                        label: measures[i].label,
-                        label_short: measures[i].label_short,
-                        view_label: measures[i].view_label,
-                        field_group_variant: measures[i].field_group_variant,
-                        type: 'measures'
-                    };
-                    columnData.push(obj);
-                }
-            }
-        });
+        constructColumnData();
         console.log('Column Data: ', columnData);
 
-        data.forEach(row => {
-            let newRow = [];
-            for(let i = 0; i < columns; i++) { 
-                newRow.push(row[columnData[i].name]); 
-                newRow[i].type = columnData[i].type;
-                newRow[i].label = columnData[i].label;
-                newRow[i].label_short = columnData[i].label_short;
-                newRow[i].view_label = columnData[i].view_label;
-                newRow[i].field_group_variant = columnData[i].field_group_variant;
-            }
-            rowData.push(newRow);
-        });
-        rowData.forEach((row, index) => {
-            row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
-        })
+        constructRowData();
         columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
         console.log('This is the row data', rowData);
 
@@ -236,6 +179,78 @@ looker.plugins.visualizations.add({
         function unhover(d) {
             cells.filter(d => d)
                 .style('background-color', everyOtherRow(d));
+        }
+
+
+        function constructColumnData() {
+            columnOrder.forEach((name, index) => {
+                for(let i = 0; i < dimensions.length; i++) {
+                    if (dimensions[i].name == name) {
+                        let obj = {
+                            name: name,
+                            label: dimensions[i].label,
+                            label_short: dimensions[i].label_short,
+                            view_label: dimensions[i].view_label,
+                            field_group_variant: dimensions[i].field_group_variant,
+                            type: 'dimensions'
+                        };
+                        columnData.push(obj);
+                    }
+                }
+                for(let i = 0; i < measures.length; i++) {
+                    if (measures[i].name == name) {
+                        let obj = {
+                            name: name,
+                            label: measures[i].label,
+                            label_short: measures[i].label_short,
+                            view_label: measures[i].view_label,
+                            field_group_variant: measures[i].field_group_variant,
+                            type: 'measures'
+                        };
+                        columnData.push(obj);
+                    }
+                }
+            });
+        }
+
+
+        function constructRowData() {
+            data.forEach(row => {
+                let newRow = [];
+                for(let i = 0; i < columns; i++) { 
+                    newRow.push(row[columnData[i].name]); 
+                    newRow[i].type = columnData[i].type;
+                    newRow[i].label = columnData[i].label;
+                    newRow[i].label_short = columnData[i].label_short;
+                    newRow[i].view_label = columnData[i].view_label;
+                    newRow[i].field_group_variant = columnData[i].field_group_variant;
+                }
+                rowData.push(newRow);
+            });
+            rowData.forEach((row, index) => {
+                row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
+            });   
+        }
+
+
+        function findColumnOrder() {
+            for(let i = 0; i < sql.length; i++) {
+                columnNames.forEach((name, index) =>{
+                    if (name[0] == sql[i]) {
+                        let found = true;
+                        for (let j = 0; j < name.length; j++) {
+                            if (name[j] != sql[i + j]) {
+                                found = false;
+                                break;
+                            }
+                        }
+                        if (found == true) {
+                            columnOrder.push(name);
+                            columnNames.splice(index, 1);
+                        }
+                    }
+                });
+            }
         }
 
 
