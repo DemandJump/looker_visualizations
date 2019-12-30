@@ -164,7 +164,7 @@ looker.plugins.visualizations.add({
         rowData.forEach((row, index) => {
             row.unshift({value: index + 1, type: 'index', view_label: '', field_group_variant: ''});
         })
-        columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
+        columnData.unshift({name: '', type: 'dimensions', view_label: '', field_group_variant: ''});
         console.log('This is the row data', rowData);
 
         
