@@ -127,7 +127,11 @@ looker.plugins.visualizations.add({
 
         data.forEach(row => {
             let newRow = [];
-            for(let i = 0; i < columns; i++) { newRow.push(row[columnData[i]]); }
+            for(let i = 0; i < columns; i++) { 
+                console.log('current column', columnData[i])
+                newRow.push(row[columnData[i].name]); 
+                newRow[i].type = columnData[i].type;
+            }
             rowData.push(newRow);
         });
         console.log('This is the row data', rowData);
