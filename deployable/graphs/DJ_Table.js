@@ -114,7 +114,7 @@ looker.plugins.visualizations.add({
                 if (dimensions[i].name == name) {
                     let obj = {
                         name: name,
-                        type: 'dimension'
+                        type: 'dimensions'
                     };
                     columnData.push(obj);
                 }
@@ -123,7 +123,7 @@ looker.plugins.visualizations.add({
                 if (measures[i].name == name) {
                     let obj = {
                         name: name,
-                        type: 'measure'
+                        type: 'measures'
                     };
                     columnData.push(obj);
                 }
