@@ -170,7 +170,7 @@ looker.plugins.visualizations.add({
         header.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
-                .text(d => d.name);
+                .html(d => `${d.view_label} <b>${d.field_group_variant}</b>`);
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
