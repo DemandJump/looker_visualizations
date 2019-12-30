@@ -163,6 +163,7 @@ looker.plugins.visualizations.add({
                 .attr('class', d => {
                     columnIteration++;
                     let res = columnData[columnIteration - 1].type;
+                    console.log('res', res);
                     return res;
                 });
 
