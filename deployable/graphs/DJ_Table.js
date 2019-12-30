@@ -151,38 +151,35 @@ looker.plugins.visualizations.add({
         ***************************************/
         let table = this._table;
         var header = table.append("thead").append("tr");
-        header
-                .selectAll("th")
-                .data(columnOrder)
-                .enter()
-                .append("th")
-                .text(function(d) { 
-                    console.log('header text function: ', d);
-                    return d; 
-                });
+        header.selectAll("th")
+            .data(columnOrder).enter().append("th")
+                .attr('class', d => d.type)
+                .text(d => headerText(d));
+
         var tablebody = table.append("tbody");
-        rows = tablebody
-                .selectAll("tr")
-                .data(rowData)
-                .enter()
-                .append("tr");
-        // We built the rows using the nested array - now each row has its own array.
+        rows = tablebody.selectAll("tr")
+            .data(rowData).enter().append("tr")
+                .attr('class', d => d.type);
+
         cells = rows.selectAll("td")
-            // each row has data associated; we get it and enter it for the cells.
-                .data(function(d) {
-                    console.log('cells data function: ', d);
-                    return d;
-                })
-                .enter()
-                .append("td")
-                .text(function(d) {
-                    console.log('cells text function: ', d);
-                    return d;
-                });
+            .data(d => d).enter().append("td")
+                .attr('class', d => d.type)
+                .text(d => cellText(d));
 
 
 
                 
+
+        function headerText(d) {
+            if(d.rendered) return d.rendered;
+            else return d.value;
+        }
+
+        function cellText(d) {
+            if(d.rendered) return d.rendered;
+            else return d.value;
+        }
+
             /**************** Done! *****************/
     doneRendering(); // Always call done to indicate a visualization has finished rendering
     }
