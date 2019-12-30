@@ -182,7 +182,7 @@ looker.plugins.visualizations.add({
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr")
                 .on('mouseover', d => hover(d))
-                // .on('mouseout' unhover(d))
+                .on('mouseout' unhover(d));
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
