@@ -146,6 +146,10 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < columns; i++) { 
                 newRow.push(row[columnData[i].name]); 
                 newRow[i].type = columnData[i].type;
+                newRow[i].label = columnData[i].label;
+                newRow[i].label_short = columnData[i].label_short;
+                newRow[i].view_label = columnData[i].view_label;
+                newRow[i].field_group_variant = columnData[i].field_group_variant;
             }
             rowData.push(newRow);
         });
