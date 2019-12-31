@@ -231,7 +231,7 @@ looker.plugins.visualizations.add({
                             label_short: dimensions[i].label_short,
                             view_label: dimensions[i].view_label,
                             field_group_variant: dimensions[i].field_group_variant,
-                            type: 'dimension_headers'
+                            type: 'dimensions'
                         };
                         columnData.push(obj);
                     }
@@ -244,7 +244,7 @@ looker.plugins.visualizations.add({
                             label_short: measures[i].label_short,
                             view_label: measures[i].view_label,
                             field_group_variant: measures[i].field_group_variant,
-                            type: 'measure_headers'
+                            type: 'measures'
                         };
                         columnData.push(obj);
                     }
@@ -268,6 +268,7 @@ looker.plugins.visualizations.add({
             });
 
             showRowNumbers();
+            formatHeaders();
 
             rowData.forEach((row, index) => {
                 for(let i = 0; i < row.length; i++) {
@@ -300,6 +301,14 @@ looker.plugins.visualizations.add({
                     }
                 });
             }
+        }
+
+        
+        function formatHeaders() {
+            columnData.forEach(header => {
+                if (header.type == 'dimensions') header.type = 'dimension_headres';
+                if (header.type == 'measures') header.type = 'measure_headers';
+            });
         }
 
 
