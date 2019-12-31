@@ -182,9 +182,20 @@ looker.plugins.visualizations.add({
         }
 
         function everyOtherRow(d) {
+            if (config.tableTheme == 'classic') {
+                if (d.type == 'dimension_headers') return '#CCD8E4';
+                if (d.type == 'measure_headers') return '#E4D1BD';
+            } else if (config.tableTheme == 'gray') {
+                if (d.type == 'dimension_headers' || d.type == 'measure_headers') return '#E4E5E6'; 
+            }
+
             if (d.tiled) {
-                if (d.type == 'dimensions') return '#F5F8FA';
-                if (d.type == 'measures') return '#F7F2ED';
+                if (config.tableTheme == 'classic') {
+                    if (d.type == 'dimensions') return '#F5F8FA';
+                    if (d.type == 'measures') return '#F7F2ED';
+                } else if (config.tableTheme == 'gray') {
+                    return '#F5F8FA';
+                }
             }
         }
 
@@ -220,7 +231,7 @@ looker.plugins.visualizations.add({
                             label_short: dimensions[i].label_short,
                             view_label: dimensions[i].view_label,
                             field_group_variant: dimensions[i].field_group_variant,
-                            type: 'dimensions'
+                            type: 'dimension_headers'
                         };
                         columnData.push(obj);
                     }
@@ -233,7 +244,7 @@ looker.plugins.visualizations.add({
                             label_short: measures[i].label_short,
                             view_label: measures[i].view_label,
                             field_group_variant: measures[i].field_group_variant,
-                            type: 'measures'
+                            type: 'measure_headers'
                         };
                         columnData.push(obj);
                     }
