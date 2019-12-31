@@ -51,16 +51,8 @@ looker.plugins.visualizations.add({
                 /* Color the cells */
                 tr.dimensions:nth-child(even){background-color: #F5F8FA;}
                 tr.measures:nth-child(even){background-color: #F7F2ED;}
-
                 tr:nth-child(even) td.dimensions {background-color: #F5F8FA;}
                 tr:nth-child(even) td.measures {background-color: #F7F2ED;}
-                 
-
-                /* Highlight the hovered cell */
-                tr.dimensions:hover {background-color: #E6E8EC;}
-                tr.measures:hover {background-color: #E6E8EC;}
-                tr:hover {background-color: #E6E8EC;}
-
                 
                     /* Header colors */
                 th {
@@ -75,6 +67,12 @@ looker.plugins.visualizations.add({
                     font-size: 11px;
                     font-weight: bold; 
                 }
+
+
+                /* Highlight the hovered cell */
+                tr.dimensions:hover {background-color: #E6E8EC !important;}
+                tr.measures:hover {background-color: #E6E8EC !important;}
+                tr:hover {background-color: #E6E8EC !important;}
             </style>
         `;
 
