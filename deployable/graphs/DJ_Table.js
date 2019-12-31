@@ -167,7 +167,7 @@ looker.plugins.visualizations.add({
         }
 
         function textAlign(d) {
-            if (d.index) return 'right';
+            if (d.index || d.type == 'measures') return 'right';
             else return 'left';
         }
 
