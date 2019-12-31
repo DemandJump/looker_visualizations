@@ -134,10 +134,10 @@ looker.plugins.visualizations.add({
         ***************************************/
         // tableThemes();
 
-        let html = ``;
-        buildElementInnerhtml();
-        console.log('This is the html', html);
-        element.innerHTML = html;
+        // let html = ``;
+        // buildElementInnerhtml();
+        // console.log('This is the html', html);
+        // element.innerHTML = html;
 
 
 
@@ -260,7 +260,7 @@ looker.plugins.visualizations.add({
                 rowData.forEach((row, index) => {
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
                 }); 
-                                
+
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
 
