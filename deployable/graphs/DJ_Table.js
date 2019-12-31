@@ -134,10 +134,13 @@ looker.plugins.visualizations.add({
         ***************************************/
         // tableThemes();
 
-        // let html = ``;
-        // buildElementInnerhtml();
-        // console.log('This is the html', html);
-        // element.innerHTML = html;
+        let html = ``;
+        buildElementInnerhtml();
+        console.log('This is the html', html);
+        element.innerHTML = ``;
+        element.innerHTML = html;
+
+        // d3.select(element).html(html);
 
 
 
