@@ -123,7 +123,6 @@ looker.plugins.visualizations.add({
         constructColumnData();
         console.log('Column Data: ', columnData);
 
-        let rowNumbers = config.rowNumbers;
         constructRowData();
         console.log('This is the row data', rowData);
 
@@ -152,7 +151,8 @@ looker.plugins.visualizations.add({
         header.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
-                .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`);
+                .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
+                .style('background-color', d => everyOtherRow(d));
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -182,6 +182,7 @@ looker.plugins.visualizations.add({
         }
 
         function everyOtherRow(d) {
+            console.log('This is everyOtherRow', d);
             if (config.tableTheme == 'classic') {
                 if (d.type == 'dimension_headers') return '#CCD8E4';
                 if (d.type == 'measure_headers') return '#E4D1BD';
@@ -306,7 +307,7 @@ looker.plugins.visualizations.add({
         
         function formatHeaders() {
             columnData.forEach(header => {
-                if (header.type == 'dimensions') header.type = 'dimension_headres';
+                if (header.type == 'dimensions') header.type = 'dimension_headers';
                 if (header.type == 'measures') header.type = 'measure_headers';
             });
         }
