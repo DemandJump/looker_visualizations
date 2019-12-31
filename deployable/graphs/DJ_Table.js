@@ -132,12 +132,12 @@ looker.plugins.visualizations.add({
         /***************************************
          * Constructing the settings
         ***************************************/
-        // tableThemes();
+        tableThemes();
 
-        let html = ``;
-        buildElementInnerhtml();
-        console.log('This is the html', html);
-        d3.select(element).html(html);
+        // let html = ``;
+        // buildElementInnerhtml();
+        // console.log('This is the html', html);
+        // d3.select(element).html(html);
 
 
 
@@ -295,6 +295,7 @@ looker.plugins.visualizations.add({
             /***** Settings functions *****/
 
         function tableThemes() {
+            console.log('This is the tableTheme', config.tableTheme);
             if (config.tableTheme == 'classic') {
                 d3.selectAll('th.dimensions').style('background-color', '#CCD8E4');
                 d3.selectAll('th.index').style('background-color', '#CCD8E4');
