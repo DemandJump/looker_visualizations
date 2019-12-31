@@ -77,6 +77,7 @@ looker.plugins.visualizations.add({
                 td.dimensions tr:hover {background-color: #E6E8EC !important;}
                 td.measures tr:hover {background-color: #E6E8EC !important;}
                 tr:hover {background-color: #E6E8EC !important;}
+                td:hover {text-decoration: underline;}
             </style>
         `;
 
