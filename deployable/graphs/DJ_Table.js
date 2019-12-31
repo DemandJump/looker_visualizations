@@ -44,10 +44,10 @@ looker.plugins.visualizations.add({
                 td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+
+                tr.index { background-color: #CCD8E4;}
             
                     /* Color ever other cell */
-                tr.index { background-color: #CCD8E4;}
-
                 /* Color the cells
                 tr.dimensions:nth-child(even){background-color: #F5F8FA;}
                 tr.measures:nth-child(even){background-color: #F7F2ED;}
@@ -70,9 +70,11 @@ looker.plugins.visualizations.add({
                 }
 
 
-                /* Highlight the hovered cell */
+                    /* Highlight the hovered cell */
                 tr.dimensions:hover {background-color: #E6E8EC !important;}
                 tr.measures:hover {background-color: #E6E8EC !important;}
+                tr.dimensions:nth-child(even):hover { background-color: #E6E8EC !important;}
+                tr.measures:nth-child(even):hover { background-color: #E6E8EC !important;}
                 tr:hover {background-color: #E6E8EC !important;}
             </style>
         `;
