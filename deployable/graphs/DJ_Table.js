@@ -46,7 +46,7 @@ looker.plugins.visualizations.add({
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 tr.index { background-color: #CCD8E4;}
-            
+
                     /* Color ever other cell */
                 /* Color the cells
                 tr.dimensions:nth-child(even){background-color: #F5F8FA;}
@@ -67,6 +67,11 @@ looker.plugins.visualizations.add({
                     font-size: 11px;
                     font-weight: bold; 
                 }
+
+                    /* Remove some spacing on the index column */
+                td.dimensions(:first-child) {padding-left: 1px;}
+                th.dimensions(:first-child) {padding-left: 1px;}
+            
 
                     /* Highlight the hovered cell */
                 td.dimensions tr:hover {background-color: #E6E8EC !important;}
