@@ -256,13 +256,7 @@ looker.plugins.visualizations.add({
                 rowData.push(newRow);
             });
 
-            if (config.rowNumbers == true) {
-                rowData.forEach((row, index) => {
-                    row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
-                }); 
-
-                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
-            }
+            showRowNumbers();
 
             rowData.forEach((row, index) => {
                 for(let i = 0; i < row.length; i++) {
@@ -311,8 +305,17 @@ looker.plugins.visualizations.add({
                 d3.selectAll('th.measures').style('background-color', '#E4E5E6');
             }
 
-       }
+        }
 
+        function showRowNumbers() {
+            if (config.rowNumbers == true) {
+                rowData.forEach((row, index) => {
+                    row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
+                });
+
+                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
+            }
+        }
 
         function buildElementInnerhtml() {
             let base = `
