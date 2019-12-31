@@ -45,7 +45,6 @@ looker.plugins.visualizations.add({
                 td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-
                 tr.index { background-color: #CCD8E4;}
             
                     /* Color ever other cell */
@@ -157,7 +156,7 @@ looker.plugins.visualizations.add({
 
         function everyOtherRow(d) {
             columnIteration++;
-            if (columnIteration <= columnData.length) {
+            if (columnIteration < columnData.length) {
                 if (counter % 2 != 0) {
                     if (d.type == 'dimensions') return '#F5F8FA';
                     if (d.type == 'measures') return '#F7F2ED';
