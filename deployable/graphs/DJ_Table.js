@@ -74,6 +74,7 @@ looker.plugins.visualizations.add({
                 tr.dimensions:hover {background-color: #E6E8EC !important;}
                 tr.measures:hover {background-color: #E6E8EC !important;}
                 tr:hover {background-color: #E6E8EC !important;}
+                .measures:hover {background-color: #E6E8EC;}
             </style>
         `;
 
@@ -133,9 +134,7 @@ looker.plugins.visualizations.add({
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
-            .data(rowData).enter().append("tr")
-                .on('mouseover', d => hover(d))
-                .on('mouseout', d => unhover(d));
+            .data(rowData).enter().append("tr");
 
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
