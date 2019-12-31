@@ -123,7 +123,7 @@ looker.plugins.visualizations.add({
         constructColumnData();
         console.log('Column Data: ', columnData);
 
-        let rowNumbers = config.showRowNumbers;
+        let rowNumbers = config.rowNumbers;
         constructRowData();
         console.log('This is the row data', rowData);
 
@@ -309,6 +309,7 @@ looker.plugins.visualizations.add({
 
        function showRowNumbers() {
             console.log(`showRowNumbers:`, rowNumbers);
+            console.log('config', config.rowNumbers);
             if (rowNumbers == true) {
                 rowData.forEach((row, index) => {
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
