@@ -123,7 +123,6 @@ looker.plugins.visualizations.add({
         console.log('Column Data: ', columnData);
 
         constructRowData();
-        columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
         console.log('This is the row data', rowData);
 
 
@@ -131,16 +130,7 @@ looker.plugins.visualizations.add({
         /***************************************
          * Constructing the settings
         ***************************************/
-        // tableThemes();
-        if (config.tableTheme == 'classic') {
-            d3.selectAll('th.dimensions').style('background-color', '#CCD8E4');
-            d3.selectAll('th.index').style('background-color', '#CCD8E4');
-            d3.selectAll('th.measures').style('background-color', '#E4D1BD');
-        } else if (config.tableTheme == 'gray') {
-            d3.selectAll('th.dimensions').style('background-color', '#E4E5E6');
-            d3.selectAll('th.index').style('background-color', '#E4E5E6');
-            d3.selectAll('th.measures').style('background-color', '#E4E5E6');
-        }
+        tableThemes();
 
 
 
@@ -259,9 +249,7 @@ looker.plugins.visualizations.add({
                 rowData.push(newRow);
             });
 
-            rowData.forEach((row, index) => {
-                row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
-            }); 
+            showRowNumbers();
 
             rowData.forEach((row, index) => {
                 for(let i = 0; i < row.length; i++) {
@@ -310,6 +298,16 @@ looker.plugins.visualizations.add({
                 d3.selectAll('th.measures').style('background-color', '#E4E5E6');
             }
        }
+
+       function showRowNumbers() {
+            if (config.showRowNumbers == true) {
+                rowData.forEach((row, index) => {
+                    row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
+                }); 
+            
+                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
+            }
+        }
 
 
             /**************** Done! *****************/
