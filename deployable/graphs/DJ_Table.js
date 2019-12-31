@@ -69,8 +69,8 @@ looker.plugins.visualizations.add({
                 }
 
                     /* Remove some spacing on the index column */
-                td:first-child {padding-left: 1px;}
-                th:first-child {padding-left: 1px;}
+                td:first-child {padding-left: 3px;}
+                th:first-child {padding-left: 3px;}
             
 
                     /* Highlight the hovered cell */
