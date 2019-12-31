@@ -147,17 +147,16 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
-        let header = table.append("thead").append("tr");
+        let header = table.append("thead").append("tr")
+            .style('position', 'absolute')
+            .style('top', '0')
+            .style('left', '0');
         header.selectAll("th")
-            .data(columnData).enter().append('div')
-                .style('position', 'absolute')
-                .style('top', '0')
-                .style('left', '0')
-                    .append("th")
-                        .attr('class', d => d.type)
-                        .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                        .style('position', 'relative')
-                        .style('background-color', d => everyOtherRow(d));
+            .data(columnData).enter().append("th")
+                    .attr('class', d => d.type)
+                    .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
+                    .style('position', 'relative')
+                    .style('background-color', d => everyOtherRow(d));
 
 
         let tablebody = table.append("tbody");
