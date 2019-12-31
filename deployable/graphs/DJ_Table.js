@@ -81,6 +81,11 @@ looker.plugins.visualizations.add({
                     color: #2E343F;
                 }
 
+                th.dimension_headers, th.measure_headers, th.index_header {
+                    position: -webkit-sticky;
+                    position: sticky;
+                }
+
 
 
             </style>
@@ -157,9 +162,11 @@ looker.plugins.visualizations.add({
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
-                    .attr('class', d => d.type)
+                    .attr('class', d => {
+                        console.log('Th class', d);
+                        return d.type
+                    })
                     .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                    .style('position', 'sticky')
                     .style('background-color', d => everyOtherRow(d));
 
         let tablebody = table.append("tbody");
