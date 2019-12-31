@@ -139,7 +139,8 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
-                .text(d => cellText(d));
+                .text(d => cellText(d))
+                .on('mouseover', d => hover(d));
 
 
 
@@ -169,6 +170,15 @@ looker.plugins.visualizations.add({
             else '#323232';
         }
 
+        function hover(focus) {
+            console.log(`Row index:${d.row}hovered element`, d); 
+            let row = focus.row
+
+            cells.filter(d => d.row === row).style('border', d => {
+                console.log('filtered row', d);
+                return '1px solid black'
+            });
+        }
 
         function constructColumnData() {
             columnOrder.forEach((name, index) => {
@@ -227,6 +237,7 @@ looker.plugins.visualizations.add({
                     } else {
                         row[i].tiled = false;
                     }
+                    row[i].row = index;
                 }
             });
         }
