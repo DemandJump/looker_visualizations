@@ -182,9 +182,8 @@ looker.plugins.visualizations.add({
         }
 
         function everyOtherRow(d) {
-            console.log('This is everyOtherRow', d);
             if (config.tableTheme == 'classic') {
-                if (d.type == 'dimension_headers') return '#CCD8E4';
+                if (d.type == 'dimension_headers' || d.type == 'index_header') return '#CCD8E4';
                 if (d.type == 'measure_headers') return '#E4D1BD';
             } else if (config.tableTheme == 'gray') {
                 if (d.type == 'dimension_headers' || d.type == 'measure_headers') return '#E4E5E6'; 
@@ -335,7 +334,7 @@ looker.plugins.visualizations.add({
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
                 });
 
-                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
+                columnData.unshift({name: '', type: 'index_headers', view_label: '', field_group_variant: ''});
             }
         }
 
