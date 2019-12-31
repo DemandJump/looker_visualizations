@@ -153,15 +153,9 @@ looker.plugins.visualizations.add({
         }
 
         function everyOtherRow(d) {
-            columnIteration++;
-            if (columnIteration <= columnData.length) {
-                if (counter % 2 != 0) {
-                    if (d.type == 'dimensions') return '#F5F8FA';
-                    if (d.type == 'measures') return '#F7F2ED';
-                }
-            } else {
-                counter++;
-                columnIteration = 0;
+            if (d.tiled) {
+                if (d.type == 'dimensions') return '#F5F8FA';
+                if (d.type == 'measures') return '#F7F2ED';
             }
         }
 
@@ -221,9 +215,20 @@ looker.plugins.visualizations.add({
                 }
                 rowData.push(newRow);
             });
+
             rowData.forEach((row, index) => {
                 row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
-            });   
+            }); 
+
+            rowData.forEach((row, index) => {
+                for(let i = 0; i < row.length; i++) {
+                    if (index % 2 != 0) {
+                        row[i].tiled = true;
+                    } else {
+                        row[i].tiled = false;
+                    }
+                }
+            });
         }
 
 
