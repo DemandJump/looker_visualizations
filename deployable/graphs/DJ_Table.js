@@ -69,8 +69,8 @@ looker.plugins.visualizations.add({
                 }
 
                     /* Highlight the hovered cell */
-                td.dimensions:hover {background-color: #E6E8EC !important;}
-                td.measures:hover {background-color: #E6E8EC !important;}
+                td.dimensions:hover tr {background-color: #E6E8EC !important;}
+                td.measures:hover tr {background-color: #E6E8EC !important;}
                 tr:hover {background-color: #E6E8EC !important;}
             </style>
         `;
