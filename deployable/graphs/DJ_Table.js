@@ -181,7 +181,7 @@ looker.plugins.visualizations.add({
         }
 
         function hover(focus) {
-            console.log('data pulled from hover', d);
+            console.log('data pulled from hover', focus);
             cells.filter(d => d == focus)
                 .style('background-color', d => {
                     console.log('Colored nodes from hover', d);
@@ -189,7 +189,7 @@ looker.plugins.visualizations.add({
                 });
         }
         function unhover(focus) {
-            console.log('data pulled from unhover', d);
+            console.log('data pulled from unhover', focus);
             cells.filter(d => d == focus)
                 .style('background-color', d => {
                     console.log('Recolored nodes from unhover', d);
