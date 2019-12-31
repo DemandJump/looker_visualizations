@@ -334,7 +334,7 @@ looker.plugins.visualizations.add({
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
                 });
 
-                columnData.unshift({name: '', type: 'index_headers', view_label: '', field_group_variant: ''});
+                columnData.unshift({name: '', type: 'index_header', view_label: '', field_group_variant: ''});
             }
         }
 
