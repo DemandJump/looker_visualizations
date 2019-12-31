@@ -149,13 +149,15 @@ looker.plugins.visualizations.add({
         let table = this._table;
         let header = table.append("thead").append("tr");
         header.selectAll("th")
-            .data(columnData).enter().append("th")
-                .attr('class', d => d.type)
-                .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                .style('background-color', d => everyOtherRow(d))
+            .data(columnData).enter().append('div')
                 .style('position', 'absolute')
                 .style('top', '0')
-                .style('left', '0');
+                .style('left', '0')
+                    .append("th")
+                        .attr('class', d => d.type)
+                        .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
+                        .style('background-color', d => everyOtherRow(d));
+
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
