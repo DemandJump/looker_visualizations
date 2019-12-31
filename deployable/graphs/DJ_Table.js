@@ -140,7 +140,8 @@ looker.plugins.visualizations.add({
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .text(d => cellText(d))
-                .on('mouseover', d => hover(d));
+                .on('mouseover', d => hover(d))
+                .on('mouseout', d => unhover(d));
 
 
 
@@ -171,13 +172,12 @@ looker.plugins.visualizations.add({
         }
 
         function hover(focus) {
-            console.log(`Row index:${focus.row}hovered element`, focus); 
-            let row = focus.row
-
-            cells.filter(d => d.row === row).style('border', d => {
-                console.log('filtered row', d);
-                return '1px solid black'
-            });
+            let row = focus.row;
+            cells.filter(d => d.row === row).style('background-color', '#E6E8EC');
+        }
+        function unhover(focus) {
+            let row = focus.row;
+            cells.filter(d => d.row === row).style('background-color', d => everyOtherRow(d));
         }
 
         function constructColumnData() {
