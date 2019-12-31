@@ -162,7 +162,6 @@ looker.plugins.visualizations.add({
                     .style('position', 'relative')
                     .style('background-color', d => everyOtherRow(d));
 
-
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr");
