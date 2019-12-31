@@ -63,12 +63,10 @@ looker.plugins.visualizations.add({
                 }
                 th.dimensions, th.index { background-color: #CCD8E4; }
                 th.measures { background-color: #E4D1BD; }
-
                 .bold {
                     font-size: 11px;
                     font-weight: bold; 
                 }
-
 
                     /* Highlight the hovered cell */
                 tr.dimensions:hover {background-color: #E6E8EC !important;}
