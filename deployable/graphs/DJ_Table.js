@@ -163,7 +163,7 @@ looker.plugins.visualizations.add({
                 }
             } else {
                 counter++;
-                columnIteration = 1;
+                columnIteration = 0;
             }
         }
 
