@@ -195,7 +195,7 @@ looker.plugins.visualizations.add({
                 if (d.type == 'dimension_headers' || d.type == 'index_header') return '#CCD8E4';
                 if (d.type == 'measure_headers') return '#E4D1BD';
             } else if (config.tableTheme == 'gray') {
-                if (d.type == 'dimension_headers' || d.type == 'measure_headers') return '#E4E5E6'; 
+                if (d.type == 'dimension_headers' || d.type == 'measure_headers' || d.type == 'index_header') return '#E4E5E6'; 
             }
 
             if (d.tiled) {
