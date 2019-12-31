@@ -123,7 +123,7 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
-        let columnIteration = 0;
+        let columnIteration = -1;
         let counter = 0; 
         let header = table.append("thead").append("tr");
         header.selectAll("th")
