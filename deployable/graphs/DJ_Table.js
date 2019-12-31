@@ -137,10 +137,7 @@ looker.plugins.visualizations.add({
         let html = ``;
         buildElementInnerhtml();
         console.log('This is the html', html);
-        element.innerHTML = ``;
-        element.innerHTML = html;
-
-        // d3.select(element).html(html);
+        d3.select(element).html(html);
 
 
 
