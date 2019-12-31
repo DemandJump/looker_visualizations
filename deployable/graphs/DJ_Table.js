@@ -181,15 +181,14 @@ looker.plugins.visualizations.add({
         }
 
         function hover(d) {
-            cells.filter(d => {
-                console.log('filter d', d);
-                return d;
-            })
-                .style('background-color', '#E6E8EC');
+            console.log('data pulled from hover', d);
+            // cells.filter(d => d)
+            //     .style('background-color', '#E6E8EC');
         }
         function unhover(d) {
-            cells.filter(d => d)
-                .style('background-color', everyOtherRow(d));
+            console.log('data pulled from unhover', d);
+            // cells.filter(d => d)
+            //     .style('background-color', everyOtherRow(d));
         }
 
 
