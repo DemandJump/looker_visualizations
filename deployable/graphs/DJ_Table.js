@@ -114,6 +114,7 @@ looker.plugins.visualizations.add({
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
+        let showTotals = [];
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -139,15 +140,6 @@ looker.plugins.visualizations.add({
         /***************************************
          * Constructing the settings
         ***************************************/
-        tableThemes();
-
-        // let html = ``;
-        // buildElementInnerhtml();
-        // console.log('This is the html', html);
-        // d3.select(element).html(html);
-
-
-
     
 
         
@@ -272,6 +264,7 @@ looker.plugins.visualizations.add({
                     newRow[i].label_short = columnData[i].label_short;
                     newRow[i].view_label = columnData[i].view_label;
                     newRow[i].field_group_variant = columnData[i].field_group_variant;
+                    newRow[i].name = columnData[i].name;
                 }
                 rowData.push(newRow);
             });
@@ -323,21 +316,6 @@ looker.plugins.visualizations.add({
 
 
             /***** Settings functions *****/
-
-        function tableThemes() {
-            console.log('This is the tableTheme', config.tableTheme);
-            if (config.tableTheme == 'classic') {
-                d3.selectAll('th.dimensions').style('background-color', '#CCD8E4');
-                d3.selectAll('th.index').style('background-color', '#CCD8E4');
-                d3.selectAll('th.measures').style('background-color', '#E4D1BD');
-            } else if (config.tableTheme == 'gray') {
-                d3.selectAll('th.dimensions').style('background-color', '#E4E5E6');
-                d3.selectAll('th.index').style('background-color', '#E4E5E6');
-                d3.selectAll('th.measures').style('background-color', '#E4E5E6');
-            }
-
-        }
-
         function showRowNumbers() {
             if (config.rowNumbers == true) {
                 rowData.forEach((row, index) => {
@@ -347,6 +325,15 @@ looker.plugins.visualizations.add({
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
         }
+
+        function showTotals() {
+            if (config.showTotals == true) {
+                if (queryResponse.totals_data) {
+                    
+                }
+            } 
+        }
+
 
         function buildElementInnerhtml() {
             let base = `
