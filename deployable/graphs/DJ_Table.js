@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
             label: 'Table Theme',
             order: 1,
             section: 'Plot',
-            type: 'Section',
+            type: 'select',
             values: [
                 {'Classic': 'classic'},
                 {'Gray': 'gray'}
@@ -131,7 +131,16 @@ looker.plugins.visualizations.add({
         /***************************************
          * Constructing the settings
         ***************************************/
-        tableThemes();
+        // tableThemes();
+        if (config.tableTheme == 'classic') {
+            d3.selectAll('th.dimensions').style('background-color', '#CCD8E4');
+            d3.selectAll('th.index').style('background-color', '#CCD8E4');
+            d3.selectAll('th.measures').style('background-color', '#E4D1BD');
+        } else if (config.tableTheme == 'gray') {
+            d3.selectAll('th.dimensions').style('background-color', '#E4E5E6');
+            d3.selectAll('th.index').style('background-color', '#E4E5E6');
+            d3.selectAll('th.measures').style('background-color', '#E4E5E6');
+        }
 
 
 
