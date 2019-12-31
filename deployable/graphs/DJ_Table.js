@@ -86,8 +86,15 @@ looker.plugins.visualizations.add({
             </style>
         `;
 
-        this._table = d3.select(element).append('table')
-            .attr('class', 'table');
+        this._container = d3.select(element).append('div')
+            .attr('class', 'container')
+            .style('position', 'absolute')
+            .style('top', '0')
+            .style('left', '0');
+
+        this._table = d3.select('.container').append('table')
+            .attr('class', 'table')
+            .style('position', 'relative');
 
     },
     
@@ -147,10 +154,7 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
-        let header = table.append("thead").append("tr")
-            .style('position', 'absolute')
-            .style('top', '0')
-            .style('left', '0');
+        let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
                     .attr('class', d => d.type)
