@@ -152,7 +152,10 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
                 .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                .style('background-color', d => everyOtherRow(d));
+                .style('background-color', d => everyOtherRow(d))
+                .style('position', 'absolute')
+                .style('top', '0')
+                .style('left', '0');
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
