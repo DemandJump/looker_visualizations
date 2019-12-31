@@ -317,6 +317,7 @@ looker.plugins.visualizations.add({
             columnData.forEach(header => {
                 if (header.type == 'dimensions') header.type = 'dimension_headers';
                 if (header.type == 'measures') header.type = 'measure_headers';
+                if (header.type == 'index') header.type = 'index_header';
             });
         }
 
@@ -343,7 +344,7 @@ looker.plugins.visualizations.add({
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
                 });
 
-                columnData.unshift({name: '', type: 'index_header', view_label: '', field_group_variant: ''});
+                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
         }
 
