@@ -12,13 +12,14 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
             <style>
                 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-                html {
+                html, body {
                     margin: 0;
                     padding: 0; 
                     box-sizing: border-box;
                 }
             
                 table { 
+                    margin: 0;
                     border-collapse: collapse;
                     font-family: 'Roboto', Arial, Helvetica, sans-serif;
                     font-weight: 300;
