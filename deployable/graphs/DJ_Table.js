@@ -154,7 +154,7 @@ looker.plugins.visualizations.add({
 
         function everyOtherRow(d) {
             columnIteration++;
-            if (columnIteration < columnData.length + 1) {
+            if (columnIteration <= columnData.length + 1) {
                 if (counter % 2 != 0) {
                     if (d.type == 'dimensions') return '#F5F8FA';
                     if (d.type == 'measures') return '#F7F2ED';
