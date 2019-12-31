@@ -74,13 +74,12 @@ looker.plugins.visualizations.add({
                 td:first-child {padding-left: 3px;}
                 th:first-child {padding-left: 3px;}
                 
-
-
-                    /* Header colors */
+                    /* Header */
                 th {
                     text-align: left;
                     color: #2E343F;
                 }
+
 
 
             </style>
@@ -127,6 +126,17 @@ looker.plugins.visualizations.add({
         columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
         console.log('This is the row data', rowData);
 
+
+
+        /***************************************
+         * Constructing the settings
+        ***************************************/
+        tableThemes();
+
+
+
+    
+
         
         /***************************************
          * Build the visual
@@ -158,6 +168,8 @@ looker.plugins.visualizations.add({
         /***************************************
          * Functions section
         ***************************************/
+
+            /***** Visual functions *****/
         function cellText(d) {
             if(d.rendered) return d.rendered;
             else return d.value;
@@ -188,6 +200,9 @@ looker.plugins.visualizations.add({
             let row = focus.row;
             cells.filter(d => d.row === row).style('background-color', d => everyOtherRow(d));
         }
+
+            
+            /***** Buidling the data *****/
 
         function constructColumnData() {
             columnOrder.forEach((name, index) => {
@@ -271,6 +286,21 @@ looker.plugins.visualizations.add({
                 });
             }
         }
+
+
+            /***** Settings functions *****/
+
+        function tableThemes() {
+            if (config.tableTheme == 'classic') {
+                d3.selectAll('th.dimensions').style('background-color', '#CCD8E4');
+                d3.selectAll('th.index').style('background-color', '#CCD8E4');
+                d3.selectAll('th.measures').style('background-color', '#E4D1BD');
+            } else if (config.tableTheme == 'gray') {
+                d3.selectAll('th.dimensions').style('background-color', '#E4E5E6');
+                d3.selectAll('th.index').style('background-color', '#E4E5E6');
+                d3.selectAll('th.measures').style('background-color', '#E4E5E6');
+            }
+       }
 
 
             /**************** Done! *****************/
