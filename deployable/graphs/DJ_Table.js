@@ -171,7 +171,7 @@ looker.plugins.visualizations.add({
         }
 
         function hover(focus) {
-            console.log(`Row index:${d.row}hovered element`, d); 
+            console.log(`Row index:${focus.row}hovered element`, focus); 
             let row = focus.row
 
             cells.filter(d => d.row === row).style('border', d => {
