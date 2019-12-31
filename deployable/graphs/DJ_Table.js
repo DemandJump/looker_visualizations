@@ -156,6 +156,7 @@ looker.plugins.visualizations.add({
                     .append("th")
                         .attr('class', d => d.type)
                         .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
+                        .style('position', 'relative')
                         .style('background-color', d => everyOtherRow(d));
 
 
@@ -166,6 +167,7 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
+                .style('position', 'relative')
                 .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
