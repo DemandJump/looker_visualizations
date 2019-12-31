@@ -9,7 +9,8 @@ looker.plugins.visualizations.add({
             label: 'Table Theme',
             order: 1,
             section: 'Plot',
-            type: 'select',
+            type: 'string',
+            display: 'select',
             values: [
                 {'Classic': 'classic'},
                 {'Gray': 'gray'}
