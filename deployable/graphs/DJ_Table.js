@@ -4,7 +4,27 @@ console.log("Rendering dj table");
 looker.plugins.visualizations.add({
     id: "dj_table",
     label: "Demand Jump Table",
-    options: {},
+    options: {
+        tableTheme: {
+            label: 'Table Theme',
+            order: 1,
+            section: 'Plot',
+            type: 'Section',
+            values: [
+                {'Classic': 'classic'},
+                {'Gray': 'gray'}
+            ],
+            default: 'classic'
+        }, 
+        rowNumbers: {
+            label: 'Show Row Numbers',
+            order: 2, 
+            section: 'Plot',
+            type: 'boolean',
+            default: true,
+        }
+
+    },
 
 
     create: function(element, config) {
@@ -26,38 +46,25 @@ looker.plugins.visualizations.add({
                     font-size: 11px;
                     border-spacing: 0px;
                     width: 100%;
-                }
-            
-                #w3table { 
-                    height: 200px;
                     overflow-x: auto;
                 }
-            
+                        
                     /* Inside cell spacing */
                 td, th {
                     padding: 2px 5px;
                     text-decoration: none;
                     font-weight: normal;
                 }
-            
+                  
                     /* Table borders */
                 td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                tr.index { background-color: #CCD8E4;}
-
-                    /* Color ever other cell */
-                /* Color the cells
-                tr.dimensions:nth-child(even){background-color: #F5F8FA;}
-                tr.measures:nth-child(even){background-color: #F7F2ED;}
-                tr:nth-child(even) td.dimensions {background-color: #F5F8FA;}
-                tr:nth-child(even) td.measures {background-color: #F7F2ED;}
-                */
                 
+
                     /* Header colors */
                 th {
-                    padding: 2px 5px;
                     text-align: left;
                     color: #2E343F;
                 }
@@ -68,16 +75,14 @@ looker.plugins.visualizations.add({
                     font-weight: bold; 
                 }
 
+                    /* Color the corner cell of the table */
+                tr.index { background-color: #CCD8E4;}
+
                     /* Remove some spacing on the index column */
                 td:first-child {padding-left: 3px;}
                 th:first-child {padding-left: 3px;}
-            
 
-                    /* Highlight the hovered cell */
-                td.dimensions tr:hover {background-color: #E6E8EC !important;}
-                td.measures tr:hover {background-color: #E6E8EC !important;}
-                tr:hover {background-color: #E6E8EC !important;}
-                td:hover {text-decoration: underline;}
+
             </style>
         `;
 
@@ -127,8 +132,6 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
-        let columnIteration = 1;
-        let counter = 0; 
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
