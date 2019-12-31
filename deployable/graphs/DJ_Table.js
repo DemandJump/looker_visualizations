@@ -180,15 +180,21 @@ looker.plugins.visualizations.add({
             else '#323232';
         }
 
-        function hover(d) {
+        function hover(focus) {
             console.log('data pulled from hover', d);
-            cells.filter(d)
-                .style('background-color', '#E6E8EC');
+            cells.filter(d => d == focus)
+                .style('background-color', d => {
+                    console.log('Colored nodes from hover', d);
+                    return '#E6E8EC'
+                });
         }
-        function unhover(d) {
+        function unhover(focus) {
             console.log('data pulled from unhover', d);
-            cells.filter(d)
-                .style('background-color', everyOtherRow(d));
+            cells.filter(d => d == focus)
+                .style('background-color', d => {
+                    console.log('Recolored nodes from unhover', d);
+                    return everyOtherRow(d)
+                });
         }
 
 
