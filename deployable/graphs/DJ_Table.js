@@ -48,11 +48,12 @@ looker.plugins.visualizations.add({
                     /* Color ever other cell */
                 tr.index { background-color: #CCD8E4;}
 
-                /* Color the cells */
+                /* Color the cells
                 tr.dimensions:nth-child(even){background-color: #F5F8FA;}
                 tr.measures:nth-child(even){background-color: #F7F2ED;}
                 tr:nth-child(even) td.dimensions {background-color: #F5F8FA;}
                 tr:nth-child(even) td.measures {background-color: #F7F2ED;}
+                */
                 
                     /* Header colors */
                 th {
@@ -139,7 +140,7 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                // .style('background-color', d => everyOtherRow(d))
+                .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .text(d => cellText(d));
