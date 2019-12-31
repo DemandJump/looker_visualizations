@@ -74,8 +74,6 @@ looker.plugins.visualizations.add({
                 tr.dimensions:hover {background-color: #E6E8EC !important;}
                 tr.measures:hover {background-color: #E6E8EC !important;}
                 tr:hover {background-color: #E6E8EC !important;}
-                .measures:hover {background-color: #E6E8EC;}
-                .dimensions:hover {background-color: #E6E8EC;}
             </style>
         `;
 
@@ -140,7 +138,7 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                .style('background-color', d => everyOtherRow(d))
+                .attr('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .text(d => cellText(d));
