@@ -256,7 +256,13 @@ looker.plugins.visualizations.add({
                 rowData.push(newRow);
             });
 
-            showRowNumbers();
+            if (config.rowNumbers == true) {
+                rowData.forEach((row, index) => {
+                    row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
+                }); 
+                                
+                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
+            }
 
             rowData.forEach((row, index) => {
                 for(let i = 0; i < row.length; i++) {
@@ -307,17 +313,6 @@ looker.plugins.visualizations.add({
 
        }
 
-       function showRowNumbers() {
-            console.log(`showRowNumbers:`, rowNumbers);
-            console.log('config', config.rowNumbers);
-            if (rowNumbers == true) {
-                rowData.forEach((row, index) => {
-                    row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
-                }); 
-            
-                columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
-            }
-        }
 
         function buildElementInnerhtml() {
             let base = `
