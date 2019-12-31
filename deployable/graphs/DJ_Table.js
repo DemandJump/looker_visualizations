@@ -47,6 +47,7 @@ looker.plugins.visualizations.add({
                 table { 
                     margin: 0;
                     border-collapse: collapse;
+                    position: relative;
                     font-family: 'Roboto', Arial, Helvetica, sans-serif;
                     font-weight: 300;
                     font-size: 11px;
@@ -82,8 +83,8 @@ looker.plugins.visualizations.add({
                 }
 
                 th.dimension_headers, th.measure_headers, th.index_header {
-                    position: -webkit-sticky;
                     position: sticky;
+                    top: 0;
                 }
 
 
@@ -96,6 +97,8 @@ looker.plugins.visualizations.add({
             .style('position', 'absolute')
             .style('top', '0')
             .style('left', '0');
+
+        this._header = d3.select('.container')
 
         this._table = d3.select('.container').append('table')
             .attr('class', 'table')
@@ -162,10 +165,7 @@ looker.plugins.visualizations.add({
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
-                    .attr('class', d => {
-                        console.log('Th class', d);
-                        return d.type
-                    })
+                    .attr('class', d => d.type)
                     .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
                     .style('background-color', d => everyOtherRow(d));
 
