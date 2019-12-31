@@ -306,6 +306,7 @@ looker.plugins.visualizations.add({
        }
 
        function showRowNumbers() {
+            console.log(`showRowNumbers:`, config.showRowNumbers);
             if (config.showRowNumbers == true) {
                 rowData.forEach((row, index) => {
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
