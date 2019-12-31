@@ -159,7 +159,7 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                     .attr('class', d => d.type)
                     .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                    .style('position', 'relative')
+                    .style('position', 'sticky')
                     .style('background-color', d => everyOtherRow(d));
 
         let tablebody = table.append("tbody");
