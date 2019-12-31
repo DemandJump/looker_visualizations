@@ -75,6 +75,7 @@ looker.plugins.visualizations.add({
                 tr.measures:hover {background-color: #E6E8EC !important;}
                 tr:hover {background-color: #E6E8EC !important;}
                 .measures:hover {background-color: #E6E8EC;}
+                .dimensions:hover {background-color: #E6E8EC;}
             </style>
         `;
 
@@ -176,23 +177,6 @@ looker.plugins.visualizations.add({
         function textColor(d) {
             if (d.index) return '#C2C2C2';
             else '#323232';
-        }
-
-        function hover(focus) {
-            console.log('data pulled from hover', focus);
-            cells.filter(function(d) { return d.parent === focus; })
-                .style('background-color', d => {
-                    console.log('Colored nodes from hover', d);
-                    return '#E6E8EC';
-                });
-        }
-        function unhover(focus) {
-            console.log('data pulled from unhover', focus);
-            cells.filter(function(d) { return d.parent === focus; })
-                .style('background-color', d => {
-                    console.log('Recolored nodes from unhover', d);
-                    return everyOtherRow(d);
-                });
         }
 
 
