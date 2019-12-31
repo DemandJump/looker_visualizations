@@ -133,9 +133,10 @@ looker.plugins.visualizations.add({
         ***************************************/
         // tableThemes();
 
-        let innerHtml = ``;
+        let html = ``;
         buildElementInnerhtml();
-        element.innerHTML = innerHtml;
+        console.log('This is the html', html);
+        element.innerHTML = html;
 
 
 
@@ -379,9 +380,9 @@ looker.plugins.visualizations.add({
             `; 
 
             if (config.tableTheme == 'classic') {
-                innerHtml = base + classic;
+                html = base + classic;
             } else if (config.tableTheme == 'gray') {
-                innerHtml = base + gray;
+                html = base + gray;
             }
 
         }
