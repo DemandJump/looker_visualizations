@@ -92,15 +92,8 @@ looker.plugins.visualizations.add({
             </style>
         `;
 
-        this._container = d3.select(element).append('div')
-            .attr('class', 'container')
-            .style('position', 'absolute')
-            .style('top', '0')
-            .style('left', '0');
 
-        this._header = d3.select('.container')
-
-        this._table = d3.select('.container').append('table')
+        this._table = d3.select(element).append('table')
             .attr('class', 'table')
             .style('position', 'relative');
 
@@ -176,7 +169,7 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                .style('position', 'relative')
+                // .style('position', 'relative')
                 .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
