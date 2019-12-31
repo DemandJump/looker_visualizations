@@ -182,7 +182,7 @@ looker.plugins.visualizations.add({
 
         function hover(focus) {
             console.log('data pulled from hover', focus);
-            cells.select(focus)
+            cells.filter(function(d) { return d.parent === focus; })
                 .style('background-color', d => {
                     console.log('Colored nodes from hover', d);
                     return '#E6E8EC';
@@ -190,7 +190,7 @@ looker.plugins.visualizations.add({
         }
         function unhover(focus) {
             console.log('data pulled from unhover', focus);
-            cells.select(focus)
+            cells.filter(function(d) { return d.parent === focus; })
                 .style('background-color', d => {
                     console.log('Recolored nodes from unhover', d);
                     return everyOtherRow(d);
