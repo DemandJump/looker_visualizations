@@ -132,15 +132,10 @@ looker.plugins.visualizations.add({
          * Constructing the settings
         ***************************************/
         // tableThemes();
-        if (config.tableTheme == 'classic') {
-            d3.selectAll('th.dimensions').style('background-color', '#CCD8E4');
-            d3.selectAll('th.index').style('background-color', '#CCD8E4');
-            d3.selectAll('th.measures').style('background-color', '#E4D1BD');
-        } else if (config.tableTheme == 'gray') {
-            d3.selectAll('th.dimensions').style('background-color', '#E4E5E6');
-            d3.selectAll('th.index').style('background-color', '#E4E5E6');
-            d3.selectAll('th.measures').style('background-color', '#E4E5E6');
-        }
+
+        let innerHtml = ``;
+        buildElementInnerhtml();
+        element.innerHTML = innerHtml;
 
 
 
@@ -307,6 +302,7 @@ looker.plugins.visualizations.add({
                 d3.selectAll('th.index').style('background-color', '#E4E5E6');
                 d3.selectAll('th.measures').style('background-color', '#E4E5E6');
             }
+
        }
 
        function showRowNumbers() {
@@ -317,6 +313,76 @@ looker.plugins.visualizations.add({
             
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
+        }
+
+        function buildElementInnerhtml() {
+            let base = `
+                <style>
+                @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+                html, body {
+                    margin: 0;
+                    padding: 0; 
+                    box-sizing: border-box;
+                }
+
+                .bold {
+                    font-size: 11px;
+                    font-weight: bold; 
+                }
+            
+                table { 
+                    margin: 0;
+                    border-collapse: collapse;
+                    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+                    font-weight: 300;
+                    font-size: 11px;
+                    border-spacing: 0px;
+                    width: 100%;
+                    overflow-x: auto;
+                }
+                        
+                    /* Inside cell spacing */
+                td, th {
+                    padding: 2px 5px;
+                    text-decoration: none;
+                    font-weight: normal;
+                }
+                  
+                    /* Table borders */
+                td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+
+
+                /* Color the corner cell of the table */
+                tr.index { background-color: #CCD8E4;}
+                    /* Remove some spacing on the index columns */
+                td:first-child {padding-left: 3px;}
+                th:first-child {padding-left: 3px;}
+                
+                    /* Header */
+                th {
+                    text-align: left;
+                    color: #2E343F;
+                }
+            `;
+            let classic = `
+                th.dimensions, th.index {background-color: #CCD8E4;}
+                th.dimensions {background-color: #E4D1BD;}
+                </style>
+            `;
+            let gray = `
+                th {background-color: #E4E5E6;}
+                </style>
+            `; 
+
+            if (config.tableTheme == 'classic') {
+                innerHtml = base + classic;
+            } else if (config.tableTheme == 'gray') {
+                innerHtml = base + gray;
+            }
+
         }
 
 
