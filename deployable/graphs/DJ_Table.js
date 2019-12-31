@@ -37,6 +37,11 @@ looker.plugins.visualizations.add({
                     padding: 0; 
                     box-sizing: border-box;
                 }
+
+                .bold {
+                    font-size: 11px;
+                    font-weight: bold; 
+                }
             
                 table { 
                     margin: 0;
@@ -61,26 +66,21 @@ looker.plugins.visualizations.add({
                 td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+
+
+                /* Color the corner cell of the table */
+                tr.index { background-color: #CCD8E4;}
+                    /* Remove some spacing on the index columns */
+                td:first-child {padding-left: 3px;}
+                th:first-child {padding-left: 3px;}
                 
+
 
                     /* Header colors */
                 th {
                     text-align: left;
                     color: #2E343F;
                 }
-                th.dimensions, th.index { background-color: #CCD8E4; }
-                th.measures { background-color: #E4D1BD; }
-                .bold {
-                    font-size: 11px;
-                    font-weight: bold; 
-                }
-
-                    /* Color the corner cell of the table */
-                tr.index { background-color: #CCD8E4;}
-
-                    /* Remove some spacing on the index column */
-                td:first-child {padding-left: 3px;}
-                th:first-child {padding-left: 3px;}
 
 
             </style>
