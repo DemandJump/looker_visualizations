@@ -149,6 +149,56 @@ looker.plugins.visualizations.add({
         constructRowData();
         console.log('This is the row data', rowData);
 
+        let footerData = [];
+        let totals_data = queryResponse.totals_data;
+        if (queryResponse.totals_data) totalsData();
+
+        function totalsData() {
+            columnData.forEach(column => {
+                if (column.name == '') {
+                    let obj = {
+                        value: 'Total',
+                        html: 'Total'
+                    };
+                    footerData.push(obj);
+                } else { 
+                    for(let i = 0; i < totals_data.length; i++) { 
+                        let found = false; 
+
+                        dimensions.forEach(dim => {
+                            if (totals_data.name == dim.name) {
+                                found = true;
+                                let obj = {
+                                    value: totals_data[i].value,
+                                    html: totals_data[i].html
+                                };
+                                footerData.push(obj);
+                            }
+                        });
+                        
+                        measures.forEach(mes => {
+                            if (totals_data[i].name == mes.name) {
+                                found = true;
+                                let obj = {
+                                    value: totals_data[i].value,
+                                    html: totals_data[i].value
+                                };
+                                footerData.push(obj);
+                            }
+                        });
+
+                        if (!found) {
+                            let obj = {
+                                value: '',
+                                html: ''
+                            };
+                            footerData.push(obj);
+                        }
+                    }
+                }
+            });
+        }
+
 
 
         /***************************************
@@ -164,9 +214,9 @@ looker.plugins.visualizations.add({
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
-                    .attr('class', d => d.type)
-                    .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                    .style('background-color', d => everyOtherRow(d));
+                .attr('class', d => d.type)
+                .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
+                .style('background-color', d => everyOtherRow(d));
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -184,6 +234,10 @@ looker.plugins.visualizations.add({
                 .on('mouseover', d => hover(d))
                 .on('mouseout', d => unhover(d));
 
+        let footer = table.append("tfoot").append("tr")
+            .attr('class', 'footer');
+        footer.selectAll("th")
+            .data()
 
 
 
@@ -205,7 +259,7 @@ looker.plugins.visualizations.add({
                 d.links.forEach(link => {
                     links = links + `
                     <a href="${baseUrl}${link.url}">${link.label}</a>
-                    `;
+                    `; // <a href="${link.url}">${link.label}</a>
                 });
 
                 value = d.links[0].type_label + value;
