@@ -141,11 +141,9 @@ looker.plugins.visualizations.add({
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
         let columns = dimensions.length + measures.length;
-        let baseUrl = 'https://looker.eng.demandjump.net';
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
-        let showTotals = [];
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -415,11 +413,15 @@ looker.plugins.visualizations.add({
                     };
                     footerData.push(obj);
                 } else { 
+                    let totals_names = Object.getOwnPropertyNames(totals_data);
+                    console.log('This is the totals_names', totals_names);
+                    console.log('This is the totals_data', totals_data);
+
                     for(let i = 0; i < totals_data.length; i++) { 
                         let found = false; 
 
                         dimensions.forEach(dim => {
-                            if (totals_data[i].name == dim.name) {
+                            if (totals_names[i].name == dim.name) {
                                 found = true;
                                 let obj = {
                                     value: totals_data[i].value,
@@ -430,7 +432,7 @@ looker.plugins.visualizations.add({
                         });
 
                         measures.forEach(mes => {
-                            if (totals_data[i].name == mes.name) {
+                            if (totals_names[i].name == mes.name) {
                                 found = true;
                                 let obj = {
                                     value: totals_data[i].value,
