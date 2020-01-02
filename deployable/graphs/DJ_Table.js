@@ -124,6 +124,9 @@ looker.plugins.visualizations.add({
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
 
+        console.log('LookerCharts,', Lookercharts);
+        console.log('This is the drillMenu', LookerCharts.Utils.openDrillMenu(options));
+
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
         let columns = dimensions.length + measures.length;
