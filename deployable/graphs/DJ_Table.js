@@ -103,10 +103,18 @@ looker.plugins.visualizations.add({
                 a {
                     text-decoration: none;
                     color: black;
+                    font-size: .8rem;
                 } 
                 
                 li {
                     text-decoration: none;
+                    padding: 12px 16px;
+                    color: black;
+                }
+                .dropdown-header {
+                    padding-left: 6px;
+                    color: #8C989C;
+                    font-size: 1rem;
                 }
 
             </style>
