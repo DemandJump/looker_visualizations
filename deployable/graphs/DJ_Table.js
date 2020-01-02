@@ -219,9 +219,9 @@ looker.plugins.visualizations.add({
             let value = d.value;
             if (d.rendered) value = d.rendered;
             let links = '';
-            let dropDownHeader = d.links[0].type_label + value;
 
             if (d.links) {
+                let dropDownHeader = d.links[0].type_label + value;
                 links = links + `
                     <li class="dropdown-header>${dropDownHeader}</li> 
                 `;
