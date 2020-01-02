@@ -216,21 +216,28 @@ looker.plugins.visualizations.add({
             let value = d.value;
             if (d.rendered) value = d.rendered;
             let links = '';
+            let dropDownHeader = d.links[0].type_label + value;
+
             if (d.links) {
+                links = links + `
+                    <li class="dropdown-header>${dropDownHeader}</li> 
+                `;
                 d.links.forEach(link => {
                     links = links + `
-                    <a href="${link.url}">${link.label}</a>
+                    <li>
+                        <a href="${link.url}">${link.label}</a>
+                    </li>
                     `; // <a href="${baseUrl}${link.url}">${link.label}</a>
                 });
 
-                value = d.links[0].type_label + value;
-                console.log('This is the link value')
 
                 return `
                 <div class="dropdown">
                     <span>${value}</span>
                     <div class="dropdown-content">
-                        ${links}
+                        <ul>
+                            ${links}
+                        </ul>
                     </div>
                 </div>
                 `;
