@@ -216,7 +216,7 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
                 .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                .style('background-color', d => everyOtherRow(d));
+                .style('background-color', d => colorTables(d));
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -226,7 +226,7 @@ looker.plugins.visualizations.add({
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
                 // .style('position', 'relative')
-                .style('background-color', d => everyOtherRow(d))
+                .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 // .text(d => cellText(d))
@@ -237,7 +237,10 @@ looker.plugins.visualizations.add({
         let footer = table.append("tfoot").append("tr")
             .attr('class', 'footer');
         footer.selectAll("th")
-            .data()
+            .data(totalsData).enter().append("th")
+                .attr('class', d => 'totals')
+                .html(d => d.html);
+
 
 
 
@@ -278,7 +281,7 @@ looker.plugins.visualizations.add({
 
         }
 
-        function everyOtherRow(d) {
+        function colorTables(d) {
             if (config.tableTheme == 'classic') {
                 if (d.type == 'dimension_headers' || d.type == 'index_header') return '#CCD8E4';
                 if (d.type == 'measure_headers') return '#E4D1BD';
@@ -420,14 +423,6 @@ looker.plugins.visualizations.add({
 
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
-        }
-
-        function showTotals() {
-            if (config.showTotals == true) {
-                if (queryResponse.totals_data) {
-
-                }
-            } 
         }
 
 
