@@ -185,27 +185,6 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d));
 
 
-                function htmlReturn(d) {
-                    let value = d.value;
-                    if (d.rendered) value = d.rendered;
-                    let links = '';
-                    if (d.links) {
-                        d.links.forEach(link => {
-                            links = links + `
-                            <a href="${baseUrl}${link.url}">${link.label}</a>
-                            `;
-                        });
-                    }
-
-                    return `
-                    <div class="dropdown">
-                        <span>${value}</span>
-                        <div class="dropdown-content">
-                            ${links}
-                        </div>
-                    </div>
-                    `;
-                }
 
 
         /***************************************
@@ -216,6 +195,33 @@ looker.plugins.visualizations.add({
         function cellText(d) {
             if(d.rendered) return d.rendered;
             else return d.value;
+        }
+
+        function htmlReturn(d) {
+            let value = d.value;
+            if (d.rendered) value = d.rendered;
+            let links = '';
+            if (d.links) {
+                d.links.forEach(link => {
+                    links = links + `
+                    <a href="${baseUrl}${link.url}">${link.label}</a>
+                    `;
+                });
+
+                value = d.links[0].type_label + value;
+
+                return `
+                <div class="dropdown">
+                    <span>${value}</span>
+                    <div class="dropdown-content">
+                        ${links}
+                    </div>
+                </div>
+                `;
+            } else {
+                return `<span>${value}</span>`
+            }
+
         }
 
         function everyOtherRow(d) {
