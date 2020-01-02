@@ -37,6 +37,7 @@ looker.plugins.visualizations.add({
                     margin: 0;
                     padding: 0; 
                     box-sizing: border-box;
+                    font-family: 'Roboto';
                 }
 
                 .bold {
@@ -48,7 +49,6 @@ looker.plugins.visualizations.add({
                     margin: 0;
                     border-collapse: collapse;
                     position: relative;
-                    font-family: 'Roboto', Arial, Helvetica, sans-serif;
                     font-weight: 300;
                     font-size: 11px;
                     border-spacing: 0px;
@@ -92,15 +92,18 @@ looker.plugins.visualizations.add({
                     display: none;
                     position: absolute;
                     background-color: #f9f9f9;
-                    min-width: 140px;
                     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-                    padding 6px 8px;
                     z-index: 1;
                 }
 
                 .dropdown:hover .dropdown-content {
                     display: block; 
                 }
+
+                a {
+                    text-decoration: none;
+                    color: black;
+                } 
 
             </style>
         `;
@@ -124,7 +127,7 @@ looker.plugins.visualizations.add({
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
         let columns = dimensions.length + measures.length;
-        let baseUrl = 'looker.eng.demandjump.net';
+        let baseUrl = 'https://looker.eng.demandjump.net';
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
@@ -152,52 +155,7 @@ looker.plugins.visualizations.add({
         let footerData = [];
         let totals_data = queryResponse.totals_data;
         if (queryResponse.totals_data) totalsData();
-
-        function totalsData() {
-            columnData.forEach(column => {
-                if (column.name == '') {
-                    let obj = {
-                        value: 'Total',
-                        html: 'Total'
-                    };
-                    footerData.push(obj);
-                } else { 
-                    for(let i = 0; i < totals_data.length; i++) { 
-                        let found = false; 
-
-                        dimensions.forEach(dim => {
-                            if (totals_data[i].name == dim.name) {
-                                found = true;
-                                let obj = {
-                                    value: totals_data[i].value,
-                                    html: totals_data[i].html
-                                };
-                                footerData.push(obj);
-                            }
-                        });
-
-                        measures.forEach(mes => {
-                            if (totals_data[i].name == mes.name) {
-                                found = true;
-                                let obj = {
-                                    value: totals_data[i].value,
-                                    html: totals_data[i].value
-                                };
-                                footerData.push(obj);
-                            }
-                        });
-
-                        if (!found) {
-                            let obj = {
-                                value: '',
-                                html: ''
-                            };
-                            footerData.push(obj);
-                        }
-                    }
-                }
-            });
-        }
+        console.log('This is the totals data', footerData);
 
 
 
@@ -261,11 +219,12 @@ looker.plugins.visualizations.add({
             if (d.links) {
                 d.links.forEach(link => {
                     links = links + `
-                    <a href="${baseUrl}${link.url}">${link.label}</a>
-                    `; // <a href="${link.url}">${link.label}</a>
+                    <a href="${link.url}">${link.label}</a>
+                    `; // <a href="${baseUrl}${link.url}">${link.label}</a>
                 });
 
                 value = d.links[0].type_label + value;
+                console.log('This is the link value')
 
                 return `
                 <div class="dropdown">
@@ -315,7 +274,7 @@ looker.plugins.visualizations.add({
         }
         function unhover(focus) {
             let row = focus.row;
-            cells.filter(d => d.row === row).style('background-color', d => everyOtherRow(d));
+            cells.filter(d => d.row === row).style('background-color', d => colorTables(d));
         }
 
             
@@ -423,6 +382,53 @@ looker.plugins.visualizations.add({
 
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
+        }
+
+        
+        function totalsData() {
+            columnData.forEach(column => {
+                if (column.name == '') {
+                    let obj = {
+                        value: 'Total',
+                        html: 'Total'
+                    };
+                    footerData.push(obj);
+                } else { 
+                    for(let i = 0; i < totals_data.length; i++) { 
+                        let found = false; 
+
+                        dimensions.forEach(dim => {
+                            if (totals_data[i].name == dim.name) {
+                                found = true;
+                                let obj = {
+                                    value: totals_data[i].value,
+                                    html: totals_data[i].html
+                                };
+                                footerData.push(obj);
+                            }
+                        });
+
+                        measures.forEach(mes => {
+                            if (totals_data[i].name == mes.name) {
+                                found = true;
+                                let obj = {
+                                    value: totals_data[i].value,
+                                    html: totals_data[i].value
+                                };
+                                footerData.push(obj);
+                            }
+                        });
+
+                        if (!found) {
+                            let obj = {
+                                value: '',
+                                html: ''
+                            };
+                            footerData.push(obj);
+                        }
+                    }
+                }
+            });
         }
 
 
