@@ -104,6 +104,10 @@ looker.plugins.visualizations.add({
                     text-decoration: none;
                     color: black;
                 } 
+                
+                li {
+                    text-decoration: none;
+                }
 
             </style>
         `;
