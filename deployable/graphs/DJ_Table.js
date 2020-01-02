@@ -105,9 +105,11 @@ looker.plugins.visualizations.add({
                     color: black;
                     font-size: .8rem;
                 } 
+                ul {
+                    list-style-type: none;
+                }
                 
                 li {
-                    text-decoration: none;
                     padding: 0px 5px 10px;
                     color: black;
                 }
