@@ -166,7 +166,7 @@ looker.plugins.visualizations.add({
                         let found = false; 
 
                         dimensions.forEach(dim => {
-                            if (totals_data.name == dim.name) {
+                            if (totals_data[i].name == dim.name) {
                                 found = true;
                                 let obj = {
                                     value: totals_data[i].value,
@@ -175,7 +175,7 @@ looker.plugins.visualizations.add({
                                 footerData.push(obj);
                             }
                         });
-                        
+
                         measures.forEach(mes => {
                             if (totals_data[i].name == mes.name) {
                                 found = true;
