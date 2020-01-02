@@ -88,6 +88,19 @@ looker.plugins.visualizations.add({
                 }
 
 
+                .dropdown-content {
+                    display: none;
+                    position: absolute;
+                    background-color: #f9f9f9;
+                    min-width: 140px;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    padding 6px 8px;
+                    z-index: 1;
+                }
+
+                .dropdown:hover .dropdown-content {
+                    display: block; 
+                }
 
             </style>
         `;
@@ -111,6 +124,7 @@ looker.plugins.visualizations.add({
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
         let columns = dimensions.length + measures.length;
+        let baseUrl = 'looker.eng.demandjump.net';
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
@@ -165,11 +179,33 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => everyOtherRow(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
-                .text(d => cellText(d))
+                // .text(d => cellText(d))
+                .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
                 .on('mouseout', d => unhover(d));
 
 
+                function htmlReturn(d) {
+                    let value = d.value;
+                    if (d.rendered) value = d.rendered;
+                    let links = '';
+                    if (d.links) {
+                        d.links.forEach(link => {
+                            links = links + `
+                            <a href="${baseUrl}${link.url}">${link.label}</a>
+                            `;
+                        });
+                    }
+
+                    return `
+                    <div class="dropdown">
+                        <span>${value}</span>
+                        <div class="dropdown-content">
+                            ${links}
+                        </div>
+                    </div>
+                    `;
+                }
 
 
         /***************************************
@@ -329,7 +365,7 @@ looker.plugins.visualizations.add({
         function showTotals() {
             if (config.showTotals == true) {
                 if (queryResponse.totals_data) {
-                    
+
                 }
             } 
         }
