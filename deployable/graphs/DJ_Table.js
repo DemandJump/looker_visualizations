@@ -120,6 +120,10 @@ looker.plugins.visualizations.add({
                     font-size: 1rem;
                 }
 
+                td span:hover, div span:hover {
+                    text-decoration: underline;
+                }
+
             </style>
         `;
 
