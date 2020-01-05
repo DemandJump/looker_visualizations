@@ -496,7 +496,6 @@ looker.plugins.visualizations.add({
                     }
                 }
             });
-            console.log('This is the totals_names', totals_names);
             console.log('This is the footer data', footerData);
 
             totalsName = Object.getOwnPropertyNames(totals_data);
@@ -510,6 +509,7 @@ looker.plugins.visualizations.add({
                 if (!column.footerValue) column.footerValue = '';
                 if (!column.footerHtml) column.footerHtml = ''; 
             });
+            console.log('New column data', columnData);
         }
 
 
