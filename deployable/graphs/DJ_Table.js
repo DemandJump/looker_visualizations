@@ -103,6 +103,11 @@ looker.plugins.visualizations.add({
                     z-index: 1;
                 }
 
+
+                .dropdown:hover .dropdown-content {
+                    display: block; 
+                }
+
                 a {
                     text-decoration: none;
                     color: black;
@@ -154,6 +159,7 @@ looker.plugins.visualizations.add({
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
+        let dropDown = true;
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -237,16 +243,19 @@ looker.plugins.visualizations.add({
         function openDropDown(d) {
             console.log('Open dropdown', d);
 
-            d3.select(this).style('display', 'block');
-
-            // .dropdown:hover .dropdown-content {
-            //     display: block; 
-            // }
+            if (dropDown) {
+                d3.select(this).style('display', 'block');
+                dropDown = false;
+            }
         }
 
         function closeDropDown(d) {
             console.log('Close Dropdown', d);
-            d3.selectAll('.dropdown-content').style('display', 'none');
+
+            if (!dropDown) {
+                d3.selectAll('.dropdown-content').style('display', 'none');
+                dropDown = true;
+            }
         }
 
         /***************************************
