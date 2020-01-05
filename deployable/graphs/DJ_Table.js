@@ -152,6 +152,8 @@ looker.plugins.visualizations.add({
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
+        console.log('LookerCharts', lookerCharts.Utils);
+
 
         /***************************************
          * Configuring the data
@@ -171,13 +173,6 @@ looker.plugins.visualizations.add({
         let totals_data = queryResponse.totals_data;
         if (queryResponse.totals_data) totalsData();
         console.log('This is the totals data', footerData);
-
-
-
-        /***************************************
-         * Constructing the settings
-        ***************************************/
-    
 
         
         /***************************************
