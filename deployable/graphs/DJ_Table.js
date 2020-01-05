@@ -58,9 +58,16 @@ looker.plugins.visualizations.add({
                         
                     /* Inside cell spacing */
                 td, th {
-                    padding: 2px 5px;
                     text-decoration: none;
                     font-weight: normal;
+                }
+
+                td {
+                    padding: 4px 5px;
+                }
+                
+                th {
+                    padding: 0px 5px 5px 4px;
                 }
                   
                     /* Table borders */
