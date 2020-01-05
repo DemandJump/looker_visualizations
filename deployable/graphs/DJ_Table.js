@@ -163,8 +163,7 @@ looker.plugins.visualizations.add({
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
-        console.log('LookerCharts', lookerCharts.Utils);
-
+        console.log('LookerCharts', LookerCharts.Utils);
         console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
 
         // let datum = data;
