@@ -497,6 +497,7 @@ looker.plugins.visualizations.add({
                     }
                 }
             });
+            console.log('This is the footer data', footerData);
         }
 
 
