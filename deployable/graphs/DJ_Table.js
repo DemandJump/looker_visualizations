@@ -103,10 +103,6 @@ looker.plugins.visualizations.add({
                     z-index: 1;
                 }
 
-                .dropdown:hover .dropdown-content {
-                    display: block; 
-                }
-
                 a {
                     text-decoration: none;
                     color: black;
@@ -225,7 +221,8 @@ looker.plugins.visualizations.add({
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
-                .on('mouseout', d => unhover(d));
+                .on('mouseout', d => unhover(d))
+                .on('click', d => openDropDown(d));
 
         let footer = table.append("tfoot").append("tr")
             .attr('class', 'footer');
@@ -236,6 +233,13 @@ looker.plugins.visualizations.add({
 
 
 
+        function openDropDown(d) {
+            d3.select(this).style('display', 'block');
+
+            // .dropdown:hover .dropdown-content {
+            //     display: block; 
+            // }
+        }
 
         /***************************************
          * Functions section
