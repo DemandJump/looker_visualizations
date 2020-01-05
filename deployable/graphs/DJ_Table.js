@@ -498,6 +498,18 @@ looker.plugins.visualizations.add({
             });
             console.log('This is the totals_names', totals_names);
             console.log('This is the footer data', footerData);
+
+            totalsName = Object.getOwnPropertyNames(totals_data);
+            columnData.forEach(column => {
+                for(let i = 0; i < totals_data.length; i++) {
+                    if (column.name == totalsNames[i]) {
+                            column.footerValue = totals_data[i].value;
+                            column.footerHtml = totals_data[i].value;
+                    }
+                }
+                if (!column.footerValue) column.footerValue = '';
+                if (!column.footerHtml) column.footerHtml = ''; 
+            });
         }
 
 
