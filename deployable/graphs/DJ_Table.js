@@ -245,7 +245,7 @@ looker.plugins.visualizations.add({
             console.log('Open dropdown', d);
 
             if (dropDown) {
-                d3.select(this).style('display', 'block');
+                this.style.display = 'block';
                 dropDown = false;
             }
         }
