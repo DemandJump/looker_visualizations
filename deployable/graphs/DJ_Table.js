@@ -449,7 +449,7 @@ looker.plugins.visualizations.add({
         }
 
         
-        // function totalsData() {
+        function totalsData() {
         //     columnData.forEach(column => {
         //         if (column.name == '') {
         //             let obj = {
