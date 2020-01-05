@@ -449,54 +449,54 @@ looker.plugins.visualizations.add({
         }
 
         
-        function totalsData() {
-            columnData.forEach(column => {
-                if (column.name == '') {
-                    let obj = {
-                        value: 'Total',
-                        html: 'Total'
-                    };
-                    footerData.push(obj);
-                } else { 
-                    let totals_names = Object.getOwnPropertyNames(totals_data);
-                    console.log('This is the totals_data', totals_data);
+        // function totalsData() {
+        //     columnData.forEach(column => {
+        //         if (column.name == '') {
+        //             let obj = {
+        //                 value: 'Total',
+        //                 html: 'Total'
+        //             };
+        //             footerData.push(obj);
+        //         } else { 
+        //             let totals_names = Object.getOwnPropertyNames(totals_data);
+        //             console.log('This is the totals_data', totals_data);
 
-                    for(let i = 0; i < totals_data.length; i++) { 
-                        let found = false; 
+        //             for(let i = 0; i < totals_data.length; i++) { 
+        //                 let found = false; 
 
-                        dimensions.forEach(dim => {
-                            if (totals_names[i].name == dim.name) {
-                                found = true;
-                                let obj = {
-                                    value: totals_data[i].value,
-                                    html: totals_data[i].html
-                                };
-                                footerData.push(obj);
-                            }
-                        });
+        //                 dimensions.forEach(dim => {
+        //                     if (totals_names[i].name == dim.name) {
+        //                         found = true;
+        //                         let obj = {
+        //                             value: totals_data[i].value,
+        //                             html: totals_data[i].html
+        //                         };
+        //                         footerData.push(obj);
+        //                     }
+        //                 });
 
-                        measures.forEach(mes => {
-                            if (totals_names[i].name == mes.name) {
-                                found = true;
-                                let obj = {
-                                    value: totals_data[i].value,
-                                    html: totals_data[i].value
-                                };
-                                footerData.push(obj);
-                            }
-                        });
+        //                 measures.forEach(mes => {
+        //                     if (totals_names[i].name == mes.name) {
+        //                         found = true;
+        //                         let obj = {
+        //                             value: totals_data[i].value,
+        //                             html: totals_data[i].value
+        //                         };
+        //                         footerData.push(obj);
+        //                     }
+        //                 });
 
-                        if (!found) {
-                            let obj = {
-                                value: '',
-                                html: ''
-                            };
-                            footerData.push(obj);
-                        }
-                    }
-                }
-            });
-            console.log('This is the footer data', footerData);
+        //                 if (!found) {
+        //                     let obj = {
+        //                         value: '',
+        //                         html: ''
+        //                     };
+        //                     footerData.push(obj);
+        //                 }
+        //             }
+        //         }
+        //     });
+        //     console.log('This is the footer data', footerData);
 
             totalsName = Object.getOwnPropertyNames(totals_data);
             columnData.forEach(column => {
