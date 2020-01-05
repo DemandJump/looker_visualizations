@@ -200,6 +200,7 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
+        table.on('click', d => closeDropDown(d));
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
@@ -234,11 +235,18 @@ looker.plugins.visualizations.add({
 
 
         function openDropDown(d) {
+            console.log('Open dropdown', d);
+
             d3.select(this).style('display', 'block');
 
             // .dropdown:hover .dropdown-content {
             //     display: block; 
             // }
+        }
+
+        function closeDropDown(d) {
+            console.log('Close Dropdown', d);
+            d3.selectAll('.dropdown-content').style('display', 'none');
         }
 
         /***************************************
