@@ -103,7 +103,6 @@ looker.plugins.visualizations.add({
                     z-index: 1;
                 }
 
-
                 .dropdown:hover .dropdown-content {
                     display: block; 
                 }
