@@ -165,6 +165,21 @@ looker.plugins.visualizations.add({
 
         console.log('LookerCharts', lookerCharts.Utils);
 
+        console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
+
+        // let datum = data;
+        // for (var row in datum) {
+        //     foreach(var row in datum) {
+        //         var cell = datum[queryResponse.fields.dimensions[0].name];
+        //         var cellElement = myBuildElementFunction(cell);
+        //         cellElement.onclick = function(event) {
+        //           LookerCharts.Utils.openDrillMenu({
+        //               links: cell.links,
+        //               event: event
+        //           });
+        //         };
+        //     }
+        // }
 
         /***************************************
          * Configuring the data
