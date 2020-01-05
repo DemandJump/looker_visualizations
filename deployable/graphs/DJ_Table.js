@@ -459,8 +459,7 @@ looker.plugins.visualizations.add({
                     footerData.push(obj);
                 } else { 
                     let totals_names = Object.getOwnPropertyNames(totals_data);
-                    console.log('This is the totals_names', totals_names);
-
+                    console.log('This is the totals_data', totals_data);
 
                     for(let i = 0; i < totals_data.length; i++) { 
                         let found = false; 
@@ -497,7 +496,7 @@ looker.plugins.visualizations.add({
                     }
                 }
             });
-            console.log('This is the totals_data', totals_data);
+            console.log('This is the totals_names', totals_names);
             console.log('This is the footer data', footerData);
         }
 
