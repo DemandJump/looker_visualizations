@@ -171,7 +171,7 @@ looker.plugins.visualizations.add({
                     margin: 0;
                     padding: 10px 10px;
                     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
-                    border: 1px solid #FFFFFF;
+                    border: 1px solid #F0F0F0;
                     border-top-left-radius: 2px;
                     border-top-right-radius: 2px;
                     border-bottom-left-radius: 2px;
