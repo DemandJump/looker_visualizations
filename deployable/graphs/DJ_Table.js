@@ -249,7 +249,7 @@ looker.plugins.visualizations.add({
 
             if (dropDown) {
                 currentNode = `r${d.row}c${d.column}`;
-                d3.select(`#${currentNode}`).style('display', block);
+                d3.select(`#${currentNode}`).style('display', 'block');
                 dropDown = false;
             }
         }
