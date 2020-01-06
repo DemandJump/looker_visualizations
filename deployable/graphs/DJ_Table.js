@@ -358,7 +358,7 @@ looker.plugins.visualizations.add({
             if (d.footerHtml != 'Total') {
                 return d.footerHtml;
             } else {
-                return `<span class="totalTitle">${d.footerHtml}laksdalskdjldjaskldjasldj</span>`;
+                return `<span class="totalTitle">${d.footerHtml}</span>`;
             }
         } 
 
