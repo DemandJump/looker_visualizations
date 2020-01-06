@@ -38,6 +38,7 @@ looker.plugins.visualizations.add({
                     padding: 0; 
                     box-sizing: border-box;
                     font-family: 'Roboto';
+                    color: #333333;
                 }
 
                 .bold {
@@ -228,7 +229,7 @@ looker.plugins.visualizations.add({
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .style('border-left', d => lbIndent(d))
-                .style('border-bottom', d => { if (d.row == rowData.length) '1px solid #333333'})
+                .style('border-bottom', d => { if (d.row == rowData.length) return '1px solid #333333'})
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
