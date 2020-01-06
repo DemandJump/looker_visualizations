@@ -93,6 +93,7 @@ looker.plugins.visualizations.add({
                 th.dimension_headers, th.measure_headers, th.index_header {
                     position: sticky;
                     top: 0;
+                    padding: 4px 5px; 
                 }
 
                 th.totals {
