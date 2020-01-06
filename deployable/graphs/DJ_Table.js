@@ -559,6 +559,7 @@ looker.plugins.visualizations.add({
             if (config.rowNumbers == true) columnData[0].footerHtml = 'Total';
         }
 
+        
 
             /**************** Done! *****************/
         doneRendering(); 
