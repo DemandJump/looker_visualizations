@@ -143,6 +143,7 @@ looker.plugins.visualizations.add({
                     font-size: 11px; 
                     color: black;
                     text-align: center;
+                    padding: 4px 5px;
                 }
 
             </style>
