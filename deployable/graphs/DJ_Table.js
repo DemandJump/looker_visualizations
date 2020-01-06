@@ -176,14 +176,12 @@ looker.plugins.visualizations.add({
                     background-color: #F0F0F0;
                 }
 
-                ul {
-                    margin: 0;
-                    margin-block-start: 0;
-                    margin-block-end: 0;
+                .linkHolder {
+                    padding: 10px 10px;
                 }
 
-                .ulDropdown li {
-                    padding: 10px 10px;
+                .dropdownLink {
+                    width: 100%;
                 }
 
 
@@ -303,9 +301,9 @@ looker.plugins.visualizations.add({
                 `;
                 d.links.forEach(link => {
                     links = links + `
-                    <li class="dropdownHover">
+                    <div class="dropdownLink">
                         <a class="dropdownHover" href="${link.url}">${link.label}</a>
-                    </li>
+                    </div>
                     `;
                 });
 
@@ -314,9 +312,9 @@ looker.plugins.visualizations.add({
                     <span>${value}</span>
                     <div class="dropdown-content" id="r${d.row}c${d.column}">
                         ${linkHeader}
-                        <ul class="ulDropdown">
+                        <div class="linkHolder">
                             ${links}
-                        </ul>
+                        </div>
                     </div>
                 </div>
                 `;
