@@ -33,11 +33,14 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
             <style>
                 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+                * {
+                    font-family: Arial, Roboto;
+                }
+
                 html, body {
                     margin: 0;
                     padding: 0; 
                     box-sizing: border-box;
-                    font-family: "Open Sans", Roboto;
                     color: #404040;
                 }
 
@@ -52,7 +55,6 @@ looker.plugins.visualizations.add({
                     position: relative;
                     font-weight: 300;
                     font-size: 11px;
-                    font-family: "Open Sans", Roboto;
                     border-spacing: 0px;
                     width: 100%;
                     overflow-x: auto;
@@ -145,6 +147,11 @@ looker.plugins.visualizations.add({
                     left: 4px;
                     bottom: 4px;
                     text
+                }
+
+                .dropdownHeader {
+                    font-size: 10px;
+
                 }
 
             </style>
