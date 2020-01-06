@@ -142,7 +142,6 @@ looker.plugins.visualizations.add({
                     position: absolute;
                     left: 4px;
                     bottom: 4px;
-                    text
                 }
 
                 .dropdown {
