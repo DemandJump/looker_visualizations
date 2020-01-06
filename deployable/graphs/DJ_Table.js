@@ -123,6 +123,7 @@ looker.plugins.visualizations.add({
                 li {
                     padding: 0px 5px 10px;
                     font-size: 12px;
+                    font-weight: 300;
                     color: #333333;
                 }
 
@@ -151,6 +152,7 @@ looker.plugins.visualizations.add({
 
                 .dropdown-header {
                     font-size: 10px;
+                    font-weight: 300;
                     text-transform: uppercase;
                     padding: 3px 10px;
                     color: #8C989C;
