@@ -458,74 +458,18 @@ looker.plugins.visualizations.add({
 
         
         function totalsData() {
-        //     columnData.forEach(column => {
-        //         if (column.name == '') {
-        //             let obj = {
-        //                 value: 'Total',
-        //                 html: 'Total'
-        //             };
-        //             footerData.push(obj);
-        //         } else { 
-        //             let totals_names = Object.getOwnPropertyNames(totals_data);
-        //             console.log('This is the totals_data', totals_data);
-
-        //             for(let i = 0; i < totals_data.length; i++) { 
-        //                 let found = false; 
-
-        //                 dimensions.forEach(dim => {
-        //                     if (totals_names[i].name == dim.name) {
-        //                         found = true;
-        //                         let obj = {
-        //                             value: totals_data[i].value,
-        //                             html: totals_data[i].html
-        //                         };
-        //                         footerData.push(obj);
-        //                     }
-        //                 });
-
-        //                 measures.forEach(mes => {
-        //                     if (totals_names[i].name == mes.name) {
-        //                         found = true;
-        //                         let obj = {
-        //                             value: totals_data[i].value,
-        //                             html: totals_data[i].value
-        //                         };
-        //                         footerData.push(obj);
-        //                     }
-        //                 });
-
-        //                 if (!found) {
-        //                     let obj = {
-        //                         value: '',
-        //                         html: ''
-        //                     };
-        //                     footerData.push(obj);
-        //                 }
-        //             }
-        //         }
-        //     });
-        //     console.log('This is the footer data', footerData);
-
             totalsName = Object.getOwnPropertyNames(totals_data);
             console.log('This is the totals name', totalsName);
             console.log('QueryResponse totals_data', totals_data);
-
-            console.log('qtd1', totals_data[0]);
-            console.log('qtd2', totals_data[1]);
-            console.log('qtd3', totals_data[2]);
             columnData.forEach(column => {
                 column.footerValue = '';
                 column.footerHtml = ''; 
             });
             columnData.forEach(column => {
-                console.log('current column_data', column); 
-                for(let i = 0; i < totals_data.length; i++) {
-                    console.log(`current totals_data: ${totals_data[i]}, `);
-
-                    if (column.name == totalsName[i]) {
-                            column.footerValue = totals_data[i].value;
-                            column.footerHtml = totals_data[i].html;
-                    }
+                console.log('current column_data', column);
+                if (totals_data[column.name]) {
+                    column.footerValue = totals_data[column.name].value;
+                    column.footerHtml = totals_data[column.name].html;
                 }
             });
             console.log('New column data', columnData);
