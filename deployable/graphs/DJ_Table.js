@@ -129,7 +129,7 @@ looker.plugins.visualizations.add({
                     color: #333333;
                 }
 
-                td span:hover, div span:hover {
+                td span:hover, div.dropdown span:hover {
                     text-decoration: underline;
                 }
 
