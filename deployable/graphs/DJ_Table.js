@@ -170,6 +170,7 @@ looker.plugins.visualizations.add({
                     padding: 10px 10px;
                 }
 
+                
             </style>
         `;
 
