@@ -229,7 +229,7 @@ looker.plugins.visualizations.add({
                 .style('color', d => textColor(d))
                 .style('text-align', d => textAlign(d))
                 .style('border-left', d => lbIndent(d))
-                .style('border-bottom', d => { if (d.row == rowData.length) return '1px solid #333333'; })
+                .style('border-bottom', d => { if (d.row == rowData.length - 1) return '1px solid #333333'; })
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
                 .on('mouseout', d => unhover(d))
@@ -240,6 +240,7 @@ looker.plugins.visualizations.add({
         footer.selectAll("th").data(columnData).enter().append("th")
             .attr('class', d => 'totals')
             .html(d => constructFooter(d))
+            .style('border-top', '1px solid #333333')
             .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; });
      
                 
