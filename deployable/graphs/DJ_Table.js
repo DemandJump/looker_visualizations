@@ -141,10 +141,15 @@ looker.plugins.visualizations.add({
                     text-decoration: underline;
                 }
 
+                tfoot {
+                    text-align: center;
+                }
+
                 .totals a, .totals {
                     font-size: 11px; 
                     border-top: 1px solid black;
                     color: black;
+                    text-align: center;
                 }
 
             </style>
@@ -238,7 +243,11 @@ looker.plugins.visualizations.add({
         footer.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => 'totals')
-                .html(d => d.footerHtml);
+                .html(d => d.footerHtml)
+                .style('border-top', '1px solid black')
+                .style('border-left', d => {
+                    if (d.column != 0 && d.footerHtml != '') return '#C2CDD8';
+                });
 
 
 
