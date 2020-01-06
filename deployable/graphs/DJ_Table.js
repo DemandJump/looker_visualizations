@@ -522,7 +522,7 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < totals_data.length; i++) {
                     console.log(`current totals_data: ${totals_data[i]}, `);
 
-                    if (column.name == totalsNames[i]) {
+                    if (column.name == totalsName[i]) {
                             column.footerValue = totals_data[i].value;
                             column.footerHtml = totals_data[i].html;
                     }
