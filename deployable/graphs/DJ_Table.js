@@ -224,7 +224,6 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                .style('id', d => `r${d.row}c${d.column}`)
                 .style('background-color', d => colorTables(d))
                 .style('color', d => textColor(d))
                 .style('text-align', d => textAlign(d))
@@ -286,7 +285,7 @@ looker.plugins.visualizations.add({
             if (d.links) {
                 let dropDownHeader = d.links[0].type_label + value;
                 links = links + `
-                    <li class="dropdown-header">${dropDownHeader}</li> 
+                    <li class="dropdown-header" id="r${d.row}c${d.column}">${dropDownHeader}</li> 
                 `;
                 d.links.forEach(link => {
                     links = links + `
