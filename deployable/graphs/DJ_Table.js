@@ -241,7 +241,7 @@ looker.plugins.visualizations.add({
             .attr('class', d => 'totals')
             .html(d => constructFooter(d))
             .style('border-top', '1px solid #333333')
-            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; });
+            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
      
                 
 
