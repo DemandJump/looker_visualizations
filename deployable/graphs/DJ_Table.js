@@ -151,6 +151,7 @@ looker.plugins.visualizations.add({
                 }
 
                 .dropdown-content {
+                    display: block;
                     max-width: 400px;
                     min-width: 160px;
                     padding-top: 10px;
@@ -182,6 +183,7 @@ looker.plugins.visualizations.add({
                 }
 
                 .dropdownHover {
+                    display: block;
                     width: 100%;
                     padding: 10px 10px;
                 }
