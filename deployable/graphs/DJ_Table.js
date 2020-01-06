@@ -289,7 +289,7 @@ looker.plugins.visualizations.add({
                     <li class="dropdownHover>
                         <a class="dropdownHover" href="${link.url}">${link.label}</a>
                     </li>
-                    `; // <a href="${baseUrl}${link.url}">${link.label}</a>
+                    `;
                 });
 
 
