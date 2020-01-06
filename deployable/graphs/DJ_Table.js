@@ -176,10 +176,11 @@ looker.plugins.visualizations.add({
                     background-color: #F0F0F0;
                 }
 
-                ul {
+                ul,li {
+                    list-style-type: none;
+                    list-style-position: inside;
                     margin: 0;
-                    margin-block-start: 0;
-                    margin-block-end: 0;
+                    padding: 0;
                 }
 
                 .ulDropdown li {
