@@ -180,6 +180,7 @@ looker.plugins.visualizations.add({
                 .linkHolder {
                     padding: 0;
                     margin: 0;
+                    width: 100%;
                 }
 
                 .dropdownHover {
