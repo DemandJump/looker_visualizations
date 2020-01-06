@@ -142,6 +142,8 @@ looker.plugins.visualizations.add({
                 .totalTitle {
                     position: absolute;
                     left: 0;
+                    bottom: 4px;
+                    text
                 }
 
             </style>
@@ -347,8 +349,12 @@ looker.plugins.visualizations.add({
 
         function lbIndent(d) {
             if (d.indent) {
-                if (d.type == 'dimensions') return '1px solid #c4cdd7';
-                if (d.type == 'measures') return '1px solid #d6c6b5';
+                if (config.tableTheme == 'classic') {
+                    if (d.type == 'dimensions') return '1px solid #c4cdd7';
+                    if (d.type == 'measures') return '1px solid #d6c6b5';
+                } else if (config.tableTheme == 'gray') {
+                    return '1px solid #e4e5e6';
+                }
             } else {
                 return '0px solid #c4cdd7';
             }
