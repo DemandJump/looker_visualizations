@@ -397,7 +397,6 @@ looker.plugins.visualizations.add({
 
             let columnLength = 0;
             let counter = 0;
-            let cValue = 0;
             rowData.forEach((row, index) => {
                 columnLength = row.length;
                 for(let i = 0; i < row.length; i++) {
@@ -409,8 +408,8 @@ looker.plugins.visualizations.add({
                     row[i].row = index;
                     
                     counter++;
-                    if (counter == columnLength) cValue++;
-                    row[i].column = cValue;
+                    if (counter == columnLength) counter = 0;
+                    row[i].column = counter;
                 }
             });
         }
