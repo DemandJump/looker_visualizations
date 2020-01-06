@@ -79,10 +79,10 @@ looker.plugins.visualizations.add({
 
 
                 /* Color the corner cell of the table */
-                tr.index { background-color: #CCD8E4;}
+                tr.index { background-color: #CCD8E4; }
                     /* Remove some spacing on the index columns */
-                td:first-child {padding-left: 3px;}
-                th:first-child {padding-left: 3px;}
+                td:first-child { padding-left: 3px; }
+                th:first-child { padding-left: 3px; }
                 
                     /* Header */
                 th {
@@ -96,8 +96,8 @@ looker.plugins.visualizations.add({
                 }
 
                 th.totals {
-                  position: sticky;
-                  bottom; 0;
+                    position: sticky;
+                    bottom; 0;
                 }
 
 
