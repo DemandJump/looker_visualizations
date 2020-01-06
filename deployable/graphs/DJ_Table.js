@@ -97,6 +97,11 @@ looker.plugins.visualizations.add({
                     top: 0;
                 }
 
+                th.totals {
+                  position: sticky;
+                  top; 100%;
+                }
+
 
                 .dropdown-content {
                     display: none;
@@ -138,7 +143,8 @@ looker.plugins.visualizations.add({
 
                 .totals a, .totals {
                     font-size: 11px; 
-                    border-top: 1px solid color: black;  
+                    border-top: 1px solid black;
+                    color: black;
                 }
 
             </style>
@@ -459,7 +465,7 @@ looker.plugins.visualizations.add({
                 column.footerValue = '';
                 column.footerHtml = ''; 
             });
-            
+
             columnData.forEach(column => {
                 if (totals_data[column.name]) {
                     column.footerValue = totals_data[column.name].value;
