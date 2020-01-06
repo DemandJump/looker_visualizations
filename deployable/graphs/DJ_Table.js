@@ -37,7 +37,7 @@ looker.plugins.visualizations.add({
                     margin: 0;
                     padding: 0; 
                     box-sizing: border-box;
-                    font-family: Roboto;
+                    font-family: "Open Sans", Roboto;
                     color: #404040;
                 }
 
@@ -52,7 +52,7 @@ looker.plugins.visualizations.add({
                     position: relative;
                     font-weight: 300;
                     font-size: 11px;
-                    font-family: Roboto;
+                    font-family: "Open Sans",Roboto;
                     border-spacing: 0px;
                     width: 100%;
                     overflow-x: auto;
