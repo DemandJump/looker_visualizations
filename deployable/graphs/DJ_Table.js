@@ -176,6 +176,7 @@ looker.plugins.visualizations.add({
         let columnOrder = [];
         let currentNode = ``;
         let dropDown = true;
+        let currentNode;
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -255,12 +256,14 @@ looker.plugins.visualizations.add({
               dropDown = true;
             }
 
-            if (dropDown) {
+            if (dropDown && d != currentNode) {
                 currentNode = `r${d.row}c${d.column}`;
                 console.log(`Current node:`, currentNode);
                 d3.select(`#${currentNode}`).style('display', 'block');
                 dropDown = false;
             }
+            
+            currentNode = d;
         }
 
 
