@@ -282,11 +282,12 @@ looker.plugins.visualizations.add({
             let value = d.value;
             if (d.rendered) value = d.rendered;
             let links = '';
+            let linkHeader = '';
 
             if (d.links) {
                 let dropDownHeader = d.links[0].type_label + value;
-                links = links + `
-                    <li class="dropdown-header">${dropDownHeader}</li> 
+                linkHeader = `
+                    <span class="dropdown-header">${dropDownHeader}</span> 
                 `;
                 d.links.forEach(link => {
                     links = links + `
@@ -301,6 +302,7 @@ looker.plugins.visualizations.add({
                 <div class="dropdown">
                     <span>${value}</span>
                     <div class="dropdown-content" id="r${d.row}c${d.column}">
+                        ${linkHeader}
                         <ul>
                             ${links}
                         </ul>
