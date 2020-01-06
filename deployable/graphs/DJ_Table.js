@@ -52,7 +52,7 @@ looker.plugins.visualizations.add({
                     position: relative;
                     font-weight: 300;
                     font-size: 11px;
-                    font-family: "Open Sans",Roboto;
+                    font-family: "Open Sans", Roboto;
                     border-spacing: 0px;
                     width: 100%;
                     overflow-x: auto;
@@ -208,7 +208,6 @@ looker.plugins.visualizations.add({
          * Build the visual
         ***************************************/
         let table = this._table;
-        table.on('click', d => closeDropDown(d));
         let header = table.append("thead").append("tr");
         header.selectAll("th")
             .data(columnData).enter().append("th")
@@ -251,22 +250,19 @@ looker.plugins.visualizations.add({
             d3.event.stopPropagation();
             console.log('Open dropdown', d);
 
+            if (!dropDown) {
+              d3.selectAll('.dropdown-content').style('display', 'none');
+              dropDown = true;
+            }
+
             if (dropDown) {
                 currentNode = `r${d.row}c${d.column}`;
                 console.log(`Current node:`, currentNode);
                 d3.select(`#${currentNode}`).style('display', 'block');
-                dropDown = true;
+                dropDown = false;
             }
         }
 
-        function closeDropDown(d) {
-            console.log('Close Dropdown', d);
-
-            if (!dropDown) {
-                d3.selectAll('.dropdown-content').style('display', 'none');
-                dropDown = true;
-            }
-        }
 
         /***************************************
          * Functions section
