@@ -235,9 +235,9 @@ looker.plugins.visualizations.add({
         let footer = table.append("tfoot").append("tr")
             .attr('class', 'footer');
         footer.selectAll("th")
-            .data(totalsData).enter().append("th")
+            .data(columnData).enter().append("th")
                 .attr('class', d => 'totals')
-                .html(d => d.html);
+                .html(d => d.footerHtml);
 
 
 
