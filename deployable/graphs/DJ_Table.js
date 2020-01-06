@@ -306,7 +306,11 @@ looker.plugins.visualizations.add({
                 `;
                 d.links.forEach(link => {
                     links = links + `
-                        <a class="dropdownHover" href="${link.url}">${link.label}</a>
+                        <tr>
+                            <td>
+                                <a class="dropdownHover" href="${link.url}">${link.label}</a>
+                            </td>
+                        </tr>
                     `;
                 });
 
@@ -315,9 +319,9 @@ looker.plugins.visualizations.add({
                     <span>${value}</span>
                     <div class="dropdown-content" id="r${d.row}c${d.column}">
                         ${linkHeader}
-                        <div class="linkHolder">
+                        <table class="linkHolder">
                             ${links}
-                        </div>
+                        </table>
                     </div>
                 </div>
                 `;
