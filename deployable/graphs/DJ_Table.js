@@ -177,6 +177,7 @@ looker.plugins.visualizations.add({
                 }
 
                 ul {
+                    display: table; 
                     margin: 0;
                     margin-block-start: 0;
                     margin-block-end: 0;
