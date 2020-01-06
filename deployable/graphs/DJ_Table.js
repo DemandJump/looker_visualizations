@@ -74,7 +74,7 @@ looker.plugins.visualizations.add({
                 td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 td.totals:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                
+
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.totals:not(:first-child) { border-left: 1px solid #C2CDD8; }
@@ -136,9 +136,9 @@ looker.plugins.visualizations.add({
                     text-decoration: underline;
                 }
 
-                tr.footer th {
-                    font-size: 11px;
-                    
+                .totals a, .totals {
+                    font-size: 11px; 
+                    border-top: 1px solid color: black;  
                 }
 
             </style>
