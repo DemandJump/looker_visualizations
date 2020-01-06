@@ -184,7 +184,6 @@ looker.plugins.visualizations.add({
 
                 .ulDropdown li {
                     padding: 10px 10px;
-                    display: table-cell;
                 }
 
 
