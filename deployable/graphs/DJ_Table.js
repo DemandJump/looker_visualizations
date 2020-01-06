@@ -244,7 +244,7 @@ looker.plugins.visualizations.add({
                     console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
                     if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
                 })                
-                .style('border-top', '1px solid #333333');
+                // .style('border-top', '1px solid #333333');
 
 
 
