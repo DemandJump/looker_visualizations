@@ -142,7 +142,7 @@ looker.plugins.visualizations.add({
 
                 .totalTitle {
                     position: absolute;
-                    left: 0;
+                    left: 4px;
                     bottom: 4px;
                     text
                 }
