@@ -24,7 +24,6 @@ looker.plugins.visualizations.add({
             type: 'boolean',
             default: true,
         }
-
     },
 
 
@@ -182,7 +181,6 @@ looker.plugins.visualizations.add({
             </style>
         `;
 
-
         this._table = d3.select(element).append('table')
             .attr('class', 'table')
             .style('position', 'relative');
@@ -197,7 +195,6 @@ looker.plugins.visualizations.add({
         console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
-
         // console.log('This is the drillMenu', LookerCharts.Utils.openDrillMenu(options));
 
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
@@ -232,9 +229,10 @@ looker.plugins.visualizations.add({
         constructRowData();
         console.log('This is the row data', rowData);
 
-        let footerData = [];
-        let totals_data = queryResponse.totals_data;
-        if (queryResponse.totals_data) totalsData();
+        if (queryResponse.totals_data) {
+            let totals_data = queryResponse.totals_data;
+            totalsData();
+        }
 
         
         /***************************************
@@ -272,9 +270,7 @@ looker.plugins.visualizations.add({
             .attr('class', d => 'totals')
             .html(d => constructFooter(d))
             .style('border-top', '1px solid #333333')
-            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
-     
-              
+            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });      
 
 
         /***************************************
@@ -305,7 +301,6 @@ looker.plugins.visualizations.add({
                     </li>
                     `;
                 });
-
 
                 return `
                 <div class="dropdown">
@@ -474,13 +469,13 @@ looker.plugins.visualizations.add({
             borderLeftIndent();
             function borderLeftIndent() {
                 rowData.forEach(row => {
-                  for(let i = 0; i < row.length; i++) {
-                      if (i != 0) {
-                          row[i].indent = true;
-                      } else {
-                          row[i].indent = false;
-                      }
-                  }
+                    for(let i = 0; i < row.length; i++) {
+                        if (i != 0) {
+                            row[i].indent = true;
+                        } else {
+                            row[i].indent = false;
+                        }
+                    }
                 });
             }
 
@@ -565,79 +560,8 @@ looker.plugins.visualizations.add({
         }
 
 
-        function buildElementInnerhtml() {
-            let base = `
-                <style>
-                @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-                html, body {
-                    margin: 0;
-                    padding: 0; 
-                    box-sizing: border-box;
-                }
-
-                .bold {
-                    font-size: 11px;
-                    font-weight: bold; 
-                }
-            
-                table { 
-                    margin: 0;
-                    border-collapse: collapse;
-                    font-family: 'Roboto', Arial, Helvetica, sans-serif;
-                    font-weight: 300;
-                    font-size: 11px;
-                    border-spacing: 0px;
-                    width: 100%;
-                    overflow-x: auto;
-                }
-                        
-                    /* Inside cell spacing */
-                td, th {
-                    padding: 2px 5px;
-                    text-decoration: none;
-                    font-weight: normal;
-                }
-                  
-                    /* Table borders */
-                td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-
-
-                /* Color the corner cell of the table */
-                tr.index { background-color: #CCD8E4;}
-                    /* Remove some spacing on the index columns */
-                td:first-child {padding-left: 3px;}
-                th:first-child {padding-left: 3px;}
-                
-                    /* Header */
-                th {
-                    text-align: left;
-                    color: #2E343F;
-                }
-            `;
-            let classic = `
-                th.dimensions, th.index {background-color: #CCD8E4;}
-                th.dimensions {background-color: #E4D1BD;}
-                </style>
-            `;
-            let gray = `
-                th {background-color: #E4E5E6;}
-                </style>
-            `; 
-
-            if (config.tableTheme == 'classic') {
-                html = base + classic;
-            } else if (config.tableTheme == 'gray') {
-                html = base + gray;
-            }
-
-        }
-
-
             /**************** Done! *****************/
-    doneRendering(); // Always call done to indicate a visualization has finished rendering
+        doneRendering(); 
     }
 });
 
