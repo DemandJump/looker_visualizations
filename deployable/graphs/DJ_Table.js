@@ -514,8 +514,9 @@ looker.plugins.visualizations.add({
                 column.footerHtml = ''; 
             });
             columnData.forEach(column => {
+                console.log('current column_data', column); 
                 for(let i = 0; i < totals_data.length; i++) {
-                    console.log(`current totals_data: ${totals_data[i]}`, totals_data[i]);
+                    console.log(`current totals_data: ${totals_data[i]}, `);
 
                     if (column.name == totalsNames[i]) {
                             column.footerValue = totals_data[i].value;
