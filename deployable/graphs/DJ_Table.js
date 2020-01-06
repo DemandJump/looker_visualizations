@@ -227,9 +227,11 @@ looker.plugins.visualizations.add({
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .style('border-left', d => { 
-                    console.log('border-left', d);
-                    if (d.column == 0) return '1px solid #C2CDD8';
-                    // return '0px solid #C2CDD8';
+                    if (d.indent == false) { 
+                        return '0px solid #C2CDD8'; 
+                    } else {
+                        return '1px solid #C2CDD8';
+                    }
                 })
                 .style('border-bottom', d => { if (d.row == rowData.length) '1px solid #333333'})
                 // .text(d => cellText(d))
@@ -404,6 +406,10 @@ looker.plugins.visualizations.add({
 
             showRowNumbers();
             formatHeaders();
+            borderLeftIndent();
+            function borderLeftIndent() {
+                rowData.forEach(row => row[0].indent = false);
+            }
 
             let columnLength = 0;
             let counter = 0;
