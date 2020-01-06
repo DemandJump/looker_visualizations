@@ -33,9 +33,7 @@ looker.plugins.visualizations.add({
         element.innerHTML =`
             <style>
                 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-                * {
-                    font-family: Arial, Roboto;
-                }
+
 
                 html, body {
                     margin: 0;
@@ -95,7 +93,6 @@ looker.plugins.visualizations.add({
                     position: sticky;
                     bottom; 0;
                 }
-
 
                 .dropdown-content {
                     display: none;
@@ -171,6 +168,12 @@ looker.plugins.visualizations.add({
                 .ulDropdown {
                     margin: 0;
                     padding: 10px 10px;
+                    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+                    border: 1px solid #FFFFFF;
+                    border-top-left-radius: 2px;
+                    border-top-right-radius: 2px;
+                    border-bottom-left-radius: 2px;
+                    border-bottom-right-radius: 2px;
                 }
 
 
