@@ -472,6 +472,9 @@ looker.plugins.visualizations.add({
                     column.footerHtml = totals_data[column.name].html;
                 }
             });
+            if (config.rowNumbers == true) {
+                columnData[0].footerHtml = 'Total';
+            }
             console.log('New column data', columnData);
         }
 
