@@ -248,6 +248,7 @@ looker.plugins.visualizations.add({
 
 
         function openDropDown(d) {
+            d3.event.stopPropagation();
             console.log('Open dropdown', d);
 
             if (dropDown) {
