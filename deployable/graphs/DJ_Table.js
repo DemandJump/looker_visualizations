@@ -167,7 +167,7 @@ looker.plugins.visualizations.add({
                     font-weight: 300;
                     text-transform: uppercase;
                     text-decoration: none;
-                    padding: 3px 10px;
+                    padding: 10px 10px;
                     color: #8C989C;
                     max-width: 280px;
                 }
