@@ -177,11 +177,13 @@ looker.plugins.visualizations.add({
                 }
 
                 .linkHolder {
-                    padding: 10px 10px;
+                    padding: 0;
+                    margin: 0;
                 }
 
-                .dropdownLink {
+                .dropdownHover {
                     width: 100%;
+                    padding: 10px 10px;
                 }
 
 
@@ -301,9 +303,7 @@ looker.plugins.visualizations.add({
                 `;
                 d.links.forEach(link => {
                     links = links + `
-                    <div class="dropdownLink">
                         <a class="dropdownHover" href="${link.url}">${link.label}</a>
-                    </div>
                     `;
                 });
 
