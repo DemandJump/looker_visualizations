@@ -287,7 +287,7 @@ looker.plugins.visualizations.add({
                 d.links.forEach(link => {
                     links = links + `
                     <li class="dropdownHover>
-                        <a href="${link.url}">${link.label}</a>
+                        <a class="dropdownHover: href="${link.url}">${link.label}</a>
                     </li>
                     `; // <a href="${baseUrl}${link.url}">${link.label}</a>
                 });
