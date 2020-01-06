@@ -349,7 +349,7 @@ looker.plugins.visualizations.add({
         }
 
         function lbIndent(d) {
-            if (d.indent == false) {
+            if (d.indent) {
                 return '1px solid #C2CDD8';
             } else {
                 return '0px solid #C2CDD8';
