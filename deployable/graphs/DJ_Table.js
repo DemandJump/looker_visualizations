@@ -408,7 +408,7 @@ looker.plugins.visualizations.add({
                     row[i].row = index;
                     
                     counter++;
-                    if (counter == columnLength) counter = 0;
+                    if (counter == columnLength + 1) counter = 0;
                     row[i].column = counter;
                 }
             });
