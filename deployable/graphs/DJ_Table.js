@@ -226,7 +226,10 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
-                .style('border-left', d => { if (d.column != 0) return '1px solid #C2CDD8'})
+                .style('border-left', d => { 
+                    console.log('border-left', d);
+                    if (d.column != 0) return '1px solid #C2CDD8';
+                })
                 .style('border-bottom', d => { if (d.row == rowData.length) '1px solid #333333'})
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
