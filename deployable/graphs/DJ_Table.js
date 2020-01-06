@@ -68,7 +68,7 @@ looker.plugins.visualizations.add({
                 }
                 
                 th {
-                    padding: 0px 5px 5px 4px;
+                    padding: 2px 5px 2px 5px;
                 }
                   
                     /* Table borders 
@@ -94,7 +94,6 @@ looker.plugins.visualizations.add({
                 th.dimension_headers, th.measure_headers, th.index_header {
                     position: sticky;
                     top: 0;
-                    padding: 4px 5px; 
                 }
 
                 th.totals {
@@ -146,6 +145,11 @@ looker.plugins.visualizations.add({
                     color: black;
                     text-align: center;
                     padding: 4px 5px;
+                }
+
+                .totalTitle {
+                    position: absolute;
+                    left: 0;
                 }
 
             </style>
@@ -229,7 +233,7 @@ looker.plugins.visualizations.add({
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .style('border-left', d => lbIndent(d))
-                .style('border-bottom', d => { if (d.row == rowData.length) return '1px solid #333333'})
+                .style('border-bottom', d => { if (d.row == rowData.length) return '1px solid #333333'; })
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
@@ -241,13 +245,9 @@ looker.plugins.visualizations.add({
         footer.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => 'totals')
-                .html(d => d.footerHtml)
-                .style('border-left', (d, index) => {
-                    console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
-                    if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
-                })                
+                .html(d => constructFooter(d))
+                .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; })                
                 // .style('border-top', '1px solid #333333');
-
 
 
         function openDropDown(d) {
@@ -357,6 +357,15 @@ looker.plugins.visualizations.add({
                 return '0px solid #C2CDD8';
             }
         }
+
+        function constructFooter(d) {
+            if (d.footerHtml != 'total') {
+                return d.footerHtml;
+            } else {
+                return `<span class="totalTitle">${d.footerHtml}</span>`;
+            }
+        } 
+
 
             
             /***** Buidling the data *****/
