@@ -242,29 +242,7 @@ looker.plugins.visualizations.add({
             .style('border-top', '1px solid #333333')
             .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
      
-                
-
-
-
-
-        function openDropDown(d) {
-            d3.event.stopPropagation();
-            console.log('Open dropdown', d);
-
-            if (!dropDown) {
-              d3.selectAll('.dropdown-content').style('display', 'none');
-              dropDown = true;
-            }
-
-            if (dropDown && d != currentNode) {
-                currentNode = `r${d.row}c${d.column}`;
-                console.log(`Current node:`, currentNode);
-                d3.select(`#${currentNode}`).style('display', 'block');
-                dropDown = false;
-            }
-            
-            currentNode = d;
-        }
+              
 
 
         /***************************************
@@ -378,6 +356,26 @@ looker.plugins.visualizations.add({
                 return `<span class="totalTitle">${d.footerHtml}</span>`;
             }
         } 
+
+        function openDropDown(d) {
+            d3.event.stopPropagation();
+            console.log('Open dropdown', d);
+
+            if (!dropDown) {
+                d3.selectAll('.dropdown-content').style('display', 'none');
+                dropDown = true;
+            }
+
+            if (dropDown && d != currentNode) {
+                currentNode = `r${d.row}c${d.column}`;
+                console.log(`Current node:`, currentNode);
+                d3.select(`#${currentNode}`).style('display', 'block');
+                dropDown = false;
+            }
+
+            currentNode = d;
+        }
+
 
 
             
