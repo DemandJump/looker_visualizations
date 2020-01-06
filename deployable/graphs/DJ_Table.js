@@ -226,6 +226,9 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
+                .style('border-bottom', d => {
+                    if (d.row == rowData.length) return '1px solid black'
+                })
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
@@ -241,7 +244,7 @@ looker.plugins.visualizations.add({
                 .style('border-top', '1px solid black')
                 .style('border-left', d => {
                     console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
-                    if (d.column != 0 && d.footerHtml != '') return '#C2CDD8';
+                    if (d.column != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
                 });
 
 
