@@ -71,10 +71,13 @@ looker.plugins.visualizations.add({
                 }
                   
                     /* Table borders */
-                td:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                td:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                td.totals:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                
+                th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                th.totals:not(:first-child) { border-left: 1px solid #C2CDD8; }
 
 
                 /* Color the corner cell of the table */
@@ -135,7 +138,7 @@ looker.plugins.visualizations.add({
 
                 tr.footer th {
                     font-size: 11px;
-
+                    
                 }
 
             </style>
