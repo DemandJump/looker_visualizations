@@ -394,7 +394,11 @@ looker.plugins.visualizations.add({
             showRowNumbers();
             formatHeaders();
 
+            let columnLength = 0;
+            let counter = 0;
+            let cValue = 0;
             rowData.forEach((row, index) => {
+                columnLength = row.length;
                 for(let i = 0; i < row.length; i++) {
                     if (index % 2 != 0) {
                         row[i].tiled = true;
@@ -402,6 +406,10 @@ looker.plugins.visualizations.add({
                         row[i].tiled = false;
                     }
                     row[i].row = index;
+                    
+                    counter++;
+                    if (counter == columnLength) cValue++;
+                    row[i].column = cValue;
                 }
             });
         }
