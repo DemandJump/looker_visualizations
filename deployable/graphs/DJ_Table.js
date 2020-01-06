@@ -254,18 +254,18 @@ looker.plugins.visualizations.add({
             if (dropDown) {
                 currentNode = `r${d.row}c${d.column}`;
                 d3.select(`#${currentNode}`).style('display', 'block');
-                dropDown = false;
-            }
-        }
-
-        function closeDropDown(d) {
-            console.log('Close Dropdown', d);
-
-            if (!dropDown) {
-                d3.selectAll('.dropdown-content').style('display', 'none');
                 dropDown = true;
             }
         }
+
+        // function closeDropDown(d) {
+        //     console.log('Close Dropdown', d);
+
+        //     if (!dropDown) {
+        //         d3.selectAll('.dropdown-content').style('display', 'none');
+        //         dropDown = true;
+        //     }
+        // }
 
         /***************************************
          * Functions section
