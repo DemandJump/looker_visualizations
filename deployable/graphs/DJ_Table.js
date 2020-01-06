@@ -163,7 +163,7 @@ looker.plugins.visualizations.add({
                     max-width: 280px;
                 }
 
-                .dropdownHover a:hover, .dropdownHover:hover {
+                .dropdownHover:hover {
                     background-color: #f6f6f7;
                 }
 
@@ -300,8 +300,8 @@ looker.plugins.visualizations.add({
                 `;
                 d.links.forEach(link => {
                     links = links + `
-                    <li class="dropdownHover>
-                        <a href="${link.url}">${link.label}</a>
+                    <li class="dropdownHover">
+                        <a class="dropdownHover" href="${link.url}">${link.label}</a>
                     </li>
                     `;
                 });
