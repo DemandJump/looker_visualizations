@@ -259,14 +259,14 @@ looker.plugins.visualizations.add({
             }
         }
 
-        // function closeDropDown(d) {
+        function closeDropDown(d) {
         //     console.log('Close Dropdown', d);
 
         //     if (!dropDown) {
         //         d3.selectAll('.dropdown-content').style('display', 'none');
         //         dropDown = true;
         //     }
-        // }
+        }
 
         /***************************************
          * Functions section
