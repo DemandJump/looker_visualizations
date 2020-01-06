@@ -177,19 +177,6 @@ looker.plugins.visualizations.add({
         console.log('LookerCharts', LookerCharts.Utils);
         console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
 
-        // let datum = data;
-        // for (var row in datum) {
-        //     foreach(var row in datum) {
-        //         var cell = datum[queryResponse.fields.dimensions[0].name];
-        //         var cellElement = myBuildElementFunction(cell);
-        //         cellElement.onclick = function(event) {
-        //           LookerCharts.Utils.openDrillMenu({
-        //               links: cell.links,
-        //               event: event
-        //           });
-        //         };
-        //     }
-        // }
 
         /***************************************
          * Configuring the data
@@ -467,23 +454,20 @@ looker.plugins.visualizations.add({
         
         function totalsData() {
             totalsName = Object.getOwnPropertyNames(totals_data);
-            console.log('This is the totals name', totalsName);
-            console.log('QueryResponse totals_data', totals_data);
+
             columnData.forEach(column => {
                 column.footerValue = '';
                 column.footerHtml = ''; 
             });
+            
             columnData.forEach(column => {
-                console.log('current column_data', column);
                 if (totals_data[column.name]) {
                     column.footerValue = totals_data[column.name].value;
                     column.footerHtml = totals_data[column.name].html;
                 }
             });
-            if (config.rowNumbers == true) {
-                columnData[0].footerHtml = 'Total';
-            }
-            console.log('New column data', columnData);
+
+            if (config.rowNumbers == true) columnData[0].footerHtml = 'Total';
         }
 
 
