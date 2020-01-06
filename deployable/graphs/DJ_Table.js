@@ -509,6 +509,10 @@ looker.plugins.visualizations.add({
             totalsName = Object.getOwnPropertyNames(totals_data);
             console.log('This is the totals name', totalsName);
             console.log('QueryResponse totals_data', totals_data);
+
+            console.log('qtd1', totals_data[0]);
+            console.log('qtd2', totals_data[1]);
+            console.log('qtd3', totals_data[2]);
             columnData.forEach(column => {
                 column.footerValue = '';
                 column.footerHtml = ''; 
