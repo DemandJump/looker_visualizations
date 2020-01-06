@@ -374,7 +374,7 @@ looker.plugins.visualizations.add({
             }
 
             currentDropdown = d;
-            if (currentDropDown == d) currentDropdown = {};
+            if (currentDropdown == d) currentDropdown = {};
         }
 
 
