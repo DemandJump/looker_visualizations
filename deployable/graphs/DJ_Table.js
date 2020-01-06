@@ -165,6 +165,11 @@ looker.plugins.visualizations.add({
                     background-color: #f6f6f7;
                 }
 
+                .ulDropdown {
+                    margin: 0;
+                    padding: 10px 10px;
+                }
+
             </style>
         `;
 
@@ -298,7 +303,7 @@ looker.plugins.visualizations.add({
                     <span>${value}</span>
                     <div class="dropdown-content" id="r${d.row}c${d.column}">
                         ${linkHeader}
-                        <ul>
+                        <ul class="ulDropdown">
                             ${links}
                         </ul>
                     </div>
