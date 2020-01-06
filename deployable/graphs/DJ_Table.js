@@ -172,6 +172,10 @@ looker.plugins.visualizations.add({
                     max-width: 280px;
                 }
 
+                .dropdownHover {
+                    padding-left: 10px;
+                }
+
                 .dropdownHover:hover {
                     background-color: #F0F0F0;
                 }
