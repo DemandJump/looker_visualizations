@@ -148,7 +148,8 @@ looker.plugins.visualizations.add({
                 .dropdown {
                     max-width: 400px;
                     min-width: 160px;
-                    font-size 
+                    font-size: 12px;
+                    padding-top: 10px;
                 }
 
                 .dropdown-header {
@@ -170,7 +171,7 @@ looker.plugins.visualizations.add({
                     padding: 10px 10px;
                 }
 
-                
+
             </style>
         `;
 
