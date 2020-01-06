@@ -70,12 +70,12 @@ looker.plugins.visualizations.add({
                     padding: 0px 5px 5px 4px;
                 }
                   
-                    /* Table borders */
+                    /* Table borders 
                 td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-
                 th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
                 th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
+                */
 
 
                 /* Color the corner cell of the table */
@@ -226,9 +226,8 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
-                .style('border-bottom', d => {
-                    if (d.row == rowData.length) return '1px solid #333333'
-                })
+                .style('border-left', d => d.column != 0 '1px solid #C2CDD8')
+                .style('border-bottom', d => d.row == rowData.length '1px solid #333333')
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
