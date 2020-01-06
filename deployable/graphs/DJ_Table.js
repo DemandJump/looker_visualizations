@@ -70,7 +70,7 @@ looker.plugins.visualizations.add({
                 }
                 
                 th {
-                    padding: 2px 5px 2px 5px;
+                    padding: 4px 5px 4px 5px;
                 }
             
                 /* Color the corner cell of the table */
@@ -93,6 +93,10 @@ looker.plugins.visualizations.add({
                 th.totals {
                     position: sticky;
                     bottom; 0;
+                }
+
+                thead th {
+                    vertical-align: text-top;
                 }
 
                 .dropdown-content {
