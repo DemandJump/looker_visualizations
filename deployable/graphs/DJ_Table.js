@@ -242,9 +242,9 @@ looker.plugins.visualizations.add({
                 .attr('class', d => 'totals')
                 .html(d => d.footerHtml)
                 .style('border-top', '1px solid black')
-                .style('border-left', d => {
+                .style('border-left', (d, index) => {
                     console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
-                    if (d.column != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
+                    if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
                 });
 
 
