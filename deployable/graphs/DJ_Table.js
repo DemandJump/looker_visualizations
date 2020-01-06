@@ -226,9 +226,9 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
-                .style('border-left', d => { 
-                    if (d.indent == false) { 
-                        return '0px solid #C2CDD8'; 
+                .style('border-left', d => {
+                    if (d.indent == false) {
+                        return '0px solid #C2CDD8';
                     } else {
                         return '1px solid #C2CDD8';
                     }
@@ -408,7 +408,15 @@ looker.plugins.visualizations.add({
             formatHeaders();
             borderLeftIndent();
             function borderLeftIndent() {
-                rowData.forEach(row => row[0].indent = false);
+                rowData.forEach(row => {
+                  for(let i = 0; i < row.length; i++) {
+                      if (i != 0) {
+                          row[i].indent = true;
+                      } else {
+                          row[i].indent = false;
+                      }
+                  }
+                });
             }
 
             let columnLength = 0;
