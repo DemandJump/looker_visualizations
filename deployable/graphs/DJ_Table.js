@@ -163,14 +163,14 @@ looker.plugins.visualizations.add({
                 }
 
                 .dropdownHover:hover {
-                    background-color: #f6f6f7;
+                    background-color: #F0F0F0;
                 }
 
                 .ulDropdown {
                     margin: 0;
                     padding: 10px 10px;
                     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
-                    border: 1px solid #F0F0F0;
+                    border: 1px solid #C4C6C9;
                     border-top-left-radius: 2px;
                     border-top-right-radius: 2px;
                     border-bottom-left-radius: 2px;
