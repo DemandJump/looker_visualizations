@@ -366,7 +366,7 @@ looker.plugins.visualizations.add({
                 dropDown = true;
             }
 
-            if (dropDown && d != currentNode) {
+            if (dropDown && d != currentDropdown) {
                 currentNode = `r${d.row}c${d.column}`;
                 console.log(`Current node:`, currentNode);
                 d3.select(`#${currentNode}`).style('display', 'block');
