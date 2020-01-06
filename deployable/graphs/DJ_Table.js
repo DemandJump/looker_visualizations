@@ -114,7 +114,7 @@ looker.plugins.visualizations.add({
                 a {
                     text-decoration: none;
                     color: black;
-                    font-size: .8rem;
+                    font-size: 12px;
                 } 
                 ul {
                     list-style-type: none;
@@ -122,13 +122,8 @@ looker.plugins.visualizations.add({
                 
                 li {
                     padding: 0px 5px 10px;
-                    color: black;
-                }
-                .dropdown-header {
-                    padding-left: 6px;
-                    padding-top: 10px;
-                    color: #8C989C;
-                    font-size: 1rem;
+                    font-size: 12px;
+                    color: #333333;
                 }
 
                 td span:hover, div span:hover {
@@ -149,10 +144,19 @@ looker.plugins.visualizations.add({
                     text
                 }
 
-                .dropdownHeader {
-                    font-size: 10px;
-
+                .dropdown {
+                    max-width: 400px;
+                    font-size 
                 }
+
+                .dropdown-header {
+                    font-size: 10px;
+                    text-transform: uppercase;
+                    padding: 3px 10px;
+                    color: #8C989C;
+                    max-width: 280px;
+                }
+
 
             </style>
         `;
