@@ -227,7 +227,7 @@ looker.plugins.visualizations.add({
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .style('border-bottom', d => {
-                    if (d.row == rowData.length) return '1px solid black'
+                    if (d.row == rowData.length) return '1px solid #333333'
                 })
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
@@ -245,7 +245,7 @@ looker.plugins.visualizations.add({
                     console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
                     if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
                 })                
-                .style('border-top', '1px solid black');
+                .style('border-top', '1px solid #333333');
 
 
 
