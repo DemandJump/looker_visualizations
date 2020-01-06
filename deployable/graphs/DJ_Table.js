@@ -226,13 +226,7 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
-                .style('border-left', d => {
-                    if (d.indent == false) {
-                        return '0px solid #C2CDD8';
-                    } else {
-                        return '1px solid #C2CDD8';
-                    }
-                })
+                .style('border-left', d => lbIndent(d))
                 .style('border-bottom', d => { if (d.row == rowData.length) '1px solid #333333'})
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
@@ -352,6 +346,14 @@ looker.plugins.visualizations.add({
         function unhover(focus) {
             let row = focus.row;
             cells.filter(d => d.row === row).style('background-color', d => colorTables(d));
+        }
+
+        function lbIndent(d) {
+            if (d.indent == false) {
+                return '1px solid #C2CDD8';
+            } else {
+                return '0px solid #C2CDD8';
+            }
         }
 
             
