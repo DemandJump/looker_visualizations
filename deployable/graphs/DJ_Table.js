@@ -176,7 +176,7 @@ looker.plugins.visualizations.add({
         let columnOrder = [];
         let currentNode = ``;
         let dropDown = true;
-        let currentNode;
+        let currentDropdown;
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -373,7 +373,7 @@ looker.plugins.visualizations.add({
                 dropDown = false;
             }
 
-            currentNode = d;
+            currentDropdown = d;
         }
 
 
