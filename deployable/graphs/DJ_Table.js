@@ -202,7 +202,6 @@ looker.plugins.visualizations.add({
         let footerData = [];
         let totals_data = queryResponse.totals_data;
         if (queryResponse.totals_data) totalsData();
-        console.log('This is the totals data', footerData);
 
         
         /***************************************
@@ -254,6 +253,7 @@ looker.plugins.visualizations.add({
 
             if (dropDown) {
                 currentNode = `r${d.row}c${d.column}`;
+                console.log(`Current node:`, currentNode);
                 d3.select(`#${currentNode}`).style('display', 'block');
                 dropDown = true;
             }
