@@ -38,7 +38,7 @@ looker.plugins.visualizations.add({
                     padding: 0; 
                     box-sizing: border-box;
                     font-family: 'Roboto';
-                    color: #333333;
+                    color: #404040;
                 }
 
                 .bold {
@@ -143,7 +143,7 @@ looker.plugins.visualizations.add({
                 .totals a, .totals, tfoot {
                     font-size: 11px; 
                     color: black;
-                    text-align: center;
+                    text-align: right;
                     padding: 4px 5px;
                 }
 
@@ -362,7 +362,7 @@ looker.plugins.visualizations.add({
             if (d.footerHtml != 'total') {
                 return d.footerHtml;
             } else {
-                return `<span class="totalTitle">${d.footerHtml}</span>`;
+                return `<span class="totalTitle">${d.footerHtml}laksdalskdjldjaskldjasldj</span>`;
             }
         } 
 
