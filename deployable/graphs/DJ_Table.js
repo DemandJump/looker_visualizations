@@ -501,15 +501,18 @@ looker.plugins.visualizations.add({
             totalsName = Object.getOwnPropertyNames(totals_data);
             console.log('This is the totals name', totalsName);
             columnData.forEach(column => {
+                column.footerValue = '';
+                column.footerHtml = ''; 
+            });
+            columnData.forEach(column => {
                 for(let i = 0; i < totals_data.length; i++) {
+                    console.log(`current totals_data: ${totals_data[i]}`, totals_data[i]);
+
                     if (column.name == totalsNames[i]) {
-                            console.log('current totals_data', totals_data[i]);
                             column.footerValue = totals_data[i].value;
                             column.footerHtml = totals_data[i].html;
                     }
                 }
-                if (!column.footerValue) column.footerValue = '';
-                if (!column.footerHtml) column.footerHtml = ''; 
             });
             console.log('New column data', columnData);
         }
