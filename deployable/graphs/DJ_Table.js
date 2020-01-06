@@ -240,6 +240,7 @@ looker.plugins.visualizations.add({
                 .html(d => d.footerHtml)
                 .style('border-top', '1px solid black')
                 .style('border-left', d => {
+                    console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
                     if (d.column != 0 && d.footerHtml != '') return '#C2CDD8';
                 });
 
