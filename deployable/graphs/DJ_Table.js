@@ -147,6 +147,7 @@ looker.plugins.visualizations.add({
 
                 .dropdown {
                     max-width: 400px;
+                    min-width: 160px;
                     font-size 
                 }
 
