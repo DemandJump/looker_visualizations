@@ -154,6 +154,7 @@ looker.plugins.visualizations.add({
                     font-size: 10px;
                     font-weight: 300;
                     text-transform: uppercase;
+                    text-decoration: none;
                     padding: 3px 10px;
                     color: #8C989C;
                     max-width: 280px;
@@ -275,7 +276,7 @@ looker.plugins.visualizations.add({
             let linkHeader = '';
 
             if (d.links) {
-                let dropDownHeader = d.links[0].type_label + value;
+                let dropDownHeader = d.links[0].type_label;
                 linkHeader = `
                     <span class="dropdown-header">${dropDownHeader}</span> 
                 `;
