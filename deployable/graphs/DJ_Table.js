@@ -171,6 +171,7 @@ looker.plugins.visualizations.add({
         let rowData = [];
         let columnNames = [];
         let columnOrder = [];
+        let currentNode = ``;
         let dropDown = true;
 
             // Store those names, then iterate the data into rowData
@@ -222,8 +223,8 @@ looker.plugins.visualizations.add({
                 .attr('class', d => d.type)
                 .style('id', d => `r${d.row}c${d.column}`)
                 .style('background-color', d => colorTables(d))
-                .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
+                .style('text-align', d => textAlign(d))
                 .style('border-left', d => lbIndent(d))
                 .style('border-bottom', d => { if (d.row == rowData.length - 1) return '1px solid #333333'; })
                 .html(d => htmlReturn(d))
@@ -233,11 +234,10 @@ looker.plugins.visualizations.add({
 
         let footer = table.append("tfoot").append("tr")
             .attr('class', 'footer');
-        footer.selectAll("th")
-            .data(columnData).enter().append("th")
-                .attr('class', d => 'totals')
-                .html(d => constructFooter(d))
-                .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; });
+        footer.selectAll("th").data(columnData).enter().append("th")
+            .attr('class', d => 'totals')
+            .html(d => constructFooter(d))
+            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; });
      
                 
 
@@ -248,7 +248,8 @@ looker.plugins.visualizations.add({
             console.log('Open dropdown', d);
 
             if (dropDown) {
-                this.style.display = 'block';
+                currentNode = `r${d.row}c${d.column}`;
+                d3.select(`#${currentNode}`).style('display', block);
                 dropDown = false;
             }
         }
