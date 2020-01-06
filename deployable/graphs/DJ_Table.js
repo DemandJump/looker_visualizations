@@ -376,8 +376,12 @@ looker.plugins.visualizations.add({
         
         function thlbIndent(d, index) {
             if (index != 0) {
-                if (d.type == 'dimension_headers') return '1px solid #CCD8E4';
-                if (d.type == 'measure_headers') return '1px solid #E4D1BD';
+                if (config.tableTheme == 'classic') {
+                    if (d.type == 'dimension_headers') return '1px solid #CCD8E4';
+                    if (d.type == 'measure_headers') return '1px solid #E4D1BD';
+                } else if (config.tableTheme == 'gray') {
+                    return '#c4c6c9';
+                }
             }
         }
 
