@@ -241,11 +241,11 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => 'totals')
                 .html(d => d.footerHtml)
-                .style('border-top', '1px solid black')
                 .style('border-left', (d, index) => {
                     console.log(`d.column: ${d.column}, and d.footerHtml: ${d.footerHtml}`);
                     if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8';
-                });
+                })                
+                .style('border-top', '1px solid black');
 
 
 
