@@ -235,7 +235,7 @@ looker.plugins.visualizations.add({
                 .style('border-left', d => lbIndent(d))
                 .style('border-bottom', d => { 
                   console.log(`This is the row: ${d.row}, and this is the rowData.length: ${rowData.length}.`);
-                  if (d.row == rowData.length) return '1px solid #333333'; })
+                  if (d.row == rowData.length - 1) return '1px solid #333333'; })
                 // .text(d => cellText(d))
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
