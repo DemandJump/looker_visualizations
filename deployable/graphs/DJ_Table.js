@@ -214,7 +214,15 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
                 .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
-                .style('background-color', d => colorTables(d));
+                .style('background-color', d => colorTables(d))
+                .style('border-left', (d, index) => thlbIndent(d, index));
+
+                function thlbIndent(d, index) {
+                    if (index != 0) {
+                        if (d.type == 'dimension_headers') return '1px solid #CCD8E4';
+                        if (d.type == 'measure_headers') return '1px solid #E4D1BD';
+                    }
+                }
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
