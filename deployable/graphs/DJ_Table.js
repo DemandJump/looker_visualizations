@@ -70,15 +70,7 @@ looker.plugins.visualizations.add({
                 th {
                     padding: 2px 5px 2px 5px;
                 }
-                  
-                    /* Table borders 
-                td.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                td.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th.dimensions:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                th.measures:not(:first-child) { border-left: 1px solid #C2CDD8; }
-                */
-
-
+            
                 /* Color the corner cell of the table */
                 tr.index { background-color: #CCD8E4; }
                     /* Remove some spacing on the index columns */
@@ -228,15 +220,12 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                // .style('position', 'relative')
+                .style('id', d => `r${d.row}c${d.column}`)
                 .style('background-color', d => colorTables(d))
                 .style('text-align', d => textAlign(d))
                 .style('color', d => textColor(d))
                 .style('border-left', d => lbIndent(d))
-                .style('border-bottom', d => { 
-                  console.log(`This is the row: ${d.row}, and this is the rowData.length: ${rowData.length}.`);
-                  if (d.row == rowData.length - 1) return '1px solid #333333'; })
-                // .text(d => cellText(d))
+                .style('border-bottom', d => { if (d.row == rowData.length - 1) return '1px solid #333333'; })
                 .html(d => htmlReturn(d))
                 .on('mouseover', d => hover(d))
                 .on('mouseout', d => unhover(d))
@@ -248,8 +237,11 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => 'totals')
                 .html(d => constructFooter(d))
-                .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; })                
-                // .style('border-top', '1px solid #333333');
+                .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #C2CDD8'; });
+     
+                
+
+
 
 
         function openDropDown(d) {
