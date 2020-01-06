@@ -354,9 +354,10 @@ looker.plugins.visualizations.add({
 
         function lbIndent(d) {
             if (d.indent) {
-                return '1px solid #C2CDD8';
+                if (d.type == 'dimensions') return '1px solid #c4cdd7';
+                if (d.type == 'measures') return '1px solid #d6c6b5';
             } else {
-                return '0px solid #C2CDD8';
+                return '0px solid #c4cdd7';
             }
         }
 
