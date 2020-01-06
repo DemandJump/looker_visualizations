@@ -151,9 +151,15 @@ looker.plugins.visualizations.add({
                 }
 
                 .dropdown-content {
-                  m ax-width: 400px;
+                    max-width: 400px;
                     min-width: 160px;
                     padding-top: 10px;
+                    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+                    border: 1px solid #C4C6C9;
+                    border-top-left-radius: 2px;
+                    border-top-right-radius: 2px;
+                    border-bottom-left-radius: 2px;
+                    border-bottom-right-radius: 2px;
                 }
 
                 .dropdown-header {
@@ -172,13 +178,10 @@ looker.plugins.visualizations.add({
 
                 .ulDropdown {
                     margin: 0;
+                }
+
+                .ulDropdown li {
                     padding: 10px 10px;
-                    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
-                    border: 1px solid #C4C6C9;
-                    border-top-left-radius: 2px;
-                    border-top-right-radius: 2px;
-                    border-bottom-left-radius: 2px;
-                    border-bottom-right-radius: 2px;
                 }
 
 
