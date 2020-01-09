@@ -194,8 +194,13 @@ looker.plugins.visualizations.add({
 
             </style>
         `;
+        this._container = d3.select(element).append('div')
+            .attr('class', 'vis_holder')
+            .style('position', 'absolute')
+            .style('top', '0')
+            .style('left', '0');
 
-        this._table = d3.select(element).append('table')
+        this._table = d3.select(('.vis_holder')).append('table')
             .attr('class', 'table')
             .style('position', 'relative');
 
