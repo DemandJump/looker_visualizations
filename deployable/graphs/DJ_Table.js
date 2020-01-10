@@ -92,7 +92,7 @@ looker.plugins.visualizations.add({
 
                 th.totals {
                     position: sticky;
-                    bottom; 0;
+                    top; 0; /* Check if the css is being applied 'bottom: 0' */
                 }
 
                 thead th {
@@ -189,7 +189,7 @@ looker.plugins.visualizations.add({
                 }
 
                 .ulDropdown li {
-                    padding: 5px 10px;
+                    padding: 5px 10px 10px 10px;
                 }
 
 
