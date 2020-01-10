@@ -195,8 +195,6 @@ looker.plugins.visualizations.add({
             </style>
         `;
         
-        d3.select(element).attr('id', 'visElement');
-
         this._container = d3.select(element).append('div')
             .attr('class', 'vis_holder')
             .style('position', 'absolute')
@@ -273,11 +271,7 @@ looker.plugins.visualizations.add({
                 .html(d => constructFooter(d))
                 .style('border-top', '1px solid #333333')
                 .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E41D1BD'})
-                .style('top', `${window.innerheight}`);
-
-        console.log(`This is the window.innerHeight`, window.innerHeight);
-        let elemnt = document.getElementById('visElement');
-        console.log(`this is height of the element`, elemnt.offsetHeight);
+                .style('top', `${window.innerheight}px`);
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
