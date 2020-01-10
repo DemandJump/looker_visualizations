@@ -270,7 +270,7 @@ looker.plugins.visualizations.add({
                 .attr('class', 'totals')
                 .html(d => constructFooter(d))
                 .style('border-top', '1px solid #333333')
-                .style('border-left', (d, index) => { if (index != - && d.footerHtml != '') return '1px solid #E41D1BD'});
+                .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E41D1BD'});
 
 
         let tablebody = table.append("tbody");
