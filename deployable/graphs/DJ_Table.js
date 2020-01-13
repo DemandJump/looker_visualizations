@@ -92,7 +92,7 @@ looker.plugins.visualizations.add({
 
                 th.totals {
                     position: sticky;
-                    top: 50%;
+                    top: 100%;
                 }
 
                 thead th {
@@ -195,7 +195,6 @@ looker.plugins.visualizations.add({
 
             </style>
         `;
-        console.log('Create: Window height', window.innerHeight);
         
         this._container = d3.select(element).append('div')
             .attr('class', 'vis_holder')
@@ -260,6 +259,7 @@ looker.plugins.visualizations.add({
         ***************************************/
         let table = this._table;
         let header = table.append("thead").append("tr");
+        console.log('This is the window height', window.innerHeight);
         header.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
