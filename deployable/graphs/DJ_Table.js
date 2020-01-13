@@ -195,6 +195,7 @@ looker.plugins.visualizations.add({
 
             </style>
         `;
+        console.log('Create: Window height', window.innerHeight);
         
         this._container = d3.select(element).append('div')
             .attr('class', 'vis_holder')
