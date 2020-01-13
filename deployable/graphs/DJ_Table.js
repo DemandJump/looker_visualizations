@@ -92,6 +92,7 @@ looker.plugins.visualizations.add({
 
                 th.totals {
                     position: sticky;
+                    top: 100%;
                 }
 
                 thead th {
