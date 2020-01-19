@@ -297,10 +297,30 @@ looker.plugins.visualizations.add({
         ***************************************/
 
             /***** Visual functions *****/
+
+          function buildTotalsFooter() {
+              if (!config.hideTotals) {
+                  let footer = table.append("thead").append("tr")
+                      .attr('class', 'footer');
+
+                  footer.selectAll("th").data(columnData).enter().append("th")
+                      .attr('class', d => 'totals')
+                      .html(d => constructFooter(d))
+                      .style('border-top', '1px solid #333333')
+                      .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
+                      // .style('top', `${window.innerheight}px`);
+                      .style('top', '120px');
+              } else {
+                  d3.selectAll('footer').remove();
+              }
+        }
+
+
         function cellText(d) {
             if(d.rendered) return d.rendered;
             else return d.value;
         }
+
 
         function htmlReturn(d) {
             let value = d.value;
@@ -338,6 +358,7 @@ looker.plugins.visualizations.add({
 
         }
 
+
         function colorTables(d) {
             if (config.tableTheme == 'classic') {
                 if (d.type == 'dimension_headers' || d.type == 'index_header') return '#CCD8E4';
@@ -356,15 +377,18 @@ looker.plugins.visualizations.add({
             }
         }
 
+
         function textAlign(d) {
             if (d.index || d.type == 'measures') return 'right';
             else return 'left';
         }
 
+
         function textColor(d) {
             if (d.index) return '#C2C2C2';
             else '#323232';
         }
+
 
         function hover(focus) {
             let row = focus.row;
@@ -374,6 +398,7 @@ looker.plugins.visualizations.add({
             let row = focus.row;
             cells.filter(d => d.row === row).style('background-color', d => colorTables(d));
         }
+
 
         function lbIndent(d) {
             if (d.indent) {
@@ -388,6 +413,7 @@ looker.plugins.visualizations.add({
             }
         }
         
+
         function thlbIndent(d, index) {
             if (index != 0) {
                 if (config.tableTheme == 'classic') {
@@ -399,6 +425,7 @@ looker.plugins.visualizations.add({
             }
         }
 
+
         function constructFooter(d) {
             if (d.footerHtml != 'Total') {
                 return d.footerHtml;
@@ -406,6 +433,7 @@ looker.plugins.visualizations.add({
                 return `<span class="totalTitle">${d.footerHtml}</span>`;
             }
         } 
+
 
         function openDropDown(d) {
             d3.event.stopPropagation();
@@ -431,27 +459,8 @@ looker.plugins.visualizations.add({
             }
         }
 
-
-
             
             /***** Buidling the data *****/
-        function buildTotalsFooter() {
-          if (!config.hideTotals) {
-              let footer = table.append("tfoot").append("tr")
-                  .attr('class', 'footer');
-
-              footer.selectAll("th").data(columnData).enter().append("th")
-                  .attr('class', d => 'totals')
-                  .html(d => constructFooter(d))
-                  .style('border-top', '1px solid #333333')
-                  .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
-                  // .style('top', `${window.innerheight}px`);
-                  .style('top', '120px');
-          } else {
-              d3.selectAll('footer').remove();
-          }
-        }
-
 
         function constructColumnData() {
             columnOrder.forEach((name, index) => {
