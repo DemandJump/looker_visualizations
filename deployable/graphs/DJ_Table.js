@@ -23,6 +23,13 @@ looker.plugins.visualizations.add({
             section: 'Plot',
             type: 'boolean',
             default: true,
+        },
+        hideTotlas: {
+            label: 'Hide Totals',
+            order: 3,
+            section: 'Plot',
+            type: 'boolean',
+            default: true
         }
     },
 
@@ -283,15 +290,7 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
 
-        let footer = table.append("tfoot").append("tr")
-            .attr('class', 'footer');
-        footer.selectAll("th").data(columnData).enter().append("th")
-            .attr('class', d => 'totals')
-            .html(d => constructFooter(d))
-            .style('border-top', '1px solid #333333')
-            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
-            // .style('top', `${window.innerheight}px`);
-            .style('top', '120px');
+        buildTotalsFooter();
 
         /***************************************
          * Functions section
@@ -436,6 +435,23 @@ looker.plugins.visualizations.add({
 
             
             /***** Buidling the data *****/
+        function buildTotalsFooter() {
+          if (!config.hideTotals) {
+              let footer = table.append("tfoot").append("tr")
+                  .attr('class', 'footer');
+
+              footer.selectAll("th").data(columnData).enter().append("th")
+                  .attr('class', d => 'totals')
+                  .html(d => constructFooter(d))
+                  .style('border-top', '1px solid #333333')
+                  .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
+                  // .style('top', `${window.innerheight}px`);
+                  .style('top', '120px');
+          } else {
+              d3.selectAll('footer').remove();
+          }
+        }
+
 
         function constructColumnData() {
             columnOrder.forEach((name, index) => {
