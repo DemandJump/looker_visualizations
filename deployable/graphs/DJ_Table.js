@@ -92,7 +92,6 @@ looker.plugins.visualizations.add({
 
                 th.totals {
                     position: sticky;
-                    top: 100%;
                 }
 
                 thead th {
@@ -266,14 +265,6 @@ looker.plugins.visualizations.add({
                 .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
                 .style('background-color', d => colorTables(d))
                 .style('border-left', (d, index) => thlbIndent(d, index));
-        let footer = table.append('thead').append('tr');
-        footer.selectAll('th')
-            .data(columnData).enter().append('th')
-                .attr('class', 'totals')
-                .html(d => constructFooter(d))
-                .style('border-top', '1px solid #333333')
-                .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E41D1BD'})
-                .style('top', `${window.innerheight}px`);
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -292,14 +283,14 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
 
-        // let footer = table.append("tfoot").append("tr")
-        //     .attr('class', 'footer');
-        // footer.selectAll("th").data(columnData).enter().append("th")
-        //     .attr('class', d => 'totals')
-        //     .html(d => constructFooter(d))
-        //     .style('border-top', '1px solid #333333')
-        //     .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });      
-
+        let footer = table.append("tfoot").append("tr")
+            .attr('class', 'footer');
+        footer.selectAll("th").data(columnData).enter().append("th")
+            .attr('class', d => 'totals')
+            .html(d => constructFooter(d))
+            .style('border-top', '1px solid #333333')
+            .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
+            .style('top', `${window.innerheight}px`);
 
         /***************************************
          * Functions section
