@@ -272,6 +272,8 @@ looker.plugins.visualizations.add({
                 .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
                 .style('background-color', d => colorTables(d))
                 .style('border-left', (d, index) => thlbIndent(d, index));
+          
+        buildTotalsFooter();
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -290,7 +292,6 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
 
-        buildTotalsFooter();
 
         /***************************************
          * Functions section
