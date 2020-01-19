@@ -290,7 +290,8 @@ looker.plugins.visualizations.add({
             .html(d => constructFooter(d))
             .style('border-top', '1px solid #333333')
             .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
-            .style('top', `${window.innerheight}px`);
+            // .style('top', `${window.innerheight}px`);
+            .style('top', '120px');
 
         /***************************************
          * Functions section
