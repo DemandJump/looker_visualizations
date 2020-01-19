@@ -265,7 +265,7 @@ looker.plugins.visualizations.add({
         ***************************************/
         let table = this._table;
         let header = table.append("thead").append("tr");
-        console.log('This is the window height', window.innerHeight);
+
         header.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
