@@ -310,7 +310,7 @@ looker.plugins.visualizations.add({
                       .style('background-color', 'white')
                       .style('border-top', '1px solid #333333')
                       .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
-                      .style('top', `${window.innerheight - 100}px`);
+                      .style('top', `${window.innerheight}px`);
               } else {
                   d3.selectAll('footer').remove();
               }
