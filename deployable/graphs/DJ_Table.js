@@ -304,13 +304,14 @@ looker.plugins.visualizations.add({
                   let footer = table.append("thead").append("tr")
                       .attr('class', 'footer');
 
+                  let setTop = window.innerheight - 100;
                   footer.selectAll("th").data(columnData).enter().append("th")
                       .attr('class', d => 'totals')
                       .html(d => constructFooter(d))
                       .style('background-color', 'white')
                       .style('border-top', '1px solid #333333')
                       .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
-                      .style('top', `${window.innerheight}px`);
+                      .style('top', `${setTop}px`);
               } else {
                   d3.selectAll('footer').remove();
               }
