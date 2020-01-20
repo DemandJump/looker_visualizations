@@ -601,7 +601,7 @@ looker.plugins.visualizations.add({
                 }
             });
 
-            /* if (config.rowNumbers == true) */ columnData[0].footerHtml = 'Total';
+            /* if (config.rowNumbers == true) */ columnData[1].footerHtml = 'Total';
         }
 
 
