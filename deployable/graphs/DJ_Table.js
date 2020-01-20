@@ -93,7 +93,6 @@ looker.plugins.visualizations.add({
           vertical-align: text-top;
       }
 
-
       thead th {
           position: sticky;
           top: 0;
@@ -103,7 +102,6 @@ looker.plugins.visualizations.add({
           bottom: 0;
       }
 
-
       .dropdown-content {
           display: none;
           position: absolute;
@@ -111,12 +109,6 @@ looker.plugins.visualizations.add({
           box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           z-index: 1;
       }
-
-      /*
-      .dropdown:hover .dropdown-content {
-          display: block; 
-      }
-      */
 
       a {
           text-decoration: none;
@@ -306,7 +298,7 @@ looker.plugins.visualizations.add({
                       .attr('class', d => 'totals')
                       .html(d => constructFooter(d))
                       .style('background-color', 'white')
-                      .style('border-top', '1px solid #333333')
+                      // .style('border-top', '1px solid #333333')
                       .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
               // } else {
               //     d3.selectAll('footer').remove();
