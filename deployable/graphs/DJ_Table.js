@@ -57,7 +57,7 @@ looker.plugins.visualizations.add({
   
       table { 
           margin: 0;
-          border-collapse: collapse;
+          border-collapse: separate;
           position: relative;
           font-weight: 300;
           font-size: 11px;
@@ -298,7 +298,7 @@ looker.plugins.visualizations.add({
                       .attr('class', d => 'totals')
                       .html(d => constructFooter(d))
                       .style('background-color', 'white')
-                      // .style('border-top', '1px solid #333333')
+                      .style('border-top', '1px solid #333333')
                       .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
               // } else {
               //     d3.selectAll('footer').remove();
