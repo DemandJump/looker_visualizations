@@ -110,7 +110,7 @@ looker.plugins.visualizations.add({
       }
       tfoot th {
           position: sticky; 
-          top: 0;
+          bottom: 0;
       }
 
 
