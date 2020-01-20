@@ -35,6 +35,15 @@
         padding: 2px 5px;
     }
 
+    thead th {
+        position: sticky;
+        top: 0;
+    }
+    tfoot th {
+        position: sticky;
+        bottom: 0;
+    }
+
     /* Table borders */
     td:not(:first-child) {
         border-left: 1px solid #C2CDD8;
@@ -63,6 +72,7 @@
     <h1>W3 Schools table</h1>
     <div id="w3table">
         <table>
+            <thead>
                 <tr>
                     <th>Firstname</th>
                     <th>Lastname</th>
@@ -71,6 +81,8 @@
                     <th>Contact</th>
                     <th>Country</th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td>Peter</td>
                     <td>Griffin</td>
@@ -311,6 +323,17 @@
                     <td>Marie Bertrand</td>
                     <td>France</td>
                 </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>fFirstname</th>
+                    <th>Lfastname</th>
+                    <th>Safvings</th>
+                    <th>Comfpany</th>
+                    <th>Contfact</th>
+                    <th>Countfry</th>
+                </tr>
+            </tfoot>
 
         </table>
     </div>

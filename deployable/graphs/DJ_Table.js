@@ -90,21 +90,30 @@ looker.plugins.visualizations.add({
                 th {
                     text-align: left;
                     color: #2E343F;
-                }
-
-                th.dimension_headers, th.measure_headers, th.index_header {
-                    position: sticky;
-                    top: 0;
-                }
-
-                th.totals {
-                    position: sticky;
-                }
-
-                thead th {
                     vertical-align: text-top;
                 }
 
+
+              /*
+              th.dimension_headers, th.measure_headers, th.index_header {
+                  position: sticky;
+                  top: 0;
+              }
+              th.totals {
+                  position: sticky;
+              }
+              */
+
+                thead th {
+                    position: sticky;
+                    top: 0;
+                }
+                tfoot th {
+                    position: sticky; 
+                    top: 0;
+                }
+
+                
                 .dropdown-content {
                     display: none;
                     position: absolute;
@@ -272,8 +281,6 @@ looker.plugins.visualizations.add({
                 .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
                 .style('background-color', d => colorTables(d))
                 .style('border-left', (d, index) => thlbIndent(d, index));
-          
-        buildTotalsFooter();
 
         let tablebody = table.append("tbody");
         let rows = tablebody.selectAll("tr")
@@ -292,6 +299,7 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
 
+        buildTotalsFooter();
 
         /***************************************
          * Functions section
@@ -301,7 +309,7 @@ looker.plugins.visualizations.add({
 
           function buildTotalsFooter() {
               if (!config.hideTotals) {
-                  let footer = table.append("thead").append("tr")
+                  let footer = table.append("tfoot").append("tr")
                       .attr('class', 'footer');
 
                   let setTop = window.innerheight - 100;
