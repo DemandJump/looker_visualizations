@@ -94,16 +94,6 @@ looker.plugins.visualizations.add({
       }
 
 
-      /*
-      th.dimension_headers, th.measure_headers, th.index_header {
-          position: sticky;
-          top: 0;
-      }
-      th.totals {
-          position: sticky;
-      }
-      */
-
       thead th {
           position: sticky;
           top: 0;
@@ -317,8 +307,7 @@ looker.plugins.visualizations.add({
                       .html(d => constructFooter(d))
                       .style('background-color', 'white')
                       .style('border-top', '1px solid #333333')
-                      .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; })
-                      .style('top', `${setTop}px`);
+                      .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
               } else {
                   d3.selectAll('footer').remove();
               }
