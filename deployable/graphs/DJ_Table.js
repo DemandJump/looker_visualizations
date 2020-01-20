@@ -38,175 +38,174 @@ looker.plugins.visualizations.add({
         let d3 = d3v5;    
         element.innerHTML =`
             <style>
-                @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-                * {
-                    font-family: Arial, Roboto;
-                }
+      @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+      * {
+          font-family: Arial, Roboto;
+      }
 
-                html, body {
-                    margin: 0;
-                    padding: 0; 
-                    box-sizing: border-box;
-                    color: #404040;
-                }
+      html, body {
+          margin: 0;
+          padding: 0; 
+          box-sizing: border-box;
+          color: #404040;
+      }
 
-                .bold {
-                    font-size: 11px;
-                    font-weight: bold; 
-                }
-            
-                table { 
-                    margin: 0;
-                    border-collapse: collapse;
-                    position: relative;
-                    font-weight: 300;
-                    font-size: 11px;
-                    border-spacing: 0px;
-                    width: 100%;
-                    overflow-x: auto;
-                }
-                        
-                    /* Inside cell spacing */
-                td, th {
-                    text-decoration: none;
-                    font-weight: normal;
-                }
+      .bold {
+          font-size: 11px;
+          font-weight: bold; 
+      }
+  
+      table { 
+          margin: 0;
+          border-collapse: collapse;
+          position: relative;
+          font-weight: 300;
+          font-size: 11px;
+          border-spacing: 0px;
+          width: 100%;
+          overflow-x: auto;
+      }
+              
+          /* Inside cell spacing */
+      td, th {
+          text-decoration: none;
+          font-weight: normal;
+      }
 
-                td {
-                    padding: 4px 5px;
-                }
-                
-                th {
-                    padding: 4px 5px 4px 5px;
-                }
-            
-                /* Color the corner cell of the table */
-                tr.index { background-color: #CCD8E4; }
-                    /* Remove some spacing on the index columns */
-                td:first-child { padding-left: 3px; }
-                th:first-child { padding-left: 3px; }
-                
-                    /* Header */
-                th {
-                    text-align: left;
-                    color: #2E343F;
-                    vertical-align: text-top;
-                }
+      td {
+          padding: 4px 5px;
+      }
+      
+      th {
+          padding: 4px 5px 4px 5px;
+      }
+  
+      /* Color the corner cell of the table */
+      tr.index { background-color: #CCD8E4; }
+          /* Remove some spacing on the index columns */
+      td:first-child { padding-left: 3px; }
+      th:first-child { padding-left: 3px; }
+      
+          /* Header */
+      th {
+          text-align: left;
+          color: #2E343F;
+          vertical-align: text-top;
+      }
 
 
-              /*
-              th.dimension_headers, th.measure_headers, th.index_header {
-                  position: sticky;
-                  top: 0;
-              }
-              th.totals {
-                  position: sticky;
-              }
-              */
+      /*
+      th.dimension_headers, th.measure_headers, th.index_header {
+          position: sticky;
+          top: 0;
+      }
+      th.totals {
+          position: sticky;
+      }
+      */
 
-                thead th {
-                    position: sticky;
-                    top: 0;
-                }
-                tfoot th {
-                    position: sticky; 
-                    top: 0;
-                }
+      thead th {
+          position: sticky;
+          top: 0;
+      }
+      tfoot th {
+          position: sticky; 
+          top: 0;
+      }
 
-                
-                .dropdown-content {
-                    display: none;
-                    position: absolute;
-                    background-color: #f9f9f9;
-                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-                    z-index: 1;
-                }
 
-                /*
-                .dropdown:hover .dropdown-content {
-                    display: block; 
-                }
-                */
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          z-index: 1;
+      }
 
-                a {
-                    text-decoration: none;
-                    color: black;
-                    font-size: 12px;
-                } 
-                ul {
-                    list-style-type: none;
-                }
-                
-                li {
-                    padding: 0px 5px 10px;
-                    font-size: 12px;
-                    font-weight: 300;
-                    color: #333333;
-                }
+      /*
+      .dropdown:hover .dropdown-content {
+          display: block; 
+      }
+      */
 
-                td span:hover, div.dropdown span:hover {
-                    text-decoration: underline;
-                }
+      a {
+          text-decoration: none;
+          color: black;
+          font-size: 12px;
+      } 
+      ul {
+          list-style-type: none;
+      }
+      
+      li {
+          padding: 0px 5px 10px;
+          font-size: 12px;
+          font-weight: 300;
+          color: #333333;
+      }
 
-                .totals a, .totals, tfoot {
-                    font-size: 11px; 
-                    color: black;
-                    text-align: right;
-                    padding: 4px 5px;
-                }
+      td span:hover, div.dropdown span:hover {
+          text-decoration: underline;
+      }
 
-                .totalTitle {
-                    position: absolute;
-                    left: 4px;
-                    bottom: 4px;
-                }
+      .totals a, .totals, tfoot {
+          font-size: 11px; 
+          color: black;
+          text-align: right;
+          padding: 4px 5px;
+      }
 
-                .dropdown {
-                    font-size: 11px;
-                }
+      .totalTitle {
+          position: absolute;
+          left: 4px;
+          bottom: 4px;
+      }
 
-                .dropdown-content {
-                    max-width: 400px;
-                    min-width: 160px;
-                    padding-top: 10px;
-                    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
-                    border: 1px solid #C4C6C9;
-                    border-top-left-radius: 2px;
-                    border-top-right-radius: 2px;
-                    border-bottom-left-radius: 2px;
-                    border-bottom-right-radius: 2px;
-                }
+      .dropdown {
+          font-size: 11px;
+      }
 
-                .dropdown-header {
-                    font-size: 10px;
-                    font-weight: 300;
-                    text-transform: uppercase;
-                    text-decoration: none;
-                    padding-left: 10px;
-                    padding-right: 10px;
-                    color: #8C989C;
-                    max-width: 280px;
-                }
+      .dropdown-content {
+          max-width: 400px;
+          min-width: 160px;
+          padding-top: 10px;
+          box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px 0px;
+          border: 1px solid #C4C6C9;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+          border-bottom-left-radius: 2px;
+          border-bottom-right-radius: 2px;
+      }
 
-                .dropdownHover {
-                    padding-left: 10px;
-                }
+      .dropdown-header {
+          font-size: 10px;
+          font-weight: 300;
+          text-transform: uppercase;
+          text-decoration: none;
+          padding-left: 10px;
+          padding-right: 10px;
+          color: #8C989C;
+          max-width: 280px;
+      }
 
-                .dropdownHover:hover {
-                    background-color: #F0F0F0;
-                }
+      .dropdownHover {
+          padding-left: 10px;
+      }
 
-                ul,li {
-                    list-style-type: none;
-                    list-style-position: inside;
-                    margin: 0;
-                    padding: 0;
-                }
+      .dropdownHover:hover {
+          background-color: #F0F0F0;
+      }
 
-                .ulDropdown li {
-                    padding: 5px 10px 10px 10px;
-                }
+      ul,li {
+          list-style-type: none;
+          list-style-position: inside;
+          margin: 0;
+          padding: 0;
+      }
 
+      .ulDropdown li {
+          padding: 5px 10px 10px 10px;
+      }
 
             </style>
         `;
