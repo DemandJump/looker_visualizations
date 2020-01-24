@@ -24,7 +24,7 @@ looker.plugins.visualizations.add({
             type: 'boolean',
             default: true,
         },
-        hideTotlas: {
+        hideTotals: {
             label: 'Hide Totals',
             order: 3,
             section: 'Plot',
@@ -36,6 +36,7 @@ looker.plugins.visualizations.add({
 
     create: function(element, config) {
         let d3 = d3v5;    
+        this.dimensions = 0
         element.innerHTML =`
             <style>
       @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
@@ -249,7 +250,13 @@ looker.plugins.visualizations.add({
         let totals_data = queryResponse.totals_data;
         if (queryResponse.totals_data) totalsData();
 
-        
+        let settings = this.options;
+        configureStyleSettings();
+        if (this.dimensions != dimensions.length) { 
+            this.dimensions = dimensions.length;
+            this.trigger('registerOptions', settings);
+        }
+
         /***************************************
          * Build the visual
         ***************************************/
@@ -259,7 +266,7 @@ looker.plugins.visualizations.add({
         header.selectAll("th")
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
-                .html(d => `${d.view_label} <span class="bold">${d.field_group_variant}</span>`)
+                .html(d => headerNames(d))
                 .style('background-color', d => colorTables(d))
                 .style('border-left', (d, index) => thlbIndent(d, index));
 
@@ -288,8 +295,13 @@ looker.plugins.visualizations.add({
 
             /***** Visual functions *****/
 
+          function headerNames(d) {
+              if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
+              else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
+          }
+
           function buildTotalsFooter() {
-              // if (!config.hideTotals) {
+              if (!config.hideTotals) {
                   let footer = table.append("tfoot").append("tr")
                       .attr('class', 'footer');
 
@@ -298,11 +310,11 @@ looker.plugins.visualizations.add({
                       .attr('class', d => 'totals')
                       .html(d => constructFooter(d))
                       .style('background-color', 'white')
-                      .style('border-top', '1px solid #333333')
+                      .style('border-top', '1px solid #444444')
                       .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
-              // } else {
-              //     d3.selectAll('footer').remove();
-              // }
+              } else {
+                  d3.selectAll('footer').remove();
+              }
         }
 
 
@@ -575,6 +587,24 @@ looker.plugins.visualizations.add({
 
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
+        }
+
+
+        configureStyleSettings() {
+            columnData.forEach( (col, i) => {
+                if (col.type != 'index_header') {
+                    col.settingLabel = '';
+
+                    settings[col.name] = {
+                        label: col.label_short,
+                        order: i,
+                        section: 'Series',
+                        type: 'string',
+                        placeholder: col.label
+                    };
+                }
+            });
+
         }
 
         
