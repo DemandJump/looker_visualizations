@@ -607,7 +607,7 @@ looker.plugins.visualizations.add({
 
                     settings[col.name] = {
                         label: col.label_short,
-                        order: i,
+                        order: i + 1,
                         section: 'Series',
                         type: 'string',
                         placeholder: col.label
