@@ -590,7 +590,7 @@ looker.plugins.visualizations.add({
         }
 
 
-        configureStyleSettings() {
+        function configureStyleSettings() {
             columnData.forEach( (col, i) => {
                 if (col.type != 'index_header') {
                     col.settingLabel = '';
