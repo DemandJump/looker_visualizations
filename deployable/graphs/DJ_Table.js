@@ -33,7 +33,7 @@ looker.plugins.visualizations.add({
         },
 
         fullFieldName: {
-            label: '', 
+            label: 'Show Full Field Name', 
             order: 0,
             section: 'Series',
             type: 'boolean',
