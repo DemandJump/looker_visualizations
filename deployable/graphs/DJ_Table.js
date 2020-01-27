@@ -305,8 +305,11 @@ looker.plugins.visualizations.add({
             /***** Visual functions *****/
 
           function headerNames(d) {
+
+
+
               console.log('This is the config name', config[d.name]); 
-              if (config[d.name] != '' || config[d.name] != null || config[d.name] != undefined) return `<span class="bold">${config[d.name]}</span>`;
+              if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
               else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
           }
 
@@ -610,7 +613,8 @@ looker.plugins.visualizations.add({
                         order: i + 1,
                         section: 'Series',
                         type: 'string',
-                        placeholder: col.label
+                        placeholder: col.label,
+                        default: ''
                     };
                 }
             });
