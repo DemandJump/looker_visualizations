@@ -38,6 +38,13 @@ looker.plugins.visualizations.add({
             section: 'Series',
             type: 'boolean',
             default: true
+        },
+        includeNullValueAsZero: {
+            label: 'Include Null Value as Zero',
+            order: 0.2,
+            section: 'Series',
+            type: 'boolean',
+            default: false
         }
 
     },
@@ -266,6 +273,8 @@ looker.plugins.visualizations.add({
             this.trigger('registerOptions', settings);
         }
 
+        includeNulls();
+
         /***************************************
          * Build the visual
         ***************************************/
@@ -306,7 +315,6 @@ looker.plugins.visualizations.add({
 
           function headerNames(d) {
               if (d.type != 'index_header') {
-                  console.log('This is config fieldName value', config.fullFieldName);
                   if (config.fullFieldName) {
                       if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
                       else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
@@ -316,6 +324,20 @@ looker.plugins.visualizations.add({
                   }
 
               } else { return ''; }
+          }
+
+
+          function includeNulls() {
+              if (config.includeNullValueAsZero) {
+                  rowData.forEach((row, index) => {
+                      for(let i = 0; i < row.length; i++) {
+                          if (row[i].value == null) {
+                              row[i].value = 0;
+                              if (row[i].rendered) row[i].rendered = `0`;
+                          }
+                      }
+                  });
+              }
           }
 
 
