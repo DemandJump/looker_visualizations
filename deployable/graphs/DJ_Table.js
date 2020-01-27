@@ -206,10 +206,16 @@ looker.plugins.visualizations.add({
           padding: 5px 10px 10px 10px;
       }
 
+      .looker {
+          position: absolute;
+          top: 1240px;
+          left: 10px;
+      }
+
             </style>
 
 
-
+<div class="looker">
 <div class="vis-config-option display-size-normal form-group" ng-if=$ctrl.enableCollectionPicker>
 <label class=control-label>Collection</label>
 <lk-colorset-picker all-color-collections=$ctrl.allColorCollections selected-color-collection=$ctrl.selectedColorCollection update-color-collection=$ctrl.updateColorCollection(collection)></lk-colorset-picker>
@@ -245,6 +251,7 @@ looker.plugins.visualizations.add({
 <div class="vis-config-option display-size-normal form-group constraints focusable-element" ng-if=!!$ctrl.showPaletteOptions>
 <label class="control-label range-label">Range</label>
 <lk-constraints-component center-disabled="$ctrl.showColorStepInput &amp;&amp; !$ctrl.selectedColorApplication.options.mirror" constraints=$ctrl.selectedColorApplication.options.constraints end-disabled=$ctrl.selectedColorApplication.options.mirror start-disabled=$ctrl.selectedColorApplication.options.mirror update-constraints=$ctrl.updateConstraints(constraints)></lk-constraints-component>
+</div>
 </div>
         `;
         
