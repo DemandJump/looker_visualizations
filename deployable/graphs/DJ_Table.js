@@ -33,8 +33,12 @@ looker.plugins.visualizations.add({
         },
 
         fullFieldName: {
-            label: ''
-        }.
+            label: '', 
+            order: 0,
+            section: 'Series',
+            type: 'boolean',
+            default: true
+        }
 
     },
 
