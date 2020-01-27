@@ -206,53 +206,7 @@ looker.plugins.visualizations.add({
           padding: 5px 10px 10px 10px;
       }
 
-      .looker {
-          position: absolute;
-          top: 1240px;
-          left: 10px;
-      }
-
             </style>
-
-
-<div class="looker">
-<div class="vis-config-option display-size-normal form-group" ng-if=$ctrl.enableCollectionPicker>
-<label class=control-label>Collection</label>
-<lk-colorset-picker all-color-collections=$ctrl.allColorCollections selected-color-collection=$ctrl.selectedColorCollection update-color-collection=$ctrl.updateColorCollection(collection)></lk-colorset-picker>
-</div>
-
-<div class="vis-config-option display-size-normal form-group">
-<label class=control-label>Palette</label>
-<lk-palette-picker all-palettes=$ctrl.allPalettes selected-palette=$ctrl.selectedPalette show-gradient=$ctrl.supportContinuous update-palette=$ctrl.updatePalette(palette)></lk-palette-picker>
-</div>
-
-<div class="vis-config-option display-size-normal form-group" ng-if=!!$ctrl.showReverse>
-<input class=form-checkbox ng-change=$ctrl.applicationChanged() ng-model=$ctrl.selectedColorApplication.options.reverse type=checkbox />
-<span class=checkbox-label>Reverse colors</span>
-</div>
-
-<div class="vis-config-option display-size-normal form-group" ng-if=!!$ctrl.showPaletteOptions>
-<input class=form-conditional-checkbox ng-change=$ctrl.applicationChanged() ng-model=$ctrl.selectedColorApplication.options.reverse type=checkbox />
-<span class=checkbox-label>Reverse colors</span>
-</div>
-
-<div class="vis-config-option display-size-normal form-group" ng-if=!!$ctrl.showPaletteOptions>
-<input class=form-conditional-checkbox ng-change=$ctrl.stepsToggled() ng-model=$ctrl.showColorStepInput type=checkbox />
-<span class=checkbox-label>Use</span>
-<input class="form-control step-colors-input" max=100 min=2 ng-blur=$ctrl.stepsLostFocus() ng-change=$ctrl.applicationChanged() ng-disabled=!$ctrl.showColorStepInput ng-model=$ctrl.selectedColorApplication.options.steps ng-model-options="{ debounce: 500 }" type=number />
-<span class=checkbox-label>color steps</span>
-</div>
-
-<div class="vis-config-option display-size-normal form-group" ng-if=!!$ctrl.showPaletteOptions>
-<input class=form-conditional-checkbox ng-change=$ctrl.applicationChanged() ng-model=$ctrl.selectedColorApplication.options.mirror type=checkbox />
-<span class=checkbox-label>Mirror range around center value</span>
-</div>
-
-<div class="vis-config-option display-size-normal form-group constraints focusable-element" ng-if=!!$ctrl.showPaletteOptions>
-<label class="control-label range-label">Range</label>
-<lk-constraints-component center-disabled="$ctrl.showColorStepInput &amp;&amp; !$ctrl.selectedColorApplication.options.mirror" constraints=$ctrl.selectedColorApplication.options.constraints end-disabled=$ctrl.selectedColorApplication.options.mirror start-disabled=$ctrl.selectedColorApplication.options.mirror update-constraints=$ctrl.updateConstraints(constraints)></lk-constraints-component>
-</div>
-</div>
         `;
         
         this._container = d3.select(element).append('div')
