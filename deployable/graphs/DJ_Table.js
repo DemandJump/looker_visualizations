@@ -305,11 +305,19 @@ looker.plugins.visualizations.add({
             /***** Visual functions *****/
 
           function headerNames(d) {
-              if (d.type != 'index_headers') {
-                  if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
-                  else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
-              } else return '';
+              if (d.type != 'index_header') {
+                  console.log('This is config fieldName value', config.fullFieldName);
+                  if (config.fullFieldName) {
+                      if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
+                      else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
+                  } else {
+                      if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
+                      else return `<span class="bold">${d.field_group_variant}</span>`;
+                  }
+
+              } else { return ''; }
           }
+
 
           function buildTotalsFooter() {
               if (!config.hideTotals) {
