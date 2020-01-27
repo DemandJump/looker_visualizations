@@ -306,7 +306,7 @@ looker.plugins.visualizations.add({
 
           function headerNames(d) {
               console.log('This is the config name', config[d.name]); 
-              if (config[d.name] != '' || config[d.name] == null) return `<span class="bold">${config[d.name]}</span>`;
+              if (config[d.name] != '' || config[d.name] != null || config[d.name] != undefined) return `<span class="bold">${config[d.name]}</span>`;
               else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
           }
 
