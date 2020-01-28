@@ -158,6 +158,7 @@ looker.plugins.visualizations.add({
           position: absolute;
           left: 4px;
           bottom: 4px;
+          font-weight: bold;
       }
 
       .dropdown {
@@ -205,6 +206,7 @@ looker.plugins.visualizations.add({
       .ulDropdown li {
           padding: 5px 10px 10px 10px;
       }
+
 
             </style>
         `;
@@ -666,7 +668,7 @@ looker.plugins.visualizations.add({
             });
 
             if (config.rowNumbers == true) columnData[1].footerHtml = 'Total';
-            else columnData[0].footerHtml = 'Total';
+            else columnData[0].footerHtml = 'Totals';
         }
 
 
