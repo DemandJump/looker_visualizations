@@ -45,6 +45,14 @@ looker.plugins.visualizations.add({
             section: 'Series',
             type: 'boolean',
             default: false
+        },
+
+        colorApplication: {
+          type: 'object',
+          order: 0.3,
+          section: 'Series'
+          display: 'color_application',
+          label: 'Color Configuration',
         }
 
     },
