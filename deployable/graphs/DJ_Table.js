@@ -49,11 +49,62 @@ looker.plugins.visualizations.add({
 
         colorApplication: {
           type: 'object',
-          order: 0.3,
+          order: 0,
           section: 'Formatting',
           display: 'color_application',
           label: 'Color Configuration',
+        },
+
+        conditionalFormatting: {
+            label: 'Enable Conditional Formatting',
+            order: 10.1,
+            section: 'Formatting',
+            type: 'boolean',
+            default: false
+        },
+        includeTotals: {
+            label: 'Include Totals',
+            order: 11,
+            section: 'Formatting',
+            type: 'boolean',
+            default: false
+        },
+
+        applyFormattingTo: {
+            label: 'Apply to',
+            order: 12,
+            section: 'Formatting',
+            display: 'select',
+            type: 'string',
+            values: [
+                {"All numeric fields": "all"},
+                {"Select fields...": "selectFields"}
+            ],
+            default: 'all'
+        },
+        formatAlongAScale: {
+            label: 'Format',
+            order: 16,
+            section: 'Formatting',
+            display: 'select',
+            type: 'string',
+            values: [
+                {"Along a scale...": "alongAScale"},
+                {"equal to": "equalTo"},
+                {"not equal to": "notEqualTo"},
+                {"greater than": "greaterThan"},
+                {"less than": "lessThan"},
+                {"between": "between"},
+                {"not between": "notBetween"},
+                {"null": "null"},
+                {"not null": "notNull"},
+            ],
+            default: 'alongAScale'
         }
+
+
+
+
 
     },
 
