@@ -106,110 +106,9 @@ looker.plugins.visualizations.add({
 
 
     create: function(element, config) {
-
-        function applyFormattingTo(settings) {
-            if (config.applyFormattingTo == 'all') {}
-            
-            if (config.applyFormattingTo == 'selectFields') {
-                  // If there's no # of field selector 
-                if (!settings['selectNumberOfFields']) {
-                    settings['selectNumberOfFields'] = {
-                        label: 'Select the number of fields',
-                        order: 12.1,
-                        section: 'Table Formatting',
-                        display: 'select',
-                        type: 'string',
-                        values: [],
-                        default: '1'
-                    };
-
-                    for(let i = 0; i < measures.length; i++) {
-                        let key = i; 
-                        let val = {};
-                        val[key] = i;
-                        settings['selectNumberOfFields']['values'].push(val);
-                    }
-                }
-
-
-                if (settings['selectNumberOfFields']) {
-
-                      // Go through the format fields and apply a parameter to each
-                    if(settings['formatField0']) {
-                        let fields = config.selectNumberOfFields;
-
-                        for(let i = 0; i < fields; i++) {
-                            selectedFields = [];
-                            let name = `formatField${i}`;
-                            selectedFields.push(config[name]);
-                        }
-                        console.log('These are the selected fields!', selectedFields)
-                    }
-
-
-                      // Construct the fields to display based on the select number of fields 13-14
-                    for(let i = 0; i < config.selectNumberOfFields; i++) {
-                        let name = `formatField${i}`;
-                        settings[name] = {
-                            label: 'Select Field', 
-                            order: 12.2 + (i/10),
-                            section: 'Table Formatting',
-                            display: 'select',
-                            type: 'string',
-                            values: [],
-                            default: 'none'
-                        };
-                        
-                        let val = {"None": "none"}
-                        settings[name]['values'].push(val);
-
-                        for(let i = 0; i < measures.length; i++) {
-                            let key = mes.name;
-                            let pair = mes.name;
-                            let val = {};
-                            val[key] = pair;
-
-                            settings[name]['values'].push(val);
-                        }
-                    }
-
-
-                }
-
-            } // End of selectFields
-            
-        console.log('applyFormattingTo: These are the settings', settings);
-        return settings;
-        } // End of applyFormattingTo function
-
-        function formatAlongAScale() {
-
-        }
-
-        function conditionalFormatting(settings) {
-            if (!conditionalFormatting) {
-                if (settings['alongAlScale']) delete settings['alongAScale'];
-                if (settings['equalTo']) delete settings['equalTo'];
-                if (settings['notEqualTo']) delete settings['notEqualTo'];
-                if (settings['greaterThan']) delete settings['greaterThan'];
-                if (settings['between']) delete settings['between'];
-                if (settings['notBetween']) delete settings['notBetween'];
-                if (settings['null']) delete settings['null'];
-                if (settings['notNull']) delete settings['notNull'];
-                if (settings['selectNumberOfFields']) delete settings['selectNumberOfFields'];
-            } else {
-                applyFormattingTo(settings);
-                formatAlongAScale();
-            }
-
-
-            console.log('conditionalFormatting: Here are the new settings', settings);
-            return settings
-        } // end of conditionalFormatting
-
-
         let d3 = d3v5;    
-        this.dimensions = 0
+        this._dimensions = 0
+        this._fieldChange
         element.innerHTML =`
             <style>
       @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
@@ -413,6 +312,124 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
 
 
+        let settings = this.options;
+        let fieldChange = this._fieldChange;
+        let changed = false;
+
+        settings = conditionalFormatting(settings);
+        // Conditional to change the settings in the visual
+        this._fieldChange = fieldChange;
+        if (changed) this.trigger('registerOptions', settings);
+
+
+
+
+
+
+        function conditionalFormatting() {
+            settings = applyFormattingTo(settings);
+        }
+
+
+        function applyFormattingTo(settings) {
+            if (config.applyFormattingTo == 'all') {}
+            
+            if (config.applyFormattingTo == 'selectFields') {
+                  // If there's no # of field selector 
+                if (!settings['selectNumberOfFields']) {
+                    settings['selectNumberOfFields'] = {
+                        label: 'Select the number of fields',
+                        order: 12.1,
+                        section: 'Table Formatting',
+                        display: 'select',
+                        type: 'string',
+                        values: [],
+                        default: '1'
+                    };
+
+                    for(let i = 0; i < measures.length; i++) {
+                        let key = i; let val = {}; val[key] = i;
+                        settings['selectNumberOfFields']['values'].push(val);
+                    }
+                    changed = true;
+                }
+
+                if (settings['selectNumberOfFields']) { // Store the selectedfields for the visual 
+                    if(settings['formatField0']) {
+                        let fields = config.selectNumberOfFields;
+                        for(let i = 0; i < fields; i++) {
+                            selectedFields = [];
+                            let name = `formatField${i}`;
+                            selectedFields.push(config[name]);
+                        }
+                        console.log('These are the selected fields!', selectedFields)
+                    }
+
+                    if (fields != config.selectNumberOfFields) { // See if the visual needs to update based on user field number input
+                        changed = true;
+                        config.selectNumberOfFields = config.selectNumberOfFields;
+                    }
+
+                    // Construct the fields
+                    for(let i = 0; i < config.selectNumberOfFields; i++) {
+                        let name = `formatField${i}`;
+                        settings[name] = {
+                            label: 'Select Field', 
+                            order: 12.2 + (i/10),
+                            section: 'Table Formatting',
+                            display: 'select',
+                            type: 'string',
+                            values: [],
+                            default: 'none'
+                        };
+                        
+                        let val = {"None": "none"}
+                        settings[name]['values'].push(val);
+
+                        for(let i = 0; i < measures.length; i++) {
+                            let key = mes.name;
+                            let pair = mes.name;
+                            let val = {};
+                            val[key] = pair;
+                            settings[name]['values'].push(val);
+                        }
+                    }
+
+
+                }
+
+            } // End of selectFields
+            
+        console.log('applyFormattingTo: These are the settings', settings);
+        return settings;
+        } // End of applyFormattingTo function
+
+        function formatAlongAScale() {
+
+        }
+
+        function enableConditionalFormatting(settings) {
+            if (!conditionalFormatting) {
+                if (settings['alongAlScale']) delete settings['alongAScale'];
+                if (settings['equalTo']) delete settings['equalTo'];
+                if (settings['notEqualTo']) delete settings['notEqualTo'];
+                if (settings['greaterThan']) delete settings['greaterThan'];
+                if (settings['between']) delete settings['between'];
+                if (settings['notBetween']) delete settings['notBetween'];
+                if (settings['null']) delete settings['null'];
+                if (settings['notNull']) delete settings['notNull'];
+                if (settings['selectNumberOfFields']) delete settings['selectNumberOfFields'];
+            } else {
+                applyFormattingTo(settings);
+                formatAlongAScale();
+            }
+
+
+            console.log('conditionalFormatting: Here are the new settings', settings);
+            return settings
+        } // end of conditionalFormatting
+
+
         /***************************************
          * Configuring the data
         ***************************************/
@@ -432,8 +449,8 @@ looker.plugins.visualizations.add({
 
         let settings = this.options;
         configureStyleSettings();
-        if (this.dimensions != dimensions.length) { 
-            this.dimensions = dimensions.length;
+        if (this._dimensions != dimensions.length) { 
+            this._dimensions = dimensions.length;
             this.trigger('registerOptions', settings);
         }
 
