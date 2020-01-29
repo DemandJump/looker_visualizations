@@ -50,7 +50,7 @@ looker.plugins.visualizations.add({
         colorApplication: {
           type: 'object',
           order: 0,
-          section: 'Formatting',
+          section: 'Table Formatting',
           display: 'color_application',
           label: 'Color Configuration',
         },
@@ -58,14 +58,14 @@ looker.plugins.visualizations.add({
         conditionalFormatting: {
             label: 'Enable Conditional Formatting',
             order: 10.1,
-            section: 'Formatting',
+            section: 'Table Formatting',
             type: 'boolean',
             default: false
         },
         includeTotals: {
             label: 'Include Totals',
             order: 11,
-            section: 'Formatting',
+            section: 'Table Formatting',
             type: 'boolean',
             default: false
         },
@@ -73,7 +73,7 @@ looker.plugins.visualizations.add({
         applyFormattingTo: {
             label: 'Apply to',
             order: 12,
-            section: 'Formatting',
+            section: 'Table Formatting',
             display: 'select',
             type: 'string',
             values: [
@@ -85,7 +85,7 @@ looker.plugins.visualizations.add({
         formatAlongAScale: {
             label: 'Format',
             order: 16,
-            section: 'Formatting',
+            section: 'Table Formatting',
             display: 'select',
             type: 'string',
             values: [
@@ -116,7 +116,7 @@ looker.plugins.visualizations.add({
                     settings['selectNumberOfFields'] = {
                         label: 'Select the number of fields',
                         order: 12.1,
-                        section: 'Formatting',
+                        section: 'Table Formatting',
                         display: 'select',
                         type: 'string',
                         values: [],
@@ -153,7 +153,7 @@ looker.plugins.visualizations.add({
                         settings[name] = {
                             label: 'Select Field', 
                             order: 12.2 + (i/10),
-                            section: 'Formatting',
+                            section: 'Table Formatting',
                             display: 'select',
                             type: 'string',
                             values: [],
@@ -634,7 +634,7 @@ looker.plugins.visualizations.add({
 
 
         function constructFooter(d) {
-            if (d.footerHtml != 'Total') {
+            if (d.footerHtml != 'Totals') {
                 return d.footerHtml;
             } else {
                 return `<span class="totalTitle">${d.footerHtml}</span>`;
@@ -829,7 +829,7 @@ looker.plugins.visualizations.add({
                 }
             });
 
-            if (config.rowNumbers == true) columnData[1].footerHtml = 'Total';
+            if (config.rowNumbers == true) columnData[1].footerHtml = 'Totals';
             else columnData[0].footerHtml = 'Totals';
         }
 
