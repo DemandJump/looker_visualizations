@@ -102,6 +102,17 @@ looker.plugins.visualizations.add({
             default: 'alongAScale'
         },
 
+        formatNumberInput: {
+            label: ' ',
+            order: 17,
+            section: 'Table Formatting',
+            type: 'string',
+            placeholder: 'Enter value',
+            default: ''
+        },
+        formatBetween: {
+            label: ''
+        }
         
 
     },
@@ -427,6 +438,14 @@ looker.plugins.visualizations.add({
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
 
             }
+
+            if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+
+            }
+
+            if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
+
+            }
         }
 
         function enableConditionalFormatting(settings) {
@@ -468,7 +487,6 @@ looker.plugins.visualizations.add({
         let totals_data = queryResponse.totals_data;
         if (queryResponse.totals_data) totalsData();
 
-        let settings = this.options;
         configureStyleSettings();
         if (this._dimensions != dimensions.length) { 
             this._dimensions = dimensions.length;
