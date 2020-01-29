@@ -152,7 +152,7 @@ looker.plugins.visualizations.add({
                         let name = `formatField${i}`;
                         settings[name] = {
                             label: 'Select Field', 
-                            order: 12 + (i/10),
+                            order: 12.2 + (i/10),
                             section: 'Formatting',
                             display: 'select',
                             type: 'string',
