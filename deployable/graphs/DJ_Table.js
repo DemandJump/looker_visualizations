@@ -100,15 +100,17 @@ looker.plugins.visualizations.add({
                 {"not null": "notNull"},
             ],
             default: 'alongAScale'
-        }
+        },
+
+        
 
     },
 
 
     create: function(element, config) {
         let d3 = d3v5;    
-        this._dimensions = 0
-        this._fieldChange
+        this._dimensions = 0;
+        this._fieldChange = 0;
         element.innerHTML =`
             <style>
       @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
@@ -326,8 +328,12 @@ looker.plugins.visualizations.add({
 
 
 
-        function conditionalFormatting() {
-            settings = applyFormattingTo(settings);
+        function conditionalFormatting(settings) {
+            applyFormattingTo(settings);
+            formatAlongAScale(settings);
+            hiddenConfigurationConditionals(settings);
+            console.log(`ConditionalFormatting: Here's the settings`, settings);
+            return settings;
         }
 
 
@@ -400,12 +406,27 @@ looker.plugins.visualizations.add({
 
             } // End of selectFields
             
-        console.log('applyFormattingTo: These are the settings', settings);
-        return settings;
         } // End of applyFormattingTo function
 
-        function formatAlongAScale() {
+        function formatAlongAScale(settings) {
 
+        }
+
+        function hiddenConfigurationConditionals(settings) {
+            if (config.applyFormattingTo == 'selectFields') { // Selected field section
+                if (settings['selectNumberOfFields'].hidden == true) changed = true;
+                settings['selectNumberOfFields'].hidden = false;
+
+                for(let i = 0; i < config.selectNumberOfFields; i++) {
+                    let name = `formatField${i}`;
+                    if (settings[name].hidden == true) changed = true;
+                    settings[name].hidden = false;
+                }
+            } // End of selectField section
+
+            if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
+
+            }
         }
 
         function enableConditionalFormatting(settings) {
