@@ -50,7 +50,7 @@ looker.plugins.visualizations.add({
         colorApplication: {
           type: 'object',
           order: 0.3,
-          section: 'Series'
+          section: 'Formatting',
           display: 'color_application',
           label: 'Color Configuration',
         }
@@ -257,6 +257,9 @@ looker.plugins.visualizations.add({
 
         console.log('LookerCharts', LookerCharts.Utils);
         console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
+
+        console.log('These are the settings', this.options);
+        console.log('This is the config', config);
 
 
         /***************************************
