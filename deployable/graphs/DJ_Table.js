@@ -15,7 +15,8 @@ looker.plugins.visualizations.add({
                 {'Classic': 'classic'},
                 {'Gray': 'gray'}
             ],
-            default: 'classic'
+            default: 'classic',
+            hidden: false
         }, 
         rowNumbers: {
             label: 'Show Row Numbers',
@@ -23,13 +24,15 @@ looker.plugins.visualizations.add({
             section: 'Plot',
             type: 'boolean',
             default: true,
+            hidden: false
         },
         hideTotals: {
             label: 'Hide Totals',
             order: 3,
             section: 'Plot',
             type: 'boolean',
-            default: true
+            default: true,
+            hidden: false
         },
 
         fullFieldName: {
@@ -37,14 +40,16 @@ looker.plugins.visualizations.add({
             order: 0,
             section: 'Series',
             type: 'boolean',
-            default: true
+            default: true,
+            hidden: false
         },
         includeNullValueAsZero: {
             label: 'Include Null Value as Zero',
             order: 0.2,
             section: 'Series',
             type: 'boolean',
-            default: false
+            default: false,
+            hidden: false
         },
 
         colorApplication: {
@@ -53,6 +58,7 @@ looker.plugins.visualizations.add({
           section: 'Table Formatting',
           display: 'color_application',
           label: 'Color Configuration',
+          hidden: false
         },
 
         conditionalFormatting: {
@@ -60,14 +66,16 @@ looker.plugins.visualizations.add({
             order: 10.1,
             section: 'Table Formatting',
             type: 'boolean',
-            default: false
+            default: false,
+            hidden: false
         },
         includeTotals: {
             label: 'Include Totals',
             order: 11,
             section: 'Table Formatting',
             type: 'boolean',
-            default: false
+            default: false,
+            hidden: false
         },
 
         applyFormattingTo: {
@@ -80,7 +88,8 @@ looker.plugins.visualizations.add({
                 {"All numeric fields": "all"},
                 {"Select fields...": "selectFields"}
             ],
-            default: 'all'
+            default: 'all',
+            hidden: false
         },
         formatAlongAScale: {
             label: 'Format',
@@ -99,20 +108,32 @@ looker.plugins.visualizations.add({
                 {"null": "null"},
                 {"not null": "notNull"},
             ],
-            default: 'alongAScale'
+            default: 'alongAScale',
+            hidden: false
         },
 
         formatNumberInput: {
-            label: ' ',
+            label: 'comparison values',
             order: 17,
             section: 'Table Formatting',
             type: 'string',
             placeholder: 'Enter value',
-            default: ''
+            default: '',
+            hidden: false
         },
         formatBetween: {
-            label: ''
-        }
+          label: 'between values',
+          order: 17,
+          section: 'Table Formatting',
+          type: 'sentence_maker',
+          words: [
+              { type: "number", name: "num_rows", value: 0 },
+              { type: "separator", text: "and" },
+              { type: "number", name: "num_rows", value: 0 }
+          ],
+          hidden: false
+
+
         
 
     },
@@ -349,6 +370,15 @@ looker.plugins.visualizations.add({
             console.log(`ConditionalFormatting: Here's the settings`, settings);
             return settings;
         }
+
+
+
+
+
+
+
+
+
 
 
         function applyFormattingTo(settings) {
