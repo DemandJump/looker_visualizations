@@ -143,6 +143,8 @@ looker.plugins.visualizations.add({
     create: function(element, config) {
         let d3 = d3v5;    
         this._dimensions = 0;
+        this._measures = 0;
+        this._selectFieldAmount = 0;
         this._fieldChange = 0;
         element.innerHTML =`
             <style>
@@ -349,11 +351,14 @@ looker.plugins.visualizations.add({
 
         let settings = this.options;
         let fieldChange = this._fieldChange;
+        let numOfMeasures = this._measures;
+        let selectFieldAmount = this._selectFieldAmount;
         let changed = false;
 
         settings = conditionalFormatting(settings);
          
         this._fieldChange = fieldChange;
+        this._measures = numOfMeasures;
         this.options = settings;
         if (changed) {
             this.trigger('registerOptions', settings);
@@ -367,7 +372,7 @@ looker.plugins.visualizations.add({
         function conditionalFormatting(settings) {
             // applyFormattingTo(settings);
             formatAlongAScale(settings);
-            // hiddenConfigurationConditionals(settings);
+            hiddenConfigurationConditionals(settings);
             console.log(`ConditionalFormatting: Here's the settings`, settings);
             return settings;
         }
@@ -393,6 +398,17 @@ looker.plugins.visualizations.add({
 
         function applyFormattingTo(settings) {
             if (config.applyFormattingTo == 'all') {}
+
+
+            if (config.applyFormattingTo == 'selectFields') {
+                initializeSelectFields();
+                selectFieldAmount();
+
+            }
+
+
+
+
             
             if (config.applyFormattingTo == 'selectFields') {
                   // If there's no # of field selector 
@@ -491,6 +507,83 @@ looker.plugins.visualizations.add({
 
             }
         }
+
+
+      function initializeSelectFields() {
+          if (!settings['selectNumberOfFields']) {
+              settings['selectNumberOfFields'] = {
+                  label: 'Select the number of fields',
+                  order: 12.1,
+                  section: 'Table Formatting',
+                  display: 'select',
+                  type: 'string',
+                  values: [],
+              };
+
+              for(let i = 0; i < measures.length; i++) {
+                  let key = i; let val = {}; val[key] = i;
+                  settings['selectNumberOfFields']['values'].push(val);
+              }
+              settings['selectNumberOfFields']['default'] = '1';
+              changed = true;
+          }
+
+          // Change values passed in if they add new measures
+          if (settings['selectNumberOfFields']) {
+              if (numOfMeasures != measures.length) {
+                  numOfMeasures = measures.length;
+                  settings['selectNumberOfFields']['values'] = [];
+                  for(let i = 0; i < measures.length; i++) {
+                      let key = i; let val = {}; val[key] = i;
+                      settings['selectNumberOfFields']['values'].push(val);
+                  }
+                  changed = true;
+              }
+          }
+      } // End of initializeSelectFields
+
+
+      function selectFieldAmount() {
+          // Now we can select the number of fields > change the 
+          if (selectFieldAmount != measures.length) {
+              // If the field is changed, recreate the configuration!
+              changed = true;
+              for(let i = 0; i < selectedFieldAmount; i++) {
+                  let name = `formattedField${i}`;
+                  delete settings[name];
+              }
+              selectFieldAmount = measures.length;
+
+              // Grab the measures and put em into an array
+              let measureNames = [];
+              measureNames.push({"None": "none"});
+              measures.forEach(mes => {
+                  let key = mes.name;
+                  let value = mes.name;
+                  let pear = {};
+                  pear[key] = value;
+                  measureNames.push(pear);
+              });
+
+              // Create the fields
+              for(let i = 0; i < selectFieldAmount; i++) {
+                  let name = `formattedField${i}`;
+                  settings[name] = {
+                      order: 12.2 + (i/10),
+                      section: 'Table Formatting',
+                      display: 'select',
+                      type: 'string',
+                      values: measureNames,
+                      default: 'none'
+                  };
+
+            }
+        }
+
+      } // End of selectFieldAmount
+
+
+
 
         function enableConditionalFormatting(settings) {
             if (!conditionalFormatting) {
