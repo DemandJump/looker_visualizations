@@ -469,7 +469,7 @@ looker.plugins.visualizations.add({
           if (selectFieldAmount != measures.length) {
               // If the field is changed, recreate the configuration!
               changed = true;
-              for(let i = 0; i < selectedFieldAmount; i++) {
+              for(let i = 0; i < selectFieldAmount; i++) {
                   let name = `formattedField${i}`;
                   delete settings[name];
               }
