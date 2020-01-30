@@ -354,17 +354,14 @@ looker.plugins.visualizations.add({
         let selectFieldAmount = this._selectFieldAmount;
         let changed = false;
 
-        conditionalFormatting();
-
+        // Configure the sidebar
         applyFormattingTo();
         formatAlongAScale();
          
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this.options = settings;
-        if (changed) {
-            this.trigger('registerOptions', this.options);
-        }
+        if (changed) this.trigger('registerOptions', this.options);
 
         // Build the configuration, then show/hide the configuration settings
         hiddenConfigurationConditionals();
