@@ -496,7 +496,9 @@ looker.plugins.visualizations.add({
               });
 
               // Create the fields
+              console.log('These are the settings', settings);
               for(let i = 0; i < selectFieldAmount; i++) {
+                  console.log(`settings[${name}]`, settings[name]);
                   let name = `formattedField${i}`;
                   settings[name] = {
                       order: 12.2 + (i/10),
