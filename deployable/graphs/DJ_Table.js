@@ -380,8 +380,7 @@ looker.plugins.visualizations.add({
 
         function applyFormattingTo() {
             initializeSelectFields();
-            if (config.applyFormattingTo == 'all') {}
-            if (config.applyFormattingTo == 'selectFields') selectedFieldsConfig();
+            selectedFieldsConfig();
         } // End of applyFormattingTo function
 
 
