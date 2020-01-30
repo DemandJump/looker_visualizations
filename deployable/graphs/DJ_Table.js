@@ -359,6 +359,7 @@ looker.plugins.visualizations.add({
          
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
+        this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
         if (changed) {
           this.trigger('registerOptions', this.options);
