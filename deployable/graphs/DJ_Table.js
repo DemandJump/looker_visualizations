@@ -403,80 +403,9 @@ looker.plugins.visualizations.add({
             if (config.applyFormattingTo == 'selectFields') {
                 selectedFieldsConfig();
 
-
-
             }
 
 
-
-
-            
-            if (config.applyFormattingTo == 'selectFieldsasdda') {
-                  // If there's no # of field selector 
-                if (!settings['selectNumberOfFields']) {
-                    settings['selectNumberOfFields'] = {
-                        label: 'Select the number of fields',
-                        order: 12.1,
-                        section: 'Formatting',
-                        display: 'select',
-                        type: 'string',
-                        values: [],
-                    };
-
-                    for(let i = 0; i < measures.length; i++) {
-                        let key = i; let val = {}; val[key] = i;
-                        settings['selectNumberOfFields']['values'].push(val);
-                    }
-                    settings['selectNumberOfFields']['default'] = '1';
-                    changed = true;
-                }
-
-                if (settings['selectNumberOfFields']) { // Store the selectedfields for the visual 
-                    if (settings['formatField0']) {
-                        let fields = config.selectNumberOfFields;
-                        for(let i = 0; i < fields; i++) {
-                            selectedFields = [];
-                            let name = `formatField${i}`;
-                            selectedFields.push(config[name]);
-                        }
-                        console.log('These are the selected fields!', selectedFields);
-                    }
-
-                    if (fieldChange != config.selectNumberOfFields) { // See if the visual needs to update based on user field number input
-                        changed = true;
-                        fieldChange = config.selectNumberOfFields;
-                    }
-
-                    // Construct the fields
-                    for(let i = 0; i < config.selectNumberOfFields; i++) {
-                        let name = `formatField${i}`;
-                        settings[name] = {
-                            label: 'Select Field', 
-                            order: 12.2 + (i/10),
-                            section: 'Formatting',
-                            display: 'select',
-                            type: 'string',
-                            values: [],
-                            default: 'none'
-                        };
-                        
-                        let val = {"None": "none"};
-                        settings[name]['values'].push(val);
-
-                        measures.forEach(mes => {
-                            console.log('This is the measure name', mes.names);
-                            let key = mes.name;
-                            let pair = mes.name;
-                            let val = {};
-                            val[key] = pair;
-                            settings[name]['values'].push(val);
-                        });
-                    }
-
-
-                }
-
-            } // End of selectFields
             
         } // End of applyFormattingTo function
 
@@ -497,8 +426,6 @@ looker.plugins.visualizations.add({
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
-                console.log('The current settings', settings);
-                console.log('This is select number of fields', settings['selectNumberOfFields']);
                 if (settings['selectNumberOfFields'].hidden == true) changed = true;
                 settings['selectNumberOfFields'].hidden = false;
 
