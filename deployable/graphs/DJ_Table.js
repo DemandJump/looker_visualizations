@@ -477,7 +477,7 @@ looker.plugins.visualizations.add({
           if (selectFieldAmount != config['selectNumberOfFields']) {
               // If the field is changed, recreate the configuration!
               changed = true;
-              for(let i = 0; i < selectFieldAmount; i++) {
+              for(let i = 0; i < config['selectNumberOfFields']; i++) {
                   let name = `formattedField${i}`;
                   delete settings[name];
               }
