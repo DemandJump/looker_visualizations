@@ -52,15 +52,25 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        colorApplication: {
-          type: 'object',
-          order: 0,
-          section: 'Formatting',
-          display: 'color_application',
-          label: 'Color Configuration',
-          hidden: false
+        ruleInstances: {
+            order: 0.3,
+            section: 'Formatting',
+            display: 'word sentence',
+            type: 'sentence_maker',
+            words: [
+                {type: "separator", text: "Number of rules: "},
+                {type: "number", name: "rules", value: 0}
+            ]
         },
-
+        // colorApplication: {
+        //   type: 'object',
+        //   order: 0,
+        //   section: 'Formatting',
+        //   display: 'color_application',
+        //   label: 'Color Configuration',
+        //   supports: ["discrete", "continuous"],
+        //   hidden: false
+        // },
         conditionalFormatting: {
             label: 'Enable Conditional Formatting',
             order: 10.1,
@@ -126,9 +136,9 @@ looker.plugins.visualizations.add({
           section: 'Formatting',
           type: 'sentence_maker',
           words: [
-              { type: "number", name: "num_rows", value: 0 },
+              { type: "number", name: "num1", value: 0 },
               { type: "separator", text: "and" },
-              { type: "number", name: "num_rows", value: 0 }
+              { type: "number", name: "num2", value: 0 }
           ],
           hidden: false
         }
