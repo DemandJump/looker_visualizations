@@ -343,9 +343,9 @@ looker.plugins.visualizations.add({
 
 
         function conditionalFormatting(settings) {
-            applyFormattingTo(settings);
+            // applyFormattingTo(settings);
             formatAlongAScale(settings);
-            hiddenConfigurationConditionals(settings);
+            // hiddenConfigurationConditionals(settings);
             console.log(`ConditionalFormatting: Here's the settings`, settings);
             return settings;
         }
@@ -406,13 +406,14 @@ looker.plugins.visualizations.add({
                         let val = {"None": "none"}
                         settings[name]['values'].push(val);
 
-                        for(let i = 0; i < measures.length; i++) {
-                            let key = measures.name;
-                            let pair = measures.name;
+                        measures.forEach(mes => {
+                            console.log('This is the measure name', mes.names);
+                            let key = mes.name;
+                            let pair = mes.name;
                             let val = {};
                             val[key] = pair;
                             settings[name]['values'].push(val);
-                        }
+                        });
                     }
 
 
