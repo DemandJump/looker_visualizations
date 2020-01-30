@@ -88,63 +88,6 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        applyFormattingTo: {
-            label: 'Apply to',
-            order: 12,
-            section: 'Formatting',
-            display: 'select',
-            type: 'string',
-            values: [
-                {"All numeric fields": "all"},
-                {"Select fields...": "selectFields"}
-            ],
-            default: 'all',
-            hidden: false
-        },
-        formatAlongAScale: {
-            label: 'Format',
-            order: 16,
-            section: 'Formatting',
-            display: 'select',
-            type: 'string',
-            values: [
-                {"Along a scale...": "alongAScale"},
-                {"equal to": "equalTo"},
-                {"not equal to": "notEqualTo"},
-                {"greater than": "greaterThan"},
-                {"less than": "lessThan"},
-                {"between": "between"},
-                {"not between": "notBetween"},
-                {"null": "null"},
-                {"not null": "notNull"},
-            ],
-            default: 'alongAScale',
-            hidden: false
-        },
-
-        formatNumberInput: {
-            order: 17,
-            section: 'Formatting',
-            type: 'string',
-            placeholder: 'Enter value',
-            default: '',
-            hidden: false
-        },
-        formatBetween: {
-          label: 'between values',
-          order: 17,
-          section: 'Formatting',
-          type: 'sentence_maker',
-          words: [
-              { type: "number", name: "num1", value: 0 },
-              { type: "separator", text: "and" },
-              { type: "number", name: "num2", value: 0 }
-          ],
-          hidden: false
-        }
-
-
-        
 
     },
 
@@ -389,12 +332,18 @@ looker.plugins.visualizations.add({
 
 
 
+
         function applyFormattingTo() {
+            initializeBasicRules();
+            initializeApplyFormattingTo();
             initializeSelectFields();
             selectedFieldsConfig();
         } // End of applyFormattingTo function
 
 
+
+
+        
 
 
 
@@ -453,79 +402,147 @@ looker.plugins.visualizations.add({
         } // End of hiddenConfigurationConditionals
 
 
-      function initializeSelectFields() {
-          // Create the select number of fields object
-          if (!settings['selectNumberOfFields']) {
-              settings['selectNumberOfFields'] = {
-                  label: 'Select the number of fields',
-                  order: 12.1,
-                  section: 'Formatting',
-                  display: 'select',
-                  type: 'string',
-                  values: [],
-                  default: '1',
-                  hidden: false
-              };
+        function initializeSelectFields() {
+            // Create the select number of fields object
+            if (!settings['selectNumberOfFields']) {
+                settings['selectNumberOfFields'] = {
+                    label: 'Select the number of fields',
+                    order: 12.1,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: [],
+                    default: '1',
+                    hidden: false
+                };
 
-              for(let i = 0; i < measures.length; i++) {
-                  let key = i; let val = {}; val[key] = i;
-                  settings['selectNumberOfFields']['values'].push(val);
-              }
-              changed = true;
-          }
-
-          // Change values passed in if they add new measures
-          if (settings['selectNumberOfFields']) {
-              console.log(`NumOfMeasures:${numOfMeasures}, and measures.length: ${measures.length}`);
-              if (numOfMeasures != measures.length) {
-                  numOfMeasures = measures.length;
-                  settings['selectNumberOfFields']['values'] = [];
-                  for(let i = 0; i < measures.length; i++) {
-                      let key = i; let val = {}; val[key] = i;
-                      settings['selectNumberOfFields']['values'].push(val);
-                  }
-                  changed = true;
-              }
-          }
-      } // End of initializeSelectFields
-
-
-      function selectedFieldsConfig() {
-          // Now we can select the number of fields > change the 
-          if (selectFieldAmount != config['selectNumberOfFields']) {
-              selectFieldAmount = config['selectNumberOfFields'];
-              changed = true;
-
-              // Grab the measures and put em into an array
-              let measureNames = [];
-              measureNames.push({"None": "none"});
-              measures.forEach(mes => {
-                  let key = mes.name;
-                  let value = mes.name;
-                  let pear = {};
-                  pear[key] = value;
-                  measureNames.push(pear);
-              });
-
-              // Create the fields
-              for(let i = 0; i < measures.length; i++) {
-                  let name = `formattedField${i}`;
-                  settings[name] = {
-                      order: 12.2 + (i/10),
-                      section: 'Formatting',
-                      display: 'select',
-                      type: 'string',
-                      values: measureNames,
-                      default: 'none',
-                      hidden: true
-                  };
-
+                for(let i = 0; i < measures.length; i++) {
+                    let key = i; let val = {}; val[key] = i;
+                    settings['selectNumberOfFields']['values'].push(val);
+                }
+                changed = true;
             }
-            console.log('These are the finished settings', settings);
+
+            // Change values passed in if they add new measures
+            if (settings['selectNumberOfFields']) {
+                console.log(`NumOfMeasures:${numOfMeasures}, and measures.length: ${measures.length}`);
+                if (numOfMeasures != measures.length) {
+                    numOfMeasures = measures.length;
+                    settings['selectNumberOfFields']['values'] = [];
+                    for(let i = 0; i < measures.length; i++) {
+                        let key = i; let val = {}; val[key] = i;
+                        settings['selectNumberOfFields']['values'].push(val);
+                    }
+                    changed = true;
+                }
+            }
+        } // End of initializeSelectFields
+
+
+        function selectedFieldsConfig() {
+            // Now we can select the number of fields > change the 
+            if (selectFieldAmount != config['selectNumberOfFields']) {
+                selectFieldAmount = config['selectNumberOfFields'];
+                changed = true;
+
+                // Grab the measures and put em into an array
+                let measureNames = [];
+                measureNames.push({"None": "none"});
+                measures.forEach(mes => {
+                    let key = mes.name;
+                    let value = mes.name;
+                    let pear = {};
+                    pear[key] = value;
+                    measureNames.push(pear);
+                });
+
+                // Create the fields
+                for(let i = 0; i < measures.length; i++) {
+                    let name = `formattedField${i}`;
+                    settings[name] = {
+                        order: 12.2 + (i/10),
+                        section: 'Formatting',
+                        display: 'select',
+                        type: 'string',
+                        values: measureNames,
+                        default: 'none',
+                        hidden: true
+                    };
+
+              }
+              console.log('These are the finished settings', settings);
+          }
+
+        } // End of selectFieldAmount
+
+
+        function initializeBasicRules() {
+            if (!config.applyFormattingTo || !config.formatAlongAScale || !config.formatNumberInput || !config.formatBetween) changed = true;
+
+            if (!config.applyFormattingTo) {
+                settings['applyFormattingTo'] = {
+                    label: 'Apply to',
+                    order: 12,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: [
+                        {"All numeric fields": "all"},
+                        {"Select fields...": "selectFields"}
+                    ],
+                    default: 'all',
+                    hidden: false
+                };
+            }
+
+            if (!config.formatAlongAScale) {
+                settings['formatAlongAScale'] = {
+                    label: 'Format',
+                    order: 16,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: [
+                        {"Along a scale...": "alongAScale"},
+                        {"equal to": "equalTo"},
+                        {"not equal to": "notEqualTo"},
+                        {"greater than": "greaterThan"},
+                        {"less than": "lessThan"},
+                        {"between": "between"},
+                        {"not between": "notBetween"},
+                        {"null": "null"},
+                        {"not null": "notNull"},
+                    ],
+                    default: 'alongAScale',
+                    hidden: false
+                };
+            }
+
+            if (!config.formatNumberInput) {
+                settings['formatMumberInput'] = {
+                  order: 17,
+                  section: 'Formatting',
+                  type: 'string',
+                  placeholder: 'Enter value',
+                  default: '',
+                  hidden: false}
+            }
+
+            if (!config.formatBetween) {
+                settings['formatBetween'] = {
+                    label: 'between values',
+                    order: 17,
+                    section: 'Formatting',
+                    type: 'sentence_maker',
+                    words: [
+                        { type: "number", name: "num1", value: 0 },
+                        { type: "separator", text: "and" },
+                        { type: "number", name: "num2", value: 0 }
+                    ],
+                    hidden: false
+                };
+            }
         }
-
-      } // End of selectFieldAmount
-
 
 
 
