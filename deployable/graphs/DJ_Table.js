@@ -356,7 +356,6 @@ looker.plugins.visualizations.add({
 
         // Configure the sidebar
         applyFormattingTo();
-        formatAlongAScale();
          
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
@@ -375,39 +374,11 @@ looker.plugins.visualizations.add({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         function applyFormattingTo() {
             initializeSelectFields();
-
-            if (config.applyFormattingTo == 'all') {
-
-            }
-
-            if (config.applyFormattingTo == 'selectFields') {
-                selectedFieldsConfig();
-
-            }
-
-
-            
+            if (config.applyFormattingTo == 'all') {}
+            if (config.applyFormattingTo == 'selectFields') selectedFieldsConfig();
         } // End of applyFormattingTo function
-
-
-        function formatAlongAScale() {
-
-        } // End of formatAlongAScale
 
 
         function hiddenConfigurationConditionals() {
@@ -530,28 +501,7 @@ looker.plugins.visualizations.add({
       } // End of selectFieldAmount
 
 
-
-
-        function enableConditionalFormatting() {
-            if (!conditionalFormatting) {
-                if (settings['alongAlScale']) delete settings['alongAScale'];
-                if (settings['equalTo']) delete settings['equalTo'];
-                if (settings['notEqualTo']) delete settings['notEqualTo'];
-                if (settings['greaterThan']) delete settings['greaterThan'];
-                if (settings['between']) delete settings['between'];
-                if (settings['notBetween']) delete settings['notBetween'];
-                if (settings['null']) delete settings['null'];
-                if (settings['notNull']) delete settings['notNull'];
-                if (settings['selectNumberOfFields']) delete settings['selectNumberOfFields'];
-            } else {
-                applyFormattingTo(settings);
-                formatAlongAScale();
-            }
-
-
-            console.log('conditionalFormatting: Here are the new settings', settings);
-        } // end of conditionalFormatting
-
+      
 
         /***************************************
          * Configuring the data
