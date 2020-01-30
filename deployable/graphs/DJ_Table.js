@@ -397,7 +397,9 @@ looker.plugins.visualizations.add({
 
 
         function applyFormattingTo(settings) {
-            if (config.applyFormattingTo == 'all') {}
+            if (config.applyFormattingTo == 'all') {
+
+            }
 
 
             if (config.applyFormattingTo == 'selectFields') {
@@ -484,12 +486,23 @@ looker.plugins.visualizations.add({
         }
 
         function hiddenConfigurationConditionals(settings) {
+            if (config.applyFormattingTo == 'all') {
+                if (settings['selectNumberOfFields'].hidden == false) changed = true 
+                settings['selectNumberOfFields'].hidden = true 
+
+                for(let i = 0; i < config.selectNumberOfFields; i++) {
+                    let name = `formattedField${i}`;
+                    if (settings[name].hidden == false) changed = true;
+                    settings[name].hidden = true;
+                }
+            }
+
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
                 if (settings['selectNumberOfFields'].hidden == true) changed = true;
                 settings['selectNumberOfFields'].hidden = false;
 
                 for(let i = 0; i < config.selectNumberOfFields; i++) {
-                    let name = `formatField${i}`;
+                    let name = `formattedField${i}`;
                     if (settings[name].hidden == true) changed = true;
                     settings[name].hidden = false;
                 }
