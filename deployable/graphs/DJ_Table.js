@@ -398,7 +398,6 @@ looker.plugins.visualizations.add({
 
         function applyFormattingTo(settings) {
             if (config.applyFormattingTo == 'all') {
-
             }
 
 
