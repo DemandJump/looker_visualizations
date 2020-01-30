@@ -410,7 +410,7 @@ looker.plugins.visualizations.add({
 
 
             
-            if (config.applyFormattingTo == 'selectFields') {
+            if (config.applyFormattingTo == 'selectFieldsasdda') {
                   // If there's no # of field selector 
                 if (!settings['selectNumberOfFields']) {
                     settings['selectNumberOfFields'] = {
