@@ -470,9 +470,8 @@ looker.plugins.visualizations.add({
 
 
         function initializeBasicRules() {
-            if (!config.applyFormattingTo || !config.formatAlongAScale || !config.formatNumberInput || !config.formatBetween) changed = true;
-
             if (!config.applyFormattingTo) {
+                changed = true;
                 settings['applyFormattingTo'] = {
                     label: 'Apply to',
                     order: 12,
@@ -489,6 +488,7 @@ looker.plugins.visualizations.add({
             }
 
             if (!config.formatAlongAScale) {
+                changed = true;
                 settings['formatAlongAScale'] = {
                     label: 'Format',
                     order: 16,
@@ -512,16 +512,19 @@ looker.plugins.visualizations.add({
             }
 
             if (!config.formatNumberInput) {
+                changed = true;
                 settings['formatNumberInput'] = {
-                  order: 17,
-                  section: 'Formatting',
-                  type: 'string',
-                  placeholder: 'Enter value',
-                  default: '',
-                  hidden: false}
+                    order: 17,
+                    section: 'Formatting',
+                    type: 'string',
+                    placeholder: 'Enter value',
+                    default: '0',
+                    hidden: false
+                };
             }
 
             if (!config.formatBetween) {
+                changed = true;
                 settings['formatBetween'] = {
                     label: 'between values',
                     order: 17,
