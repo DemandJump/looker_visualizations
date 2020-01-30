@@ -477,7 +477,7 @@ looker.plugins.visualizations.add({
           if (selectFieldAmount != config['selectNumberOfFields']) {
               // If the field is changed, recreate the configuration!
               changed = true;
-              for(let i = 0; i < config['selectNumberOfFields']; i++) {
+              for(let i = 0; i < selectFieldAmount; i++) {
                   let name = `formattedField${i}`;
                   delete settings[name];
               }
@@ -495,7 +495,7 @@ looker.plugins.visualizations.add({
               });
 
               // Create the fields
-              for(let i = 0; i < config['selectedNumberOfFields']; i++) {
+              for(let i = 0; i < selectFieldAmount; i++) {
                   let name = `formattedField${i}`;
                   settings[name] = {
                       order: 12.2 + (i/10),
