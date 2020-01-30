@@ -412,7 +412,7 @@ looker.plugins.visualizations.add({
                     if (settings[name].hidden == true) changed = true;
                     settings[name].hidden = false;
                 }
-            } // End of selectField section
+            }
 
             // SelectedFields show/hide conditionals
             let count = config['selectNumberOfFields'];
@@ -429,9 +429,9 @@ looker.plugins.visualizations.add({
             }
 
             if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
-              if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) changed = true;
-              settings['formatBetween'].hidden = false;
-              settings['formatNumberInput'].hidden = true;
+                if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) changed = true;
+                settings['formatBetween'].hidden = false;
+                settings['formatNumberInput'].hidden = true;
 
             }
 
