@@ -382,9 +382,9 @@ looker.plugins.visualizations.add({
                         console.log('These are the selected fields!', selectedFields)
                     }
 
-                    if (fields != config.selectNumberOfFields) { // See if the visual needs to update based on user field number input
+                    if (fieldChange != config.selectNumberOfFields) { // See if the visual needs to update based on user field number input
                         changed = true;
-                        config.selectNumberOfFields = config.selectNumberOfFields;
+                        fieldChange = config.selectNumberOfFields;
                     }
 
                     // Construct the fields
