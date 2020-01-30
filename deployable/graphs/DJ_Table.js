@@ -355,25 +355,22 @@ looker.plugins.visualizations.add({
         let changed = false;
 
         conditionalFormatting();
+
+        applyFormattingTo();
+        formatAlongAScale();
          
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this.options = settings;
         if (changed) {
-            this.trigger('registerOptions', settings);
+            this.trigger('registerOptions', this.options);
         }
 
+        // Build the configuration, then show/hide the configuration settings
+        hiddenConfigurationConditionals();
+        if (changed) this.trigger('registerOptions', this.options);
+        console.log(`ConditionalFormatting: Here's the settings`, settings);
 
-
-
-
-
-        function conditionalFormatting() {
-            applyFormattingTo();
-            formatAlongAScale();
-            hiddenConfigurationConditionals();
-            console.log(`ConditionalFormatting: Here's the settings`, settings);
-        }
 
 
 
