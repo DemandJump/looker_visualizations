@@ -445,8 +445,8 @@ looker.plugins.visualizations.add({
                   display: 'select',
                   type: 'string',
                   values: [],
-                  hidden: true,
-                  default: '1'
+                  default: '1',
+                  hidden: false
               };
 
               for(let i = 0; i < measures.length; i++) {
