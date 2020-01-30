@@ -396,11 +396,11 @@ looker.plugins.visualizations.add({
 
 
         function applyFormattingTo() {
+            initializeSelectFields();
+
             if (config.applyFormattingTo == 'all') {}
 
-
             if (config.applyFormattingTo == 'selectFields') {
-                initializeSelectFields();
                 selectedFieldsConfig();
 
 
@@ -531,6 +531,7 @@ looker.plugins.visualizations.add({
 
 
       function initializeSelectFields() {
+          // Create the select number of fields object
           if (!settings['selectNumberOfFields']) {
               settings['selectNumberOfFields'] = {
                   label: 'Select the number of fields',
@@ -539,6 +540,7 @@ looker.plugins.visualizations.add({
                   display: 'select',
                   type: 'string',
                   values: [],
+                  hidden: true
               };
 
               for(let i = 0; i < measures.length; i++) {
