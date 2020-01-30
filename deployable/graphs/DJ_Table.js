@@ -314,16 +314,19 @@ looker.plugins.visualizations.add({
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
-        if (changed) {
-          this.trigger('registerOptions', this.options);
-        }
+        rebuildSettings();
 
         // Build the configuration, then show/hide the configuration settings
         hiddenConfigurationConditionals();
-        if (changed) {
-          this.trigger('registerOptions', this.options);
-        }
+        rebuildSettings();
         console.log(`ConditionalFormatting: Here's the settings`, settings);
+
+
+
+
+
+
+
 
 
 
@@ -340,13 +343,9 @@ looker.plugins.visualizations.add({
         } // End of applyFormattingTo function
 
 
-
-
-        
-
-
-
-
+        function rebuildSettings() {
+            if (changed) this.trigger('registerOptions', settings)
+        }
 
 
         function hiddenConfigurationConditionals() {
@@ -518,7 +517,7 @@ looker.plugins.visualizations.add({
             }
 
             if (!config.formatNumberInput) {
-                settings['formatMumberInput'] = {
+                settings['formatNumberInput'] = {
                   order: 17,
                   section: 'Formatting',
                   type: 'string',
