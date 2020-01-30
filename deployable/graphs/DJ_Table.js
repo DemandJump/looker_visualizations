@@ -392,27 +392,35 @@ looker.plugins.visualizations.add({
 
 
         function hiddenConfigurationConditionals() {
-            // if (config.applyFormattingTo == 'all') {
-            //     if (settings['selectNumberOfFields'].hidden == false) changed = true 
-            //     settings['selectNumberOfFields'].hidden = true 
+            if (config.applyFormattingTo == 'all') {
+                if (settings['selectNumberOfFields'].hidden == false) changed = true 
+                settings['selectNumberOfFields'].hidden = true 
 
-            //     for(let i = 0; i < config.selectNumberOfFields; i++) {
-            //         let name = `formattedField${i}`;
-            //         if (settings[name].hidden == false) changed = true;
-            //         settings[name].hidden = true;
-            //     }
-            // }
+                for(let i = 0; i < config.selectNumberOfFields; i++) {
+                    let name = `formattedField${i}`;
+                    if (settings[name].hidden == false) changed = true;
+                    settings[name].hidden = true;
+                }
+            }
 
-            // if (config.applyFormattingTo == 'selectFields') { // Selected field section
-            //     if (settings['selectNumberOfFields'].hidden == true) changed = true;
-            //     settings['selectNumberOfFields'].hidden = false;
+            if (config.applyFormattingTo == 'selectFields') { // Selected field section
+                if (settings['selectNumberOfFields'].hidden == true) changed = true;
+                settings['selectNumberOfFields'].hidden = false;
 
-            //     for(let i = 0; i < config.selectNumberOfFields; i++) {
-            //         let name = `formattedField${i}`;
-            //         if (settings[name].hidden == true) changed = true;
-            //         settings[name].hidden = false;
-            //     }
-            // } // End of selectField section
+                for(let i = 0; i < config.selectNumberOfFields; i++) {
+                    let name = `formattedField${i}`;
+                    if (settings[name].hidden == true) changed = true;
+                    settings[name].hidden = false;
+                }
+            } // End of selectField section
+
+            // SelectedFields show/hide conditionals
+            let count = config['selectNumberOfFields'];
+            for(let i = 0; i < measures.length; i++) {
+                let name = `formattedField${i}`;
+                if (i <= count) settings[name].hidden = false;
+                else settings[name].hidden = true;
+            }
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) changed = true;
@@ -477,10 +485,6 @@ looker.plugins.visualizations.add({
           if (selectFieldAmount != config['selectNumberOfFields']) {
               // If the field is changed, recreate the configuration!
               changed = true;
-              for(let i = 0; i < selectFieldAmount; i++) {
-                  let name = `formattedField${i}`;
-                  delete settings[name];
-              }
               selectFieldAmount = config['selectNumberOfFields'];
 
               // Grab the measures and put em into an array
@@ -503,7 +507,8 @@ looker.plugins.visualizations.add({
                       display: 'select',
                       type: 'string',
                       values: measureNames,
-                      default: 'none'
+                      default: 'none',
+                      hidden: true
                   };
 
             }
