@@ -113,7 +113,6 @@ looker.plugins.visualizations.add({
         },
 
         formatNumberInput: {
-            label: 'comparison values',
             order: 17,
             section: 'Formatting',
             type: 'string',
@@ -415,7 +414,7 @@ looker.plugins.visualizations.add({
         function formatAlongAScale() {
 
         } // End of formatAlongAScale
-        
+
 
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
