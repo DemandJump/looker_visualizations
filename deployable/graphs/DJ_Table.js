@@ -405,6 +405,8 @@ looker.plugins.visualizations.add({
                 initializeSelectFields();
                 selectedFieldsConfig();
 
+
+
             }
 
 
@@ -508,15 +510,22 @@ looker.plugins.visualizations.add({
             } // End of selectField section
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
-
+                if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) changed = true;
+                settings['formatNumberInput'].hidden = false;
+                settings['formatBetween'].hidden = true;
             }
 
             if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+              if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) changed = true;
+              settings['formatBetween'].hidden = false;
+              settings['formatNumberInput'].hidden = true;
 
             }
 
             if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
-
+                if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) changed = true;
+                settings['formatNumberInput'].hidden = true;
+                settings['formatBetween'].hidden = true;
             }
         }
 
