@@ -335,7 +335,6 @@ looker.plugins.visualizations.add({
 
         function applyFormattingTo() {
             initializeBasicRules();
-            initializeApplyFormattingTo();
             initializeSelectFields();
             selectedFieldsConfig();
         } // End of applyFormattingTo function
