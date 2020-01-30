@@ -499,7 +499,6 @@ looker.plugins.visualizations.add({
               console.log('These are the settings', settings);
               for(let i = 0; i < selectFieldAmount; i++) {
                   let name = `formattedField${i}`;
-                  console.log(`settings[${name}]`, settings[name]);
                   settings[name] = {
                       order: 12.2 + (i/10),
                       section: 'Formatting',
@@ -508,6 +507,7 @@ looker.plugins.visualizations.add({
                       values: measureNames,
                       default: 'none'
                   };
+                  console.log(`settings[${name}]`, settings[name]);
 
             }
         }
