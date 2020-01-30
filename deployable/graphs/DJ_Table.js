@@ -499,7 +499,7 @@ looker.plugins.visualizations.add({
               });
 
               // Create the fields
-              for(let i = 0; i < selectFieldAmount; i++) {
+              for(let i = 0; i < measures.length; i++) {
                   let name = `formattedField${i}`;
                   settings[name] = {
                       order: 12.2 + (i/10),
