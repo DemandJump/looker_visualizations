@@ -360,11 +360,15 @@ looker.plugins.visualizations.add({
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this.options = settings;
-        if (changed) this.trigger('registerOptions', this.options);
+        if (changed) {
+          this.trigger('registerOptions', this.options);
+        }
 
         // Build the configuration, then show/hide the configuration settings
         hiddenConfigurationConditionals();
-        if (changed) this.trigger('registerOptions', this.options);
+        if (changed) {
+          this.trigger('registerOptions', this.options);
+        }
         console.log(`ConditionalFormatting: Here's the settings`, settings);
 
 
@@ -501,7 +505,7 @@ looker.plugins.visualizations.add({
       } // End of selectFieldAmount
 
 
-      
+
 
         /***************************************
          * Configuring the data
