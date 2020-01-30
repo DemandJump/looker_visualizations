@@ -330,9 +330,12 @@ looker.plugins.visualizations.add({
         let changed = false;
 
         settings = conditionalFormatting(settings);
-        // Conditional to change the settings in the visual
+         
         this._fieldChange = fieldChange;
-        if (changed) this.trigger('registerOptions', settings);
+        this.options = settings;
+        if (changed) {
+            this.trigger('registerOptions', settings);
+        }
 
 
 
@@ -404,8 +407,8 @@ looker.plugins.visualizations.add({
                         settings[name]['values'].push(val);
 
                         for(let i = 0; i < measures.length; i++) {
-                            let key = mes.name;
-                            let pair = mes.name;
+                            let key = measures.name;
+                            let pair = measures.name;
                             let val = {};
                             val[key] = pair;
                             settings[name]['values'].push(val);
