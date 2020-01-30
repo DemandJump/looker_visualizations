@@ -483,9 +483,8 @@ looker.plugins.visualizations.add({
       function selectedFieldsConfig() {
           // Now we can select the number of fields > change the 
           if (selectFieldAmount != config['selectNumberOfFields']) {
-              // If the field is changed, recreate the configuration!
-              changed = true;
               selectFieldAmount = config['selectNumberOfFields'];
+              changed = true;
 
               // Grab the measures and put em into an array
               let measureNames = [];
