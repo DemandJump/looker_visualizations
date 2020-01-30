@@ -55,7 +55,7 @@ looker.plugins.visualizations.add({
         colorApplication: {
           type: 'object',
           order: 0,
-          section: 'Table Formatting',
+          section: 'Formatting',
           display: 'color_application',
           label: 'Color Configuration',
           hidden: false
@@ -64,7 +64,7 @@ looker.plugins.visualizations.add({
         conditionalFormatting: {
             label: 'Enable Conditional Formatting',
             order: 10.1,
-            section: 'Table Formatting',
+            section: 'Formatting',
             type: 'boolean',
             default: false,
             hidden: false
@@ -72,7 +72,7 @@ looker.plugins.visualizations.add({
         includeTotals: {
             label: 'Include Totals',
             order: 11,
-            section: 'Table Formatting',
+            section: 'Formatting',
             type: 'boolean',
             default: false,
             hidden: false
@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
         applyFormattingTo: {
             label: 'Apply to',
             order: 12,
-            section: 'Table Formatting',
+            section: 'Formatting',
             display: 'select',
             type: 'string',
             values: [
@@ -94,7 +94,7 @@ looker.plugins.visualizations.add({
         formatAlongAScale: {
             label: 'Format',
             order: 16,
-            section: 'Table Formatting',
+            section: 'Formatting',
             display: 'select',
             type: 'string',
             values: [
@@ -115,7 +115,7 @@ looker.plugins.visualizations.add({
         formatNumberInput: {
             label: 'comparison values',
             order: 17,
-            section: 'Table Formatting',
+            section: 'Formatting',
             type: 'string',
             placeholder: 'Enter value',
             default: '',
@@ -124,7 +124,7 @@ looker.plugins.visualizations.add({
         formatBetween: {
           label: 'between values',
           order: 17,
-          section: 'Table Formatting',
+          section: 'Formatting',
           type: 'sentence_maker',
           words: [
               { type: "number", name: "num_rows", value: 0 },
@@ -355,7 +355,7 @@ looker.plugins.visualizations.add({
         let selectFieldAmount = this._selectFieldAmount;
         let changed = false;
 
-        settings = conditionalFormatting(settings);
+        conditionalFormatting();
          
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
@@ -369,12 +369,11 @@ looker.plugins.visualizations.add({
 
 
 
-        function conditionalFormatting(settings) {
-            // applyFormattingTo(settings);
-            formatAlongAScale(settings);
-            hiddenConfigurationConditionals(settings);
+        function conditionalFormatting() {
+            // applyFormattingTo();
+            formatAlongAScale();
+            hiddenConfigurationConditionals();
             console.log(`ConditionalFormatting: Here's the settings`, settings);
-            return settings;
         }
 
 
@@ -396,9 +395,8 @@ looker.plugins.visualizations.add({
 
 
 
-        function applyFormattingTo(settings) {
-            if (config.applyFormattingTo == 'all') {
-            }
+        function applyFormattingTo() {
+            if (config.applyFormattingTo == 'all') {}
 
 
             if (config.applyFormattingTo == 'selectFields') {
@@ -419,7 +417,7 @@ looker.plugins.visualizations.add({
                     settings['selectNumberOfFields'] = {
                         label: 'Select the number of fields',
                         order: 12.1,
-                        section: 'Table Formatting',
+                        section: 'Formatting',
                         display: 'select',
                         type: 'string',
                         values: [],
@@ -455,7 +453,7 @@ looker.plugins.visualizations.add({
                         settings[name] = {
                             label: 'Select Field', 
                             order: 12.2 + (i/10),
-                            section: 'Table Formatting',
+                            section: 'Formatting',
                             display: 'select',
                             type: 'string',
                             values: [],
@@ -482,11 +480,11 @@ looker.plugins.visualizations.add({
             
         } // End of applyFormattingTo function
 
-        function formatAlongAScale(settings) {
+        function formatAlongAScale() {
 
         }
 
-        function hiddenConfigurationConditionals(settings) {
+        function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
                 if (settings['selectNumberOfFields'].hidden == false) changed = true 
                 settings['selectNumberOfFields'].hidden = true 
@@ -499,6 +497,8 @@ looker.plugins.visualizations.add({
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
+                console.log('The current settings', settings);
+                console.log('This is select number of fields', settings['selectNumberOfFields']);
                 if (settings['selectNumberOfFields'].hidden == true) changed = true;
                 settings['selectNumberOfFields'].hidden = false;
 
@@ -535,7 +535,7 @@ looker.plugins.visualizations.add({
               settings['selectNumberOfFields'] = {
                   label: 'Select the number of fields',
                   order: 12.1,
-                  section: 'Table Formatting',
+                  section: 'Formatting',
                   display: 'select',
                   type: 'string',
                   values: [],
@@ -591,7 +591,7 @@ looker.plugins.visualizations.add({
                   let name = `formattedField${i}`;
                   settings[name] = {
                       order: 12.2 + (i/10),
-                      section: 'Table Formatting',
+                      section: 'Formatting',
                       display: 'select',
                       type: 'string',
                       values: measureNames,
@@ -606,7 +606,7 @@ looker.plugins.visualizations.add({
 
 
 
-        function enableConditionalFormatting(settings) {
+        function enableConditionalFormatting() {
             if (!conditionalFormatting) {
                 if (settings['alongAlScale']) delete settings['alongAScale'];
                 if (settings['equalTo']) delete settings['equalTo'];
@@ -624,7 +624,6 @@ looker.plugins.visualizations.add({
 
 
             console.log('conditionalFormatting: Here are the new settings', settings);
-            return settings
         } // end of conditionalFormatting
 
 
