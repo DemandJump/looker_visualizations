@@ -390,7 +390,7 @@ looker.plugins.visualizations.add({
 
 
 
-        
+
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
                 if (settings['selectNumberOfFields'].hidden == false) changed = true 
@@ -445,19 +445,20 @@ looker.plugins.visualizations.add({
                   display: 'select',
                   type: 'string',
                   values: [],
-                  hidden: true
+                  hidden: true,
+                  default: '1'
               };
 
               for(let i = 0; i < measures.length; i++) {
                   let key = i; let val = {}; val[key] = i;
                   settings['selectNumberOfFields']['values'].push(val);
               }
-              settings['selectNumberOfFields']['default'] = '1';
               changed = true;
           }
 
           // Change values passed in if they add new measures
           if (settings['selectNumberOfFields']) {
+              console.log(`NumOfMeasures:${numOfMeasures}, and measures.length: ${measures.length}`);
               if (numOfMeasures != measures.length) {
                   numOfMeasures = measures.length;
                   settings['selectNumberOfFields']['values'] = [];
