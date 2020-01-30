@@ -385,6 +385,12 @@ looker.plugins.visualizations.add({
         } // End of applyFormattingTo function
 
 
+
+
+
+
+
+        
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
                 if (settings['selectNumberOfFields'].hidden == false) changed = true 
