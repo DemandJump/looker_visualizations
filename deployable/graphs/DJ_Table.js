@@ -132,6 +132,7 @@ looker.plugins.visualizations.add({
               { type: "number", name: "num_rows", value: 0 }
           ],
           hidden: false
+        }
 
 
         
@@ -409,7 +410,7 @@ looker.plugins.visualizations.add({
                         let key = i; let val = {}; val[key] = i;
                         settings['selectNumberOfFields']['values'].push(val);
                     }
-                    settings['selectNumberOfFields']['default'] = '1'
+                    settings['selectNumberOfFields']['default'] = '1';
                     changed = true;
                 }
 
@@ -421,7 +422,7 @@ looker.plugins.visualizations.add({
                             let name = `formatField${i}`;
                             selectedFields.push(config[name]);
                         }
-                        console.log('These are the selected fields!', selectedFields)
+                        console.log('These are the selected fields!', selectedFields);
                     }
 
                     if (fieldChange != config.selectNumberOfFields) { // See if the visual needs to update based on user field number input
