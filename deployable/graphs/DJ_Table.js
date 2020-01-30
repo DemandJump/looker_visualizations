@@ -314,11 +314,11 @@ looker.plugins.visualizations.add({
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
-        rebuildSettings();
+        if (changed) this.trigger('registerOptions', settings);
 
         // Build the configuration, then show/hide the configuration settings
         hiddenConfigurationConditionals();
-        rebuildSettings();
+        if (changed) this.trigger('registerOptions', settings);
         console.log(`ConditionalFormatting: Here's the settings`, settings);
 
 
@@ -341,11 +341,6 @@ looker.plugins.visualizations.add({
             initializeSelectFields();
             selectedFieldsConfig();
         } // End of applyFormattingTo function
-
-
-        function rebuildSettings() {
-            if (changed) this.trigger('registerOptions', settings)
-        }
 
 
         function hiddenConfigurationConditionals() {
