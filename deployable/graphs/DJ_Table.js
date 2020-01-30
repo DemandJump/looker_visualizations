@@ -510,6 +510,7 @@ looker.plugins.visualizations.add({
                   console.log(`settings[${name}]`, settings[name]);
 
             }
+            console.log('These are the finished settings', settings);
         }
 
       } // End of selectFieldAmount
