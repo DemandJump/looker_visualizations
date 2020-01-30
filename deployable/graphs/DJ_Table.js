@@ -370,7 +370,7 @@ looker.plugins.visualizations.add({
 
 
         function conditionalFormatting() {
-            // applyFormattingTo();
+            applyFormattingTo();
             formatAlongAScale();
             hiddenConfigurationConditionals();
             console.log(`ConditionalFormatting: Here's the settings`, settings);
@@ -398,7 +398,9 @@ looker.plugins.visualizations.add({
         function applyFormattingTo() {
             initializeSelectFields();
 
-            if (config.applyFormattingTo == 'all') {}
+            if (config.applyFormattingTo == 'all') {
+
+            }
 
             if (config.applyFormattingTo == 'selectFields') {
                 selectedFieldsConfig();
@@ -409,9 +411,11 @@ looker.plugins.visualizations.add({
             
         } // End of applyFormattingTo function
 
+
         function formatAlongAScale() {
 
-        }
+        } // End of formatAlongAScale
+        
 
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
@@ -454,7 +458,7 @@ looker.plugins.visualizations.add({
                 settings['formatNumberInput'].hidden = true;
                 settings['formatBetween'].hidden = true;
             }
-        }
+        } // End of hiddenConfigurationConditionals
 
 
       function initializeSelectFields() {
