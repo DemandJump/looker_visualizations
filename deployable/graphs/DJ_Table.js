@@ -403,7 +403,7 @@ looker.plugins.visualizations.add({
 
             if (config.applyFormattingTo == 'selectFields') {
                 initializeSelectFields();
-                selectFieldAmount();
+                selectedFieldsConfig();
 
             }
 
@@ -555,7 +555,7 @@ looker.plugins.visualizations.add({
       } // End of initializeSelectFields
 
 
-      function selectFieldAmount() {
+      function selectedFieldsConfig() {
           // Now we can select the number of fields > change the 
           if (selectFieldAmount != measures.length) {
               // If the field is changed, recreate the configuration!
