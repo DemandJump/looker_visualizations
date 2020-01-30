@@ -418,7 +418,7 @@ looker.plugins.visualizations.add({
             let count = config['selectNumberOfFields'];
             for(let i = 0; i < measures.length; i++) {
                 let name = `formattedField${i}`;
-                if (i <= count) settings[name].hidden = false;
+                if (i < count) settings[name].hidden = false;
                 else settings[name].hidden = true;
             }
 
