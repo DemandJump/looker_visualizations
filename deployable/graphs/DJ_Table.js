@@ -381,6 +381,15 @@ looker.plugins.visualizations.add({
 
 
 
+
+
+
+
+
+
+
+
+
         function applyFormattingTo(settings) {
             if (config.applyFormattingTo == 'all') {}
             
@@ -394,18 +403,18 @@ looker.plugins.visualizations.add({
                         display: 'select',
                         type: 'string',
                         values: [],
-                        default: '1'
                     };
 
                     for(let i = 0; i < measures.length; i++) {
                         let key = i; let val = {}; val[key] = i;
                         settings['selectNumberOfFields']['values'].push(val);
                     }
+                    settings['selectNumberOfFields']['default'] = '1'
                     changed = true;
                 }
 
                 if (settings['selectNumberOfFields']) { // Store the selectedfields for the visual 
-                    if(settings['formatField0']) {
+                    if (settings['formatField0']) {
                         let fields = config.selectNumberOfFields;
                         for(let i = 0; i < fields; i++) {
                             selectedFields = [];
@@ -433,7 +442,7 @@ looker.plugins.visualizations.add({
                             default: 'none'
                         };
                         
-                        let val = {"None": "none"}
+                        let val = {"None": "none"};
                         settings[name]['values'].push(val);
 
                         measures.forEach(mes => {
