@@ -88,23 +88,6 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        countTheDernFields: {
-          label: 'FieldAmount',
-          order: 12.1,
-          section: 'Formatting',
-          type: 'string',
-          display: 'select',
-          values: [
-              {'2': '2'},
-              {'1': '1'},
-              {'4': '4'},
-              {'3': '3'}
-          ],
-          default: '2',
-          hidden: false
-      }
-
-
 
     },
 
@@ -491,12 +474,29 @@ looker.plugins.visualizations.add({
                 };
 
                 for(let i = 0; i < measures.length; i++) {
-                  console.log('these are the row instances');
+                    console.log('these are the row instances');
                     let num = i.toString(); let val = {}; val[num] = num;
                     settings.selectFieldAmount.values.push(val);
                 } 
                 changed = true;
             }
+
+            if (!settings[`selectFieldCount`]) {
+                let amounts = [];
+                for(let i = 0; i < measures.length; i++) {
+                    let strobj = `{"${i}": "${i}"}`
+                    obj = JSON.parse(strobj);
+                    amounts.push(obj);
+                }
+                settings[`selectFieldCount`] { 
+                    label: `Select the field count`,
+                    order: 12.1,
+                    section: `Formatting`,
+                    type: `string`,
+                    display: `select`,
+                }
+            }
+
 
             // Change values passed in if they add new measures
             if (settings['selectFieldAmount']) {
