@@ -363,8 +363,8 @@ looker.plugins.visualizations.add({
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
                 if (settings['selectFieldAmount'].hidden == false) {
-                  changed = true 
-                  console.log('Changed to true at configApplyFormattingTo all: selectFieldAmount');
+                    changed = true 
+                    console.log('Changed to true at configApplyFormattingTo all: selectFieldAmount');
                 }
                 settings['selectFieldAmount'].hidden = true 
 
@@ -386,13 +386,12 @@ looker.plugins.visualizations.add({
                 settings['selectFieldAmount'].hidden = false;
 
                 for(let i = 0; i < config.selectFieldAmount; i++) {
-                      let name = `formattedField${i}`;
-                      if (settings[name].hidden == true) {
-                      changed = true;
-                      settings[name].hidden = false;
-                      console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
-                      
-                  }
+                    let name = `formattedField${i}`;
+                    if (settings[name].hidden == true) {
+                        changed = true;
+                        settings[name].hidden = false;
+                        console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
+                    } 
                 }
             }
 
