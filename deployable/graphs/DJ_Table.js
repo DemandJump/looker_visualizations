@@ -496,7 +496,7 @@ looker.plugins.visualizations.add({
             } else {
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
-                    for(let i = 0; i < measures.length; i++) {
+                    for(let i = 0; i < measures.length - 1; i++) {
                         let strObj = `{"${i}": "${i}"}`
                         let obj = JSON.parse(strObj);
                         fieldAmountValues.push(obj);
