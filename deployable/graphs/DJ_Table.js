@@ -414,20 +414,26 @@ looker.plugins.visualizations.add({
             }
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
-                    if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
+                if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
+                    console.log('Formatnumberinput', settings['formatNumberInput']);
+                    console.log('FormatBetween', settings['formatBetween']);
                     changed = true;
                     console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
                 }
                 settings['formatNumberInput'].hidden = false;
                 settings['formatBetween'].hidden = true;
-            } else if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
-                  if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
-                  changed = true;
-                  console.log('Changed to true at between notBetween');
+            } 
+            
+            if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+                if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
+                    changed = true;
+                    console.log('Changed to true at between notBetween');
                 }
-                settings['formatNumberInput'].hidden = true;
+                // settings['formatNumberInput'].hidden = true;
                 settings['formatBetween'].hidden = false;
-            } else if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
+            }
+            
+            if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
                 if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
                     changed = true;
                     console.log('Changed to true at null notNull');
