@@ -438,40 +438,27 @@ looker.plugins.visualizations.add({
 
 
         function initializeSelectFields() {
-            // // Create the select number of fields object
-            // if (!settings[`selectFieldAmount`]) {
-            //     changed = true;
-            //     let amounts = [];
-            //     for(let i = 0; i < measures.length; i++) {
-            //         let strobj = `{"${i}": "${i}"}`;
-            //         obj = JSON.parse(strobj);
-            //         amounts.push(obj);
-            //     }
-            //     settings[`selectFieldAmount`] = { 
-            //         label: `Select the number of fields`,
-            //         order: 12.1,
-            //         section: `Formatting`,
-            //         type: `string`,
-            //         display: `select`,
-            //         values: amounts,
-            //         default: '1',
-            //         hidden: false
-            //     }
-            // }
-
-
-            // // Change values passed in if they add new measures
-            // if (settings['selectFieldAmount']) {
-            //     if (numOfMeasures != measures.length) {
-            //         numOfMeasures = measures.length;
-            //         settings['selectFieldAmount']['values'] = [];
-            //         for(let i = 0; i < measures.length; i++) {
-            //             let key = i; let val = {}; val[key] = i;
-            //             settings['selectFieldAmount']['values'].push(val);
-            //         }
-            //         changed = true;
-            //     }
-            // }
+            // Create the select number of fields object
+            if (!settings['fieldAmount']) {
+                changed = true;
+                let fieldAmountValues = [];
+                createFieldAmountValues();
+                
+                settings['fieldAmount'] = {
+                    label: 'Select the field amount',
+                    order: 12.1,
+                    section: 'Formatting',
+                    display: 'select',
+                    values: fieldAmountValues,
+                    default: '1', 
+                    hidden: false
+                };
+            } else {
+                if (numOfMeasures != measures.length) {
+                    numOfMeasures = measures.length;
+                    createFieldAmountValues();
+                }
+            }
         } // End of initializeSelectFields
 
 
@@ -681,6 +668,18 @@ looker.plugins.visualizations.add({
         } // End of selectFieldAmount
 
 
+
+
+
+
+        function createFieldAmountValues() {
+            for(let i = 0; i < measures.length; i++) {
+                let key = i.toString();
+                let obj = {}
+                obj[key] = key;
+                fieldAmountValues.push(obj);
+            }
+        }
 
         /***************************************
          * Configuring the data
