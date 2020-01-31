@@ -673,8 +673,9 @@ looker.plugins.visualizations.add({
                 let key = i.toString();
                 let val = {};
                 val[key] = i;
+                amounts.push(val);
             }
-            settings['fieldCounter'] = {
+            settings['countTheDernFields'] = {
                 label: 'FieldAmount',
                 order: 12.1,
                 section: 'Formatting',
