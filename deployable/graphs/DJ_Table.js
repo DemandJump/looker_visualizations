@@ -563,14 +563,13 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.formatNumberInput) {
+            if(!config.formatNumberInput) {
                 changed = true;
                 settings['formatNumberInput'] = {
                     order: 17,
                     section: 'Formatting',
                     type: 'string',
                     placeholder: 'Enter value',
-                    default: '0',
                     hidden: false
                 };
             }
