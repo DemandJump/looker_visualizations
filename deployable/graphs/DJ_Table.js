@@ -385,14 +385,14 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = false;
 
-                // for(let i = 0; i < config.selectFieldAmount; i++) {
-                //     let name = `formattedField${i}`;
-                //     if (settings[name].hidden == true) {
-                //     changed = true;
-                //     console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
-                //   }
-                //     settings[name].hidden = false;
-                // }
+                for(let i = 0; i < config.selectFieldAmount; i++) {
+                    let name = `formattedField${i}`;
+                    if (settings[name].hidden == true) {
+                    changed = true;
+                    console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
+                  }
+                    settings[name].hidden = false;
+                }
             }
 
             // SelectedFields show/hide conditionals
@@ -465,7 +465,7 @@ looker.plugins.visualizations.add({
                 changed = true;
                 let amounts = [];
                 for(let i = 0; i < measures.length; i++) {
-                    let strobj = `{"${i}": "${i}"}`
+                    let strobj = `{"${i}": "${i}"}`;
                     obj = JSON.parse(strobj);
                     amounts.push(obj);
                 }
