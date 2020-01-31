@@ -397,9 +397,9 @@ looker.plugins.visualizations.add({
                 settings['fieldAmount'].hidden = false;
 
                 console.log('This is the current field amount count' ,config.fieldAmount);
-                for(let i = 0; i < config.fieldAmount; i++) {
+                for(let i = 0; i < measures.length; i++) {
                     let name = `formatField${i}`;
-                    if (i < count) {
+                    if (i < config.fieldAmount) {
                         if (settings[name].hidden == true) {
                             changed = true;
                             settings[name].hidden = false;
