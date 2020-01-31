@@ -470,27 +470,6 @@ looker.plugins.visualizations.add({
             // Create the select number of fields object
             if (!settings['selectNumberOfFields']) {
                 settings['selectNumberOfFields'] = {
-                    label: 'Select the number of fields',
-                    order: 12.1,
-                    section: 'Formatting',
-                    display: 'select',
-                    type: 'string',
-                    values: [],
-                    default: '1',
-                    hidden: false,
-                    randomNewField: 'asdafafjafkha',
-                    anothaOne: 'YES'
-                };
-
-                for(let i = 0; i < measures.length; i++) {
-                    let key = i; let val = {}; val[key] = i;
-                    settings['selectNumberOfFields']['values'].push(val);
-                }
-                changed = true;
-            }
-
-            if (!settings['selectNumberOfFields']) {
-                settings['dimensionAmount'] = {
                     label: "Select the number of fields",
                     order: 12.1,
                     section: "Formatting",
@@ -503,8 +482,9 @@ looker.plugins.visualizations.add({
 
                 for(let i = 0; i < measures.length; i++) {
                     let num = i.toString(); let val = {}; val[num] = num;
-                    settings.dimensionAmount.values.push(val);
+                    settings.selectNumberOfFields.values.push(val);
                 } 
+                changed = true;
             }
 
             // Change values passed in if they add new measures
