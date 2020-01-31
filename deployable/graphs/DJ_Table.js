@@ -728,7 +728,7 @@ looker.plugins.visualizations.add({
       }
 
 
-        grabRuleData() {
+        function grabRuleData() {
             // This grabs the data from the visual, and stores it in a single object
         }
 
