@@ -98,7 +98,7 @@ looker.plugins.visualizations.add({
         this._dimensions = 0;
         this._measures = 0;
         this._selectFieldAmount = 0;
-        this._fieldChange = []; // Array that holds all the rule's selectFieldAmounts
+        this._fieldInstanceConfig = []; // Array that holds all the rule's selectFieldAmounts
         element.innerHTML =`
             <style>
       @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
@@ -304,6 +304,7 @@ looker.plugins.visualizations.add({
         let fieldChange = this._fieldChange;
         let numOfMeasures = this._measures;
         let selectFieldAmount = this._selectFieldAmount;
+        let fieldInstanceConfig = this._fieldInstanceConfig;
         let changed = false;
 
         // Configure the sidebar
@@ -320,7 +321,7 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        hiddenConfigurationConditionals();
+        // hiddenConfigurationConditionals();
         if (changed) {
             changed = false; 
             this.options = settings;
