@@ -428,7 +428,7 @@ looker.plugins.visualizations.add({
                     changed = true;
                     console.log('Changed to true at between notBetween');
                 }
-                // settings['formatNumberInput'].hidden = true;
+                settings['formatNumberInput'].hidden = true;
                 settings['formatBetween'].hidden = false;
             }
             
