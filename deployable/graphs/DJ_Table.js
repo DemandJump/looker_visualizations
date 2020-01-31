@@ -467,9 +467,9 @@ looker.plugins.visualizations.add({
 
 
         function initializeSelectFields() {
+            console.log('selectNumberOfFields', config.selectNumberOfFields);
             // Create the select number of fields object
             if (!settings['selectNumberOfFields']) {
-                console.log('Recreating selectNumberOfFields');
                 settings['selectNumberOfFields'] = {
                     label: 'Select the number of fields',
                     order: 12.1,
@@ -486,6 +486,7 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < measures.length; i++) {
                     let key = i; let val = {}; val[key] = i;
                     settings['selectNumberOfFields']['values'].push(val);
+                    console.log('Select number of field value', val); 
                 }
                 changed = true;
             }
@@ -493,8 +494,6 @@ looker.plugins.visualizations.add({
             // Change values passed in if they add new measures
             if (settings['selectNumberOfFields']) {
                 if (numOfMeasures != measures.length) {
-                    console.log(`numOfMeasure: ${numOfMeasures}, measures.length: ${measures.length}`);
-                    console.log('Recreated select number of fields amount');
                     numOfMeasures = measures.length;
                     settings['selectNumberOfFields']['values'] = [];
                     for(let i = 0; i < measures.length; i++) {
