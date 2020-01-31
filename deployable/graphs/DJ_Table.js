@@ -470,6 +470,17 @@ looker.plugins.visualizations.add({
             }
         } // End of hiddenConfigurationConditionals
 
+        function changeRuleName() {
+            if (config.formatAlongAScale == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
+            if (config.formatAlongAScale == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
+            if (config.formatAlongAScale == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
+            if (config.formatAlongAScale == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
+            if (config.formatAlongAScale == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+            if (config.formatAlongAScale == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+            if (config.formatAlongAScale == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
+            if (config.formatAlongAScale == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
+        }
+
 
         function initializeSelectFields() {
             // Create the select number of fields object
@@ -514,7 +525,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
-                        { type: "separator", text: `Rule`},
+                        { type: "separator", text: `Rule: `},
                     ],
                     hidden: false
                 };
@@ -711,6 +722,11 @@ looker.plugins.visualizations.add({
           }
 
         } // End of selectFieldAmount
+
+
+        grabRuleData() {
+            // This grabs the data from the visual, and stores it in a single object
+        }
 
 
 
