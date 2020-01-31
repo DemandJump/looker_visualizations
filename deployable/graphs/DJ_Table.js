@@ -594,7 +594,7 @@ looker.plugins.visualizations.add({
             if (!settings['alongAScaleA']) {
                 settings['alongAScaleA'] = {
                     label: 'Palette Between',
-                    order: 18.1,
+                    order: 18,
                     type: 'string',
                     section: 'Formatting', 
                     display: 'color',
@@ -606,7 +606,7 @@ looker.plugins.visualizations.add({
             if (!settings['alongAScaleB']) {
                 settings['alongAScaleB'] = {
                     label: 'and',
-                    order: 18.2,
+                    order: 18.1,
                     type: 'string', 
                     section: 'Formatting',
                     display: 'color',
