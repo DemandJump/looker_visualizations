@@ -675,7 +675,6 @@ looker.plugins.visualizations.add({
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
-                    display_size: 'half',
                     hidden: false
                 };
             }
