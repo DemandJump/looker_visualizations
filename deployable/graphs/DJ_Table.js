@@ -751,8 +751,11 @@ looker.plugins.visualizations.add({
                 rule['numberInput'] = config.formatNumberInput;
                 rule['between'] = {num1: config.formatBetween.num1, num2: config.formatBetween.num2};
                 rule['alongAScale'] = {color1: config.alongAScaleA, color2: config.alongAScaleB};
+                let fontColor = '#404040'; // If the vall is null it won't show in config ;p
+                if (config.fontColor) fontColor = config.fontColor
                 rule['notAlongAScale'] = {
-                    color: config.displayColor,
+                    backgroundColor: config.displayColor,
+                    fontColor: fontColor,
                     bold: config.colorBold,
                     italic: config.colorItalic,
                     line: config.colorLine
