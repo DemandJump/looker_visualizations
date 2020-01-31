@@ -87,6 +87,14 @@ looker.plugins.visualizations.add({
             default: false,
             hidden: false
         },
+        numberOfRules: {
+            label: 'Enter the number of rule',
+            order: 11.1,
+            section: 'Formatting',
+            type: 'string',
+            placeholder: 'Enter the number of rules',
+            hidden: false
+        }
 
 
     },
@@ -347,8 +355,8 @@ looker.plugins.visualizations.add({
         function applyFormattingTo() {
             initializeBasicRules();
             initializeSelectFields();
-            selectedFieldsConfig();
             initializeColorConfig();
+            selectedFieldsConfig();
         } // End of applyFormattingTo function
 
 
@@ -423,10 +431,6 @@ looker.plugins.visualizations.add({
                 settings['colorLine'].hidden = false;
             }
 
-            console.log('formatAlongAScale: ', config.formatAlongAScale);
-            console.log('format number input', settings.formatNumberInput.hidden);
-            console.log('format between', settings.formatBetween.hidden);
-
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
                     changed = true;
@@ -454,43 +458,6 @@ looker.plugins.visualizations.add({
                 settings['formatBetween'].hidden = true;
             }
         } // End of hiddenConfigurationConditionals
-
-
-        function initializeSelectFields() {
-            // Create the select number of fields object
-            if (!settings['selectNumberOfFields']) {
-                settings['selectNumberOfFields'] = {
-                    label: 'Select the number of fields',
-                    order: 12.1,
-                    section: 'Formatting',
-                    display: 'select',
-                    type: 'string',
-                    values: [],
-                    default: '1',
-                    hidden: false
-                };
-
-                for(let i = 0; i < measures.length; i++) {
-                    let key = i; let val = {}; val[key] = i;
-                    settings['selectNumberOfFields']['values'].push(val);
-                }
-                changed = true;
-            }
-
-            // Change values passed in if they add new measures
-            if (settings['selectNumberOfFields']) {
-                console.log(`NumOfMeasures:${numOfMeasures}, and measures.length: ${measures.length}`);
-                if (numOfMeasures != measures.length) {
-                    numOfMeasures = measures.length;
-                    settings['selectNumberOfFields']['values'] = [];
-                    for(let i = 0; i < measures.length; i++) {
-                        let key = i; let val = {}; val[key] = i;
-                        settings['selectNumberOfFields']['values'].push(val);
-                    }
-                    changed = true;
-                }
-            }
-        } // End of initializeSelectFields
 
 
         function selectedFieldsConfig() {
@@ -528,6 +495,43 @@ looker.plugins.visualizations.add({
           }
 
         } // End of selectFieldAmount
+
+
+        function initializeSelectFields() {
+            // Create the select number of fields object
+            if (!settings['selectNumberOfFields']) {
+                settings['selectNumberOfFields'] = {
+                    label: 'Select the number of fields',
+                    order: 12.1,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: [],
+                    default: '1',
+                    hidden: false
+                };
+
+                for(let i = 0; i < measures.length; i++) {
+                    let key = i; let val = {}; val[key] = i;
+                    settings['selectNumberOfFields']['values'].push(val);
+                }
+                changed = true;
+            }
+
+            // Change values passed in if they add new measures
+            if (settings['selectNumberOfFields']) {
+                console.log(`NumOfMeasures:${numOfMeasures}, and measures.length: ${measures.length}`);
+                if (numOfMeasures != measures.length) {
+                    numOfMeasures = measures.length;
+                    settings['selectNumberOfFields']['values'] = [];
+                    for(let i = 0; i < measures.length; i++) {
+                        let key = i; let val = {}; val[key] = i;
+                        settings['selectNumberOfFields']['values'].push(val);
+                    }
+                    changed = true;
+                }
+            }
+        } // End of initializeSelectFields
 
 
         function initializeBasicRules() {
