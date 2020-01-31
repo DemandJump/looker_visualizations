@@ -432,7 +432,6 @@ looker.plugins.visualizations.add({
                 settings['formatBetween'].hidden = true;
             } else if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
                 if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
-                    console.log(`Formatnumberinput: ${settings['formatNumberInput'].hidden}, formatBetween: ${settings['formatBetween'].hidden}`);
                     changed = true;
                     console.log('Changed to true at between notBetween');
                 }
