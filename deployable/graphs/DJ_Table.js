@@ -400,7 +400,7 @@ looker.plugins.visualizations.add({
                 settings['colorItalic'].hidden = true;
                 settings['colorLine'].hidden = true;
             } else {
-                if (settings['displayColor'].hidden == true || settings['colorBold'].hidden == true || settings['colorItalic'].hidden == true || settings['colorLine'].hidden -- true) {
+                if (settings['displayColor'].hidden == true || settings['colorBold'].hidden == true || settings['colorItalic'].hidden == true || settings['colorLine'].hidden == true) {
                     changed = true;
                     console.log('Changed to not along a scale');
                 }
@@ -671,7 +671,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     default: false,
                     hidden: false
-                }
+                };
             }
 
 
