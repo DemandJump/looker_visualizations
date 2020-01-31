@@ -387,6 +387,32 @@ looker.plugins.visualizations.add({
                 else settings[name].hidden = true;
             }
 
+            if (config.formatAlongAScale == 'alongAScale') {
+                if (settings['alongAScaleA'].hidden == true || settings['alongAScaleB'].hidden == true || settings['alongAScaleT'].hidden == true) {
+                    changed = true;
+                    console.log('Changed to true at alongAScale');
+                }
+                settings['alongAScaleA'].hidden = false;
+                settings['alongAScaleB'].hidden = false;
+                settings['alongAScaleT'].hidden = false;
+                settings['displayColor'].hidden = true;
+                settings['colorBold'].hidden = true;
+                settings['colorItalic'].hidden = true;
+                settings['colorLine'].hidden = true;
+            } else {
+                if (settings['displayColor'].hidden == true || settings['colorBold'].hidden == true || settings['colorItalic'].hidden == true || settings['colorLine'].hidden -- true) {
+                    changed = true;
+                    console.log('Changed to not along a scale');
+                }
+                settings['alongAScaleA'].hidden = true;
+                settings['alongAScaleB'].hidden = true;
+                settings['alongAScaleT'].hidden = true;
+                settings['displayColor'].hidden = false;
+                settings['colorBold'].hidden = false;
+                settings['colorItalic'].hidden = false;
+                settings['colorLine'].hidden = false;
+            }
+
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                     if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
                     changed = true;
@@ -588,6 +614,7 @@ looker.plugins.visualizations.add({
                     dispaly_size: 'half',
                     hidden: false
                 };
+            }
 
 
             if (!config.displayColor) {
