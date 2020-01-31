@@ -633,23 +633,32 @@ looker.plugins.visualizations.add({
 
 
         function selectedFieldsConfig() {
-          // if (selectFieldAmount != config['fieldAmount']) {
-          //     selectFieldAmount = config['fieldAmount'];
-          //     changed = true;
+          if (selectFieldAmount != config['fieldAmount']) {
+              selectFieldAmount = config['fieldAmount'];
+              changed = true;
 
-          //     let measureNames = [];
-          //     measureNames.push({"None": :"none"});
-          //     measures.forEach(mes => {
-          //         let value = mes.name;
-          //         let pear = {};
-          //         pear[value] = value;
-          //         measureNames.push(pear);
-          //     });
+              let measureNames = [];
+              measureNames.push({"None": "none"});
+              measures.forEach(mes => {
+                  let value = mes.name;
+                  let pear = {};
+                  pear[value] = value;
+                  measureNames.push(pear);
+              });
 
-          //     for(let i = 0; i < measures.length; i++) { 
-          //         let name = `formattedField${i}`;
-          //     }
-          // }
+              for(let i = 0; i < measures.length; i++) { 
+                  let name = `formatField${i}`;
+                  settings[name] = {
+                      order: 13 + (i/10),
+                      section: 'Formatting',
+                      display: 'select',
+                      type: 'string',
+                      values: measureNames, 
+                      default: 'none',
+                      hidden: false
+                  };
+              }
+          }
 
 
 
