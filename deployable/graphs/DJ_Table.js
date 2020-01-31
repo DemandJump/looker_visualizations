@@ -513,6 +513,7 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < measures.length; i++) {
                     let key = i; let val = {}; val[key] = i;
                     settings['selectNumberOfFields']['values'].push(val);
+                    console.log('Recreating the selectNumberOfFields val', val);
                 }
                 changed = true;
             }
@@ -520,6 +521,7 @@ looker.plugins.visualizations.add({
             // Change values passed in if they add new measures
             if (settings['selectNumberOfFields']) {
                 if (numOfMeasures != measures.length) {
+                    console.log('New number of fields!');
                     numOfMeasures = measures.length;
                     settings['selectNumberOfFields']['values'] = [];
                     for(let i = 0; i < measures.length; i++) {
