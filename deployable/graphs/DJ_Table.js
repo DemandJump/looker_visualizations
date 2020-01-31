@@ -659,7 +659,7 @@ looker.plugins.visualizations.add({
           //             hidden: false
           //         };
           //     }
-          }
+          // }
 
 
 
