@@ -384,8 +384,8 @@ looker.plugins.visualizations.add({
                     let name = `formatField${i}`;
                     if (settings[name].hidden == false) {
                         changed = true;
-                        settings[name].hidden = true;
-                    }
+                      }
+                      settings[name].hidden = true;
                 }
             }
 
