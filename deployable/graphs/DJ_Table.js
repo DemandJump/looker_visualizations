@@ -386,12 +386,13 @@ looker.plugins.visualizations.add({
                 settings['selectFieldAmount'].hidden = false;
 
                 for(let i = 0; i < config.selectFieldAmount; i++) {
-                    let name = `formattedField${i}`;
-                    if (settings[name].hidden == true) {
-                    changed = true;
-                    console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
+                      let name = `formattedField${i}`;
+                      if (settings[name].hidden == true) {
+                      changed = true;
+                      settings[name].hidden = false;
+                      console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
+                      
                   }
-                    settings[name].hidden = false;
                 }
             }
 
@@ -461,7 +462,7 @@ looker.plugins.visualizations.add({
 
         function initializeSelectFields() {
             // Create the select number of fields object
-            if (!settings[`selectFieldCount`]) {
+            if (!settings[`selectFieldAmount`]) {
                 changed = true;
                 let amounts = [];
                 for(let i = 0; i < measures.length; i++) {
