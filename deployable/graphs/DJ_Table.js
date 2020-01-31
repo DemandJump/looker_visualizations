@@ -288,6 +288,7 @@ looker.plugins.visualizations.add({
         let currentNode = ``;
         let dropDown = true;
         let currentDropdown;
+        let rr = 0;
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -307,7 +308,11 @@ looker.plugins.visualizations.add({
         if (config.ruleInstances) ruleInstances = config.ruleInstances
 
         // Configure the sidebar: This function(s) uses the global variables
-        for(let rr = 0; rr < ruleInstances; rr++) { applyFormattingTo(); }
+        for(let i = 0; i < ruleInstances; i++) { 
+            applyFormattingTo(); 
+            rr++;
+        }
+        rr = 0;
          
         // Save the data for the anyschronous frame refresh
         this._fieldChange = fieldChange;
@@ -321,7 +326,11 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        for(let rr = 0; rr < ruleInstances; rr++) { hiddenConfigurationConditionals(); }
+        for(let rr = 0; rr < ruleInstances; rr++) { 
+            hiddenConfigurationConditionals(); 
+            rr++;
+        }
+        rr = 0;
         if (changed) {
             changed = false; 
             this.options = settings;
@@ -330,7 +339,11 @@ looker.plugins.visualizations.add({
 
         // Build and append the rules to the data
         let rules = [];
-        for(let rr = 0; rr < ruleInstances; r++) { grabRuleData(); }
+        for(let rr = 0; rr < ruleInstances; r++) { 
+            grabRuleData(); 
+            rr++;
+        }
+        rr = 0;
         console.log('This is the rule data!', rules);
         
 
@@ -382,9 +395,7 @@ looker.plugins.visualizations.add({
                 settings[`fieldAmount_${rr}`].hidden = true 
 
                 for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) {
-                    if (settings[`formatField${i}_${rr}`].hidden == false) {
-                        changed = true;
-                    }
+                    if (settings[`formatField${i}_${rr}`].hidden == false) changed = true;
                     settings[`formatField${i}_${rr}`].hidden = true;
                 }
             }
@@ -399,15 +410,11 @@ looker.plugins.visualizations.add({
                 console.log('This is the current field amount count' ,config[`fieldAmount_${rr}`]);
                 for(let i = 0; i < measures.length; i++) {
                     if (i < config[`fieldAmount_${rr}`]) {
-                        if (settings[`formatField${i}_${rr}`].hidden == true) {
-                            changed = true;
-                            settings[`formatField${i}_${rr}`].hidden = false;
-                        }
+                        if (settings[`formatField${i}_${rr}`].hidden == true) changed = true;
+                        settings[`formatField${i}_${rr}`].hidden = false;
                     } else {
-                        if (settings[`formatField${i}_${rr}`].hidden == false) {
-                            changed = true;
-                            settings[`formatField${i}_${rr}`].hidden = true;
-                        }
+                        if (settings[`formatField${i}_${rr}`].hidden == false) changed = true;
+                        settings[`formatField${i}_${rr}`].hidden = true;
                     }
                 }
             }
@@ -716,6 +723,8 @@ looker.plugins.visualizations.add({
 
 
         function changeRuleName() {
+            let formatNumberInput = `formatNumberInput_${rr}`;
+            let formatBetween = `formatBetween_${rr}`;
             if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Equal to ${settings[`formatNumberInput_${rr}`]}`;
             if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not equal to ${settings[`formatNumberInput_${rr}`]}`;
             if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Greater than ${settings[`formatNumberInput_${rr}`]}`;
