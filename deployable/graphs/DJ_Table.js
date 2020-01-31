@@ -668,6 +668,26 @@ looker.plugins.visualizations.add({
 
 
         function selectedFieldsConfig() {
+          let amounts = [];
+          for(let i = 0; i < measures.lengthl i++) {
+              let key = i.toString();
+              let val = {};
+              val[key] = i;
+          }
+          settings['fieldCounter'] = {
+              label: 'FieldAmount',
+              order: 12.1,
+              section: 'Formatting',
+              type: 'string',
+              display: 'select',
+              values: amounts,
+              default: '2',
+              hidden: false
+          };
+
+
+
+
           // Now we can select the number of fields > change the 
           if (selectFieldAmount != config['selectFieldAmount']) {
                 selectFieldAmount = config['selectFieldAmount'];
