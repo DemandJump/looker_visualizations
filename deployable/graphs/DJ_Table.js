@@ -403,7 +403,7 @@ looker.plugins.visualizations.add({
             }
 
             // SelectedFields show/hide conditionals
-            console.log('selectNumberOfFields', config['selectNumberOfFields']);
+            console.log('hiddenConfigurationConditionals: selectNumberOfFields', config['selectNumberOfFields']);
             let count = config['selectNumberOfFields'];
             for(let i = 0; i < measures.length; i++) {
                 let name = `formattedField${i}`;
