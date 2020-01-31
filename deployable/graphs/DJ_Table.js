@@ -311,6 +311,10 @@ looker.plugins.visualizations.add({
         console.log('Before the applyFormattingTo function!');
         for (let i = 0; i < ruleInstances; i++) {
             rr = i;
+            console.log('this is rr', rr);
+        }
+        for (let i = 0; i < ruleInstances; i++) {
+            rr = i;
             applyFormattingTo();
         }
         console.log('After the applyFormattingTo function!');
