@@ -308,14 +308,10 @@ looker.plugins.visualizations.add({
         if (config.ruleInstances) ruleInstances = config.ruleInstances
 
         // Configure the sidebar: This function(s) uses the global variables
-        console.log('before the loop');
-        for(let i = 0; i < ruleInstances; i++) { 
-            console.log('Go through this loop');
-            console.log('This is rr', rr);
-            applyFormattingTo(); 
-            rr++;
+        for (let i = 0; i < ruleInstances; i++) {
+            rr = i;
+            applyFormattingTo();
         }
-        rr = 0;
          
         // Save the data for the anyschronous frame refresh
         this._fieldChange = fieldChange;
@@ -329,11 +325,10 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        for(let rr = 0; rr < ruleInstances; rr++) { 
-            hiddenConfigurationConditionals(); 
-            rr++;
+        for (let i = 0; i < ruleInstances; i++) {
+           rr = i;
+           hiddenConfigurationConditionals(); 
         }
-        rr = 0;
         if (changed) {
             changed = false; 
             this.options = settings;
@@ -342,11 +337,10 @@ looker.plugins.visualizations.add({
 
         // Build and append the rules to the data
         let rules = [];
-        for(let rr = 0; rr < ruleInstances; r++) { 
-            grabRuleData(); 
-            rr++;
+        for(let i = 0; i < ruleInstances; i++) {
+            rr = i;
+            grabRuleData();
         }
-        rr = 0;
         console.log('This is the rule data!', rules);
         
 
