@@ -404,6 +404,7 @@ looker.plugins.visualizations.add({
                 settings['alongAScaleB'].hidden = false;
                 settings['alongAScaleT'].hidden = false;
                 settings['displayColor'].hidden = true;
+                settings['fontColor'].hidden = true;
                 settings['colorBold'].hidden = true;
                 settings['colorItalic'].hidden = true;
                 settings['colorLine'].hidden = true;
@@ -416,6 +417,7 @@ looker.plugins.visualizations.add({
                 settings['alongAScaleB'].hidden = true;
                 settings['alongAScaleT'].hidden = true;
                 settings['displayColor'].hidden = false;
+                settings['fontColor'].hidden = false;
                 settings['colorBold'].hidden = false;
                 settings['colorItalic'].hidden = false;
                 settings['colorLine'].hidden = false;
@@ -610,6 +612,7 @@ looker.plugins.visualizations.add({
 
             if (!settings['alongAScaleA']) {
                 settings['alongAScaleA'] = {
+                    label: 'Palette Between'
                     order: 18.1,
                     type: 'string',
                     section: 'Formatting', 
@@ -622,6 +625,7 @@ looker.plugins.visualizations.add({
 
             if (!settings['alongAScaleB']) {
                 settings['alongAScaleB'] = {
+                    label: 'and'
                     order: 18.2,
                     type: 'string', 
                     section: 'Formatting',
@@ -631,7 +635,7 @@ looker.plugins.visualizations.add({
                     hidden: false
                 };
             }
-            
+
 
             if (!settings['displayColor']) {
                 settings['displayColor'] = {
@@ -686,20 +690,6 @@ looker.plugins.visualizations.add({
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
-                    hidden: false
-                };
-            }
-
-
-            if (!settings['wordColors']) {
-                settings['wordColors'] = {
-                    order: 18,
-                    section: 'Formatting',
-                    display: 'sentence_maker',
-                    words: [
-                        {type: 'separator', name: 'separatur', value: 'Betweeen'},
-                        {type: 'color', name: 'colorssssss', value: '#009DE9'}
-                    ],
                     hidden: false
                 };
             }
