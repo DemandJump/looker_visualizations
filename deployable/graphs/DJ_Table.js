@@ -308,7 +308,9 @@ looker.plugins.visualizations.add({
         if (config.ruleInstances) ruleInstances = config.ruleInstances
 
         // Configure the sidebar: This function(s) uses the global variables
+        console.log('before the loop');
         for(let i = 0; i < ruleInstances; i++) { 
+            console.log('Go through this loop');
             console.log('This is rr', rr);
             applyFormattingTo(); 
             rr++;
