@@ -596,7 +596,7 @@ looker.plugins.visualizations.add({
                     order: 18,
                     type: 'string',
                     section: 'Formatting',
-                    display; 'color',
+                    display: 'color',
                     default: '#009DE9',
                     hidden: 'false'
                 };
@@ -647,19 +647,21 @@ looker.plugins.visualizations.add({
                 }
             }
 
+
             if (!config.wordColors) {
                 settings['wordColors'] = {
                     order: 18,
                     section: 'Formatting',
                     display: 'sentence_maker',
                     words: [
-                        {type: 'separator', name: 'separatur', value: 'Betweeen'}
+                        {type: 'separator', name: 'separatur', value: 'Betweeen'},
                         {type: 'color', name: 'colorssssss', value: '#009DE9'}
                     ],
                     hidden: false
                 };
             }
-        }
+
+        } // End of initializeColorConfig
 
 
 
