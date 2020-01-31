@@ -298,6 +298,8 @@ looker.plugins.visualizations.add({
         // console.log('LookerCharts', LookerCharts.Utils);
         // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
 
+        console.log('These are the settings', this.options);
+        console.log('This is the config', config);
 
 
 
@@ -310,10 +312,11 @@ looker.plugins.visualizations.add({
         let changed = false;
         let allMeasures = [];
         measures.forEach(mes => allMeasures.push(mes.name));
+        let ruleInstances = 1;
+        if (config.ruleInstances) ruleInstances = config.ruleInstances
 
         // Configure the sidebar
-        console.log('This is ruleInstances', config.ruleInstances)
-        for(let rr = 0; rr < config.ruleInstances.words.rules; rr++) {applyFormattingTo();}
+        for(let rr = 0; rr < ruleInstances; rr++) { applyFormattingTo(); }
          
         // Save the data for the anyschronous frame refresh
         this._fieldChange = fieldChange;
@@ -327,19 +330,16 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        for(let rr = 0; rr < config.ruleInstances.words.rules; rr++) {hiddenConfigurationConditionals();}
+        for(let rr = 0; rr < ruleInstances; rr++) { hiddenConfigurationConditionals(); }
         if (changed) {
             changed = false; 
             this.options = settings;
             this.trigger('registerOptions', this.options);
         }
-        
-        console.log('These are the settings', this.options);
-        console.log('This is the config', config);
-        console.log(`We have row instances`, config.ruleInstances);
 
+        // Build and append the rules to the data
         let rules = [];
-        for(let rr = 0; rr < config.ruleInstances.words.rules; r++) {grabRuleData();}
+        for(let rr = 0; rr < ruleInstances; r++) { grabRuleData(); }
         console.log('This is the rule data!', rules);
         
 
