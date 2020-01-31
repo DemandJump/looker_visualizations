@@ -331,7 +331,7 @@ looker.plugins.visualizations.add({
 
 
         
-        console.log(`We have ${rowInstances} row instances`);
+        console.log(`We have ${ruleInstances} row instances`);
 
         
 
@@ -403,13 +403,12 @@ looker.plugins.visualizations.add({
             }
 
             if (config.formatAlongAScale == 'alongAScale') {
-                if (settings['alongAScaleA'].hidden == true || settings['alongAScaleB'].hidden == true || settings['alongAScaleT'].hidden == true) {
+                if (settings['alongAScaleA'].hidden == true || settings['alongAScaleB'].hidden == true) {
                     changed = true;
                     console.log('Changed to true at alongAScale');
                 }
                 settings['alongAScaleA'].hidden = false;
                 settings['alongAScaleB'].hidden = false;
-                settings['alongAScaleT'].hidden = false;
                 settings['displayColor'].hidden = true;
                 settings['fontColor'].hidden = true;
                 settings['colorBold'].hidden = true;
@@ -422,7 +421,6 @@ looker.plugins.visualizations.add({
                 }
                 settings['alongAScaleA'].hidden = true;
                 settings['alongAScaleB'].hidden = true;
-                settings['alongAScaleT'].hidden = true;
                 settings['displayColor'].hidden = false;
                 settings['fontColor'].hidden = false;
                 settings['colorBold'].hidden = false;
@@ -623,13 +621,6 @@ looker.plugins.visualizations.add({
 
 
         function initializeColorConfig() {
-            if (!settings['alongAScaleT']) {
-                settings['alongAScaleT'] = {
-                    label: 'between values',
-                    order: 18
-                };
-            }
-
             if (!settings['alongAScaleA']) {
                 settings['alongAScaleA'] = {
                     label: 'Palette Between',
