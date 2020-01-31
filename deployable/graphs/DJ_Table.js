@@ -443,8 +443,8 @@ looker.plugins.visualizations.add({
             if (!settings['fieldAmount']) {
                 changed = true;     
                 for(let i = 0; i < measures.length; i++) {
-                    let key = i.toString();
-                    let obj = {}
+                    let strObj = `{"${i}": "${i}"}`
+                    let obj = JSON.parse(strObj);
                     obj[key] = key;
                     fieldAmountValues.push(obj);
                 }
@@ -455,6 +455,7 @@ looker.plugins.visualizations.add({
                     order: 12.1,
                     section: 'Formatting',
                     display: 'select',
+                    type: 'string',
                     values: fieldAmountValues,
                     default: '1', 
                     hidden: false
@@ -463,8 +464,8 @@ looker.plugins.visualizations.add({
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
                     for(let i = 0; i < measures.length; i++) {
-                        let key = i.toString();
-                        let obj = {}
+                        let strObj = `{"${i}": "${i}"}`
+                        let obj = JSON.parse(strObj);
                         obj[key] = key;
                         fieldAmountValues.push(obj);
                     }
