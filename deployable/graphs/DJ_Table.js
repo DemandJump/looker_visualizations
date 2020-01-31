@@ -340,6 +340,7 @@ looker.plugins.visualizations.add({
             initializeBasicRules();
             initializeSelectFields();
             selectedFieldsConfig();
+            initializeColorConfig();
         } // End of applyFormattingTo function
 
 
@@ -550,6 +551,110 @@ looker.plugins.visualizations.add({
                         { type: "number", name: "num1", value: 0 },
                         { type: "separator", text: "and" },
                         { type: "number", name: "num2", value: 0 }
+                    ],
+                    hidden: false
+                };
+            }
+        } // End of initializeBasicRules
+
+
+        function initializeColorConfig() {
+            if (!config.alongAScaleT) {
+                settings['alongAScaleT'] = {
+                    label: 'between values',
+                    order: 18
+                };
+            }
+
+            if (!config.alongAScaleA) {
+                settings['alongAScaleA'] = {
+                    order: 18.1,
+                    type: 'string',
+                    section: 'Formatting', 
+                    display: 'color',
+                    default: '#a1f7a5',
+                    display_size: 'half',
+                    hidden: false
+                };
+            }
+
+            if (!config.alongAScaleB) {
+                settings['alongAScaleB'] = {
+                    order: 18.2,
+                    type: 'string', 
+                    section: 'Formatting',
+                    display: 'color',
+                    default: '#f9c7c7',
+                    dispaly_size: 'half',
+                    hidden: false
+                };
+
+
+            if (!config.displayColor) {
+                settings['displayColor'] = {
+                    label: 'Display Color',
+                    order: 18,
+                    type: 'string',
+                    section: 'Formatting',
+                    display; 'color',
+                    default: '#009DE9',
+                    hidden: 'false'
+                };
+            }
+
+            if (!config.fontColor) {
+                settings['fontColor'] = {
+                    label: 'Font Color',
+                    order: 18.05,
+                    type: 'string', 
+                    section: 'Formatting',
+                    display: 'color',
+                    // default: '',
+                    hidden: false
+                };
+            }
+
+            if (!config.colorBold) {
+                settings['colorBold'] = {
+                    label: 'Bold Text',
+                    order: 18.1,
+                    type: 'boolean', 
+                    section: 'Formatting',
+                    default: false,
+                    hidden: false
+                };
+            }
+
+            if (!config.colorItalic) {
+                settings['colorItalic'] = {
+                    label: 'Italic Text',
+                    order: 18.2,
+                    type: 'boolean',
+                    section: 'Formatting',
+                    default: false,
+                    hidden: false
+                };
+            }
+
+            if (!config.colorLine) {
+                settings['colorLine'] = {
+                    label: 'Line Through Text',
+                    order: 18.3,
+                    type: 'boolean',
+                    section: 'Formatting',
+                    default: false,
+                    hidden: false
+                }
+            }
+
+            if (!config.wordColors) {
+                settings['wordColors'] = {
+                    order: 18,
+                    section: 'Formatting',
+                    display: 'sentence_maker',
+                    words: [
+                        {type: 'separator', name: 'separatur', value: 'Betweeen'}
+                        {type: 'color', name: 'colorssssss', value: '#009DE9'}
                     ],
                     hidden: false
                 };
