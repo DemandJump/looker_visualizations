@@ -361,6 +361,14 @@ looker.plugins.visualizations.add({
 
 
         function hiddenConfigurationConditionals() {
+            if (config.conditionalFormatting == false) {
+                if (settings['hideTotals'].hidden == false || settings['ruleInstances'].hidden == false) {
+                    changed = true;
+                    settings['hideTotals'].hidden = true;
+                    settings['ruleInstances'].hidden = true;
+                }
+            }
+
             if (config.applyFormattingTo == 'all') {
                 if (settings['selectFieldAmount'].hidden == false) {
                     changed = true 
