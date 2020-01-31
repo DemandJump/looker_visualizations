@@ -331,7 +331,7 @@ looker.plugins.visualizations.add({
 
 
         
-        console.log(`We have ${ruleInstances} row instances`);
+        console.log(`We have ${config.ruleInstances} row instances`);
 
         
 
@@ -540,10 +540,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
-                        { type: "separator", text: "Between values "},
-                        { type: "number", name: "num1", value: 0 },
-                        { type: "separator", text: "and" },
-                        { type: "number", name: "num2", value: 0 }
+                        { type: "separator", text: `Rule`},
                     ],
                     hidden: false
                 };
