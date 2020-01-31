@@ -420,8 +420,10 @@ looker.plugins.visualizations.add({
                 settings['colorItalic'].hidden = false;
                 settings['colorLine'].hidden = false;
             }
-            console.log('format number input', config.formatNumberInput);
-            console.log('format between', config.formatBetween);
+
+            console.log('formatAlongAScale: ', config.formatAlongAScale);
+            console.log('format number input', settings.formatNumberInput.hidden);
+            console.log('format between', settings.formatBetween.hidden);
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
