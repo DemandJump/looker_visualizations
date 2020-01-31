@@ -395,6 +395,7 @@ looker.plugins.visualizations.add({
             }
 
             // SelectedFields show/hide conditionals
+            console.log('selectNumberOfFields', config['selectNumberOfFields']);
             let count = config['selectNumberOfFields'];
             for(let i = 0; i < measures.length; i++) {
                 let name = `formattedField${i}`;
@@ -457,46 +458,10 @@ looker.plugins.visualizations.add({
         } // End of hiddenConfigurationConditionals
 
 
-        function selectedFieldsConfig() {
-            // Now we can select the number of fields > change the 
-            if (selectFieldAmount != config['selectNumberOfFields']) {
-                selectFieldAmount = config['selectNumberOfFields'];
-                changed = true;
-
-                // Grab the measures and put em into an array
-                let measureNames = [];
-                measureNames.push({"None": "none"});
-                measures.forEach(mes => {
-                    let key = mes.name;
-                    let value = mes.name;
-                    let pear = {};
-                    pear[key] = value;
-                    measureNames.push(pear);
-                });
-
-                // Create the fields
-                for(let i = 0; i < measures.length; i++) {
-                    let name = `formattedField${i}`;
-                    settings[name] = {
-                        order: 12.2 + (i/10),
-                        section: 'Formatting',
-                        display: 'select',
-                        type: 'string',
-                        values: measureNames,
-                        default: 'none',
-                        hidden: true
-                    };
-
-              }
-              console.log('These are the finished settings', settings);
-          }
-
-        } // End of selectFieldAmount
-
-
         function initializeSelectFields() {
             // Create the select number of fields object
             if (!settings['selectNumberOfFields']) {
+                console.log('Recreating selectNumberOfFields');
                 settings['selectNumberOfFields'] = {
                     label: 'Select the number of fields',
                     order: 12.1,
@@ -513,7 +478,6 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < measures.length; i++) {
                     let key = i; let val = {}; val[key] = i;
                     settings['selectNumberOfFields']['values'].push(val);
-                    console.log('Recreating the selectNumberOfFields val', val);
                 }
                 changed = true;
             }
@@ -521,7 +485,8 @@ looker.plugins.visualizations.add({
             // Change values passed in if they add new measures
             if (settings['selectNumberOfFields']) {
                 if (numOfMeasures != measures.length) {
-                    console.log('New number of fields!');
+                    console.log(`numOfMeasure: ${numOfMeasures}, measures.length: ${measures.length}`);
+                    console.log('Recreated select number of fields amount');
                     numOfMeasures = measures.length;
                     settings['selectNumberOfFields']['values'] = [];
                     for(let i = 0; i < measures.length; i++) {
@@ -703,6 +668,43 @@ looker.plugins.visualizations.add({
             }
 
         } // End of initializeColorConfig
+
+
+        function selectedFieldsConfig() {
+          // Now we can select the number of fields > change the 
+          if (selectFieldAmount != config['selectNumberOfFields']) {
+                selectFieldAmount = config['selectNumberOfFields'];
+                changed = true;
+
+                // Grab the measures and put em into an array
+                let measureNames = [];
+                measureNames.push({"None": "none"});
+                measures.forEach(mes => {
+                    let key = mes.name;
+                    let value = mes.name;
+                    let pear = {};
+                    pear[key] = value;
+                    measureNames.push(pear);
+                });
+
+                // Create the fields
+                for(let i = 0; i < measures.length; i++) {
+                    let name = `formattedField${i}`;
+                    settings[name] = {
+                        order: 12.2 + (i/10),
+                        section: 'Formatting',
+                        display: 'select',
+                        type: 'string',
+                        values: measureNames,
+                        default: 'none',
+                        hidden: true
+                    };
+
+              }
+              console.log('These are the finished settings', settings);
+          }
+
+        } // End of selectFieldAmount
 
 
 
