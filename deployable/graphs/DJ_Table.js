@@ -297,19 +297,26 @@ looker.plugins.visualizations.add({
 
         // console.log('LookerCharts', LookerCharts.Utils);
         // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
-        console.log('SelectFieldAmount: ', config.selectFieldAmount);
+
+
+
+
+
 
         let settings = this.options;
         let fieldChange = this._fieldChange;
         let numOfMeasures = this._measures;
         let selectFieldAmount = this._selectFieldAmount;
         let changed = false;
-        let allMeasures = measures.filter(mes => mes.name);
-        console.log('Here are all the measures', allMeasures)
+        let allMeasures = [];
+        measures.forEach(mes => allMeasures.push(mes.name));
 
         // Configure the sidebar
-        applyFormattingTo();
+        for(let rr = 0; rr < config.ruleInstances.rules; rr++) {
+            applyFormattingTo();
+        }
          
+        // Save the data for the anyschronous frame refresh
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
@@ -354,6 +361,7 @@ looker.plugins.visualizations.add({
 
 
         function applyFormattingTo() {
+            console.log('This is rr', rr);
             initializeBasicRules();
             initializeSelectFields();
             initializeColorConfig();
@@ -513,6 +521,7 @@ looker.plugins.visualizations.add({
 
 
         function initializeBasicRules() {
+            console.log('This is rr in basic rules', rr);
             if (!settings['ruleName']) {
                 changed = true;
                 settings['ruleName'] = {
@@ -720,15 +729,15 @@ looker.plugins.visualizations.add({
 
 
         function changeRuleName() {
-          if (config.format == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
-          if (config.format == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
-          if (config.format == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
-          if (config.format == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
-          if (config.format == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
-          if (config.format == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
-          if (config.format == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
-          if (config.format == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
-      }
+            if (config.format == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
+            if (config.format == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
+            if (config.format == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
+            if (config.format == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
+            if (config.format == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+            if (config.format == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+            if (config.format == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
+            if (config.format == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
+        }
 
 
         function grabRuleData() {
