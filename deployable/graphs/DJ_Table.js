@@ -441,8 +441,13 @@ looker.plugins.visualizations.add({
             // Create the select number of fields object
             let fieldAmountValues = [];
             if (!settings['fieldAmount']) {
-                changed = true;
-                fieldAmountValues = createFieldAmountValues(fieldAmountValues);
+                changed = true;     
+                for(let i = 0; i < measures.length; i++) {
+                    let key = i.toString();
+                    let obj = {}
+                    obj[key] = key;
+                    fieldAmountValues.push(obj);
+                }
                 console.log('here is the created arr fieldAmountValues', fieldAmountValues);
 
                 settings['fieldAmount'] = {
@@ -457,7 +462,12 @@ looker.plugins.visualizations.add({
             } else {
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
-                    fieldAmountValues = createFieldAmountValues(fieldAmountValues);
+                    for(let i = 0; i < measures.length; i++) {
+                        let key = i.toString();
+                        let obj = {}
+                        obj[key] = key;
+                        fieldAmountValues.push(obj);
+                    }
                 }
             }
         } // End of initializeSelectFields
@@ -699,17 +709,6 @@ looker.plugins.visualizations.add({
 
 
 
-
-
-
-        function createFieldAmountValues(fieldAmountValues) {
-            for(let i = 0; i < measures.length; i++) {
-                let key = i.toString();
-                let obj = {}
-                obj[key] = key;
-                fieldAmountValues.push(obj);
-            }
-        }
 
         /***************************************
          * Configuring the data
