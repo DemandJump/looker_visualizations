@@ -59,7 +59,7 @@ looker.plugins.visualizations.add({
             type: 'sentence_maker',
             words: [
                 {type: "separator", text: "Number of rules:  "},
-                {type: "number", name: "rules", value: 0}
+                {type: "number", name: "rules", value: 1}
             ]
         },
         // colorApplication: {
