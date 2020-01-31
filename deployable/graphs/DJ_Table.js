@@ -98,7 +98,7 @@ looker.plugins.visualizations.add({
         this._dimensions = 0;
         this._measures = 0;
         this._selectFieldAmount = 0;
-        this._fieldChange = 0;
+        this._fieldChange = []; // Array that holds all the rule's selectFieldAmounts
         element.innerHTML =`
             <style>
       @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
@@ -298,6 +298,7 @@ looker.plugins.visualizations.add({
 
         // console.log('LookerCharts', LookerCharts.Utils);
         // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
+        console.log('SelectFieldAmount: ', config.selectFieldAmount);
 
         let settings = this.options;
         let fieldChange = this._fieldChange;
@@ -367,39 +368,31 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = true 
 
-                for(let i = 0; i < config.selectFieldAmount; i++) {
-                    let name = `formattedField${i}`;
-                    if (settings[name].hidden == false) {
-                      changed = true;
-                      console.log(`Changed to true at applyFormattingTo: formattedField, settings${name}`);
-                    }
-                    settings[name].hidden = true;
-                }
-
                 for(let i = 0; i < measures.length; i++) {
                     let name = `formattedField${i}`;
-                    if ( settings[name].hidden == false) {
+                    if (settings[name].hidden == false) {
                         changed = true;
                         settings[name].hidden = true;
+                        console.log(`Changed to true at applyFormattingTo: formattedField, settings${name}`);
                     }
                 }
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
                 if (settings['selectFieldAmount'].hidden == true) {
-                changed = true;
-                console.log('Changed to true at applyFormattingTo: selectFields, selectFieldAmount');
-              }
+                    changed = true;
+                    console.log('Changed to true at applyFormattingTo: selectFields, selectFieldAmount');
+                }
                 settings['selectFieldAmount'].hidden = false;
 
-                for(let i = 0; i < config.selectFieldAmount; i++) {
-                    let name = `formattedField${i}`;
-                    if (settings[name].hidden == true) {
-                    changed = true;
-                    console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
-                  }
-                    settings[name].hidden = false;
-                }
+                // for(let i = 0; i < config.selectFieldAmount; i++) {
+                //     let name = `formattedField${i}`;
+                //     if (settings[name].hidden == true) {
+                //     changed = true;
+                //     console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
+                //   }
+                //     settings[name].hidden = false;
+                // }
             }
 
             // SelectedFields show/hide conditionals
