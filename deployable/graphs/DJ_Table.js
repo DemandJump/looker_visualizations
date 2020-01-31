@@ -626,6 +626,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     display: 'color',
                     default: '#009DE9',
+                    display_size: 'half',
                     hidden: 'false'
                 };
             }
@@ -638,6 +639,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     display: 'color',
                     // default: '',
+                    display_size: 'half',
                     hidden: false
                 };
             }
@@ -649,6 +651,7 @@ looker.plugins.visualizations.add({
                     type: 'boolean', 
                     section: 'Formatting',
                     default: false,
+                    display_size: 'half',
                     hidden: false
                 };
             }
@@ -660,6 +663,7 @@ looker.plugins.visualizations.add({
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
+                    display_size: 'half',
                     hidden: false
                 };
             }
@@ -671,6 +675,7 @@ looker.plugins.visualizations.add({
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
+                    display_size: 'half',
                     hidden: false
                 };
             }
