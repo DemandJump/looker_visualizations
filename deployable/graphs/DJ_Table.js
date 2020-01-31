@@ -374,11 +374,11 @@ looker.plugins.visualizations.add({
             }
 
             if (config.applyFormattingTo == 'all') {
-                if (settings['selectFieldAmount'].hidden == false) {
+                if (settings['fieldAmount'].hidden == false) {
                     changed = true 
-                    console.log('Changed to true at configApplyFormattingTo all: selectFieldAmount');
+                    console.log('Changed to true at configApplyFormattingTo all: fieldAmount');
                 }
-                settings['selectFieldAmount'].hidden = true 
+                settings['fieldAmount'].hidden = true 
 
                 for(let i = 0; i < config.fieldAmount; i++) {
                     let name = `formatField${i}`;
@@ -390,11 +390,11 @@ looker.plugins.visualizations.add({
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
-                if (settings['selectFieldAmount'].hidden == true) {
+                if (settings['fieldAmount'].hidden == true) {
                     changed = true;
-                    console.log('Changed to true at applyFormattingTo: selectFields, selectFieldAmount');
+                    console.log('Changed to true at applyFormattingTo: selectFields, fieldAmount');
                 }
-                settings['selectFieldAmount'].hidden = false;
+                settings['fieldAmount'].hidden = false;
 
                 console.log('This is the current field amount count' ,config.fieldAmount);
                 for(let i = 0; i < config.fieldAmount; i++) {
@@ -414,7 +414,7 @@ looker.plugins.visualizations.add({
             }
 
             // SelectedFields show/hide conditionals
-            console.log('hiddenConfigurationConditionals: selectFieldAmount', config['selectFieldAmount']);
+            console.log('hiddenConfigurationConditionals: fieldAmount', config['fieldAmount']);
 
             if (config.formatAlongAScale == 'alongAScale') {
                 if (settings['alongAScaleA'].hidden == true || settings['alongAScaleB'].hidden == true) {
