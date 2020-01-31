@@ -461,26 +461,6 @@ looker.plugins.visualizations.add({
 
         function initializeSelectFields() {
             // Create the select number of fields object
-            if (!settings['selectFieldAmount']) {
-                settings['selectFieldAmount'] = {
-                    label: "Select the number of fields",
-                    order: 12.1,
-                    section: "Formatting",
-                    type: "string", 
-                    display: "select",
-                    values: [],
-                    default: "1",
-                    hidden: false
-                };
-
-                for(let i = 0; i < measures.length; i++) {
-                    console.log('these are the row instances');
-                    let num = i.toString(); let val = {}; val[num] = num;
-                    settings.selectFieldAmount.values.push(val);
-                } 
-                changed = true;
-            }
-
             if (!settings[`selectFieldCount`]) {
                 changed = true;
                 let amounts = [];
@@ -489,8 +469,8 @@ looker.plugins.visualizations.add({
                     obj = JSON.parse(strobj);
                     amounts.push(obj);
                 }
-                settings[`selectFieldCount`] = { 
-                    label: `Select the field count`,
+                settings[`selectFieldAmount`] = { 
+                    label: `Select the number of fields`,
                     order: 12.1,
                     section: `Formatting`,
                     type: `string`,
