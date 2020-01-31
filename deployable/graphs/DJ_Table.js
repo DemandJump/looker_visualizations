@@ -481,6 +481,7 @@ looker.plugins.visualizations.add({
                 };
 
                 for(let i = 0; i < measures.length; i++) {
+                  console.log('these are the row instances');
                     let num = i.toString(); let val = {}; val[num] = num;
                     settings.selectFieldAmount.values.push(val);
                 } 
