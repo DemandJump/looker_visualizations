@@ -445,6 +445,7 @@ looker.plugins.visualizations.add({
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
                     changed = true;
+                    changeRuleName();
                     console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
                 }
                 settings['formatNumberInput'].hidden = false;
@@ -454,6 +455,7 @@ looker.plugins.visualizations.add({
             if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
                 if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
                     changed = true;
+                    changeRuleName();
                     console.log('Changed to true at between notBetween');
                 }
                 settings.formatNumberInput.hidden = true;
@@ -463,23 +465,13 @@ looker.plugins.visualizations.add({
             if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
                 if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
                     changed = true;
+                    changeRuleName();
                     console.log('Changed to true at null notNull');
                 }
                 settings['formatNumberInput'].hidden = true;
                 settings['formatBetween'].hidden = true;
             }
         } // End of hiddenConfigurationConditionals
-
-        function changeRuleName() {
-            if (config.formatAlongAScale == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
-            if (config.formatAlongAScale == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
-            if (config.formatAlongAScale == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
-            if (config.formatAlongAScale == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
-            if (config.formatAlongAScale == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
-            if (config.formatAlongAScale == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
-            if (config.formatAlongAScale == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
-            if (config.formatAlongAScale == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
-        }
 
 
         function initializeSelectFields() {
@@ -722,6 +714,18 @@ looker.plugins.visualizations.add({
           }
 
         } // End of selectFieldAmount
+
+
+        function changeRuleName() {
+          if (config.formatAlongAScale == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
+          if (config.formatAlongAScale == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
+          if (config.formatAlongAScale == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
+          if (config.formatAlongAScale == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
+          if (config.formatAlongAScale == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+          if (config.formatAlongAScale == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+          if (config.formatAlongAScale == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
+          if (config.formatAlongAScale == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
+      }
 
 
         grabRuleData() {
