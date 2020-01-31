@@ -305,15 +305,15 @@ looker.plugins.visualizations.add({
         let allMeasures = [];
         measures.forEach(mes => allMeasures.push(mes.name));
         let ruleInstances = 1;
-        if (config.ruleInstances) ruleInstances = config.ruleInstances
+        if (config.ruleInstances) ruleInstances = config.ruleInstances;
 
         // Configure the sidebar: This function(s) uses the global variables
+        console.log('Before the applyFormattingTo function!');
         for (let i = 0; i < ruleInstances; i++) {
             rr = i;
             applyFormattingTo();
         }
-         
-        // Save the data for the anyschronous frame refresh
+        console.log('After the applyFormattingTo function!');
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
@@ -361,6 +361,7 @@ looker.plugins.visualizations.add({
 
 
         function applyFormattingTo() {
+            console.log('This is the apply formatting to function');
             initializeBasicRules();
             initializeSelectFields();
             initializeColorConfig();
