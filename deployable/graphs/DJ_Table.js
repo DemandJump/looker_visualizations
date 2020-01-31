@@ -309,6 +309,7 @@ looker.plugins.visualizations.add({
 
         // Configure the sidebar: This function(s) uses the global variables
         for(let i = 0; i < ruleInstances; i++) { 
+            console.log('This is rr', rr);
             applyFormattingTo(); 
             rr++;
         }
@@ -364,7 +365,6 @@ looker.plugins.visualizations.add({
 
 
         function applyFormattingTo() {
-            console.log('This is rr', rr);
             initializeBasicRules();
             initializeSelectFields();
             initializeColorConfig();
@@ -373,6 +373,7 @@ looker.plugins.visualizations.add({
 
 
         function hiddenConfigurationConditionals() {
+            console.log('Iterating through hidden Configuration conditionals', rr);
             if (config[`conditionalFormatting_${rr}`] == false) {
                 if (settings[`includeTotals_${rr}`].hidden == false || settings[`ruleInstances_${rr}`].hidden == false) {
                     changed = true;
@@ -410,11 +411,15 @@ looker.plugins.visualizations.add({
                 console.log('This is the current field amount count' ,config[`fieldAmount_${rr}`]);
                 for(let i = 0; i < measures.length; i++) {
                     if (i < config[`fieldAmount_${rr}`]) {
-                        if (settings[`formatField${i}_${rr}`].hidden == true) changed = true;
-                        settings[`formatField${i}_${rr}`].hidden = false;
+                        if (settings[`formatField${i}_${rr}`].hidden == true) {
+                            changed = true;
+                            settings[`formatField${i}_${rr}`].hidden = false;
+                        }
                     } else {
-                        if (settings[`formatField${i}_${rr}`].hidden == false) changed = true;
-                        settings[`formatField${i}_${rr}`].hidden = true;
+                        if (settings[`formatField${i}_${rr}`].hidden == false) {
+                            changed = true;
+                            settings[`formatField${i}_${rr}`].hidden = true;
+                        }
                     }
                 }
             }
