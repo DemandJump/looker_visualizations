@@ -567,6 +567,7 @@ looker.plugins.visualizations.add({
             }
 
             if(!config.formatNumberInput) {
+                console.log('Instantiated againnnnnnnnn');
                 changed = true;
                 settings['formatNumberInput'] = {
                     order: 17,
