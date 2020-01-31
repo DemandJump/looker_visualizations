@@ -375,6 +375,14 @@ looker.plugins.visualizations.add({
                     }
                     settings[name].hidden = true;
                 }
+
+                for(let i = 0; i < measures.length; i++) {
+                    let name = `formattedField${i}`;
+                    if ( settings[name].hidden == false) {
+                        changed = true;
+                        settings[name].hidden = true;
+                    }
+                }
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
