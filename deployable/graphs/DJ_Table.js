@@ -599,6 +599,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting', 
                     display: 'color',
                     default: '#a1f7a5',
+                    display_size: 'half',
                     hidden: false
                 };
             }
@@ -611,6 +612,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     display: 'color',
                     default: '#f9c7c7',
+                    display_size: 'half',
                     hidden: false
                 };
             }
