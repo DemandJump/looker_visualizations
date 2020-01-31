@@ -53,12 +53,12 @@ looker.plugins.visualizations.add({
         },
 
         ruleInstances: {
-            order: 0.3,
+            order: 11.01,
             section: 'Formatting',
             display: 'word sentence',
             type: 'sentence_maker',
             words: [
-                {type: "separator", text: "Number of rules: "},
+                {type: "separator", text: "Number of rules:  "},
                 {type: "number", name: "rules", value: 0}
             ]
         },
@@ -87,14 +87,7 @@ looker.plugins.visualizations.add({
             default: false,
             hidden: false
         },
-        numberOfRules: {
-            label: 'Enter the number of rule',
-            order: 11.1,
-            section: 'Formatting',
-            type: 'string',
-            placeholder: 'Enter the number of rules',
-            hidden: false
-        }
+
 
 
     },
