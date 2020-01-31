@@ -303,8 +303,9 @@ looker.plugins.visualizations.add({
         let fieldChange = this._fieldChange;
         let numOfMeasures = this._measures;
         let selectFieldAmount = this._selectFieldAmount;
-        let fieldInstanceConfig = this._fieldInstanceConfig;
         let changed = false;
+        let allMeasures = measures.filter(mes => mes.name);
+        console.log('Here are all the measures', allMeasures)
 
         // Configure the sidebar
         applyFormattingTo();
@@ -329,9 +330,11 @@ looker.plugins.visualizations.add({
         
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
-
         console.log(`We have row instances`, config.ruleInstances);
 
+        let rules = [];
+        grabRuleData();
+        console.log('This is the rule data!', )
         
 
 
@@ -416,7 +419,7 @@ looker.plugins.visualizations.add({
             // SelectedFields show/hide conditionals
             console.log('hiddenConfigurationConditionals: fieldAmount', config['fieldAmount']);
 
-            if (config.formatAlongAScale == 'alongAScale') {
+            if (config.format == 'alongAScale') {
                 if (settings['alongAScaleA'].hidden == true || settings['alongAScaleB'].hidden == true) {
                     changed = true;
                     console.log('Changed to true at alongAScale');
@@ -442,7 +445,7 @@ looker.plugins.visualizations.add({
                 settings['colorLine'].hidden = false;
             }
 
-            if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
+            if (config.format == 'equalTo' || config.format == 'notEqualTo' || config.format == 'greaterThan' || config.format == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
                     changed = true;
                     changeRuleName();
@@ -452,7 +455,7 @@ looker.plugins.visualizations.add({
                 settings['formatBetween'].hidden = true;
             } 
             
-            if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+            if (config.format == 'between' || config.format == 'notBetween') {
                 if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
                     changed = true;
                     changeRuleName();
@@ -462,7 +465,7 @@ looker.plugins.visualizations.add({
                 settings.formatBetween.hidden = false;
             } 
             
-            if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
+            if (config.format == 'null' || config.format == 'notNull') {
                 if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
                     changed = true;
                     changeRuleName();
@@ -540,9 +543,9 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!settings['formatAlongAScale']) {
+            if (!settings['format']) {
                 changed = true;
-                settings['formatAlongAScale'] = {
+                settings['format'] = {
                     label: 'Format',
                     order: 16,
                     section: 'Formatting',
@@ -717,20 +720,47 @@ looker.plugins.visualizations.add({
 
 
         function changeRuleName() {
-          if (config.formatAlongAScale == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
-          if (config.formatAlongAScale == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
-          if (config.formatAlongAScale == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
-          if (config.formatAlongAScale == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
-          if (config.formatAlongAScale == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
-          if (config.formatAlongAScale == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
-          if (config.formatAlongAScale == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
-          if (config.formatAlongAScale == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
+          if (config.format == 'equalTo') settings['ruleName']['words'][0].text = `Rule: Equal to ${settings['formatNumberInput']}`;
+          if (config.format == 'notEqualTo') settings['ruleName']['words'][0].text = `Rule: Not equal to ${settings['formatNumberInput']}`;
+          if (config.format == 'greaterThan') settings['ruleName']['words'][0].text = `Rule: Greater than ${settings['formatNumberInput']}`;
+          if (config.format == 'lessThan') settings['ruleName']['words'][0].text = `Rule: Less than ${settings['formatNumberInput']}`;
+          if (config.format == 'between') settings['ruleName']['words'][0].text = `Rule: Between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+          if (config.format == 'notBetween') settings['ruleName']['words'][0].text = `Rule: Not between ${settings['formatBetween']['words'][1].value} and ${settings['formatBetween']['words'][3].value}`;
+          if (config.format == 'null') settings['ruleName']['words'][0].text = `Rule: Null`; 
+          if (config.format == 'notNull') settings['ruleName']['words'][0].text = `Rule: Not null`;
       }
 
 
         function grabRuleData() {
-            // This grabs the data from the visual, and stores it in a single object
-        }
+            // Grab all the info that's in each rule
+            for(let i = 0; i < config.ruleInstances.words[1]; i++) {
+                let rule = {};
+
+                // Grab the measures that apply to this rule
+                if (config.applyFormattingTo == 'all') rule['measures'] = allMeasures;
+                if (config.applyFormattingTo == 'selectFields') {
+                    let measures = [];
+                    for(let i = 0; i < config.fieldAmount; i++) {
+                        let name = `formatField${i}`;
+                        if(config[name] != 'none') measures.push(config[name]);
+                    }
+                    rule['measures'] = measures;
+                }
+
+                rule['format'] = config.format;
+                rule['numberInput'] = config.formatNumberInput;
+                rule['between'] = {num1: config.formatBetween.num1, num2: config.formatBetween.num2};
+                rule['alongAScale'] = {color1: config.alongAScaleA, color2: config.alongAScaleB};
+                rule['notAlongAScale'] = {
+                    color: config.displayColor,
+                    bold: config.colorBold,
+                    italic: config.colorItalic,
+                    line: config.colorLine
+                }
+                
+                rules.push(rule);
+            } // End of data for one rule
+        } // End of grabRuleData
 
 
 
