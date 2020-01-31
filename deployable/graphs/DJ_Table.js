@@ -272,11 +272,12 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
         this._table.selectAll("*").remove(); // Clear out the data before we add the vis
         console.log(`\n\n\n\n\n\n\n\n\n\n`);
-        // console.log(`direct reference to settings (this.options)`, this.options);
-        // console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
-        // console.log('This is the drillMenu', LookerCharts.Utils.openDrillMenu(options));
+        // console.log('LookerCharts', LookerCharts.Utils);
+        // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
+        console.log('These are the settings', this.options);
+        console.log('This is the config', config);
 
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
@@ -288,23 +289,13 @@ looker.plugins.visualizations.add({
         let dropDown = true;
         let currentDropdown;
 
-        let ruleInstances = config.ruleInstances;
-        let selectedFields = [];
-
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
-        // console.log('LookerCharts', LookerCharts.Utils);
-        // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
-
-        console.log('These are the settings', this.options);
-        console.log('This is the config', config);
 
 
-
-
-
+        // Pull in the global variables and save them in this async instance
         let settings = this.options;
         let fieldChange = this._fieldChange;
         let numOfMeasures = this._measures;
@@ -315,7 +306,7 @@ looker.plugins.visualizations.add({
         let ruleInstances = 1;
         if (config.ruleInstances) ruleInstances = config.ruleInstances
 
-        // Configure the sidebar
+        // Configure the sidebar: This function(s) uses the global variables
         for(let rr = 0; rr < ruleInstances; rr++) { applyFormattingTo(); }
          
         // Save the data for the anyschronous frame refresh
