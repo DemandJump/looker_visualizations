@@ -312,7 +312,8 @@ looker.plugins.visualizations.add({
         measures.forEach(mes => allMeasures.push(mes.name));
 
         // Configure the sidebar
-        for(let rr = 0; rr < config.ruleInstances.rules; rr++) {applyFormattingTo();}
+        console.log('This is ruleInstances', config.ruleInstances)
+        for(let rr = 0; rr < config.ruleInstances.words.rules; rr++) {applyFormattingTo();}
          
         // Save the data for the anyschronous frame refresh
         this._fieldChange = fieldChange;
@@ -326,7 +327,7 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        for(let rr = 0; rr < config.ruleInstances.rules; rr++) {hiddenConfigurationConditionals();}
+        for(let rr = 0; rr < config.ruleInstances.words.rules; rr++) {hiddenConfigurationConditionals();}
         if (changed) {
             changed = false; 
             this.options = settings;
@@ -338,7 +339,7 @@ looker.plugins.visualizations.add({
         console.log(`We have row instances`, config.ruleInstances);
 
         let rules = [];
-        for(let rr = 0; rr < config.ruleInstances.rules; r++) {grabRuleData();}
+        for(let rr = 0; rr < config.ruleInstances.words.rules; r++) {grabRuleData();}
         console.log('This is the rule data!', rules);
         
 
