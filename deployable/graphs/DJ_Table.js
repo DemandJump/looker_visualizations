@@ -633,6 +633,15 @@ looker.plugins.visualizations.add({
 
 
         function selectedFieldsConfig() {
+          // if (selectFieldAmount != config['fieldAmount']) {
+          //     selectFieldAmount = config['fieldAmount'];
+          //     changed = true;
+
+          //     let measureNames = [];
+          // }
+
+
+
           // if (selectFieldAmount != config['selectFieldAmount']) {
           //       selectFieldAmount = config['selectFieldAmount'];
           //       changed = true;
@@ -672,7 +681,7 @@ looker.plugins.visualizations.add({
 
 
 
-        function createFieldAmountValues() {
+        function createFieldAmountValues(fieldAmountValues) {
             for(let i = 0; i < measures.length; i++) {
                 let key = i.toString();
                 let obj = {}
