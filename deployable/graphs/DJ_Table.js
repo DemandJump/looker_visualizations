@@ -482,18 +482,22 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`selectFieldCount`]) {
+                changed = true;
                 let amounts = [];
                 for(let i = 0; i < measures.length; i++) {
                     let strobj = `{"${i}": "${i}"}`
                     obj = JSON.parse(strobj);
                     amounts.push(obj);
                 }
-                settings[`selectFieldCount`] { 
+                settings[`selectFieldCount`] = { 
                     label: `Select the field count`,
                     order: 12.1,
                     section: `Formatting`,
                     type: `string`,
                     display: `select`,
+                    values: amounts,
+                    default: '1',
+                    hidden: false
                 }
             }
 
