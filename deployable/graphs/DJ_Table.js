@@ -631,7 +631,7 @@ looker.plugins.visualizations.add({
                     hidden: false
                 };
             }
-
+            
 
             if (!settings['displayColor']) {
                 settings['displayColor'] = {
