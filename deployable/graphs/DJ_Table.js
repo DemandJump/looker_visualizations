@@ -360,15 +360,15 @@ looker.plugins.visualizations.add({
 
         function hiddenConfigurationConditionals() {
             if (config.conditionalFormatting == false) {
-                if (settings['hideTotals'].hidden == false || settings['ruleInstances'].hidden == false) {
+                if (settings['includeTotals'].hidden == false || settings['ruleInstances'].hidden == false) {
                     changed = true;
-                    settings['hideTotals'].hidden = true;
+                    settings['includeTotals'].hidden = true;
                     settings['ruleInstances'].hidden = true;
                 }
             } else {
-                if (settings['hideTotals'].hidden == true || settings['ruleInstances'].hidden == true) {
+                if (settings['includeTotals'].hidden == true || settings['ruleInstances'].hidden == true) {
                     changed = true; 
-                    settings['hideTotals'].hidden = false;
+                    settings['includeTotals'].hidden = false;
                     settings['ruleInstances'].hidden = false;
                 }
             }
