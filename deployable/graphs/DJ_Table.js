@@ -361,13 +361,13 @@ looker.plugins.visualizations.add({
 
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
-                if (settings['selectNumberOfFields'].hidden == false) {
+                if (settings['selectFieldAmount'].hidden == false) {
                   changed = true 
-                  console.log('Changed to true at configApplyFormattingTo all: selectNumberOfFields');
+                  console.log('Changed to true at configApplyFormattingTo all: selectFieldAmount');
                 }
-                settings['selectNumberOfFields'].hidden = true 
+                settings['selectFieldAmount'].hidden = true 
 
-                for(let i = 0; i < config.selectNumberOfFields; i++) {
+                for(let i = 0; i < config.selectFieldAmount; i++) {
                     let name = `formattedField${i}`;
                     if (settings[name].hidden == false) {
                       changed = true;
@@ -386,13 +386,13 @@ looker.plugins.visualizations.add({
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
-                if (settings['selectNumberOfFields'].hidden == true) {
+                if (settings['selectFieldAmount'].hidden == true) {
                 changed = true;
-                console.log('Changed to true at applyFormattingTo: selectFields, selectNumberOfFields');
+                console.log('Changed to true at applyFormattingTo: selectFields, selectFieldAmount');
               }
-                settings['selectNumberOfFields'].hidden = false;
+                settings['selectFieldAmount'].hidden = false;
 
-                for(let i = 0; i < config.selectNumberOfFields; i++) {
+                for(let i = 0; i < config.selectFieldAmount; i++) {
                     let name = `formattedField${i}`;
                     if (settings[name].hidden == true) {
                     changed = true;
@@ -403,8 +403,8 @@ looker.plugins.visualizations.add({
             }
 
             // SelectedFields show/hide conditionals
-            console.log('hiddenConfigurationConditionals: selectNumberOfFields', config['selectNumberOfFields']);
-            let count = config['selectNumberOfFields'];
+            console.log('hiddenConfigurationConditionals: selectFieldAmount', config['selectFieldAmount']);
+            let count = config['selectFieldAmount'];
             for(let i = 0; i < measures.length; i++) {
                 let name = `formattedField${i}`;
                 if (i < count) settings[name].hidden = false;
@@ -468,8 +468,8 @@ looker.plugins.visualizations.add({
 
         function initializeSelectFields() {
             // Create the select number of fields object
-            if (!settings['selectNumberOfFields']) {
-                settings['selectNumberOfFields'] = {
+            if (!settings['selectFieldAmount']) {
+                settings['selectFieldAmount'] = {
                     label: "Select the number of fields",
                     order: 12.1,
                     section: "Formatting",
@@ -482,19 +482,19 @@ looker.plugins.visualizations.add({
 
                 for(let i = 0; i < measures.length; i++) {
                     let num = i.toString(); let val = {}; val[num] = num;
-                    settings.selectNumberOfFields.values.push(val);
+                    settings.selectFieldAmount.values.push(val);
                 } 
                 changed = true;
             }
 
             // Change values passed in if they add new measures
-            if (settings['selectNumberOfFields']) {
+            if (settings['selectFieldAmount']) {
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
-                    settings['selectNumberOfFields']['values'] = [];
+                    settings['selectFieldAmount']['values'] = [];
                     for(let i = 0; i < measures.length; i++) {
                         let key = i; let val = {}; val[key] = i;
-                        settings['selectNumberOfFields']['values'].push(val);
+                        settings['selectFieldAmount']['values'].push(val);
                     }
                     changed = true;
                 }
@@ -674,8 +674,8 @@ looker.plugins.visualizations.add({
 
         function selectedFieldsConfig() {
           // Now we can select the number of fields > change the 
-          if (selectFieldAmount != config['selectNumberOfFields']) {
-                selectFieldAmount = config['selectNumberOfFields'];
+          if (selectFieldAmount != config['selectFieldAmount']) {
+                selectFieldAmount = config['selectFieldAmount'];
                 changed = true;
 
                 // Grab the measures and put em into an array
