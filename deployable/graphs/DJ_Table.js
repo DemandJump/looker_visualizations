@@ -366,7 +366,7 @@ looker.plugins.visualizations.add({
                     settings['ruleInstances'].hidden = true;
                 }
             } else {
-                if (settings['hideTotals'].hidden == true || settings['ruleInstance'].hidden == true) {
+                if (settings['hideTotals'].hidden == true || settings['ruleInstances'].hidden == true) {
                     changed = true; 
                     settings['hideTotals'].hidden = false;
                     settings['ruleInstances'].hidden = false;
