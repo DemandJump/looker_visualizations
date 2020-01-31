@@ -439,9 +439,9 @@ looker.plugins.visualizations.add({
 
         function initializeSelectFields() {
             // Create the select number of fields object
+            let fieldAmountValues = [];
             if (!settings['fieldAmount']) {
                 changed = true;
-                let fieldAmountValues = [];
                 fieldAmountValues = createFieldAmountValues(fieldAmountValues);
 
                 settings['fieldAmount'] = {
@@ -638,6 +638,17 @@ looker.plugins.visualizations.add({
           //     changed = true;
 
           //     let measureNames = [];
+          //     measureNames.push({"None": :"none"});
+          //     measures.forEach(mes => {
+          //         let value = mes.name;
+          //         let pear = {};
+          //         pear[value] = value;
+          //         measureNames.push(pear);
+          //     });
+
+          //     for(let i = 0; i < measures.length; i++) { 
+          //         let name = `formattedField${i}`;
+          //     }
           // }
 
 
