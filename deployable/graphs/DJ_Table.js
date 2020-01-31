@@ -345,23 +345,35 @@ looker.plugins.visualizations.add({
 
         function hiddenConfigurationConditionals() {
             if (config.applyFormattingTo == 'all') {
-                if (settings['selectNumberOfFields'].hidden == false) changed = true 
+                if (settings['selectNumberOfFields'].hidden == false) {
+                  changed = true 
+                  console.log('Changed to true at configApplyFormattingTo all: selectNumberOfFields');
+                }
                 settings['selectNumberOfFields'].hidden = true 
 
                 for(let i = 0; i < config.selectNumberOfFields; i++) {
                     let name = `formattedField${i}`;
-                    if (settings[name].hidden == false) changed = true;
+                    if (settings[name].hidden == false) {
+                      changed = true;
+                      console.log(`Changed to true at applyFormattingTo: formattedField, settings${name}`);
+                    }
                     settings[name].hidden = true;
                 }
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
-                if (settings['selectNumberOfFields'].hidden == true) changed = true;
+                if (settings['selectNumberOfFields'].hidden == true) {
+                changed = true;
+                console.log('Changed to true at applyFormattingTo: selectFields, selectNumberOfFields');
+              }
                 settings['selectNumberOfFields'].hidden = false;
 
                 for(let i = 0; i < config.selectNumberOfFields; i++) {
                     let name = `formattedField${i}`;
-                    if (settings[name].hidden == true) changed = true;
+                    if (settings[name].hidden == true) {
+                    changed = true;
+                    console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
+                  }
                     settings[name].hidden = false;
                 }
             }
@@ -375,20 +387,29 @@ looker.plugins.visualizations.add({
             }
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
-                if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) changed = true;
+                if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
+                changed = true;
+                console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
+              }
                 settings['formatNumberInput'].hidden = false;
                 settings['formatBetween'].hidden = true;
             }
 
             if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
-                if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) changed = true;
+                if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
+                changed = true;
+                console.log('Changed to true at between notBetween');
+              }
                 settings['formatBetween'].hidden = false;
                 settings['formatNumberInput'].hidden = true;
 
             }
 
             if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
-                if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) changed = true;
+                if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
+                changed = true;
+                console.log('Changed to true at null notNull');
+              }
                 settings['formatNumberInput'].hidden = true;
                 settings['formatBetween'].hidden = true;
             }
