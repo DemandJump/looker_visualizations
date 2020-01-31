@@ -315,12 +315,14 @@ looker.plugins.visualizations.add({
         this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
         if (changed) {
+            changed = false;
             this.trigger('registerOptions', settings);
         }
 
         // Build the configuration, then show/hide the configuration settings
         hiddenConfigurationConditionals();
         if (changed) {
+            changed = false; 
             this.trigger('registerOptions', settings);
         }
         console.log(`ConditionalFormatting: Here's the settings`, settings);
@@ -426,15 +428,15 @@ looker.plugins.visualizations.add({
                 settings['formatBetween'].hidden = true;
             } 
             
-            if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
-                if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
-                    console.log(`Formatnumberinput: ${settings['formatNumberInput'].hidden}, formatBetween: ${settings['formatBetween'].hidden}`);
-                    changed = true;
-                    console.log('Changed to true at between notBetween');
-                }
-                settings['formatNumberInput'].hidden = true;
-                settings['formatBetween'].hidden = false;
-            }
+            // if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+            //     if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
+            //         console.log(`Formatnumberinput: ${settings['formatNumberInput'].hidden}, formatBetween: ${settings['formatBetween'].hidden}`);
+            //         changed = true;
+            //         console.log('Changed to true at between notBetween');
+            //     }
+            //     settings['formatNumberInput'].hidden = true;
+            //     settings['formatBetween'].hidden = false;
+            // }
             
             if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
                 if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
