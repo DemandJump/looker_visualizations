@@ -398,11 +398,19 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = false;
 
+                console.log('This is the current field amount count' ,config.fieldAmount);
                 for(let i = 0; i < config.fieldAmount; i++) {
                     let name = `formatField${i}`;
-                    if (settings[name].hidden == false) {
-                        changed = true;
-                        settings[name].hidden = true;
+                    if (i < count) {
+                        if (settings[name].hidden == true) {
+                            changed = true;
+                            settings[name].hidden = false;
+                        }
+                    } else {
+                        if (settings[name].hidden == false) {
+                            changed = true;
+                            settings[name].hidden = true;
+                        }
                     }
                 }
             }
