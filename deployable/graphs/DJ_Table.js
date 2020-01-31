@@ -415,8 +415,6 @@ looker.plugins.visualizations.add({
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
-                    console.log('Formatnumberinput', settings['formatNumberInput']);
-                    console.log('FormatBetween', settings['formatBetween']);
                     changed = true;
                     console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
                 }
@@ -426,6 +424,8 @@ looker.plugins.visualizations.add({
             
             if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
                 if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
+                    console.log('Formatnumberinput', settings['formatNumberInput']);
+                    console.log('FormatBetween', settings['formatBetween']);
                     changed = true;
                     console.log('Changed to true at between notBetween');
                 }
