@@ -445,7 +445,6 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < measures.length; i++) {
                     let strObj = `{"${i}": "${i}"}`
                     let obj = JSON.parse(strObj);
-                    obj[key] = key;
                     fieldAmountValues.push(obj);
                 }
                 console.log('here is the created arr fieldAmountValues', fieldAmountValues);
@@ -466,7 +465,6 @@ looker.plugins.visualizations.add({
                     for(let i = 0; i < measures.length; i++) {
                         let strObj = `{"${i}": "${i}"}`
                         let obj = JSON.parse(strObj);
-                        obj[key] = key;
                         fieldAmountValues.push(obj);
                     }
                 }
