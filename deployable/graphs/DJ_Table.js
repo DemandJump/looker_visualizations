@@ -531,11 +531,27 @@ looker.plugins.visualizations.add({
 
 
         function initializeBasicRules() {
+            if (!settings['ruleName']) {
+                changed = true;
+                settings['ruleName'] = {
+                    order: 12,
+                    section: 'Formatting',
+                    type: 'sentence_maker',
+                    words: [
+                        { type: "separator", text: "Between values "},
+                        { type: "number", name: "num1", value: 0 },
+                        { type: "separator", text: "and" },
+                        { type: "number", name: "num2", value: 0 }
+                    ],
+                    hidden: false
+                };
+            }
+
             if (!settings['applyFormattingTo']) {
                 changed = true;
                 settings['applyFormattingTo'] = {
                     label: 'Apply to',
-                    order: 12,
+                    order: 12.01,
                     section: 'Formatting',
                     display: 'select',
                     type: 'string',
@@ -587,11 +603,11 @@ looker.plugins.visualizations.add({
             if (!settings['formatBetween']) {
                 changed = true;
                 settings['formatBetween'] = {
-                    label: 'between values',
                     order: 17,
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
+                        { type: "separator", text: "Between values "},
                         { type: "number", name: "num1", value: 0 },
                         { type: "separator", text: "and" },
                         { type: "number", name: "num2", value: 0 }
@@ -612,26 +628,24 @@ looker.plugins.visualizations.add({
 
             if (!settings['alongAScaleA']) {
                 settings['alongAScaleA'] = {
-                    label: 'Palette Between'
+                    label: 'Palette Between',
                     order: 18.1,
                     type: 'string',
                     section: 'Formatting', 
                     display: 'color',
                     default: '#a1f7a5',
-                    display_size: 'half',
                     hidden: false
                 };
             }
 
             if (!settings['alongAScaleB']) {
                 settings['alongAScaleB'] = {
-                    label: 'and'
+                    label: 'and',
                     order: 18.2,
                     type: 'string', 
                     section: 'Formatting',
                     display: 'color',
                     default: '#f9c7c7',
-                    dispaly_size: 'half',
                     hidden: false
                 };
             }
