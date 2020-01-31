@@ -320,7 +320,7 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        // hiddenConfigurationConditionals();
+        hiddenConfigurationConditionals();
         if (changed) {
             changed = false; 
             this.options = settings;
@@ -330,9 +330,7 @@ looker.plugins.visualizations.add({
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
 
-
-        
-        console.log(`We have ${config.ruleInstances} row instances`);
+        console.log(`We have row instances`, config.ruleInstances);
 
         
 
