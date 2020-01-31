@@ -316,14 +316,16 @@ looker.plugins.visualizations.add({
         this.options = settings;
         if (changed) {
             changed = false;
-            this.trigger('registerOptions', settings);
+            this.options = settings;
+            this.trigger('registerOptions', this.options);
         }
 
         // Build the configuration, then show/hide the configuration settings
         hiddenConfigurationConditionals();
         if (changed) {
             changed = false; 
-            this.trigger('registerOptions', settings);
+            this.options = settings;
+            this.trigger('registerOptions', this.options);
         }
         console.log(`ConditionalFormatting: Here's the settings`, settings);
 
@@ -418,6 +420,8 @@ looker.plugins.visualizations.add({
                 settings['colorItalic'].hidden = false;
                 settings['colorLine'].hidden = false;
             }
+            console.log('format number input', config.formatNumberInput);
+            console.log('format between', config.formatBetween);
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
@@ -426,19 +430,15 @@ looker.plugins.visualizations.add({
                 }
                 settings['formatNumberInput'].hidden = false;
                 settings['formatBetween'].hidden = true;
-            } 
-            
-            // if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
-            //     if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
-            //         console.log(`Formatnumberinput: ${settings['formatNumberInput'].hidden}, formatBetween: ${settings['formatBetween'].hidden}`);
-            //         changed = true;
-            //         console.log('Changed to true at between notBetween');
-            //     }
-            //     settings['formatNumberInput'].hidden = true;
-            //     settings['formatBetween'].hidden = false;
-            // }
-            
-            if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
+            } else if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+                if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
+                    console.log(`Formatnumberinput: ${settings['formatNumberInput'].hidden}, formatBetween: ${settings['formatBetween'].hidden}`);
+                    changed = true;
+                    console.log('Changed to true at between notBetween');
+                }
+                settings['formatNumberInput'].hidden = true;
+                settings['formatBetween'].hidden = false;
+            } else if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
                 if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
                     changed = true;
                     console.log('Changed to true at null notNull');
