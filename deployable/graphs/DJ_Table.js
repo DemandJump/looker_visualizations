@@ -467,10 +467,8 @@ looker.plugins.visualizations.add({
 
 
         function initializeSelectFields() {
-            console.log('selectNumberOfFields', config.selectNumberOfFields);
             // Create the select number of fields object
             if (!settings['selectNumberOfFields']) {
-                console.log('recreating selectnumberoffields');
                 settings['selectNumberOfFields'] = {
                     label: 'Select the number of fields',
                     order: 12.1,
@@ -491,10 +489,27 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
+            if (!settings['selectNumberOfFields']) {
+                settings['dimensionAmount'] = {
+                    label: "Select the number of fields",
+                    order: 12.1,
+                    section: "Formatting",
+                    type: "string", 
+                    display: "select",
+                    values: [],
+                    default: "1",
+                    hidden: false
+                };
+
+                for(let i = 0; i < measures.length; i++) {
+                    let num = i.toString(); let val = {}; val[num] = num;
+                    settings.dimensionAmount.values.push(val);
+                } 
+            }
+
             // Change values passed in if they add new measures
             if (settings['selectNumberOfFields']) {
                 if (numOfMeasures != measures.length) {
-                    console.log('recreating selectnumberoffields values');
                     numOfMeasures = measures.length;
                     settings['selectNumberOfFields']['values'] = [];
                     for(let i = 0; i < measures.length; i++) {
@@ -563,7 +578,6 @@ looker.plugins.visualizations.add({
             }
 
             if(!settings['formatNumberInput']) {
-                console.log('Instantiated againnnnnnnnn');
                 changed = true;
                 settings['formatNumberInput'] = {
                     order: 17,
