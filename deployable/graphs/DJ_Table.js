@@ -442,8 +442,8 @@ looker.plugins.visualizations.add({
             if (!settings['fieldAmount']) {
                 changed = true;
                 let fieldAmountValues = [];
-                createFieldAmountValues();
-                
+                fieldAmountValues = createFieldAmountValues(fieldAmountValues);
+
                 settings['fieldAmount'] = {
                     label: 'Select the field amount',
                     order: 12.1,
@@ -456,7 +456,7 @@ looker.plugins.visualizations.add({
             } else {
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
-                    createFieldAmountValues();
+                    fieldAmountValues = createFieldAmountValues(fieldAmountValues);
                 }
             }
         } // End of initializeSelectFields
