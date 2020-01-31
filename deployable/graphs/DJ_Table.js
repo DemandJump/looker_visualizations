@@ -432,14 +432,18 @@ looker.plugins.visualizations.add({
                 }
                 settings['formatNumberInput'].hidden = false;
                 settings['formatBetween'].hidden = true;
-            } else if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
+            } 
+            
+            if (config.formatAlongAScale == 'between' || config.formatAlongAScale == 'notBetween') {
                 if (settings['formatBetween'].hidden == true || settings['formatNumberInput'].hidden == false) {
                     changed = true;
                     console.log('Changed to true at between notBetween');
                 }
                 settings.formatNumberInput.hidden = true;
                 settings.formatBetween.hidden = false;
-            } else if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
+            } 
+            
+            if (config.formatAlongAScale == 'null' || config.formatAlongAScale == 'notNull') {
                 if (settings['formatNumberInput'].hidden == false || settings['formatBetween'].hidden == false) {
                     changed = true;
                     console.log('Changed to true at null notNull');
@@ -525,7 +529,7 @@ looker.plugins.visualizations.add({
 
 
         function initializeBasicRules() {
-            if (!config.applyFormattingTo) {
+            if (!settings['applyFormattingTo']) {
                 changed = true;
                 settings['applyFormattingTo'] = {
                     label: 'Apply to',
@@ -542,7 +546,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.formatAlongAScale) {
+            if (!settings['formatAlongAScale']) {
                 changed = true;
                 settings['formatAlongAScale'] = {
                     label: 'Format',
@@ -566,7 +570,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if(!config.formatNumberInput) {
+            if(!settings['formatNumberInput']) {
                 console.log('Instantiated againnnnnnnnn');
                 changed = true;
                 settings['formatNumberInput'] = {
@@ -578,7 +582,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.formatBetween) {
+            if (!settings['formatBetween']) {
                 changed = true;
                 settings['formatBetween'] = {
                     label: 'between values',
@@ -597,14 +601,14 @@ looker.plugins.visualizations.add({
 
 
         function initializeColorConfig() {
-            if (!config.alongAScaleT) {
+            if (!settings['alongAScaleT']) {
                 settings['alongAScaleT'] = {
                     label: 'between values',
                     order: 18
                 };
             }
 
-            if (!config.alongAScaleA) {
+            if (!settings['alongAScaleA']) {
                 settings['alongAScaleA'] = {
                     order: 18.1,
                     type: 'string',
@@ -616,7 +620,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.alongAScaleB) {
+            if (!settings['alongAScaleB']) {
                 settings['alongAScaleB'] = {
                     order: 18.2,
                     type: 'string', 
@@ -629,7 +633,7 @@ looker.plugins.visualizations.add({
             }
 
 
-            if (!config.displayColor) {
+            if (!settings['displayColor']) {
                 settings['displayColor'] = {
                     label: 'Display Color',
                     order: 18,
@@ -641,7 +645,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.fontColor) {
+            if (!settings['fontColor']) {
                 settings['fontColor'] = {
                     label: 'Font Color',
                     order: 18.05,
@@ -653,7 +657,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.colorBold) {
+            if (!settings['colorBold']) {
                 settings['colorBold'] = {
                     label: 'Bold Text',
                     order: 18.1,
@@ -664,7 +668,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.colorItalic) {
+            if (!settings['colorItalic']) {
                 settings['colorItalic'] = {
                     label: 'Italic Text',
                     order: 18.2,
@@ -675,7 +679,7 @@ looker.plugins.visualizations.add({
                 };
             }
 
-            if (!config.colorLine) {
+            if (!settings['colorLine']) {
                 settings['colorLine'] = {
                     label: 'Line Through Text',
                     order: 18.3,
@@ -687,7 +691,7 @@ looker.plugins.visualizations.add({
             }
 
 
-            if (!config.wordColors) {
+            if (!settings['wordColors']) {
                 settings['wordColors'] = {
                     order: 18,
                     section: 'Formatting',
