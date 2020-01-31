@@ -368,14 +368,6 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = true 
 
-                for(let i = 0; i < measures.length; i++) {
-                    let name = `formattedField${i}`;
-                    if (settings[name].hidden == false) {
-                        changed = true;
-                        settings[name].hidden = true;
-                        console.log(`Changed to true at applyFormattingTo: formattedField, settings${name}`);
-                    }
-                }
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
@@ -385,24 +377,10 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = false;
 
-                for(let i = 0; i < config.selectFieldAmount; i++) {
-                    let name = `formattedField${i}`;
-                    if (settings[name].hidden == true) {
-                        changed = true;
-                        settings[name].hidden = false;
-                        console.log(`Changed to true at applyFormattingTo: selectFields, formattedField${i}`);
-                    } 
-                }
             }
 
             // SelectedFields show/hide conditionals
             console.log('hiddenConfigurationConditionals: selectFieldAmount', config['selectFieldAmount']);
-            let count = config['selectFieldAmount'];
-            for(let i = 0; i < measures.length; i++) {
-                let name = `formattedField${i}`;
-                if (i < count) settings[name].hidden = false;
-                else settings[name].hidden = true;
-            }
 
             if (config.formatAlongAScale == 'alongAScale') {
                 if (settings['alongAScaleA'].hidden == true || settings['alongAScaleB'].hidden == true) {
@@ -460,40 +438,40 @@ looker.plugins.visualizations.add({
 
 
         function initializeSelectFields() {
-            // Create the select number of fields object
-            if (!settings[`selectFieldAmount`]) {
-                changed = true;
-                let amounts = [];
-                for(let i = 0; i < measures.length; i++) {
-                    let strobj = `{"${i}": "${i}"}`;
-                    obj = JSON.parse(strobj);
-                    amounts.push(obj);
-                }
-                settings[`selectFieldAmount`] = { 
-                    label: `Select the number of fields`,
-                    order: 12.1,
-                    section: `Formatting`,
-                    type: `string`,
-                    display: `select`,
-                    values: amounts,
-                    default: '1',
-                    hidden: false
-                }
-            }
+            // // Create the select number of fields object
+            // if (!settings[`selectFieldAmount`]) {
+            //     changed = true;
+            //     let amounts = [];
+            //     for(let i = 0; i < measures.length; i++) {
+            //         let strobj = `{"${i}": "${i}"}`;
+            //         obj = JSON.parse(strobj);
+            //         amounts.push(obj);
+            //     }
+            //     settings[`selectFieldAmount`] = { 
+            //         label: `Select the number of fields`,
+            //         order: 12.1,
+            //         section: `Formatting`,
+            //         type: `string`,
+            //         display: `select`,
+            //         values: amounts,
+            //         default: '1',
+            //         hidden: false
+            //     }
+            // }
 
 
-            // Change values passed in if they add new measures
-            if (settings['selectFieldAmount']) {
-                if (numOfMeasures != measures.length) {
-                    numOfMeasures = measures.length;
-                    settings['selectFieldAmount']['values'] = [];
-                    for(let i = 0; i < measures.length; i++) {
-                        let key = i; let val = {}; val[key] = i;
-                        settings['selectFieldAmount']['values'].push(val);
-                    }
-                    changed = true;
-                }
-            }
+            // // Change values passed in if they add new measures
+            // if (settings['selectFieldAmount']) {
+            //     if (numOfMeasures != measures.length) {
+            //         numOfMeasures = measures.length;
+            //         settings['selectFieldAmount']['values'] = [];
+            //         for(let i = 0; i < measures.length; i++) {
+            //             let key = i; let val = {}; val[key] = i;
+            //             settings['selectFieldAmount']['values'].push(val);
+            //         }
+            //         changed = true;
+            //     }
+            // }
         } // End of initializeSelectFields
 
 
@@ -668,38 +646,37 @@ looker.plugins.visualizations.add({
 
 
         function selectedFieldsConfig() {
-          // Now we can select the number of fields > change the 
-          if (selectFieldAmount != config['selectFieldAmount']) {
-                selectFieldAmount = config['selectFieldAmount'];
-                changed = true;
+          // if (selectFieldAmount != config['selectFieldAmount']) {
+          //       selectFieldAmount = config['selectFieldAmount'];
+          //       changed = true;
 
-                // Grab the measures and put em into an array
-                let measureNames = [];
-                measureNames.push({"None": "none"});
-                measures.forEach(mes => {
-                    let key = mes.name;
-                    let value = mes.name;
-                    let pear = {};
-                    pear[key] = value;
-                    measureNames.push(pear);
-                });
+          //       // Grab the measures and put em into an array
+          //       let measureNames = [];
+          //       measureNames.push({"None": "none"});
+          //       measures.forEach(mes => {
+          //           let key = mes.name;
+          //           let value = mes.name;
+          //           let pear = {};
+          //           pear[key] = value;
+          //           measureNames.push(pear);
+          //       });
 
-                // Create the fields
-                for(let i = 0; i < measures.length; i++) {
-                    let name = `formattedField${i}`;
-                    settings[name] = {
-                        order: 12.2 + (i/10),
-                        section: 'Formatting',
-                        display: 'select',
-                        type: 'string',
-                        values: measureNames,
-                        default: 'none',
-                        hidden: true
-                    };
+          //       // Create the fields
+          //       for(let i = 0; i < measures.length; i++) {
+          //           let name = `formattedField${i}`;
+          //           settings[name] = {
+          //               order: 12.2 + (i/10),
+          //               section: 'Formatting',
+          //               display: 'select',
+          //               type: 'string',
+          //               values: measureNames,
+          //               default: 'none',
+          //               hidden: true
+          //           };
 
-              }
-              console.log('These are the finished settings', settings);
-          }
+          //     }
+          //     console.log('These are the finished settings', settings);
+          // }
 
         } // End of selectFieldAmount
 
