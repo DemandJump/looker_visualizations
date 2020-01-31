@@ -273,8 +273,8 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
         this._table.selectAll("*").remove(); // Clear out the data before we add the vis
         console.log(`\n\n\n\n\n\n\n\n\n\n`);
-        console.log(`direct reference to settings (this.options)`, this.options);
-        console.log(`config`, config);
+        // console.log(`direct reference to settings (this.options)`, this.options);
+        // console.log(`config`, config);
         console.log(`queryResponse`, queryResponse);
         console.log(`data`, data);
         // console.log('This is the drillMenu', LookerCharts.Utils.openDrillMenu(options));
@@ -295,12 +295,8 @@ looker.plugins.visualizations.add({
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
 
-        console.log('LookerCharts', LookerCharts.Utils);
-        console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
-
-        console.log('These are the settings', this.options);
-        console.log('This is the config', config);
-
+        // console.log('LookerCharts', LookerCharts.Utils);
+        // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
 
         let settings = this.options;
         let fieldChange = this._fieldChange;
@@ -328,7 +324,10 @@ looker.plugins.visualizations.add({
             this.options = settings;
             this.trigger('registerOptions', this.options);
         }
-        console.log(`ConditionalFormatting: Here's the settings`, settings);
+        
+        console.log('These are the settings', this.options);
+        console.log('This is the config', config);
+
 
 
 
@@ -513,7 +512,6 @@ looker.plugins.visualizations.add({
 
             // Change values passed in if they add new measures
             if (settings['selectNumberOfFields']) {
-                console.log(`NumOfMeasures:${numOfMeasures}, and measures.length: ${measures.length}`);
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
                     settings['selectNumberOfFields']['values'] = [];
