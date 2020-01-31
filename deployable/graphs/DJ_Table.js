@@ -367,6 +367,12 @@ looker.plugins.visualizations.add({
                     settings['hideTotals'].hidden = true;
                     settings['ruleInstances'].hidden = true;
                 }
+            } else {
+                if (settings['hideTotals'].hidden == true || settings['ruleInstance'].hidden == true) {
+                    changed = true; 
+                    settings['hideTotals'].hidden = false;
+                    settings['ruleInstances'].hidden = false;
+                }
             }
 
             if (config.applyFormattingTo == 'all') {
@@ -376,6 +382,13 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = true 
 
+                for(let i = 0; i < config.fieldAmount; i++) {
+                    let name = `formatField${i}`;
+                    if (settings[name].hidden == false) {
+                        changed = true;
+                        settings[name].hidden = true;
+                    }
+                }
             }
 
             if (config.applyFormattingTo == 'selectFields') { // Selected field section
@@ -385,6 +398,13 @@ looker.plugins.visualizations.add({
                 }
                 settings['selectFieldAmount'].hidden = false;
 
+                for(let i = 0; i < config.fieldAmount; i++) {
+                    let name = `formatField${i}`;
+                    if (settings[name].hidden == false) {
+                        changed = true;
+                        settings[name].hidden = true;
+                    }
+                }
             }
 
             // SelectedFields show/hide conditionals
@@ -415,9 +435,6 @@ looker.plugins.visualizations.add({
                 settings['colorItalic'].hidden = false;
                 settings['colorLine'].hidden = false;
             }
-
-
-
 
             if (config.formatAlongAScale == 'equalTo' || config.formatAlongAScale == 'notEqualTo' || config.formatAlongAScale == 'greaterThan' || config.formatAlongAScale == 'lessThan') {
                 if (settings['formatNumberInput'].hidden == true || settings['formatBetween'].hidden == false) {
