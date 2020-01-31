@@ -289,6 +289,7 @@ looker.plugins.visualizations.add({
         let dropDown = true;
         let currentDropdown;
 
+        let ruleInstances = config.ruleInstances;
         let selectedFields = [];
 
             // Store those names, then iterate the data into rowData
@@ -327,6 +328,12 @@ looker.plugins.visualizations.add({
         
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
+
+
+        
+        console.log(`We have ${rowInstances} row instances`);
+
+        
 
 
 
@@ -500,7 +507,9 @@ looker.plugins.visualizations.add({
                     type: 'string',
                     values: [],
                     default: '1',
-                    hidden: false
+                    hidden: false,
+                    randomNewField: 'asdafafjafkha',
+                    anothaOne: 'YES'
                 };
 
                 for(let i = 0; i < measures.length; i++) {
