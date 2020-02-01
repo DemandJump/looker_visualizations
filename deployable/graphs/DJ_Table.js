@@ -367,7 +367,6 @@ looker.plugins.visualizations.add({
         } // End of applyFormattingTo function
 
 
-
         function initializeBasicRules() {
             if (!settings[`ruleName_${rr}`]) {
                 console.log(`created ruleName_${rr}`);
@@ -626,7 +625,20 @@ looker.plugins.visualizations.add({
 
          
         function hiddenConfigurationConditionals() {
-            console.log('Iterating through hidden Configuration conditionals', rr);
+            console.log('Iterating through hidden Configuration conditionals. hidden: ', rr);
+            console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
+            console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
+            console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
+            console.log(`Config setting: formatBetween${rr}`, config[`formatBetween${rr}`]);
+            console.log(`Config setting: fieldAmount${rr}`, config[`fieldAmount${rr}`]);
+            console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
+            console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
+            console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
+            console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
+            console.log(`Config setting: colorItalic${rr}`, config[`colorItalic${rr}`]);
+            console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
+            for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}${rr}`, config[`formatField${i}${rr}`]);}
+
             if (config[`conditionalFormatting`] == false) {
                 if (settings[`includeTotals`].hidden == false || settings[`ruleInstances`].hidden == false) {
                     changed = true;
