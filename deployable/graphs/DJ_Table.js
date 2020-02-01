@@ -375,17 +375,17 @@ looker.plugins.visualizations.add({
 
         function hiddenConfigurationConditionals() {
             console.log('Iterating through hidden Configuration conditionals', rr);
-            if (config[`conditionalFormatting_${rr}`] == false) {
-                if (settings[`includeTotals_${rr}`].hidden == false || settings[`ruleInstances_${rr}`].hidden == false) {
+            if (config[`conditionalFormatting`] == false) {
+                if (settings[`includeTotals`].hidden == false || settings[`ruleInstances`].hidden == false) {
                     changed = true;
-                    settings[`includeTotals_${rr}`].hidden = true;
-                    settings[`ruleInstances_${rr}`].hidden = true;
+                    settings[`includeTotals`].hidden = true;
+                    settings[`ruleInstances`].hidden = true;
                 }
             } else {
-                if (settings[`includeTotals_${rr}`].hidden == true || settings[`ruleInstances_${rr}`].hidden == true) {
+                if (settings[`includeTotals`].hidden == true || settings[`ruleInstances`].hidden == true) {
                     changed = true; 
-                    settings[`includeTotals_${rr}`].hidden = false;
-                    settings[`ruleInstances_${rr}`].hidden = false;
+                    settings[`includeTotals`].hidden = false;
+                    settings[`ruleInstances`].hidden = false;
                 }
             }
 
