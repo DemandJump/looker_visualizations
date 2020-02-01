@@ -761,7 +761,7 @@ looker.plugins.visualizations.add({
 
         function grabRuleData() {
             // Grab all the info that's in each rule
-            if (config[`ruleInstances_${rr}`].words[1]) {
+            if (config[`ruleInstances_${rr}`]) {
                 for(let i = 0; i < config[`ruleInstances_${rr}`].words[1]; i++) {
                     let rule = {};
 
