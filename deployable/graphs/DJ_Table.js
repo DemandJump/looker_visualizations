@@ -626,18 +626,32 @@ looker.plugins.visualizations.add({
          
         function hiddenConfigurationConditionals() {
             console.log('Iterating through hidden Configuration conditionals. hidden: ', rr);
-            console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
-            console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
-            console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
-            console.log(`Config setting: formatBetween${rr}`, config[`formatBetween${rr}`]);
-            console.log(`Config setting: fieldAmount${rr}`, config[`fieldAmount${rr}`]);
-            console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
-            console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
-            console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
-            console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
-            console.log(`Config setting: colorItalic${rr}`, config[`colorItalic${rr}`]);
-            console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
-            for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}${rr}`, config[`formatField${i}${rr}`]);}
+            let ruleName = `ruleName_${rr}`;
+            let applyFormattingToName = `applyFormattingTo_${rr}`;
+            let formatName = `format_${rr}`;
+            let formatBetweenName = `formatBetween_${rr}`;
+            let fieldAmountName = `fieldAmount_${rr}`;
+            let alongAScaleAName = `alongAScaleA_${rr}`;
+            let alongAScaleB_Name = `alongAScaleB_${rr}`;
+            let displayColorName = `displayColor_${rr}`;
+            let colorBoldName = `colorBold_${rr}`;
+            let colorItalicName = `colorItalic_${rr}`;
+            let colorLineName = `colorLine_${rr}`;
+            console.log(`Config setting: ruleName_${rr}`, config[ruleName]);
+            console.log(`Config setting: applyFormattingTo_${rr}`, config[applyFormattingToName]);
+            console.log(`Config setting: format_${rr}`, config[formatName]);
+            console.log(`Config setting: formatBetween_${rr}`, config[formatBetweenName]);
+            console.log(`Config setting: fieldAmount_${rr}`, config[fieldAmountName]);
+            console.log(`Config setting: alongAScaleA_${rr}`, config[alongAScaleAName]);
+            console.log(`Config setting: alongAScaleB_${rr}`, config[alongAScaleBName]);
+            console.log(`Config setting: displayColor_${rr}`, config[displayColorName]);
+            console.log(`Config setting: colorBold_${rr}`, config[colorBoldName]);
+            console.log(`Config setting: colorItalic${rr}`, config[colorItalicName]);
+            console.log(`Config setting: colorLine_${rr}`, config[colorLineName]);
+            for(let i = 0; i < measures.length; i++) {
+                let formatFieldName = `formatField${i}_${rr}`;
+                console.log(`Config setting: formatField${i}_${rr}`, config[formatFieldName]);
+            }
 
             if (config[`conditionalFormatting`] == false) {
                 if (settings[`includeTotals`].hidden == false || settings[`ruleInstances`].hidden == false) {
