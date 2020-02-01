@@ -315,13 +315,9 @@ looker.plugins.visualizations.add({
         console.log('Before the applyFormattingTo function!');
         for (let i = 0; i < ruleInstances; i++) {
             rr = i;
-            console.log('this is rr', rr);
-        }
-        for (let i = 0; i < ruleInstances; i++) {
-            rr = i;
             applyFormattingTo();
         }
-        console.log('After the applyFormattingTo function!');
+        console.log('After the applyFormattingTo function! This is changed: ', changed);
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
@@ -526,7 +522,6 @@ looker.plugins.visualizations.add({
 
 
         function initializeBasicRules() {
-            console.log('This is rr in basic rules', rr);
             if (!settings[`ruleName_${rr}`]) {
                 changed = true;
                 settings[`ruleName_${rr}`] = {
