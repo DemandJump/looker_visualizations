@@ -318,10 +318,12 @@ looker.plugins.visualizations.add({
             applyFormattingTo();
         }
         console.log('After the applyFormattingTo function! This is changed: ', changed);
+        // Update the globally saved variables
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
+        // Rebuild the configuration if a parameter was changed
         if (changed) {
             changed = false;
             this.options = settings;
