@@ -319,9 +319,8 @@ looker.plugins.visualizations.add({
         this.options = settings;
         if (changed) {
             changed = false;
-            this.options = settings;
             console.log('Rebuilding the settings');
-            this.trigger('registerOptions', this.options);
+            this.trigger('registerOptions', settings);
         }
 
         // Build the configuration, then show/hide the configuration settings
@@ -331,9 +330,7 @@ looker.plugins.visualizations.add({
         }
         if (changed) {
             changed = false; 
-            this.options = settings;
-
-            this.trigger('registerOptions', this.options);
+            this.trigger('registerOptions', settings);
         }
 
         // Build and append the rules to the data
