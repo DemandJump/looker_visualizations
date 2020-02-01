@@ -320,17 +320,19 @@ looker.plugins.visualizations.add({
         if (changed) {
             changed = false;
             this.options = settings;
+            console.log('Rebuilding the settings');
             this.trigger('registerOptions', this.options);
         }
 
         // Build the configuration, then show/hide the configuration settings
-        for (let i = 0; i < ruleInstances; i++) {
-           rr = i;
+        for (let j = 0; j < ruleInstances; j++) {
+           rr = j;
            hiddenConfigurationConditionals(); 
         }
         if (changed) {
             changed = false; 
             this.options = settings;
+
             this.trigger('registerOptions', this.options);
         }
 
@@ -680,7 +682,7 @@ looker.plugins.visualizations.add({
 
             // SelectedFields show/hide conditionals
             console.log('hiddenConfigurationConditionals: fieldAmount', config[`fieldAmount_${rr}`]);
-
+            
             if (config[`format_${rr}`] == 'alongAScale') {
                 if (settings[`alongAScaleA_${rr}`].hidden == true || settings[`alongAScaleB_${rr}`].hidden == true) {
                     changed = true;
