@@ -625,7 +625,7 @@ looker.plugins.visualizations.add({
         } // End of selectFieldAmount
 
 
-        
+         
         function hiddenConfigurationConditionals() {
             console.log('Iterating through hidden Configuration conditionals', rr);
             if (config[`conditionalFormatting`] == false) {
