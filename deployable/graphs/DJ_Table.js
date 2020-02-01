@@ -303,9 +303,13 @@ looker.plugins.visualizations.add({
         let selectFieldAmount = this._selectFieldAmount;
         let changed = false;
         let allMeasures = [];
-        measures.forEach(mes => allMeasures.push(mes.name));
+        measures.forEach(mes => {
+          allMeasures.push(mes.name)
+        });
         let ruleInstances = 1;
-        if (config.ruleInstances) ruleInstances = config.ruleInstances;
+        if (config.ruleInstances) {
+          ruleInstances = config.ruleInstances;
+        }
 
         // Configure the sidebar: This function(s) uses the global variables
         console.log('Before the applyFormattingTo function!');
