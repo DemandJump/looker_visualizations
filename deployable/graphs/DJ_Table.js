@@ -303,27 +303,20 @@ looker.plugins.visualizations.add({
         let selectFieldAmount = this._selectFieldAmount;
         let changed = false;
         let allMeasures = [];
-        measures.forEach(mes => {
-          allMeasures.push(mes.name)
-        });
+        measures.forEach(mes => {allMeasures.push(mes.name)});
         let ruleInstances = 1;
-        if (config.ruleInstances) {
-          ruleInstances = config.ruleInstances;
-        }
+        if (config.ruleInstances) {ruleInstances = config.ruleInstances;}
 
         // Configure the sidebar: This function(s) uses the global variables
-        console.log('Before the applyFormattingTo function!');
         for (let i = 0; i < ruleInstances; i++) {
             rr = i;
+            console.log('This is rr', rr);
             applyFormattingTo();
         }
-        console.log('After the applyFormattingTo function! This is changed: ', changed);
-        // Update the globally saved variables
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
-        // Rebuild the configuration if a parameter was changed
         if (changed) {
             changed = false;
             this.options = settings;
@@ -367,7 +360,7 @@ looker.plugins.visualizations.add({
 
 
         function applyFormattingTo() {
-            console.log('This is the apply formatting to function');
+            console.log('This is the apply formatting to function, rr:', rr);
             initializeBasicRules();
             initializeSelectFields();
             initializeColorConfig();
@@ -375,6 +368,264 @@ looker.plugins.visualizations.add({
         } // End of applyFormattingTo function
 
 
+
+        function initializeBasicRules() {
+            if (!settings[`ruleName_${rr}`]) {
+                console.log(`created ruleName_${rr}`);
+                changed = true;
+                settings[`ruleName_${rr}`] = {
+                    order: 12,
+                    section: 'Formatting',
+                    type: 'sentence_maker',
+                    words: [
+                        { type: "separator", text: `Rule: `},
+                    ],
+                    hidden: false
+                };
+            }
+
+            if (!settings[`applyFormattingTo_${rr}`]) {
+                console.log(`created applyformattingTo_${rr}`);
+                changed = true;
+                settings[`applyFormattingTo_${rr}`] = {
+                    label: 'Apply to',
+                    order: 12.01,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: [
+                        {"All numeric fields": "all"},
+                        {"Select fields...": "selectFields"}
+                    ],
+                    default: 'all',
+                    hidden: false
+                };
+            }
+
+            if (!settings[`format_${rr}`]) {
+                console.log(`created format_${rr}`);
+                changed = true;
+                settings[`format_${rr}`] = {
+                    label: 'Format',
+                    order: 16,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: [
+                        {"Along a scale...": "alongAScale"},
+                        {"equal to": "equalTo"},
+                        {"not equal to": "notEqualTo"},
+                        {"greater than": "greaterThan"},
+                        {"less than": "lessThan"},
+                        {"between": "between"},
+                        {"not between": "notBetween"},
+                        {"null": "null"},
+                        {"not null": "notNull"},
+                    ],
+                    default: 'alongAScale',
+                    hidden: false
+                };
+            }
+
+            if(!settings[`formatNumberInput_${rr}`]) {
+                console.log(`createdformatNumberInput_${rr}`);
+                changed = true;
+                settings[`formatNumberInput_${rr}`] = {
+                    order: 17,
+                    section: 'Formatting',
+                    type: 'string',
+                    placeholder: 'Enter value',
+                    hidden: false
+                };
+            }
+
+            if (!settings[`formatBetween_${rr}`]) {
+                console.log(`created formatBetween_${rr}`);
+                changed = true;
+                settings[`formatBetween_${rr}`] = {
+                    order: 17,
+                    section: 'Formatting',
+                    type: 'sentence_maker',
+                    words: [
+                        { type: "separator", text: "Between values "},
+                        { type: "number", name: "num1", value: 0 },
+                        { type: "separator", text: "and" },
+                        { type: "number", name: "num2", value: 0 }
+                    ],
+                    hidden: false
+                };
+            }
+        } // End of initializeBasicRules
+
+
+        function initializeSelectFields() {
+            // Create the select number of fields object
+            let fieldAmountValues = [];
+            if (!settings[`fieldAmount_${rr}`]) {
+                console.log(`created fieldAmount_${rr}`);
+                changed = true;     
+                for(let i = 0; i < measures.length - 1; i++) {
+                    let strObj = `{"${i}": "${i}"}`
+                    let obj = JSON.parse(strObj);
+                    fieldAmountValues.push(obj);
+                }
+                console.log('here is the created arr fieldAmountValues', fieldAmountValues);
+
+                settings[`fieldAmount_${rr}`] = {
+                    label: 'Select the field amount',
+                    order: 12.1,
+                    section: 'Formatting',
+                    display: 'select',
+                    type: 'string',
+                    values: fieldAmountValues,
+                    default: '1', 
+                    hidden: false
+                };
+            } else {
+                if (numOfMeasures != measures.length) {
+                    numOfMeasures = measures.length;
+                    for(let i = 0; i < measures.length - 1; i++) {
+                        let strObj = `{"${i}": "${i}"}`
+                        let obj = JSON.parse(strObj);
+                        fieldAmountValues.push(obj);
+                    }
+                }
+            }
+        } // End of initializeSelectFields
+
+
+        function initializeColorConfig() {
+            if (!settings[`alongAScaleA_${rr}`]) {
+                console.log(`created alongAScaleA_${rr}`);
+                settings[`alongAScaleA_${rr}`] = {
+                    label: 'Palette Between',
+                    order: 18,
+                    type: 'string',
+                    section: 'Formatting', 
+                    display: 'color',
+                    default: '#a1f7a5',
+                    display_size: 'half',
+                    hidden: false
+                };
+            }
+
+            if (!settings[`alongAScaleB_${rr}`]) {
+                console.log(`created alongAScaleB_${rr}`);
+                settings[`alongAScaleB_${rr}`] = {
+                    label: 'and',
+                    order: 18.1,
+                    type: 'string', 
+                    section: 'Formatting',
+                    display: 'color',
+                    default: '#f9c7c7',
+                    display_size: 'half',
+                    hidden: false
+                };
+            }
+
+
+            if (!settings[`displayColor_${rr}`]) {
+                console.log(`created displayColor_${rr}`);
+                settings[`displayColor_${rr}`] = {
+                    label: 'Display Color',
+                    order: 18,
+                    type: 'string',
+                    section: 'Formatting',
+                    display: 'color',
+                    default: '#009DE9',
+                    display_size: 'half',
+                    hidden: 'false'
+                };
+            }
+
+            if (!settings[`fontColor_${rr}`]) {
+                console.log(`created fontColor_${rr}`);
+                settings[`fontColor_${rr}`] = {
+                    label: 'Font Color',
+                    order: 18.05,
+                    type: 'string', 
+                    section: 'Formatting',
+                    display: 'color',
+                    // default: '',
+                    display_size: 'half',
+                    hidden: false
+                };
+            }
+
+            if (!settings[`colorBold_${rr}`]) {
+                console.log(`created colorBold_${rr}`);
+                settings[`colorBold_${rr}`] = {
+                    label: 'Bold Text',
+                    order: 18.1,
+                    type: 'boolean', 
+                    section: 'Formatting',
+                    default: false,
+                    display_size: 'half',
+                    hidden: false
+                };
+            }
+
+            if (!settings[`colorItalic_${rr}`]) {
+                console.log(`created colorItalic_${rr}`);
+                settings[`colorItalic_${rr}`] = {
+                    label: 'Italic Text',
+                    order: 18.2,
+                    type: 'boolean',
+                    section: 'Formatting',
+                    default: false,
+                    display_size: 'half',
+                    hidden: false
+                };
+            }
+
+            if (!settings[`colorLine_${rr}`]) {
+                console.log(`created colorLine_${rr}`);
+                settings[`colorLine_${rr}`] = {
+                    label: 'Line Through Text',
+                    order: 18.3,
+                    type: 'boolean',
+                    section: 'Formatting',
+                    default: false,
+                    hidden: false
+                };
+            }
+
+        } // End of initializeColorConfig
+
+
+        function selectedFieldsConfig() {
+          if (selectFieldAmount != config[`fieldAmount_${rr}`]) {
+              console.log(`created fieldAmount_${rr}`);
+              selectFieldAmount = config[`fieldAmount_${rr}`];
+              changed = true;
+
+              let measureNames = [];
+              measureNames.push({"None": "none"});
+              measures.forEach(mes => {
+                  let value = mes.name;
+                  let pear = {};
+                  pear[value] = value;
+                  measureNames.push(pear);
+              });
+
+              for(let i = 0; i < measures.length; i++) { 
+                  console.log(`created formatField${i}_${rr}`);
+                  settings[`formatField${i}_${rr}`] = {
+                      order: 13 + (i/10),
+                      section: 'Formatting',
+                      display: 'select',
+                      type: 'string',
+                      values: measureNames, 
+                      default: 'none',
+                      hidden: false
+                  };
+              }
+          }
+
+        } // End of selectFieldAmount
+
+
+        
         function hiddenConfigurationConditionals() {
             console.log('Iterating through hidden Configuration conditionals', rr);
             if (config[`conditionalFormatting`] == false) {
@@ -488,245 +739,6 @@ looker.plugins.visualizations.add({
         } // End of hiddenConfigurationConditionals
 
 
-        function initializeSelectFields() {
-            // Create the select number of fields object
-            let fieldAmountValues = [];
-            if (!settings[`fieldAmount_${rr}`]) {
-                changed = true;     
-                for(let i = 0; i < measures.length - 1; i++) {
-                    let strObj = `{"${i}": "${i}"}`
-                    let obj = JSON.parse(strObj);
-                    fieldAmountValues.push(obj);
-                }
-                console.log('here is the created arr fieldAmountValues', fieldAmountValues);
-
-                settings[`fieldAmount_${rr}`] = {
-                    label: 'Select the field amount',
-                    order: 12.1,
-                    section: 'Formatting',
-                    display: 'select',
-                    type: 'string',
-                    values: fieldAmountValues,
-                    default: '1', 
-                    hidden: false
-                };
-            } else {
-                if (numOfMeasures != measures.length) {
-                    numOfMeasures = measures.length;
-                    for(let i = 0; i < measures.length - 1; i++) {
-                        let strObj = `{"${i}": "${i}"}`
-                        let obj = JSON.parse(strObj);
-                        fieldAmountValues.push(obj);
-                    }
-                }
-            }
-        } // End of initializeSelectFields
-
-
-        function initializeBasicRules() {
-            if (!settings[`ruleName_${rr}`]) {
-                changed = true;
-                settings[`ruleName_${rr}`] = {
-                    order: 12,
-                    section: 'Formatting',
-                    type: 'sentence_maker',
-                    words: [
-                        { type: "separator", text: `Rule: `},
-                    ],
-                    hidden: false
-                };
-            }
-
-            if (!settings[`applyFormattingTo_${rr}`]) {
-                changed = true;
-                settings[`applyFormattingTo_${rr}`] = {
-                    label: 'Apply to',
-                    order: 12.01,
-                    section: 'Formatting',
-                    display: 'select',
-                    type: 'string',
-                    values: [
-                        {"All numeric fields": "all"},
-                        {"Select fields...": "selectFields"}
-                    ],
-                    default: 'all',
-                    hidden: false
-                };
-            }
-
-            if (!settings[`format_${rr}`]) {
-                changed = true;
-                settings[`format_${rr}`] = {
-                    label: 'Format',
-                    order: 16,
-                    section: 'Formatting',
-                    display: 'select',
-                    type: 'string',
-                    values: [
-                        {"Along a scale...": "alongAScale"},
-                        {"equal to": "equalTo"},
-                        {"not equal to": "notEqualTo"},
-                        {"greater than": "greaterThan"},
-                        {"less than": "lessThan"},
-                        {"between": "between"},
-                        {"not between": "notBetween"},
-                        {"null": "null"},
-                        {"not null": "notNull"},
-                    ],
-                    default: 'alongAScale',
-                    hidden: false
-                };
-            }
-
-            if(!settings[`formatNumberInput_${rr}`]) {
-                changed = true;
-                settings[`formatNumberInput_${rr}`] = {
-                    order: 17,
-                    section: 'Formatting',
-                    type: 'string',
-                    placeholder: 'Enter value',
-                    hidden: false
-                };
-            }
-
-            if (!settings[`formatBetween_${rr}`]) {
-                changed = true;
-                settings[`formatBetween_${rr}`] = {
-                    order: 17,
-                    section: 'Formatting',
-                    type: 'sentence_maker',
-                    words: [
-                        { type: "separator", text: "Between values "},
-                        { type: "number", name: "num1", value: 0 },
-                        { type: "separator", text: "and" },
-                        { type: "number", name: "num2", value: 0 }
-                    ],
-                    hidden: false
-                };
-            }
-        } // End of initializeBasicRules
-
-
-        function initializeColorConfig() {
-            if (!settings[`alongAScaleA_${rr}`]) {
-                settings[`alongAScaleA_${rr}`] = {
-                    label: 'Palette Between',
-                    order: 18,
-                    type: 'string',
-                    section: 'Formatting', 
-                    display: 'color',
-                    default: '#a1f7a5',
-                    display_size: 'half',
-                    hidden: false
-                };
-            }
-
-            if (!settings[`alongAScaleB_${rr}`]) {
-                settings[`alongAScaleB_${rr}`] = {
-                    label: 'and',
-                    order: 18.1,
-                    type: 'string', 
-                    section: 'Formatting',
-                    display: 'color',
-                    default: '#f9c7c7',
-                    display_size: 'half',
-                    hidden: false
-                };
-            }
-
-
-            if (!settings[`displayColor_${rr}`]) {
-                settings[`displayColor_${rr}`] = {
-                    label: 'Display Color',
-                    order: 18,
-                    type: 'string',
-                    section: 'Formatting',
-                    display: 'color',
-                    default: '#009DE9',
-                    display_size: 'half',
-                    hidden: 'false'
-                };
-            }
-
-            if (!settings[`fontColor_${rr}`]) {
-                settings[`fontColor_${rr}`] = {
-                    label: 'Font Color',
-                    order: 18.05,
-                    type: 'string', 
-                    section: 'Formatting',
-                    display: 'color',
-                    // default: '',
-                    display_size: 'half',
-                    hidden: false
-                };
-            }
-
-            if (!settings[`colorBold_${rr}`]) {
-                settings[`colorBold_${rr}`] = {
-                    label: 'Bold Text',
-                    order: 18.1,
-                    type: 'boolean', 
-                    section: 'Formatting',
-                    default: false,
-                    display_size: 'half',
-                    hidden: false
-                };
-            }
-
-            if (!settings[`colorItalic_${rr}`]) {
-                settings[`colorItalic_${rr}`] = {
-                    label: 'Italic Text',
-                    order: 18.2,
-                    type: 'boolean',
-                    section: 'Formatting',
-                    default: false,
-                    display_size: 'half',
-                    hidden: false
-                };
-            }
-
-            if (!settings[`colorLine_${rr}`]) {
-                settings[`colorLine_${rr}`] = {
-                    label: 'Line Through Text',
-                    order: 18.3,
-                    type: 'boolean',
-                    section: 'Formatting',
-                    default: false,
-                    hidden: false
-                };
-            }
-
-        } // End of initializeColorConfig
-
-
-        function selectedFieldsConfig() {
-          if (selectFieldAmount != config[`fieldAmount_${rr}`]) {
-              selectFieldAmount = config[`fieldAmount_${rr}`];
-              changed = true;
-
-              let measureNames = [];
-              measureNames.push({"None": "none"});
-              measures.forEach(mes => {
-                  let value = mes.name;
-                  let pear = {};
-                  pear[value] = value;
-                  measureNames.push(pear);
-              });
-
-              for(let i = 0; i < measures.length; i++) { 
-                  settings[`formatField${i}_${rr}`] = {
-                      order: 13 + (i/10),
-                      section: 'Formatting',
-                      display: 'select',
-                      type: 'string',
-                      values: measureNames, 
-                      default: 'none',
-                      hidden: false
-                  };
-              }
-          }
-
-        } // End of selectFieldAmount
 
 
         function changeRuleName() {
