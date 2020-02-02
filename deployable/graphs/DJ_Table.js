@@ -666,13 +666,13 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${config[`formatNumberInput_${rr}`]}`;
             if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${config[`formatNumberInput_${rr}`]}`;
             if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Less than ${config[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Between ${config[`formatBetween_${rr}`].num1} and ${settings[`formatBetween_${rr}`].num2}`;
-            if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Not between ${config[`formatBetween_${rr}`].num1} and ${settings[`formatBetween_${rr}`].num2}`;
+            if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Between ${config[`formatBetween_${rr}`].num1} and ${config[`formatBetween_${rr}`].num2}`;
+            if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Not between ${config[`formatBetween_${rr}`].num1} and ${config[`formatBetween_${rr}`].num2}`;
             if (config[`format_${rr}`] == 'null') settings[`ruleName_${rr}`]['words'][0].text = `Null`; 
             if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Not null`;
 
             if (previousRuleName != settings[`ruleName_${rr}`]['words'][0].text) {
-                previouseRuleName = settings[`ruleName_${rr}`]['words'][0].text
+                previousRuleName = settings[`ruleName_${rr}`]['words'][0].text;
                 changed = true; 
             }
         } // End of changeRuleName
