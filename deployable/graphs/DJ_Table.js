@@ -660,17 +660,19 @@ looker.plugins.visualizations.add({
          * Config utility functions
         **************************/
         function changeRuleName() {
-            if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${settings[`formatNumberInput_${rr}`].value}`;
-            if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${settings[`formatNumberInput_${rr}`].value}`;
-            if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${settings[`formatNumberInput_${rr}`].value}`;
-            if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Less than ${settings[`formatNumberInput_${rr}`].value}`;
-            if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
-            if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Not between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
+            console.log(`This is ruleName`, settings[`ruleName_${rr}`]);
+
+            if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${config[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${config[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${config[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Less than ${config[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Between ${config[`formatBetween_${rr}`].num1} and ${settings[`formatBetween_${rr}`].num2}`;
+            if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Not between ${config[`formatBetween_${rr}`].num1} and ${settings[`formatBetween_${rr}`].num2}`;
             if (config[`format_${rr}`] == 'null') settings[`ruleName_${rr}`]['words'][0].text = `Null`; 
             if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Not null`;
 
             if (previousRuleName != settings[`ruleName_${rr}`]['words'][0].text) {
-                previouseRuleName = settings[`ruelName_${rr}`]['words'][0].text;
+                previouseRuleName = settings[`ruleName_${rr}`]['words'][0].text
                 changed = true; 
             }
         } // End of changeRuleName
