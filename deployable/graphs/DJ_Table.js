@@ -663,6 +663,8 @@ looker.plugins.visualizations.add({
          * Config utility functions
         **************************/
         function changeRuleName() {
+            if (config[`format_${rr}`] == 'alongAScale') settings[`ruleName_${rr}`]['words'][0].text = `Along a scale`;
+            
             if (config[`format_${rr}`] == 'equalTo') {
                 ruleNameChecker();
                 // settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${config[`formatNumberInput_${rr}`]}`;
