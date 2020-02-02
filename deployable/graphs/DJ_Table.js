@@ -62,15 +62,6 @@ looker.plugins.visualizations.add({
             ],
             hidden: false
         },
-        spacing: {
-            order: 11.02,
-            section: 'Formatting',
-            type: 'sentence_maker',
-            words: [
-                {type: 'separator', text: ' '}
-            ],
-            hidden: false
-        },
         // colorApplication: {
         //   type: 'object',
         //   order: 0,
@@ -280,13 +271,12 @@ looker.plugins.visualizations.add({
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
         this._table.selectAll("*").remove(); // Clear out the data before we add the vis
-        console.log(`\n\n\n\n\n\n\n\n\n\n`);
-        console.log(`queryResponse`, queryResponse);
+        console.log(`\n\n\n\n\n\n\n\n\n\nqueryResponse`, queryResponse);
+        console.log('These are the settings', this.options);
+        console.log('This is the config', config);
         console.log(`data`, data);
         // console.log('LookerCharts', LookerCharts.Utils);
         // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
-        console.log('These are the settings', this.options);
-        console.log('This is the config', config);
 
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
@@ -302,7 +292,6 @@ looker.plugins.visualizations.add({
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
         measures.forEach(mes => columnNames.push(mes.name));
-
 
 
         // Pull in the global variables and save them in this async instance
@@ -343,6 +332,7 @@ looker.plugins.visualizations.add({
         for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
 
         displayConfigurationSettings();
+
         if (changed) {
             changed = false;
             console.log('Rebuilding the settings');
@@ -370,9 +360,10 @@ looker.plugins.visualizations.add({
 
 
 
-
+        /*********************
+         * Main
+        *********************/
         function applyFormattingTo() {
-            console.log('This is the apply formatting to function, rr:', rr);
             initializeBasicRules();
             initializeSelectFields();
             initializeColorConfig();
@@ -383,6 +374,18 @@ looker.plugins.visualizations.add({
          * Initialize config
         **************************/
         function initializeBasicRules() {
+            if (!settings[`spacing_${rr}`]) {
+                settings[`spacing_${rr}`] = {
+                    order: 11.02,
+                    section: 'Formatting',
+                    type: 'sentence_maker',
+                    words: [
+                        {type: 'separator', text: ' '}
+                    ],
+                    hidden: false
+                };
+            }
+            
             if (!settings[`ruleName_${rr}`]) {
                 console.log(`created ruleName_${rr}`);
                 changed = true;
