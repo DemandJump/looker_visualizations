@@ -97,6 +97,7 @@ looker.plugins.visualizations.add({
         this._dimensions = 0;
         this._measures = 0;
         this._selectFieldAmount = 0;
+        this._previousRuleName = '';
         this._fieldInstanceConfig = []; // Array that holds all the rule's selectFieldAmounts
         element.innerHTML =`
             <style>
@@ -299,6 +300,7 @@ looker.plugins.visualizations.add({
         let fieldChange = this._fieldChange;
         let numOfMeasures = this._measures;
         let selectFieldAmount = this._selectFieldAmount;
+        let previousRuleName = this._previousRuleName;
         let changed = false;
         let allMeasures = [];
         measures.forEach(mes => {allMeasures.push(mes.name)});
@@ -310,6 +312,7 @@ looker.plugins.visualizations.add({
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
+        this._previousRuleName = previousRuleName;
         this.options = settings;
         if (changed) {
             changed = false;
@@ -385,7 +388,7 @@ looker.plugins.visualizations.add({
                     hidden: false
                 };
             }
-            
+
             if (!settings[`ruleName_${rr}`]) {
                 console.log(`created ruleName_${rr}`);
                 changed = true;
@@ -657,16 +660,19 @@ looker.plugins.visualizations.add({
          * Config utility functions
         **************************/
         function changeRuleName() {
-            let formatNumberInput = `formatNumberInput_${rr}`;
-            let formatBetween = `formatBetween_${rr}`;
-            if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Less than ${settings[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${settings[`formatNumberInput_${rr}`].value}`;
+            if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${settings[`formatNumberInput_${rr}`].value}`;
+            if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${settings[`formatNumberInput_${rr}`].value}`;
+            if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Less than ${settings[`formatNumberInput_${rr}`].value}`;
             if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
             if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Not between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
             if (config[`format_${rr}`] == 'null') settings[`ruleName_${rr}`]['words'][0].text = `Null`; 
             if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Not null`;
+
+            if (previousRuleName != settings[`ruleName_${rr}`]['words'][0].text) {
+                previouseRuleName = settings[`ruelName_${rr}`]['words'][0].text;
+                changed = true; 
+            }
         } // End of changeRuleName
 
         function numberInputLabel() {
