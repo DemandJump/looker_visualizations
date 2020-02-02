@@ -487,7 +487,7 @@ looker.plugins.visualizations.add({
             if (!settings[`fieldAmount_${rr}`]) {
                 console.log(`created fieldAmount_${rr}`);
                 changed = true;     
-                for(let i = 0; i < measures.length - 1; i++) {
+                for(let i = 0; i < measures.length; i++) {
                     let strObj = `{"${i}": "${i}"}`
                     let obj = JSON.parse(strObj);
                     fieldAmountValues.push(obj);
@@ -507,7 +507,7 @@ looker.plugins.visualizations.add({
             } else {
                 if (numOfMeasures != measures.length) {
                     numOfMeasures = measures.length;
-                    for(let i = 0; i < measures.length - 1; i++) {
+                    for(let i = 0; i < measures.length; i++) {
                         let strObj = `{"${i}": "${i}"}`
                         let obj = JSON.parse(strObj);
                         fieldAmountValues.push(obj);
