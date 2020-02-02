@@ -52,16 +52,6 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        ruleInstances: {
-            order: 11.01,
-            section: 'Formatting',
-            type: 'sentence_maker',
-            words: [
-                {type: "separator", text: "Number of rules:  "},
-                {type: "number", name: "rules", value: 1}
-            ],
-            hidden: false
-        },
         // colorApplication: {
         //   type: 'object',
         //   order: 0,
@@ -87,6 +77,25 @@ looker.plugins.visualizations.add({
             default: false,
             hidden: false
         },
+        ruleInstances: {
+            order: 11.01,
+            section: 'Formatting',
+            type: 'sentence_maker',
+            words: [
+                {type: "separator", text: "Number of rules:  "},
+                {type: "number", name: "rules", value: 1}
+            ],
+            hidden: false
+        },
+        ruleSpacing: {
+            order: 11.02,
+            section: 'Formatting',
+            type: 'sentence_maker',
+            words: [
+                {type: 'separator', text: 'Rules: '}
+            ],
+            hidden: false
+        }
 
 
     },
@@ -766,8 +775,8 @@ looker.plugins.visualizations.add({
 
         function grabRuleData() {
             // Grab all the info that's in each rule
-            if (config[`ruleInstances_${rr}`]) {
-                for(let i = 0; i < config[`ruleInstances_${rr}`].words[1]; i++) {
+            if (config[`ruleInstances`]) {
+                for(let i = 0; i < config[`ruleInstances`].rules; i++) {
                     let rule = {};
 
                     // Grab the measures that apply to this rule
@@ -808,12 +817,14 @@ looker.plugins.visualizations.add({
                     changed = true;
                     settings[`includeTotals`].hidden = true;
                     settings[`ruleInstances`].hidden = true;
+                    settings[`ruleSpacing`].hidden = true;
                 }
             } else {
                 if (settings[`includeTotals`].hidden == true || settings[`ruleInstances`].hidden == true) {
                     changed = true; 
                     settings[`includeTotals`].hidden = false;
                     settings[`ruleInstances`].hidden = false;
+                    settings[`ruleInstnaces`].hidden = false;
                 }
             }
 
