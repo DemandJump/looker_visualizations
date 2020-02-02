@@ -55,13 +55,22 @@ looker.plugins.visualizations.add({
         ruleInstances: {
             order: 11.01,
             section: 'Formatting',
-            display: 'word sentence',
             type: 'sentence_maker',
             words: [
                 {type: "separator", text: "Number of rules:  "},
                 {type: "number", name: "rules", value: 1}
-            ]
+            ],
+            hidden: false
         },
+        spacing: {
+            order: 11.02,
+            section: 'Formatting',
+            type: 'sentence_maker',
+            words: [
+                {type: 'separator', text: ' '}
+            ],
+            hidden: false
+        }
         // colorApplication: {
         //   type: 'object',
         //   order: 0,
