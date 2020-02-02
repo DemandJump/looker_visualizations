@@ -665,30 +665,37 @@ looker.plugins.visualizations.add({
         function changeRuleName() {
             if (config[`format_${rr}`] == 'equalTo') {
                 ruleNameChecker();
-                settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${config[`formatNumberInput_${rr}`]}`;
+                // settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${config[`formatNumberInput_${rr}`]}`;
+                settings[`ruleName_${rr}`]['words'][0].text = `Equal to `;
             }
             if (config[`format_${rr}`] == 'notEqualTo') {
                 ruleNameChecker();
-                settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${config[`formatNumberInput_${rr}`]}`;
+                // settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${config[`formatNumberInput_${rr}`]}`;
+                settings[`ruleName_${rr}`]['words'][0].text = `Not equal to `;
             }
             if (config[`format_${rr}`] == 'greaterThan') {
                 ruleNameChecker();
-                settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${config[`formatNumberInput_${rr}`]}`;
+                // settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${config[`formatNumberInput_${rr}`]}`;
+                settings[`ruleName_${rr}`]['words'][0].text = `Greater than `;
             }
             if (config[`format_${rr}`] == 'lessThan') {
                 ruleNameChecker();
-                settings[`ruleName_${rr}`]['words'][0].text = `Less than ${config[`formatNumberInput_${rr}`]}`;
+                // settings[`ruleName_${rr}`]['words'][0].text = `Less than ${config[`formatNumberInput_${rr}`]}`;
+                settings[`ruleName_${rr}`]['words'][0].text = `Less than `;
             }
             if (config[`format_${rr}`] == 'between') {
                 ruleNameChecker();
-                settings[`ruleName_${rr}`]['words'][0].text = `Between ${config[`formatBetween_${rr}`].num1} and ${config[`formatBetween_${rr}`].num2}`;
+                // settings[`ruleName_${rr}`]['words'][0].text = `Between ${config[`formatBetween_${rr}`].num1} and ${config[`formatBetween_${rr}`].num2}`;
+                settings[`ruleName_${rr}`]['words'][0].text = `Between `;
             }
             if (config[`format_${rr}`] == 'notBetween') {
                 ruleNameChecker();
-                settings[`ruleName_${rr}`]['words'][0].text = `Not between ${config[`formatBetween_${rr}`].num1} and ${config[`formatBetween_${rr}`].num2}`;
+                // settings[`ruleName_${rr}`]['words'][0].text = `Not between ${config[`formatBetween_${rr}`].num1} and ${config[`formatBetween_${rr}`].num2}`;
+                settings[`ruleName_${rr}`]['words'][0].text = `Not between `;
             }
             if (config[`format_${rr}`] == 'null') {
                 ruleNameChecker();
+                // settings[`ruleName_${rr}`]['words'][0].text = `Null`; 
                 settings[`ruleName_${rr}`]['words'][0].text = `Null`; 
             }
             if (config[`format_${rr}`] == 'notNull') {
@@ -869,10 +876,10 @@ looker.plugins.visualizations.add({
             }
 
             numberInputLabel();
+            changeRuleName();
             if (config[`format_${rr}`] == 'equalTo' || config[`format_${rr}`] == 'notEqualTo' || config[`format_${rr}`] == 'greaterThan' || config[`format_${rr}`] == 'lessThan') {
                 if (settings[`formatNumberInput_${rr}`].hidden == true || settings[`formatBetween_${rr}`].hidden == false) {
                     changed = true;
-                    changeRuleName();
                     console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = false;
@@ -882,7 +889,6 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'between' || config[`format_${rr}`] == 'notBetween') {
                 if (settings[`formatBetween_${rr}`].hidden == true || settings[`formatNumberInput_${rr}`].hidden == false) {
                     changed = true;
-                    changeRuleName();
                     console.log('Changed to true at between notBetween');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = true;
@@ -892,7 +898,6 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'null' || config[`format_${rr}`] == 'notNull') {
                 if (settings[`formatNumberInput_${rr}`].hidden == false || settings[`formatBetween_${rr}`].hidden == false) {
                     changed = true;
-                    changeRuleName();
                     console.log('Changed to true at null notNull');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = true;
