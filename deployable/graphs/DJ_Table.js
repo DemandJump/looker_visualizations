@@ -374,19 +374,6 @@ looker.plugins.visualizations.add({
          * Initialize config
         **************************/
         function initializeBasicRules() {
-            if (!settings[`ruleNumber_${rr}`]) {
-                console.log(`created ruleNumber_${rr}`);
-                changed = true;
-                settings[`ruleNumber_${rr}`] = {
-                    order: 12,
-                    section: 'Formatting',
-                    type: 'sentence_maker',
-                    words: [
-                        { type: 'separator', text: `Rule ${rr}`}
-                    ],
-                    hidden: false
-                }
-            }
             if (!settings[`ruleName_${rr}`]) {
                 console.log(`created ruleName_${rr}`);
                 changed = true;
