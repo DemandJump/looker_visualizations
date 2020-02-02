@@ -784,7 +784,7 @@ looker.plugins.visualizations.add({
                 settings[`colorLine_${rr}`].hidden = false;
             }
 
-            changeNumberInputLabel();
+            numberInputLabel();
             if (config[`format_${rr}`] == 'equalTo' || config[`format_${rr}`] == 'notEqualTo' || config[`format_${rr}`] == 'greaterThan' || config[`format_${rr}`] == 'lessThan') {
                 if (settings[`formatNumberInput_${rr}`].hidden == true || settings[`formatBetween_${rr}`].hidden == false) {
                     changed = true;
