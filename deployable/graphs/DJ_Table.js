@@ -382,7 +382,7 @@ looker.plugins.visualizations.add({
                     words: [
                         { type: "separator", text: `Rule: `},
                     ],
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -400,7 +400,7 @@ looker.plugins.visualizations.add({
                         {"Select fields...": "selectFields"}
                     ],
                     default: 'all',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -425,7 +425,7 @@ looker.plugins.visualizations.add({
                         {"not null": "notNull"},
                     ],
                     default: 'alongAScale',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -433,6 +433,7 @@ looker.plugins.visualizations.add({
                 console.log(`createdformatNumberInput_${rr}`);
                 changed = true;
                 settings[`formatNumberInput_${rr}`] = {
+                    label: ' ',
                     order: 17,
                     section: 'Formatting',
                     type: 'string',
@@ -652,6 +653,16 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not null`;
         } // End of changeRuleName
 
+        function numberInputLabel() {
+            if (config[`format_${rr}`] == 'equalTo') settings[`formatNumberInput_${rr}`].label = 'equalTo value';
+            if (config[`format_${rr}`] == 'notEqualTo') settings[`formatNumberInput_${rr}`].label = 'notEqualTo value';
+            if (config[`format_${rr}`] == 'greaterThan') settings[`formatNumberInput_${rr}`].label = 'greaterThan value';
+            if (config[`format_${rr}`] == 'lessThan') settings[`formatNumberInput_${rr}`].label = 'lessThan value';
+            if (config[`format_${rr}`] == 'between') settings[`formatNumberInput_${rr}`].label = 'between value';
+            if (config[`format_${rr}`] == 'notBetween') settings[`formatNumberInput_${rr}`].label = 'notBetween value';
+            if (config[`format_${rr}`] == 'null') settings[`formatNumberInput_${rr}`].label = 'null value';
+            if (config[`format_${rr}`] == 'notNull') settings[`formatNumberInput_${rr}`].label = 'notNull value';
+        } // End of numberInputLabel
 
         function grabRuleData() {
             // Grab all the info that's in each rule
@@ -773,6 +784,7 @@ looker.plugins.visualizations.add({
                 settings[`colorLine_${rr}`].hidden = false;
             }
 
+            changeNumberInputLabel();
             if (config[`format_${rr}`] == 'equalTo' || config[`format_${rr}`] == 'notEqualTo' || config[`format_${rr}`] == 'greaterThan' || config[`format_${rr}`] == 'lessThan') {
                 if (settings[`formatNumberInput_${rr}`].hidden == true || settings[`formatBetween_${rr}`].hidden == false) {
                     changed = true;
