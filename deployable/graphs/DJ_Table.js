@@ -320,7 +320,6 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        rr = j;
         console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
         console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
         console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
