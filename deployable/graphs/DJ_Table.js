@@ -335,7 +335,8 @@ looker.plugins.visualizations.add({
 
         displayConfigurationSettings();
         if (changed) {
-            changed = false; 
+            changed = false;
+            console.log('Rebuilding the settings');
             this.trigger('registerOptions', settings);
         }
 
