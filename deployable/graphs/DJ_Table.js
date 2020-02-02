@@ -382,7 +382,7 @@ looker.plugins.visualizations.add({
                     words: [
                         { type: "separator", text: `Rule: `},
                     ],
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -400,7 +400,7 @@ looker.plugins.visualizations.add({
                         {"Select fields...": "selectFields"}
                     ],
                     default: 'all',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -425,7 +425,7 @@ looker.plugins.visualizations.add({
                         {"not null": "notNull"},
                     ],
                     default: 'alongAScale',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -437,7 +437,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     type: 'string',
                     placeholder: 'Enter value',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -454,7 +454,7 @@ looker.plugins.visualizations.add({
                         { type: "separator", text: "and" },
                         { type: "number", name: "num2", value: 0 }
                     ],
-                    hidden: false
+                    hidden: true
                 };
             }
         } // End of initializeBasicRules
@@ -481,7 +481,7 @@ looker.plugins.visualizations.add({
                     type: 'string',
                     values: fieldAmountValues,
                     default: '1', 
-                    hidden: false
+                    hidden: true
                 };
             } else {
                 if (numOfMeasures != measures.length) {
@@ -507,7 +507,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     default: '#a1f7a5',
                     display_size: 'half',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -521,7 +521,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     default: '#f9c7c7',
                     display_size: 'half',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -536,7 +536,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     default: '#009DE9',
                     display_size: 'half',
-                    hidden: 'false'
+                    hidden: true
                 };
             }
 
@@ -550,7 +550,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     // default: '',
                     display_size: 'half',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -563,7 +563,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     default: false,
                     display_size: 'half',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -576,7 +576,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     default: false,
                     display_size: 'half',
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -588,7 +588,7 @@ looker.plugins.visualizations.add({
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
-                    hidden: false
+                    hidden: true
                 };
             }
 
@@ -619,7 +619,7 @@ looker.plugins.visualizations.add({
                       type: 'string',
                       values: measureNames, 
                       default: 'none',
-                      hidden: false
+                      hidden: true
                   };
               }
           }
@@ -732,6 +732,8 @@ looker.plugins.visualizations.add({
             console.log('hiddenConfigurationConditionals: fieldAmount', config[`fieldAmount_${rr}`]);
             
             if (config[`format_${rr}`] == 'alongAScale') {
+                settings[`formatNumberInput_${rr}`];
+                settings[`formatBetween_${rr}`];
                 if (settings[`alongAScaleA_${rr}`].hidden == true || settings[`alongAScaleB_${rr}`].hidden == true) {
                     changed = true;
                     console.log('Changed to true at alongAScale');
