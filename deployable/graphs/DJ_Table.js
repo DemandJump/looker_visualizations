@@ -370,17 +370,32 @@ looker.plugins.visualizations.add({
             selectedFieldsConfig();
         } // End of applyFormattingTo function
 
-
+        /*************************
+         * Initialize config
+        **************************/
         function initializeBasicRules() {
-            if (!settings[`ruleName_${rr}`]) {
-                console.log(`created ruleName_${rr}`);
+            if (!settings[`ruleNumber_${rr}`]) {
+                console.log(`created ruleNumber_${rr}`);
                 changed = true;
-                settings[`ruleName_${rr}`] = {
+                settings[`ruleNumber_${rr}`] = {
                     order: 12,
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
-                        { type: "separator", text: `Rule: `},
+                        { type: 'separator', text: `Rule ${rr}`}
+                    ],
+                    hidden: false
+                }
+            }
+            if (!settings[`ruleName_${rr}`]) {
+                console.log(`created ruleName_${rr}`);
+                changed = true;
+                settings[`ruleName_${rr}`] = {
+                    order: 12.001,
+                    section: 'Formatting',
+                    type: 'sentence_maker',
+                    words: [
+                        { type: "separator", text: ` `},
                     ],
                     hidden: false
                 };
@@ -639,18 +654,20 @@ looker.plugins.visualizations.add({
 
         } // End of selectFieldAmount
 
-
+        /**************************
+         * Config utility functions
+        **************************/
         function changeRuleName() {
             let formatNumberInput = `formatNumberInput_${rr}`;
             let formatBetween = `formatBetween_${rr}`;
-            if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Equal to ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not equal to ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Greater than ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Less than ${settings[`formatNumberInput_${rr}`]}`;
-            if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
-            if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
-            if (config[`format_${rr}`] == 'null') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Null`; 
-            if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not null`;
+            if (config[`format_${rr}`] == 'equalTo') settings[`ruleName_${rr}`]['words'][0].text = `Equal to ${settings[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'notEqualTo') settings[`ruleName_${rr}`]['words'][0].text = `Not equal to ${settings[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'greaterThan') settings[`ruleName_${rr}`]['words'][0].text = `Greater than ${settings[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'lessThan') settings[`ruleName_${rr}`]['words'][0].text = `Less than ${settings[`formatNumberInput_${rr}`]}`;
+            if (config[`format_${rr}`] == 'between') settings[`ruleName_${rr}`]['words'][0].text = `Between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
+            if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Not between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
+            if (config[`format_${rr}`] == 'null') settings[`ruleName_${rr}`]['words'][0].text = `Null`; 
+            if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Not null`;
         } // End of changeRuleName
 
         function numberInputLabel() {
@@ -699,7 +716,9 @@ looker.plugins.visualizations.add({
             }
         } // End of grabRuleData
 
-        
+        /**************************
+         * Display config functions
+        **************************/
         function displayConfigurationSettings() {
             if (config[`conditionalFormatting`] == false) {
                 if (settings[`includeTotals`].hidden == false || settings[`ruleInstances`].hidden == false) {
