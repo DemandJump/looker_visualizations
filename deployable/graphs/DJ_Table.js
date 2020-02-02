@@ -497,11 +497,23 @@ looker.plugins.visualizations.add({
 
 
         function initializeColorConfig() {
+            if (!settings[`colorName_${rr}`]) {
+                console.log(`created colorName_${rr}`);
+                settings[`colorName_${rr}`] = {
+                    order: 18,
+                    type: 'string',
+                    display: 'sentence_maker',
+                    words: [
+                        { type: "separator", text: `Rule ${rr} colors`}
+                    ],
+                    hidden: true
+                };
+            }
             if (!settings[`alongAScaleA_${rr}`]) {
                 console.log(`created alongAScaleA_${rr}`);
                 settings[`alongAScaleA_${rr}`] = {
                     label: 'Palette Between',
-                    order: 18,
+                    order: 18.04,
                     type: 'string',
                     section: 'Formatting', 
                     display: 'color',
@@ -530,7 +542,7 @@ looker.plugins.visualizations.add({
                 console.log(`created displayColor_${rr}`);
                 settings[`displayColor_${rr}`] = {
                     label: 'Display Color',
-                    order: 18,
+                    order: 18.04,
                     type: 'string',
                     section: 'Formatting',
                     display: 'color',
@@ -732,12 +744,13 @@ looker.plugins.visualizations.add({
             console.log('hiddenConfigurationConditionals: fieldAmount', config[`fieldAmount_${rr}`]);
             
             if (config[`format_${rr}`] == 'alongAScale') {
-                settings[`formatNumberInput_${rr}`];
-                settings[`formatBetween_${rr}`];
                 if (settings[`alongAScaleA_${rr}`].hidden == true || settings[`alongAScaleB_${rr}`].hidden == true) {
                     changed = true;
                     console.log('Changed to true at alongAScale');
                 }
+                settings[`formatNumberInput_${rr}`].hidden = true;
+                settings[`formatBetween_${rr}`].hidden = true;
+                settings[`colorName_${rr}`].hidden = false;
                 settings[`alongAScaleA_${rr}`].hidden = false;
                 settings[`alongAScaleB_${rr}`].hidden = false;
                 settings[`displayColor_${rr}`].hidden = true;
@@ -750,6 +763,7 @@ looker.plugins.visualizations.add({
                     changed = true;
                     console.log('Changed to not along a scale');
                 }
+                settings[`colorName_${rr}`].hidden = true;
                 settings[`alongAScaleA_${rr}`].hidden = true;
                 settings[`alongAScaleB_${rr}`].hidden = true;
                 settings[`displayColor_${rr}`].hidden = false;
