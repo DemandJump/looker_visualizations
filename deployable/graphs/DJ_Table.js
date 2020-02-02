@@ -70,7 +70,7 @@ looker.plugins.visualizations.add({
                 {type: 'separator', text: ' '}
             ],
             hidden: false
-        }
+        },
         // colorApplication: {
         //   type: 'object',
         //   order: 0,
