@@ -307,12 +307,8 @@ looker.plugins.visualizations.add({
         let ruleInstances = 1;
         if (config.ruleInstances) {ruleInstances = config.ruleInstances;}
 
-        // Configure the sidebar: This function(s) uses the global variables
-        for (let i = 0; i < ruleInstances; i++) {
-            rr = i;
-            console.log('This is rr', rr);
-            applyFormattingTo();
-        }
+        applyFormattingTo();
+
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
@@ -324,130 +320,21 @@ looker.plugins.visualizations.add({
         }
 
         // Build the configuration, then show/hide the configuration settings
-        for (let j = 0; j < ruleInstances; j++) {
-            rr = j;
-            console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
-            console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
-            console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
-            console.log(`Config setting: formatBetween_${rr}`, config[`formatBetween_${rr}`]);
-            console.log(`Config setting: fieldAmount_${rr}`, config[`fieldAmount_${rr}`]);
-            console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
-            console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
-            console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
-            console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
-            console.log(`Config setting: colorItalic_${rr}`, config[`colorItalic_${rr}`]);
-            console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
-            for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
+        rr = j;
+        console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
+        console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
+        console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
+        console.log(`Config setting: formatBetween_${rr}`, config[`formatBetween_${rr}`]);
+        console.log(`Config setting: fieldAmount_${rr}`, config[`fieldAmount_${rr}`]);
+        console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
+        console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
+        console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
+        console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
+        console.log(`Config setting: colorItalic_${rr}`, config[`colorItalic_${rr}`]);
+        console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
+        for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
 
-            if (config[`conditionalFormatting`] == false) {
-                if (settings[`includeTotals`].hidden == false || settings[`ruleInstances`].hidden == false) {
-                    changed = true;
-                    settings[`includeTotals`].hidden = true;
-                    settings[`ruleInstances`].hidden = true;
-                }
-            } else {
-                if (settings[`includeTotals`].hidden == true || settings[`ruleInstances`].hidden == true) {
-                    changed = true; 
-                    settings[`includeTotals`].hidden = false;
-                    settings[`ruleInstances`].hidden = false;
-                }
-            }
-
-            if (config[`applyFormattingTo_${rr}`] == 'all') {
-                if (settings[`fieldAmount_${rr}`].hidden == false) {
-                    changed = true 
-                    console.log('Changed to true at configApplyFormattingTo all: fieldAmount');
-                }
-                settings[`fieldAmount_${rr}`].hidden = true 
-
-                for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) {
-                    if (settings[`formatField${i}_${rr}`].hidden == false) changed = true;
-                    settings[`formatField${i}_${rr}`].hidden = true;
-                }
-            }
-
-            if (config[`applyFormattingTo_${rr}`] == 'selectFields') { // Selected field section
-                if (settings[`fieldAmount_${rr}`].hidden == true) {
-                    changed = true;
-                    console.log('Changed to true at applyFormattingTo: selectFields, fieldAmount');
-                }
-                settings[`fieldAmount_${rr}`].hidden = false;
-
-                console.log('This is the current field amount count' ,config[`fieldAmount_${rr}`]);
-                for(let i = 0; i < measures.length; i++) {
-                    if (i < config[`fieldAmount_${rr}`]) {
-                        if (settings[`formatField${i}_${rr}`].hidden == true) {
-                            changed = true;
-                            settings[`formatField${i}_${rr}`].hidden = false;
-                        }
-                    } else {
-                        if (settings[`formatField${i}_${rr}`].hidden == false) {
-                            changed = true;
-                            settings[`formatField${i}_${rr}`].hidden = true;
-                        }
-                    }
-                }
-            }
-
-            // SelectedFields show/hide conditionals
-            console.log('hiddenConfigurationConditionals: fieldAmount', config[`fieldAmount_${rr}`]);
-            
-            if (config[`format_${rr}`] == 'alongAScale') {
-                if (settings[`alongAScaleA_${rr}`].hidden == true || settings[`alongAScaleB_${rr}`].hidden == true) {
-                    changed = true;
-                    console.log('Changed to true at alongAScale');
-                }
-                settings[`alongAScaleA_${rr}`].hidden = false;
-                settings[`alongAScaleB_${rr}`].hidden = false;
-                settings[`displayColor_${rr}`].hidden = true;
-                settings[`fontColor_${rr}`].hidden = true;
-                settings[`colorBold_${rr}`].hidden = true;
-                settings[`colorItalic_${rr}`].hidden = true;
-                settings[`colorLine_${rr}`].hidden = true;
-            } else {
-                if (settings[`displayColor_${rr}`].hidden == true || settings[`colorBold_${rr}`].hidden == true || settings[`colorItalic_${rr}`].hidden == true || settings[`colorLine_${rr}`].hidden == true) {
-                    changed = true;
-                    console.log('Changed to not along a scale');
-                }
-                settings[`alongAScaleA_${rr}`].hidden = true;
-                settings[`alongAScaleB_${rr}`].hidden = true;
-                settings[`displayColor_${rr}`].hidden = false;
-                settings[`fontColor_${rr}`].hidden = false;
-                settings[`colorBold_${rr}`].hidden = false;
-                settings[`colorItalic_${rr}`].hidden = false;
-                settings[`colorLine_${rr}`].hidden = false;
-            }
-
-            if (config[`format_${rr}`] == 'equalTo' || config[`format_${rr}`] == 'notEqualTo' || config[`format_${rr}`] == 'greaterThan' || config[`format_${rr}`] == 'lessThan') {
-                if (settings[`formatNumberInput_${rr}`].hidden == true || settings[`formatBetween_${rr}`].hidden == false) {
-                    changed = true;
-                    changeRuleName();
-                    console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
-                }
-                settings[`formatNumberInput_${rr}`].hidden = false;
-                settings[`formatBetween_${rr}`].hidden = true;
-            } 
-            
-            if (config[`format_${rr}`] == 'between' || config[`format_${rr}`] == 'notBetween') {
-                if (settings[`formatBetween_${rr}`].hidden == true || settings[`formatNumberInput_${rr}`].hidden == false) {
-                    changed = true;
-                    changeRuleName();
-                    console.log('Changed to true at between notBetween');
-                }
-                settings[`formatNumberInput_${rr}`].hidden = true;
-                settings[`formatBetween_${rr}`].hidden = false;
-            } 
-            
-            if (config[`format_${rr}`] == 'null' || config[`format_${rr}`] == 'notNull') {
-                if (settings[`formatNumberInput_${rr}`].hidden == false || settings[`formatBetween_${rr}`].hidden == false) {
-                    changed = true;
-                    changeRuleName();
-                    console.log('Changed to true at null notNull');
-                }
-                settings[`formatNumberInput_${rr}`].hidden = true;
-                settings[`formatBetween_${rr}`].hidden = true;
-            }
-        }
+        displayConfigurationSettings();
         if (changed) {
             changed = false; 
             this.trigger('registerOptions', settings);
@@ -455,10 +342,7 @@ looker.plugins.visualizations.add({
 
         // Build and append the rules to the data
         let rules = [];
-        for(let i = 0; i < ruleInstances; i++) {
-            rr = i;
-            grabRuleData();
-        }
+        grabRuleData();
         console.log('This is the rule data!', rules);
         
 
@@ -743,8 +627,6 @@ looker.plugins.visualizations.add({
         } // End of selectFieldAmount
 
 
-
-
         function changeRuleName() {
             let formatNumberInput = `formatNumberInput_${rr}`;
             let formatBetween = `formatBetween_${rr}`;
@@ -756,7 +638,7 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'notBetween') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not between ${settings[`formatBetween_${rr}`]['words'][1].value} and ${settings[`formatBetween_${rr}`]['words'][3].value}`;
             if (config[`format_${rr}`] == 'null') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Null`; 
             if (config[`format_${rr}`] == 'notNull') settings[`ruleName_${rr}`]['words'][0].text = `Rule: Not null`;
-        }
+        } // End of changeRuleName
 
 
         function grabRuleData() {
@@ -794,7 +676,117 @@ looker.plugins.visualizations.add({
             }
         } // End of grabRuleData
 
+        
+        function displayConfigurationSettings() {
+            if (config[`conditionalFormatting`] == false) {
+                if (settings[`includeTotals`].hidden == false || settings[`ruleInstances`].hidden == false) {
+                    changed = true;
+                    settings[`includeTotals`].hidden = true;
+                    settings[`ruleInstances`].hidden = true;
+                }
+            } else {
+                if (settings[`includeTotals`].hidden == true || settings[`ruleInstances`].hidden == true) {
+                    changed = true; 
+                    settings[`includeTotals`].hidden = false;
+                    settings[`ruleInstances`].hidden = false;
+                }
+            }
 
+            if (config[`applyFormattingTo_${rr}`] == 'all') {
+                if (settings[`fieldAmount_${rr}`].hidden == false) {
+                    changed = true 
+                    console.log('Changed to true at configApplyFormattingTo all: fieldAmount');
+                }
+                settings[`fieldAmount_${rr}`].hidden = true 
+
+                for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) {
+                    if (settings[`formatField${i}_${rr}`].hidden == false) changed = true;
+                    settings[`formatField${i}_${rr}`].hidden = true;
+                }
+            }
+
+            if (config[`applyFormattingTo_${rr}`] == 'selectFields') { // Selected field section
+                if (settings[`fieldAmount_${rr}`].hidden == true) {
+                    changed = true;
+                    console.log('Changed to true at applyFormattingTo: selectFields, fieldAmount');
+                }
+                settings[`fieldAmount_${rr}`].hidden = false;
+
+                console.log('This is the current field amount count' ,config[`fieldAmount_${rr}`]);
+                for(let i = 0; i < measures.length; i++) {
+                    if (i < config[`fieldAmount_${rr}`]) {
+                        if (settings[`formatField${i}_${rr}`].hidden == true) {
+                            changed = true;
+                            settings[`formatField${i}_${rr}`].hidden = false;
+                        }
+                    } else {
+                        if (settings[`formatField${i}_${rr}`].hidden == false) {
+                            changed = true;
+                            settings[`formatField${i}_${rr}`].hidden = true;
+                        }
+                    }
+                }
+            }
+
+            // SelectedFields show/hide conditionals
+            console.log('hiddenConfigurationConditionals: fieldAmount', config[`fieldAmount_${rr}`]);
+            
+            if (config[`format_${rr}`] == 'alongAScale') {
+                if (settings[`alongAScaleA_${rr}`].hidden == true || settings[`alongAScaleB_${rr}`].hidden == true) {
+                    changed = true;
+                    console.log('Changed to true at alongAScale');
+                }
+                settings[`alongAScaleA_${rr}`].hidden = false;
+                settings[`alongAScaleB_${rr}`].hidden = false;
+                settings[`displayColor_${rr}`].hidden = true;
+                settings[`fontColor_${rr}`].hidden = true;
+                settings[`colorBold_${rr}`].hidden = true;
+                settings[`colorItalic_${rr}`].hidden = true;
+                settings[`colorLine_${rr}`].hidden = true;
+            } else {
+                if (settings[`displayColor_${rr}`].hidden == true || settings[`colorBold_${rr}`].hidden == true || settings[`colorItalic_${rr}`].hidden == true || settings[`colorLine_${rr}`].hidden == true) {
+                    changed = true;
+                    console.log('Changed to not along a scale');
+                }
+                settings[`alongAScaleA_${rr}`].hidden = true;
+                settings[`alongAScaleB_${rr}`].hidden = true;
+                settings[`displayColor_${rr}`].hidden = false;
+                settings[`fontColor_${rr}`].hidden = false;
+                settings[`colorBold_${rr}`].hidden = false;
+                settings[`colorItalic_${rr}`].hidden = false;
+                settings[`colorLine_${rr}`].hidden = false;
+            }
+
+            if (config[`format_${rr}`] == 'equalTo' || config[`format_${rr}`] == 'notEqualTo' || config[`format_${rr}`] == 'greaterThan' || config[`format_${rr}`] == 'lessThan') {
+                if (settings[`formatNumberInput_${rr}`].hidden == true || settings[`formatBetween_${rr}`].hidden == false) {
+                    changed = true;
+                    changeRuleName();
+                    console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
+                }
+                settings[`formatNumberInput_${rr}`].hidden = false;
+                settings[`formatBetween_${rr}`].hidden = true;
+            } 
+            
+            if (config[`format_${rr}`] == 'between' || config[`format_${rr}`] == 'notBetween') {
+                if (settings[`formatBetween_${rr}`].hidden == true || settings[`formatNumberInput_${rr}`].hidden == false) {
+                    changed = true;
+                    changeRuleName();
+                    console.log('Changed to true at between notBetween');
+                }
+                settings[`formatNumberInput_${rr}`].hidden = true;
+                settings[`formatBetween_${rr}`].hidden = false;
+            } 
+            
+            if (config[`format_${rr}`] == 'null' || config[`format_${rr}`] == 'notNull') {
+                if (settings[`formatNumberInput_${rr}`].hidden == false || settings[`formatBetween_${rr}`].hidden == false) {
+                    changed = true;
+                    changeRuleName();
+                    console.log('Changed to true at null notNull');
+                }
+                settings[`formatNumberInput_${rr}`].hidden = true;
+                settings[`formatBetween_${rr}`].hidden = true;
+            }
+        } // End of displayConfigurationSettings
 
 
         /***************************************
