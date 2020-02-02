@@ -323,7 +323,6 @@ looker.plugins.visualizations.add({
             rr = i;
             applyFormattingTo();
         }
-        // applyFormattingTo();
 
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
@@ -353,7 +352,6 @@ looker.plugins.visualizations.add({
             rr = i;
             displayConfigurationSettings();
         }
-        // displayConfigurationSettings();
 
         this._previousRuleName = previousRuleName;
         this._previousNumberInputLabel = previousNumberInputLabel;
@@ -476,7 +474,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     type: 'string',
                     placeholder: 'Enter value',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -493,7 +491,7 @@ looker.plugins.visualizations.add({
                         { type: "separator", text: "and" },
                         { type: "number", name: "num2", value: 0 }
                     ],
-                    hidden: true
+                    hidden: false
                 };
             }
         } // End of initializeBasicRules
@@ -520,7 +518,7 @@ looker.plugins.visualizations.add({
                     type: 'string',
                     values: fieldAmountValues,
                     default: '1', 
-                    hidden: true
+                    hidden: false
                 };
             } else {
                 if (numOfMeasures != measures.length) {
@@ -545,7 +543,7 @@ looker.plugins.visualizations.add({
                     words: [
                         { type: "separator", text: `Rule ${rr} colors`}
                     ],
-                    hidden: true
+                    hidden: false
                 };
             }
             if (!settings[`alongAScaleA_${rr}`]) {
@@ -558,7 +556,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     default: '#a1f7a5',
                     display_size: 'half',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -572,7 +570,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     default: '#f9c7c7',
                     display_size: 'half',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -587,7 +585,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     default: '#009DE9',
                     display_size: 'half',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -601,7 +599,7 @@ looker.plugins.visualizations.add({
                     display: 'color',
                     // default: '',
                     display_size: 'half',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -614,7 +612,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     default: false,
                     display_size: 'half',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -627,7 +625,7 @@ looker.plugins.visualizations.add({
                     section: 'Formatting',
                     default: false,
                     display_size: 'half',
-                    hidden: true
+                    hidden: false
                 };
             }
 
@@ -639,7 +637,7 @@ looker.plugins.visualizations.add({
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
-                    hidden: true
+                    hidden: false
                 };
             }
 
