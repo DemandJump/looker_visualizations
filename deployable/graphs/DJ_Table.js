@@ -316,7 +316,7 @@ looker.plugins.visualizations.add({
         let allMeasures = [];
         measures.forEach(mes => {allMeasures.push(mes.name)});
         let ruleInstances = 1;
-        if (config.ruleInstances) {ruleInstances = config.ruleInstances;}
+        if (config.ruleInstances) ruleInstances = config.ruleInstances.rules;
 
         console.log('This is the number of rule instances!', ruleInstances);
         for(let i = 0; i < ruleInstances; i++) {
