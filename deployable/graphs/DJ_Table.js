@@ -309,7 +309,12 @@ looker.plugins.visualizations.add({
         let ruleInstances = 1;
         if (config.ruleInstances) {ruleInstances = config.ruleInstances;}
 
-        applyFormattingTo();
+        console.log('This is the number of rule instances!', ruleInstances);
+        for(let i = 0; i < ruleInstances; i++) {
+            rr = i;
+            applyFormattingTo();
+        }
+        // applyFormattingTo();
 
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
@@ -335,7 +340,11 @@ looker.plugins.visualizations.add({
         console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
         for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
 
-        displayConfigurationSettings();
+        for(let i = 0; i < ruleInstances; i++) {
+            rr = i;
+            displayConfigurationSettings();
+        }
+        // displayConfigurationSettings();
 
         this._previousRuleName = previousRuleName;
         this._previousNumberInputLabel = previousNumberInputLabel;
