@@ -787,11 +787,15 @@ looker.plugins.visualizations.add({
                     if (config[`alongAScaleA_${rr}`]) rule['alongAScale'].color1 = config[`alongAScaleA_${rr}`];
                     if (config[`alongAScaleB_${rr}`]) rule['alongAScale'].color2 = config[`alongAScaleB_${rr}`];
 
+                    let bold = config[`colorBold_${rr}`];
+                    let italic = config[`colorItalic_${rr}`];
+                    let line = config[`colorLine_${rr}`];
+                    
                     if (config[`displayColor_${rr}`]) rule['notAlongAScale'].backgroundColor = config[`displayColor_${rr}`];
                     if (config[`fontColor_${rr}`]) rule['notAlongAScale'].fontColor = config[`fontColor_${rr}`];
-                    if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = config[`colorBold_${rr}`];
-                    if (config[`colorItalic_${rr}`]) rule['notAlongAScale'].italic = config[`colorItalic_${rr}`];
-                    if (config[`colorLine_${rr}`]) rule['notAlongAScale'].line = config[`colorLine_${rr}`]; 
+                    if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = bold;
+                    if (config[`colorItalic_${rr}`]) rule['notAlongAScale'].italic = italic;
+                    if (config[`colorLine_${rr}`]) rule['notAlongAScale'].line = line;
                     
                     rules.push(rule);
                 } // End of data for one rule
