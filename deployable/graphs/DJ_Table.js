@@ -1043,6 +1043,7 @@ looker.plugins.visualizations.add({
 
                 // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
+                console.log('This is maxandmin', maxAndMin);
                 let stats = maxAndMin[d.column];
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
