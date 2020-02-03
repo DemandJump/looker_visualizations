@@ -1036,12 +1036,12 @@ looker.plugins.visualizations.add({
                 let newColorNumbers = interpolateColors(color1, color2, 4);
                 let newColors = [];
                 newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
-                console.log('Printed rgb colors to pass in', newColors);
 
                 // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
                 console.log('This is maxandmin', maxAndMin);
-                let stats = maxAndMin[d.column - dimensions.length];
+                console.log('This is d.column - dimensions.length', d.column - dimensions.length);
+                let stats = maxAndMin[d.column - (dimensions.length - 1)];
                 console.log('This is stats', stats);
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
