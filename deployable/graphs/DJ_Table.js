@@ -108,6 +108,7 @@ looker.plugins.visualizations.add({
         this._selectFieldAmount = 0;
         this._previousRuleName = '';
         this._previousNumberInputLabel = '';
+        this._previousRuleInstances = 0;
         this._fieldInstanceConfig = []; // Array that holds all the rule's selectFieldAmounts
         element.innerHTML =`
             <style>
@@ -312,6 +313,7 @@ looker.plugins.visualizations.add({
         let selectFieldAmount = this._selectFieldAmount;
         let previousRuleName = this._previousRuleName;
         let previousNumberInputLabel = this._previousNumberInputLabel;
+        let previousRuleInstances = this._previousRuleInstances;
         let changed = false;
         let allMeasures = [];
         measures.forEach(mes => {allMeasures.push(mes.name)});
@@ -321,6 +323,12 @@ looker.plugins.visualizations.add({
         console.log('This is the number of rule instances!', ruleInstances);
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
+            cleanUpExtraRules();
+        }
+        this._previousRuleInstances = previousRuleInstances;
+
+        for(let i = 0; i < ruleInstances; i++) {
+            rr = i;
             applyFormattingTo();
         }
 
@@ -328,25 +336,6 @@ looker.plugins.visualizations.add({
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
         this.options = settings;
-        // if (changed) {
-        //     changed = false;
-        //     console.log('Rebuilding the settings');
-        //     this.trigger('registerOptions', settings);
-        // }
-
-        // Build the configuration, then show/hide the configuration settings
-        // console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
-        // console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
-        // console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
-        // console.log(`Config setting: formatBetween_${rr}`, config[`formatBetween_${rr}`]);
-        // console.log(`Config setting: fieldAmount_${rr}`, config[`fieldAmount_${rr}`]);
-        // console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
-        // console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
-        // console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
-        // console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
-        // console.log(`Config setting: colorItalic_${rr}`, config[`colorItalic_${rr}`]);
-        // console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
-        // for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
 
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
@@ -383,7 +372,7 @@ looker.plugins.visualizations.add({
 
 
         /*********************
-         * Main
+         * Main config build
         *********************/
         function applyFormattingTo() {
             initializeBasicRules();
@@ -905,6 +894,37 @@ looker.plugins.visualizations.add({
             }
         } // End of displayConfigurationSettings
 
+        /**************************
+         * Cleanup extra rules
+        **************************/
+        function cleanupExtraRules() {
+            if (previousRuleInstances > ruleInstances) {
+                changed = true;
+                for(let i = previousRuleInstances; i > ruleInstances; i--) {
+                    delete settings[`spacing_${rr}`];
+                    delete settings[`ruleName_${rr}`];
+                    delete settings[`applyFormattingTo_${rr}`];
+                    delete settings[`format_${rr}`];
+                    delete settings[`formatNumberInput_${rr}`];
+                    delete settings[`formatBetween_${rr}`];
+
+                    delete settings[`fieldAmount_${rr}`];
+                    for(let i = 0; i < measures.length; i++) delete settings[`formatField${i}_${rr}`];
+
+                    delete settings[`colorName_${rr}`];
+                    delete settings[`alongAScaleA_${rr}`];
+                    delete settings[`alongAScaleB_${rr}`];
+                    delete settings[`fontColor_${rr}`];
+                    delete settings[`colorBold_${rr}`];
+                    delete settings[`colorItalic_${rr}`];
+                    delete settings[`colorLine_${rr}`];
+                }
+
+                previousRuleInstances = ruleInstances;
+            }
+        }
+
+
         /***************************************
          * Configuring the data
         ***************************************/
@@ -929,6 +949,13 @@ looker.plugins.visualizations.add({
         }
 
         includeNulls();
+
+
+        /***************************************
+         * Apply the config to the table
+        ***************************************/
+        
+        
 
         /***************************************
          * Build the visual
