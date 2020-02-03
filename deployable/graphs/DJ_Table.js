@@ -1022,27 +1022,21 @@ looker.plugins.visualizations.add({
                 if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'alongAScale') {
-                // We'll have 5 color steps.
-
-                // Convert hex to rgb
                 let colorOne = hexToRgb(rule.alongAScale.color1);
                 let colorTwo = hexToRgb(rule.alongAScale.color2);
                 colorOne = `rgb(${colorOne[0]}, ${colorOne[1]}, ${colorOne[2]})`;
                 colorTwo = `rgb(${colorTwo[0]}, ${colorTwo[1]}, ${colorTwo[2]})`;
-                // grab the color steps
                 let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
-                console.log('newColorNumbers', newColorNumbers);
+
                 let newColors = [];
                 newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
-                console.log('newColors', newColors);
 
-                // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
                 let stats = maxAndMin[parseInt(d.column)];
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
-                if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
-                if (d.value <= stats.quartile3) d[`rule_${rr}`].color = newColors[2];
-                if (d.value <= stats.max) d[`rule_${rr}`].color = newColors[3];
+                else if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
+                else if (d.value <= stats.quartile3) d[`rule_${rr}`].color = newColors[2];
+                else if (d.value <= stats.max) d[`rule_${rr}`].color = newColors[3];
             }
 
         } // end of ruleOperations
@@ -1059,15 +1053,6 @@ looker.plugins.visualizations.add({
                 line: rule.notAlongAScale.line
             };
         }
-      
-        
-        // function hexToRgb(hex) {
-        //     hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-        //               ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-        //       .substring(1).match(/.{2}/g)
-        //       .map(x => parseInt(x, 16))
-        //     return hex;
-        // }
 
        
         function interpolateColor(color1, color2, factor) {
@@ -1118,7 +1103,29 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
 
+        cells
+            .style('background-color', d => colorRules(d))
+            .style('color', d => fontColorRules(d))
+            .style('font-weight', d => fontBoldRules(d))
+            .style('text-decoration', d => italicLineRules(d));
+
         buildTotalsFooter();
+
+
+        function colorRules(d) {
+            for(let rr = 0; rr < ruleInstances; rr++) {
+
+            }
+        }
+        function fontColorRules(d) {
+
+        }
+        function fontBoldRules(d) {
+
+        }
+        function italicLineRules(d) {
+
+        }
 
         /***************************************
          * Functions section
