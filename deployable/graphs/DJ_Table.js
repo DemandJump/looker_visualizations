@@ -292,6 +292,12 @@ looker.plugins.visualizations.add({
         // console.log('LookerCharts', LookerCharts.Utils);
         // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
 
+        // This will save your cpu, and people trying to type in the configuration input in looker without your script crashing the config (^:;
+        console.log('before');
+        setTimeout(function(){
+            console.log('after');
+        },1000);
+
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
         let columns = dimensions.length + measures.length;
