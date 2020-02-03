@@ -1025,14 +1025,14 @@ looker.plugins.visualizations.add({
                 // We'll have 5 color steps.
 
                 // Convert hex to rgb
-                let color1 = hexToRgb(rule.alongAScale.color1);
-                let color2 = hexToRgb(rule.alongAScale.color2);
+                let colorOne = hexToRgb(rule.alongAScale.color1);
+                let colorTwo = hexToRgb(rule.alongAScale.color2);
                 // grab the color steps
-                let newColorNumbers = interpolateColors(color1, color2, 4);
+                let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
                 let newColors = [];
                 newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
-                console.log('color1', color1);
-                console.log('color2', color2);
+                console.log('color1', colorOne);
+                console.log('color2', colorTwo);
                 console.log('newColorNumbers', newColorNumbers);
                 console.log('newColors', newColors);
 
