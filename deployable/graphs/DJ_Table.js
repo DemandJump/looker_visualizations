@@ -1001,6 +1001,8 @@ looker.plugins.visualizations.add({
         } // End of colorConfigureRows
 
         function ruleOperations(rule, d) {
+            console.log('ruleOperations: This is the rule', rule);
+            console.log('This is the row', row); 
             if (rule.format == 'equalTo') {
                 if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
             }
