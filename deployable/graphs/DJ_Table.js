@@ -925,11 +925,12 @@ looker.plugins.visualizations.add({
                         delete settings[`formatBetween_${i}`];
 
                         delete settings[`fieldAmount_${i}`];
-                        for(let i = 0; i < measures.length; i++) delete settings[`formatField${i}_${i}`];
+                        for(let j = 0; j < measures.length; j++) delete settings[`formatField${j}_${i}`];
 
                         delete settings[`colorName_${i}`];
                         delete settings[`alongAScaleA_${i}`];
                         delete settings[`alongAScaleB_${i}`];
+                        delete settings[`displayColor_${i}`];
                         delete settings[`fontColor_${i}`];
                         delete settings[`colorBold_${i}`];
                         delete settings[`colorItalic_${i}`];
