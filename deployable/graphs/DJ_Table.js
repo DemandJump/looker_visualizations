@@ -1488,6 +1488,7 @@ looker.plugins.visualizations.add({
 
 
         function findMaxAndMin() {
+            //  This data will look bad as it tries to calculate the dimension data, but we need the index order to stay as it is
           for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
           rowData.forEach( (row, index) => {
               for(let i = 0; i < row.length; i++) {
