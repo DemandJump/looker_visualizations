@@ -1055,13 +1055,13 @@ looker.plugins.visualizations.add({
 
         function ruleData(d, rule) {
             return  {
-                color: rule.backgroundColor,
+                color: rule.notAlongAScale.backgroundColor,
                 alongAScale: rule.alongScale,
                 scale: rule.scale,
-                fontColor: rule.fontColor,
-                bold: rule.bold,
-                italic: rule.italic,
-                line: rule.line
+                fontColor: rule.notAlongAScale.fontColor,
+                bold: rule.notAlongAScale.bold,
+                italic: rule.notAlongAScale.italic,
+                line: rule.notAlongAScale.line
             };
         }
       
