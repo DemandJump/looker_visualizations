@@ -985,12 +985,12 @@ looker.plugins.visualizations.add({
                     d[`rule_${rr}`] = false;
                     // Then if it matches one of the row names, check the data and append ruleConfig to it
                     if (rule.allFields) {
-                        ruleOperations(rule, d);
+                        ruleOperations(rule, d, rr);
                     } else {
                         for(let j = 0; j < rule.measures.length; j++) {
                             // If it matches any of the measures
                             if(d.name == rule.measures[j]) {
-                                ruleOperations(rule, d);
+                                ruleOperations(rule, d, rr);
                             }
                         } // for loop for selected measures
                     } // End of else statement
@@ -1000,7 +1000,7 @@ looker.plugins.visualizations.add({
             }); // End of rules.forEach
         } // End of colorConfigureRows
 
-        function ruleOperations(rule, d) {
+        function ruleOperations(rule, d, rr) {
             console.log('This is the row', d); 
             if (rule.format == 'equalTo') {
                 if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
@@ -1041,7 +1041,7 @@ looker.plugins.visualizations.add({
                 d[`rule_${rr}`] = ruleData(d, rule);
                 console.log('This is maxandmin', maxAndMin);
                 console.log('This is d.column', d.column);
-                let stats = maxAndMin[d.column];
+                let stats = maxAndMin[d.column.parseInt()];
                 console.log('This is stats', stats);
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
