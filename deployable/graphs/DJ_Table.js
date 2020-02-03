@@ -325,8 +325,12 @@ looker.plugins.visualizations.add({
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
             cleanupExtraRules();
+            this._previousRuleInstances = previousRuleInstances;
+            if (changed) {
+                this.options = settings;
+                this.trigger('registerOptions', settings);
+            }
         }
-        this._previousRuleInstances = previousRuleInstances;
 
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
@@ -907,6 +911,8 @@ looker.plugins.visualizations.add({
          * Cleanup extra rules
         **************************/
         function cleanupExtraRules() {
+            console.log('This is previousRuleInstances', previousRuleInstances);
+            console.log('This is the current rule instance', ruleInstances);
             if (previousRuleInstances > ruleInstances) {
                 changed = true;
                 for(let i = previousRuleInstances; i > ruleInstances; i--) {
