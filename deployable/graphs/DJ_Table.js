@@ -760,48 +760,35 @@ looker.plugins.visualizations.add({
             // Grab all the info that's in each rule
             if (config[`ruleInstances`]) {
                 for(let i = 0; i < config[`ruleInstances`].rules; i++) {
+                    rr = i;
                     let rule = {};
+
                     rule[`measures`] = [];
                     rule[`format`] = '';
                     rule[`numberInput`] = 0;
                     rule[`between`] = {num1: 0, num2: 0};
                     rule[`alongAScale`] = {color1: '', color2: ''};
-                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: false, italic: false, line: false};
+                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: '', italic: '', line: ''};
 
                     // Grab the measures that apply to this rule
                     if (config[`applyFormattingTo_${rr}`] == 'all') rule['measures'] = allMeasures;
-                    console.log('These are all measures', allMeasures);
                     if (config[`applyFormattingTo_${rr}`] == 'selectFields') {
                         let selectMeasures = [];
-                        for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) {
-                            if(config[`formatField${i}_${rr}`] != 'none') selectMeasures.push(config[`formatField${i}_${rr}`]);
-                        }
-                        console.log('These are the select measures', selectMeasures);
+                        for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) if(config[`formatField${i}_${rr}`] != 'none') selectMeasures.push(config[`formatField${i}_${rr}`]);
                         rule['measures'] = selectMeasures;
                     }
 
-                    console.log(`formatNumberInput_${rr}`, config[`formatNumberInput_${rr}`]);
-                    console.log(`formatBetween_${rr} num1`, config[`formatBetween_${rr}`].num1);
-                    console.log(`formatBetween_${rr} num2`, config[`formatBetween_${rr}`].num2);
-                    let formatNumberInput = config[`formatNumberInput_${rr}`];
-                    let formatBetween1 = config[`formatBetween_${rr}`].num1;
-                    let formatBetween2 = config[`formatBetween_${rr}`].num2; 
                     if (config[`format_${rr}`]) rule['format'] = config[`format_${rr}`];
-                    if (config[`formatNumberInput_${rr}`]) rule['numberInput'] = formatNumberInput;
-                    if (config[`formatBetween_${rr}`]) rule['between'] = {num1: formatBetween1, num2: formatBetween2};
+                    if (config[`formatNumberInput_${rr}`]) rule['numberInput'] = config[`formatNumberInput_${rr}`];
+                    if (config[`formatBetween_${rr}`]) rule['between'] = {num1: config[`formatBetween_${rr}`].num1, num2: config[`formatBetween_${rr}`].num2};
 
                     if (config[`alongAScaleA_${rr}`]) rule['alongAScale'].color1 = config[`alongAScaleA_${rr}`];
                     if (config[`alongAScaleB_${rr}`]) rule['alongAScale'].color2 = config[`alongAScaleB_${rr}`];
-
-                    let bold = config[`colorBold_${rr}`];
-                    let italic = config[`colorItalic_${rr}`];
-                    let line = config[`colorLine_${rr}`];
-
                     if (config[`displayColor_${rr}`]) rule['notAlongAScale'].backgroundColor = config[`displayColor_${rr}`];
                     if (config[`fontColor_${rr}`]) rule['notAlongAScale'].fontColor = config[`fontColor_${rr}`];
-                    if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = bold;
-                    if (config[`colorItalic_${rr}`]) rule['notAlongAScale'].italic = italic;
-                    if (config[`colorLine_${rr}`]) rule['notAlongAScale'].line = line;
+                    if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = config[`colorBold_${rr}`];
+                    if (config[`colorItalic_${rr}`]) rule['notAlongAScale'].italic = config[`colorItalic_${rr}`];
+                    if (config[`colorLine_${rr}`]) rule['notAlongAScale'].line = config[`colorLine_${rr}`];
                     
                     rules.push(rule);
                 } // End of data for one rule
