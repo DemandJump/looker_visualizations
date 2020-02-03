@@ -1004,7 +1004,7 @@ looker.plugins.visualizations.add({
             if (rule.format == 'notBetween') if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
             if (rule.format == 'null') if (d.value == null) d[`rule_${rr}`] = ruleData(d, rule);
             if (rule.format == 'notNull') if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
-            
+
             if (rule.format == 'alongAScale') {
                 let colorOne = hexToRgb(rule.alongAScale.color1);
                 let colorTwo = hexToRgb(rule.alongAScale.color2);
@@ -1098,17 +1098,29 @@ looker.plugins.visualizations.add({
 
         function colorRules(d) {
             for(let rr = 0; rr < ruleInstances; rr++) {
-
+                if (d[`rule_${rr}`]) return d[`rule_${rr}`].color;
             }
         }
         function fontColorRules(d) {
-
+            for(let rr = 0; rr< ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
+            }
         }
         function fontBoldRules(d) {
-
+            for(let rr = 0; rr < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) { 
+                    if (d[`rule_${rr}`].bold) return 'bold';
+                }
+            }
         }
         function italicLineRules(d) {
-
+            for(let i = 0; i < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) {
+                    if (d[`rule_${rr}`].italic && d[`rule_${rr}`].line) return 'italic line-through';
+                    else if (d[`rule_${rr}`].italic) return 'italic';
+                    else if (d[`rule_${rr}`].line) return 'line-through';
+                }
+            }
         }
 
         /***************************************
