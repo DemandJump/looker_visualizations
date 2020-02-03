@@ -1039,7 +1039,7 @@ looker.plugins.visualizations.add({
                 let newColorNumbers = interpolateColors(color1, color2, 4);
                 console.log('New color steps', newColorNumbers);
                 let newColors = [];
-                newColorNumbers.forEach(number => newColors.push(`rgb(${number})`));
+                newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
 
                 // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
@@ -1494,12 +1494,14 @@ looker.plugins.visualizations.add({
           for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
           rowData.forEach( (row, index) => {
               for(let i = 0; i < row.length; i++) {
-                  if (index == 0) {
-                      maxAndMin[i].min = row[i].value;
-                      maxAndMin[i].max = row[i].value;
-                  } else {
-                      if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
-                      if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
+                  if (row[i].type == 'measures') {
+                      if (index == 0) {
+                          maxAndMin[i].min = row[i].value;
+                          maxAndMin[i].max = row[i].value;
+                      } else {
+                          if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
+                          if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
+                      }
                   }
               }
           });
