@@ -327,7 +327,7 @@ looker.plugins.visualizations.add({
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
-        // this.options = settings;
+        this.options = settings;
         // if (changed) {
         //     changed = false;
         //     console.log('Rebuilding the settings');
