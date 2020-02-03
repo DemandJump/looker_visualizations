@@ -915,9 +915,11 @@ looker.plugins.visualizations.add({
             console.log('This is previousRuleInstances', previousRuleInstances);
             console.log('This is the current rule instance', ruleInstances);
             if (previousRuleInstances != ruleInstances) {
+                console.log('Changing the rule instances');
                 changed = true;
                 if (previousRuleInstances > ruleInstances) {
                     for(let i = previousRuleInstances - 1; i > ruleInstances - 1; i--) {
+                        console.log('Deleted a rule in the settings');
                         delete settings[`spacing_${rr}`];
                         delete settings[`ruleName_${rr}`];
                         delete settings[`applyFormattingTo_${rr}`];
