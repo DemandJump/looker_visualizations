@@ -1036,12 +1036,12 @@ looker.plugins.visualizations.add({
                 let newColorNumbers = interpolateColors(color1, color2, 4);
                 let newColors = [];
                 newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
-                console.log('Printed rgb colors to pass in', newColorNumbers);
+                console.log('Printed rgb colors to pass in', newColors);
 
                 // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
                 console.log('This is maxandmin', maxAndMin);
-                let stats = maxAndMin[d.column];
+                let stats = maxAndMin[d.column - dimensions.length];
                 console.log('This is stats', stats);
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
@@ -1492,13 +1492,13 @@ looker.plugins.visualizations.add({
           rowData.forEach( (row, index) => {
               for(let i = 0; i < row.length; i++) {
                   if (row[i].type == 'measures') {
-                    if (index == 0) {
-                        maxAndMin[i].min = row[i].value;
-                        maxAndMin[i].max = row[i].value;
-                    } else {
-                        if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
-                        if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
-                    }
+                      if (index == 0) {
+                          maxAndMin[i].min = row[i].value;
+                          maxAndMin[i].max = row[i].value;
+                      } else {
+                          if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
+                          if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
+                      }
                   }
               }
           });
