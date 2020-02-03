@@ -1002,28 +1002,28 @@ looker.plugins.visualizations.add({
 
         function ruleOperations(rule, d) {
             if (rule.format == 'equalTo') {
-                if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData();
+                if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'notEqualTo') {
-                if (d.value != rule.numberInput) d[`rule_${rr}`] = ruleData();
+                if (d.value != rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'greaterThan') {
-                if (d.value > rule.numberInput) d[`rule_${rr}`] = ruleData();
+                if (d.value > rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'lessThan') {
-                if (d.value < rule.numberInput) d[`rule_${rr}`] = ruleData();
+                if (d.value < rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'between') {
-                if (d.value >= rule.between.num1 && d.value <= rule.between.num2) d[`rule_${rr}`] = ruleData();
+                if (d.value >= rule.between.num1 && d.value <= rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'notBetween') {
-                if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData();
+                if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'null') {
-                if (d.value == null) d[`rule_${rr}`] = ruleData();
+                if (d.value == null) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'notNull') {
-                if (d.value != null) d[`rule_${rr}`] = ruleData();
+                if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
             }
             if (rule.format == 'alongAScale') {
                 // We'll have 5 color steps.
@@ -1040,7 +1040,7 @@ looker.plugins.visualizations.add({
                 newColorNumbers.forEach(number => newColors.push(`rgb(${number})`));
 
                 // find what step the value is currently at and append the color to the step
-                d[`rule_${rr}`] = ruleData();
+                d[`rule_${rr}`] = ruleData(d, rule);
                 let stats = maxAndMin[d.column];
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
@@ -1051,7 +1051,7 @@ looker.plugins.visualizations.add({
         } // end of ruleOperations
 
 
-        function ruleData(d) {
+        function ruleData(d, rule) {
             return  {
                 color: rule.backgroundColor,
                 alongAScale: rule.alongScale,
