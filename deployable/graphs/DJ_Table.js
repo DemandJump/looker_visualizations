@@ -996,31 +996,15 @@ looker.plugins.visualizations.add({
         } // End of colorConfigureRows
 
         function ruleOperations(rule, d, rr) {
-            console.log('This is the row', d); 
-            if (rule.format == 'equalTo') {
-                if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'notEqualTo') {
-                if (d.value != rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'greaterThan') {
-                if (d.value > rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'lessThan') {
-                if (d.value < rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'between') {
-                if (d.value >= rule.between.num1 && d.value <= rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'notBetween') {
-                if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'null') {
-                if (d.value == null) d[`rule_${rr}`] = ruleData(d, rule);
-            }
-            if (rule.format == 'notNull') {
-                if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
-            }
+            if (rule.format == 'equalTo') if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'notEqualTo') if (d.value != rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'greaterThan') if (d.value > rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'lessThan') if (d.value < rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'between') if (d.value >= rule.between.num1 && d.value <= rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'notBetween') if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'null') if (d.value == null) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'notNull') if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
+            
             if (rule.format == 'alongAScale') {
                 let colorOne = hexToRgb(rule.alongAScale.color1);
                 let colorTwo = hexToRgb(rule.alongAScale.color2);
