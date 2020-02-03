@@ -409,7 +409,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`ruleName_${rr}`]) {
-                console.log(`created ruleName_${rr}`);
                 changed = true;
                 settings[`ruleName_${rr}`] = {
                     order: 12.001 + (rr * 30),
@@ -423,7 +422,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`applyFormattingTo_${rr}`]) {
-                console.log(`created applyformattingTo_${rr}`);
                 changed = true;
                 settings[`applyFormattingTo_${rr}`] = {
                     label: 'Apply to',
@@ -441,7 +439,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`format_${rr}`]) {
-                console.log(`created format_${rr}`);
                 changed = true;
                 settings[`format_${rr}`] = {
                     label: 'Format',
@@ -466,7 +463,6 @@ looker.plugins.visualizations.add({
             }
 
             if(!settings[`formatNumberInput_${rr}`]) {
-                console.log(`createdformatNumberInput_${rr}`);
                 changed = true;
                 settings[`formatNumberInput_${rr}`] = {
                     label: ' ',
@@ -479,7 +475,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`formatBetween_${rr}`]) {
-                console.log(`created formatBetween_${rr}`);
                 changed = true;
                 settings[`formatBetween_${rr}`] = {
                     order: 17 + (rr * 30),
@@ -501,14 +496,12 @@ looker.plugins.visualizations.add({
             // Create the select number of fields object
             let fieldAmountValues = [];
             if (!settings[`fieldAmount_${rr}`]) {
-                console.log(`created fieldAmount_${rr}`);
                 changed = true;     
                 for(let i = 0; i < measures.length; i++) {
                     let strObj = `{"${i}": "${i}"}`
                     let obj = JSON.parse(strObj);
                     fieldAmountValues.push(obj);
                 }
-                console.log('here is the created arr fieldAmountValues', fieldAmountValues);
 
                 settings[`fieldAmount_${rr}`] = {
                     label: 'Select the field amount',
@@ -522,7 +515,6 @@ looker.plugins.visualizations.add({
                 };
             } else {
                 if (numOfMeasures != measures.length) {
-                    console.log('Recreating fieldAmount Values!');
                     numOfMeasures = measures.length;
                     for(let i = 0; i < measures.length; i++) {
                         let strObj = `{"${i}": "${i}"}`
@@ -536,7 +528,6 @@ looker.plugins.visualizations.add({
 
         function initializeColorConfig() {
             if (!settings[`colorName_${rr}`]) {
-                console.log(`created colorName_${rr}`);
                 settings[`colorName_${rr}`] = {
                     order: 18 + (rr * 30),
                     type: 'string',
@@ -548,7 +539,6 @@ looker.plugins.visualizations.add({
                 };
             }
             if (!settings[`alongAScaleA_${rr}`]) {
-                console.log(`created alongAScaleA_${rr}`);
                 settings[`alongAScaleA_${rr}`] = {
                     label: 'Palette Between',
                     order: 18.04 + (rr * 30),
@@ -562,7 +552,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`alongAScaleB_${rr}`]) {
-                console.log(`created alongAScaleB_${rr}`);
                 settings[`alongAScaleB_${rr}`] = {
                     label: 'and',
                     order: 18.1 + (rr * 30),
@@ -577,7 +566,6 @@ looker.plugins.visualizations.add({
 
 
             if (!settings[`displayColor_${rr}`]) {
-                console.log(`created displayColor_${rr}`);
                 settings[`displayColor_${rr}`] = {
                     label: 'Display Color',
                     order: 18.04 + (rr * 30),
@@ -591,7 +579,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`fontColor_${rr}`]) {
-                console.log(`created fontColor_${rr}`);
                 settings[`fontColor_${rr}`] = {
                     label: 'Font Color',
                     order: 18.05 + (rr * 30),
@@ -605,7 +592,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`colorBold_${rr}`]) {
-                console.log(`created colorBold_${rr}`);
                 settings[`colorBold_${rr}`] = {
                     label: 'Bold Text',
                     order: 18.1 + (rr * 30),
@@ -618,7 +604,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`colorItalic_${rr}`]) {
-                console.log(`created colorItalic_${rr}`);
                 settings[`colorItalic_${rr}`] = {
                     label: 'Italic Text',
                     order: 18.2 + (rr * 30),
@@ -631,7 +616,6 @@ looker.plugins.visualizations.add({
             }
 
             if (!settings[`colorLine_${rr}`]) {
-                console.log(`created colorLine_${rr}`);
                 settings[`colorLine_${rr}`] = {
                     label: 'Line Through Text',
                     order: 18.3 + (rr * 30),
@@ -647,7 +631,6 @@ looker.plugins.visualizations.add({
 
         function selectedFieldsConfig() {
           if (selectFieldAmount != config[`fieldAmount_${rr}`]) {
-              console.log(`created fieldAmount_${rr}`);
               selectFieldAmount = config[`fieldAmount_${rr}`];
               changed = true;
 
@@ -661,7 +644,6 @@ looker.plugins.visualizations.add({
               });
 
               for(let i = 0; i < measures.length; i++) { 
-                  console.log(`created formatField${i}_${rr}`);
                   if (!settings[`formatField${i}_${rr}`]) {
                       settings[`formatField${i}_${rr}`] = {
                           order: 13 + (i/10) + (rr * 30),
@@ -837,7 +819,6 @@ looker.plugins.visualizations.add({
             if (config[`applyFormattingTo_${rr}`] == 'all') {
                 if (settings[`fieldAmount_${rr}`].hidden == false) {
                     changed = true 
-                    console.log('Changed to true at configApplyFormattingTo all: fieldAmount');
                 }
                 settings[`fieldAmount_${rr}`].hidden = true 
 
@@ -850,11 +831,9 @@ looker.plugins.visualizations.add({
             if (config[`applyFormattingTo_${rr}`] == 'selectFields') { // Selected field section
                 if (settings[`fieldAmount_${rr}`].hidden == true) {
                     changed = true;
-                    console.log('Changed to true at applyFormattingTo: selectFields, fieldAmount');
                 }
                 settings[`fieldAmount_${rr}`].hidden = false;
 
-                console.log('This is the current field amount count' ,config[`fieldAmount_${rr}`]);
                 for(let i = 0; i < measures.length; i++) {
                     if (i < config[`fieldAmount_${rr}`]) {
                         if (settings[`formatField${i}_${rr}`].hidden == true) {
@@ -871,12 +850,10 @@ looker.plugins.visualizations.add({
             }
 
             // SelectedFields show/hide conditionals
-            console.log('hiddenConfigurationConditionals: fieldAmount', config[`fieldAmount_${rr}`]);
             
             if (config[`format_${rr}`] == 'alongAScale') {
                 if (settings[`alongAScaleA_${rr}`].hidden == true || settings[`alongAScaleB_${rr}`].hidden == true) {
                     changed = true;
-                    console.log('Changed to true at alongAScale');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = true;
                 settings[`formatBetween_${rr}`].hidden = true;
@@ -891,7 +868,6 @@ looker.plugins.visualizations.add({
             } else {
                 if (settings[`displayColor_${rr}`].hidden == true || settings[`colorBold_${rr}`].hidden == true || settings[`colorItalic_${rr}`].hidden == true || settings[`colorLine_${rr}`].hidden == true) {
                     changed = true;
-                    console.log('Changed to not along a scale');
                 }
                 settings[`colorName_${rr}`].hidden = true;
                 settings[`alongAScaleA_${rr}`].hidden = true;
@@ -908,7 +884,6 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'equalTo' || config[`format_${rr}`] == 'notEqualTo' || config[`format_${rr}`] == 'greaterThan' || config[`format_${rr}`] == 'lessThan') {
                 if (settings[`formatNumberInput_${rr}`].hidden == true || settings[`formatBetween_${rr}`].hidden == false) {
                     changed = true;
-                    console.log('Changed to true at equalTo notEqualTo greaterThan lessThan');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = false;
                 settings[`formatBetween_${rr}`].hidden = true;
@@ -917,7 +892,6 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'between' || config[`format_${rr}`] == 'notBetween') {
                 if (settings[`formatBetween_${rr}`].hidden == true || settings[`formatNumberInput_${rr}`].hidden == false) {
                     changed = true;
-                    console.log('Changed to true at between notBetween');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = true;
                 settings[`formatBetween_${rr}`].hidden = false;
@@ -926,7 +900,6 @@ looker.plugins.visualizations.add({
             if (config[`format_${rr}`] == 'null' || config[`format_${rr}`] == 'notNull') {
                 if (settings[`formatNumberInput_${rr}`].hidden == false || settings[`formatBetween_${rr}`].hidden == false) {
                     changed = true;
-                    console.log('Changed to true at null notNull');
                 }
                 settings[`formatNumberInput_${rr}`].hidden = true;
                 settings[`formatBetween_${rr}`].hidden = true;
