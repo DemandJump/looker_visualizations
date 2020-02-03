@@ -1027,13 +1027,13 @@ looker.plugins.visualizations.add({
                 // Convert hex to rgb
                 let colorOne = hexToRgb(rule.alongAScale.color1);
                 let colorTwo = hexToRgb(rule.alongAScale.color2);
-                // grab the color steps
-                let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
-                let newColors = [];
-                newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
                 console.log('color1', colorOne);
                 console.log('color2', colorTwo);
+                // grab the color steps
+                let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
                 console.log('newColorNumbers', newColorNumbers);
+                let newColors = [];
+                newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
                 console.log('newColors', newColors);
 
                 // find what step the value is currently at and append the color to the step
