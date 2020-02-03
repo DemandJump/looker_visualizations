@@ -522,6 +522,7 @@ looker.plugins.visualizations.add({
                 };
             } else {
                 if (numOfMeasures != measures.length) {
+                    console.log('Recreating fieldAmount Values!');
                     numOfMeasures = measures.length;
                     for(let i = 0; i < measures.length; i++) {
                         let strObj = `{"${i}": "${i}"}`
