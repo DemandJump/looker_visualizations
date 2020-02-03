@@ -315,6 +315,7 @@ looker.plugins.visualizations.add({
         let previousNumberInputLabel = this._previousNumberInputLabel;
         let previousRuleInstances = this._previousRuleInstances;
         let changed = false;
+        let changedRule = false;
         let allMeasures = [];
         measures.forEach(mes => {allMeasures.push(mes.name)});
         let ruleInstances = 1;
@@ -323,7 +324,7 @@ looker.plugins.visualizations.add({
         console.log('This is the number of rule instances!', ruleInstances);
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
-            cleanUpExtraRules();
+            cleanupExtraRules();
         }
         this._previousRuleInstances = previousRuleInstances;
 
@@ -753,18 +754,23 @@ looker.plugins.visualizations.add({
                     let rule = {};
 
                     rule[`measures`] = [];
+                    rule[`allFields`] = false;
                     rule[`format`] = '';
                     rule[`numberInput`] = 0;
-                    rule[`between`] = {num1: 0, num2: 0};
+                    rule[`between`] = {num1: '', num2: ''};
                     rule[`alongAScale`] = {color1: '', color2: ''};
                     rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: '', italic: '', line: ''};
 
                     // Grab the measures that apply to this rule
-                    if (config[`applyFormattingTo_${rr}`] == 'all') rule['measures'] = allMeasures;
+                    if (config[`applyFormattingTo_${rr}`] == 'all') {
+                        rule['measures'] = allMeasures;
+                        rule['allFields'] = true;
+                    }
                     if (config[`applyFormattingTo_${rr}`] == 'selectFields') {
                         let selectMeasures = [];
                         for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) if(config[`formatField${i}_${rr}`] != 'none') selectMeasures.push(config[`formatField${i}_${rr}`]);
                         rule['measures'] = selectMeasures;
+                        rule['allFields'] = false;
                     }
 
                     if (config[`format_${rr}`]) rule['format'] = config[`format_${rr}`];
@@ -778,6 +784,9 @@ looker.plugins.visualizations.add({
                     if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = config[`colorBold_${rr}`];
                     if (config[`colorItalic_${rr}`]) rule['notAlongAScale'].italic = config[`colorItalic_${rr}`];
                     if (config[`colorLine_${rr}`]) rule['notAlongAScale'].line = config[`colorLine_${rr}`];
+
+                    rule[`scale`] = false;
+                    if (rule[`scale`].color1 != '' && rule[`scale`].color2 != '') rule[`alongScale`] = true;
                     
                     rules.push(rule);
                 } // End of data for one rule
@@ -924,7 +933,6 @@ looker.plugins.visualizations.add({
             }
         }
 
-
         /***************************************
          * Configuring the data
         ***************************************/
@@ -954,6 +962,109 @@ looker.plugins.visualizations.add({
         /***************************************
          * Apply the config to the table
         ***************************************/
+        function colorConfigureRows(d) {
+            // Iterate through each of the rules and append data to change the rows based on the rules
+            rules.forEach((rule, rr) => {
+
+                if (d.type == 'measures') {
+                    d[`rule_${rr}`] = false;
+                    // Then if it matches one of the row names, check the data and append ruleConfig to it
+                    if (rule.allFields) {
+                        ruleOperations(rule, d);
+                    } else {
+                        for(let j = 0; j < rule.measures.length; j++) {
+                            // If it matches any of the measures
+                            if(d.name == rule.measures[j]) {
+                                ruleOperations(rule, d);
+                            }
+                        } // for loop for selected measures
+                    } // End of else statement
+
+
+                } // end of d.type == measures
+            }); // End of rules.forEach
+        } // End of colorConfigureRows
+
+        function ruleOperations(rule, d) {
+            if (rule.format == 'equalTo') {
+                if (d.value == rule.numberInput) ruleData();
+            }
+            if (rule.format == 'notEqualTo') {
+                if (d.value != rule.numberInput) ruleData();
+            }
+            if (rule.format == 'greaterThan') {
+                if (d.value > rule.numberInput) ruleData();
+            }
+            if (rule.format == 'lessThan') {
+                if (d.value < rule.numberInput) ruleData();
+            }
+            if (rule.format == 'between') {
+                if (d.value >= rule.between.num1 && d.value <= rule.between.num2) ruleData();
+            }
+            if (rule.format == 'notBetween') {
+                if (d.value < rule.between.num1 && d.value > rule.between.num2) ruleData();
+            }
+            if (rule.format == 'null') {
+                if (d.value == null) ruleData();
+            }
+            if (rule.format == 'notNull') {
+                if (d.value != null) ruleData();
+            }
+            if (rule.format == 'alongAScale') {
+                // We'll have 5 color steps.
+
+                // Convert hex to rgb
+                let color1 = hexToRgb(rule.alongAScale.color1);
+                let color2 = hexToRgb(rule.alongAScale.color2);
+                console.log('This is color1', color1);
+                console.log('This is color2', color2);
+                  // grab the color steps
+                let newColors = interpolateColors(color1, color2, 4);
+                console.log('New color steps', newColors);
+
+                // find what step the value is currently at
+                  // append that color to the step
+            }
+
+        } // end of ruleOperations
+
+
+        function ruleData() {
+            d[`rule_${rr}`] = {
+                color: rule.backgroundColor,
+                alongAScale: rule.alongScale,
+                scale: rule.scale,
+                fontColor: rule.fontColor,
+                bold: rule.bold,
+                italic: rule.italic,
+                line: rule.line
+            };
+        }
+      
+        
+        function hexToRgb(hex) {
+            hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+                      ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+              .substring(1).match(/.{2}/g)
+              .map(x => parseInt(x, 16))
+            return hex;
+        }
+
+       
+        function interpolateColor(color1, color2, factor) {
+            if (arguments.length < 3) factor = 0.5; 
+            let result = color1.slice();
+            for (let i = 0; i < 3; i++) result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+            return result;
+        }
+        function interpolateColors(color1, color2, steps) {
+            let stepFactor = 1 / (steps - 1);
+            let interpolatedColorArray = [];
+            color1 = color1.match(/\d+/g).map(Number);
+            color2 = color2.match(/\d+/g).map(Number);
+            for(let i = 0; i < steps; i++) interpolatedColorArray.push(interpolateColor(color1, color2, stepFactor * i));
+            return interpolatedColorArray;
+        }
         
         
 
