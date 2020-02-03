@@ -912,31 +912,28 @@ looker.plugins.visualizations.add({
          * Cleanup extra rules
         **************************/
         function cleanupExtraRules() {
-            console.log('This is previousRuleInstances', previousRuleInstances);
-            console.log('This is the current rule instance', ruleInstances);
             if (previousRuleInstances != ruleInstances) {
-                console.log('Changing the rule instances');
                 changed = true;
                 if (previousRuleInstances > ruleInstances) {
                     for(let i = previousRuleInstances - 1; i > ruleInstances - 1; i--) {
                         console.log('Deleted a rule in the settings');
-                        delete settings[`spacing_${rr}`];
-                        delete settings[`ruleName_${rr}`];
-                        delete settings[`applyFormattingTo_${rr}`];
-                        delete settings[`format_${rr}`];
-                        delete settings[`formatNumberInput_${rr}`];
-                        delete settings[`formatBetween_${rr}`];
+                        delete settings[`spacing_${i}`];
+                        delete settings[`ruleName_${i}`];
+                        delete settings[`applyFormattingTo_${i}`];
+                        delete settings[`format_${i}`];
+                        delete settings[`formatNumberInput_${i}`];
+                        delete settings[`formatBetween_${i}`];
 
-                        delete settings[`fieldAmount_${rr}`];
-                        for(let i = 0; i < measures.length; i++) delete settings[`formatField${i}_${rr}`];
+                        delete settings[`fieldAmount_${i}`];
+                        for(let i = 0; i < measures.length; i++) delete settings[`formatField${i}_${i}`];
 
-                        delete settings[`colorName_${rr}`];
-                        delete settings[`alongAScaleA_${rr}`];
-                        delete settings[`alongAScaleB_${rr}`];
-                        delete settings[`fontColor_${rr}`];
-                        delete settings[`colorBold_${rr}`];
-                        delete settings[`colorItalic_${rr}`];
-                        delete settings[`colorLine_${rr}`];
+                        delete settings[`colorName_${i}`];
+                        delete settings[`alongAScaleA_${i}`];
+                        delete settings[`alongAScaleB_${i}`];
+                        delete settings[`fontColor_${i}`];
+                        delete settings[`colorBold_${i}`];
+                        delete settings[`colorItalic_${i}`];
+                        delete settings[`colorLine_${i}`];
                     } // End of for loop
                 } // End of previousRuleInstance
 
