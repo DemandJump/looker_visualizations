@@ -1491,14 +1491,13 @@ looker.plugins.visualizations.add({
           for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
           rowData.forEach( (row, index) => {
               for(let i = 0; i < row.length; i++) {
-                  if (row[i].type == 'measures') {
-                      if (index == 0) {
-                          maxAndMin[i].min = row[i].value;
-                          maxAndMin[i].max = row[i].value;
-                      } else {
-                          if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
-                          if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
-                      }
+                  if (index == 0) {
+                      maxAndMin[i].name = row[i].name;
+                      maxAndMin[i].min = row[i].value;
+                      maxAndMin[i].max = row[i].value;
+                  } else {
+                      if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
+                      if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
                   }
               }
           });
