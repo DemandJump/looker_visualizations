@@ -1031,8 +1031,7 @@ looker.plugins.visualizations.add({
                 d[`rule_${rr}`] = ruleData(d, rule);
                 console.log('This is maxandmin', maxAndMin);
                 console.log('This is d', d);
-                console.log('This is d.column', d.column);
-                let stats = maxAndMin[parseInt(d.column - 1)];
+                let stats = maxAndMin[parseIntd.column];
                 console.log('This is stats', stats);
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
@@ -1375,11 +1374,11 @@ looker.plugins.visualizations.add({
                         row[i].tiled = false;
                     }
                     row[i].row = index;
-                    
-                    counter++;
-                    if (counter == columnLength + 1) counter = 0;
-                    row[i].column = counter;
                 }
+            });
+
+            rowData.forEach((row, index) => {
+                for(let i = 0; i < row.length; i++) row[i].column = i;
             });
         }
 
