@@ -761,7 +761,7 @@ looker.plugins.visualizations.add({
             if (config[`ruleInstances`]) {
                 for(let i = 0; i < config[`ruleInstances`].rules; i++) {
                     let rule = {};
-                    rule[`applyFormattingTo`] = [];
+                    rule[`measures`] = [];
                     rule[`format`] = '';
                     rule[`numberInput`] = 0;
                     rule[`between`] = {num1: 0, num2: 0};
@@ -770,12 +770,14 @@ looker.plugins.visualizations.add({
 
                     // Grab the measures that apply to this rule
                     if (config[`applyFormattingTo_${rr}`] == 'all') rule['measures'] = allMeasures;
+                    console.log('These are all measures', allMeasures);
                     if (config[`applyFormattingTo_${rr}`] == 'selectFields') {
-                        let measures = [];
+                        let selectMeasures = [];
                         for(let i = 0; i < config[`fieldAmount_${rr}`]; i++) {
-                            if(config[`formatField${i}_${rr}`] != 'none') measures.push(config[`formatField${i}_${rr}`]);
+                            if(config[`formatField${i}_${rr}`] != 'none') selectMeasures.push(config[`formatField${i}_${rr}`]);
                         }
-                        rule['measures'] = measures;
+                        console.log('These are the select measures', selectMeasures);
+                        rule['measures'] = selectMeasures;
                     }
 
                     if (config[`format_${rr}`]) rule['format'] = config[`format_${rr}`];
@@ -784,6 +786,10 @@ looker.plugins.visualizations.add({
 
                     if (config[`alongAScaleA_${rr}`]) rule['alongAScale'].color1 = config[`alongAScaleA_${rr}`];
                     if (config[`alongAScaleB_${rr}`]) rule['alongAScale'].color2 = config[`alongAScaleB_${rr}`];
+
+                    console.log(`This is colorBold_${rr}`, config[`colorBold_${rr}`]);
+                    console.log(`This is colorItalic_${rr}`, config[`colorItalic_${rr}`]);
+                    console.log(`This is colorLine_${rr}`, config[`colorLine_${rr}`]);
                     
                     if (config[`displayColor_${rr}`]) rule['notAlongAScale'].backgroundColor = config[`displayColor_${rr}`];
                     if (config[`fontColor_${rr}`]) rule['notAlongAScale'].fontColor = config[`fontColor_${rr}`];
