@@ -335,18 +335,18 @@ looker.plugins.visualizations.add({
         // }
 
         // Build the configuration, then show/hide the configuration settings
-        console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
-        console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
-        console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
-        console.log(`Config setting: formatBetween_${rr}`, config[`formatBetween_${rr}`]);
-        console.log(`Config setting: fieldAmount_${rr}`, config[`fieldAmount_${rr}`]);
-        console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
-        console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
-        console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
-        console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
-        console.log(`Config setting: colorItalic_${rr}`, config[`colorItalic_${rr}`]);
-        console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
-        for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
+        // console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
+        // console.log(`Config setting: applyFormattingTo_${rr}`, config[`applyFormattingTo_${rr}`]);
+        // console.log(`Config setting: format_${rr}`, config[`format_${rr}`]);
+        // console.log(`Config setting: formatBetween_${rr}`, config[`formatBetween_${rr}`]);
+        // console.log(`Config setting: fieldAmount_${rr}`, config[`fieldAmount_${rr}`]);
+        // console.log(`Config setting: alongAScaleA_${rr}`, config[`alongAScaleA_${rr}`]);
+        // console.log(`Config setting: alongAScaleB_${rr}`, config[`alongAScaleB_${rr}`]);
+        // console.log(`Config setting: displayColor_${rr}`, config[`displayColor_${rr}`]);
+        // console.log(`Config setting: colorBold_${rr}`, config[`colorBold_${rr}`]);
+        // console.log(`Config setting: colorItalic_${rr}`, config[`colorItalic_${rr}`]);
+        // console.log(`Config setting: colorLine_${rr}`, config[`colorLine_${rr}`]);
+        // for(let i = 0; i < measures.length; i++) {console.log(`Config setting: formatField${i}_${rr}`, config[`formatField${i}_${rr}`]);}
 
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
@@ -780,9 +780,15 @@ looker.plugins.visualizations.add({
                         rule['measures'] = selectMeasures;
                     }
 
+                    console.log(`formatNumberInput_${rr}`, config[`formatNumberInput_${rr}`]);
+                    console.log(`formatBetween_${rr} num1`, config[`formatBetween_${rr}`].num1);
+                    console.log(`formatBetween_${rr} num2`, config[`formatBetween_${rr}`].num2);
+                    let formatNumberInput = config[`formatNumberInput_${rr}`];
+                    let formatBetween1 = config[`formatBetween_${rr}`].num1;
+                    let formatBetween2 = config[`formatBetween_${rr}`].num2; 
                     if (config[`format_${rr}`]) rule['format'] = config[`format_${rr}`];
-                    if (config[`formatNumberInput_${rr}`]) rule['numberInput'] = config[`formatNumberInput_${rr}`];
-                    if (config[`formatBetween_${rr}`]) rule['between'] = {num1: config[`formatBetween_${rr}`].num1, num2: config[`formatBetween_${rr}`].num2};
+                    if (config[`formatNumberInput_${rr}`]) rule['numberInput'] = formatNumberInput;
+                    if (config[`formatBetween_${rr}`]) rule['between'] = {num1: formatBetween1, num2: formatBetween2};
 
                     if (config[`alongAScaleA_${rr}`]) rule['alongAScale'].color1 = config[`alongAScaleA_${rr}`];
                     if (config[`alongAScaleB_${rr}`]) rule['alongAScale'].color2 = config[`alongAScaleB_${rr}`];
@@ -790,7 +796,7 @@ looker.plugins.visualizations.add({
                     let bold = config[`colorBold_${rr}`];
                     let italic = config[`colorItalic_${rr}`];
                     let line = config[`colorLine_${rr}`];
-                    
+
                     if (config[`displayColor_${rr}`]) rule['notAlongAScale'].backgroundColor = config[`displayColor_${rr}`];
                     if (config[`fontColor_${rr}`]) rule['notAlongAScale'].fontColor = config[`fontColor_${rr}`];
                     if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = bold;
