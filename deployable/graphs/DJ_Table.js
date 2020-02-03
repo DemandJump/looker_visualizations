@@ -764,7 +764,7 @@ looker.plugins.visualizations.add({
                     rule[`numberInput`] = 0;
                     rule[`between`] = {num1: '', num2: ''};
                     rule[`alongAScale`] = {color1: '', color2: ''};
-                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: '', italic: '', line: ''};
+                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: false, italic: false, line: false};
 
                     // Grab the measures that apply to this rule
                     if (config[`applyFormattingTo_${rr}`] == 'all') {
@@ -1001,7 +1001,6 @@ looker.plugins.visualizations.add({
         } // End of colorConfigureRows
 
         function ruleOperations(rule, d) {
-            console.log('ruleOperations: This is the rule', rule);
             console.log('This is the row', d); 
             if (rule.format == 'equalTo') {
                 if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
@@ -1033,13 +1032,11 @@ looker.plugins.visualizations.add({
                 // Convert hex to rgb
                 let color1 = hexToRgb(rule.alongAScale.color1);
                 let color2 = hexToRgb(rule.alongAScale.color2);
-                console.log('This is color1', color1);
-                console.log('This is color2', color2);
                 // grab the color steps
                 let newColorNumbers = interpolateColors(color1, color2, 4);
-                console.log('New color steps', newColorNumbers);
                 let newColors = [];
                 newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
+                console.log('Printed rgb colors to pass in', newColorNumbers);
 
                 // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
@@ -1513,7 +1510,7 @@ looker.plugins.visualizations.add({
           }
           maxAndMin = maxAndMin.splice(dimensions.length+1, measures.length);
       } // End of findMaxAndMin
-      
+
 
 
 
