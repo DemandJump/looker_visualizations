@@ -327,12 +327,12 @@ looker.plugins.visualizations.add({
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
-        this.options = settings;
-        if (changed) {
-            changed = false;
-            console.log('Rebuilding the settings');
-            this.trigger('registerOptions', settings);
-        }
+        // this.options = settings;
+        // if (changed) {
+        //     changed = false;
+        //     console.log('Rebuilding the settings');
+        //     this.trigger('registerOptions', settings);
+        // }
 
         // Build the configuration, then show/hide the configuration settings
         console.log(`Config setting: ruleName_${rr}`, config[`ruleName_${rr}`]);
