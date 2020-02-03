@@ -970,7 +970,9 @@ looker.plugins.visualizations.add({
         let maxAndMin = [];
         findMaxAndMin();
 
-        colorConfigureRows();
+        rowData.forEach(rows => {
+            for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
+        });
 
         /***************************************
          * Apply the config to the table
