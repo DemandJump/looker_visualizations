@@ -1,5 +1,7 @@
 // import * as d3 from 'd3';
 console.log("Rendering dj table");
+let globalvar = 14;
+console.log('This is a global variable:', globalvar);
 
 looker.plugins.visualizations.add({
     id: "dj_table",
@@ -315,7 +317,6 @@ looker.plugins.visualizations.add({
         let previousNumberInputLabel = this._previousNumberInputLabel;
         let previousRuleInstances = this._previousRuleInstances;
         let changed = false;
-        let changedRule = false;
         let allMeasures = [];
         measures.forEach(mes => {allMeasures.push(mes.name)});
         let ruleInstances = 1;
@@ -361,7 +362,7 @@ looker.plugins.visualizations.add({
         console.log('This is the rule data!', rules);
         
 
-
+        console.log('This is a global variable', this.globalvar);
 
 
 
@@ -966,7 +967,8 @@ looker.plugins.visualizations.add({
         }
 
         includeNulls();
-
+        let maxAndMin = [];
+        findMaxAndMin();
 
         /***************************************
          * Apply the config to the table
@@ -1027,12 +1029,19 @@ looker.plugins.visualizations.add({
                 let color2 = hexToRgb(rule.alongAScale.color2);
                 console.log('This is color1', color1);
                 console.log('This is color2', color2);
-                  // grab the color steps
-                let newColors = interpolateColors(color1, color2, 4);
-                console.log('New color steps', newColors);
+                // grab the color steps
+                let newColorNumbers = interpolateColors(color1, color2, 4);
+                console.log('New color steps', newColorNumbers);
+                let newColors = [];
+                newColorNumbers.forEach(number => newColors.push(`rgb(${number})`));
 
-                // find what step the value is currently at
-                  // append that color to the step
+                // find what step the value is currently at and append the color to the step
+                ruleData();
+                let stats = maxAndMin[d.column];
+                if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
+                if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
+                if (d.value <= stats.quartile3) d[`rule_${rr}`].color = newColors[2];
+                if (d.value <= stats.max) d[`rule_${rr}`].color = newColors[3];
             }
 
         } // end of ruleOperations
@@ -1074,8 +1083,7 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < steps; i++) interpolatedColorArray.push(interpolateColor(color1, color2, stepFactor * i));
             return interpolatedColorArray;
         }
-        
-        
+      
 
         /***************************************
          * Build the visual
@@ -1470,6 +1478,29 @@ looker.plugins.visualizations.add({
             if (config.rowNumbers == true) columnData[1].footerHtml = 'Totals';
             else columnData[0].footerHtml = 'Totals';
         }
+
+
+        function findMaxAndMin() {
+          for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
+          rowData.forEach( (row, index) => {
+              for(let i = 0; i < row.length; i++) {
+                  if (index == 0) {
+                      maxAndMin[i].min = row[i].value;
+                      maxAndMin[i].max = row[i].value;
+                  } else {
+                      if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
+                      if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
+                  }
+              }
+          });
+          for(let i = 0; i < rowData[0].length; i++) {
+              maxAndMin[i].quartile2 = (maxAndMin[i].min + maxAndMin[i].max) / 2;
+              let quarter = maxAndMin[i].quartile2 / 2;
+              maxAndMin[i].quartile1 = maxAndMin[i].quartile2 - quarter;
+              maxAndMin[i].quartile3 = maxAndMin[i].quartile2 + quarter;
+          }
+      } // End of findMaxAndMin
+
 
 
 
