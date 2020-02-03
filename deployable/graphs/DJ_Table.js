@@ -1511,7 +1511,7 @@ looker.plugins.visualizations.add({
               maxAndMin[i].quartile1 = maxAndMin[i].quartile2 - quarter;
               maxAndMin[i].quartile3 = maxAndMin[i].quartile2 + quarter;
           }
-          maxAndMin = maxAndMin(dimensions.length+1, measures.length);
+          maxAndMin = maxAndMin.splice(dimensions.length+1, measures.length);
       } // End of findMaxAndMin
 
 
