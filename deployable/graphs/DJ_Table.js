@@ -980,24 +980,14 @@ looker.plugins.visualizations.add({
         function colorConfigureRows(d) {
             // Iterate through each of the rules and append data to change the rows based on the rules
             rules.forEach((rule, rr) => {
-
                 if (d.type == 'measures') {
                     d[`rule_${rr}`] = false;
-                    // Then if it matches one of the row names, check the data and append ruleConfig to it
-                    if (rule.allFields) {
-                        ruleOperations(rule, d, rr);
-                    } else {
-                        for(let j = 0; j < rule.measures.length; j++) {
-                            // If it matches any of the measures
-                            if(d.name == rule.measures[j]) {
-                                ruleOperations(rule, d, rr);
-                            }
-                        } // for loop for selected measures
-                    } // End of else statement
+                    for(let j = 0; j < rule.measures.length; j++) {
+                        if(d.name == rule.measures[j]) ruleOperations(rule, d, rr);
+                    } 
+                } 
 
-
-                } // end of d.type == measures
-            }); // End of rules.forEach
+            }); 
         } // End of colorConfigureRows
 
         function ruleOperations(rule, d, rr) {
@@ -1040,6 +1030,7 @@ looker.plugins.visualizations.add({
                 // find what step the value is currently at and append the color to the step
                 d[`rule_${rr}`] = ruleData(d, rule);
                 console.log('This is maxandmin', maxAndMin);
+                console.log('This is d', d);
                 console.log('This is d.column', d.column);
                 let stats = maxAndMin[parseInt(d.column - 1)];
                 console.log('This is stats', stats);
