@@ -662,15 +662,17 @@ looker.plugins.visualizations.add({
 
               for(let i = 0; i < measures.length; i++) { 
                   console.log(`created formatField${i}_${rr}`);
-                  settings[`formatField${i}_${rr}`] = {
-                      order: 13 + (i/10) + (rr * 30),
-                      section: 'Formatting',
-                      display: 'select',
-                      type: 'string',
-                      values: measureNames, 
-                      default: 'none',
-                      hidden: true
-                  };
+                  if (!settings[`formatField${i}_${rr}`]) {
+                      settings[`formatField${i}_${rr}`] = {
+                          order: 13 + (i/10) + (rr * 30),
+                          section: 'Formatting',
+                          display: 'select',
+                          type: 'string',
+                          values: measureNames, 
+                          default: 'none',
+                          hidden: true
+                      };
+                  }
               }
           }
 
