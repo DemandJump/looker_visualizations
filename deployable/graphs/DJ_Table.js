@@ -1513,6 +1513,7 @@ looker.plugins.visualizations.add({
           }
           maxAndMin = maxAndMin.splice(dimensions.length+1, measures.length);
       } // End of findMaxAndMin
+      
 
 
 
