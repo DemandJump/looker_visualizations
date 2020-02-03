@@ -1094,11 +1094,11 @@ looker.plugins.visualizations.add({
                 .on('click', d => openDropDown(d));
 
           // Rule settings appending into the visual
-        cells
-            .style('background-color', d => colorRules(d))
-            .style('color', d => fontColorRules(d))
-            .style('font-weight', d => fontBoldRules(d))
-            .style('text-decoration', d => italicLineRules(d));
+        // cells
+        //     .style('background-color', d => colorRules(d))
+        //     .style('color', d => fontColorRules(d))
+        //     .style('font-weight', d => fontBoldRules(d))
+        //     .style('text-decoration', d => italicLineRules(d));
 
         buildTotalsFooter();
 
