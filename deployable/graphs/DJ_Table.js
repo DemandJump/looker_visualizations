@@ -1491,16 +1491,17 @@ looker.plugins.visualizations.add({
 
 
         function findMaxAndMin() {
-          for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
+          // for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
           rowData.forEach( (row, index) => {
               for(let i = 0; i < row.length; i++) {
                   if (row[i].type == 'measures') {
+                      let obj = {};
                       if (index == 0) {
-                          maxAndMin[i].min = row[i].value;
-                          maxAndMin[i].max = row[i].value;
+                          obj.min = row[i].value;
+                          obj.max = row[i].value;
                       } else {
-                          if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
-                          if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
+                          if (obj.min > row[i].value) obj.min = row[i].value;
+                          if (obj.max < row[i].value) obj.max = row[i].value;
                       }
                   }
               }
