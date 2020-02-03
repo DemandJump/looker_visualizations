@@ -970,6 +970,8 @@ looker.plugins.visualizations.add({
         let maxAndMin = [];
         findMaxAndMin();
 
+        colorConfigureRows();
+
         /***************************************
          * Apply the config to the table
         ***************************************/
@@ -1075,6 +1077,8 @@ looker.plugins.visualizations.add({
             for (let i = 0; i < 3; i++) result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
             return result;
         }
+
+
         function interpolateColors(color1, color2, steps) {
             let stepFactor = 1 / (steps - 1);
             let interpolatedColorArray = [];
