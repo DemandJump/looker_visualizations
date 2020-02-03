@@ -766,7 +766,7 @@ looker.plugins.visualizations.add({
                     rule[`numberInput`] = 0;
                     rule[`between`] = {num1: 0, num2: 0};
                     rule[`alongAScale`] = {color1: '', color2: ''};
-                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: '', italic: '', line: ''};
+                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: false, italic: false, line: false};
 
                     // Grab the measures that apply to this rule
                     if (config[`applyFormattingTo_${rr}`] == 'all') rule['measures'] = allMeasures;
@@ -787,10 +787,6 @@ looker.plugins.visualizations.add({
                     if (config[`alongAScaleA_${rr}`]) rule['alongAScale'].color1 = config[`alongAScaleA_${rr}`];
                     if (config[`alongAScaleB_${rr}`]) rule['alongAScale'].color2 = config[`alongAScaleB_${rr}`];
 
-                    console.log(`This is colorBold_${rr}`, config[`colorBold_${rr}`]);
-                    console.log(`This is colorItalic_${rr}`, config[`colorItalic_${rr}`]);
-                    console.log(`This is colorLine_${rr}`, config[`colorLine_${rr}`]);
-                    
                     if (config[`displayColor_${rr}`]) rule['notAlongAScale'].backgroundColor = config[`displayColor_${rr}`];
                     if (config[`fontColor_${rr}`]) rule['notAlongAScale'].fontColor = config[`fontColor_${rr}`];
                     if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = config[`colorBold_${rr}`];
