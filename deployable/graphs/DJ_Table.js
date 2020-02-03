@@ -1041,7 +1041,7 @@ looker.plugins.visualizations.add({
                 d[`rule_${rr}`] = ruleData(d, rule);
                 console.log('This is maxandmin', maxAndMin);
                 console.log('This is d.column - dimensions.length', d.column - dimensions.length);
-                let stats = maxAndMin[d.column - (dimensions.length - 1)];
+                let stats = maxAndMin[d.column - (dimensions.length + 1)];
                 console.log('This is stats', stats);
                 if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
                 if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
