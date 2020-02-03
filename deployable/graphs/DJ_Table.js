@@ -777,6 +777,12 @@ looker.plugins.visualizations.add({
             if (config[`ruleInstances`]) {
                 for(let i = 0; i < config[`ruleInstances`].rules; i++) {
                     let rule = {};
+                    rule[`applyFormattingTo`] = [];
+                    rule[`format`] = '';
+                    rule[`numberInput`] = 0;
+                    rule[`between`] = {num1: 0, num2: 0};
+                    rule[`alongAScale`] = {color1: '', color2: ''};
+                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: '', italic: '', line: ''};
 
                     // Grab the measures that apply to this rule
                     if (config[`applyFormattingTo_${rr}`] == 'all') rule['measures'] = allMeasures;
@@ -788,19 +794,18 @@ looker.plugins.visualizations.add({
                         rule['measures'] = measures;
                     }
 
-                    rule['format'] = config[`format_${rr}`];
-                    rule['numberInput'] = config[`formatNumberInput_${rr}`];
-                    rule['between'] = {num1: config[`formatBetween_${rr}`].num1, num2: config[`formatBetween_${rr}`].num2};
-                    rule['alongAScale'] = {color1: config[`alongAScaleA_${rr}`], color2: config[`alongAScaleB_${rr}`]};
-                    let fontColor = '#404040'; // If the vall is null it won't show in config ;p
-                    if (config[`fontColor_${rr}`]) fontColor = config[`fontColor_${rr}`];
-                    rule['notAlongAScale'] = {
-                        backgroundColor: config[`displayColor_${rr}`],
-                        fontColor: fontColor,
-                        bold: config[`colorBold_${rr}`],
-                        italic: config[`colorItalic_${rr}`],
-                        line: config[`colorLine_${rr}`]
-                    };
+                    if (config[`format_${rr}`]) rule['format'] = config[`format_${rr}`];
+                    if (config[`formatNumberInput_${rr}`]) rule['numberInput'] = config[`formatNumberInput_${rr}`];
+                    if (config[`formatBetween_${rr}`]) rule['between'] = {num1: config[`formatBetween_${rr}`].num1, num2: config[`formatBetween_${rr}`].num2};
+
+                    if (config[`alongAScaleA_${rr}`]) rule['alongAScale'].color1 = config[`alongAScaleA_${rr}`];
+                    if (config[`alongAScaleB_${rr}`]) rule['alongAScale'].color2 = config[`alongAScaleB_${rr}`];
+                    
+                    if (config[`displayColor_${rr}`]) rule['notAlongAScale'].backgroundColor = config[`displayColor_${rr}`];
+                    if (config[`fontColor_${rr}`]) rule['notAlongAScale'].fontColor = config[`fontColor_${rr}`];
+                    if (config[`colorBold_${rr}`]) rule['notAlongAScale'].bold = config[`colorBold_${rr}`];
+                    if (config[`colorItalic_${rr}`]) rule['notAlongAScale'].italic = config[`colorItalic_${rr}`];
+                    if (config[`colorLine_${rr}`]) rule['notAlongAScale'].line = config[`colorLine_${rr}`]; 
                     
                     rules.push(rule);
                 } // End of data for one rule
