@@ -1093,6 +1093,7 @@ looker.plugins.visualizations.add({
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
 
+          // Rule settings appending into the visual
         cells
             .style('background-color', d => colorRules(d))
             .style('color', d => fontColorRules(d))
