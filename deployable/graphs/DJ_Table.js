@@ -302,6 +302,11 @@ looker.plugins.visualizations.add({
         let dropDown = true;
         let currentDropdown;
         let rr = 0;
+        const hexToRgb = hex =>
+          hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+                      ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+              .substring(1).match(/.{2}/g)
+              .map(x => parseInt(x, 16));
 
             // Store those names, then iterate the data into rowData
         dimensions.forEach(dim => columnNames.push(dim.name));
@@ -1056,13 +1061,13 @@ looker.plugins.visualizations.add({
         }
       
         
-        function hexToRgb(hex) {
-            hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
-                      ,(m, r, g, b) => '#' + r + r + g + g + b + b)
-              .substring(1).match(/.{2}/g)
-              .map(x => parseInt(x, 16))
-            return hex;
-        }
+        // function hexToRgb(hex) {
+        //     hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i
+        //               ,(m, r, g, b) => '#' + r + r + g + g + b + b)
+        //       .substring(1).match(/.{2}/g)
+        //       .map(x => parseInt(x, 16))
+        //     return hex;
+        // }
 
        
         function interpolateColor(color1, color2, factor) {
