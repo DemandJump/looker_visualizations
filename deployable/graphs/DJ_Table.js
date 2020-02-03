@@ -398,7 +398,7 @@ looker.plugins.visualizations.add({
         function initializeBasicRules() {
             if (!settings[`spacing_${rr}`]) {
                 settings[`spacing_${rr}`] = {
-                    order: 11.02 * (rr*4),
+                    order: 11.02 + (rr * 30),
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
@@ -412,7 +412,7 @@ looker.plugins.visualizations.add({
                 console.log(`created ruleName_${rr}`);
                 changed = true;
                 settings[`ruleName_${rr}`] = {
-                    order: 12.001 * (rr*4),
+                    order: 12.001 + (rr * 30),
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
@@ -427,7 +427,7 @@ looker.plugins.visualizations.add({
                 changed = true;
                 settings[`applyFormattingTo_${rr}`] = {
                     label: 'Apply to',
-                    order: 12.01 * (rr*4),
+                    order: 12.01 + (rr * 30),
                     section: 'Formatting',
                     display: 'select',
                     type: 'string',
@@ -445,7 +445,7 @@ looker.plugins.visualizations.add({
                 changed = true;
                 settings[`format_${rr}`] = {
                     label: 'Format',
-                    order: 16 * (rr*4),
+                    order: 16 + (rr * 30),
                     section: 'Formatting',
                     display: 'select',
                     type: 'string',
@@ -470,7 +470,7 @@ looker.plugins.visualizations.add({
                 changed = true;
                 settings[`formatNumberInput_${rr}`] = {
                     label: ' ',
-                    order: 17 * (rr*4),
+                    order: 17 + (rr * 30),
                     section: 'Formatting',
                     type: 'string',
                     placeholder: 'Enter value',
@@ -482,7 +482,7 @@ looker.plugins.visualizations.add({
                 console.log(`created formatBetween_${rr}`);
                 changed = true;
                 settings[`formatBetween_${rr}`] = {
-                    order: 17 * (rr*4),
+                    order: 17 + (rr * 30),
                     section: 'Formatting',
                     type: 'sentence_maker',
                     words: [
@@ -512,7 +512,7 @@ looker.plugins.visualizations.add({
 
                 settings[`fieldAmount_${rr}`] = {
                     label: 'Select the field amount',
-                    order: 12.1 * (rr*4),
+                    order: 12.1 + (rr * 30),
                     section: 'Formatting',
                     display: 'select',
                     type: 'string',
@@ -537,7 +537,7 @@ looker.plugins.visualizations.add({
             if (!settings[`colorName_${rr}`]) {
                 console.log(`created colorName_${rr}`);
                 settings[`colorName_${rr}`] = {
-                    order: 18 * (rr*4),
+                    order: 18 + (rr * 30),
                     type: 'string',
                     display: 'sentence_maker',
                     words: [
@@ -550,7 +550,7 @@ looker.plugins.visualizations.add({
                 console.log(`created alongAScaleA_${rr}`);
                 settings[`alongAScaleA_${rr}`] = {
                     label: 'Palette Between',
-                    order: 18.04 * (rr*4),
+                    order: 18.04 + (rr * 30),
                     type: 'string',
                     section: 'Formatting', 
                     display: 'color',
@@ -564,7 +564,7 @@ looker.plugins.visualizations.add({
                 console.log(`created alongAScaleB_${rr}`);
                 settings[`alongAScaleB_${rr}`] = {
                     label: 'and',
-                    order: 18.1 * (rr*4),
+                    order: 18.1 + (rr * 30),
                     type: 'string', 
                     section: 'Formatting',
                     display: 'color',
@@ -579,7 +579,7 @@ looker.plugins.visualizations.add({
                 console.log(`created displayColor_${rr}`);
                 settings[`displayColor_${rr}`] = {
                     label: 'Display Color',
-                    order: 18.04 * (rr*4),
+                    order: 18.04 + (rr * 30),
                     type: 'string',
                     section: 'Formatting',
                     display: 'color',
@@ -593,7 +593,7 @@ looker.plugins.visualizations.add({
                 console.log(`created fontColor_${rr}`);
                 settings[`fontColor_${rr}`] = {
                     label: 'Font Color',
-                    order: 18.05 * (rr*4),
+                    order: 18.05 + (rr * 30),
                     type: 'string', 
                     section: 'Formatting',
                     display: 'color',
@@ -607,7 +607,7 @@ looker.plugins.visualizations.add({
                 console.log(`created colorBold_${rr}`);
                 settings[`colorBold_${rr}`] = {
                     label: 'Bold Text',
-                    order: 18.1 * (rr*4),
+                    order: 18.1 + (rr * 30),
                     type: 'boolean', 
                     section: 'Formatting',
                     default: false,
@@ -620,7 +620,7 @@ looker.plugins.visualizations.add({
                 console.log(`created colorItalic_${rr}`);
                 settings[`colorItalic_${rr}`] = {
                     label: 'Italic Text',
-                    order: 18.2 * (rr*4),
+                    order: 18.2 + (rr * 30),
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
@@ -633,7 +633,7 @@ looker.plugins.visualizations.add({
                 console.log(`created colorLine_${rr}`);
                 settings[`colorLine_${rr}`] = {
                     label: 'Line Through Text',
-                    order: 18.3 * (rr*4),
+                    order: 18.3 + (rr * 30),
                     type: 'boolean',
                     section: 'Formatting',
                     default: false,
@@ -662,7 +662,7 @@ looker.plugins.visualizations.add({
               for(let i = 0; i < measures.length; i++) { 
                   console.log(`created formatField${i}_${rr}`);
                   settings[`formatField${i}_${rr}`] = {
-                      order: (13 + (i/10)) * (rr*4),
+                      order: 13 + (i/10) + (rr * 30),
                       section: 'Formatting',
                       display: 'select',
                       type: 'string',
