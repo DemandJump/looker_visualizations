@@ -1026,9 +1026,9 @@ looker.plugins.visualizations.add({
 
                 // Convert hex to rgb
                 let colorOne = hexToRgb(rule.alongAScale.color1);
-                let colorTwo = hexToRgb(rule.alongAScale.color2);
-                console.log('color1', colorOne);
-                console.log('color2', colorTwo);
+                let colorTwo = hexToRgb(rule.alongAScale.color2);\
+                colorOne = `rgb(${colorOne[0]}, ${colorOne[1]}, ${colorOne[2]})`;
+                colorTwo = `rgb(${colorTwo[0]}, ${colorTwo[1]}, ${colorTwo[2]})`;
                 // grab the color steps
                 let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
                 console.log('newColorNumbers', newColorNumbers);
