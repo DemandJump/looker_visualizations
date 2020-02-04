@@ -142,7 +142,6 @@ looker.plugins.visualizations.add({
               
           /* Inside cell spacing */
       td, th {
-          text-decoration: none;
           font-weight: normal;
       }
 
@@ -416,8 +415,8 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorRules(d, false))
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
-                .style('font-style', d => fontStyleRules(d))
-                // .style('text-decoration', d => italicLineRules(d))
+                // .style('font-style', d => fontStyleRules(d))
+                .style('text-decoration', d => italicLineRules(d))
                 .style('max-width', '540px')
                 .style('text-overflow', 'ellipsis')
                 .style('text-align', d => textAlign(d))
