@@ -279,6 +279,9 @@ looker.plugins.visualizations.add({
             .style('position', 'relative');
 
     },
+    dimensionRefresh: function() {
+
+    }
     
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
@@ -353,8 +356,8 @@ looker.plugins.visualizations.add({
           }
           
 
-          console.log('Waiting');
-          sleep(1400);
+          // console.log('Waiting');
+          // sleep(1400);
           console.log('Done waiting, building rules and table');
           // Build and append the rules to the data
           let rules = [];
@@ -380,7 +383,9 @@ looker.plugins.visualizations.add({
         let totals_data = queryResponse.totals_data;
         let maxAndMin = [];
         let table = this._table;
-        let header, tablebody, cells, rows
+        let header, tablebody, cells, rows;
+        let that = this; 
+        console.log('This', that);
 
         main();
         function main() {
@@ -399,11 +404,7 @@ looker.plugins.visualizations.add({
             if (queryResponse.totals_data) totalsData();
 
             configureStyleSettings();
-            // if (this._dimensions != dimensions.length) { 
-            //     console.log('dimensions changed!');
-            //     this._dimensions = dimensions.length;
-            //     this.trigger('registerOptions', settings);
-            // }
+            dimensionRefresh
 
             includeNulls();
             findMaxAndMin();
