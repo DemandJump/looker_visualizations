@@ -1090,14 +1090,7 @@ looker.plugins.visualizations.add({
 
 
         function colorRules(d) {
-            // Rule colors rules
-            for(let rr = 0; rr < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) {
-                    d.currentColor = d[`rule_${rr}`].color;
-                    return d[`rule_${rr}`].color;
-                }
-            }
-            // Normal color rules
+            // Header color rules
             if (config.tableTheme == 'classic') {
                 if (d.type == 'dimension_headers' || d.type == 'index_header') {
                     d.currentColor = `#CCD8E4`;
@@ -1114,6 +1107,15 @@ looker.plugins.visualizations.add({
                 }
             }
 
+            // Rule colors rules
+            for(let rr = 0; rr < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) {
+                    d.currentColor = d[`rule_${rr}`].color;
+                    return d[`rule_${rr}`].color;
+                }
+            }
+
+            // Normal color rules
             if (d.tiled) {
                 if (config.tableTheme == 'classic') {
                     if (d.type == 'dimensions') {
