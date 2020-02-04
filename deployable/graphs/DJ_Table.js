@@ -668,9 +668,7 @@ looker.plugins.visualizations.add({
         function fontBoldRules(d) {
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) { 
-                    if (d[`rule_${rr}`].bold) {
-                        if (d[`rule_${rr}`].bold == true) return 'bold';
-                    }
+                    if (d[`rule_${rr}`].bold) return 'bold';
                 }
             }
             return `normal`;
@@ -680,9 +678,7 @@ looker.plugins.visualizations.add({
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic) {
-                        if (d[`rule_${rr}`].italic == true) return 'italic';
-                    }
+                    if (d[`rule_${rr}`][`notAlongAScale`].italic) return 'italic';
                 }
             }
             return `normal`;
@@ -692,9 +688,7 @@ looker.plugins.visualizations.add({
         function italicLineRules(d) {
             for(let i = 0; i < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic) {
-                        if (d[`rule_${rr}`].italic == true) return 'line-through';
-                    } 
+                    if (d[`rule_${rr}`][`notAlongAScale`].italic) return 'line-through';
                 }
             }
             return `initial`;
