@@ -143,6 +143,7 @@ looker.plugins.visualizations.add({
           /* Inside cell spacing */
       td, th {
           font-weight: normal;
+          text-decoration: none;
       }
 
       td {
@@ -415,8 +416,8 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorRules(d, false))
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
-                .style('font-style', d => fontStyleRules(d))
-                .style('text-decoration', d => lineRules(d))
+                // .style('font-style', d => fontStyleRules(d))
+                // .style('text-decoration', d => lineRules(d))
                 .style('max-width', '540px')
                 .style('text-overflow', 'ellipsis')
                 .style('text-align', d => textAlign(d))
@@ -676,23 +677,17 @@ looker.plugins.visualizations.add({
 
         
         function fontStyleRules(d) {
-            if (d[`rule_${rr}`]) {
-                console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
-                console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
-                console.log('This is is italic', d[`rule_${rr}`].notAlongAScale.italic);
-            }
-            for(let i = 0; i < ruleInstances; rr++) {}
+            console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
+            console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
+            console.log('This is is italic', d[`rule_${rr}`].notAlongAScale.italic);
             return `normal`;
         }
 
 
         function lineRules(d) {
-            if (d[`rule_${rr}`]) {
-                console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
-                console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
-                console.log('This is is line', d[`rule_${rr}`].notAlongAScale.line);
-            }
-            for(let i = 0; i < ruleInstances; rr++) {}
+            console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
+            console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
+            console.log('This is is line', d[`rule_${rr}`].notAlongAScale.line);
             return `initial`;
         } // End of lineRules
 
