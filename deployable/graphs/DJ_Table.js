@@ -278,6 +278,12 @@ looker.plugins.visualizations.add({
             .attr('class', 'table')
             .style('position', 'relative');
 
+        d3.select(element).append('div')
+            .attr('class', 'embeddedImage')
+            .html(d => {
+                `<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`
+            });
+
     },
     
 
