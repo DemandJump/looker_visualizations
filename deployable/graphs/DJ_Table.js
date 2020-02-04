@@ -411,7 +411,7 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorRules(d, false)) 
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
-                .style('font-style', d => fontStyleRules(d))
+                .style('font-style', (d, index) => fontStyleRules(d, index))
                 .style('text-decoration', d => lineRules(d))
                   .style('max-width', '540px')
                   .style('text-overflow', 'ellipsis')
@@ -669,10 +669,12 @@ looker.plugins.visualizations.add({
         
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; i++) {
+                console.log(`This is the current rule ${d.currentRule}, and this is the index: ${index}`);
                 console.log('This is d', d[`rule_${rr}`]);
                 if (d[`rule_${rr}`] && d.currentRule == rr) {
                     if (d[`rule_${rr}`].italic == true) {
-                        return 'italic'; 
+                        return 'italic';
+                        break; 
                     }
                 }
             }
