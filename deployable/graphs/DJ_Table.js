@@ -413,7 +413,7 @@ looker.plugins.visualizations.add({
         cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                   .attr('class', d => d.type)
-                .style('background-color', d => colorRules(d, false)) // This is the rule data
+                .style('background-color', d => colorRules(d, false)) 
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
                 .style('font-style', d => fontStyleRules(d))
@@ -430,11 +430,11 @@ looker.plugins.visualizations.add({
         console.log('Through the visual, building the totals footer!');
         buildTotalsFooter();
         
-        // d3.select(element).append('div')
-        // .attr('class', 'embeddedImage')
-        // .html(d => {
-        //     `<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`
-        // });
+        d3.select(element).append('div')
+        .attr('class', 'embeddedImage')
+        .html(d => {
+            `<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`
+        });
         
         /***************************************
          * Functions section
@@ -484,12 +484,6 @@ looker.plugins.visualizations.add({
             } else {
                 d3.selectAll('footer').remove();
             }
-        }
-
-
-        function cellText(d) {
-            if(d.rendered) return d.rendered;
-            else return d.value;
         }
 
 
