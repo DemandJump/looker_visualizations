@@ -423,10 +423,6 @@ looker.plugins.visualizations.add({
 
         buildTotalsFooter();
         
-        d3.select('vis_holder').append('div')
-        .attr('class', 'embeddedImage')
-        .html(`<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`);
-        
         /***************************************
          * Functions section
         ***************************************/
@@ -499,6 +495,7 @@ looker.plugins.visualizations.add({
                 return `
                 <div class="dropdown">
                     <span>${value}</span>
+                    <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">
                     <div class="dropdown-content" id="r${d.row}c${d.column}">
                         ${linkHeader}
                         <ul class="ulDropdown">
