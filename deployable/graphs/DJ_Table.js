@@ -347,6 +347,7 @@ looker.plugins.visualizations.add({
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
             applyFormattingTo();
+            displayConfigurationSettings();
         }
 
         this._fieldChange = fieldChange;
@@ -356,9 +357,9 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
-            displayConfigurationSettings();
         }
 
+        this.options = settings;
         this._previousRuleName = previousRuleName;
         this._previousNumberInputLabel = previousNumberInputLabel;
         if (changed) {
