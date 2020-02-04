@@ -400,16 +400,6 @@ looker.plugins.visualizations.add({
         let table = this._table;
         let header, tablebody, cells, rows;
 
-
-        // This will save your cpu, and people trying to type in the configuration input in looker without your script crashing the config (^:;
-        // console.log('before');
-        // setTimeout(function(){
-        //     main();
-        // },1000);
-
-        // main();
-        // function main() {
-        //     table.selectAll("*").remove(); // Clear out the data before we add the vis
         /***************************************
          * Build the visual
         ***************************************/
@@ -433,7 +423,7 @@ looker.plugins.visualizations.add({
                 .style('max-width', '540px')
                 .style('background-color', d => colorRules(d, false))
                 .style('color', d => fontColorRules(d))
-                .style('font-weight', d => fontBoldRules(d))
+                // .style('font-weight', d => fontBoldRules(d))
                 .style('font-style', d => fontStyleRules(d))
                 // .style('text-decoration', d => italicLineRules(d))
                 .style('text-align', d => textAlign(d))
@@ -445,9 +435,6 @@ looker.plugins.visualizations.add({
 
         console.log('Through the visual, building the totals footer!');
         buildTotalsFooter();
-
-        // } // End of main
-        
         
         /***************************************
          * Functions section
