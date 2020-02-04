@@ -708,6 +708,7 @@ looker.plugins.visualizations.add({
             }
         } // End of changeRuleName
 
+
         function numberInputLabel() {
             if (config[`format_${rr}`] == 'equalTo') {
                 numberInputLabelChecker();
@@ -749,6 +750,7 @@ looker.plugins.visualizations.add({
                 }
             }
         } // End of numberInputLabel
+
 
         function grabRuleData() {
             // Grab all the info that's in each rule
@@ -961,6 +963,7 @@ looker.plugins.visualizations.add({
 
         configureStyleSettings();
         if (this._dimensions != dimensions.length) { 
+            console.log('dimensions changed!');
             this._dimensions = dimensions.length;
             this.trigger('registerOptions', settings);
         }
