@@ -690,7 +690,7 @@ looker.plugins.visualizations.add({
             if (d[`rule_${rr}`]) {
                 console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
                 console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
-                console.log('This is is line' d[`rule_${rr}`].notAlongAScale.line);
+                console.log('This is is line', d[`rule_${rr}`].notAlongAScale.line);
             }
             for(let i = 0; i < ruleInstances; rr++) {}
             return `initial`;
