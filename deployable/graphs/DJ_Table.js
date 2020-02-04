@@ -333,6 +333,7 @@ looker.plugins.visualizations.add({
 
         cleanupExtraRules();
         this._previousRuleInstances = previousRuleInstances;
+        sleep(1400);
 
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
@@ -358,8 +359,14 @@ looker.plugins.visualizations.add({
         console.log('This is the rule data!', rules);
         
 
-
-
+        // Give the computer a moment to breathe while you type in the config and stuff
+        function sleep(milliseconds) {
+          const date = Date.now();
+          let currentDate = null;
+          do {
+            currentDate = Date.now();
+          } while (currentDate - date < milliseconds);
+        }
 
 
 
