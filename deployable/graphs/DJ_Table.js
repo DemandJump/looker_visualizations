@@ -338,10 +338,10 @@ looker.plugins.visualizations.add({
             rr = i;
             cleanupExtraRules();
             this._previousRuleInstances = previousRuleInstances;
-            if (changed) {
-                this.options = settings;
-                this.trigger('registerOptions', settings);
-            }
+            // if (changed) {
+            //     this.options = settings;
+            //     this.trigger('registerOptions', settings);
+            // }
         }
 
         for(let i = 0; i < ruleInstances; i++) {
