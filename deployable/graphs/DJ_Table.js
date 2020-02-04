@@ -288,7 +288,6 @@ looker.plugins.visualizations.add({
     
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
-        this._table.selectAll("*").remove(); // Clear out the data before we add the vis
         console.log(`\n\n\n\n\n\n\n\n\n\nqueryResponse`, queryResponse);
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
@@ -420,6 +419,7 @@ looker.plugins.visualizations.add({
 
         // main();
         function main() {
+            table.selectAll("*").remove(); // Clear out the data before we add the vis
             /***************************************
              * Build the visual
             ***************************************/
@@ -444,7 +444,7 @@ looker.plugins.visualizations.add({
                     .style('background-color', d => colorRules(d, false))
                     .style('color', d => fontColorRules(d))
                     .style('font-weight', d => fontBoldRules(d))
-                    // .style('font-style', d => fontStyleRules(d))
+                    .style('font-style', d => fontStyleRules(d))
                     // .style('text-decoration', d => italicLineRules(d))
                     .style('text-align', d => textAlign(d))
                     .style('border-left', d => lbIndent(d))
