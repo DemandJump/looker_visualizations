@@ -378,16 +378,12 @@ looker.plugins.visualizations.add({
 
 
 
-        let sql = queryResponse.sql;
-        let columnData = [];
-        let totals_data = queryResponse.totals_data;
-        let maxAndMin = [];
-        let table = this._table;
-        let header, tablebody, cells, rows
-
+        
         /***************************************
          * Configuring the data
          ***************************************/
+        let sql = queryResponse.sql;
+        let columnData = [];
         findColumnOrder();
         // console.log('Column Order: ', columnOrder);
         
@@ -397,6 +393,7 @@ looker.plugins.visualizations.add({
         constructRowData();
         console.log('This is the row data', rowData);
         
+        let totals_data = queryResponse.totals_data;
         if (queryResponse.totals_data) totalsData();
         
         configureStyleSettings();
@@ -406,6 +403,7 @@ looker.plugins.visualizations.add({
           this.trigger('registerOptions', settings);
         }
         
+        let maxAndMin = [];
         includeNulls();
         findMaxAndMin();
         
@@ -413,6 +411,8 @@ looker.plugins.visualizations.add({
           for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
         });
         
+        let table = this._table;
+        let header, tablebody, cells, rows;
         main();
         function main() {
             /***************************************
