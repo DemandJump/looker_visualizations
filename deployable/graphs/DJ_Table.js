@@ -1059,7 +1059,7 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
                 .html(d => headerNames(d))
-                .style('background-color', d => colorTables(d))
+                .style('background-color', d => colorRules(d))
                 .style('border-left', (d, index) => thlbIndent(d, index));
 
         let tablebody = table.append("tbody");
