@@ -34,14 +34,6 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
-        ConvertLinksToImages:{
-            label: 'Convert links to images',
-            order: 4,
-            section: 'Plot',
-            type: 'boolean',
-            default: false,
-            hidden: false
-        },
 
         fullFieldName: {
             label: 'Show Full Field Name', 
@@ -490,10 +482,9 @@ looker.plugins.visualizations.add({
 
             // Check if the beginning is an image link or an embed link
             let text = `<span>${value}</span>`;
-            if (config.ConvertLinksToImages) {
-                let httpCheck = value.substr(0,6);
-                let embedCheck = value.substr(0,6);
-                if (httpCheck == 'https:' || embedCheck == 'data:i') text = `<img src="${value}">`;
+            if (value.includes('data:image/')) text = `<img src="${value}">`; // Embedded check
+            if (value.substr(0,8) == 'https://') {
+                if (value.includes('.png') || value.includes('.jpg') || value.includes('images?') || value.includes('images') || value.includes('img') || value.includes('Image') || value.includes('Img')) text = `<img src="${value}"`;
             }
 
             if (d.links) {
