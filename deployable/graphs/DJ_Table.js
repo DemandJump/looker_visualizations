@@ -18768,4 +18768,1229 @@ looker.plugins.visualizations.add({
       if (lArc === rArc) {
         detachCircle(lArc);
         rArc = createBeach(lArc.site);
+        beaches.insert(newArc, rArc);
+        newArc.edge = rArc.edge = createEdge(lArc.site, newArc.site);
+        attachCircle(lArc);
+        attachCircle(rArc);
+        return;
+      }
     
+      if (!rArc) { // && lArc
+        newArc.edge = createEdge(lArc.site, newArc.site);
+        return;
+      }
+    
+      // else lArc !== rArc
+      detachCircle(lArc);
+      detachCircle(rArc);
+    
+      var lSite = lArc.site,
+          ax = lSite[0],
+          ay = lSite[1],
+          bx = site[0] - ax,
+          by = site[1] - ay,
+          rSite = rArc.site,
+          cx = rSite[0] - ax,
+          cy = rSite[1] - ay,
+          d = 2 * (bx * cy - by * cx),
+          hb = bx * bx + by * by,
+          hc = cx * cx + cy * cy,
+          vertex = [(cy * hb - by * hc) / d + ax, (bx * hc - cx * hb) / d + ay];
+    
+      setEdgeEnd(rArc.edge, lSite, rSite, vertex);
+      newArc.edge = createEdge(lSite, site, null, vertex);
+      rArc.edge = createEdge(site, rSite, null, vertex);
+      attachCircle(lArc);
+      attachCircle(rArc);
+    }
+    
+    function leftBreakPoint(arc, directrix) {
+      var site = arc.site,
+          rfocx = site[0],
+          rfocy = site[1],
+          pby2 = rfocy - directrix;
+    
+      if (!pby2) return rfocx;
+    
+      var lArc = arc.P;
+      if (!lArc) return -Infinity;
+    
+      site = lArc.site;
+      var lfocx = site[0],
+          lfocy = site[1],
+          plby2 = lfocy - directrix;
+    
+      if (!plby2) return lfocx;
+    
+      var hl = lfocx - rfocx,
+          aby2 = 1 / pby2 - 1 / plby2,
+          b = hl / plby2;
+    
+      if (aby2) return (-b + Math.sqrt(b * b - 2 * aby2 * (hl * hl / (-2 * plby2) - lfocy + plby2 / 2 + rfocy - pby2 / 2))) / aby2 + rfocx;
+    
+      return (rfocx + lfocx) / 2;
+    }
+    
+    function rightBreakPoint(arc, directrix) {
+      var rArc = arc.N;
+      if (rArc) return leftBreakPoint(rArc, directrix);
+      var site = arc.site;
+      return site[1] === directrix ? site[0] : Infinity;
+    }
+    
+    var epsilon$4 = 1e-6;
+    var epsilon2$2 = 1e-12;
+    var beaches;
+    var cells;
+    var circles;
+    var edges;
+    
+    function triangleArea(a, b, c) {
+      return (a[0] - c[0]) * (b[1] - a[1]) - (a[0] - b[0]) * (c[1] - a[1]);
+    }
+    
+    function lexicographic(a, b) {
+      return b[1] - a[1]
+          || b[0] - a[0];
+    }
+    
+    function Diagram(sites, extent) {
+      var site = sites.sort(lexicographic).pop(),
+          x,
+          y,
+          circle;
+    
+      edges = [];
+      cells = new Array(sites.length);
+      beaches = new RedBlackTree;
+      circles = new RedBlackTree;
+    
+      while (true) {
+        circle = firstCircle;
+        if (site && (!circle || site[1] < circle.y || (site[1] === circle.y && site[0] < circle.x))) {
+          if (site[0] !== x || site[1] !== y) {
+            addBeach(site);
+            x = site[0], y = site[1];
+          }
+          site = sites.pop();
+        } else if (circle) {
+          removeBeach(circle.arc);
+        } else {
+          break;
+        }
+      }
+    
+      sortCellHalfedges();
+    
+      if (extent) {
+        var x0 = +extent[0][0],
+            y0 = +extent[0][1],
+            x1 = +extent[1][0],
+            y1 = +extent[1][1];
+        clipEdges(x0, y0, x1, y1);
+        clipCells(x0, y0, x1, y1);
+      }
+    
+      this.edges = edges;
+      this.cells = cells;
+    
+      beaches =
+      circles =
+      edges =
+      cells = null;
+    }
+    
+    Diagram.prototype = {
+      constructor: Diagram,
+    
+      polygons: function() {
+        var edges = this.edges;
+    
+        return this.cells.map(function(cell) {
+          var polygon = cell.halfedges.map(function(i) { return cellHalfedgeStart(cell, edges[i]); });
+          polygon.data = cell.site.data;
+          return polygon;
+        });
+      },
+    
+      triangles: function() {
+        var triangles = [],
+            edges = this.edges;
+    
+        this.cells.forEach(function(cell, i) {
+          if (!(m = (halfedges = cell.halfedges).length)) return;
+          var site = cell.site,
+              halfedges,
+              j = -1,
+              m,
+              s0,
+              e1 = edges[halfedges[m - 1]],
+              s1 = e1.left === site ? e1.right : e1.left;
+    
+          while (++j < m) {
+            s0 = s1;
+            e1 = edges[halfedges[j]];
+            s1 = e1.left === site ? e1.right : e1.left;
+            if (s0 && s1 && i < s0.index && i < s1.index && triangleArea(site, s0, s1) < 0) {
+              triangles.push([site.data, s0.data, s1.data]);
+            }
+          }
+        });
+    
+        return triangles;
+      },
+    
+      links: function() {
+        return this.edges.filter(function(edge) {
+          return edge.right;
+        }).map(function(edge) {
+          return {
+            source: edge.left.data,
+            target: edge.right.data
+          };
+        });
+      },
+    
+      find: function(x, y, radius) {
+        var that = this, i0, i1 = that._found || 0, n = that.cells.length, cell;
+    
+        // Use the previously-found cell, or start with an arbitrary one.
+        while (!(cell = that.cells[i1])) if (++i1 >= n) return null;
+        var dx = x - cell.site[0], dy = y - cell.site[1], d2 = dx * dx + dy * dy;
+    
+        // Traverse the half-edges to find a closer cell, if any.
+        do {
+          cell = that.cells[i0 = i1], i1 = null;
+          cell.halfedges.forEach(function(e) {
+            var edge = that.edges[e], v = edge.left;
+            if ((v === cell.site || !v) && !(v = edge.right)) return;
+            var vx = x - v[0], vy = y - v[1], v2 = vx * vx + vy * vy;
+            if (v2 < d2) d2 = v2, i1 = v.index;
+          });
+        } while (i1 !== null);
+    
+        that._found = i0;
+    
+        return radius == null || d2 <= radius * radius ? cell.site : null;
+      }
+    };
+    
+    function voronoi() {
+      var x = x$4,
+          y = y$4,
+          extent = null;
+    
+      function voronoi(data) {
+        return new Diagram(data.map(function(d, i) {
+          var s = [Math.round(x(d, i, data) / epsilon$4) * epsilon$4, Math.round(y(d, i, data) / epsilon$4) * epsilon$4];
+          s.index = i;
+          s.data = d;
+          return s;
+        }), extent);
+      }
+    
+      voronoi.polygons = function(data) {
+        return voronoi(data).polygons();
+      };
+    
+      voronoi.links = function(data) {
+        return voronoi(data).links();
+      };
+    
+      voronoi.triangles = function(data) {
+        return voronoi(data).triangles();
+      };
+    
+      voronoi.x = function(_) {
+        return arguments.length ? (x = typeof _ === "function" ? _ : constant$c(+_), voronoi) : x;
+      };
+    
+      voronoi.y = function(_) {
+        return arguments.length ? (y = typeof _ === "function" ? _ : constant$c(+_), voronoi) : y;
+      };
+    
+      voronoi.extent = function(_) {
+        return arguments.length ? (extent = _ == null ? null : [[+_[0][0], +_[0][1]], [+_[1][0], +_[1][1]]], voronoi) : extent && [[extent[0][0], extent[0][1]], [extent[1][0], extent[1][1]]];
+      };
+    
+      voronoi.size = function(_) {
+        return arguments.length ? (extent = _ == null ? null : [[0, 0], [+_[0], +_[1]]], voronoi) : extent && [extent[1][0] - extent[0][0], extent[1][1] - extent[0][1]];
+      };
+    
+      return voronoi;
+    }
+    
+    function constant$d(x) {
+      return function() {
+        return x;
+      };
+    }
+    
+    function ZoomEvent(target, type, transform) {
+      this.target = target;
+      this.type = type;
+      this.transform = transform;
+    }
+    
+    function Transform(k, x, y) {
+      this.k = k;
+      this.x = x;
+      this.y = y;
+    }
+    
+    Transform.prototype = {
+      constructor: Transform,
+      scale: function(k) {
+        return k === 1 ? this : new Transform(this.k * k, this.x, this.y);
+      },
+      translate: function(x, y) {
+        return x === 0 & y === 0 ? this : new Transform(this.k, this.x + this.k * x, this.y + this.k * y);
+      },
+      apply: function(point) {
+        return [point[0] * this.k + this.x, point[1] * this.k + this.y];
+      },
+      applyX: function(x) {
+        return x * this.k + this.x;
+      },
+      applyY: function(y) {
+        return y * this.k + this.y;
+      },
+      invert: function(location) {
+        return [(location[0] - this.x) / this.k, (location[1] - this.y) / this.k];
+      },
+      invertX: function(x) {
+        return (x - this.x) / this.k;
+      },
+      invertY: function(y) {
+        return (y - this.y) / this.k;
+      },
+      rescaleX: function(x) {
+        return x.copy().domain(x.range().map(this.invertX, this).map(x.invert, x));
+      },
+      rescaleY: function(y) {
+        return y.copy().domain(y.range().map(this.invertY, this).map(y.invert, y));
+      },
+      toString: function() {
+        return "translate(" + this.x + "," + this.y + ") scale(" + this.k + ")";
+      }
+    };
+    
+    var identity$9 = new Transform(1, 0, 0);
+    
+    transform$1.prototype = Transform.prototype;
+    
+    function transform$1(node) {
+      while (!node.__zoom) if (!(node = node.parentNode)) return identity$9;
+      return node.__zoom;
+    }
+    
+    function nopropagation$2() {
+      exports.event.stopImmediatePropagation();
+    }
+    
+    function noevent$2() {
+      exports.event.preventDefault();
+      exports.event.stopImmediatePropagation();
+    }
+    
+    // Ignore right-click, since that should open the context menu.
+    function defaultFilter$2() {
+      return !exports.event.ctrlKey && !exports.event.button;
+    }
+    
+    function defaultExtent$1() {
+      var e = this;
+      if (e instanceof SVGElement) {
+        e = e.ownerSVGElement || e;
+        if (e.hasAttribute("viewBox")) {
+          e = e.viewBox.baseVal;
+          return [[e.x, e.y], [e.x + e.width, e.y + e.height]];
+        }
+        return [[0, 0], [e.width.baseVal.value, e.height.baseVal.value]];
+      }
+      return [[0, 0], [e.clientWidth, e.clientHeight]];
+    }
+    
+    function defaultTransform() {
+      return this.__zoom || identity$9;
+    }
+    
+    function defaultWheelDelta() {
+      return -exports.event.deltaY * (exports.event.deltaMode === 1 ? 0.05 : exports.event.deltaMode ? 1 : 0.002);
+    }
+    
+    function defaultTouchable$2() {
+      return navigator.maxTouchPoints || ("ontouchstart" in this);
+    }
+    
+    function defaultConstrain(transform, extent, translateExtent) {
+      var dx0 = transform.invertX(extent[0][0]) - translateExtent[0][0],
+          dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0],
+          dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1],
+          dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
+      return transform.translate(
+        dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1),
+        dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1)
+      );
+    }
+    
+    function zoom() {
+      var filter = defaultFilter$2,
+          extent = defaultExtent$1,
+          constrain = defaultConstrain,
+          wheelDelta = defaultWheelDelta,
+          touchable = defaultTouchable$2,
+          scaleExtent = [0, Infinity],
+          translateExtent = [[-Infinity, -Infinity], [Infinity, Infinity]],
+          duration = 250,
+          interpolate = interpolateZoom,
+          listeners = dispatch("start", "zoom", "end"),
+          touchstarting,
+          touchending,
+          touchDelay = 500,
+          wheelDelay = 150,
+          clickDistance2 = 0;
+    
+      function zoom(selection) {
+        selection
+            .property("__zoom", defaultTransform)
+            .on("wheel.zoom", wheeled)
+            .on("mousedown.zoom", mousedowned)
+            .on("dblclick.zoom", dblclicked)
+          .filter(touchable)
+            .on("touchstart.zoom", touchstarted)
+            .on("touchmove.zoom", touchmoved)
+            .on("touchend.zoom touchcancel.zoom", touchended)
+            .style("touch-action", "none")
+            .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
+      }
+    
+      zoom.transform = function(collection, transform, point) {
+        var selection = collection.selection ? collection.selection() : collection;
+        selection.property("__zoom", defaultTransform);
+        if (collection !== selection) {
+          schedule(collection, transform, point);
+        } else {
+          selection.interrupt().each(function() {
+            gesture(this, arguments)
+                .start()
+                .zoom(null, typeof transform === "function" ? transform.apply(this, arguments) : transform)
+                .end();
+          });
+        }
+      };
+    
+      zoom.scaleBy = function(selection, k, p) {
+        zoom.scaleTo(selection, function() {
+          var k0 = this.__zoom.k,
+              k1 = typeof k === "function" ? k.apply(this, arguments) : k;
+          return k0 * k1;
+        }, p);
+      };
+    
+      zoom.scaleTo = function(selection, k, p) {
+        zoom.transform(selection, function() {
+          var e = extent.apply(this, arguments),
+              t0 = this.__zoom,
+              p0 = p == null ? centroid(e) : typeof p === "function" ? p.apply(this, arguments) : p,
+              p1 = t0.invert(p0),
+              k1 = typeof k === "function" ? k.apply(this, arguments) : k;
+          return constrain(translate(scale(t0, k1), p0, p1), e, translateExtent);
+        }, p);
+      };
+    
+      zoom.translateBy = function(selection, x, y) {
+        zoom.transform(selection, function() {
+          return constrain(this.__zoom.translate(
+            typeof x === "function" ? x.apply(this, arguments) : x,
+            typeof y === "function" ? y.apply(this, arguments) : y
+          ), extent.apply(this, arguments), translateExtent);
+        });
+      };
+    
+      zoom.translateTo = function(selection, x, y, p) {
+        zoom.transform(selection, function() {
+          var e = extent.apply(this, arguments),
+              t = this.__zoom,
+              p0 = p == null ? centroid(e) : typeof p === "function" ? p.apply(this, arguments) : p;
+          return constrain(identity$9.translate(p0[0], p0[1]).scale(t.k).translate(
+            typeof x === "function" ? -x.apply(this, arguments) : -x,
+            typeof y === "function" ? -y.apply(this, arguments) : -y
+          ), e, translateExtent);
+        }, p);
+      };
+    
+      function scale(transform, k) {
+        k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], k));
+        return k === transform.k ? transform : new Transform(k, transform.x, transform.y);
+      }
+    
+      function translate(transform, p0, p1) {
+        var x = p0[0] - p1[0] * transform.k, y = p0[1] - p1[1] * transform.k;
+        return x === transform.x && y === transform.y ? transform : new Transform(transform.k, x, y);
+      }
+    
+      function centroid(extent) {
+        return [(+extent[0][0] + +extent[1][0]) / 2, (+extent[0][1] + +extent[1][1]) / 2];
+      }
+    
+      function schedule(transition, transform, point) {
+        transition
+            .on("start.zoom", function() { gesture(this, arguments).start(); })
+            .on("interrupt.zoom end.zoom", function() { gesture(this, arguments).end(); })
+            .tween("zoom", function() {
+              var that = this,
+                  args = arguments,
+                  g = gesture(that, args),
+                  e = extent.apply(that, args),
+                  p = point == null ? centroid(e) : typeof point === "function" ? point.apply(that, args) : point,
+                  w = Math.max(e[1][0] - e[0][0], e[1][1] - e[0][1]),
+                  a = that.__zoom,
+                  b = typeof transform === "function" ? transform.apply(that, args) : transform,
+                  i = interpolate(a.invert(p).concat(w / a.k), b.invert(p).concat(w / b.k));
+              return function(t) {
+                if (t === 1) t = b; // Avoid rounding error on end.
+                else { var l = i(t), k = w / l[2]; t = new Transform(k, p[0] - l[0] * k, p[1] - l[1] * k); }
+                g.zoom(null, t);
+              };
+            });
+      }
+    
+      function gesture(that, args, clean) {
+        return (!clean && that.__zooming) || new Gesture(that, args);
+      }
+    
+      function Gesture(that, args) {
+        this.that = that;
+        this.args = args;
+        this.active = 0;
+        this.extent = extent.apply(that, args);
+        this.taps = 0;
+      }
+    
+      Gesture.prototype = {
+        start: function() {
+          if (++this.active === 1) {
+            this.that.__zooming = this;
+            this.emit("start");
+          }
+          return this;
+        },
+        zoom: function(key, transform) {
+          if (this.mouse && key !== "mouse") this.mouse[1] = transform.invert(this.mouse[0]);
+          if (this.touch0 && key !== "touch") this.touch0[1] = transform.invert(this.touch0[0]);
+          if (this.touch1 && key !== "touch") this.touch1[1] = transform.invert(this.touch1[0]);
+          this.that.__zoom = transform;
+          this.emit("zoom");
+          return this;
+        },
+        end: function() {
+          if (--this.active === 0) {
+            delete this.that.__zooming;
+            this.emit("end");
+          }
+          return this;
+        },
+        emit: function(type) {
+          customEvent(new ZoomEvent(zoom, type, this.that.__zoom), listeners.apply, listeners, [type, this.that, this.args]);
+        }
+      };
+    
+      function wheeled() {
+        if (!filter.apply(this, arguments)) return;
+        var g = gesture(this, arguments),
+            t = this.__zoom,
+            k = Math.max(scaleExtent[0], Math.min(scaleExtent[1], t.k * Math.pow(2, wheelDelta.apply(this, arguments)))),
+            p = mouse(this);
+    
+        // If the mouse is in the same location as before, reuse it.
+        // If there were recent wheel events, reset the wheel idle timeout.
+        if (g.wheel) {
+          if (g.mouse[0][0] !== p[0] || g.mouse[0][1] !== p[1]) {
+            g.mouse[1] = t.invert(g.mouse[0] = p);
+          }
+          clearTimeout(g.wheel);
+        }
+    
+        // If this wheel event won’t trigger a transform change, ignore it.
+        else if (t.k === k) return;
+    
+        // Otherwise, capture the mouse point and location at the start.
+        else {
+          g.mouse = [p, t.invert(p)];
+          interrupt(this);
+          g.start();
+        }
+    
+        noevent$2();
+        g.wheel = setTimeout(wheelidled, wheelDelay);
+        g.zoom("mouse", constrain(translate(scale(t, k), g.mouse[0], g.mouse[1]), g.extent, translateExtent));
+    
+        function wheelidled() {
+          g.wheel = null;
+          g.end();
+        }
+      }
+    
+      function mousedowned() {
+        if (touchending || !filter.apply(this, arguments)) return;
+        var g = gesture(this, arguments, true),
+            v = select(exports.event.view).on("mousemove.zoom", mousemoved, true).on("mouseup.zoom", mouseupped, true),
+            p = mouse(this),
+            x0 = exports.event.clientX,
+            y0 = exports.event.clientY;
+    
+        dragDisable(exports.event.view);
+        nopropagation$2();
+        g.mouse = [p, this.__zoom.invert(p)];
+        interrupt(this);
+        g.start();
+    
+        function mousemoved() {
+          noevent$2();
+          if (!g.moved) {
+            var dx = exports.event.clientX - x0, dy = exports.event.clientY - y0;
+            g.moved = dx * dx + dy * dy > clickDistance2;
+          }
+          g.zoom("mouse", constrain(translate(g.that.__zoom, g.mouse[0] = mouse(g.that), g.mouse[1]), g.extent, translateExtent));
+        }
+    
+        function mouseupped() {
+          v.on("mousemove.zoom mouseup.zoom", null);
+          yesdrag(exports.event.view, g.moved);
+          noevent$2();
+          g.end();
+        }
+      }
+    
+      function dblclicked() {
+        if (!filter.apply(this, arguments)) return;
+        var t0 = this.__zoom,
+            p0 = mouse(this),
+            p1 = t0.invert(p0),
+            k1 = t0.k * (exports.event.shiftKey ? 0.5 : 2),
+            t1 = constrain(translate(scale(t0, k1), p0, p1), extent.apply(this, arguments), translateExtent);
+    
+        noevent$2();
+        if (duration > 0) select(this).transition().duration(duration).call(schedule, t1, p0);
+        else select(this).call(zoom.transform, t1);
+      }
+    
+      function touchstarted() {
+        if (!filter.apply(this, arguments)) return;
+        var touches = exports.event.touches,
+            n = touches.length,
+            g = gesture(this, arguments, exports.event.changedTouches.length === n),
+            started, i, t, p;
+    
+        nopropagation$2();
+        for (i = 0; i < n; ++i) {
+          t = touches[i], p = touch(this, touches, t.identifier);
+          p = [p, this.__zoom.invert(p), t.identifier];
+          if (!g.touch0) g.touch0 = p, started = true, g.taps = 1 + !!touchstarting;
+          else if (!g.touch1 && g.touch0[2] !== p[2]) g.touch1 = p, g.taps = 0;
+        }
+    
+        if (touchstarting) touchstarting = clearTimeout(touchstarting);
+    
+        if (started) {
+          if (g.taps < 2) touchstarting = setTimeout(function() { touchstarting = null; }, touchDelay);
+          interrupt(this);
+          g.start();
+        }
+      }
+    
+      function touchmoved() {
+        if (!this.__zooming) return;
+        var g = gesture(this, arguments),
+            touches = exports.event.changedTouches,
+            n = touches.length, i, t, p, l;
+    
+        noevent$2();
+        if (touchstarting) touchstarting = clearTimeout(touchstarting);
+        g.taps = 0;
+        for (i = 0; i < n; ++i) {
+          t = touches[i], p = touch(this, touches, t.identifier);
+          if (g.touch0 && g.touch0[2] === t.identifier) g.touch0[0] = p;
+          else if (g.touch1 && g.touch1[2] === t.identifier) g.touch1[0] = p;
+        }
+        t = g.that.__zoom;
+        if (g.touch1) {
+          var p0 = g.touch0[0], l0 = g.touch0[1],
+              p1 = g.touch1[0], l1 = g.touch1[1],
+              dp = (dp = p1[0] - p0[0]) * dp + (dp = p1[1] - p0[1]) * dp,
+              dl = (dl = l1[0] - l0[0]) * dl + (dl = l1[1] - l0[1]) * dl;
+          t = scale(t, Math.sqrt(dp / dl));
+          p = [(p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2];
+          l = [(l0[0] + l1[0]) / 2, (l0[1] + l1[1]) / 2];
+        }
+        else if (g.touch0) p = g.touch0[0], l = g.touch0[1];
+        else return;
+        g.zoom("touch", constrain(translate(t, p, l), g.extent, translateExtent));
+      }
+    
+      function touchended() {
+        if (!this.__zooming) return;
+        var g = gesture(this, arguments),
+            touches = exports.event.changedTouches,
+            n = touches.length, i, t;
+    
+        nopropagation$2();
+        if (touchending) clearTimeout(touchending);
+        touchending = setTimeout(function() { touchending = null; }, touchDelay);
+        for (i = 0; i < n; ++i) {
+          t = touches[i];
+          if (g.touch0 && g.touch0[2] === t.identifier) delete g.touch0;
+          else if (g.touch1 && g.touch1[2] === t.identifier) delete g.touch1;
+        }
+        if (g.touch1 && !g.touch0) g.touch0 = g.touch1, delete g.touch1;
+        if (g.touch0) g.touch0[1] = this.__zoom.invert(g.touch0[0]);
+        else {
+          g.end();
+          // If this was a dbltap, reroute to the (optional) dblclick.zoom handler.
+          if (g.taps === 2) {
+            var p = select(this).on("dblclick.zoom");
+            if (p) p.apply(this, arguments);
+          }
+        }
+      }
+    
+      zoom.wheelDelta = function(_) {
+        return arguments.length ? (wheelDelta = typeof _ === "function" ? _ : constant$d(+_), zoom) : wheelDelta;
+      };
+    
+      zoom.filter = function(_) {
+        return arguments.length ? (filter = typeof _ === "function" ? _ : constant$d(!!_), zoom) : filter;
+      };
+    
+      zoom.touchable = function(_) {
+        return arguments.length ? (touchable = typeof _ === "function" ? _ : constant$d(!!_), zoom) : touchable;
+      };
+    
+      zoom.extent = function(_) {
+        return arguments.length ? (extent = typeof _ === "function" ? _ : constant$d([[+_[0][0], +_[0][1]], [+_[1][0], +_[1][1]]]), zoom) : extent;
+      };
+    
+      zoom.scaleExtent = function(_) {
+        return arguments.length ? (scaleExtent[0] = +_[0], scaleExtent[1] = +_[1], zoom) : [scaleExtent[0], scaleExtent[1]];
+      };
+    
+      zoom.translateExtent = function(_) {
+        return arguments.length ? (translateExtent[0][0] = +_[0][0], translateExtent[1][0] = +_[1][0], translateExtent[0][1] = +_[0][1], translateExtent[1][1] = +_[1][1], zoom) : [[translateExtent[0][0], translateExtent[0][1]], [translateExtent[1][0], translateExtent[1][1]]];
+      };
+    
+      zoom.constrain = function(_) {
+        return arguments.length ? (constrain = _, zoom) : constrain;
+      };
+    
+      zoom.duration = function(_) {
+        return arguments.length ? (duration = +_, zoom) : duration;
+      };
+    
+      zoom.interpolate = function(_) {
+        return arguments.length ? (interpolate = _, zoom) : interpolate;
+      };
+    
+      zoom.on = function() {
+        var value = listeners.on.apply(listeners, arguments);
+        return value === listeners ? zoom : value;
+      };
+    
+      zoom.clickDistance = function(_) {
+        return arguments.length ? (clickDistance2 = (_ = +_) * _, zoom) : Math.sqrt(clickDistance2);
+      };
+    
+      return zoom;
+    }
+    
+    exports.active = active;
+    exports.arc = arc;
+    exports.area = area$3;
+    exports.areaRadial = areaRadial;
+    exports.ascending = ascending;
+    exports.autoType = autoType;
+    exports.axisBottom = axisBottom;
+    exports.axisLeft = axisLeft;
+    exports.axisRight = axisRight;
+    exports.axisTop = axisTop;
+    exports.bisect = bisectRight;
+    exports.bisectLeft = bisectLeft;
+    exports.bisectRight = bisectRight;
+    exports.bisector = bisector;
+    exports.blob = blob;
+    exports.brush = brush;
+    exports.brushSelection = brushSelection;
+    exports.brushX = brushX;
+    exports.brushY = brushY;
+    exports.buffer = buffer;
+    exports.chord = chord;
+    exports.clientPoint = point;
+    exports.cluster = cluster;
+    exports.color = color;
+    exports.contourDensity = density;
+    exports.contours = contours;
+    exports.create = create;
+    exports.creator = creator;
+    exports.cross = cross;
+    exports.csv = csv$1;
+    exports.csvFormat = csvFormat;
+    exports.csvFormatBody = csvFormatBody;
+    exports.csvFormatRows = csvFormatRows;
+    exports.csvParse = csvParse;
+    exports.csvParseRows = csvParseRows;
+    exports.cubehelix = cubehelix;
+    exports.curveBasis = basis$2;
+    exports.curveBasisClosed = basisClosed$1;
+    exports.curveBasisOpen = basisOpen;
+    exports.curveBundle = bundle;
+    exports.curveCardinal = cardinal;
+    exports.curveCardinalClosed = cardinalClosed;
+    exports.curveCardinalOpen = cardinalOpen;
+    exports.curveCatmullRom = catmullRom;
+    exports.curveCatmullRomClosed = catmullRomClosed;
+    exports.curveCatmullRomOpen = catmullRomOpen;
+    exports.curveLinear = curveLinear;
+    exports.curveLinearClosed = linearClosed;
+    exports.curveMonotoneX = monotoneX;
+    exports.curveMonotoneY = monotoneY;
+    exports.curveNatural = natural;
+    exports.curveStep = step;
+    exports.curveStepAfter = stepAfter;
+    exports.curveStepBefore = stepBefore;
+    exports.customEvent = customEvent;
+    exports.descending = descending;
+    exports.deviation = deviation;
+    exports.dispatch = dispatch;
+    exports.drag = drag;
+    exports.dragDisable = dragDisable;
+    exports.dragEnable = yesdrag;
+    exports.dsv = dsv;
+    exports.dsvFormat = dsvFormat;
+    exports.easeBack = backInOut;
+    exports.easeBackIn = backIn;
+    exports.easeBackInOut = backInOut;
+    exports.easeBackOut = backOut;
+    exports.easeBounce = bounceOut;
+    exports.easeBounceIn = bounceIn;
+    exports.easeBounceInOut = bounceInOut;
+    exports.easeBounceOut = bounceOut;
+    exports.easeCircle = circleInOut;
+    exports.easeCircleIn = circleIn;
+    exports.easeCircleInOut = circleInOut;
+    exports.easeCircleOut = circleOut;
+    exports.easeCubic = cubicInOut;
+    exports.easeCubicIn = cubicIn;
+    exports.easeCubicInOut = cubicInOut;
+    exports.easeCubicOut = cubicOut;
+    exports.easeElastic = elasticOut;
+    exports.easeElasticIn = elasticIn;
+    exports.easeElasticInOut = elasticInOut;
+    exports.easeElasticOut = elasticOut;
+    exports.easeExp = expInOut;
+    exports.easeExpIn = expIn;
+    exports.easeExpInOut = expInOut;
+    exports.easeExpOut = expOut;
+    exports.easeLinear = linear$1;
+    exports.easePoly = polyInOut;
+    exports.easePolyIn = polyIn;
+    exports.easePolyInOut = polyInOut;
+    exports.easePolyOut = polyOut;
+    exports.easeQuad = quadInOut;
+    exports.easeQuadIn = quadIn;
+    exports.easeQuadInOut = quadInOut;
+    exports.easeQuadOut = quadOut;
+    exports.easeSin = sinInOut;
+    exports.easeSinIn = sinIn;
+    exports.easeSinInOut = sinInOut;
+    exports.easeSinOut = sinOut;
+    exports.entries = entries;
+    exports.extent = extent;
+    exports.forceCenter = center$1;
+    exports.forceCollide = collide;
+    exports.forceLink = link;
+    exports.forceManyBody = manyBody;
+    exports.forceRadial = radial;
+    exports.forceSimulation = simulation;
+    exports.forceX = x$2;
+    exports.forceY = y$2;
+    exports.formatDefaultLocale = defaultLocale;
+    exports.formatLocale = formatLocale;
+    exports.formatSpecifier = formatSpecifier;
+    exports.geoAlbers = albers;
+    exports.geoAlbersUsa = albersUsa;
+    exports.geoArea = area$1;
+    exports.geoAzimuthalEqualArea = azimuthalEqualArea;
+    exports.geoAzimuthalEqualAreaRaw = azimuthalEqualAreaRaw;
+    exports.geoAzimuthalEquidistant = azimuthalEquidistant;
+    exports.geoAzimuthalEquidistantRaw = azimuthalEquidistantRaw;
+    exports.geoBounds = bounds;
+    exports.geoCentroid = centroid;
+    exports.geoCircle = circle;
+    exports.geoClipAntimeridian = clipAntimeridian;
+    exports.geoClipCircle = clipCircle;
+    exports.geoClipExtent = extent$1;
+    exports.geoClipRectangle = clipRectangle;
+    exports.geoConicConformal = conicConformal;
+    exports.geoConicConformalRaw = conicConformalRaw;
+    exports.geoConicEqualArea = conicEqualArea;
+    exports.geoConicEqualAreaRaw = conicEqualAreaRaw;
+    exports.geoConicEquidistant = conicEquidistant;
+    exports.geoConicEquidistantRaw = conicEquidistantRaw;
+    exports.geoContains = contains$1;
+    exports.geoDistance = distance;
+    exports.geoEqualEarth = equalEarth;
+    exports.geoEqualEarthRaw = equalEarthRaw;
+    exports.geoEquirectangular = equirectangular;
+    exports.geoEquirectangularRaw = equirectangularRaw;
+    exports.geoGnomonic = gnomonic;
+    exports.geoGnomonicRaw = gnomonicRaw;
+    exports.geoGraticule = graticule;
+    exports.geoGraticule10 = graticule10;
+    exports.geoIdentity = identity$5;
+    exports.geoInterpolate = interpolate$1;
+    exports.geoLength = length$1;
+    exports.geoMercator = mercator;
+    exports.geoMercatorRaw = mercatorRaw;
+    exports.geoNaturalEarth1 = naturalEarth1;
+    exports.geoNaturalEarth1Raw = naturalEarth1Raw;
+    exports.geoOrthographic = orthographic;
+    exports.geoOrthographicRaw = orthographicRaw;
+    exports.geoPath = index$1;
+    exports.geoProjection = projection;
+    exports.geoProjectionMutator = projectionMutator;
+    exports.geoRotation = rotation;
+    exports.geoStereographic = stereographic;
+    exports.geoStereographicRaw = stereographicRaw;
+    exports.geoStream = geoStream;
+    exports.geoTransform = transform;
+    exports.geoTransverseMercator = transverseMercator;
+    exports.geoTransverseMercatorRaw = transverseMercatorRaw;
+    exports.gray = gray;
+    exports.hcl = hcl;
+    exports.hierarchy = hierarchy;
+    exports.histogram = histogram;
+    exports.hsl = hsl;
+    exports.html = html;
+    exports.image = image;
+    exports.interpolate = interpolateValue;
+    exports.interpolateArray = array$1;
+    exports.interpolateBasis = basis$1;
+    exports.interpolateBasisClosed = basisClosed;
+    exports.interpolateBlues = Blues;
+    exports.interpolateBrBG = BrBG;
+    exports.interpolateBuGn = BuGn;
+    exports.interpolateBuPu = BuPu;
+    exports.interpolateCividis = cividis;
+    exports.interpolateCool = cool;
+    exports.interpolateCubehelix = cubehelix$2;
+    exports.interpolateCubehelixDefault = cubehelix$3;
+    exports.interpolateCubehelixLong = cubehelixLong;
+    exports.interpolateDate = date;
+    exports.interpolateDiscrete = discrete;
+    exports.interpolateGnBu = GnBu;
+    exports.interpolateGreens = Greens;
+    exports.interpolateGreys = Greys;
+    exports.interpolateHcl = hcl$2;
+    exports.interpolateHclLong = hclLong;
+    exports.interpolateHsl = hsl$2;
+    exports.interpolateHslLong = hslLong;
+    exports.interpolateHue = hue$1;
+    exports.interpolateInferno = inferno;
+    exports.interpolateLab = lab$1;
+    exports.interpolateMagma = magma;
+    exports.interpolateNumber = interpolateNumber;
+    exports.interpolateObject = object;
+    exports.interpolateOrRd = OrRd;
+    exports.interpolateOranges = Oranges;
+    exports.interpolatePRGn = PRGn;
+    exports.interpolatePiYG = PiYG;
+    exports.interpolatePlasma = plasma;
+    exports.interpolatePuBu = PuBu;
+    exports.interpolatePuBuGn = PuBuGn;
+    exports.interpolatePuOr = PuOr;
+    exports.interpolatePuRd = PuRd;
+    exports.interpolatePurples = Purples;
+    exports.interpolateRainbow = rainbow;
+    exports.interpolateRdBu = RdBu;
+    exports.interpolateRdGy = RdGy;
+    exports.interpolateRdPu = RdPu;
+    exports.interpolateRdYlBu = RdYlBu;
+    exports.interpolateRdYlGn = RdYlGn;
+    exports.interpolateReds = Reds;
+    exports.interpolateRgb = interpolateRgb;
+    exports.interpolateRgbBasis = rgbBasis;
+    exports.interpolateRgbBasisClosed = rgbBasisClosed;
+    exports.interpolateRound = interpolateRound;
+    exports.interpolateSinebow = sinebow;
+    exports.interpolateSpectral = Spectral;
+    exports.interpolateString = interpolateString;
+    exports.interpolateTransformCss = interpolateTransformCss;
+    exports.interpolateTransformSvg = interpolateTransformSvg;
+    exports.interpolateTurbo = turbo;
+    exports.interpolateViridis = viridis;
+    exports.interpolateWarm = warm;
+    exports.interpolateYlGn = YlGn;
+    exports.interpolateYlGnBu = YlGnBu;
+    exports.interpolateYlOrBr = YlOrBr;
+    exports.interpolateYlOrRd = YlOrRd;
+    exports.interpolateZoom = interpolateZoom;
+    exports.interrupt = interrupt;
+    exports.interval = interval$1;
+    exports.isoFormat = formatIso;
+    exports.isoParse = parseIso;
+    exports.json = json;
+    exports.keys = keys;
+    exports.lab = lab;
+    exports.lch = lch;
+    exports.line = line;
+    exports.lineRadial = lineRadial$1;
+    exports.linkHorizontal = linkHorizontal;
+    exports.linkRadial = linkRadial;
+    exports.linkVertical = linkVertical;
+    exports.local = local;
+    exports.map = map$1;
+    exports.matcher = matcher;
+    exports.max = max;
+    exports.mean = mean;
+    exports.median = median;
+    exports.merge = merge;
+    exports.min = min;
+    exports.mouse = mouse;
+    exports.namespace = namespace;
+    exports.namespaces = namespaces;
+    exports.nest = nest;
+    exports.now = now;
+    exports.pack = index$2;
+    exports.packEnclose = enclose;
+    exports.packSiblings = siblings;
+    exports.pairs = pairs;
+    exports.partition = partition;
+    exports.path = path;
+    exports.permute = permute;
+    exports.pie = pie;
+    exports.piecewise = piecewise;
+    exports.pointRadial = pointRadial;
+    exports.polygonArea = area$2;
+    exports.polygonCentroid = centroid$1;
+    exports.polygonContains = contains$2;
+    exports.polygonHull = hull;
+    exports.polygonLength = length$2;
+    exports.precisionFixed = precisionFixed;
+    exports.precisionPrefix = precisionPrefix;
+    exports.precisionRound = precisionRound;
+    exports.quadtree = quadtree;
+    exports.quantile = threshold;
+    exports.quantize = quantize;
+    exports.radialArea = areaRadial;
+    exports.radialLine = lineRadial$1;
+    exports.randomBates = bates;
+    exports.randomExponential = exponential$1;
+    exports.randomIrwinHall = irwinHall;
+    exports.randomLogNormal = logNormal;
+    exports.randomNormal = normal;
+    exports.randomUniform = uniform;
+    exports.range = sequence;
+    exports.rgb = rgb;
+    exports.ribbon = ribbon;
+    exports.scaleBand = band;
+    exports.scaleDiverging = diverging;
+    exports.scaleDivergingLog = divergingLog;
+    exports.scaleDivergingPow = divergingPow;
+    exports.scaleDivergingSqrt = divergingSqrt;
+    exports.scaleDivergingSymlog = divergingSymlog;
+    exports.scaleIdentity = identity$7;
+    exports.scaleImplicit = implicit;
+    exports.scaleLinear = linear$2;
+    exports.scaleLog = log$1;
+    exports.scaleOrdinal = ordinal;
+    exports.scalePoint = point$1;
+    exports.scalePow = pow$1;
+    exports.scaleQuantile = quantile;
+    exports.scaleQuantize = quantize$1;
+    exports.scaleSequential = sequential;
+    exports.scaleSequentialLog = sequentialLog;
+    exports.scaleSequentialPow = sequentialPow;
+    exports.scaleSequentialQuantile = sequentialQuantile;
+    exports.scaleSequentialSqrt = sequentialSqrt;
+    exports.scaleSequentialSymlog = sequentialSymlog;
+    exports.scaleSqrt = sqrt$1;
+    exports.scaleSymlog = symlog;
+    exports.scaleThreshold = threshold$1;
+    exports.scaleTime = time;
+    exports.scaleUtc = utcTime;
+    exports.scan = scan;
+    exports.schemeAccent = Accent;
+    exports.schemeBlues = scheme$l;
+    exports.schemeBrBG = scheme;
+    exports.schemeBuGn = scheme$9;
+    exports.schemeBuPu = scheme$a;
+    exports.schemeCategory10 = category10;
+    exports.schemeDark2 = Dark2;
+    exports.schemeGnBu = scheme$b;
+    exports.schemeGreens = scheme$m;
+    exports.schemeGreys = scheme$n;
+    exports.schemeOrRd = scheme$c;
+    exports.schemeOranges = scheme$q;
+    exports.schemePRGn = scheme$1;
+    exports.schemePaired = Paired;
+    exports.schemePastel1 = Pastel1;
+    exports.schemePastel2 = Pastel2;
+    exports.schemePiYG = scheme$2;
+    exports.schemePuBu = scheme$e;
+    exports.schemePuBuGn = scheme$d;
+    exports.schemePuOr = scheme$3;
+    exports.schemePuRd = scheme$f;
+    exports.schemePurples = scheme$o;
+    exports.schemeRdBu = scheme$4;
+    exports.schemeRdGy = scheme$5;
+    exports.schemeRdPu = scheme$g;
+    exports.schemeRdYlBu = scheme$6;
+    exports.schemeRdYlGn = scheme$7;
+    exports.schemeReds = scheme$p;
+    exports.schemeSet1 = Set1;
+    exports.schemeSet2 = Set2;
+    exports.schemeSet3 = Set3;
+    exports.schemeSpectral = scheme$8;
+    exports.schemeTableau10 = Tableau10;
+    exports.schemeYlGn = scheme$i;
+    exports.schemeYlGnBu = scheme$h;
+    exports.schemeYlOrBr = scheme$j;
+    exports.schemeYlOrRd = scheme$k;
+    exports.select = select;
+    exports.selectAll = selectAll;
+    exports.selection = selection;
+    exports.selector = selector;
+    exports.selectorAll = selectorAll;
+    exports.set = set$2;
+    exports.shuffle = shuffle;
+    exports.stack = stack;
+    exports.stackOffsetDiverging = diverging$1;
+    exports.stackOffsetExpand = expand;
+    exports.stackOffsetNone = none$1;
+    exports.stackOffsetSilhouette = silhouette;
+    exports.stackOffsetWiggle = wiggle;
+    exports.stackOrderAppearance = appearance;
+    exports.stackOrderAscending = ascending$3;
+    exports.stackOrderDescending = descending$2;
+    exports.stackOrderInsideOut = insideOut;
+    exports.stackOrderNone = none$2;
+    exports.stackOrderReverse = reverse;
+    exports.stratify = stratify;
+    exports.style = styleValue;
+    exports.sum = sum;
+    exports.svg = svg;
+    exports.symbol = symbol;
+    exports.symbolCircle = circle$2;
+    exports.symbolCross = cross$2;
+    exports.symbolDiamond = diamond;
+    exports.symbolSquare = square;
+    exports.symbolStar = star;
+    exports.symbolTriangle = triangle;
+    exports.symbolWye = wye;
+    exports.symbols = symbols;
+    exports.text = text;
+    exports.thresholdFreedmanDiaconis = freedmanDiaconis;
+    exports.thresholdScott = scott;
+    exports.thresholdSturges = thresholdSturges;
+    exports.tickFormat = tickFormat;
+    exports.tickIncrement = tickIncrement;
+    exports.tickStep = tickStep;
+    exports.ticks = ticks;
+    exports.timeDay = day;
+    exports.timeDays = days;
+    exports.timeFormatDefaultLocale = defaultLocale$1;
+    exports.timeFormatLocale = formatLocale$1;
+    exports.timeFriday = friday;
+    exports.timeFridays = fridays;
+    exports.timeHour = hour;
+    exports.timeHours = hours;
+    exports.timeInterval = newInterval;
+    exports.timeMillisecond = millisecond;
+    exports.timeMilliseconds = milliseconds;
+    exports.timeMinute = minute;
+    exports.timeMinutes = minutes;
+    exports.timeMonday = monday;
+    exports.timeMondays = mondays;
+    exports.timeMonth = month;
+    exports.timeMonths = months;
+    exports.timeSaturday = saturday;
+    exports.timeSaturdays = saturdays;
+    exports.timeSecond = second;
+    exports.timeSeconds = seconds;
+    exports.timeSunday = sunday;
+    exports.timeSundays = sundays;
+    exports.timeThursday = thursday;
+    exports.timeThursdays = thursdays;
+    exports.timeTuesday = tuesday;
+    exports.timeTuesdays = tuesdays;
+    exports.timeWednesday = wednesday;
+    exports.timeWednesdays = wednesdays;
+    exports.timeWeek = sunday;
+    exports.timeWeeks = sundays;
+    exports.timeYear = year;
+    exports.timeYears = years;
+    exports.timeout = timeout$1;
+    exports.timer = timer;
+    exports.timerFlush = timerFlush;
+    exports.touch = touch;
+    exports.touches = touches;
+    exports.transition = transition;
+    exports.transpose = transpose;
+    exports.tree = tree;
+    exports.treemap = index$3;
+    exports.treemapBinary = binary;
+    exports.treemapDice = treemapDice;
+    exports.treemapResquarify = resquarify;
+    exports.treemapSlice = treemapSlice;
+    exports.treemapSliceDice = sliceDice;
+    exports.treemapSquarify = squarify;
+    exports.tsv = tsv$1;
+    exports.tsvFormat = tsvFormat;
+    exports.tsvFormatBody = tsvFormatBody;
+    exports.tsvFormatRows = tsvFormatRows;
+    exports.tsvParse = tsvParse;
+    exports.tsvParseRows = tsvParseRows;
+    exports.utcDay = utcDay;
+    exports.utcDays = utcDays;
+    exports.utcFriday = utcFriday;
+    exports.utcFridays = utcFridays;
+    exports.utcHour = utcHour;
+    exports.utcHours = utcHours;
+    exports.utcMillisecond = millisecond;
+    exports.utcMilliseconds = milliseconds;
+    exports.utcMinute = utcMinute;
+    exports.utcMinutes = utcMinutes;
+    exports.utcMonday = utcMonday;
+    exports.utcMondays = utcMondays;
+    exports.utcMonth = utcMonth;
+    exports.utcMonths = utcMonths;
+    exports.utcSaturday = utcSaturday;
+    exports.utcSaturdays = utcSaturdays;
+    exports.utcSecond = second;
+    exports.utcSeconds = seconds;
+    exports.utcSunday = utcSunday;
+    exports.utcSundays = utcSundays;
+    exports.utcThursday = utcThursday;
+    exports.utcThursdays = utcThursdays;
+    exports.utcTuesday = utcTuesday;
+    exports.utcTuesdays = utcTuesdays;
+    exports.utcWednesday = utcWednesday;
+    exports.utcWednesdays = utcWednesdays;
+    exports.utcWeek = utcSunday;
+    exports.utcWeeks = utcSundays;
+    exports.utcYear = utcYear;
+    exports.utcYears = utcYears;
+    exports.values = values;
+    exports.variance = variance;
+    exports.version = version;
+    exports.voronoi = voronoi;
+    exports.window = defaultView;
+    exports.xml = xml;
+    exports.zip = zip;
+    exports.zoom = zoom;
+    exports.zoomIdentity = identity$9;
+    exports.zoomTransform = transform$1;
+    
+    Object.defineProperty(exports, '__esModule', { value: true });
+    
+    }));
