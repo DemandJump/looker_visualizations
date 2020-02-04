@@ -334,15 +334,8 @@ looker.plugins.visualizations.add({
         if (config.ruleInstances) ruleInstances = config.ruleInstances.rules;
 
         console.log('This is the number of rule instances!', ruleInstances);
-        for(let i = 0; i < ruleInstances; i++) {
-            rr = i;
-            cleanupExtraRules();
-            this._previousRuleInstances = previousRuleInstances;
-            // if (changed) {
-            //     this.options = settings;
-            //     this.trigger('registerOptions', settings);
-            // }
-        }
+        cleanupExtraRules();
+        this._previousRuleInstances = previousRuleInstances;
 
         for(let i = 0; i < ruleInstances; i++) {
             rr = i;
@@ -353,12 +346,6 @@ looker.plugins.visualizations.add({
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
-        this.options = settings;
-
-        for(let i = 0; i < ruleInstances; i++) {
-            rr = i;
-        }
-
         this.options = settings;
         this._previousRuleName = previousRuleName;
         this._previousNumberInputLabel = previousNumberInputLabel;
