@@ -669,8 +669,11 @@ looker.plugins.visualizations.add({
         
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; i++) {
+                console.log('This is d', d[`rule_${rr}`]);
                 if (d[`rule_${rr}`] && d.currentRule == rr) {
-                    if (d[`rule_${rr}`].italic == true) return 'italic'; 
+                    if (d[`rule_${rr}`].italic == true) {
+                        return 'italic'; 
+                    }
                 }
             }
             return `normal`;
