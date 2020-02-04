@@ -664,11 +664,7 @@ looker.plugins.visualizations.add({
         function fontBoldRules(d) {
             if (d[`rule_${d.currentRule}`]) {
                 let tf = d[`rule_${d.currentRule}`].bold;
-                console.log('This is the bold tf', tf);
-                if (tf) {
-                    console.log('True!');
-                    return 'bold';
-                }
+                if (tf) return 'bold';
             }
             return `normal`;
         } // End of fontBoldRules
@@ -677,11 +673,7 @@ looker.plugins.visualizations.add({
         function fontStyleRules(d, index) {
             if (d[`rule_${d.currentRule}`]) {
                 let tf = d[`rule_${d.currentRule}`].italic;
-                console.log('This is the italic tf', tf);
-                if (tf) {
-                    console.log('True!');
-                    return 'italic';
-                }
+                if (tf) return 'italic';
             }
             return `normal`;
         } // End of fontStyleRules
@@ -690,11 +682,7 @@ looker.plugins.visualizations.add({
         function lineRules(d) {
             if (d[`rule_${d.currentRule}`]) {
                 let tf = d[`rule_${d.currentRule}`].line;
-                console.log('This is the line tf', tf);
-                if (tf) {
-                    console.log('True!');
-                    return 'line-through';
-                }
+                if (tf) return 'line-through';
             }
             return `initial`;
         } // End of lineRules
