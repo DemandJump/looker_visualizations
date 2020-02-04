@@ -376,12 +376,325 @@ looker.plugins.visualizations.add({
 
 
 
+        /***************************************
+         * Configuring the data
+        ***************************************/
+        let sql = queryResponse.sql;
+        findColumnOrder();
+        // console.log('Column Order: ', columnOrder);
+
+        let columnData = [];
+        constructColumnData();
+        console.log('Column Data: ', columnData);
+
+        constructRowData();
+        console.log('This is the row data', rowData);
+
+        let totals_data = queryResponse.totals_data;
+        if (queryResponse.totals_data) totalsData();
+
+        configureStyleSettings();
+        if (this._dimensions != dimensions.length) { 
+            console.log('dimensions changed!');
+            this._dimensions = dimensions.length;
+            this.trigger('registerOptions', settings);
+        }
+
+        includeNulls();
+        let maxAndMin = [];
+        findMaxAndMin();
+
+        rowData.forEach(rows => {
+            for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
+        });
+
+        /***************************************
+         * Build the visual
+        ***************************************/
+        let table = this._table;
+        let header = table.append("thead").append("tr");
+
+        header.selectAll("th")
+            .data(columnData).enter().append("th")
+                .attr('class', d => d.type)
+                .html(d => headerNames(d))
+                .style('background-color', d => colorRules(d, false))
+                .style('border-left', (d, index) => thlbIndent(d, index));
+
+        let tablebody = table.append("tbody");
+        let rows = tablebody.selectAll("tr")
+            .data(rowData).enter().append("tr");
+
+        let cells = rows.selectAll("td")
+            .data(d => d).enter().append("td")
+                .attr('class', d => d.type)
+                .style('background-color', d => colorRules(d, false))
+                .style('color', d => fontColorRules(d))
+                .style('font-weight', d => fontBoldRules(d))
+                .style('text-decoration', d => italicLineRules(d))
+                .style('text-align', d => textAlign(d))
+                .style('border-left', d => lbIndent(d))
+                    .html(d => htmlReturn(d))
+                    .on('mouseover', d => hover(d))
+                    .on('mouseout', d => unhover(d))
+                    .on('click', d => openDropDown(d));
+
+        buildTotalsFooter();
+
+        /***************************************
+         * Functions section
+        ***************************************/
+
+            /***** Visual functions *****/
+        function headerNames(d) {
+            if (d.type != 'index_header') {
+                if (config.fullFieldName) {
+                    if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
+                    else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
+                } else {
+                    if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
+                    else return `<span class="bold">${d.field_group_variant}</span>`;
+                }
+
+            } else { return ''; }
+        }
 
 
+        function includeNulls() {
+            if (config.includeNullValueAsZero) {
+                rowData.forEach((row, index) => {
+                    for(let i = 0; i < row.length; i++) {
+                        if (row[i].value == null) {
+                            row[i].value = 0;
+                            if (row[i].rendered) row[i].rendered = `0`;
+                        }
+                    }
+                });
+            }
+        }
 
-        /*********************
+
+        function buildTotalsFooter() {
+            if (!config.hideTotals) {
+                let footer = table.append("tfoot").append("tr")
+                    .attr('class', 'footer');
+
+                let setTop = window.innerheight - 100;
+                footer.selectAll("th").data(columnData).enter().append("th")
+                    .attr('class', d => 'totals')
+                    .html(d => constructFooter(d))
+                    .style('background-color', 'white')
+                    .style('border-top', '1px solid #444444')
+                    .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
+            } else {
+                d3.selectAll('footer').remove();
+            }
+        }
+
+
+        function cellText(d) {
+            if(d.rendered) return d.rendered;
+            else return d.value;
+        }
+
+
+        function htmlReturn(d) {
+            let value = d.value;
+            if (d.rendered) value = d.rendered;
+            let links = '';
+            let linkHeader = '';
+
+            if (d.links) {
+                let dropDownHeader = d.links[0].type_label;
+                linkHeader = `
+                    <div class="dropdown-header">${dropDownHeader}</div> 
+                `;
+                d.links.forEach(link => {
+                    links = links + `
+                    <li class="dropdownHover">
+                        <a class="dropdownHover" href="${link.url}">${link.label}</a>
+                    </li>
+                    `;
+                });
+
+                return `
+                <div class="dropdown">
+                    <span>${value}</span>
+                    <div class="dropdown-content" id="r${d.row}c${d.column}">
+                        ${linkHeader}
+                        <ul class="ulDropdown">
+                            ${links}
+                        </ul>
+                    </div>
+                </div>
+                `;
+            } else {
+                return `<span>${value}</span>`
+            }
+
+        }
+
+
+        function textAlign(d) {
+            if (d.index || d.type == 'measures') return 'right';
+            else return 'left';
+        }
+
+
+        function hover(focus) {
+            let row = focus.row;
+            cells.filter(d => d.row === row).style('background-color', d => colorRules(d, true));
+        }
+
+
+        function unhover(focus) {
+            let row = focus.row;
+            cells.filter(d => d.row === row).style('background-color', d => colorRules(d, false));
+        }
+
+
+        function lbIndent(d) {
+            if (d.indent) {
+                if (config.tableTheme == 'classic') {
+                    if (d.type == 'dimensions') return '1px solid #c4cdd7';
+                    if (d.type == 'measures') return '1px solid #d6c6b5';
+                } else if (config.tableTheme == 'gray') {
+                    return '1px solid #e4e5e6';
+                }
+            } else {
+                return '0px solid #c4cdd7';
+            }
+        }
+        
+
+        function thlbIndent(d, index) {
+            if (index != 0) {
+                if (config.tableTheme == 'classic') {
+                    if (d.type == 'dimension_headers') return '1px solid #CCD8E4';
+                    if (d.type == 'measure_headers') return '1px solid #E4D1BD';
+                } else if (config.tableTheme == 'gray') {
+                    return '#c4c6c9';
+                }
+            }
+        }
+
+
+        function constructFooter(d) {
+            if (d.footerHtml != 'Totals') {
+                return d.footerHtml;
+            } else {
+                return `<span class="totalTitle">${d.footerHtml}</span>`;
+            }
+        } 
+
+
+        function openDropDown(d) {
+            d3.event.stopPropagation();
+            console.log('Open dropdown', d);
+
+            if (!dropDown) {
+                d3.selectAll('.dropdown-content').style('display', 'none');
+                dropDown = true;
+            }
+
+            if (dropDown && d != currentDropdown) {
+                currentNode = `r${d.row}c${d.column}`;
+                console.log(`Current node:`, currentNode);
+                d3.select(`#${currentNode}`).style('display', 'block');
+                dropDown = false;
+            }
+
+            if (currentDropdown == d) {
+                currentDropdown = {};
+                return;
+            } else {
+                currentDropdown = d;
+            }
+        }
+
+
+        function colorRules(d, hover) {
+            if (hover) {
+              if (!d.ruleColor) return `#E6E8EC`
+            }
+            // Header color rules
+            if (config.tableTheme == 'classic') {
+                if (d.type == 'dimension_headers' || d.type == 'index_header') {
+                    d.currentColor = `#CCD8E4`;
+                    return '#CCD8E4';
+                }
+                if (d.type == 'measure_headers') {
+                    d.currentColor = `#E4D1BD`;
+                    return '#E4D1BD';
+                }
+            } else if (config.tableTheme == 'gray') {
+                if (d.type == 'dimension_headers' || d.type == 'measure_headers' || d.type == 'index_header') {
+                    d.currentColor = `#E4E5E6`;
+                    return '#E4E5E6'; 
+                }
+            }
+
+            // Rule colors rules
+            for(let rr = 0; rr < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) {
+                    d.ruleColor = true;
+                    d.currentColor = d[`rule_${rr}`].color;
+                    return d[`rule_${rr}`].color;
+                }
+            }
+
+            // Normal color rules
+            if (d.tiled) {
+                if (config.tableTheme == 'classic') {
+                    if (d.type == 'dimensions') {
+                      d.currentColor = `#F5F8FA`
+                      return '#F5F8FA';
+                    }
+                    if (d.type == 'measures') {
+                        d.currentColor = `#F7F2ED`;
+                        return '#F7F2ED';
+                    }
+                } else if (config.tableTheme == 'gray') {
+                    d.currentColor = `#F5F8FA`;
+                    return '#F5F8FA';
+                }
+            }
+        } // End of colorRules
+
+
+        function fontColorRules(d) {
+            for(let rr = 0; rr< ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
+            }
+            if (d.index) return '#C2C2C2';
+            else '#323232';
+        } // End of fontColorRules
+
+
+        function fontBoldRules(d) {
+            for(let rr = 0; rr < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) { 
+                    if (d[`rule_${rr}`].bold) return 'bold';
+                }
+            }
+        } // End of fontBoldRules
+
+
+        function italicLineRules(d) {
+            for(let i = 0; i < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) {
+                    if (d[`rule_${rr}`].italic && d[`rule_${rr}`].line) return 'italic line-through';
+                    else if (d[`rule_${rr}`].italic) return 'italic';
+                    else if (d[`rule_${rr}`].line) return 'line-through';
+                }
+            }
+            return `initial`;
+        } // End of italicLineRules
+
+
+        /****************************
          * Main config build
-        *********************/
+        ****************************/
         function applyFormattingTo() {
             initializeBasicRules();
             initializeSelectFields();
@@ -912,9 +1225,9 @@ looker.plugins.visualizations.add({
             }
         } // End of displayConfigurationSettings
 
-        /**************************
+        /***********************
          * Cleanup extra rules
-        **************************/
+        ***********************/
         function cleanupExtraRules() {
             if (previousRuleInstances != ruleInstances) {
                 changed = true;
@@ -947,399 +1260,9 @@ looker.plugins.visualizations.add({
 
         } // End of cleanupExtraRules
 
-        /***************************************
-         * Configuring the data
-        ***************************************/
-        let sql = queryResponse.sql;
-        findColumnOrder();
-        // console.log('Column Order: ', columnOrder);
-
-        let columnData = [];
-        constructColumnData();
-        console.log('Column Data: ', columnData);
-
-        constructRowData();
-        console.log('This is the row data', rowData);
-
-        let totals_data = queryResponse.totals_data;
-        if (queryResponse.totals_data) totalsData();
-
-        configureStyleSettings();
-        if (this._dimensions != dimensions.length) { 
-            console.log('dimensions changed!');
-            this._dimensions = dimensions.length;
-            this.trigger('registerOptions', settings);
-        }
-
-        includeNulls();
-        let maxAndMin = [];
-        findMaxAndMin();
-
-        rowData.forEach(rows => {
-            for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
-        });
-
-        /***************************************
-         * Apply the config to the table
-        ***************************************/
-        function colorConfigureRows(d) {
-            // Iterate through each of the rules and append data to change the rows based on the rules
-            rules.forEach((rule, rr) => {
-                if (d.type == 'measures') {
-                    d[`rule_${rr}`] = false;
-                    for(let j = 0; j < rule.measures.length; j++) {
-                        if(d.name == rule.measures[j]) ruleOperations(rule, d, rr);
-                    } 
-                } 
-
-            }); 
-        } // End of colorConfigureRows
-
-        function ruleOperations(rule, d, rr) {
-            if (rule.format == 'equalTo') if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'notEqualTo') if (d.value != rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'greaterThan') if (d.value > rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'lessThan') if (d.value < rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'between') if (d.value >= rule.between.num1 && d.value <= rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'notBetween') if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'null') if (d.value == null) d[`rule_${rr}`] = ruleData(d, rule);
-            if (rule.format == 'notNull') if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
-
-            if (rule.format == 'alongAScale') {
-                let colorOne = hexToRgb(rule.alongAScale.color1);
-                let colorTwo = hexToRgb(rule.alongAScale.color2);
-                colorOne = `rgb(${colorOne[0]}, ${colorOne[1]}, ${colorOne[2]})`;
-                colorTwo = `rgb(${colorTwo[0]}, ${colorTwo[1]}, ${colorTwo[2]})`;
-                let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
-
-                let newColors = [];
-                newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
-
-                d[`rule_${rr}`] = ruleData(d, rule);
-                let stats = maxAndMin[parseInt(d.column)];
-                if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
-                else if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
-                else if (d.value <= stats.quartile3) d[`rule_${rr}`].color = newColors[2];
-                else if (d.value <= stats.max) d[`rule_${rr}`].color = newColors[3];
-            }
-
-        } // end of ruleOperations
-
-
-        function ruleData(d, rule) {
-            return  {
-                color: rule.notAlongAScale.backgroundColor,
-                alongAScale: rule.alongScale,
-                scale: rule.scale,
-                fontColor: rule.notAlongAScale.fontColor,
-                bold: rule.notAlongAScale.bold,
-                italic: rule.notAlongAScale.italic,
-                line: rule.notAlongAScale.line
-            };
-        }
-
-       
-        function interpolateColor(color1, color2, factor) {
-            if (arguments.length < 3) factor = 0.5; 
-            let result = color1.slice();
-            for (let i = 0; i < 3; i++) result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
-            return result;
-        }
-
-
-        function interpolateColors(color1, color2, steps) {
-            let stepFactor = 1 / (steps - 1);
-            let interpolatedColorArray = [];
-            color1 = color1.match(/\d+/g).map(Number);
-            color2 = color2.match(/\d+/g).map(Number);
-            for(let i = 0; i < steps; i++) interpolatedColorArray.push(interpolateColor(color1, color2, stepFactor * i));
-            return interpolatedColorArray;
-        }
-      
-        /***************************************
-         * Build the visual
-        ***************************************/
-        let table = this._table;
-        let header = table.append("thead").append("tr");
-
-        header.selectAll("th")
-            .data(columnData).enter().append("th")
-                .attr('class', d => d.type)
-                .html(d => headerNames(d))
-                .style('background-color', d => colorRules(d, false))
-                .style('border-left', (d, index) => thlbIndent(d, index));
-
-        let tablebody = table.append("tbody");
-        let rows = tablebody.selectAll("tr")
-            .data(rowData).enter().append("tr");
-
-        let cells = rows.selectAll("td")
-            .data(d => d).enter().append("td")
-                .attr('class', d => d.type)
-                .style('background-color', d => colorRules(d, false))
-                .style('color', d => fontColorRules(d))
-                .style('font-weight', d => fontBoldRules(d))
-                .style('text-align', d => textAlign(d))
-                .style('border-left', d => lbIndent(d))
-                // .style('border-bottom', d => { if (d.row == rowData.length - 1) return '1px solid #333333'; })
-                .html(d => htmlReturn(d))
-                .on('mouseover', d => hover(d))
-                .on('mouseout', d => unhover(d))
-                .on('click', d => openDropDown(d));
-
-        buildTotalsFooter();
-
-
-        function colorRules(d, hover) {
-            if (hover) {
-              if (!d.ruleColor) return `#E6E8EC`
-            }
-            // Header color rules
-            if (config.tableTheme == 'classic') {
-                if (d.type == 'dimension_headers' || d.type == 'index_header') {
-                    d.currentColor = `#CCD8E4`;
-                    return '#CCD8E4';
-                }
-                if (d.type == 'measure_headers') {
-                    d.currentColor = `#E4D1BD`;
-                    return '#E4D1BD';
-                }
-            } else if (config.tableTheme == 'gray') {
-                if (d.type == 'dimension_headers' || d.type == 'measure_headers' || d.type == 'index_header') {
-                    d.currentColor = `#E4E5E6`;
-                    return '#E4E5E6'; 
-                }
-            }
-
-            // Rule colors rules
-            for(let rr = 0; rr < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) {
-                    d.ruleColor = true;
-                    d.currentColor = d[`rule_${rr}`].color;
-                    return d[`rule_${rr}`].color;
-                }
-            }
-
-            // Normal color rules
-            if (d.tiled) {
-                if (config.tableTheme == 'classic') {
-                    if (d.type == 'dimensions') {
-                      d.currentColor = `#F5F8FA`
-                      return '#F5F8FA';
-                    }
-                    if (d.type == 'measures') {
-                        d.currentColor = `#F7F2ED`;
-                        return '#F7F2ED';
-                    }
-                } else if (config.tableTheme == 'gray') {
-                    d.currentColor = `#F5F8FA`;
-                    return '#F5F8FA';
-                }
-            }
-        } // End of colorRules
-
-
-        function fontColorRules(d) {
-            for(let rr = 0; rr< ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
-            }
-            if (d.index) return '#C2C2C2';
-            else '#323232';
-        } // End of fontColorRules
-
-
-        function fontBoldRules(d) {
-            for(let rr = 0; rr < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) { 
-                    if (d[`rule_${rr}`].bold) return 'bold';
-                }
-            }
-        } // End of fontBoldRules
-
-
-        function italicLineRules(d) {
-            for(let i = 0; i < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic && d[`rule_${rr}`].line) return 'italic line-through';
-                    else if (d[`rule_${rr}`].italic) return 'italic';
-                    else if (d[`rule_${rr}`].line) return 'line-through';
-                }
-            }
-            return `initial`;
-        } // End of italicLineRules
-
-        /***************************************
-         * Functions section
-        ***************************************/
-
-            /***** Visual functions *****/
-
-          function headerNames(d) {
-              if (d.type != 'index_header') {
-                  if (config.fullFieldName) {
-                      if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
-                      else return `<span class="unbold">${d.view_label}</span> <span class="bold">${d.field_group_variant}</span>`;
-                  } else {
-                      if (config[d.name] != '') return `<span class="bold">${config[d.name]}</span>`;
-                      else return `<span class="bold">${d.field_group_variant}</span>`;
-                  }
-
-              } else { return ''; }
-          }
-
-
-          function includeNulls() {
-              if (config.includeNullValueAsZero) {
-                  rowData.forEach((row, index) => {
-                      for(let i = 0; i < row.length; i++) {
-                          if (row[i].value == null) {
-                              row[i].value = 0;
-                              if (row[i].rendered) row[i].rendered = `0`;
-                          }
-                      }
-                  });
-              }
-          }
-
-
-          function buildTotalsFooter() {
-              if (!config.hideTotals) {
-                  let footer = table.append("tfoot").append("tr")
-                      .attr('class', 'footer');
-
-                  let setTop = window.innerheight - 100;
-                  footer.selectAll("th").data(columnData).enter().append("th")
-                      .attr('class', d => 'totals')
-                      .html(d => constructFooter(d))
-                      .style('background-color', 'white')
-                      .style('border-top', '1px solid #444444')
-                      .style('border-left', (d, index) => { if (index != 0 && d.footerHtml != '') return '1px solid #E4D1BD'; });
-              } else {
-                  d3.selectAll('footer').remove();
-              }
-        }
-
-
-        function cellText(d) {
-            if(d.rendered) return d.rendered;
-            else return d.value;
-        }
-
-
-        function htmlReturn(d) {
-            let value = d.value;
-            if (d.rendered) value = d.rendered;
-            let links = '';
-            let linkHeader = '';
-
-            if (d.links) {
-                let dropDownHeader = d.links[0].type_label;
-                linkHeader = `
-                    <div class="dropdown-header">${dropDownHeader}</div> 
-                `;
-                d.links.forEach(link => {
-                    links = links + `
-                    <li class="dropdownHover">
-                        <a class="dropdownHover" href="${link.url}">${link.label}</a>
-                    </li>
-                    `;
-                });
-
-                return `
-                <div class="dropdown">
-                    <span>${value}</span>
-                    <div class="dropdown-content" id="r${d.row}c${d.column}">
-                        ${linkHeader}
-                        <ul class="ulDropdown">
-                            ${links}
-                        </ul>
-                    </div>
-                </div>
-                `;
-            } else {
-                return `<span>${value}</span>`
-            }
-
-        }
-
-
-        function textAlign(d) {
-            if (d.index || d.type == 'measures') return 'right';
-            else return 'left';
-        }
-
-        function hover(focus) {
-            let row = focus.row;
-            cells.filter(d => d.row === row).style('background-color', d => colorRules(d, true));
-        }
-        function unhover(focus) {
-            let row = focus.row;
-            cells.filter(d => d.row === row).style('background-color', d => colorRules(d, false));
-        }
-
-
-        function lbIndent(d) {
-            if (d.indent) {
-                if (config.tableTheme == 'classic') {
-                    if (d.type == 'dimensions') return '1px solid #c4cdd7';
-                    if (d.type == 'measures') return '1px solid #d6c6b5';
-                } else if (config.tableTheme == 'gray') {
-                    return '1px solid #e4e5e6';
-                }
-            } else {
-                return '0px solid #c4cdd7';
-            }
-        }
-        
-
-        function thlbIndent(d, index) {
-            if (index != 0) {
-                if (config.tableTheme == 'classic') {
-                    if (d.type == 'dimension_headers') return '1px solid #CCD8E4';
-                    if (d.type == 'measure_headers') return '1px solid #E4D1BD';
-                } else if (config.tableTheme == 'gray') {
-                    return '#c4c6c9';
-                }
-            }
-        }
-
-
-        function constructFooter(d) {
-            if (d.footerHtml != 'Totals') {
-                return d.footerHtml;
-            } else {
-                return `<span class="totalTitle">${d.footerHtml}</span>`;
-            }
-        } 
-
-
-        function openDropDown(d) {
-            d3.event.stopPropagation();
-            console.log('Open dropdown', d);
-
-            if (!dropDown) {
-                d3.selectAll('.dropdown-content').style('display', 'none');
-                dropDown = true;
-            }
-
-            if (dropDown && d != currentDropdown) {
-                currentNode = `r${d.row}c${d.column}`;
-                console.log(`Current node:`, currentNode);
-                d3.select(`#${currentNode}`).style('display', 'block');
-                dropDown = false;
-            }
-
-            if (currentDropdown == d) {
-                currentDropdown = {};
-                return;
-            } else {
-                currentDropdown = d;
-            }
-        }
-
-            
-            /***** Buidling the data *****/
-
+        /*************************
+         * Building the data
+        **************************/
         function constructColumnData() {
             columnOrder.forEach((name, index) => {
                 for(let i = 0; i < dimensions.length; i++) {
@@ -1454,13 +1377,14 @@ looker.plugins.visualizations.add({
         }
 
 
-            /***** Settings functions *****/
+        /*********************
+         * Settings functions
+         ********************/
         function showRowNumbers() {
             if (config.rowNumbers == true) {
                 rowData.forEach((row, index) => {
                     row.unshift({value: index + 1, type: 'dimensions', view_label: '', field_group_variant: '', index: true});
                 });
-
                 columnData.unshift({name: '', type: 'index', view_label: '', field_group_variant: ''});
             }
         }
@@ -1507,29 +1431,104 @@ looker.plugins.visualizations.add({
 
         function findMaxAndMin() {
             //  This data will look bad as it tries to calculate the dimension data, but we need the index order to stay as it is
-          for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
-          rowData.forEach( (row, index) => {
-              for(let i = 0; i < row.length; i++) {
-                  if (index == 0) {
-                      maxAndMin[i].name = row[i].name;
-                      maxAndMin[i].min = row[i].value;
-                      maxAndMin[i].max = row[i].value;
-                  } else {
-                      if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
-                      if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
-                  }
-              }
-          });
-          for(let i = 0; i < rowData[0].length; i++) {
-              maxAndMin[i].quartile2 = (maxAndMin[i].min + maxAndMin[i].max) / 2;
-              let quarter = maxAndMin[i].quartile2 / 2;
-              maxAndMin[i].quartile1 = maxAndMin[i].quartile2 - quarter;
-              maxAndMin[i].quartile3 = maxAndMin[i].quartile2 + quarter;
-          }
-      } // End of findMaxAndMin
+            for(let i = 0; i < rowData[0].length; i++) maxAndMin.push({max: 0, min: 0});
+            rowData.forEach( (row, index) => {
+                for(let i = 0; i < row.length; i++) {
+                    if (index == 0) {
+                        maxAndMin[i].name = row[i].name;
+                        maxAndMin[i].min = row[i].value;
+                        maxAndMin[i].max = row[i].value;
+                    } else {
+                        if (maxAndMin[i].min > row[i].value) maxAndMin[i].min = row[i].value;
+                        if (maxAndMin[i].max < row[i].value) maxAndMin[i].max = row[i].value;
+                    }
+                }
+            });
+            for(let i = 0; i < rowData[0].length; i++) {
+                maxAndMin[i].quartile2 = (maxAndMin[i].min + maxAndMin[i].max) / 2;
+                let quarter = maxAndMin[i].quartile2 / 2;
+                maxAndMin[i].quartile1 = maxAndMin[i].quartile2 - quarter;
+                maxAndMin[i].quartile3 = maxAndMin[i].quartile2 + quarter;
+            }
+        } // End of findMaxAndMin
+
+        /***************************************
+         * Apply the config to the table
+        ***************************************/
+        function colorConfigureRows(d) {
+            // Iterate through each of the rules and append data to change the rows based on the rules
+            rules.forEach((rule, rr) => {
+                if (d.type == 'measures') {
+                    d[`rule_${rr}`] = false;
+                    for(let j = 0; j < rule.measures.length; j++) {
+                        if(d.name == rule.measures[j]) ruleOperations(rule, d, rr);
+                    } 
+                } 
+
+            }); 
+        } // End of colorConfigureRows
 
 
+        function ruleOperations(rule, d, rr) {
+            if (rule.format == 'equalTo') if (d.value == rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'notEqualTo') if (d.value != rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'greaterThan') if (d.value > rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'lessThan') if (d.value < rule.numberInput) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'between') if (d.value >= rule.between.num1 && d.value <= rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'notBetween') if (d.value < rule.between.num1 && d.value > rule.between.num2) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'null') if (d.value == null) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'notNull') if (d.value != null) d[`rule_${rr}`] = ruleData(d, rule);
+            if (rule.format == 'alongAScale') {
+                let colorOne = hexToRgb(rule.alongAScale.color1);
+                let colorTwo = hexToRgb(rule.alongAScale.color2);
+                colorOne = `rgb(${colorOne[0]}, ${colorOne[1]}, ${colorOne[2]})`;
+                colorTwo = `rgb(${colorTwo[0]}, ${colorTwo[1]}, ${colorTwo[2]})`;
+                let newColorNumbers = interpolateColors(colorOne, colorTwo, 4);
 
+                let newColors = [];
+                newColorNumbers.forEach(number => newColors.push(`rgb(${number[0]}, ${number[1]}, ${number[2]})`));
+
+                d[`rule_${rr}`] = ruleData(d, rule);
+                let stats = maxAndMin[parseInt(d.column)];
+                if (d.value <= stats.quartile1) d[`rule_${rr}`].color = newColors[0];
+                else if (d.value <= stats.quartile2) d[`rule_${rr}`].color = newColors[1];
+                else if (d.value <= stats.quartile3) d[`rule_${rr}`].color = newColors[2];
+                else if (d.value <= stats.max) d[`rule_${rr}`].color = newColors[3];
+            }
+
+        } // end of ruleOperations
+
+
+        function ruleData(d, rule) {
+            return  {
+                color: rule.notAlongAScale.backgroundColor,
+                alongAScale: rule.alongScale,
+                scale: rule.scale,
+                fontColor: rule.notAlongAScale.fontColor,
+                bold: rule.notAlongAScale.bold,
+                italic: rule.notAlongAScale.italic,
+                line: rule.notAlongAScale.line
+            };
+        }
+
+       
+        function interpolateColor(color1, color2, factor) {
+            if (arguments.length < 3) factor = 0.5; 
+            let result = color1.slice();
+            for (let i = 0; i < 3; i++) result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+            return result;
+        }
+
+
+        function interpolateColors(color1, color2, steps) {
+            let stepFactor = 1 / (steps - 1);
+            let interpolatedColorArray = [];
+            color1 = color1.match(/\d+/g).map(Number);
+            color2 = color2.match(/\d+/g).map(Number);
+            for(let i = 0; i < steps; i++) interpolatedColorArray.push(interpolateColor(color1, color2, stepFactor * i));
+            return interpolatedColorArray;
+        }
+      
 
 
             /**************** Done! *****************/
