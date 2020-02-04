@@ -488,9 +488,8 @@ looker.plugins.visualizations.add({
             let links = '';
             let linkHeader = '';
 
+            let text = `<span>${value}</span>`;
             if (config.convertImages) {
-                // Check if the beginning is an image link or an embed link
-                let text = `<span>${value}</span>`;
                 if (value.includes('data:image/')) text = `<img src="${value}">`; // Embedded check
                 if (value.substr(0,8) == 'https://') {
                     if (value.includes('.png') || value.includes('.jpg') || value.includes('images?') || value.includes('images') || value.includes('img') || value.includes('Image') || value.includes('Img')) text = `<img src="${value}"`;
