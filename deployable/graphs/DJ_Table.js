@@ -333,14 +333,13 @@ looker.plugins.visualizations.add({
 
         cleanupExtraRules();
         this._previousRuleInstances = previousRuleInstances;
-        sleep(1400);
-
+        
         for(let i = 0; i < ruleInstances; i++) {
-            rr = i;
-            applyFormattingTo();
-            displayConfigurationSettings();
+          rr = i;
+          applyFormattingTo();
+          displayConfigurationSettings();
         }
-
+        
         this._fieldChange = fieldChange;
         this._measures = numOfMeasures;
         this._selectFieldAmount = selectFieldAmount;
@@ -348,23 +347,27 @@ looker.plugins.visualizations.add({
         this._previousRuleName = previousRuleName;
         this._previousNumberInputLabel = previousNumberInputLabel;
         if (changed) {
-            changed = false;
+          changed = false;
             console.log('Rebuilding the settings');
             this.trigger('registerOptions', settings);
-        }
+          }
+          
 
-        // Build and append the rules to the data
-        let rules = [];
-        grabRuleData();
-        console.log('This is the rule data!', rules);
-        
-
-        // Give the computer a moment to breathe while you type in the config and stuff
-        function sleep(milliseconds) {
-          const date = Date.now();
-          let currentDate = null;
-          do {
-            currentDate = Date.now();
+          console.log('Waiting');
+          sleep(1400);
+          console.log('Done waiting, building rules and table');
+          // Build and append the rules to the data
+          let rules = [];
+          grabRuleData();
+          console.log('This is the rule data!', rules);
+          
+          
+          // Give the computer a moment to breathe while you type in the config and stuff
+          function sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            do {
+              currentDate = Date.now();
           } while (currentDate - date < milliseconds);
         }
 
