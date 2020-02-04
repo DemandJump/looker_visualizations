@@ -434,6 +434,7 @@ looker.plugins.visualizations.add({
             cells = rows.selectAll("td")
                 .data(d => d).enter().append("td")
                     .attr('class', d => d.type)
+                    .style('max-width', '540px')
                     .style('background-color', d => colorRules(d, false))
                     .style('color', d => fontColorRules(d))
                     .style('font-weight', d => fontBoldRules(d))
