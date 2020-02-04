@@ -489,14 +489,8 @@ looker.plugins.visualizations.add({
 
             if (d.links) {
                 let dropDownHeader = d.links[0].type_label;
-                let italicVals = '';
-                for(let i = 0; i < ruleInstances; i++) {
-                    if (d[`rule_${rr}`]) {
-                        italicVals = italicVals + d[`rule_${rr}`].italic.toString();
-                    }
-                }
                 linkHeader = `
-                    <div class="dropdown-header">${italicVals}</div>  // dropDownHeader
+                    <div class="dropdown-header">${dropDownHeader}</div>
                 `;
                 d.links.forEach(link => {
                     links = links + `
