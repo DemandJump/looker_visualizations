@@ -486,7 +486,7 @@ looker.plugins.visualizations.add({
 
             if (d.links) {
                 linkHeader = `
-                    <div class="dropdown-header">$Drill into ${d.value}</div>
+                    <div class="dropdown-header">Drill into ${d.value}</div>
                 `;
                 d.links.forEach(link => {
                     links = links + `
