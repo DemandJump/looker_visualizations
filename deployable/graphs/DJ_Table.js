@@ -437,7 +437,8 @@ looker.plugins.visualizations.add({
                     .style('background-color', d => colorRules(d, false))
                     .style('color', d => fontColorRules(d))
                     .style('font-weight', d => fontBoldRules(d))
-                    // .style('text-decoration', d => italicLineRules(d))
+                    .style('font-style', d => fontStyleRules(d))
+                    .style('text-decoration', d => italicLineRules(d))
                     .style('text-align', d => textAlign(d))
                     .style('border-left', d => lbIndent(d))
                         .html(d => htmlReturn(d))
@@ -687,15 +688,24 @@ looker.plugins.visualizations.add({
                     if (d[`rule_${rr}`].bold) return 'bold';
                 }
             }
+            return `normal`;
         } // End of fontBoldRules
+
+        
+        function fontStyleRules(d) {
+            for(let i = 0; i < ruleInstances; rr++) {
+                if (d[`rule_${rr}`]) {
+                    if (d[`rule_${rr}`].italic) return 'italic';
+                }
+            }
+            return `normal`;
+        }
 
 
         function italicLineRules(d) {
             for(let i = 0; i < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic && d[`rule_${rr}`].line) return 'italic line-through';
-                    else if (d[`rule_${rr}`].italic) return 'italic';
-                    else if (d[`rule_${rr}`].line) return 'line-through';
+                    if (d[`rule_${rr}`].italic && d[`rule_${rr}`].line) return 'line-through';
                 }
             }
             return `initial`;
