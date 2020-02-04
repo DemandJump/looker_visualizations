@@ -412,8 +412,8 @@ looker.plugins.visualizations.add({
         //     main();
         // },1000);
 
-        // main();
-        // function main() {
+        main();
+        function main() {
             /***************************************
              * Build the visual
             ***************************************/
@@ -448,7 +448,7 @@ looker.plugins.visualizations.add({
             console.log('Through the visual, building the totals footer!');
             buildTotalsFooter();
 
-        // } // End of main
+        } // End of main
         
         
         /***************************************
