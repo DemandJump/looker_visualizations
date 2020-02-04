@@ -346,16 +346,11 @@ looker.plugins.visualizations.add({
             this.trigger('registerOptions', settings);
           }
           
-
-          // console.log('Waiting');
-          // sleep(1400);
-          console.log('Done waiting, building rules and table');
-          // Build and append the rules to the data
-          let rules = [];
-          grabRuleData();
-          console.log('This is the rule data!', rules);
+        // Build and append the rules to the data
+        let rules = [];
+        grabRuleData();
+        console.log('This is the rule data!', rules);
           
-
 
 
         
@@ -427,7 +422,6 @@ looker.plugins.visualizations.add({
                     .on('mouseout', d => unhover(d))
                     .on('click', d => openDropDown(d));
 
-        console.log('Through the visual, building the totals footer!');
         buildTotalsFooter();
         
         d3.select(element).append('div')
@@ -673,8 +667,8 @@ looker.plugins.visualizations.add({
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; i++) {
                 if (d[`rule_${rr}`]) {
-                    console.log('This is rule', d[`rule_${rr}`].italic);
-                    if (d[`rule_${rr}`].italic == true) return 'italic'; 
+                    console.log('This is rule', d[`rule_${rr}`]);
+                    // if (d[`rule_${rr}`].italic == true) return 'italic'; 
                 }
             }
             return `normal`;
