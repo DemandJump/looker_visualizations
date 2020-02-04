@@ -1152,6 +1152,7 @@ looker.plugins.visualizations.add({
                     else if (d[`rule_${rr}`].line) return 'line-through';
                 }
             }
+            return `initial`;
         } // End of italicLineRules
 
         /***************************************
