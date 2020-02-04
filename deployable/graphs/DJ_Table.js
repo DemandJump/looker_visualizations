@@ -623,7 +623,6 @@ looker.plugins.visualizations.add({
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {  
                     d.ruleColor = true;
-                    d.currentRule = rr; // This will ensure the rule data is exclusive to each rule: Currently the first rule that is applied to a row will take effect
                     d.currentColor = d[`rule_${rr}`].color;
                     return d[`rule_${rr}`].color;
                 }
@@ -650,7 +649,7 @@ looker.plugins.visualizations.add({
 
         function fontColorRules(d) {
             for(let rr = 0; rr< ruleInstances; rr++) {
-                if (d[`rule_${rr}`] && d.currentRule == rr) return d[`rule_${rr}`].fontColor;
+                if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
             }
             if (d.index) return '#C2C2C2';
             else '#323232';
@@ -659,7 +658,7 @@ looker.plugins.visualizations.add({
 
         function fontBoldRules(d) {
             for(let rr = 0; rr < ruleInstances; rr++) {
-                if (d[`rule_${rr}`] && d.currentRule == rr) { 
+                if (d[`rule_${rr}`]) { 
                     if (d[`rule_${rr}`].bold) return 'bold';
                 }
             }
@@ -669,13 +668,8 @@ looker.plugins.visualizations.add({
         
         function fontStyleRules(d, index) {
             for(let i = 0; i < ruleInstances; i++) {
-                console.log(`This is the current rule ${d.currentRule}, and this is the index: ${index}`);
-                console.log('This is d', d[`rule_${rr}`]);
-                if (d[`rule_${rr}`] && d.currentRule == rr) {
-                    if (d[`rule_${rr}`].italic == true) {
-                        return 'italic';
-                        break; 
-                    }
+                if (d[`rule_${rr}`]) {
+                    if (d[`rule_${rr}`].italic) return 'italic';
                 }
             }
             return `normal`;
@@ -684,8 +678,8 @@ looker.plugins.visualizations.add({
 
         function lineRules(d) {
             for(let i = 0; i < ruleInstances; i++) {
-                if (d[`rule_${rr}`] && d.currentRule == rr) {
-                      if (d[`rule_${rr}`].line == true) return `line-through`;
+                if (d[`rule_${rr}`]) {
+                      if (d[`rule_${rr}`].line) return `line-through`;
                 }
             }
             return `initial`;
