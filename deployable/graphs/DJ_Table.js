@@ -682,7 +682,7 @@ looker.plugins.visualizations.add({
             console.log('This is is italic', d[`rule_${rr}`].notAlongAScale.italic);
             for(let i = 0; i < ruleInstances; i++) {
                 if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`][`notAlongAScale`].italic == true) return 'italic';
+                    if (d[`rule_${rr}`][`notAlongAScale`].italic == true) return 'italic'; 
                 }
             }
             return `normal`;
