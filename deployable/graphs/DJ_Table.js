@@ -109,7 +109,6 @@ looker.plugins.visualizations.add({
         this._previousRuleName = '';
         this._previousNumberInputLabel = '';
         this._previousRuleInstances = 0;
-        this._counter = 0;
         this._fieldInstanceConfig = []; // Array that holds all the rule's selectFieldAmounts
         element.innerHTML =`
             <style>
@@ -623,10 +622,6 @@ looker.plugins.visualizations.add({
             // Rule colors rules
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {  
-                    if (this._counter == 20) {
-                        console.log('this is d', d);
-                        console.log('This is counter d', d[`rule_${rr}`]);
-                    }
                     d.ruleColor = true;
                     d.currentRule = rr; // This will ensure the rule data is exclusive to each rule: Currently the first rule that is applied to a row will take effect
                     d.currentColor = d[`rule_${rr}`].color;
