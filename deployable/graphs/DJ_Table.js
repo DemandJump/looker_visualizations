@@ -341,10 +341,9 @@ looker.plugins.visualizations.add({
         this._previousRuleName = previousRuleName;
         this._previousNumberInputLabel = previousNumberInputLabel;
         if (changed) {
-          changed = false;
-            console.log('Rebuilding the settings');
+            changed = false;
             this.trigger('registerOptions', settings);
-          }
+        }
           
         // Build and append the rules to the data
         let rules = [];
