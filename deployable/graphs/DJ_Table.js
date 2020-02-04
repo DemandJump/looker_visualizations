@@ -423,11 +423,9 @@ looker.plugins.visualizations.add({
 
         buildTotalsFooter();
         
-        d3.select(element).append('div')
+        d3.select('vis_holder').append('div')
         .attr('class', 'embeddedImage')
-        .html(d => {
-            `<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`
-        });
+        .html(`<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`);
         
         /***************************************
          * Functions section
