@@ -1092,21 +1092,40 @@ looker.plugins.visualizations.add({
         function colorRules(d) {
             // Rule colors rules
             for(let rr = 0; rr < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) return d[`rule_${rr}`].color;
+                if (d[`rule_${rr}`]) {
+                    d.currentColor = d[`rule_${rr}`].color;
+                    return d[`rule_${rr}`].color;
+                }
             }
             // Normal color rules
             if (config.tableTheme == 'classic') {
-                if (d.type == 'dimension_headers' || d.type == 'index_header') return '#CCD8E4';
-                if (d.type == 'measure_headers') return '#E4D1BD';
+                if (d.type == 'dimension_headers' || d.type == 'index_header') {
+                    d.currentColor = `#CCD8E4`;
+                    return '#CCD8E4';
+                }
+                if (d.type == 'measure_headers') {
+                    d.currentColor = `#E4D1BD`;
+                    return '#E4D1BD';
+                }
             } else if (config.tableTheme == 'gray') {
-                if (d.type == 'dimension_headers' || d.type == 'measure_headers' || d.type == 'index_header') return '#E4E5E6'; 
+                if (d.type == 'dimension_headers' || d.type == 'measure_headers' || d.type == 'index_header') {
+                    d.currentColor = `#E4E5E6`;
+                    return '#E4E5E6'; 
+                }
             }
 
             if (d.tiled) {
                 if (config.tableTheme == 'classic') {
-                    if (d.type == 'dimensions') return '#F5F8FA';
-                    if (d.type == 'measures') return '#F7F2ED';
+                    if (d.type == 'dimensions') {
+                      d.currentColor = `#F5F8FA`
+                      return '#F5F8FA';
+                    }
+                    if (d.type == 'measures') {
+                        d.currentColor = `#F7F2ED`;
+                        return '#F7F2ED';
+                    }
                 } else if (config.tableTheme == 'gray') {
+                    d.currentColor = `#F5F8FA`;
                     return '#F5F8FA';
                 }
             }
@@ -1246,7 +1265,7 @@ looker.plugins.visualizations.add({
         }
         function unhover(focus) {
             let row = focus.row;
-            cells.filter(d => d.row === row).style('background-color', d => colorTables(d));
+            cells.filter(d => d.row === row).style('background-color', d => colorRules(d));
         }
 
 
