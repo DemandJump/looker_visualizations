@@ -416,7 +416,7 @@ looker.plugins.visualizations.add({
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
                 .style('font-style', d => fontStyleRules(d))
-                .style('text-decoration', d => italicLineRules(d))
+                .style('text-decoration', d => lineRules(d))
                 .style('max-width', '540px')
                 .style('text-overflow', 'ellipsis')
                 .style('text-align', d => textAlign(d))
@@ -676,23 +676,25 @@ looker.plugins.visualizations.add({
 
         
         function fontStyleRules(d) {
-            for(let i = 0; i < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`][`notAlongAScale`].italic) return 'italic';
-                }
+            if (d[`rule_${rr}`]) {
+                console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
+                console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
+                console.log('This is is italic', d[`rule_${rr}`].notAlongAScale.italic);
             }
+            for(let i = 0; i < ruleInstances; rr++) {}
             return `normal`;
         }
 
 
-        function italicLineRules(d) {
-            for(let i = 0; i < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`][`notAlongAScale`].italic) return 'line-through';
-                }
+        function lineRules(d) {
+            if (d[`rule_${rr}`]) {
+                console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
+                console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
+                console.log('This is is line' d[`rule_${rr}`].notAlongAScale.line);
             }
+            for(let i = 0; i < ruleInstances; rr++) {}
             return `initial`;
-        } // End of italicLineRules
+        } // End of lineRules
 
 
         /****************************
