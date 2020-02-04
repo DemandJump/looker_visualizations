@@ -280,7 +280,7 @@ looker.plugins.visualizations.add({
 
     },
     dimensionRefresh: function() {
-
+        
     }
     
 
@@ -383,36 +383,38 @@ looker.plugins.visualizations.add({
         let totals_data = queryResponse.totals_data;
         let maxAndMin = [];
         let table = this._table;
-        let header, tablebody, cells, rows;
-        let that = this; 
-        console.log('This', that);
+        let header, tablebody, cells, rows
 
+        /***************************************
+         * Configuring the data
+         ***************************************/
+        findColumnOrder();
+        // console.log('Column Order: ', columnOrder);
+        
+        constructColumnData();
+        console.log('Column Data: ', columnData);
+        
+        constructRowData();
+        console.log('This is the row data', rowData);
+        
+        if (queryResponse.totals_data) totalsData();
+        
+        configureStyleSettings();
+        if (this._dimensions != dimensions.length) { 
+          console.log('dimensions changed!');
+          this._dimensions = dimensions.length;
+          this.trigger('registerOptions', settings);
+        }
+        
+        includeNulls();
+        findMaxAndMin();
+        
+        rowData.forEach(rows => {
+          for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
+        });
+        
         main();
         function main() {
-            /***************************************
-             * Configuring the data
-            ***************************************/
-            findColumnOrder();
-            // console.log('Column Order: ', columnOrder);
-
-            constructColumnData();
-            console.log('Column Data: ', columnData);
-
-            constructRowData();
-            console.log('This is the row data', rowData);
-
-            if (queryResponse.totals_data) totalsData();
-
-            configureStyleSettings();
-            dimensionRefresh
-
-            includeNulls();
-            findMaxAndMin();
-
-            rowData.forEach(rows => {
-                for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
-            });
-
             /***************************************
              * Build the visual
             ***************************************/
