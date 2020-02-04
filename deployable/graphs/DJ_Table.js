@@ -286,7 +286,7 @@ looker.plugins.visualizations.add({
         console.log(`\n\n\n\n\n\n\n\n\n\nqueryResponse`, queryResponse);
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
-        console.log(`data`, data);
+        // console.log(`data`, data);
         // console.log('LookerCharts', LookerCharts.Utils);
         // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
 
