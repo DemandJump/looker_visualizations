@@ -288,6 +288,7 @@ looker.plugins.visualizations.add({
     
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
+        this._table.selectAll("*").remove(); // Clear out the data before we add the vis
         console.log(`\n\n\n\n\n\n\n\n\n\nqueryResponse`, queryResponse);
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
@@ -360,17 +361,6 @@ looker.plugins.visualizations.add({
           grabRuleData();
           console.log('This is the rule data!', rules);
           
-          
-          // Give the computer a moment to breathe while you type in the config and stuff
-        function sleep(milliseconds) {
-            const date = Date.now();
-            let currentDate = null;
-            do {
-                currentDate = Date.now();
-            } while (currentDate - date < milliseconds);
-        }
-
-
 
 
 
@@ -417,46 +407,46 @@ looker.plugins.visualizations.add({
         //     main();
         // },1000);
 
-        main();
-        function main() {
-            table.selectAll("*").remove(); // Clear out the data before we add the vis
-            /***************************************
-             * Build the visual
-            ***************************************/
-            console.log('main: Building the visual');
-            header = table.append("thead").append("tr");
+        // main();
+        // function main() {
+        //     table.selectAll("*").remove(); // Clear out the data before we add the vis
+        /***************************************
+         * Build the visual
+        ***************************************/
+        console.log('main: Building the visual');
+        header = table.append("thead").append("tr");
 
-            header.selectAll("th")
-                .data(columnData).enter().append("th")
-                    .attr('class', d => d.type)
-                    .html(d => headerNames(d))
-                    .style('background-color', d => colorRules(d, false))
-                    .style('border-left', (d, index) => thlbIndent(d, index));
+        header.selectAll("th")
+            .data(columnData).enter().append("th")
+                .attr('class', d => d.type)
+                .html(d => headerNames(d))
+                .style('background-color', d => colorRules(d, false))
+                .style('border-left', (d, index) => thlbIndent(d, index));
 
-            tablebody = table.append("tbody");
-            rows = tablebody.selectAll("tr")
-                .data(rowData).enter().append("tr");
+        tablebody = table.append("tbody");
+        rows = tablebody.selectAll("tr")
+            .data(rowData).enter().append("tr");
 
-            cells = rows.selectAll("td")
-                .data(d => d).enter().append("td")
-                    .attr('class', d => d.type)
-                    .style('max-width', '540px')
-                    .style('background-color', d => colorRules(d, false))
-                    .style('color', d => fontColorRules(d))
-                    .style('font-weight', d => fontBoldRules(d))
-                    .style('font-style', d => fontStyleRules(d))
-                    // .style('text-decoration', d => italicLineRules(d))
-                    .style('text-align', d => textAlign(d))
-                    .style('border-left', d => lbIndent(d))
-                        .html(d => htmlReturn(d))
-                        .on('mouseover', d => hover(d))
-                        .on('mouseout', d => unhover(d))
-                        .on('click', d => openDropDown(d));
+        cells = rows.selectAll("td")
+            .data(d => d).enter().append("td")
+                .attr('class', d => d.type)
+                .style('max-width', '540px')
+                .style('background-color', d => colorRules(d, false))
+                .style('color', d => fontColorRules(d))
+                .style('font-weight', d => fontBoldRules(d))
+                .style('font-style', d => fontStyleRules(d))
+                // .style('text-decoration', d => italicLineRules(d))
+                .style('text-align', d => textAlign(d))
+                .style('border-left', d => lbIndent(d))
+                    .html(d => htmlReturn(d))
+                    .on('mouseover', d => hover(d))
+                    .on('mouseout', d => unhover(d))
+                    .on('click', d => openDropDown(d));
 
-            console.log('Through the visual, building the totals footer!');
-            buildTotalsFooter();
+        console.log('Through the visual, building the totals footer!');
+        buildTotalsFooter();
 
-        } // End of main
+        // } // End of main
         
         
         /***************************************
