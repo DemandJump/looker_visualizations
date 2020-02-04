@@ -437,7 +437,7 @@ looker.plugins.visualizations.add({
                     .style('background-color', d => colorRules(d, false))
                     .style('color', d => fontColorRules(d))
                     .style('font-weight', d => fontBoldRules(d))
-                    .style('text-decoration', d => italicLineRules(d))
+                    // .style('text-decoration', d => italicLineRules(d))
                     .style('text-align', d => textAlign(d))
                     .style('border-left', d => lbIndent(d))
                         .html(d => htmlReturn(d))
