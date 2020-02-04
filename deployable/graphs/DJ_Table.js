@@ -397,7 +397,6 @@ looker.plugins.visualizations.add({
         /***************************************
          * Build the visual
         ***************************************/
-        console.log('main: Building the visual');
         header = table.append("thead").append("tr");
 
         header.selectAll("th")
@@ -417,7 +416,7 @@ looker.plugins.visualizations.add({
                 .style('background-color', d => colorRules(d, false))
                 .style('color', d => fontColorRules(d))
                 // .style('font-weight', d => fontBoldRules(d))
-                .style('font-style', d => fontStyleRules(d))
+                // .style('font-style', d => fontStyleRules(d))
                 // .style('text-decoration', d => italicLineRules(d))
                 .style('max-width', '540px')
                 .style('text-overflow', 'ellipsis')
@@ -431,11 +430,11 @@ looker.plugins.visualizations.add({
         console.log('Through the visual, building the totals footer!');
         buildTotalsFooter();
         
-        d3.select(element).append('div')
-        .attr('class', 'embeddedImage')
-        .html(d => {
-            `<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`
-        });
+        // d3.select(element).append('div')
+        // .attr('class', 'embeddedImage')
+        // .html(d => {
+        //     `<img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSmy98FJiKQwBa7uHmlkry-9xjh1a4FvaT2KtMRGKEGhVx5xWGoptmirksdAMSB">`
+        // });
         
         /***************************************
          * Functions section
