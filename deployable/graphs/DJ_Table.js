@@ -1069,8 +1069,9 @@ looker.plugins.visualizations.add({
         let cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                 .attr('class', d => d.type)
-                // .style('background-color', d => colorTables(d))
-                .style('color', d => textColor(d))
+                .style('background-color', d => colorRules(d, false))
+                .style('color', d => fontColorRules(d))
+                .style('font-weight', d => fontBoldRules(d))
                 .style('text-align', d => textAlign(d))
                 .style('border-left', d => lbIndent(d))
                 // .style('border-bottom', d => { if (d.row == rowData.length - 1) return '1px solid #333333'; })
@@ -1078,13 +1079,6 @@ looker.plugins.visualizations.add({
                 .on('mouseover', d => hover(d))
                 .on('mouseout', d => unhover(d))
                 .on('click', d => openDropDown(d));
-
-          // Rule settings appending into the visual
-        cells
-            .style('background-color', d => colorRules(d, false))
-            .style('color', d => fontColorRules(d))
-            .style('font-weight', d => fontBoldRules(d))
-        //     .style('text-decoration', d => italicLineRules(d));
 
         buildTotalsFooter();
 
@@ -1136,6 +1130,8 @@ looker.plugins.visualizations.add({
                 }
             }
         } // End of colorRules
+
+
         function fontColorRules(d) {
             for(let rr = 0; rr< ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
@@ -1143,6 +1139,8 @@ looker.plugins.visualizations.add({
             if (d.index) return '#C2C2C2';
             else '#323232';
         } // End of fontColorRules
+
+
         function fontBoldRules(d) {
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) { 
@@ -1150,6 +1148,8 @@ looker.plugins.visualizations.add({
                 }
             }
         } // End of fontBoldRules
+
+
         function italicLineRules(d) {
             for(let i = 0; i < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
