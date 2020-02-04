@@ -374,73 +374,75 @@ looker.plugins.visualizations.add({
 
 
 
+        main();
+        function main() { 
+            /***************************************
+             * Configuring the data
+            ***************************************/
+            let sql = queryResponse.sql;
+            findColumnOrder();
+            // console.log('Column Order: ', columnOrder);
 
+            let columnData = [];
+            constructColumnData();
+            console.log('Column Data: ', columnData);
 
-        /***************************************
-         * Configuring the data
-        ***************************************/
-        let sql = queryResponse.sql;
-        findColumnOrder();
-        // console.log('Column Order: ', columnOrder);
+            constructRowData();
+            console.log('This is the row data', rowData);
 
-        let columnData = [];
-        constructColumnData();
-        console.log('Column Data: ', columnData);
+            let totals_data = queryResponse.totals_data;
+            if (queryResponse.totals_data) totalsData();
 
-        constructRowData();
-        console.log('This is the row data', rowData);
+            configureStyleSettings();
+            if (this._dimensions != dimensions.length) { 
+                console.log('dimensions changed!');
+                this._dimensions = dimensions.length;
+                this.trigger('registerOptions', settings);
+            }
 
-        let totals_data = queryResponse.totals_data;
-        if (queryResponse.totals_data) totalsData();
+            includeNulls();
+            let maxAndMin = [];
+            findMaxAndMin();
 
-        configureStyleSettings();
-        if (this._dimensions != dimensions.length) { 
-            console.log('dimensions changed!');
-            this._dimensions = dimensions.length;
-            this.trigger('registerOptions', settings);
-        }
+            rowData.forEach(rows => {
+                for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
+            });
 
-        includeNulls();
-        let maxAndMin = [];
-        findMaxAndMin();
+            /***************************************
+             * Build the visual
+            ***************************************/
+            let table = this._table;
+            let header = table.append("thead").append("tr");
 
-        rowData.forEach(rows => {
-            for(let i = 0; i < rows.length; i++) colorConfigureRows(rows[i]);
-        });
+            header.selectAll("th")
+                .data(columnData).enter().append("th")
+                    .attr('class', d => d.type)
+                    .html(d => headerNames(d))
+                    .style('background-color', d => colorRules(d, false))
+                    .style('border-left', (d, index) => thlbIndent(d, index));
 
-        /***************************************
-         * Build the visual
-        ***************************************/
-        let table = this._table;
-        let header = table.append("thead").append("tr");
+            let tablebody = table.append("tbody");
+            let rows = tablebody.selectAll("tr")
+                .data(rowData).enter().append("tr");
 
-        header.selectAll("th")
-            .data(columnData).enter().append("th")
-                .attr('class', d => d.type)
-                .html(d => headerNames(d))
-                .style('background-color', d => colorRules(d, false))
-                .style('border-left', (d, index) => thlbIndent(d, index));
+            let cells = rows.selectAll("td")
+                .data(d => d).enter().append("td")
+                    .attr('class', d => d.type)
+                    .style('background-color', d => colorRules(d, false))
+                    .style('color', d => fontColorRules(d))
+                    .style('font-weight', d => fontBoldRules(d))
+                    .style('text-decoration', d => italicLineRules(d))
+                    .style('text-align', d => textAlign(d))
+                    .style('border-left', d => lbIndent(d))
+                        .html(d => htmlReturn(d))
+                        .on('mouseover', d => hover(d))
+                        .on('mouseout', d => unhover(d))
+                        .on('click', d => openDropDown(d));
 
-        let tablebody = table.append("tbody");
-        let rows = tablebody.selectAll("tr")
-            .data(rowData).enter().append("tr");
+            buildTotalsFooter();
 
-        let cells = rows.selectAll("td")
-            .data(d => d).enter().append("td")
-                .attr('class', d => d.type)
-                .style('background-color', d => colorRules(d, false))
-                .style('color', d => fontColorRules(d))
-                .style('font-weight', d => fontBoldRules(d))
-                .style('text-decoration', d => italicLineRules(d))
-                .style('text-align', d => textAlign(d))
-                .style('border-left', d => lbIndent(d))
-                    .html(d => htmlReturn(d))
-                    .on('mouseover', d => hover(d))
-                    .on('mouseout', d => unhover(d))
-                    .on('click', d => openDropDown(d));
-
-        buildTotalsFooter();
-
+        } // End of main 
+        
         /***************************************
          * Functions section
         ***************************************/
