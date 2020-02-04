@@ -279,9 +279,6 @@ looker.plugins.visualizations.add({
             .style('position', 'relative');
 
     },
-    dimensionRefresh: function() {
-        
-    }
     
 
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { let d3 = d3v5;
@@ -366,12 +363,12 @@ looker.plugins.visualizations.add({
           
           
           // Give the computer a moment to breathe while you type in the config and stuff
-          function sleep(milliseconds) {
+        function sleep(milliseconds) {
             const date = Date.now();
             let currentDate = null;
             do {
-              currentDate = Date.now();
-          } while (currentDate - date < milliseconds);
+                currentDate = Date.now();
+            } while (currentDate - date < milliseconds);
         }
 
 
