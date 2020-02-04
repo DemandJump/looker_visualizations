@@ -673,7 +673,7 @@ looker.plugins.visualizations.add({
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; i++) {
                 if (d[`rule_${rr}`]) {
-                    console.lo('This is rule', d[`rule_${rr}`].italic);
+                    console.log('This is rule', d[`rule_${rr}`].italic);
                     if (d[`rule_${rr}`].italic == true) return 'italic'; 
                 }
             }
