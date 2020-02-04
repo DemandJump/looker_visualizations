@@ -679,25 +679,19 @@ looker.plugins.visualizations.add({
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; i++) {
                 if (d[`rule_${rr}`]) {
-                    console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
-                    console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
-                    console.log('This is is italic', d[`rule_${rr}`].notAlongAScale.italic);
-                    if (d[`rule_${rr}`][`notAlongAScale`].italic == true) return 'italic'; 
+                    if (d[`rule_${rr}`].italic == true) return 'italic'; 
                 }
             }
             return `normal`;
-        }
+        } // End of fontStyleRules
 
 
         function lineRules(d) {
-            console.log('fontStyleRules: This is drule', d[`rule_${rr}`]);
-            console.log('This is not along a scale', d[`rule_${rr}`].notAlongAScale);
-            console.log('This is is line', d[`rule_${rr}`].notAlongAScale.line);
-            // for(let i = 0; i < ruleInstances; i++) {
-            //     if (d[`rule_${rr}`]) {
-            //         if (d[`rule_${rr}`][`notAlongAScale`].line == true) return `line-through`
-            //     }
-            // }
+            for(let i = 0; i < ruleInstances; i++) {
+                if (d[`rule_${rr}`]) {
+                      if (d[`rule_${rr}`].line == true) return `line-through`
+                }
+            }
             return `initial`;
         } // End of lineRules
 
