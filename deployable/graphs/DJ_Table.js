@@ -761,7 +761,7 @@ looker.plugins.visualizations.add({
                     rule[`numberInput`] = 0;
                     rule[`between`] = {num1: '', num2: ''};
                     rule[`alongAScale`] = {color1: '', color2: ''};
-                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#404040', bold: false, italic: false, line: false};
+                    rule[`notAlongAScale`] = {backgroundColor: '', fontColor: '#323232', bold: false, italic: false, line: false};
 
                     // Grab the measures that apply to this rule
                     if (config[`applyFormattingTo_${rr}`] == 'all') {
@@ -1059,7 +1059,7 @@ looker.plugins.visualizations.add({
             .data(columnData).enter().append("th")
                 .attr('class', d => d.type)
                 .html(d => headerNames(d))
-                .style('background-color', d => colorRules(d))
+                .style('background-color', d => colorRules(d, false))
                 .style('border-left', (d, index) => thlbIndent(d, index));
 
         let tablebody = table.append("tbody");
@@ -1081,7 +1081,7 @@ looker.plugins.visualizations.add({
 
           // Rule settings appending into the visual
         cells
-            .style('background-color', d => colorRules(d))
+            .style('background-color', d => colorRules(d, false))
             .style('color', d => fontColorRules(d))
             .style('font-weight', d => fontBoldRules(d))
         //     .style('text-decoration', d => italicLineRules(d));
@@ -1089,7 +1089,10 @@ looker.plugins.visualizations.add({
         buildTotalsFooter();
 
 
-        function colorRules(d) {
+        function colorRules(d, hover) {
+            if (hover) {
+              if (!d.ruleColor) return `#E6E8EC`
+            }
             // Header color rules
             if (config.tableTheme == 'classic') {
                 if (d.type == 'dimension_headers' || d.type == 'index_header') {
@@ -1110,6 +1113,7 @@ looker.plugins.visualizations.add({
             // Rule colors rules
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
+                    d.ruleColor = true;
                     d.currentColor = d[`rule_${rr}`].color;
                     return d[`rule_${rr}`].color;
                 }
@@ -1136,6 +1140,8 @@ looker.plugins.visualizations.add({
             for(let rr = 0; rr< ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
             }
+            if (d.index) return '#C2C2C2';
+            else '#323232';
         } // End of fontColorRules
         function fontBoldRules(d) {
             for(let rr = 0; rr < ruleInstances; rr++) {
@@ -1255,20 +1261,13 @@ looker.plugins.visualizations.add({
             else return 'left';
         }
 
-
-        function textColor(d) {
-            if (d.index) return '#C2C2C2';
-            else '#323232';
-        }
-
-
         function hover(focus) {
             let row = focus.row;
-            cells.filter(d => d.row === row).style('background-color', '#E6E8EC');
+            cells.filter(d => d.row === row).style('background-color', d => colorRules(d, true));
         }
         function unhover(focus) {
             let row = focus.row;
-            cells.filter(d => d.row === row).style('background-color', d => colorRules(d));
+            cells.filter(d => d.row === row).style('background-color', d => colorRules(d, false));
         }
 
 
