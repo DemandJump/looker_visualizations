@@ -629,6 +629,7 @@ looker.plugins.visualizations.add({
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {  
                     d.ruleColor = true;
+                    d.currentRule = rr;
                     d.currentColor = d[`rule_${rr}`].color;
                     return d[`rule_${rr}`].color;
                 }
@@ -654,18 +655,19 @@ looker.plugins.visualizations.add({
 
 
         function fontColorRules(d) {
-            for(let rr = 0; rr< ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) return d[`rule_${rr}`].fontColor;
-            }
+            if (d[`rule_${d.currentRule}`]) return d[`rule_${d.currentRule}`].fontColor;
             if (d.index) return '#C2C2C2';
             else '#323232';
         } // End of fontColorRules
 
 
         function fontBoldRules(d) {
-            for(let rr = 0; rr < ruleInstances; rr++) {
-                if (d[`rule_${rr}`]) { 
-                    if (d[`rule_${rr}`].bold) return 'bold';
+            if (d[`rule_${d.currentRule}`]) {
+                let tf = d[`rule_${d.currentRule}`].bold;
+                console.log('This is the bold tf', tf);
+                if (tf) {
+                    console.log('True!');
+                    return 'bold';
                 }
             }
             return `normal`;
@@ -673,9 +675,12 @@ looker.plugins.visualizations.add({
 
         
         function fontStyleRules(d, index) {
-            for(let i = 0; i < ruleInstances; i++) {
-                if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic) return 'italic';
+            if (d[`rule_${d.currentRule}`]) {
+                let tf = d[`rule_${d.currentRule}`].italic;
+                console.log('This is the italic tf', tf);
+                if (tf) {
+                    console.log('True!');
+                    return 'italic';
                 }
             }
             return `normal`;
@@ -683,9 +688,12 @@ looker.plugins.visualizations.add({
 
 
         function lineRules(d) {
-            for(let i = 0; i < ruleInstances; i++) {
-                if (d[`rule_${rr}`]) {
-                      if (d[`rule_${rr}`].line) return `line-through`;
+            if (d[`rule_${d.currentRule}`]) {
+                let tf = d[`rule_${d.currentRule}`].line;
+                console.log('This is the line tf', tf);
+                if (tf) {
+                    console.log('True!');
+                    return 'line-through';
                 }
             }
             return `initial`;
