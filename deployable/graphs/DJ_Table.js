@@ -416,7 +416,7 @@ looker.plugins.visualizations.add({
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
                 // .style('font-style', d => fontStyleRules(d))
-                .style('text-decoration', d => italicLineRules(d))
+                // .style('text-decoration', d => italicLineRules(d))
                 .style('max-width', '540px')
                 .style('text-overflow', 'ellipsis')
                 .style('text-align', d => textAlign(d))
@@ -668,7 +668,9 @@ looker.plugins.visualizations.add({
         function fontBoldRules(d) {
             for(let rr = 0; rr < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) { 
-                    if (d[`rule_${rr}`].bold) return 'bold';
+                    if (d[`rule_${rr}`].bold) {
+                        if (d[`rule_${rr}`].bold == true) return 'bold';
+                    }
                 }
             }
             return `normal`;
@@ -678,7 +680,9 @@ looker.plugins.visualizations.add({
         function fontStyleRules(d) {
             for(let i = 0; i < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic) return 'italic';
+                    if (d[`rule_${rr}`].italic) {
+                        if (d[`rule_${rr}`].italic == true) return 'italic';
+                    }
                 }
             }
             return `normal`;
@@ -688,7 +692,9 @@ looker.plugins.visualizations.add({
         function italicLineRules(d) {
             for(let i = 0; i < ruleInstances; rr++) {
                 if (d[`rule_${rr}`]) {
-                    if (d[`rule_${rr}`].italic && d[`rule_${rr}`].line) return 'line-through';
+                    if (d[`rule_${rr}`].italic) {
+                        if (d[`rule_${rr}`].italic == true) return 'line-through';
+                    } 
                 }
             }
             return `initial`;
