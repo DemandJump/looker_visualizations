@@ -667,7 +667,7 @@ looker.plugins.visualizations.add({
         } // End of fontBoldRules
 
         
-        function fontStyleRules(d) {
+        function fontStyleRules(d, index) {
             for(let i = 0; i < ruleInstances; i++) {
                 console.log(`This is the current rule ${d.currentRule}, and this is the index: ${index}`);
                 console.log('This is d', d[`rule_${rr}`]);
