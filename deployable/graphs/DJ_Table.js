@@ -415,7 +415,7 @@ looker.plugins.visualizations.add({
                 .attr('class', d => d.type)
                 .style('background-color', d => colorRules(d, false))
                 .style('color', d => fontColorRules(d))
-                // .style('font-weight', d => fontBoldRules(d))
+                .style('font-weight', d => fontBoldRules(d))
                 // .style('font-style', d => fontStyleRules(d))
                 // .style('text-decoration', d => italicLineRules(d))
                 .style('max-width', '540px')
