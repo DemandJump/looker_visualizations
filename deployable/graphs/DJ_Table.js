@@ -407,17 +407,17 @@ looker.plugins.visualizations.add({
 
 
         // This will save your cpu, and people trying to type in the configuration input in looker without your script crashing the config (^:;
-        // console.log('before');
-        // setTimeout(function(){
-        //     main();
-        // },1000);
+        console.log('before');
+        setTimeout(function(){
+            main();
+        },1000);
 
-        main();
+        // main();
         function main() {
             /***************************************
              * Build the visual
             ***************************************/
-            console.log('Building the visual');
+            console.log('main: Building the visual');
             header = table.append("thead").append("tr");
 
             header.selectAll("th")
