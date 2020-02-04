@@ -1,7 +1,5 @@
 // import * as d3 from 'd3';
 console.log("Rendering dj table");
-let globalvar = 14;
-console.log('This is a global variable:', globalvar);
 
 looker.plugins.visualizations.add({
     id: "dj_table",
@@ -333,7 +331,6 @@ looker.plugins.visualizations.add({
         let ruleInstances = 1;
         if (config.ruleInstances) ruleInstances = config.ruleInstances.rules;
 
-        console.log('This is the number of rule instances!', ruleInstances);
         cleanupExtraRules();
         this._previousRuleInstances = previousRuleInstances;
 
@@ -361,7 +358,6 @@ looker.plugins.visualizations.add({
         console.log('This is the rule data!', rules);
         
 
-        console.log('This is a global variable', this.globalvar);
 
 
 
@@ -1053,7 +1049,6 @@ looker.plugins.visualizations.add({
             return interpolatedColorArray;
         }
       
-
         /***************************************
          * Build the visual
         ***************************************/
@@ -1085,8 +1080,8 @@ looker.plugins.visualizations.add({
                 .on('click', d => openDropDown(d));
 
           // Rule settings appending into the visual
-        // cells
-        //     .style('background-color', d => colorRules(d))
+        cells
+            .style('background-color', d => colorRules(d))
         //     .style('color', d => fontColorRules(d))
         //     .style('font-weight', d => fontBoldRules(d))
         //     .style('text-decoration', d => italicLineRules(d));
