@@ -295,8 +295,9 @@ looker.plugins.visualizations.add({
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         // console.log(`data`, data);
-        // console.log('LookerCharts', LookerCharts.Utils);
-        // console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
+        console.log('LookerCharts', LookerCharts.Utils);
+        console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
+        console.log('lookercharts open drill menu options', LookerCharts.Utils.openDrillMenu());
 
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
