@@ -436,10 +436,9 @@ looker.plugins.visualizations.add({
 
         function drillMenu(element, d) {
             let elem = d3.select(`#Celr${d.row}c${d.column}`);
-            elem.style('font-size', '20px');
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
-                event: element
+                event: elem
             });
         }
 
