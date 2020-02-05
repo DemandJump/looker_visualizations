@@ -426,22 +426,9 @@ looker.plugins.visualizations.add({
                     .html(d => htmlReturn(d))
                     .on('mouseover', d => hover(d))
                     .on('mouseout', d => unhover(d))
-                    // .on('click', d => openDropDown(d));
-                    // .on('click', d => drillMenu(this, d));
+                    .on('click', d => drillMenu(this, d));
 
-                    rowData.forEach(row => {
-                        for(let i = 0; i < row.length; i++) {
-                            let elid = `#Celr${row[i].row}c${row[i].column}`;
-                            let element = d3.select(elid);
-                            console.log('This is the element', element);
-                            element.onClick = function(event) {
-                                LookerCharts.Utils.openDrillMenu({
-                                    links: row[i].links,
-                                    event: event
-                                });
-                            }
-                        }
-                    })
+
 
         buildTotalsFooter();
 
@@ -449,9 +436,10 @@ looker.plugins.visualizations.add({
 
         function drillMenu(element, d) {
             let elem = d3.select(`#Celr${d.row}c${d.column}`);
+            elem.style('font-size', '20px');
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
-                event: elem
+                event: element
             });
         }
 
