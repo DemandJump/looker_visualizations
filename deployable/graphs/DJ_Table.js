@@ -433,7 +433,7 @@ looker.plugins.visualizations.add({
         // d3.selectAll(".lookerCharts").on('click', d => drillMenu(d));
 
         function drillMenu(element, d) {
-            let elid = `#Cr${d.row}c${d.column}`;
+            let elid = `#Celr${d.row}c${d.column}`;
             let elem = d3.select(elid);
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
@@ -507,32 +507,7 @@ looker.plugins.visualizations.add({
                 }
             }
 
-            if (d.links) {
-                linkHeader = `
-                    <div class="dropdown-header">Drill into ${d.value}</div>
-                `;
-                d.links.forEach(link => {
-                    links = links + `
-                    <li class="dropdownHover">
-                        <a class="dropdownHover lookerCharts" href="${link.url}">${link.label}</a>
-                    </li>
-                    `;
-                });
-
-                return `
-                <div class="dropdown" id="Cr${d.row}c${d.column}">>
-                    ${text}
-                    <div class="dropdown-content" id="Colr${d.row}c${d.column}">
-                        ${linkHeader}
-                        <ul class="ulDropdown">
-                            ${links}
-                        </ul>
-                    </div>
-                </div>
-                `;
-            } else {
-                return `<div id="Colr${d.row}c${d.column}">${text}</div>`;
-            }
+            return `<div id="Celr${d.row}c${d.column}">${text}</div>`;
 
         }
 
@@ -588,31 +563,6 @@ looker.plugins.visualizations.add({
                 return `<span class="totalTitle">${d.footerHtml}</span>`;
             }
         } 
-
-
-        function openDropDown(d) {
-            d3.event.stopPropagation();
-            console.log('Open dropdown', d);
-
-            if (!dropDown) {
-                d3.selectAll('.dropdown-content').style('display', 'none');
-                dropDown = true;
-            }
-
-            if (dropDown && d != currentDropdown) {
-                currentNode = `r${d.row}c${d.column}`;
-                console.log(`Current node:`, currentNode);
-                d3.select(`#${currentNode}`).style('display', 'block');
-                dropDown = false;
-            }
-
-            if (currentDropdown == d) {
-                currentDropdown = {};
-                return;
-            } else {
-                currentDropdown = d;
-            }
-        }
 
 
         function colorRules(d, hover) {
