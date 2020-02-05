@@ -429,18 +429,19 @@ looker.plugins.visualizations.add({
                     .on('mouseover', d => hover(d))
                     .on('mouseout', d => unhover(d))
                     // .on('click', d => openDropDown(d));
-                    .on('click', d => drillMenu(d));
+                    .on('click', d => drillMenu(this, d));
 
         buildTotalsFooter();
 
         // d3.selectAll(".lookerCharts").on('click', d => drillMenu(d));
 
-        function drillMenu(d) {
+        function drillMenu(element, d) {
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
-                event: 'click'
+                event: element
             });
         }
+
         /***************************************
          * Functions section
         ***************************************/
