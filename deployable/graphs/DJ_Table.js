@@ -428,10 +428,19 @@ looker.plugins.visualizations.add({
                     .html(d => htmlReturn(d))
                     .on('mouseover', d => hover(d))
                     .on('mouseout', d => unhover(d))
-                    .on('click', d => openDropDown(d));
+                    // .on('click', d => openDropDown(d));
+                    .on('click', d => drillMenu(d));
 
         buildTotalsFooter();
-        
+
+        // d3.selectAll(".lookerCharts").on('click', d => drillMenu(d));
+
+        function drillMenu(d) {
+            LookerCharts.Utils.openDrillMenu({
+                links: d.links,
+                event: 'click'
+            });
+        }
         /***************************************
          * Functions section
         ***************************************/
@@ -505,7 +514,7 @@ looker.plugins.visualizations.add({
                 d.links.forEach(link => {
                     links = links + `
                     <li class="dropdownHover">
-                        <a class="dropdownHover" href="${link.url}">${link.label}</a>
+                        <a class="dropdownHover lookerCharts" href="${link.url}">${link.label}</a>
                     </li>
                     `;
                 });
