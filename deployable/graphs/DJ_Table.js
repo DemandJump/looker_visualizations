@@ -431,7 +431,7 @@ looker.plugins.visualizations.add({
 
                     rowData.forEach(row => {
                         for(let i = 0; i < row.length; i++) {
-                            let elid = `#Celr${d.row}c${d.column}`;
+                            let elid = `#Celr${row[i].row}c${row[i].column}`;
                             let element = d3.select(elid);
                             console.log('This is the element', element);
                         }
