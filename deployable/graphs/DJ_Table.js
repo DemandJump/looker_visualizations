@@ -434,6 +434,12 @@ looker.plugins.visualizations.add({
                             let elid = `#Celr${row[i].row}c${row[i].column}`;
                             let element = d3.select(elid);
                             console.log('This is the element', element);
+                            element.onClick = function(event) {
+                                LookerCharts.Utils.openDrillMenu({
+                                    links: row[i].links,
+                                    event: event
+                                });
+                            }
                         }
                     })
 
