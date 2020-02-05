@@ -295,9 +295,6 @@ looker.plugins.visualizations.add({
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         // console.log(`data`, data);
-        console.log('LookerCharts', LookerCharts.Utils);
-        console.log('lookercharts openDrillMenu', LookerCharts.Utils.openDrillMenu());
-        console.log('lookercharts open drill menu options', LookerCharts.Utils.openDrillMenu());
 
         let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
         let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
@@ -436,9 +433,11 @@ looker.plugins.visualizations.add({
         // d3.selectAll(".lookerCharts").on('click', d => drillMenu(d));
 
         function drillMenu(element, d) {
+            let elid = `#Cr${d.row}c${d.column}`;
+            let elem = d3.select(elid);
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
-                event: element
+                event: elem
             });
         }
 
@@ -521,9 +520,9 @@ looker.plugins.visualizations.add({
                 });
 
                 return `
-                <div class="dropdown">
+                <div class="dropdown" id="Cr${d.row}c${d.column}">>
                     ${text}
-                    <div class="dropdown-content" id="r${d.row}c${d.column}">
+                    <div class="dropdown-content" id="Colr${d.row}c${d.column}">
                         ${linkHeader}
                         <ul class="ulDropdown">
                             ${links}
@@ -532,7 +531,7 @@ looker.plugins.visualizations.add({
                 </div>
                 `;
             } else {
-                return text;
+                return `<div id="Colr${d.row}c${d.column}">${text}</div>`;
             }
 
         }
