@@ -413,6 +413,7 @@ looker.plugins.visualizations.add({
         cells = rows.selectAll("td")
             .data(d => d).enter().append("td")
                   .attr('class', d => d.type)
+                  .attr('id', d => `Celr${d.row}c${d.column}`)
                 .style('background-color', d => colorRules(d, false)) 
                 .style('color', d => fontColorRules(d))
                 .style('font-weight', d => fontBoldRules(d))
@@ -433,8 +434,7 @@ looker.plugins.visualizations.add({
         // d3.selectAll(".lookerCharts").on('click', d => drillMenu(d));
 
         function drillMenu(element, d) {
-            let elid = `#Celr${d.row}c${d.column}`;
-            let elem = d3.select(elid);
+            let elem = d3.select(`#Celr${d.row}c${d.column}`);
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
                 event: elem
@@ -507,7 +507,7 @@ looker.plugins.visualizations.add({
                 }
             }
 
-            return `<div id="Celr${d.row}c${d.column}">${text}</div>`;
+            return `text`;
 
         }
 
