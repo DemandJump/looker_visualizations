@@ -427,7 +427,15 @@ looker.plugins.visualizations.add({
                     .on('mouseover', d => hover(d))
                     .on('mouseout', d => unhover(d))
                     // .on('click', d => openDropDown(d));
-                    .on('click', d => drillMenu(this, d));
+                    // .on('click', d => drillMenu(this, d));
+
+                    rowData.forEach(row => {
+                        for(let i = 0; i < row.length; i++) {
+                            let elid = `#Celr${d.row}c${d.column}`;
+                            let element = d3.select(elid);
+                            console.log('This is the element', element);
+                        }
+                    })
 
         buildTotalsFooter();
 
@@ -507,7 +515,7 @@ looker.plugins.visualizations.add({
                 }
             }
 
-            return `text`;
+            return `${text}`;
 
         }
 
