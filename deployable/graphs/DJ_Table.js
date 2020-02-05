@@ -409,7 +409,9 @@ looker.plugins.visualizations.add({
         tablebody = table.append("tbody");
         rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr");
-ldo
+
+        cells = rows.selectAll("td")
+            .data(d => d).enter().append("td")
                   .attr('class', d => d.type)
                   .attr('id', d => `Celr${d.row}c${d.column}`)
                 .style('background-color', d => colorRules(d, false)) 
