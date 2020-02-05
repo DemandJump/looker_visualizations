@@ -409,9 +409,7 @@ looker.plugins.visualizations.add({
         tablebody = table.append("tbody");
         rows = tablebody.selectAll("tr")
             .data(rowData).enter().append("tr");
-
-        cells = rows.selectAll("td")
-            .data(d => d).enter().append("td")
+ldo
                   .attr('class', d => d.type)
                   .attr('id', d => `Celr${d.row}c${d.column}`)
                 .style('background-color', d => colorRules(d, false)) 
@@ -438,7 +436,7 @@ looker.plugins.visualizations.add({
             let elem = d3.select(`#Celr${d.row}c${d.column}`);
             LookerCharts.Utils.openDrillMenu({
                 links: d.links,
-                event: elem
+                event: element
             });
         }
 
