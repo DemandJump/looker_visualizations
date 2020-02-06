@@ -11,14 +11,33 @@ looker.plugins.visualizations.add({
                             <div id="chart-apex-area"></div>
                         </div>
                     </div>
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Area with Negative Values</h5>
+                            <div id="chart-apex-negative"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Vertical Columns</h5>
+                            <div id="chart-apex-column"></div>
+                        </div>
+                    </div>
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Stacked Horizontal Bars</h5>
+                            <div id="chart-apex-stacked"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let elem = document.getElementById('chart-apex-column');
-        elem.innerHtml = '';
-
+        var element = document.getElementById('chart-apex-area');
+        element.innerHtml = '';
 
         if (this.clearElements >= 1) {
 
