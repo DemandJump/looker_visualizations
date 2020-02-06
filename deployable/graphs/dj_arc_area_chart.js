@@ -8,17 +8,13 @@ looker.plugins.visualizations.add({
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Area Chart</h5>
-                            <div id="chart-apex-area">
-                                <div>chart-apex-area</div>
-                            </div>
+                            <div id="chart-apex-area"></div>
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Area with Negative Values</h5>
-                            <div id="chart-apex-negative">
-                                <div>chart-apex-negative</div>
-                            </div>
+                            <div id="chart-apex-negative"></div>
                         </div>
                     </div>
                 </div>
@@ -26,17 +22,13 @@ looker.plugins.visualizations.add({
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Vertical Columns</h5>
-                            <div id="chart-apex-column">
-                                <div>chart-apex-column</div>
-                            </div>
+                            <div id="chart-apex-column"></div>
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Stacked Horizontal Bars</h5>
-                            <div id="chart-apex-stacked">
-                                <div>chart-apex-stacked</div>
-                            </div>
+                            <div id="chart-apex-stacked"></div>
                         </div>
                     </div>
                 </div>
@@ -51,10 +43,15 @@ looker.plugins.visualizations.add({
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
-        removeElement('chart-apex-area');
-        removeElement('chart-apex-negative');
-        removeElement('chart-apex-column');
-        removeElement('chart-apex-stacked');
+        if (this.clearElements > 0) {
+                removeElement('chart-apex-area');
+                removeElement('chart-apex-negative');
+                removeElement('chart-apex-column');
+                removeElement('chart-apex-stacked');
+        }
+        
+        // We have to find a way to get the data to not load two instances of the code on the first run without causing an error and stopping the app
+        if (this.clearElement == 0) this.trigger('registerOptions', this.options);
 
         // Apex Charts
 
@@ -730,7 +727,7 @@ looker.plugins.visualizations.add({
 
 
         // Apex Charts Init
-        
+
         // $( document ).ready(function() {
         //     setTimeout(function () {
 
