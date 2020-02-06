@@ -720,23 +720,27 @@ looker.plugins.visualizations.add({
 
         // Apex Charts Init
 
+        if (this.clearElements != 0) {
+            removeElement('chart-apex-area');
+            removeElement('chart-apex-negative');
+            removeElement('chart-apex-column');
+            removeElement('chart-apex-stacked');
+        }
+
+
         // $( document ).ready(function() {
         //     setTimeout(function () {
 
                 if (document.getElementById('chart-apex-area')) {
-                    removeElement('chart-apex-area');
                     chart.render();
                 }
                 if (document.getElementById('chart-apex-negative')) {
-                    removeElement('chart-apex-negative');
                     chart2.render();
                 }
                 if (document.getElementById('chart-apex-column')) {
-                    removeElement('chart-apex-column');
                     chart3.render();
                 }
                 if (document.getElementById('chart-apex-stacked')) {
-                    removeElement('chart-apex-stacked');
                     chart4.render();
                 }
 
