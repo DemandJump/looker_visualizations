@@ -1,7 +1,7 @@
 looker.plugins.visualizations.add({
     options: {},
     create: function(element, config) {
-        element.innerHTML = `
+        this._html = `
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
@@ -33,19 +33,14 @@ looker.plugins.visualizations.add({
                 </div>
             </div>
             `;
+        element.innerHtml = this._html;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        // Cleanup the id's of the individual charts
-        // chart-apex-area, chart-apex-negative, chart-apex-column, chart-apex-stacked
-        function clearNodes(node) {
-            let clearNode = document.getElementById(node);
-            while (clearNode.firstChild) clearNode.removeChild(clearNode.firstChild);
-        }
-        clearNodes('chart-apex-area');
-        clearNodes('chart-apex-negative');
-        clearNodes('chart-apex-column');
-        clearNodes('chart-apex-stacked');
+        element.innerHtml = this._html;
 
+        /*******************************
+         * Chart Configuration
+        *******************************/
         // Apex Charts
 
         window.Apex = {
@@ -719,29 +714,28 @@ looker.plugins.visualizations.add({
 
 
 
-        
+
         // Apex Charts Init
 
-        // $( document ).ready(function() {
+        $( document ).ready(function() {
 
-        //     setTimeout(function () {
+            setTimeout(function () {
 
-        //         if (document.getElementById('chart-apex-area')) {
-        //             chart.render();
-        //         }
-        //         if (document.getElementById('chart-apex-negative')) {
-        //             chart2.render();
-        //         }
-        //         if (document.getElementById('chart-apex-column')) {
-        //             chart3.render();
-        //         }
-        //         if (document.getElementById('chart-apex-stacked')) {
-        //             chart4.render();
-        //         }
-        //     }, 1000);
+                if (document.getElementById('chart-apex-area')) {
+                    chart.render();
+                }
+                if (document.getElementById('chart-apex-negative')) {
+                    chart2.render();
+                }
+                if (document.getElementById('chart-apex-column')) {
+                    chart3.render();
+                }
+                if (document.getElementById('chart-apex-stacked')) {
+                    chart4.render();
+                }
+            }, 1000);
 
-
-        // });
+        });
 
         /**************** Done! *****************/
         doneRendering(); 
