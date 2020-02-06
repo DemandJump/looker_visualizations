@@ -387,14 +387,14 @@ looker.plugins.visualizations.add({
             options4
         );
 
-        console.log('This is the configuration for chart1', options1);
-        console.log('This is the configuration for chart2', options2);
-        console.log('This is the configuration for chart3', options3);
+        console.log('This is the configuration for chart1', options);
+        console.log('This is the configuration for chart2', options3col1);
+        console.log('This is the configuration for chart3', options2);
         console.log('This is the configuration for chart4', options4);
         
-        console.log('This is chart 1', chart1); 
-        console.log('This is chart 2', chart2);
-        console.log('This is chart 3', chart3);
+        console.log('This is chart 1', chart); 
+        console.log('This is chart 2', col3Chart1);
+        console.log('This is chart 3', chart2);
         console.log('This is chart 4', chart4);
 
 
