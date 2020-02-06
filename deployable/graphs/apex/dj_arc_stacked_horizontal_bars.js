@@ -16,9 +16,10 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let elem = document.getElementById('chart-apex-stacked');
-        elem.innerHtml = '';
-
+        let node = document.getElementById('chart-apex-stacked');
+        while(node.firstChild) {
+            node.firstChild.remove();
+        }
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
@@ -112,6 +113,7 @@ looker.plugins.visualizations.add({
 
             // Apex Charts Init
             if (document.getElementById('chart-apex-stacked')) {
+                // document.getElementById('chart-apex-stacked').innerHtml = ''; 
                 chart4.render();
             }
         }

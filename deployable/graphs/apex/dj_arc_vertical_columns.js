@@ -16,9 +16,10 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let elem = document.getElementById('chart-apex-column');
-        elem.innerHtml = '';
-
+        let node = document.getElementById('chart-apex-column');
+        while(node.firstChild) {
+            node.firstChild.remove();
+        }
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
@@ -95,6 +96,7 @@ looker.plugins.visualizations.add({
 
             // Apex Charts Init
             if (document.getElementById('chart-apex-column')) {
+                // document.getElementById('chart-apex-column').innerHtml = ''; 
                 chart3.render();
             }
 
