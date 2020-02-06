@@ -39,6 +39,8 @@ looker.plugins.visualizations.add({
             dataSeries.dsm.push(row[queryResponse.fields.measures[0].name].value);
         });
 
+        console.log('dataSeries data', dataSeries);
+
 
         // if (this.clearElements > 1) {
 
