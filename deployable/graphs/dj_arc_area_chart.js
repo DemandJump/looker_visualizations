@@ -8,13 +8,17 @@ looker.plugins.visualizations.add({
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Area Chart</h5>
-                            <div id="chart-apex-area"></div>
+                            <div id="chart-apex-area">
+                                <div>chart-apex-area</div>
+                            </div>
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Area with Negative Values</h5>
-                            <div id="chart-apex-negative"></div>
+                            <div id="chart-apex-negative">
+                                <div>chart-apex-negative</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -22,13 +26,17 @@ looker.plugins.visualizations.add({
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Vertical Columns</h5>
-                            <div id="chart-apex-column"></div>
+                            <div id="chart-apex-column">
+                                <div>chart-apex-column</div>
+                            </div>
                         </div>
                     </div>
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title">Stacked Horizontal Bars</h5>
-                            <div id="chart-apex-stacked"></div>
+                            <div id="chart-apex-stacked">
+                                <div>chart-apex-stacked</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -43,14 +51,10 @@ looker.plugins.visualizations.add({
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
-        if (this.clearElements > 0) {
-                removeElement('chart-apex-area');
-                removeElement('chart-apex-negative');
-                removeElement('chart-apex-column');
-                removeElement('chart-apex-stacked');
-        }
-
-        console.log(document.querySelector("#chart-apex-negative"))
+        removeElement('chart-apex-area');
+        removeElement('chart-apex-negative');
+        removeElement('chart-apex-column');
+        removeElement('chart-apex-stacked');
 
         // Apex Charts
 
