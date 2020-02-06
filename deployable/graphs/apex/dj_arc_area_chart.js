@@ -36,7 +36,12 @@ looker.plugins.visualizations.add({
 
         data.forEach(row => {
             dataSeries.dsd.push(row[queryResponse.fields.dimensions[0].name].value);
-            dataSeries.dsm.push(row[queryResponse.fields.measures[0].name].value);
+            dataSeries.dsm.value.push(row[queryResponse.fields.measures[0].name].value);
+            if (row[queryResponse.fields.measures[0].name].rendered) {
+                dataSeries.dsm.rendered.push(row[queryResponse.fields.measures[0].name].rendered);
+            } else {
+                dataSeries.dsm.rendered.push(row[queryResponse.fields.measures[0].name].value);
+            }
         });
 
         console.log('dataSeries data', dataSeries);
