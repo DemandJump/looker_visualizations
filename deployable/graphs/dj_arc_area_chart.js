@@ -37,7 +37,6 @@ looker.plugins.visualizations.add({
                 </div>
             </div>
             `;
-        element.innerHTML = 
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
 
