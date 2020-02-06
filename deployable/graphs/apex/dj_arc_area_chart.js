@@ -40,6 +40,7 @@ looker.plugins.visualizations.add({
         });
 
         console.log('dataSeries data', dataSeries);
+        
 
 
         // if (this.clearElements > 1) {
