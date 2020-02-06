@@ -32,8 +32,8 @@ looker.plugins.visualizations.add({
         
 
         data.forEach(row => {
-            dsd.push(row[queryResponse.fields.dimensions[0].name].value);
-            dsm.push(row[queryResponse.fields.measures[0].name].value);
+            dataSeries.dsd.push(row[queryResponse.fields.dimensions[0].name].value);
+            dataSeries.dsm.push(row[queryResponse.fields.measures[0].name].value);
         });
 
 
