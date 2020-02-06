@@ -35,7 +35,18 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+        let areaChartId = document.getElementById('chart-apex-area');
+        areaChartId.innerHtml = '';
 
+        let negativeChart = document.getElementById('chart-apex-negative');
+        negativeChart.innerHtml = '';
+
+        let verticalColumn = document.getElementById('chart-apex-column');
+        verticalColumn.innerHtml = '';
+
+        let horizontalStack = document.getElementById('chart-apex-stacked');
+        horizontalStack.innerHtml = '';
+        
 
         /*******************************
          * Chart Configuration
