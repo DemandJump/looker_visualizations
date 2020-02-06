@@ -42,7 +42,6 @@ looker.plugins.visualizations.add({
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
-        let changed = false;
         if (this._clearElements != 0) {
             removeElement('chart-apex-area');
             removeElement('chart-apex-negative');
@@ -728,12 +727,12 @@ looker.plugins.visualizations.add({
         $( document ).ready(function() {
 
             setTimeout(function () {
-                if (this._clearElements != 0) {
-                    removeElement('chart-apex-area');
-                    removeElement('chart-apex-negative');
-                    removeElement('chart-apex-column');
-                    removeElement('chart-apex-stacked');
-                }
+                // if (this._clearElements != 0) {
+                //     removeElement('chart-apex-area');
+                //     removeElement('chart-apex-negative');
+                //     removeElement('chart-apex-column');
+                //     removeElement('chart-apex-stacked');
+                // }
 
                 if (document.getElementById('chart-apex-area')) {
                     chart.render();
