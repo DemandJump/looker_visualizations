@@ -1,7 +1,7 @@
 looker.plugins.visualizations.add({
     options: {},
     create: function(element, config) {
-        this.clearElements = 0;
+        this._clearElements = 0;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -37,6 +37,7 @@ looker.plugins.visualizations.add({
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         // Cleanup the id's of the individual charts
+        // chart-apex-area, chart-apex-negative, chart-apex-column, chart-apex-stacked
         function removeElement(elementId) {
             // Removes an element from the document
             var element = document.getElementById(elementId);
