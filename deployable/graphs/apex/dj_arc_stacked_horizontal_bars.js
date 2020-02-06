@@ -19,7 +19,11 @@ looker.plugins.visualizations.add({
         let elem = document.getElementById('chart-apex-stacked');
         elem.innerHtml = '';
 
-        
+        console.log('These are the settings', this.options);
+        console.log('This is the config', config);
+        console.log('Queryresponse', queryResponse);
+        console.log('Data', data);
+
         if (this.clearElements >= 1) {
 
             // Apex Charts
