@@ -1,7 +1,7 @@
 looker.plugins.visualizations.add({
     options: {},
     create: function(element, config) {
-        this._html = `
+        element.innerHtml = `
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
@@ -33,10 +33,9 @@ looker.plugins.visualizations.add({
                 </div>
             </div>
             `;
-        element.innerHtml = this._html;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        element.innerHtml = this._html;
+
 
         /*******************************
          * Chart Configuration
