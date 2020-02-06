@@ -1,11 +1,7 @@
 looker.plugins.visualizations.add({
     options: {},
     create: function(element, config) {
-
         element.innerHTML = `
-        <style>
-        
-        </style>
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
@@ -39,6 +35,16 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+        // Cleanup the id's of the individual charts
+        // chart-apex-area, chart-apex-negative, chart-apex-column, chart-apex-stacked
+        function clearNodes(node) {
+            let clearNode = document.getElementById(node);
+            while (clearNode.firstChild) clearNode.removeChild(clearNode.firstChild);
+        }
+        clearNodes('chart-apex-area');
+        clearNodes('chart-apex-negative');
+        clearNodes('chart-apex-column');
+        clearNodes('chart-apex-stacked');
 
         // Apex Charts
 
