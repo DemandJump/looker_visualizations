@@ -50,6 +50,8 @@ looker.plugins.visualizations.add({
                 removeElement('chart-apex-stacked');
         }
 
+        console.log(document.querySelector("#chart-apex-negative"))
+
         // Apex Charts
 
         window.Apex = {
