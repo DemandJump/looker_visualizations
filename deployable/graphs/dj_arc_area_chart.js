@@ -725,10 +725,10 @@ looker.plugins.visualizations.add({
         $( document ).ready(function() {
 
             setTimeout(function () {
-                removeElement('chart-apex-area');
-                removeElement('chart-apex-negative');
-                removeElement('chart-apex-column');
-                removeElement('chart-apex-stacked');
+                // removeElement('chart-apex-area');
+                // removeElement('chart-apex-negative');
+                // removeElement('chart-apex-column');
+                // removeElement('chart-apex-stacked');
 
                 if (document.getElementById('chart-apex-area')) {
                     chart.render();
