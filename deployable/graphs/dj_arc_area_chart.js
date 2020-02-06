@@ -50,6 +50,9 @@ looker.plugins.visualizations.add({
                 removeElement('chart-apex-stacked');
         }
 
+        console.log('This is the element data', document.querySelector("#chart-apex-area"))
+        // if (document.querySelector("#chart-apex-negative"))
+
         // Apex Charts
 
         window.Apex = {
@@ -727,17 +730,17 @@ looker.plugins.visualizations.add({
         // $( document ).ready(function() {
         //     setTimeout(function () {
 
-                // if (document.getElementById('chart-apex-area')) {
-                //     chart.render();
-                // }
-                // if (document.getElementById('chart-apex-negative')) {
-                //     chart2.render();
-                // }
-                // if (document.getElementById('chart-apex-column')) {
-                //     chart3.render();
-                // }
-                // if (document.getElementById('chart-apex-stacked')) {
-                //     chart4.render();
+                if (document.getElementById('chart-apex-area')) {
+                    chart.render();
+                }
+                if (document.getElementById('chart-apex-negative')) {
+                    chart2.render();
+                }
+                if (document.getElementById('chart-apex-column')) {
+                    chart3.render();
+                }
+                if (document.getElementById('chart-apex-stacked')) {
+                    chart4.render();
                 // }
 
         //     }, 1000);
