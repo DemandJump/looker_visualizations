@@ -37,17 +37,22 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         // Cleanup the code
         let area = document.querySelector('#chart-apex-area');
+        console.log('This is area', area);
         if (area) area.innerHtml = '';
 
         let areaNegative = document.querySelector('#chart-apex-negative');
+        console.log('This is areaNegative', areaNegative);
         if (areaNegative) areaNegative.innerHtml = '';
 
         let vertical = document.querySelector('#chart-apex-column');
+        console.log('This is vertical', vertical);
         if (vertical) vertical.innerHtml = '';
-        
+
         let horizontal = document.querySelector('#chart-apex-stacked');
+        console.log('This is horizontal', horizontal);
         if (horizontal) horizontal.innerHtml = '';
 
+        
 
         /*******************************
          * Chart Configuration
