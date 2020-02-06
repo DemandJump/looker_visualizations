@@ -727,6 +727,7 @@ looker.plugins.visualizations.add({
         
         // $( document ).ready(function() {
         //     setTimeout(function () {
+            if (this.clearElements != 0) {
 
                 if (document.getElementById('chart-apex-area')) {
                     chart.render();
@@ -740,6 +741,8 @@ looker.plugins.visualizations.add({
                 if (document.getElementById('chart-apex-stacked')) {
                     chart4.render();
                 }
+                
+            }
         //     }, 1000);
         // });
 
