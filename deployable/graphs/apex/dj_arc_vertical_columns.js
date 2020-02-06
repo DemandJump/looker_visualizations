@@ -16,8 +16,8 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let element = document.getElementById('chart-apex-column');
-        element.innerHtml = '';
+        let elem = document.getElementById('chart-apex-column');
+        elem.innerHtml = '';
 
         
         if (this.clearElements >= 1) {

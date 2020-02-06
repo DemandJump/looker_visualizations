@@ -16,8 +16,8 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let element = document.getElementById('chart-apex-stacked');
-        element.innerHtml = '';
+        let elem = document.getElementById('chart-apex-stacked');
+        elem.innerHtml = '';
 
         
         if (this.clearElements >= 1) {

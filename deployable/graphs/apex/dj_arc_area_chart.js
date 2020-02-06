@@ -16,10 +16,10 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let element = document.getElementById('chart-apex-column');
-        element.innerHtml = '';
+        let elem = document.getElementById('chart-apex-column');
+        elem.innerHtml = '';
 
-        https://code.jquery.com/jquery-3.3.1.min.js, https://demandjump.github.io/looker_visualizations/deployable/graphs/apex/main.css
+
         if (this.clearElements >= 1) {
 
             // Apex Charts
