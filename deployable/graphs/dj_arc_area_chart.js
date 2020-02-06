@@ -1,7 +1,7 @@
 looker.plugins.visualizations.add({
     options: {},
     create: function(element, config) {
-        this._clearElements = 0;
+        this.clearElements = 0;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -42,11 +42,11 @@ looker.plugins.visualizations.add({
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
-        if (this._clearElements != 0) {
-            removeElement('chart-apex-area');
-            removeElement('chart-apex-negative');
-            removeElement('chart-apex-column');
-            removeElement('chart-apex-stacked');
+        if (this.clearElements > 0) {
+                removeElement('chart-apex-area');
+                removeElement('chart-apex-negative');
+                removeElement('chart-apex-column');
+                removeElement('chart-apex-stacked');
         }
 
         // Apex Charts
@@ -727,12 +727,6 @@ looker.plugins.visualizations.add({
         $( document ).ready(function() {
 
             setTimeout(function () {
-                // if (this._clearElements != 0) {
-                //     removeElement('chart-apex-area');
-                //     removeElement('chart-apex-negative');
-                //     removeElement('chart-apex-column');
-                //     removeElement('chart-apex-stacked');
-                // }
 
                 if (document.getElementById('chart-apex-area')) {
                     chart.render();
@@ -751,7 +745,7 @@ looker.plugins.visualizations.add({
 
         });
 
-        this._clearElements++;
+        this.clearElements++;
         /**************** Done! *****************/
         doneRendering(); 
     }
