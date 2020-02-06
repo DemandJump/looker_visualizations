@@ -50,9 +50,6 @@ looker.plugins.visualizations.add({
                 removeElement('chart-apex-stacked');
         }
 
-        console.log('This is the element data', document.querySelector("#chart-apex-area"))
-        // if (document.querySelector("#chart-apex-negative"))
-
         // Apex Charts
 
         window.Apex = {
@@ -725,6 +722,7 @@ looker.plugins.visualizations.add({
 
 
 
+
         // Apex Charts Init
         
         // $( document ).ready(function() {
@@ -741,8 +739,7 @@ looker.plugins.visualizations.add({
                 }
                 if (document.getElementById('chart-apex-stacked')) {
                     chart4.render();
-                // }
-
+                }
         //     }, 1000);
         // });
 
