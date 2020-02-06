@@ -726,22 +726,20 @@ looker.plugins.visualizations.add({
         
         // $( document ).ready(function() {
         //     setTimeout(function () {
-            if (this.clearElements != 0) {
 
-                if (document.getElementById('chart-apex-area')) {
-                    chart.render();
-                }
-                if (document.getElementById('chart-apex-negative')) {
-                    chart2.render();
-                }
-                if (document.getElementById('chart-apex-column')) {
-                    chart3.render();
-                }
-                if (document.getElementById('chart-apex-stacked')) {
-                    chart4.render();
-                }
+                // if (document.getElementById('chart-apex-area')) {
+                //     chart.render();
+                // }
+                // if (document.getElementById('chart-apex-negative')) {
+                //     chart2.render();
+                // }
+                // if (document.getElementById('chart-apex-column')) {
+                //     chart3.render();
+                // }
+                // if (document.getElementById('chart-apex-stacked')) {
+                //     chart4.render();
+                // }
 
-            }
         //     }, 1000);
         // });
 
