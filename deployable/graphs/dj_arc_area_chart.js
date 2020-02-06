@@ -1,7 +1,7 @@
 looker.plugins.visualizations.add({
     options: {},
     create: function(element, config) {
-        element.innerHtml = `
+        element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
@@ -35,28 +35,17 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        // Cleanup the code
-        let area = document.querySelector('#chart-apex-area');
-        console.log('This is area', area);
-        if (area) area.innerHtml = '';
+        // Cleanup the id's of the individual charts
+        // chart-apex-area, chart-apex-negative, chart-apex-column, chart-apex-stacked
+        function clearNodes(node) {
+            let clearNode = document.getElementById(node);
+            while (clearNode.firstChild) clearNode.removeChild(clearNode.firstChild);
+        }
+        clearNodes('chart-apex-area');
+        clearNodes('chart-apex-negative');
+        clearNodes('chart-apex-column');
+        clearNodes('chart-apex-stacked');
 
-        let areaNegative = document.querySelector('#chart-apex-negative');
-        console.log('This is areaNegative', areaNegative);
-        if (areaNegative) areaNegative.innerHtml = '';
-
-        let vertical = document.querySelector('#chart-apex-column');
-        console.log('This is vertical', vertical);
-        if (vertical) vertical.innerHtml = '';
-
-        let horizontal = document.querySelector('#chart-apex-stacked');
-        console.log('This is horizontal', horizontal);
-        if (horizontal) horizontal.innerHtml = '';
-
-        
-
-        /*******************************
-         * Chart Configuration
-        *******************************/
         // Apex Charts
 
         window.Apex = {
@@ -730,7 +719,6 @@ looker.plugins.visualizations.add({
 
 
 
-
         // Apex Charts Init
 
         $( document ).ready(function() {
@@ -750,6 +738,7 @@ looker.plugins.visualizations.add({
                     chart4.render();
                 }
             }, 1000);
+
 
         });
 
