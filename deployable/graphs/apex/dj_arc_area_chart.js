@@ -37,7 +37,7 @@ looker.plugins.visualizations.add({
         });
 
 
-        if (this.clearElements >= 1) {
+        if (this.clearElements > 1) {
 
             // Apex Charts
             window.Apex = {
