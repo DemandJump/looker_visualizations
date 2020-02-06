@@ -51,10 +51,10 @@ looker.plugins.visualizations.add({
             var element = document.getElementById(elementId);
             element.parentNode.removeChild(element);
         }
-        removeElement('chart-apex-area');
-        removeElement('chart-apex-negative');
-        removeElement('chart-apex-column');
-        removeElement('chart-apex-stacked');
+        // removeElement('chart-apex-area');
+        // removeElement('chart-apex-negative');
+        // removeElement('chart-apex-column');
+        // removeElement('chart-apex-stacked');
 
 
         // Apex Charts
