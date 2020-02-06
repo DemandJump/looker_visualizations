@@ -744,6 +744,11 @@ looker.plugins.visualizations.add({
         //     }, 1000);
         // });
 
+
+        if (this.clearElements == 0) {
+            console.log('Rebuilding first frame');
+            this.trigger('registerOptions', this.options); 
+        }
         this.clearElements++;
         /**************** Done! *****************/
         doneRendering(); 
