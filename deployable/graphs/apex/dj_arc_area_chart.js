@@ -109,7 +109,7 @@ looker.plugins.visualizations.add({
 
             // Apex Charts Init
             if (document.getElementById('chart-apex-area')) {
-                document.getElementById.innerHtml = '';
+                document.getElementById.innerHtml = ''; 
                 chart.render();
             }
 
