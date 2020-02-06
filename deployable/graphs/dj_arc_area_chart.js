@@ -35,11 +35,19 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        document.querySelector('#chart-apex-area').innerHtml = '';
-        document.querySelector('#chart-apex-negative').innerHtml = '';
-        document.querySelector('#chart-apex-column').innerHtml = '';
-        document.querySelector('#chart-apex-stacked').innerHtml = '';
-    
+        // Cleanup the code
+        let area = document.querySelector('#chart-apex-area');
+        if (area) area.innerHtml = '';
+
+        let areaNegative = document.querySelector('#chart-apex-negative');
+        if (areaNegative) areaNegative.innerHtml = '';
+
+        let vertical = document.querySelector('#chart-apex-column');
+        if (vertical) vertical.innerHtml = '';
+        
+        let horizontal = document.querySelector('#chart-apex-stacked');
+        if (horizontal) horizontal.innerHtml = '';
+
 
         /*******************************
          * Chart Configuration
