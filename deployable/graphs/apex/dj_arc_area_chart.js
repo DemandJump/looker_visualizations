@@ -7,8 +7,10 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
-                            <h5 class="card-title">Area Chart</h5>
-                            <div id="chart-apex-area"></div>
+                            <!--<h5 class="card-title">Area Chart</h5>-->
+                            <div id="chart-apex-area">
+                                <div>Area chart</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -17,6 +19,7 @@ looker.plugins.visualizations.add({
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let elem = document.getElementById('chart-apex-area');
+        console.log('This is the element', elem);
         elem.innerHtml = '';
 
         console.log('These are the settings', this.options);
