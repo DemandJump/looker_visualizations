@@ -744,6 +744,13 @@ looker.plugins.visualizations.add({
         //     }, 1000);
         // });
 
+        if (this.clearElements == 0) {
+            removeElement('chart-apex-area');
+            removeElement('chart-apex-negative');
+            removeElement('chart-apex-column');
+            removeElement('chart-apex-stacked');
+            this.trigger('registerOptions', this.options);
+        }
         this.clearElements++;
         /**************** Done! *****************/
         doneRendering(); 
