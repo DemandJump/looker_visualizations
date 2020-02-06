@@ -26,6 +26,9 @@ looker.plugins.visualizations.add({
         while(node.firstChild) {
             node.firstChild.remove();
         }
+        // while(node.hasChildNodes()) {
+        //     node.removeChild(node.lastChild);
+        // }
 
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
