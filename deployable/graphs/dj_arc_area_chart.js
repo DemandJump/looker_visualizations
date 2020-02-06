@@ -49,9 +49,7 @@ looker.plugins.visualizations.add({
                 removeElement('chart-apex-column');
                 removeElement('chart-apex-stacked');
         }
-        
-        // We have to find a way to get the data to not load two instances of the code on the first run without causing an error and stopping the app
-        if (this.clearElement == 0) this.trigger('registerOptions', this.options);
+
 
         // Apex Charts
 
