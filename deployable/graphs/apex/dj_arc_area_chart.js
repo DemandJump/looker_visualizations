@@ -20,6 +20,7 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let elem = document.getElementById('chart-apex-area');
         console.log('This is the element', elem);
+        elem.innerHtml = 'Area Chart';
         elem.innerHtml = '';
 
         console.log('These are the settings', this.options);
@@ -40,7 +41,7 @@ looker.plugins.visualizations.add({
         });
 
 
-        if (this.clearElements > 1) {
+        // if (this.clearElements > 1) {
 
             // Apex Charts
             window.Apex = {
@@ -111,7 +112,7 @@ looker.plugins.visualizations.add({
                 chart.render();
             }
 
-        }
+        // }
         
         this.clearElements++;
         /**************** Done! *****************/
