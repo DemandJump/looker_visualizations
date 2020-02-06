@@ -117,13 +117,10 @@ looker.plugins.visualizations.add({
         /***************************************
          * Vertical Bar Chart (3 Columns)
         ***************************************/
-        var options3col1 = {
+        var options3 = {
             chart: {
-                height: 200,
+                height: 350,
                 type: 'bar',
-                sparkline: {
-                    enabled: true
-                }
             },
             plotOptions: {
                 bar: {
@@ -171,9 +168,9 @@ looker.plugins.visualizations.add({
             }
         };
 
-        var col3Chart1 = new ApexCharts(
-            document.querySelector("#chart-col-1"),
-            options3col1
+        var chart3 = new ApexCharts(
+            document.querySelector("#chart-apex-column"),
+            options3
         );
 
 
