@@ -11,56 +11,21 @@ looker.plugins.visualizations.add({
                             <div id="chart-apex-area"></div>
                         </div>
                     </div>
-                    <div class="main-card mb-3 card">
-                        <div class="card-body">
-                            <h5 class="card-title">Area with Negative Values</h5>
-                            <div id="chart-apex-negative"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="main-card mb-3 card">
-                        <div class="card-body">
-                            <h5 class="card-title">Vertical Columns</h5>
-                            <div id="chart-apex-column"></div>
-                        </div>
-                    </div>
-                    <div class="main-card mb-3 card">
-                        <div class="card-body">
-                            <h5 class="card-title">Stacked Horizontal Bars</h5>
-                            <div id="chart-apex-stacked"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        // Cleanup the id's of the individual charts
-        // chart-apex-area, chart-apex-negative, chart-apex-column, chart-apex-stacked
-        function removeElement(elementId) {
-            // Removes an element from the document
-            var element = document.getElementById(elementId);
-            // element.parentNode.removeChild(element);
-            element.innerHtml = '';
-        }
-        // if (this.clearElements != 0) {
-                removeElement('chart-apex-area');
-                removeElement('chart-apex-negative');
-                removeElement('chart-apex-column');
-                removeElement('chart-apex-stacked');
-        // }
+        let element = document.getElementById('chart-apex-column');
+        element.innerHtml = '';
 
+        https://code.jquery.com/jquery-3.3.1.min.js, https://demandjump.github.io/looker_visualizations/deployable/graphs/apex/main.css
         if (this.clearElements >= 1) {
-            // Apex Charts
 
+            // Apex Charts
             window.Apex = {
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    width: 2
-                },
+                dataLabels: {enabled: false},
+                stroke: {width: 2}
             };
 
             var series =
