@@ -63,14 +63,14 @@ looker.plugins.visualizations.add({
 
         let alignTitle = 'left';
         if (config.alignTitle) alignTitle = 'right';
-        let alignLAbel = 'left';
+        let alignLabel = 'left';
         if (config.alignLabel) alignLabel = 'right';
 
         let title = queryResponse.fields.measures[0].label;
         if (config.title) {
             if (config.title != '') title = config.title;
         }
-        let subTitle = queryResponse.fields.dimensions[0].label;
+        let label = queryResponse.fields.dimensions[0].label;
         if (config.label) {
             if (config.label != '') label = config.label;
         }
