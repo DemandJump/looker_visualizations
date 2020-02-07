@@ -227,15 +227,15 @@ looker.plugins.visualizations.add({
                     enabled: false
                 }
             };
-            configuration['tooltip'] = {
-                // x: {
-                //     format: 'MMM \'yy', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
-                // },
-                fixed: {
-                    enabled: false,
-                    position: 'topRight'
-                }
-            };
+            // configuration['tooltip'] = {
+            //     x: {
+            //         format: 'MMM \'yy', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
+            //     },
+            //     fixed: {
+            //         enabled: false,
+            //         position: 'topRight'
+            //     }
+            // };
             configuration['grid'] = {
                 yaxis: {
                     lines: {
