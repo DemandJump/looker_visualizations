@@ -1,5 +1,39 @@
 looker.plugins.visualizations.add({
-    options: {},
+    options: {
+        title: {
+            label: 'Title of visual',
+            order: 1,
+            section: 'Format',
+            type: 'string',
+            placholder: 'Enter the title of the visual',
+            hidden: false
+        },
+        alignTitle: {
+            label: 'Align to the left or right',
+            order: 2, 
+            section: 'Format',
+            type: 'boolean',
+            default: false,
+            hidden: false
+        },
+
+        label: {
+            label: 'Label by title',
+            order: 3,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter the label of the visual',
+            hidden: false
+        },
+        alignLabel: {
+            label: 'Align to the left or right',
+            order: 4,
+            section: 'Format',
+            type:' boolean',
+            default: false,
+            hidden: false
+        }
+    },
     create: function(element, config) {
         this.clearElements = 0;
         element.innerHTML = `
@@ -27,9 +61,20 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-        let title = '';
-        let subTitle = '';
-        let dataSeries = {}
+        let alignTitle = 'left';
+        if (config.alignTitle) alignTitle = 'right';
+        let alignLAbel = 'left';
+        if (config.alignLabel) alignLabel = 'right';
+
+        let title = queryResponse.fields.measures[0].label;
+        if (config.title) {
+            if (config.title != '') title = config.title;
+        }
+        let subTitle = queryResponse.fields.dimensions[0].label;
+        if (config.label) {
+            if (config.label != '') label = config.label;
+        }
+        let dataSeries = {};
         dataSeries.dates = [];
         dataSeries.values = [];
 
@@ -81,16 +126,16 @@ looker.plugins.visualizations.add({
                     curve: 'straight'
                 },
                 series: [{
-                    name: "STOCK ABC",
+                    name: queryResponse.fields.measures[0].label_short,
                     data: dataSeries.dsm.values
                 }],
                 title: {
-                    text: 'Fundamental Analysis of Stocks',
-                    align: 'left'
+                    text: config.title,
+                    align: config.alignTitle
                 },
                 subtitle: {
-                    text: 'Price Movements',
-                    align: 'left'
+                    text: config.label,
+                    align: config.alignLabel
                 },
                 labels: dataSeries.dates,
                 xaxis: {
