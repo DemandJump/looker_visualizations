@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
         },
 
         yaxisOpposite: {
-            label: 'Align the y axis on the left',
+            label: 'Opposite y axis',
             order: 15,
             section: 'Misc',
             type: 'boolean',
@@ -150,8 +150,11 @@ looker.plugins.visualizations.add({
         let yaxisOpposite = true;
         if (config.yaxisOpposite) yaxisOpposite = config.yaxisOpposite;
 
-        let horizontalAlign = true;
-        if (config.horizontalAlign) horizontalAlign = config.horizontalAlign;
+        let horizontalAlign = 'left';
+        if (config.horizontalAlign) {
+            if (config.horizontalAlign == true) horizontalAlign = 'right';
+            else horizontalAlign = 'left';
+        }
 
 
         
