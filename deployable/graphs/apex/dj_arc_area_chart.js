@@ -155,7 +155,7 @@ looker.plugins.visualizations.add({
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
             for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].rendered);
+                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
             }
         });
 
@@ -170,14 +170,14 @@ looker.plugins.visualizations.add({
         // Area
         let configuration = {
             chart: {
-                height: 350,
+                height: window.innerHeight - 45,
                 type: 'area',
                 zoom: {
                     enabled: false
                 }
             },
             dataLabels: {
-                enabled: false
+                enabled: dataLabels
             },
             stroke: {
                 curve: curve // straight, smooth, stepline
@@ -194,12 +194,12 @@ looker.plugins.visualizations.add({
             labels: xaxis,
             xaxis: {
                 type: 'datetime', // category, numeric, datetime
-                // axisBorder: {
-                //     show: axisBorder,
-                // },
-                // axisTicks: {
-                //     show: axisTicks
-                // }
+                axisBorder: {
+                    show: axisBorder,
+                },
+                axisTicks: {
+                    show: axisTicks
+                }
             },
             yaxis: {
                 opposite: true
