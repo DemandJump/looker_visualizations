@@ -174,7 +174,7 @@ looker.plugins.visualizations.add({
             },
             tooltip: {
                 x: {
-                    format: "yyyy",
+                    format: "yyyy", // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
                 },
                 fixed: {
                     enabled: false,

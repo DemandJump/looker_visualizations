@@ -80,23 +80,6 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        yaxisOpposite: {
-            label: 'Opposite y axis',
-            order: 15,
-            section: 'Misc',
-            type: 'boolean',
-            default: true,
-            hidden: false
-        },
-
-        horizontalAlign: {
-            label: 'Horizontal align',
-            order: 16,
-            section: 'Misc',
-            type: 'boolean',
-            default: true,
-            hidden: false
-        }
     },
     create: function(element, config) {
         element.innerHTML = `
@@ -122,57 +105,17 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-        let theme = 'area';
-        if (config.theme) theme = config.theme;
-
-        // Configuration for chart
-        let alignTitle = 'left';
-        // if (config.alignTitle) alignTitle = 'right';
-        // let alignLabel = 'left';
-        // if (config.alignLabel) alignLabel = 'right';
-
+        // Configuration for all charts 
         let title = queryResponse.fields.measures[0].label;
         if (config.title) {
             if (config.title != '') title = config.title;
         }
-
-        // let label = queryResponse.fields.dimensions[0].label;
-        // if (config.label) {
-        //     if (config.label != '') label = config.label;
-        // }
 
         let curve = 'straight';
         if (config.curve) curve = config.curve;
 
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
-
-        let yaxisOpposite = true;
-        if (config.yaxisOpposite) yaxisOpposite = config.yaxisOpposite;
-
-        let horizontalAlign = 'left';
-        if (config.horizontalAlign) {
-            if (config.horizontalAlign == true) horizontalAlign = 'right';
-            else horizontalAlign = 'left';
-        }
-
-
-        
-
-        // Grab the data
-        let xaxis = [];
-        let seriesData = [];
-        for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-            let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
-            seriesData.push(obj);
-        }
-
-        data.forEach(row => {
-            xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
-            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
-            }
-        });
 
 
         // Apex Charts
@@ -181,8 +124,9 @@ looker.plugins.visualizations.add({
             stroke: {width: 2}
         };
 
-            
-        // Area
+        // Grab the theme to configure the chart
+        let theme = 'area';
+        if (config.theme) theme = config.theme;
         let configuration = {
             chart: {
                 height: window.innerHeight - 45,
@@ -197,29 +141,113 @@ looker.plugins.visualizations.add({
             stroke: {
                 curve: curve // straight, smooth, stepline
             },
-            series: seriesData,
             title: {
-                text: title,
+                text: 'left',
                 align: alignTitle
             },
             // subtitle: {
             //     text: label,
             //     align: alignLabel
             // },
-            labels: xaxis,
-            xaxis: {
-                type: 'datetime', // category, numeric, datetime
-            },
-            yaxis: {
-                opposite: yaxisOpposite
-            },
-            legend: {
-                horizontalAlign: horizontalAlign
-            }
         };
 
+        if (theme == 'area') {
+            // 'area' data
+            let xaxis = [];
+            let seriesData = [];
+            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+                let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
+                seriesData.push(obj);
+            }
+    
+            data.forEach(row => {
+                xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
+                for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+                    seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
+                }
+            });
 
-        var chart = new ApexCharts(
+            // Area specific configuration settings
+            configuration['series'] = seriesData;
+            configuration['labels'] = xaxis;
+            configuration['xaxis'] = {type: 'datetime'}; // category, numeric, datetime
+            configuration['yaxis'] = {opposite: true};
+            configuration['legend'] = {horizontalAlign: 'left'};
+
+        } // if theme == area bracket
+
+
+        if (theme == 'negative') {
+            let seriesData = [];
+            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+                let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
+                seriesData.push(obj);
+            }
+    
+            data.forEach(row => {
+                for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+                    seriesData[i].data.push({x: row[queryResponse.fields.dimensions[0].name].value, y: row[queryResponse.fields.measures[i].name].value});
+                }
+            });
+
+            // Area negative configuration settings
+            configuration['xaxis'] = {
+                type:'datetime', 
+                axisBorder: {
+                    show: false
+                }, 
+                axisTicks: {
+                    show: false
+                }
+            };
+            configuration['yaxis'] = {
+                tickAmount: 4,
+                floating: false,
+                labels: {
+                    style: {
+                        color: '#8e8da4',
+                    },
+                    offsetY: -7,
+                    offsetX: 0,
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false
+                }
+            };
+            configuration['fill'] = {
+                opacity: 0.5,
+                gradient: {
+                    enabled: false
+                }
+            };
+            configuration['tooltip'] = {
+                x: {
+                    format: "yyyy", // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
+                },
+                fixed: {
+                    enabled: false,
+                    position: 'topRight'
+                }
+            };
+            configuration['grid'] = {
+                yaxis: {
+                    lines: {
+                        offsetX: -30
+                    }
+                },
+                padding: {
+                    left: 20
+                }
+            };
+
+        } // if theme == 'negative' bracket
+
+
+
+        let chart = new ApexCharts(
             document.querySelector("#chart-apex-area"),
             configuration
         );
