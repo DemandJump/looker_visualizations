@@ -17,7 +17,7 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let node = document.getElementById('chart-apex-stacked');
+        let node = document.getElementById('chart-area');
         while(node.firstChild) node.firstChild.remove();
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
