@@ -88,7 +88,6 @@ looker.plugins.visualizations.add({
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <div id="chart-apex-area">
-                                <div>Area chart</div>
                             </div>
                         </div>
                     </div>
