@@ -43,6 +43,7 @@ looker.plugins.visualizations.add({
             randomScalingFactor(),
             randomScalingFactor()
         ];
+        console.log('These are the datasets', datasets);
 
     
         var configPie = {
