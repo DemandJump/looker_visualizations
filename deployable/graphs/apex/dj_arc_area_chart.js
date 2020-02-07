@@ -142,8 +142,8 @@ looker.plugins.visualizations.add({
                 curve: curve // straight, smooth, stepline
             },
             title: {
-                text: 'left',
-                align: alignTitle
+                text: title,
+                align: 'left'
             },
             // subtitle: {
             //     text: label,
@@ -225,7 +225,7 @@ looker.plugins.visualizations.add({
             };
             configuration['tooltip'] = {
                 x: {
-                    format: "yyyy", // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
+                    format: 'MMM \'yy', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
                 },
                 fixed: {
                     enabled: false,
