@@ -194,18 +194,12 @@ looker.plugins.visualizations.add({
             labels: xaxis,
             xaxis: {
                 type: 'datetime', // category, numeric, datetime
-                axisBorder: {
-                    show: axisBorder,
-                },
-                axisTicks: {
-                    show: axisTicks
-                }
             },
             yaxis: {
-                opposite: true
+                opposite: false
             },
             legend: {
-                horizontalAlign: 'left'
+                horizontalAlign: 'right'
             }
         };
 
