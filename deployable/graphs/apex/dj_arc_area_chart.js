@@ -177,7 +177,7 @@ looker.plugins.visualizations.add({
                 }
             },
             dataLabels: {
-                enabled: dataLabels
+                enabled: false
             },
             stroke: {
                 curve: curve // straight, smooth, stepline
