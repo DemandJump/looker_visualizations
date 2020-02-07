@@ -65,24 +65,6 @@ looker.plugins.visualizations.add({
             type: 'string',
             placeholder: "Enter the chart's hover label element",
             hidden: false
-        },
-
-        axisBorder: {
-            label: 'Show x axis border',
-            order: 15,
-            section: 'Misc',
-            type: 'boolean',
-            default: true,
-            hidden: false
-        },
-
-        axisTicks: {
-            label: 'Show x axis ticks',
-            order: 16,
-            section: 'Misc',
-            type: 'boolean',
-            default: true,
-            hidden: false
         }
     },
     create: function(element, config) {
@@ -136,12 +118,6 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
 
-        let axisBorder = true;
-        if (config.axisBorder) axisBorder = config.axisBorder;
-
-        let axisTicks = true;
-        if (config.axisTicks) axisTicks = config.axisTicks;
-
         
 
         // Grab the data
@@ -170,7 +146,7 @@ looker.plugins.visualizations.add({
         // Area
         let configuration = {
             chart: {
-                height: 350,
+                height: window.innerHeight,
                 type: 'area',
                 zoom: {
                     enabled: false
@@ -193,13 +169,7 @@ looker.plugins.visualizations.add({
             // },
             labels: xaxis,
             xaxis: {
-                type: 'datetime', // category, numeric, datetime
-                // axisBorder: {
-                //     show: axisBorder,
-                // },
-                // axisTicks: {
-                //     show: axisTicks
-                // }
+                type: 'datetime' // category, numeric, datetime
             },
             yaxis: {
                 opposite: true
@@ -215,9 +185,7 @@ looker.plugins.visualizations.add({
             configuration
         );
         // Apex Charts Init
-        if (document.getElementById('chart-apex-area')) {
-            chart.render();
-        }
+        if (document.getElementById('chart-apex-area')) chart.render();
         /**************** Done! *****************/
         doneRendering(); 
     }
