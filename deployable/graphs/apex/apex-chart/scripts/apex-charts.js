@@ -2322,6 +2322,58 @@ var dashSparkLinesTrans3 = {
     },
 };
 
+
+
+
+
+var randomScalingFactor = function () {
+    return Math.round(Math.random() * 100);
+};;
+
+let datasets = [
+    randomScalingFactor(),
+    randomScalingFactor(),
+    randomScalingFactor(),
+    randomScalingFactor(),
+    randomScalingFactor()
+];
+
+
+var configPie = {
+    type: 'pie',
+    data: {
+        datasets: [{
+            data: [
+                datasets[0],
+                datasets[1],
+                datasets[2],
+                datasets[3],
+                datasets[4]
+            ],
+            backgroundColor: [
+                window.chartColors.red,
+                window.chartColors.orange,
+                window.chartColors.yellow,
+                window.chartColors.green,
+                window.chartColors.blue,
+            ],
+            label: 'Dataset 1'
+        }],
+        labels: [
+            'Red',
+            'Orange',
+            'Yellow',
+            'Green',
+            'Blue'
+        ]
+    },
+    options: {
+        responsive: true
+    }
+};
+
+
+
 // Apex Charts Init
 
 $( document ).ready(function() {
@@ -2482,6 +2534,11 @@ $( document ).ready(function() {
 
         if (document.getElementById('bar-vertical-candle-lg')) {
             chartBarLg.render();
+        }
+
+        if (document.getElementById('chart-area')) {
+            let ctx2 = document.getElementById('chart-area').getContext('2d');
+            window.myPie = new Chart(ctx2, configPie);
         }
 
     }, 1000);
