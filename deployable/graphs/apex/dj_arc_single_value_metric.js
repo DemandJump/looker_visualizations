@@ -40,11 +40,11 @@ looker.plugins.visualizations.add({
 
         let value = data[0][queryResponse.fields.measures[0].name].value;
 
-        let nameNode = document.getElementById('name');
-        nameNode.innerHTML = name;
+        // let nameNode = document.getElementById('name');
+        // nameNode.innerHTML = name;
         
-        let valueNode = document.getElementById('value');
-        valueNode.innerHTML = value;
+        // let valueNode = document.getElementById('value');
+        // valueNode.innerHTML = value;
         
         /**************** Done! *****************/
         doneRendering(); 
