@@ -48,9 +48,19 @@ looker.plugins.visualizations.add({
             default: 'straight',
             hidden: false
         },
+
+        dataLabels: {
+            label: 'Enable data labels',
+            order: 13,
+            section: 'Misc',
+            type: 'boolean',
+            default: false,
+            hidden: false
+        },
+
         hoverLabel: {
             label: 'Hover label',
-            order: 13,
+            order: 14,
             section: 'Misc',
             type: 'string',
             placeholder: "Enter the chart's hover label element",
@@ -105,6 +115,8 @@ looker.plugins.visualizations.add({
         let curve = 'straight';
         if (config.curve) curve = config.curve;
 
+        let dataLabels = false;
+        if (config.dataLabels) dataLabels = config.dataLabels;
 
         
 
@@ -141,7 +153,7 @@ looker.plugins.visualizations.add({
                 }
             },
             dataLabels: {
-                enabled: true
+                enabled: dataLabels
             },
             stroke: {
                 curve: curve // straight, smooth, stepline
