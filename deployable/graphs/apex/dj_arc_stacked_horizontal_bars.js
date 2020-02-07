@@ -65,6 +65,15 @@ looker.plugins.visualizations.add({
             ],
             default: 'top',
             hidden: false
+        },
+        
+        dataLabels: {
+            label: 'Enable data labels',
+            order: 14,
+            section: 'Misc',
+            type: 'boolean',
+            default: false,
+            hidden: false
         }
     },
     create: function(element, config) {
@@ -92,6 +101,9 @@ looker.plugins.visualizations.add({
     
         let title = queryResponse.fields.measures[0].label;
         if (config.title) title = config.title;
+
+        let dataLabels = false;
+        if (config.dataLabels) dataLabels = config.dataLabels;
 
         let horizontal = true;
         if (config.horizontal) horizontal = config.horizontal;
@@ -142,6 +154,9 @@ looker.plugins.visualizations.add({
                     horizontal: horizontal,
                 },
 
+            },
+            dataLabels: {
+                enabled: dataLabels
             },
             stroke: {
                 width: 1,
