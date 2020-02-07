@@ -113,6 +113,7 @@ looker.plugins.visualizations.add({
             let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
             seriesData.push(obj);
         }
+        
 
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
