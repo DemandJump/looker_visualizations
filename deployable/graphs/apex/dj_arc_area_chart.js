@@ -51,7 +51,7 @@ looker.plugins.visualizations.add({
 
         dataLabels: {
             label: 'Enable data labels',
-            order: 13,
+            order: 14,
             section: 'Misc',
             type: 'boolean',
             default: false,
@@ -60,15 +60,15 @@ looker.plugins.visualizations.add({
 
         hoverLabel: {
             label: 'Hover label',
-            order: 14,
+            order: 13,
             section: 'Misc',
             type: 'string',
             placeholder: "Enter the chart's hover label element",
             hidden: false
         },
 
-        axisBorder: {
-            label: 'Show x axis border',
+        yaxisOpposite: {
+            label: 'Align the y axis on the left',
             order: 15,
             section: 'Misc',
             type: 'boolean',
@@ -76,8 +76,8 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        axisTicks: {
-            label: 'Show x axis ticks',
+        horizontalAlign: {
+            label: 'Horizontal align',
             order: 16,
             section: 'Misc',
             type: 'boolean',
@@ -136,11 +136,12 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
 
-        let axisBorder = true;
-        if (config.axisBorder) axisBorder = config.axisBorder;
+        let yaxisOpposite = true;
+        if (config.yaxisOpposite) yaxisOpposite = config.yaxisOpposite;
 
-        let axisTicks = true;
-        if (config.axisTicks) axisTicks = config.axisTicks;
+        let horizontalAlign = true;
+        if (config.horizontalAlign) horizontalAlign = config.horizontalAlign;
+
 
         
 
@@ -196,10 +197,10 @@ looker.plugins.visualizations.add({
                 type: 'datetime', // category, numeric, datetime
             },
             yaxis: {
-                opposite: false
+                opposite: yaxisOpposite
             },
             legend: {
-                horizontalAlign: 'right'
+                horizontalAlign: horizontalAlign
             }
         };
 
