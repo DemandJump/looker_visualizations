@@ -127,15 +127,15 @@ looker.plugins.visualizations.add({
                 },
                 series: [{
                     name: queryResponse.fields.measures[0].label_short,
-                    data: dataSeries.dsm.values
+                    data: dataSeries.values
                 }],
                 title: {
-                    text: config.title,
-                    align: config.alignTitle
+                    text: title,
+                    align: alignTitle
                 },
                 subtitle: {
-                    text: config.label,
-                    align: config.alignLabel
+                    text: label,
+                    align: alignLabel
                 },
                 labels: dataSeries.dates,
                 xaxis: {
