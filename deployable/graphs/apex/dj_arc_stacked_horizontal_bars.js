@@ -74,7 +74,6 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
-                            <h5 class="card-title">Stacked Horizontal Bars</h5>
                             <div id="chart-apex-stacked"></div>
                         </div>
                     </div>
