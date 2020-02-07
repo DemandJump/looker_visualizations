@@ -335,9 +335,12 @@ body .card.mb-3 {
   
 .card.mb-3 {
     margin-bottom: 30px !important;
-  }
-  
+}
 
+.mb-3,
+.my-3 {
+  margin-bottom: 1rem !important;
+}
 
             </style>
 
