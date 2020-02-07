@@ -356,7 +356,7 @@ body .card.mb-3 {
                         <div class="widgetNumbers" id="value">1.2M</div>
                         <div class="widgetSubheading" id="name">Leads Generated</div>
                         <div class="widgetDescription text-info">
-                            <span class="pl-1">Change</span>
+                            <span class="pl-1"></span>
                         </div>
                     </div>
                 </div>
