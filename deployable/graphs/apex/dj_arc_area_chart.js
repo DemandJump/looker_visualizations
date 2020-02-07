@@ -16,7 +16,7 @@ looker.plugins.visualizations.add({
         //     default: false,
         //     hidden: false
         // },
-        
+
         // label: {
         //     label: 'Label by title',
         //     order: 3,
@@ -48,12 +48,40 @@ looker.plugins.visualizations.add({
             default: 'straight',
             hidden: false
         },
+
+        dataLabels: {
+            label: 'Enable data labels',
+            order: 13,
+            section: 'Misc',
+            type: 'boolean',
+            default: false,
+            hidden: false
+        },
+
         hoverLabel: {
             label: 'Hover label',
-            order: 13,
+            order: 14,
             section: 'Misc',
             type: 'string',
             placeholder: "Enter the chart's hover label element",
+            hidden: false
+        },
+
+        axisBorder: {
+            label: 'Show x axis border',
+            order: 15,
+            section: 'Misc',
+            type: 'boolean',
+            default: true,
+            hidden: false
+        },
+
+        axisTicks: {
+            label: 'Show x axis ticks',
+            order: 16,
+            section: 'Misc',
+            type: 'boolean',
+            default: true,
             hidden: false
         }
     },
@@ -105,6 +133,14 @@ looker.plugins.visualizations.add({
         let curve = 'straight';
         if (config.curve) curve = config.curve;
 
+        let dataLabels = false;
+        if (config.dataLabels) dataLabels = config.dataLabels;
+
+        let axisBorder = true;
+        if (config.axisBorder) axisBorder = config.axisBorder;
+
+        let axisTicks = true;
+        if (config.axisTicks) axisTicks = config.axisTicks;
 
         
 
@@ -119,7 +155,7 @@ looker.plugins.visualizations.add({
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
             for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
+                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].rendered);
             }
         });
 
@@ -141,7 +177,7 @@ looker.plugins.visualizations.add({
                 }
             },
             dataLabels: {
-                enabled: true
+                enabled: dataLabels
             },
             stroke: {
                 curve: curve // straight, smooth, stepline
@@ -157,7 +193,13 @@ looker.plugins.visualizations.add({
             // },
             labels: xaxis,
             xaxis: {
-                type: 'datetime' // category, numeric, datetime
+                type: 'datetime', // category, numeric, datetime
+                // axisBorder: {
+                //     show: axisBorder,
+                // },
+                // axisTicks: {
+                //     show: axisTicks
+                // }
             },
             yaxis: {
                 opposite: true
@@ -173,7 +215,9 @@ looker.plugins.visualizations.add({
             configuration
         );
         // Apex Charts Init
-        if (document.getElementById('chart-apex-area')) chart.render();
+        if (document.getElementById('chart-apex-area')) {
+            chart.render();
+        }
         /**************** Done! *****************/
         doneRendering(); 
     }
