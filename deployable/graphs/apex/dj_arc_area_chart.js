@@ -230,7 +230,7 @@ looker.plugins.visualizations.add({
             };
             configuration['tooltip'] = {
                 x: {
-                    format: 'MMM \'yy', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
+                    format: 'datetime', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
                 },
                 fixed: {
                     enabled: false,
