@@ -75,6 +75,8 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
+        console.log('details', details);
+        console.log('element', element);
 
         let theme = 'vertical';
         if (config.themes) theme = config.themes;
