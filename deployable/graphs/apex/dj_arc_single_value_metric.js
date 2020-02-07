@@ -288,10 +288,60 @@ looker.plugins.visualizations.add({
   }
 }
 
+
+.mbg-3,
+body .card.mb-3 {
+  margin-bottom: 15px !important;
+}
+
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(26, 54, 126, 0.125);
+    border-radius: 0.25rem;
+}
+
+.card > hr {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.card > .list-group:first-child .list-group-item:first-child {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+
+.card > .list-group:last-child .list-group-item:last-child {
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+.accordion .card {  
+    overflow: hidden;
+}
+  
+.fc-bootstrap4 .fc-popover .card-body {
+    padding: 0;
+}
+
+body .card.mb-3 {
+    margin-bottom: 15px !important;
+}
+  
+.card.mb-3 {
+    margin-bottom: 30px !important;
+  }
+  
+
+
             </style>
 
 
-            <div class="divider mt-0" style="margin-bottom: 30px;"></div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-3 widgetChart">
