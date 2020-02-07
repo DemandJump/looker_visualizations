@@ -7,8 +7,8 @@ looker.plugins.visualizations.add({
             type: 'string',
             display: 'select',
             values: [
-                {'Area Chart': 'area'},
-                {'Negative Area Chart': 'negative'}
+                {'Classic': 'area'},
+                {'Theme two': 'negative'}
             ],
             default: 'area',
             hidden: false
