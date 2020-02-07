@@ -113,11 +113,12 @@ looker.plugins.visualizations.add({
         let dataSeries = {};
         dataSeries.dates = [];
         dataSeries.values = [];
+        dataSeries.values2 = [];
         data.forEach(row => {
             dataSeries.dates.push(row[queryResponse.fields.dimensions[0].name].value);
             dataSeries.values.push(row[queryResponse.fields.measures[0].name].value);
 
-            dataSeries.values.push(row[queryResponse.fields.measures[1].name].value);
+            dataSeries.values2.push(row[queryResponse.fields.measures[1].name].value);
         });
         console.log('dataSeries data', dataSeries);
         
@@ -151,7 +152,7 @@ looker.plugins.visualizations.add({
                 },
                 {
                     name: queryResponse.fields.measures[1].label_short,
-                    data: dataSeries2.values
+                    data: dataSeries.values2
                 }
             ],
             title: {
@@ -164,7 +165,7 @@ looker.plugins.visualizations.add({
             },
             labels: dataSeries.dates,
             xaxis: {
-                type: 'datetime'
+                type: 'datetime' // category, numeric, datetime
             },
             yaxis: {
                 opposite: true
