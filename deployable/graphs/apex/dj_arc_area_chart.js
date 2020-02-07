@@ -151,30 +151,30 @@ looker.plugins.visualizations.add({
             // },
         };
 
-        if (theme == 'area') {
-            // 'area' data
-            let xaxis = [];
-            let seriesData = [];
-            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
-                seriesData.push(obj);
-            }
+        // if (theme == 'area') {
+        //     // 'area' data
+        //     let xaxis = [];
+        //     let seriesData = [];
+        //     for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+        //         let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
+        //         seriesData.push(obj);
+        //     }
     
-            data.forEach(row => {
-                xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
-                for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                    seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
-                }
-            });
+        //     data.forEach(row => {
+        //         xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
+        //         for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+        //             seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
+        //         }
+        //     });
 
-            // Area specific configuration settings
-            configuration['series'] = seriesData;
-            configuration['labels'] = xaxis;
-            configuration['xaxis'] = {type: 'datetime'}; // category, numeric, datetime
-            configuration['yaxis'] = {opposite: true};
-            configuration['legend'] = {horizontalAlign: 'left'};
+        //     // Area specific configuration settings
+        //     configuration['series'] = seriesData;
+        //     configuration['labels'] = xaxis;
+        //     configuration['xaxis'] = {type: 'datetime'}; // category, numeric, datetime
+        //     configuration['yaxis'] = {opposite: true};
+        //     configuration['legend'] = {horizontalAlign: 'left'};
 
-        } // if theme == area bracket
+        // } // if theme == area bracket
 
 
         if (theme == 'negative') {
