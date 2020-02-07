@@ -39,6 +39,8 @@ looker.plugins.visualizations.add({
 
         let value = data[0][queryResponse.fields.measures[0].name].value;
 
+
+
         element.innerHTML = `
         <div class="row">
             <div class="col-md-4">
