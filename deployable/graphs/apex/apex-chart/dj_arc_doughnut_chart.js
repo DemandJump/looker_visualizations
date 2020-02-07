@@ -44,7 +44,7 @@ looker.plugins.visualizations.add({
         let dataset = [];
         for(let i = 0; i < queryResponse.fields.measures.length; i++) {
             labels.push(queryResponse.fields.measures[i].name);
-            dataset.push(row[queryResponse.fields.measures[i].name].value);
+            dataset.push(data[0][queryResponse.fields.measures[i].name].value);
         }
 
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue];
