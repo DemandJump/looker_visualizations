@@ -195,6 +195,7 @@ looker.plugins.visualizations.add({
             console.log('Series data', seriesData);
 
             // Area negative configuration settings
+            configuration['series'] = seriesData;
             configuration['xaxis'] = {
                 type:'datetime', 
                 axisBorder: {
@@ -227,15 +228,15 @@ looker.plugins.visualizations.add({
                     enabled: false
                 }
             };
-            // configuration['tooltip'] = {
-            //     x: {
-            //         format: 'MMM \'yy', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
-            //     },
-            //     fixed: {
-            //         enabled: false,
-            //         position: 'topRight'
-            //     }
-            // };
+            configuration['tooltip'] = {
+                x: {
+                    format: 'MMM \'yy', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
+                },
+                fixed: {
+                    enabled: false,
+                    position: 'topRight'
+                }
+            };
             configuration['grid'] = {
                 yaxis: {
                     lines: {
