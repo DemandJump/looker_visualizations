@@ -31,11 +31,11 @@ looker.plugins.visualizations.add({
             hidden: false
         },
         stack: {
-            label: 'Unstack chart',
+            label: 'Stack chart',
             order: 16,
             section: 'Misc',
             type: 'boolean',
-            default: false,
+            default: true,
             hidden: false
         },
         legend: {
@@ -178,7 +178,7 @@ looker.plugins.visualizations.add({
             },
             legend: {
                 position: placeLegend, // front, back, bottom, top
-                horizontalAlign: key,
+                horizontalAlign: placeKey,
                 offsetX: 40
             }
         };
