@@ -16,7 +16,7 @@ looker.plugins.visualizations.add({
         //     default: false,
         //     hidden: false
         // },
-
+        
         // label: {
         //     label: 'Label by title',
         //     order: 3,
@@ -48,19 +48,9 @@ looker.plugins.visualizations.add({
             default: 'straight',
             hidden: false
         },
-        
-        dataLabels: {
-            label: 'Enable data labels',
-            order: 13,
-            section: 'Misc',
-            type: 'boolean',
-            default: false,
-            hidden: false
-        },
-
         hoverLabel: {
             label: 'Hover label',
-            order: 14,
+            order: 13,
             section: 'Misc',
             type: 'string',
             placeholder: "Enter the chart's hover label element",
@@ -129,7 +119,7 @@ looker.plugins.visualizations.add({
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
             for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].rendered);
+                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
             }
         });
 
@@ -144,7 +134,7 @@ looker.plugins.visualizations.add({
         // Area
         let configuration = {
             chart: {
-                height: window.innerHeight,
+                height: 350,
                 type: 'area',
                 zoom: {
                     enabled: false
