@@ -26,10 +26,10 @@ looker.plugins.visualizations.add({
             hidden: false
         },
         alignLabel: {
-            label: 'Align to the left or right',
+            label: 'Align to the left or right ',
             order: 4,
             section: 'Format',
-            type:' boolean',
+            type: 'boolean',
             default: false,
             hidden: false
         },
@@ -93,7 +93,7 @@ looker.plugins.visualizations.add({
         if (config.title) {
             if (config.title != '') title = config.title;
         }
-        
+
         let label = queryResponse.fields.dimensions[0].label;
         if (config.label) {
             if (config.label != '') label = config.label;
