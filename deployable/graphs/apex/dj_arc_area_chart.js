@@ -75,9 +75,7 @@ looker.plugins.visualizations.add({
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let node = document.getElementById('chart-apex-area');
-        while(node.firstChild) {
-            node.firstChild.remove();
-        }
+        while(node.firstChild) node.firstChild.remove();
         console.log('\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
@@ -109,19 +107,23 @@ looker.plugins.visualizations.add({
         if (config.curve) curve = config.curve;
 
 
-        // Grab the data
-        let dataSeries = {};
-        dataSeries.dates = [];
-        dataSeries.values = [];
-        dataSeries.values2 = [];
-        data.forEach(row => {
-            dataSeries.dates.push(row[queryResponse.fields.dimensions[0].name].value);
-            dataSeries.values.push(row[queryResponse.fields.measures[0].name].value);
-
-            dataSeries.values2.push(row[queryResponse.fields.measures[1].name].value);
-        });
-        console.log('dataSeries data', dataSeries);
         
+
+        // Grab the data
+        let xaxis = [];
+        let seriesData = [];
+        for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+            let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
+            seriesData.push(obj);
+        }
+
+        data.forEach(row => {
+            xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
+            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
+                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
+            }
+        });
+
 
         // Apex Charts
         window.Apex = {
@@ -131,7 +133,7 @@ looker.plugins.visualizations.add({
 
             
         // Area
-        var options = {
+        let configuration = {
             chart: {
                 height: 350,
                 type: 'area',
@@ -143,18 +145,9 @@ looker.plugins.visualizations.add({
                 enabled: false
             },
             stroke: {
-                curve: curve
+                curve: curve // straight, smooth, stepline
             },
-            series: [
-                {
-                    name: hoverLabel,
-                    data: dataSeries.values
-                },
-                {
-                    name: queryResponse.fields.measures[1].label_short,
-                    data: dataSeries.values2
-                }
-            ],
+            series: seriesData,
             title: {
                 text: title,
                 align: alignTitle
@@ -163,7 +156,7 @@ looker.plugins.visualizations.add({
                 text: label,
                 align: alignLabel
             },
-            labels: dataSeries.dates,
+            labels: xaxis,
             xaxis: {
                 type: 'datetime' // category, numeric, datetime
             },
@@ -175,19 +168,13 @@ looker.plugins.visualizations.add({
             }
         };
 
+
         var chart = new ApexCharts(
             document.querySelector("#chart-apex-area"),
-            options
+            configuration
         );
-
-
         // Apex Charts Init
-        if (document.getElementById('chart-apex-area')) {
-            // document.getElementById('chart-apex-area').innerHtml = ''; 
-            chart.render();
-        }
-
-        
+        if (document.getElementById('chart-apex-area')) chart.render();
         /**************** Done! *****************/
         doneRendering(); 
     }
