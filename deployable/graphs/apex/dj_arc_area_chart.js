@@ -144,11 +144,16 @@ looker.plugins.visualizations.add({
             stroke: {
                 curve: curve
             },
-            series: [{
-                name: hoverLabel,
-                data: dataSeries.values
-                data: dataSeries2.values
-            }],
+            series: [
+                {
+                    name: hoverLabel,
+                    data: dataSeries.values
+                },
+                {
+                    name: queryResponse.fields.measures[1].label_short,
+                    data: dataSeries2.values
+                }
+            ],
             title: {
                 text: title,
                 align: alignTitle
