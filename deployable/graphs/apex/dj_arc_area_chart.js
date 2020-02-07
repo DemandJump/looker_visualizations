@@ -12,7 +12,7 @@ looker.plugins.visualizations.add({
             ],
             default: 'area',
             hidden: false
-        }
+        },
         title: {
             label: 'Title of visual',
             order: 1,
@@ -122,6 +122,9 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
+        let theme = 'area';
+        if (config.theme) theme = config.theme;
+
         // Configuration for chart
         let alignTitle = 'left';
         // if (config.alignTitle) alignTitle = 'right';
@@ -133,10 +136,10 @@ looker.plugins.visualizations.add({
             if (config.title != '') title = config.title;
         }
 
-        let label = queryResponse.fields.dimensions[0].label;
-        if (config.label) {
-            if (config.label != '') label = config.label;
-        }
+        // let label = queryResponse.fields.dimensions[0].label;
+        // if (config.label) {
+        //     if (config.label != '') label = config.label;
+        // }
 
         let curve = 'straight';
         if (config.curve) curve = config.curve;
