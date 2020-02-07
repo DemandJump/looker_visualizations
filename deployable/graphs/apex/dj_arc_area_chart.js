@@ -1,5 +1,18 @@
 looker.plugins.visualizations.add({
     options: {
+        themes: {
+            label: 'Choose a theme',
+            order: 0.5,
+            section: 'Format',
+            type: 'string',
+            display: 'select',
+            values: [
+                {'Area Chart': 'area'},
+                {'Negative Area Chart': 'negative'}
+            ],
+            default: 'area',
+            hidden: false
+        }
         title: {
             label: 'Title of visual',
             order: 1,
@@ -123,11 +136,6 @@ looker.plugins.visualizations.add({
         let label = queryResponse.fields.dimensions[0].label;
         if (config.label) {
             if (config.label != '') label = config.label;
-        }
-
-        let hoverLabel = queryResponse.fields.measures[0].label_short
-        if (config.hoverLabel) {
-            if (config.hoverLabel != '') hoverLabel = config.hoverLabel;
         }
 
         let curve = 'straight';
