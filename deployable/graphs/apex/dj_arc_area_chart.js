@@ -126,7 +126,7 @@ looker.plugins.visualizations.add({
 
         // Grab the theme to configure the chart
         let theme = 'area';
-        if (config.theme) theme = config.theme;
+        if (config.themes) theme = config.themes;
         let configuration = {
             chart: {
                 height: window.innerHeight - 45,
