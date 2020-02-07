@@ -15,13 +15,13 @@ looker.plugins.visualizations.add({
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-3 widget-chart">
-                        <div class="widget-numbers">1.2M</div>
-                        <div class="widget-subheading">Leads Generated</div>
+                        <div class="widget-numbers" id="value">1.2M</div>
+                        <div class="widget-subheading" id="name">Leads Generated</div>
                         <div class="widget-description text-info">
                             <i class="fa fa-ellipsis-h">
 
                             </i>
-                            <span class="pl-1">112.5%</span></div>
+                            <span class="pl-1"></span></div>
                     </div>
                 </div>
             </div>
@@ -40,6 +40,11 @@ looker.plugins.visualizations.add({
 
         let value = data[0][queryResponse.fields.measures[0].name].value;
 
+        let nameNode = document.getElementById('name');
+        nameNode.innerHTML = name;
+        
+        let valueNode = document.getElementById('value');
+        valueNode.innerHTML = value;
         
         /**************** Done! *****************/
         doneRendering(); 
