@@ -32,6 +32,28 @@ looker.plugins.visualizations.add({
             type:' boolean',
             default: false,
             hidden: false
+        },
+
+        curve: {
+            label: 'Line behavior',
+            order: 12,
+            section: 'Advanced',
+            type: 'select',
+            values: [
+                {'Straight': 'straight'}, 
+                {'Smooth': 'smooth'}, 
+                {'Stepline': 'stepline'}, 
+            ],
+            default: 'straight',
+            hidden: false
+        },
+        hoverLabel: {
+            label: 'Hover label',
+            order: 13,
+            section: 'Advanced',
+            type: 'string',
+            placeholder: "Enter the chart's hover label element",
+            hidden: false
         }
     },
     create: function(element, config) {
@@ -61,6 +83,7 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
+        // Configuration for chart
         let alignTitle = 'left';
         if (config.alignTitle) alignTitle = 'right';
         let alignLabel = 'left';
@@ -70,10 +93,22 @@ looker.plugins.visualizations.add({
         if (config.title) {
             if (config.title != '') title = config.title;
         }
+        
         let label = queryResponse.fields.dimensions[0].label;
         if (config.label) {
             if (config.label != '') label = config.label;
         }
+
+        let hoverLabel = queryResponse.fields.measures[0].label_short
+        if (config.hoverLabel) {
+            if (config.hoverLabel != '') config.hoverLabel;
+        }
+
+        let curve = 'straight';
+        if (config.curve) curve = config.curve;
+
+
+
         let dataSeries = {};
         dataSeries.dates = [];
         dataSeries.values = [];
@@ -123,10 +158,10 @@ looker.plugins.visualizations.add({
                     enabled: false
                 },
                 stroke: {
-                    curve: 'straight'
+                    curve: curve
                 },
                 series: [{
-                    name: queryResponse.fields.measures[0].label_short,
+                    name: hoverLabel,
                     data: dataSeries.values
                 }],
                 title: {
