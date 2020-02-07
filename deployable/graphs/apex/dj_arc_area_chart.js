@@ -65,6 +65,24 @@ looker.plugins.visualizations.add({
             type: 'string',
             placeholder: "Enter the chart's hover label element",
             hidden: false
+        },
+
+        axisBorder: {
+            label: 'Show x axis border',
+            order: 15,
+            section: 'Misc',
+            type: 'boolean',
+            default: true,
+            hidden: false
+        },
+
+        axisTicks: {
+            label: 'Show x axis ticks',
+            order: 16,
+            section: 'Misc',
+            type: 'boolean',
+            default: true,
+            hidden: false
         }
     },
     create: function(element, config) {
@@ -118,6 +136,12 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
 
+        let axisBorder = true;
+        if (config.axisBorder) axisBorder = config.axisBorder;
+
+        let axisTicks = true;
+        if (config.axisTicks) axisTicks = config.axisTicks;
+
         
 
         // Grab the data
@@ -169,7 +193,13 @@ looker.plugins.visualizations.add({
             // },
             labels: xaxis,
             xaxis: {
-                type: 'datetime' // category, numeric, datetime
+                type: 'datetime', // category, numeric, datetime
+                axisBorder: {
+                    show: axisBorder,
+                },
+                axisTicks: {
+                    show: axisTicks
+                }
             },
             yaxis: {
                 opposite: true
