@@ -17,22 +17,22 @@ looker.plugins.visualizations.add({
         //     hidden: false
         // },
 
-        label: {
-            label: 'Label by title',
-            order: 3,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter the label of the visual',
-            hidden: false
-        },
-        alignLabel: {
-            label: 'Align to the left or right ',
-            order: 4,
-            section: 'Format',
-            type: 'boolean',
-            default: false,
-            hidden: false
-        },
+        // label: {
+        //     label: 'Label by title',
+        //     order: 3,
+        //     section: 'Format',
+        //     type: 'string',
+        //     placeholder: 'Enter the label of the visual',
+        //     hidden: false
+        // },
+        // alignLabel: {
+        //     label: 'Align to the left or right ',
+        //     order: 4,
+        //     section: 'Format',
+        //     type: 'boolean',
+        //     default: false,
+        //     hidden: false
+        // },
 
         curve: {
             label: 'Line behavior',
@@ -84,9 +84,8 @@ looker.plugins.visualizations.add({
         // Configuration for chart
         let alignTitle = 'left';
         // if (config.alignTitle) alignTitle = 'right';
-
-        let alignLabel = 'left';
-        if (config.alignLabel) alignLabel = 'right';
+        // let alignLabel = 'left';
+        // if (config.alignLabel) alignLabel = 'right';
 
         let title = queryResponse.fields.measures[0].label;
         if (config.title) {
@@ -120,7 +119,7 @@ looker.plugins.visualizations.add({
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
             for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
+                seriesData[i].data.push(row[queryResponse.fields.measures[i].name].rendered);
             }
         });
 
@@ -135,7 +134,7 @@ looker.plugins.visualizations.add({
         // Area
         let configuration = {
             chart: {
-                height: 350,
+                height: window.innerHeight,
                 type: 'area',
                 zoom: {
                     enabled: false
@@ -152,10 +151,10 @@ looker.plugins.visualizations.add({
                 text: title,
                 align: alignTitle
             },
-            subtitle: {
-                text: label,
-                align: alignLabel
-            },
+            // subtitle: {
+            //     text: label,
+            //     align: alignLabel
+            // },
             labels: xaxis,
             xaxis: {
                 type: 'datetime' // category, numeric, datetime
