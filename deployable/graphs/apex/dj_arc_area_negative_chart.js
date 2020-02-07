@@ -16,11 +16,9 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let node = document.getElementById('chart-apex-area');
-        while(node.firstChild) {
-            node.firstChild.remove();
-        }
-        console.log('\n\n\n\nThese are the settings', this.options);
+        let node = document.getElementById('chart-apex-negative');
+        while(node.firstChild) node.firstChild.remove();
+        console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
@@ -201,12 +199,7 @@ looker.plugins.visualizations.add({
 
 
         // Apex Charts Init
-        if (document.getElementById('chart-apex-negative')) {
-            // document.getElementById('chart-apex-negative').innerHtml = ''; 
-            chart2.render();
-        }
-        
-        this.clearElements++;
+        if (document.getElementById('chart-apex-negative')) chart2.render();
         /**************** Done! *****************/
         doneRendering(); 
     }
