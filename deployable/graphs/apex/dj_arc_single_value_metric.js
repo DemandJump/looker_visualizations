@@ -342,6 +342,11 @@ body .card.mb-3 {
   margin-bottom: 1rem !important;
 }
 
+.card {
+    box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
+    border-width: 0;
+    transition: all .2s;
+}
             </style>
 
 
