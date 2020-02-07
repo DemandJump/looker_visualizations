@@ -170,7 +170,7 @@ looker.plugins.visualizations.add({
         // Area
         let configuration = {
             chart: {
-                height: window.innerHeight - 45,
+                height: 350,
                 type: 'area',
                 zoom: {
                     enabled: false
@@ -194,12 +194,12 @@ looker.plugins.visualizations.add({
             labels: xaxis,
             xaxis: {
                 type: 'datetime', // category, numeric, datetime
-                // axisBorder: {
-                //     show: axisBorder,
-                // },
-                // axisTicks: {
-                //     show: axisTicks
-                // }
+                axisBorder: {
+                    show: axisBorder,
+                },
+                axisTicks: {
+                    show: axisTicks
+                }
             },
             yaxis: {
                 opposite: true
