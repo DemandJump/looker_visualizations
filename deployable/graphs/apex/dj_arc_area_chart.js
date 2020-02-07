@@ -58,7 +58,6 @@ looker.plugins.visualizations.add({
         }
     },
     create: function(element, config) {
-        this.clearElements = 0;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -79,7 +78,7 @@ looker.plugins.visualizations.add({
         while(node.firstChild) {
             node.firstChild.remove();
         }
-        console.log('These are the settings', this.options);
+        console.log('\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
@@ -117,6 +116,8 @@ looker.plugins.visualizations.add({
         data.forEach(row => {
             dataSeries.dates.push(row[queryResponse.fields.dimensions[0].name].value);
             dataSeries.values.push(row[queryResponse.fields.measures[0].name].value);
+
+            dataSeries.values.push(row[queryResponse.fields.measures[1].name].value);
         });
         console.log('dataSeries data', dataSeries);
         
@@ -146,6 +147,7 @@ looker.plugins.visualizations.add({
             series: [{
                 name: hoverLabel,
                 data: dataSeries.values
+                data: dataSeries2.values
             }],
             title: {
                 text: title,
@@ -180,7 +182,6 @@ looker.plugins.visualizations.add({
         }
 
         
-        this.clearElements++;
         /**************** Done! *****************/
         doneRendering(); 
     }
