@@ -168,6 +168,7 @@ looker.plugins.visualizations.add({
                     seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
                 }
             });
+            console.log('Series data', seriesData);
 
             // Area specific configuration settings
             configuration['series'] = seriesData;
@@ -191,6 +192,7 @@ looker.plugins.visualizations.add({
                     seriesData[i].data.push({x: row[queryResponse.fields.dimensions[0].name].value, y: row[queryResponse.fields.measures[i].name].value});
                 }
             });
+            console.log('Series data', seriesData);
 
             // Area negative configuration settings
             configuration['xaxis'] = {
