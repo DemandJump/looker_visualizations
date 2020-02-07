@@ -225,7 +225,7 @@ looker.plugins.visualizations.add({
             configuration['fill'] = {
                 opacity: 0.5,
                 gradient: {
-                    enabled: false
+                    enabled: true
                 }
             };
             // configuration['tooltip'] = {
