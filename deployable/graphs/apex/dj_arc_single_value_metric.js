@@ -40,24 +40,6 @@ looker.plugins.visualizations.add({
 
         let value = data[0][queryResponse.fields.measures[0].name].value;
 
-
-
-        element.innerHTML = `
-        <div class="divider mt-0" style="margin-bottom: 30px;"></div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card mb-3 widget-chart">
-                        <div class="widget-numbers">1.2M</div>
-                        <div class="widget-subheading">${name}</div>
-                        <div class="widget-description text-info">
-                            <i class="fa fa-ellipsis-h">
-
-                            </i>
-                            <span class="pl-1">${value}%</span></div>
-                    </div>
-                </div>
-            </div>
-        `;
         
         /**************** Done! *****************/
         doneRendering(); 
