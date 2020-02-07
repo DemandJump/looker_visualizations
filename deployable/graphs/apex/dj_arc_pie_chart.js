@@ -10,7 +10,6 @@ looker.plugins.visualizations.add({
         }
     },
     create: function(element, config) {
-        this.clearElements = 0;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
