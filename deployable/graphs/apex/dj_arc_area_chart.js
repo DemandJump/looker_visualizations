@@ -194,12 +194,12 @@ looker.plugins.visualizations.add({
             labels: xaxis,
             xaxis: {
                 type: 'datetime', // category, numeric, datetime
-                axisBorder: {
-                    show: axisBorder,
-                },
-                axisTicks: {
-                    show: axisTicks
-                }
+                // axisBorder: {
+                //     show: axisBorder,
+                // },
+                // axisTicks: {
+                //     show: axisTicks
+                // }
             },
             yaxis: {
                 opposite: true
@@ -215,7 +215,9 @@ looker.plugins.visualizations.add({
             configuration
         );
         // Apex Charts Init
-        if (document.getElementById('chart-apex-area')) chart.render();
+        if (document.getElementById('chart-apex-area')) {
+            chart.render();
+        }
         /**************** Done! *****************/
         doneRendering(); 
     }
