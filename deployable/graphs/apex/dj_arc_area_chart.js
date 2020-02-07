@@ -30,19 +30,14 @@ looker.plugins.visualizations.add({
         let title = '';
         let subTitle = '';
         let dataSeries = {}
-        dataSeries.dsd = [];
-        dataSeries.dsm = [];
+        dataSeries.dates = [];
+        dataSeries.values = [];
+
         
 
         data.forEach(row => {
-            dataSeries.dsd.push(row[queryResponse.fields.dimensions[0].name].value);
-
-            let dsmObj = {};
-            dsmObj['value'] = row[queryResponse.fields.measures[0].name].value;
-            if (row[queryResponse.fields.measures[0].name].rendered) dsmObj['rendered'] = row[queryResponse.fields.measures[0].name].rendered;
-            else dsmObj['rendered'] = row[queryResponse.fields.measures[0].name].value;
-
-            dataSeries.dsm.push(dsmObj);
+            dataSeries.dates.push(row[queryResponse.fields.dimensions[0].name].value);
+            dataSeries.values.push(row[queryResponse.fields.measures[0].name].value);
         });
 
         console.log('dataSeries data', dataSeries);
@@ -87,7 +82,7 @@ looker.plugins.visualizations.add({
                 },
                 series: [{
                     name: "STOCK ABC",
-                    data: series.monthDataSeries1.prices
+                    data: dataSeries.dsm.values
                 }],
                 title: {
                     text: 'Fundamental Analysis of Stocks',
@@ -97,7 +92,7 @@ looker.plugins.visualizations.add({
                     text: 'Price Movements',
                     align: 'left'
                 },
-                labels: series.monthDataSeries1.dates,
+                labels: dataSeries.dates,
                 xaxis: {
                     type: 'datetime'
                 },
