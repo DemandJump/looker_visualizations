@@ -162,7 +162,7 @@ looker.plugins.visualizations.add({
             },
             yaxis: {
                 title: {
-                    text: queryResponse.fiels.dimensions[0].label_short
+                    text: queryResponse.fields.dimensions[0].label_short
                 },
 
             },
