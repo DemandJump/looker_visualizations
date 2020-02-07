@@ -48,7 +48,7 @@ looker.plugins.visualizations.add({
             default: 'straight',
             hidden: false
         },
-
+        
         dataLabels: {
             label: 'Enable data labels',
             order: 13,
@@ -115,8 +115,6 @@ looker.plugins.visualizations.add({
         let curve = 'straight';
         if (config.curve) curve = config.curve;
 
-        let dataLabels = false;
-        if (config.dataLabels) dataLabels = config.dataLabels;
 
         
 
@@ -153,7 +151,7 @@ looker.plugins.visualizations.add({
                 }
             },
             dataLabels: {
-                enabled: dataLabels
+                enabled: true
             },
             stroke: {
                 curve: curve // straight, smooth, stepline
