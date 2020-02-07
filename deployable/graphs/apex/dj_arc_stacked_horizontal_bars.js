@@ -113,7 +113,7 @@ looker.plugins.visualizations.add({
             let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
             seriesData.push(obj);
         }
-        
+
 
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
@@ -162,7 +162,7 @@ looker.plugins.visualizations.add({
             },
             yaxis: {
                 title: {
-                    text: queryResponse.dimensions[0].label_short
+                    text: queryResponse.fiels.dimensions[0].label_short
                 },
 
             },
