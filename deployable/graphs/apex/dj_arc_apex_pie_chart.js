@@ -9,7 +9,7 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
-                            <div id="chart-apex-stacked"></div>
+                            <canvas id="chart-area"></canvas>
                         </div>
                     </div>
                 </div>
@@ -22,14 +22,19 @@ looker.plugins.visualizations.add({
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
-        console.log('Data', data);
+        console.log('Data', data)
+        
+        
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 100);
+        };;
 
         let datasets = [
             randomScalingFactor(),
             randomScalingFactor(),
             randomScalingFactor(),
             randomScalingFactor(),
-            randomScalingFactor(),
+            randomScalingFactor()
         ];
 
     
@@ -42,7 +47,7 @@ looker.plugins.visualizations.add({
                         datasets[1],
                         datasets[2],
                         datasets[3],
-                        datasets[4],
+                        datasets[4]
                     ],
                     backgroundColor: [
                         window.chartColors.red,
@@ -65,9 +70,15 @@ looker.plugins.visualizations.add({
                 responsive: true
             }
         };
+
+        
         // Apex Charts Init
-        if (document.getElementById('chart-apex-stacked')) chart4.render();
-                /**************** Done! *****************/
+
+        if (document.getElementById('chart-area')) {
+            let ctx2 = document.getElementById('chart-area').getContext('2d');
+            window.myPie = new Chart(ctx2, configPie);
+        }
+        /**************** Done! *****************/
         doneRendering(); 
     }
 });
