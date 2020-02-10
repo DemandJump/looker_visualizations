@@ -14,7 +14,7 @@ looker.plugins.visualizations.add({
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
-                        <div class="card-body">
+                        <div class="card-body" id="card-body">
                             <canvas id="chart-area"></canvas>
                         </div>
                     </div>
