@@ -89,12 +89,18 @@ looker.plugins.visualizations.add({
             window.myPie = new Chart(ctx2, configPie);
 
             let ancestor = document.getElementById('card-body');
-            let descendants = node.getElementsByTagName('*');
+            let descendants = ancestor.getElementsByTagName('*');
             console.log('These are the descendants', descendants);
             for(let i = 0; i < descendants.length; i++) {
                 let j = descendants[i];
                 j.setAttribute("sandbox", "allow-scripts");
             }
+        }
+
+
+        setTimeout(function(){ allowScripts(); }, 3000);
+        function allowScripts() {
+
         }
         /**************** Done! *****************/
         doneRendering(); 
