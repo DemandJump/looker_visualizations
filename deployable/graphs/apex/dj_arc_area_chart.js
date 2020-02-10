@@ -56,7 +56,7 @@ looker.plugins.visualizations.add({
             values: [
                 {'Straight': 'straight'}, 
                 {'Smooth': 'smooth'}, 
-                {'Stepline': 'stepline'}, 
+                {'Step': 'stepline'}, 
             ],
             default: 'straight',
             hidden: false
