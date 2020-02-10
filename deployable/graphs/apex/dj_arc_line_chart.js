@@ -40,7 +40,7 @@ looker.plugins.visualizations.add({
         let title = ' ';
         let showTitle = false;
         if (config.title) {
-            if (config.title != '') showTitle = true
+            if (config.title != '') showTitle = true;
             title = config.title;
         }
 
