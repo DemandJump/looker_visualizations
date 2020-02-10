@@ -663,12 +663,12 @@
                 position: 'right',
             },
             title: {
-                display: false,
+                display: true,
                 text: 'Chart.js Polar Area Chart'
             },
             scale: {
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero: false
                 },
                 reverse: false
             },
@@ -725,7 +725,8 @@
                 text: 'Chart.js Line Chart'
             },
             legend: {
-                display: false
+                display: true,
+                position: 'bottom'
             },
             layout: {
                 padding: {
@@ -748,14 +749,14 @@
             pointBorderWidth: '2',
             scales: {
                 xAxes: [{
-                    display: false,
+                    display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Month'
+                        labelString: 'Months'
                     }
                 }],
                 yAxes: [{
-                    display: false,
+                    display: true,
                     scaleLabel: {
                         display: true,
                         labelString: 'Value'

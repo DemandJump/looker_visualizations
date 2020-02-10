@@ -38,7 +38,11 @@ looker.plugins.visualizations.add({
         };
 
         let title = ' ';
-        if (config.title) title = config.title; 
+        let showTitle = false;
+        if (config.title) {
+            if (config.title != '') showTitle = true;
+            title = config.title; 
+        }
 
         let labels = [];
         let dataset = [];
@@ -64,9 +68,18 @@ looker.plugins.visualizations.add({
                 labels: labels
             },
             options: {
-                responsive: true
-            }
-        };
+                responsive: true,
+                maintainAspectRatio: true,
+                legend: {display: true},
+                title: {
+                    display: true,
+                    text: title
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }        };
 
         
         // Apex Charts Init

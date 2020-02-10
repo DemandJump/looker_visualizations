@@ -74,7 +74,7 @@ looker.plugins.visualizations.add({
                 },
                 scale: {
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: false
                     },
                     reverse: false
                 },

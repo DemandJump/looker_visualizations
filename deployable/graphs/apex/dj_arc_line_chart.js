@@ -83,7 +83,8 @@ looker.plugins.visualizations.add({
                     text: title
                 },
                 legend: {
-                    display: true
+                    display: true,
+                    position: 'bottom'
                 },
                 layout: {
                     padding: {
@@ -106,17 +107,17 @@ looker.plugins.visualizations.add({
                 pointBorderWidth: '2',
                 scales: {
                     xAxes: [{
-                        display: false,
+                        display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Month'
+                            labelString: queryResponse.fields.dimensions[0].label_short
                         }
                     }],
                     yAxes: [{
-                        display: false,
+                        display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Value'
+                            labelString: 'Values'
                         }
                     }]
                 }
