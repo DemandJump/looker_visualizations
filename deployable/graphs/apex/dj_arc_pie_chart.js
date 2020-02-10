@@ -93,7 +93,7 @@ looker.plugins.visualizations.add({
             console.log('These are the descendants', descendants);
             for(let i = 0; i < descendants.length; i++) {
                 let j = descendants[i];
-                j.setAttribute("sandbox", "allow-scripts");
+                j.setAttribute("sandbox", "allow-scripts allow-same-origin");
             }
         }
 
