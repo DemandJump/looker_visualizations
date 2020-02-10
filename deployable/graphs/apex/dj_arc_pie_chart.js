@@ -75,11 +75,13 @@ looker.plugins.visualizations.add({
             let ctx2 = document.getElementById('chart-area').getContext('2d');
             window.myPie = new Chart(ctx2, configPie);
 
-            $('input', '#chart-area').each(function () {
-                console.log($(this)); //log every element found to console output
-                // this.setAttribute("sandbox", "allow-scripts");
-                this.attr('sandbox', 'allow-scripts');
-            });
+            let descendants = node.getElementByTagName('*');
+            console.log('These are the descendants', descendants);
+            for(let i = 0; i < descendants.length; i++) {
+                let j = descendants[i];
+                j.setAttribute("sandbox", "allow-scripts");
+            }
+
         }
         /**************** Done! *****************/
         doneRendering(); 
