@@ -66,7 +66,7 @@ looker.plugins.visualizations.add({
             options: {
                 responsive: true,
                 legend: {
-                    position: 'right',
+                    position: 'top',
                 },
                 title: {
                     display: showTitle,

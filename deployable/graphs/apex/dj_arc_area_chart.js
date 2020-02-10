@@ -129,16 +129,10 @@ looker.plugins.visualizations.add({
             chart: {
                 height: window.innerHeight - 45,
                 type: 'area',
-                zoom: {
-                    enabled: true
-                }
+                zoom: {enabled: true}
             },
-            dataLabels: {
-                enabled: dataLabels
-            },
-            stroke: {
-                curve: curve // straight, smooth, stepline
-            },
+            dataLabels: {enabled: dataLabels},
+            stroke: {curve: curve}, // straight, smooth, stepline
             title: {
                 text: title,
                 align: 'left'

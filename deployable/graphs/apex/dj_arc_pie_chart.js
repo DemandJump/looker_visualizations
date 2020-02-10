@@ -98,7 +98,7 @@ looker.plugins.visualizations.add({
         }
 
 
-        setTimeout(function(){ allowScripts(); }, 3000);
+        setTimeout(function(){ allowScripts(); }, 1000);
         function allowScripts() {
 
         }
