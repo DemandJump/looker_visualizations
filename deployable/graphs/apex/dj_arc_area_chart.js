@@ -130,7 +130,7 @@ looker.plugins.visualizations.add({
                 height: window.innerHeight - 45,
                 type: 'area',
                 zoom: {
-                    enabled: false
+                    enabled: true
                 }
             },
             dataLabels: {

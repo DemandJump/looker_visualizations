@@ -74,6 +74,12 @@ looker.plugins.visualizations.add({
         if (document.getElementById('chart-area')) {
             let ctx2 = document.getElementById('chart-area').getContext('2d');
             window.myPie = new Chart(ctx2, configPie);
+
+            $('input', '#chart-area').each(function () {
+                console.log($(this)); //log every element found to console output
+                // this.setAttribute("sandbox", "allow-scripts");
+                this.attr('sandbox', 'allow-scripts');
+            });
         }
         /**************** Done! *****************/
         doneRendering(); 
