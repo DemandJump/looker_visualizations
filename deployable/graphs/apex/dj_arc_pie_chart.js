@@ -75,6 +75,7 @@ looker.plugins.visualizations.add({
             let ctx2 = document.getElementById('chart-area').getContext('2d');
             window.myPie = new Chart(ctx2, configPie);
 
+            let ancestor = document.getElementById('card-body');
             let descendants = node.getElementsByTagName('*');
             console.log('These are the descendants', descendants);
             for(let i = 0; i < descendants.length; i++) {
