@@ -55,8 +55,8 @@ looker.plugins.visualizations.add({
 
 
         // Configuration settings
-        let config = {};
-        
+        let configuration = {};
+
         let title = ' ';
         let showTitle = false;
         if (config.title) {
@@ -80,7 +80,7 @@ looker.plugins.visualizations.add({
 
 
         function classicPie() {
-            config = {
+            configuration = {
                 type: 'pie',
                 data: {
                     datasets: [{
@@ -112,7 +112,7 @@ looker.plugins.visualizations.add({
 
         function americanPie() {
             // Doughnut
-            config = {
+            configuration = {
                 type: 'doughnut',
                 data: {
                     datasets: [{
@@ -159,7 +159,7 @@ looker.plugins.visualizations.add({
 
         if (document.getElementById('chart-area')) {
             let ctx2 = document.getElementById('chart-area').getContext('2d');
-            window.myPie = new Chart(ctx2, configPie);
+            window.myPie = new Chart(ctx2, configuration);
 
             let ancestor = document.getElementById('card-body');
             let descendants = ancestor.getElementsByTagName('*');
