@@ -7,8 +7,9 @@ looker.plugins.visualizations.add({
             type: 'string',
             display: 'select',
             values: [
+                {'Custom': 'custom'},
                 {'Classic': 'area'},
-                {'Theme two': 'negative'}
+                // {'Theme two': 'negative'}
             ],
             default: 'area',
             hidden: false
@@ -82,6 +83,7 @@ looker.plugins.visualizations.add({
 
     },
     create: function(element, config) {
+        this.theme = '';
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">

@@ -178,7 +178,7 @@ looker.plugins.visualizations.add({
                 opacity: 1
             },
             legend: {
-                position: placeLegend, // front, back, bottom, top
+                position: 'left', // front, back, bottom, top
                 horizontalAlign: 'left',
                 offsetX: 40
             }
