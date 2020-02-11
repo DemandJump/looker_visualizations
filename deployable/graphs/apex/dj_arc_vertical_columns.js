@@ -110,7 +110,7 @@ looker.plugins.visualizations.add({
         let yTitle = '';
         let xTitle = queryResponse.fields.dimensions[0].label_short;
         
-        console.log(`This is config.theme: ${config.chooseTheme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
+        console.log(`This is datalabels: ${this.options.dataLabels.hidden}, this is horizontal: ${this.options.horizontal.hidden}, and endingShape: ${this.options.endingShape.hidden}`);
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
@@ -139,6 +139,7 @@ looker.plugins.visualizations.add({
         }
 
         if (changed) {
+            console.log('Something changed!')
             this.trigger('registerOptions', this.options);
         }
 
