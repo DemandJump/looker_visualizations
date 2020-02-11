@@ -75,7 +75,7 @@ looker.plugins.visualizations.add({
             dataset.push(data[0][queryResponse.fields.measures[i].name].value);
         }
         console.log('This is dataset', dataset);
-        console.log('This is label', label);
+        console.log('This is label', labels);
 
 
         if (config.collection == `classic`) {
