@@ -138,9 +138,9 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            if (config.dataLabels) dataLabels = config.dataLabels;
-            if (config.endingShape) endingShape = config.endingShape;
-            if (config.horizontal) horizontal = config.horizontal;
+            dataLabels = config.dataLabels;
+            endingShape = config.endingShape;
+            horizontal = config.horizontal;
         }
 
         if (changed) this.trigger('registerOptions', this.options);
