@@ -23,7 +23,7 @@ looker.plugins.visualizations.add({
 
 
         horizontal: {
-            label: 'Plot graph horizontal',
+            label: 'Plot graph horizontally',
             order: 15,
             section: 'Format',
             type: 'boolean',
@@ -96,7 +96,7 @@ looker.plugins.visualizations.add({
 
         let horizontal = true;
         if (config.horizontal) {
-            if (config.horizontal == false) horizontal = config.horizontal;
+            if (config.horizontal == false) horizontal = false;
         }
 
         let stack = true;
@@ -135,7 +135,7 @@ looker.plugins.visualizations.add({
             chart: {
                 height: window.innerHeight - 45,
                 type: 'bar',
-                stacked: stack,
+                stacked: 'true',
             },
             plotOptions: {
                 bar: {
