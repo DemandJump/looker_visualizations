@@ -36,7 +36,7 @@ looker.plugins.visualizations.add({
         xTitle: {
             label: 'X axis label',
             order: 4,
-            scetion: 'Format',
+            section: 'Format',
             type: 'string',
             placeholder: 'Enter x axis label',
             hidden: false
