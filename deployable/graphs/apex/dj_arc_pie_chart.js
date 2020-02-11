@@ -78,7 +78,7 @@ looker.plugins.visualizations.add({
         console.log('This is label', label);
 
 
-        function classicPie() {
+        if (config.collection == `classic`) {
             configuration = {
                 type: 'pie',
                 data: {
@@ -109,7 +109,7 @@ looker.plugins.visualizations.add({
 
         }
 
-        function americanPie() {
+        if (config.collection == `doughnut`) {
             // Doughnut
             configuration = {
                 type: 'doughnut',
@@ -147,12 +147,6 @@ looker.plugins.visualizations.add({
             dataLabels: {enabled: false},
             stroke: {width: 2}
         };
-        
-        // Theme based configuration
-        if (config.collection) {
-            if (config.collections == 'classic') classicPie();
-            if (config.collections == 'dougnut') americanPie();
-        }
             
         // Apex Charts Init
         console.log('This is the configuration', configuration);
