@@ -100,6 +100,14 @@ looker.plugins.visualizations.add({
         let title = queryResponse.fields.dimensions[0].label;
         if (config.title) title = config.title;
 
+        let yTitle = queryResponse.fields.dimensions.label_short;
+        if (config.yTitle) yTitle = config.yTitle;
+        
+        let xTitle = '';
+        if (config.xTitle) {
+            if(config.xTitle != '') xTitle = config.xTitle;
+        }
+        
         let dataLabels = false;
         if (config.dataLabels) {
             if (config.dataLabels == true) dataLabels = config.dataLabels;
@@ -109,16 +117,7 @@ looker.plugins.visualizations.add({
         if (config.horizontal) {
             if (config.horizontal == false) horizontal = false;
         }
-
-        let yTitle = queryResponse.fields.dimensions.label_short;
-        if (config.yTitle) yTitle = config.yTitle;
-
-        let xTitle = '';
-        if (config.xTitle) {
-            if(config.xTitle != '') xTitle = config.xTitle;
-        }
-
-
+        
         // Grab the data 
         let xaxis = [];
         let seriesData = [];

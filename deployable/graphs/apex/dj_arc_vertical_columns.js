@@ -2,15 +2,16 @@ looker.plugins.visualizations.add({
     options: {
         themes: {
             label: 'Choose a theme',
-            order: 1,
+            order: 5,
             section: 'Format',
             type: 'string',
             display: 'select',
             values: [
                 {'Horizontal': 'horizontal'},
-                {'Vertical': 'vertical'}
+                {'Vertical': 'vertical'},
+                {'Custom': 'custom'}
             ],
-            default: 'stack',
+            default: 'horizontal',
             hidden: false
         },
 
@@ -78,6 +79,7 @@ looker.plugins.visualizations.add({
 
     },
     create: function(element, config) {
+        this._custom = false
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -102,29 +104,48 @@ looker.plugins.visualizations.add({
 
         // Configuration settings
         let theme = 'horizontal';
-        let horizontal = false;
         if (config.theme) theme = config.theme;
-
-        if (theme == 'horizontal') horizontal = true;
-        if (theme == 'vertical') horizontal = false;
-
         let dataLabels = false;
-        if (config.dataLabels) dataLabels = config.dataLabels;
-
+        let horizontal = false;
+        let endingShape = 'rounded';
         let title = ' ';
-        if (config.title) title = config.title;
-
         let yTitle = ' ';
-        if (config.yTitle) yTitle = config.yTitle;
-
         let xTitle = queryResponse.fields.dimensions[0].label_short;
+        
+        if (theme == 'horizontal' || theme == 'vertical') {
+            if (this._custom != 'horizontalOrVertical') {
+                this._custom = 'horizontalOrVertical';
+                this.options.dataLabels.hidden = true;
+                this.options.horizontal.hidden = true;
+                this.options.endingShape.hidden = true;
+                this.trigger('registerOptions', this.options);
+            }
+
+            if (theme == 'horizontal') horizontal = true;
+            if (theme == 'vertical') horizontal = false;
+        }
+
+        if (theme == 'custom') {
+            if (this._custom != 'custom') {
+                this._custom = 'custom';
+                this.options.dataLabels.hidden = false;
+                this.options.dataLabels.hidden = false;
+                this.options.endingShape.hidden = false;
+                this.trigger('registerOptions', this.options);
+            }
+
+            if (config.dataLabels) dataLabels = config.dataLabels;
+            if (config.endingShape) endingShape = config.endingShape;
+            if (config.horizontal) horizontal = config.horizontal;
+        }
+
+        if (config.title) title = config.title;
+        if (config.yTitle) yTitle = config.yTitle;
         if (config.xTitle) {
             if (config.xTitle != '') xTtitle = config.xTitle;
         }
 
-        let endingShape = 'rounded';
-        if (config.endingShape) endingShape = config.endingShape;
-
+        // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
         let columnWidth = '55';
         if (config.columnWidth) columnWidth = config.columnWidth;
         columnWidth.toString();
@@ -156,7 +177,7 @@ looker.plugins.visualizations.add({
 
 
         // Column
-        var options3 = {
+        var columnChartConfiguration = {
             chart: {
                 height: window.innerHeight - 45,
                 type: 'bar',
@@ -205,12 +226,12 @@ looker.plugins.visualizations.add({
         };
 
 
-        var chart3 = new ApexCharts(
+        let chart = new ApexCharts(
             document.querySelector("#chart-apex-column"),
-            options3
+            columnChartConfiguration
         );
         // Apex Charts Init
-        if (document.getElementById('chart-apex-column')) chart3.render();
+        if (document.getElementById('chart-apex-column')) chart.render();
         /**************** Done! *****************/
         doneRendering(); 
     }
