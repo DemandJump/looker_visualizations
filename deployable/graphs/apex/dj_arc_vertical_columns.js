@@ -21,9 +21,9 @@ looker.plugins.visualizations.add({
             type: `string`, 
             display: `select`,
             values: [
-                {`Horizontal`: `Horizontal`},
-                {`Vertical`: `Vertical`},
-                {`Custom`: `Custom`}
+                {"Horizontal": "Horizontal"},
+                {"Vertical": "Vertical"},
+                {"Custom": "Custom"}
             ],
             default: `Horizontal`,
             hidden: false
