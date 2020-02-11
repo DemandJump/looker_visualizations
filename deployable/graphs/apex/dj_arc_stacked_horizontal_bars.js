@@ -166,7 +166,6 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
         }
 
-
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
             for(let i = 0; i < queryResponse.fields.measures.length; i++) {

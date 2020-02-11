@@ -58,9 +58,7 @@ looker.plugins.visualizations.add({
         let configuration = {};
 
         let title = ' ';
-        let showTitle = false;
         if (config.title) {
-            if (config.title != '') showTitle = true;
             title = config.title; 
         }
 
@@ -70,7 +68,6 @@ looker.plugins.visualizations.add({
         }
         
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
-        
         let labels = [];
         let dataset = [];
         for(let i = 0; i < queryResponse.fields.measures.length; i++) {
@@ -156,6 +153,7 @@ looker.plugins.visualizations.add({
         }
             
         // Apex Charts Init
+        console.log('This is the configuration', configuration);
 
         if (document.getElementById('chart-area')) {
             let ctx2 = document.getElementById('chart-area').getContext('2d');
