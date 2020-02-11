@@ -17,9 +17,19 @@ looker.plugins.visualizations.add({
             display: 'select',
             values: [
                 {'Classic': 'classic'},
-                {'Doughnut': 'doughnut'}
+                {'Doughnut': 'doughnut'},
+                {'Custom': 'custom'}
             ],
             default: 'classic',
+            hidden: false
+        },
+
+        aspectRatio: {
+            label: `Maintain`,
+            order: 3,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
             hidden: false
         }
     },
@@ -47,6 +57,8 @@ looker.plugins.visualizations.add({
 
         // Configuration settings
         let title = '';
+        let aspectRatio = true;
+        if (config.aspectRatio) aspectRatio = config.aspectRatio;
 
         if (config.title) {
             if (config.title != '') showTitle = true;
@@ -82,7 +94,7 @@ looker.plugins.visualizations.add({
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: aspectRatio,
                 legend: {
                     display: true,
                     position: 'top'
@@ -110,7 +122,7 @@ looker.plugins.visualizations.add({
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: aspectRatio,
                 legend: {
                     position: 'top',
                 },
