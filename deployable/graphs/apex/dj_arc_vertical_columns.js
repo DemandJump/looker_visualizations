@@ -19,9 +19,17 @@ looker.plugins.visualizations.add({
             order: 2,
             section: 'Format',
             type: 'string',
-            placeholder: 'Enter a label',
+            placeholder: 'Enter y axis label',
             hidden: false
         },
+        xTitle: {
+            label: 'x axis label',
+            order: 3,
+            scetion: 'Format',
+            type: 'string',
+            placeholder: 'Enter x axis label',
+            hidden: false
+        }
        
         
         dataLabels: {
@@ -64,13 +72,16 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
         console.log('details', details);
         console.log('element', element);
-        
+
 
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
 
         let yTitle = ' ';
         if (config.yTitle) yTitle = config.yTitle;
+
+        let xTitle = queryResponse.fields.dimensions[0].label_short;
+        if (config.xTitle) xTtitle = config.xTitle;
 
         let horizontalOrVertical = false;
         if (config.horizontal) {
