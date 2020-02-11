@@ -2,14 +2,16 @@ looker.plugins.visualizations.add({
     options: {
         themes: {
             label: 'Choose a theme',
-            order: 1,
+            order: 5,
             section: 'Format',
             type: 'string',
             display: 'select',
             values: [
-                {'Classic': 'stack'},
+                {'Horizontal': 'horizontal'},
+                {'Vertical': 'vertical'},
+                {'Custom': 'custom'},
             ],
-            default: 'stack',
+            default: 'horizontal',
             hidden: false
         },
 
@@ -57,6 +59,22 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
+        
+        endingShape: {
+            label: 'Ending bar shape',
+            order: 12,
+            section: 'Format',
+            type: 'string',
+            display: 'select',
+            values: [
+                {'Arrow': 'arrow'},
+                {'Rounded': 'rounded'},
+                {'Flat': 'flat'},
+            ],
+            default: 'rounded',
+            hidden: false
+        },
+
 
         // legend: {
         //     label: 'Put legend',
@@ -75,7 +93,7 @@ looker.plugins.visualizations.add({
         // },
     },
     create: function(element, config) {
-        this.clearElements = 0;
+        this._custom = 'something';
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -96,27 +114,49 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-    
-        let title = queryResponse.fields.dimensions[0].label;
-        if (config.title) title = config.title;
-
-        let yTitle = queryResponse.fields.dimensions.label_short;
-        if (config.yTitle) yTitle = config.yTitle;
-        
-        let xTitle = '';
-        if (config.xTitle) {
-            if(config.xTitle != '') xTitle = config.xTitle;
-        }
-        
+        let theme = 'horizontal';
+        if (config.theme) theme = config.theme;
         let dataLabels = false;
-        if (config.dataLabels) {
-            if (config.dataLabels == true) dataLabels = config.dataLabels;
+        let horizontal = true;
+        let endingShape = 'flat'
+        let title = '';
+        let yTitle = queryResponse.fields.dimensions[0].label_short;
+        let xTitle = '';
+    
+        
+        if (theme == 'horizontal' || theme == 'vertical') {
+            if (this._custom != 'horizontalOrVertical') {
+                this._custom = 'horizontalOrVertical';
+                this.options.dataLabels.hidden = true;
+                this.options.horizontal.hidden = true;
+                this.options.endingShape.hidden = true;
+                this.trigger('registerOptions', this.options);
+            }
+
+            if (theme == 'horizontal') horizontal = true;
+            if (theme == 'vertical') horizontal = false;
         }
 
-        let horizontal = true;
-        if (config.horizontal) {
-            if (config.horizontal == false) horizontal = false;
+        if (theme == 'custom') {
+            if (this._custom != 'custom') {
+                this._custom = 'custom';
+                this.options.dataLabels.hidden = false;
+                this.options.dataLabels.hidden = false;
+                this.options.endingShape.hidden = false;
+                this.trigger('registerOptions', this.options);
+            }
+
+            if (config.dataLabels) dataLabels = config.dataLabels;
+            if (config.endingShape) endingShape = config.endingShape;
+            if (config.horizontal) horizontal = config.horizontal;
         }
+
+        if (config.title) title = config.title;
+        if (config.yTitle) yTitle = config.yTitle;
+        if (config.xTitle) {
+            if (config.xTitle != '') xTtitle = config.xTitle;
+        }
+
         
         // Grab the data 
         let xaxis = [];
@@ -153,6 +193,7 @@ looker.plugins.visualizations.add({
             plotOptions: {
                 bar: {
                     horizontal: horizontal,
+                    endingShape: endingShape, // Arrow, rounded, flat
                 },
             },
             dataLabels: {

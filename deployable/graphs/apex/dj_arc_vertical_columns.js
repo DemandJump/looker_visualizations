@@ -46,7 +46,7 @@ looker.plugins.visualizations.add({
         dataLabels: {
             label: 'Enable data labels',
             order: 10,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: false,
             hidden: false
@@ -55,7 +55,7 @@ looker.plugins.visualizations.add({
         horizontal: {
             label: 'Plot graph horizontally',
             order: 11,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: true,
             hidden: false
@@ -64,7 +64,7 @@ looker.plugins.visualizations.add({
         endingShape: {
             label: 'Ending bar shape',
             order: 12,
-            section: 'Misc',
+            section: 'Format',
             type: 'string',
             display: 'select',
             values: [
@@ -108,8 +108,8 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         let horizontal = false;
         let endingShape = 'rounded';
-        let title = ' ';
-        let yTitle = ' ';
+        let title = '';
+        let yTitle = '';
         let xTitle = queryResponse.fields.dimensions[0].label_short;
         
         if (theme == 'horizontal' || theme == 'vertical') {
