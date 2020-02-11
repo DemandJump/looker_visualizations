@@ -114,7 +114,9 @@ looker.plugins.visualizations.add({
         if (config.yTitle) yTitle = config.yTitle;
 
         let xTitle = '';
-        if (config.xTitle) xTitle = config.xTitle;
+        if (config.xTitle) {
+            if(config.xTitle != '') xTitle = config.xTitle;
+        }
 
 
         // Grab the data 

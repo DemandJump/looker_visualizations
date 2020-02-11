@@ -1,17 +1,16 @@
 looker.plugins.visualizations.add({
     options: {
-        endingShape: {
-            label: 'Ending bar shape',
+        themes: {
+            label: 'Choose a theme',
             order: 1,
             section: 'Format',
             type: 'string',
             display: 'select',
             values: [
-                {'Arrow': 'arrow'},
-                {'Rounded': 'rounded'},
-                {'Flat': 'flat'},
+                {'Horizontal': 'horizontal'},
+                {'Vertical': 'vertical'}
             ],
-            default: 'rounded',
+            default: 'stack',
             hidden: false
         },
 
@@ -32,7 +31,7 @@ looker.plugins.visualizations.add({
             placeholder: 'Enter y axis label',
             hidden: false
         },
-        
+
         xTitle: {
             label: 'X axis label',
             order: 4,
@@ -46,20 +45,36 @@ looker.plugins.visualizations.add({
         dataLabels: {
             label: 'Enable data labels',
             order: 10,
-            section: 'Format',
+            section: 'Misc',
             type: 'boolean',
             default: false,
             hidden: false
         },
 
         horizontal: {
-            label: 'Plot graph horizontal',
+            label: 'Plot graph horizontally',
             order: 11,
-            section: 'Format',
+            section: 'Misc',
             type: 'boolean',
             default: true,
             hidden: false
-        }
+        },
+
+        endingShape: {
+            label: 'Ending bar shape',
+            order: 12,
+            section: 'Misc',
+            type: 'string',
+            display: 'select',
+            values: [
+                {'Arrow': 'arrow'},
+                {'Rounded': 'rounded'},
+                {'Flat': 'flat'},
+            ],
+            default: 'rounded',
+            hidden: false
+        },
+
 
     },
     create: function(element, config) {
@@ -85,6 +100,13 @@ looker.plugins.visualizations.add({
         console.log('details', details);
         console.log('element', element);
 
+        // Configuration settings
+        let theme = 'horizontal';
+        let horizontal = false;
+        if (config.theme) theme = config.theme;
+
+        if (theme == 'horizontal') horizontal = true;
+        if (theme == 'vertical') horizontal = false;
 
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
@@ -96,11 +118,8 @@ looker.plugins.visualizations.add({
         if (config.yTitle) yTitle = config.yTitle;
 
         let xTitle = queryResponse.fields.dimensions[0].label_short;
-        if (config.xTitle) xTtitle = config.xTitle;
-
-        let horizontalOrVertical = false;
-        if (config.horizontal) {
-            if (config.horizontal == true) horizontalOrVertical = config.horizontal;
+        if (config.xTitle) {
+            if (config.xTitle != '') xTtitle = config.xTitle;
         }
 
         let endingShape = 'rounded';
@@ -144,7 +163,7 @@ looker.plugins.visualizations.add({
             },
             plotOptions: {
                 bar: {
-                    horizontal: horizontalOrVertical,
+                    horizontal: horizontal,
                     endingShape: endingShape, // Arrow, rounded, flat
                     columnWidth: '55%',
                 },
