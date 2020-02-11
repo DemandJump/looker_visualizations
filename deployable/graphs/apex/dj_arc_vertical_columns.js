@@ -116,6 +116,7 @@ looker.plugins.visualizations.add({
         // Configuration settings
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;
+        let settings = this.options;
         let dataLabels = false;
         let horizontal = false;
         let endingShape = 'rounded';
@@ -127,10 +128,10 @@ looker.plugins.visualizations.add({
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
-                this.options.dataLabels.hidden = true;
-                this.options.horizontal.hidden = true;
-                this.options.endingShape.hidden = true;
-                this.trigger('registerOptions', this.options);
+                settings.dataLabels.hidden = true;
+                settings.horizontal.hidden = true;
+                settings.endingShape.hidden = true;
+                this.trigger('registerOptions', settings);
             }
 
             if (theme == 'Horizontal') horizontal = true;
@@ -140,10 +141,10 @@ looker.plugins.visualizations.add({
         if (theme == 'Custom') {
             if (this._custom != 'Custom') {
                 this._custom = 'Custom';
-                this.options.dataLabels.hidden = false;
-                this.options.dataLabels.hidden = false;
-                this.options.endingShape.hidden = false;
-                this.trigger('registerOptions', this.options);
+                settings.dataLabels.hidden = false;
+                settings.dataLabels.hidden = false;
+                settings.endingShape.hidden = false;
+                this.trigger('registerOptions', settings);
             }
 
             if (config.dataLabels) dataLabels = config.dataLabels;
