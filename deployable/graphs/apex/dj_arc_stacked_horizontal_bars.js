@@ -121,7 +121,7 @@ looker.plugins.visualizations.add({
         let horizontal = true;
         let endingShape = 'flat'
         let title = '';
-        let yTitle = queryResponse.fields.dimensions[0].label_short;
+        let yTitle = '';
         let xTitle = '';
             
         if (theme == 'Horizontal' || theme == 'Vertical') {
@@ -133,8 +133,14 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            if (theme == 'Horizontal') horizontal = true;
-            if (theme == 'Vertical') horizontal = false;
+            if (theme == 'Horizontal') {
+                horizontal = true;
+                yTitle = queryResponse.fields.dimensions[0].label_short;
+            }
+            if (theme == 'Vertical') {
+                horizontal = false;
+                xTitle = queryResponse.fields.dimensions[0].label_short;
+            }
         }
 
         if (theme == 'Custom') {

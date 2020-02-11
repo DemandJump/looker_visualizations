@@ -108,7 +108,7 @@ looker.plugins.visualizations.add({
         let endingShape = 'rounded';
         let title = '';
         let yTitle = '';
-        let xTitle = queryResponse.fields.dimensions[0].label_short;
+        let xTitle = '';
         
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
@@ -119,8 +119,14 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            if (theme == 'Horizontal') horizontal = true;
-            if (theme == 'Vertical') horizontal = false;
+            if (theme == 'Horizontal') {
+                horizontal = true;
+                yTitle = queryResponse.fields.dimensions[0].label_short;
+            }
+            if (theme == 'Vertical') {
+                horizontal = false;
+                xTitle = queryResponse.fields.dimensions[0].label_short;
+            }
         }
 
         if (theme == 'Custom') {
