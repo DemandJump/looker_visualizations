@@ -7,7 +7,33 @@ looker.plugins.visualizations.add({
             type: 'string',
             placeholder: 'Enter the title of the chart',
             hidden: false
-        }
+        },
+
+        legend: {
+            label: 'Show legend',
+            order: 2,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
+            hidden: false
+        },
+        showX: {
+            label: 'Show x axis',
+            order: 3,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
+            hidden: false 
+        },
+        showY: {
+            label: 'Show y axis', 
+            order: 4, 
+            section: 'Format',
+            type: 'boolean',
+            default: true,
+            hidden: false
+        }, 
+
     },
     create: function(element, config) {
         element.innerHTML = `
@@ -42,6 +68,21 @@ looker.plugins.visualizations.add({
         if (config.title) {
             if (config.title != '') showTitle = true;
             title = config.title;
+        }
+
+        let showLegend = false;
+        if (config.showLegend) {
+            if (config.showLegend == true) showLegend = true;
+        }
+
+        let showX = false;
+        if (config.showX) {
+            if (config.showX == true) showX = true;
+        }
+
+        let showY = false;
+        if (config.showY) {
+            if (config.showY == true) showY = true;
         }
 
 
@@ -83,7 +124,7 @@ looker.plugins.visualizations.add({
                     text: title
                 },
                 legend: {
-                    display: true,
+                    display: showLegend,
                     position: 'bottom'
                 },
                 layout: {
@@ -107,14 +148,14 @@ looker.plugins.visualizations.add({
                 pointBorderWidth: '2',
                 scales: {
                     xAxes: [{
-                        display: true,
+                        display: showX,
                         scaleLabel: {
                             display: true,
                             labelString: queryResponse.fields.dimensions[0].label_short
                         }
                     }],
                     yAxes: [{
-                        display: true,
+                        display: showY,
                         scaleLabel: {
                             display: true,
                             labelString: 'Values'

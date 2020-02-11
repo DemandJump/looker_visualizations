@@ -1,18 +1,5 @@
 looker.plugins.visualizations.add({
     options: {
-        themes: {
-            label: 'Choose a theme',
-            order: 0.5,
-            section: 'Format',
-            type: 'string',
-            display: 'select',
-            values: [
-                {'Vertical': 'vertical'},
-                {'Horizontal': 'horizontal'}
-            ],
-            default: 'vertical',
-            hidden: false
-        },
         endingShape: {
             label: 'Ending bar shape',
             order: 1,
@@ -40,7 +27,7 @@ looker.plugins.visualizations.add({
         dataLabels: {
             label: 'Enable data labels',
             order: 14,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: false,
             hidden: false
@@ -48,7 +35,7 @@ looker.plugins.visualizations.add({
         horizontal: {
             label: 'Plot graph horizontal',
             order: 15,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: false,
             hidden: false
@@ -78,20 +65,24 @@ looker.plugins.visualizations.add({
         console.log('details', details);
         console.log('element', element);
 
-        let theme = 'vertical';
-        if (config.themes) theme = config.themes;
-
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
 
-        let yTitle = '$ (thousands)';
+        let yTitle = ' ';
         if (config.yTitle) yTitle = config.yTitle;
 
         let horizontalOrVertical = false;
-        if (config.horizontal) horizontalOrVertical = config.horizontal
+        if (config.horizontal) {
+            if (config.horizontal == true) horizontalOrVertical = config.horizontal;
+        }
 
         let endingShape = 'rounded';
         if (config.endingShape) endingShape = config.endingShape;
+
+        let columnWidth = '55';
+        if (config.columnWidth) columnWidth = config.columnWidth;
+        columnWidth.toString();
+        columnWidth = columnWidth + '%';
 
 
         // Grab the data 
@@ -142,6 +133,9 @@ looker.plugins.visualizations.add({
             series: seriesData,
             xaxis: {
                 categories: xaxis,
+                title: {
+                    text: xTitle
+                }
             },
             yaxis: {
                 title: {

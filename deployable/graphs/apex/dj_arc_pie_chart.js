@@ -14,6 +14,7 @@ looker.plugins.visualizations.add({
             order: 2,
             section: 'Format',
             type: 'boolean',
+            default: true,
             hidden: false
         },
 
@@ -78,7 +79,7 @@ looker.plugins.visualizations.add({
             dataset.push(data[0][queryResponse.fields.measures[i].name].value);
         }
 
-        
+
         function classicPie() {
             config = {
                 type: 'pie',

@@ -38,34 +38,21 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
-        legend: {
-            label: 'Put legend',
-            order: 17,
-            section: 'Misc',
-            type: 'string',
-            display: 'select',
-            values: [
-                {'Front': 'front'},
-                {'Back': 'back'},
-                {'Bottom': 'bottom'},
-                {'Top': 'top'}
-            ],
-            default: 'top',
-            hidden: false
-        },
-        key: {
-            label: 'Place key',
-            order: 18,
-            section: 'Misc',
-            type: 'string',
-            display: 'select',
-            values: [
-                {'Left': 'left'},
-                {'Right': 'right'}
-            ],
-            default: 'top',
-            hidden: false
-        },
+        // legend: {
+        //     label: 'Put legend',
+        //     order: 17,
+        //     section: 'Misc',
+        //     type: 'string',
+        //     display: 'select',
+        //     values: [
+        //         {'Front': 'front'},
+        //         {'Back': 'back'},
+        //         {'Bottom': 'bottom'},
+        //         {'Top': 'top'}
+        //     ],
+        //     default: 'top',
+        //     hidden: false
+        // },
         
         dataLabels: {
             label: 'Enable data labels',
@@ -99,23 +86,24 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
 
     
-        let title = queryResponse.fields.measures[0].label;
+        let title = queryResponse.fields.dimensions[0].label;
         if (config.title) title = config.title;
 
         let dataLabels = false;
-        if (config.dataLabels) dataLabels = config.dataLabels;
+        if (config.dataLabels) {
+            if (config.dataLabels == true) dataLabels = config.dataLabels;
+        }
 
         let horizontal = true;
-        if (config.horizontal) horizontal = config.horizontal;
+        if (config.horizontal) {
+            if (config.horizontal == false) horizontal = config.horizontal;
+        }
 
         let stack = true;
-        if (config.stack) stack = config.stack;
+        if (config.stack) {
+            if (config.stack == false) stack = config.stack;
+        }
 
-        let placeLegend = 'top';
-        if (config.legend) placeLegend = config.legend;
-
-        let placeKey = 'key';
-        if (config.key) placeKey = config.key;
 
         // Grab the data 
         let xaxis = [];
@@ -178,7 +166,6 @@ looker.plugins.visualizations.add({
                 title: {
                     text: queryResponse.fields.dimensions[0].label_short
                 },
-
             },
             tooltip: {
                 y: {
@@ -189,11 +176,10 @@ looker.plugins.visualizations.add({
             },
             fill: {
                 opacity: 1
-
             },
             legend: {
                 position: placeLegend, // front, back, bottom, top
-                horizontalAlign: placeKey,
+                horizontalAlign: 'left',
                 offsetX: 40
             }
         };
