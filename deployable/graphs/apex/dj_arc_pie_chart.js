@@ -2,7 +2,7 @@ looker.plugins.visualizations.add({
     options: {
         title: {
             label: 'Enter the title',
-            order: 1,
+            order: 2,
             section: 'Format',
             type: 'string',
             placeholder: 'Enter the title of the chart',
@@ -11,14 +11,13 @@ looker.plugins.visualizations.add({
 
         collections: {
             label: 'Choose a theme',
-            order: 2,
+            order: 1,
             section: 'Format',
             type: 'string',
             display: 'select',
             values: [
                 {'Classic': 'classic'},
-                {'Doughnut': 'doughnut'},
-                {'Custom': 'custom'}
+                {'Doughnut': 'doughnut'}
             ],
             default: 'classic',
             hidden: false

@@ -2,7 +2,7 @@ looker.plugins.visualizations.add({
     options: {
         chooseTheme: {
             label: `Choose a theme`,
-            order: 5,
+            order: 1,
             section: `Format`,
             type: `string`, 
             display: `select`,
