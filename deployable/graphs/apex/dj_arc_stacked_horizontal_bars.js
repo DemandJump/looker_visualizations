@@ -1,29 +1,17 @@
 looker.plugins.visualizations.add({
     options: {
-        themes: {
-            label: 'Choose a theme',
+        theme: {
+            label: "Choose a theme ",
             order: 5,
             section: 'Format',
-            type: 'string',
-            display: 'select',
+            type: "string",
+            display: "select",
             values: [
                 {"Horizontal": "Horizontal"},
                 {"Vertical": "Vertical"},
                 {"Custom": "Custom"},
             ],
-            default: 'Horizontal',
-            hidden: false
-        },
-        theme: {
-            type: "string",
-            label: "Choose a theme ",
-            values: [
-                {"Large": "large"},
-                {"Medium": "medium"},
-                {"Small": "small"}
-            ],
-            display: "select",
-            default: "large",
+            default: "Horizontal",
             hidden: false
         },
 

@@ -14,6 +14,20 @@ looker.plugins.visualizations.add({
             default: "Horizontal",
             hidden: false
         },
+        chooseTheme: {
+            label: `Choose a theme`,
+            order: 5,
+            section: `Format`,
+            type: `string`, 
+            display: `select`,
+            values: [
+                {`Horizontal`: `Horizontal`},
+                {`Vertical`: `Vertical`},
+                {`Custom`: `Custom`}
+            ],
+            default: `Horizontal`,
+            hidden: false
+        }, 
 
         title: {
             label: 'Title of graph',
@@ -41,8 +55,7 @@ looker.plugins.visualizations.add({
             placeholder: 'Enter x axis label',
             hidden: false
         },
-       
-        
+          
         dataLabels: {
             label: 'Enable data labels',
             order: 10,
@@ -102,7 +115,7 @@ looker.plugins.visualizations.add({
 
         // Configuration settings
         let theme = 'Horizontal';
-        if (config.theme) theme = config.theme;
+        if (config.chooseTheme) theme = config.chooseTheme;
         let dataLabels = false;
         let horizontal = false;
         let endingShape = 'rounded';
@@ -110,7 +123,7 @@ looker.plugins.visualizations.add({
         let yTitle = '';
         let xTitle = queryResponse.fields.dimensions[0].label_short;
         
-        console.log(`This is config.theme: ${config.theme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
+        console.log(`This is config.theme: ${config.chooseTheme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
