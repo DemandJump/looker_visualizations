@@ -14,17 +14,28 @@ looker.plugins.visualizations.add({
             default: 'rounded',
             hidden: false
         },
+
+        title: {
+            label: 'Title of graph',
+            oder: 2,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter graph label',
+            hidden: false
+        },
+
         yTitle: {
-            label: 'y axis Label',
-            order: 2,
+            label: 'Y axis Label',
+            order: 3,
             section: 'Format',
             type: 'string',
             placeholder: 'Enter y axis label',
             hidden: false
         },
+        
         xTitle: {
-            label: 'x axis label',
-            order: 3,
+            label: 'X axis label',
+            order: 4,
             scetion: 'Format',
             type: 'string',
             placeholder: 'Enter x axis label',
@@ -34,18 +45,19 @@ looker.plugins.visualizations.add({
         
         dataLabels: {
             label: 'Enable data labels',
-            order: 14,
+            order: 10,
             section: 'Format',
             type: 'boolean',
             default: false,
             hidden: false
         },
+
         horizontal: {
             label: 'Plot graph horizontal',
-            order: 15,
+            order: 11,
             section: 'Format',
             type: 'boolean',
-            default: false,
+            default: true,
             hidden: false
         }
 
@@ -76,6 +88,9 @@ looker.plugins.visualizations.add({
 
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
+
+        let title = ' ';
+        if (config.title) title = config.title;
 
         let yTitle = ' ';
         if (config.yTitle) yTitle = config.yTitle;
@@ -143,6 +158,9 @@ looker.plugins.visualizations.add({
                 colors: ['transparent']
             },
             series: seriesData,
+            title: {
+                text: title
+            },
             xaxis: {
                 categories: xaxis,
                 title: {

@@ -2,7 +2,7 @@ looker.plugins.visualizations.add({
     options: {
         themes: {
             label: 'Choose a theme',
-            order: 0.5,
+            order: 1,
             section: 'Format',
             type: 'string',
             display: 'select',
@@ -12,32 +12,52 @@ looker.plugins.visualizations.add({
             default: 'stack',
             hidden: false
         },
+
         title: {
             label: 'Title of visual',
-            order: 1,
+            order: 2,
             section: 'Format',
             type: 'string',
             placholder: 'Enter the title of the visual',
             hidden: false
         },
+        
+        yTitle: {
+            label: 'Y axis Label',
+            order: 3,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter y axis label',
+            hidden: false
+        },
 
+        xTitle: {
+            label: 'X axis label',
+            order: 4,
+            scetion: 'Format',
+            type: 'string',
+            placeholder: 'Enter x axis label',
+            hidden: false
+        },
+        
+        dataLabels: {
+            label: 'Enable data labels',
+            order: 10,
+            section: 'Format',
+            type: 'boolean',
+            default: false,
+            hidden: false
+        },
 
         horizontal: {
             label: 'Plot graph horizontally',
-            order: 15,
+            order: 11,
             section: 'Format',
             type: 'boolean',
             default: true,
             hidden: false
         },
-        stack: {
-            label: 'Stack chart',
-            order: 16,
-            section: 'Format',
-            type: 'boolean',
-            default: true,
-            hidden: false
-        },
+
         // legend: {
         //     label: 'Put legend',
         //     order: 17,
@@ -53,15 +73,6 @@ looker.plugins.visualizations.add({
         //     default: 'top',
         //     hidden: false
         // },
-        
-        dataLabels: {
-            label: 'Enable data labels',
-            order: 14,
-            section: 'Format',
-            type: 'boolean',
-            default: false,
-            hidden: false
-        }
     },
     create: function(element, config) {
         this.clearElements = 0;
@@ -99,10 +110,11 @@ looker.plugins.visualizations.add({
             if (config.horizontal == false) horizontal = false;
         }
 
-        let stack = true;
-        if (config.stack) {
-            if (config.stack == false) stack = config.stack;
-        }
+        let yTitle = queryResponse.fields.dimensions.label_short;
+        if (config.yTitle) yTitle = config.yTitle;
+
+        let xTitle = '';
+        if (config.xTitle) xTitle = config.xTitle;
 
 
         // Grab the data 
@@ -141,7 +153,6 @@ looker.plugins.visualizations.add({
                 bar: {
                     horizontal: horizontal,
                 },
-
             },
             dataLabels: {
                 enabled: dataLabels
@@ -160,11 +171,14 @@ looker.plugins.visualizations.add({
                     formatter: function (val) {
                         return val;
                     }
-                }
+                },
+                title: {
+                    text: xTitle
+                },
             },
             yaxis: {
                 title: {
-                    text: queryResponse.fields.dimensions[0].label_short
+                    text: yTitle
                 },
             },
             tooltip: {
