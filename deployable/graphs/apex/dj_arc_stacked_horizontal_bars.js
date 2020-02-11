@@ -7,9 +7,9 @@ looker.plugins.visualizations.add({
             type: 'string',
             display: 'select',
             values: [
-                {'Horizontal': 'horizontal'},
-                {'Vertical': 'vertical'},
-                {'Custom': 'custom'},
+                {'Horizontal': 'Horizontal'},
+                {'Vertical': 'Vertical'},
+                {'Custom': 'Custom'},
             ],
             default: 'Horizontal',
             hidden: false
@@ -109,12 +109,12 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let node = document.getElementById('chart-apex-stacked');
         while(node.firstChild) node.firstChild.remove();
-        console.log('These are the settings', this.options);
+        console.log('\n\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-        let theme = 'horizontal';
+        let theme = 'Horizontal';
         if (config.theme) theme = config.theme;
         let dataLabels = false;
         let horizontal = true;
@@ -124,7 +124,8 @@ looker.plugins.visualizations.add({
         let xTitle = '';
     
         
-        if (theme == 'horizontal' || theme == 'vertical') {
+        console.log(`This is config.theme: ${config.theme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
+        if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
                 this.options.dataLabels.hidden = true;
@@ -133,13 +134,13 @@ looker.plugins.visualizations.add({
                 this.trigger('registerOptions', this.options);
             }
 
-            if (theme == 'horizontal') horizontal = true;
-            if (theme == 'vertical') horizontal = false;
+            if (theme == 'Horizontal') horizontal = true;
+            if (theme == 'Vertical') horizontal = false;
         }
 
-        if (theme == 'custom') {
-            if (this._custom != 'custom') {
-                this._custom = 'custom';
+        if (theme == 'Custom') {
+            if (this._custom != 'Custom') {
+                this._custom = 'Custom';
                 this.options.dataLabels.hidden = false;
                 this.options.dataLabels.hidden = false;
                 this.options.endingShape.hidden = false;
