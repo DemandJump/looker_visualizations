@@ -1,19 +1,5 @@
 looker.plugins.visualizations.add({
     options: {
-        theme: {
-            label: "Choose a theme ",
-            order: 5,
-            section: 'Format',
-            type: "string",
-            display: "select",
-            values: [
-                {"Horizontal": "Horizontal"},
-                {"Vertical": "Vertical"},
-                {"Custom": "Custom"},
-            ],
-            default: "Horizontal",
-            hidden: false
-        },
         chooseTheme: {
             label: `Choose a theme`,
             order: 5,
@@ -142,7 +128,7 @@ looker.plugins.visualizations.add({
             if (this._custom != 'Custom') {
                 this._custom = 'Custom';
                 this.options.dataLabels.hidden = false;
-                this.options.dataLabels.hidden = false;
+                this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;
                 changed = true;
             }
