@@ -145,10 +145,13 @@ looker.plugins.visualizations.add({
 
         if (changed) this.trigger('registerOptions', this.options);
 
-        if (config.title) title = config.title;
-        if (config.yTitle) yTitle = config.yTitle;
+        if (config.title) {
+            if (config.title != ``) title = config.title;
+        }
+        if (config.yTitle) {
+            if (config.yTitle != ``) yTitle = config.yTitle;
         if (config.xTitle) {
-            if (config.xTitle != '') xTitle = config.xTitle;
+            if (config.xTitle != ``) xTitle = config.xTitle;
         }
 
         // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
