@@ -55,9 +55,8 @@ looker.plugins.visualizations.add({
 
 
         // Configuration settings
-        let settings = this.options;
-        let changed = false;
-
+        let config = {};
+        
         let title = ' ';
         let showTitle = false;
         if (config.title) {
@@ -151,7 +150,6 @@ looker.plugins.visualizations.add({
         };
         
         // Theme based configuration
-        let config = {};
         if (config.collection) {
             if (config.collections == 'classic') classicPie();
             if (config.collections == 'dougnut') americanPie();
