@@ -49,6 +49,8 @@ looker.plugins.visualizations.add({
         // Configuration settings
         let settings = this.options;
         let changed = false;
+        let title = ' ';
+        let showTitle = false;
 
 
 
@@ -62,8 +64,6 @@ looker.plugins.visualizations.add({
             stroke: {width: 2}
         };
 
-        let title = ' ';
-        let showTitle = false;
         if (config.title) {
             if (config.title != '') showTitle = true;
             title = config.title; 
@@ -71,12 +71,12 @@ looker.plugins.visualizations.add({
 
         let labels = [];
         let dataset = [];
+        let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
         for(let i = 0; i < queryResponse.fields.measures.length; i++) {
             labels.push(queryResponse.fields.measures[i].label_short);
             dataset.push(data[0][queryResponse.fields.measures[i].name].value);
         }
 
-        let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
         
 
 
@@ -107,29 +107,45 @@ looker.plugins.visualizations.add({
                     animateScale: true,
                     animateRotate: true
                 }
+            },    
+        };
+
+        let configDoughnut = {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: dataset,
+                    backgroundColor: colors,
+                    label: title
+                }],
+                labels: labels
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
                 legend: {
                     position: 'top',
                 },
                 title: {
                     display: true,
-                    text: 'Chart.js Doughnut Chart',
+                    text: title
                 },
                 animation: {
                     animateScale: true,
                     animateRotate: true
                 }
-            }     
+            }
         };
 
+        let configuration;
+        if (config.collections == 'classic') configuration = configPie;
+        if (config.collections == 'doughnut') configuration = configDoughnut;
         
         // Apex Charts Init
 
         if (document.getElementById('chart-area')) {
             let ctx2 = document.getElementById('chart-area').getContext('2d');
-            window.myPie = new Chart(ctx2, configPie);
+            window.myPie = new Chart(ctx2, configuration);
 
             let ancestor = document.getElementById('card-body');
             let descendants = ancestor.getElementsByTagName('*');
