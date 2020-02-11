@@ -74,6 +74,8 @@ looker.plugins.visualizations.add({
             labels.push(queryResponse.fields.measures[i].label_short);
             dataset.push(data[0][queryResponse.fields.measures[i].name].value);
         }
+        console.log('This is dataset', dataset);
+        console.log('This is label', label);
 
 
         function classicPie() {
