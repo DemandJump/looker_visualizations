@@ -95,12 +95,10 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let node = document.getElementById('chart-apex-column');
         while(node.firstChild) node.firstChild.remove();
-        console.log('These are the settings', this.options);
+        console.log('\n\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
-        console.log('details', details);
-        console.log('element', element);
 
         // Configuration settings
         let theme = 'horizontal';
@@ -112,6 +110,7 @@ looker.plugins.visualizations.add({
         let yTitle = '';
         let xTitle = queryResponse.fields.dimensions[0].label_short;
         
+        console.log(`This is config.theme: ${config.theme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
         if (theme == 'horizontal' || theme == 'vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
