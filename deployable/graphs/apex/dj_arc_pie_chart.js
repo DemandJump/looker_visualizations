@@ -7,7 +7,29 @@ looker.plugins.visualizations.add({
             type: 'string',
             placeholder: 'Enter the title of the chart',
             hidden: false
-        }
+        },
+
+        legend: {
+            label: 'Show legend',
+            order: 2,
+            section: 'Format',
+            type: 'boolean',
+            hidden: false
+        },
+
+        collections: {
+            label: 'Choose a theme',
+            order: 2,
+            section: 'Format',
+            type: 'string',
+            display: 'select',
+            values: [
+                {'Classic': 'classic'},
+                {'Doughnut': 'doughnut'}
+            ],
+            default: 'classic',
+            hidden: false
+        },
     },
     create: function(element, config) {
         element.innerHTML = `
@@ -28,14 +50,12 @@ looker.plugins.visualizations.add({
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
-        console.log('Data', data)
-        
-        
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
+        console.log('Data', data);
+
+
+        // Configuration settings
+        let settings = this.options;
+        let changed = false;
 
         let title = ' ';
         let showTitle = false;
@@ -44,6 +64,13 @@ looker.plugins.visualizations.add({
             title = config.title; 
         }
 
+        let showLegend = false;
+        if (config.showLegend) {
+            if (config.showLegend == true) showLegend = true;
+        }
+        
+        let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
+        
         let labels = [];
         let dataset = [];
         for(let i = 0; i < queryResponse.fields.measures.length; i++) {
@@ -51,37 +78,84 @@ looker.plugins.visualizations.add({
             dataset.push(data[0][queryResponse.fields.measures[i].name].value);
         }
 
-        let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
         
-
-
-
-    
-        var configPie = {
-            type: 'pie',
-            data: {
-                datasets: [{
-                    data: dataset,
-                    backgroundColor: colors,
-                    label: title
-                }],
-                labels: labels
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                legend: {display: true},
-                title: {
-                    display: true,
-                    text: title
+        function classicPie() {
+            config = {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        data: dataset,
+                        backgroundColor: colors,
+                        label: title
+                    }],
+                    labels: labels
                 },
-                animation: {
-                    animateScale: true,
-                    animateRotate: true
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    legend: {
+                        display: showLegend,
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
                 }
-            }        };
+            };
+
+        }
+
+        function americanPie() {
+            // Doughnut
+            config = {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: dataset,
+                        backgroundColor: colors,
+                        label: title
+                    }],
+                    labels: labels
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            };
+
+        }
 
         
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
+        
+        // Theme based configuration
+        let config = {};
+        if (config.collection) {
+            if (config.collections == 'classic') classicPie();
+            if (config.collections == 'dougnut') americanPie();
+        }
+            
         // Apex Charts Init
 
         if (document.getElementById('chart-area')) {
@@ -97,11 +171,6 @@ looker.plugins.visualizations.add({
             }
         }
 
-
-        setTimeout(function(){ allowScripts(); }, 1000);
-        function allowScripts() {
-
-        }
         /**************** Done! *****************/
         doneRendering(); 
     }
