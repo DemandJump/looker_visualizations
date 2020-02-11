@@ -1,19 +1,19 @@
 looker.plugins.visualizations.add({
     options: {
-        theme: {
-            label: "Choose a theme ",
+        chooseTheme: {
+            label: `Choose a theme`,
             order: 5,
-            section: 'Format',
-            type: "string",
-            display: "select",
+            section: `Format`,
+            type: `string`, 
+            display: `select`,
             values: [
                 {"Horizontal": "Horizontal"},
                 {"Vertical": "Vertical"},
-                {"Custom": "Custom"},
+                {"Custom": "Custom"}
             ],
-            default: "Horizontal",
+            default: `Horizontal`,
             hidden: false
-        },
+        }, 
 
         title: {
             label: 'Title of visual',
@@ -115,7 +115,8 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
 
         let theme = 'Horizontal';
-        if (config.theme) theme = config.theme;
+        if (config.chooseTheme) theme = config.chooseTheme;
+        let changed = false;
         let dataLabels = false;
         let horizontal = true;
         let endingShape = 'flat'
@@ -123,14 +124,13 @@ looker.plugins.visualizations.add({
         let yTitle = queryResponse.fields.dimensions[0].label_short;
         let xTitle = '';
             
-        console.log(`This is config.theme: ${config.theme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
                 this.options.dataLabels.hidden = true;
                 this.options.horizontal.hidden = true;
                 this.options.endingShape.hidden = true;
-                this.trigger('registerOptions', this.options);
+                changed = true;
             }
 
             if (theme == 'Horizontal') horizontal = true;
@@ -141,15 +141,17 @@ looker.plugins.visualizations.add({
             if (this._custom != 'Custom') {
                 this._custom = 'Custom';
                 this.options.dataLabels.hidden = false;
-                this.options.dataLabels.hidden = false;
+                this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;
-                this.trigger('registerOptions', this.options);
+                changed = true;
             }
 
             if (config.dataLabels) dataLabels = config.dataLabels;
             if (config.endingShape) endingShape = config.endingShape;
             if (config.horizontal) horizontal = config.horizontal;
         }
+
+        if (changed) this.trigger('registerOptions', this.options);
 
         if (config.title) title = config.title;
         if (config.yTitle) yTitle = config.yTitle;
