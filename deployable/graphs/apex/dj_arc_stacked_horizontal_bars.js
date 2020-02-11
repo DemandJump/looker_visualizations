@@ -11,7 +11,7 @@ looker.plugins.visualizations.add({
                 {'Vertical': 'vertical'},
                 {'Custom': 'custom'},
             ],
-            default: 'horizontal',
+            default: 'Horizontal',
             hidden: false
         },
 
