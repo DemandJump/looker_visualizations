@@ -64,6 +64,7 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
         console.log('details', details);
         console.log('element', element);
+        
 
         let dataLabels = false;
         if (config.dataLabels) dataLabels = config.dataLabels;
