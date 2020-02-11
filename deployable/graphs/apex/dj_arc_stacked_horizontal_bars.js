@@ -25,7 +25,7 @@ looker.plugins.visualizations.add({
         horizontal: {
             label: 'Plot graph horizontal',
             order: 15,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: true,
             hidden: false
@@ -33,7 +33,7 @@ looker.plugins.visualizations.add({
         stack: {
             label: 'Stack chart',
             order: 16,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: true,
             hidden: false
@@ -41,7 +41,7 @@ looker.plugins.visualizations.add({
         // legend: {
         //     label: 'Put legend',
         //     order: 17,
-        //     section: 'Misc',
+        //     section: 'Format',
         //     type: 'string',
         //     display: 'select',
         //     values: [
@@ -57,7 +57,7 @@ looker.plugins.visualizations.add({
         dataLabels: {
             label: 'Enable data labels',
             order: 14,
-            section: 'Misc',
+            section: 'Format',
             type: 'boolean',
             default: false,
             hidden: false
@@ -178,7 +178,7 @@ looker.plugins.visualizations.add({
                 opacity: 1
             },
             legend: {
-                position: 'left', // front, back, bottom, top
+                position: 'bottom', // front, back, bottom, top
                 horizontalAlign: 'left',
                 offsetX: 40
             }

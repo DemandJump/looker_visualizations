@@ -29,7 +29,7 @@ looker.plugins.visualizations.add({
             type: 'string',
             placeholder: 'Enter x axis label',
             hidden: false
-        }
+        },
        
         
         dataLabels: {
