@@ -1,17 +1,17 @@
 looker.plugins.visualizations.add({
     options: {
-        themes: {
-            label: 'Choose a theme',
+        theme: {
+            label: "Choose a theme ",
             order: 5,
             section: 'Format',
-            type: 'string',
-            display: 'select',
+            type: "string",
+            display: "select",
             values: [
-                {'Horizontal': 'horizontal'},
-                {'Vertical': 'vertical'},
-                {'Custom': 'custom'}
+                {"Horizontal": "Horizontal"},
+                {"Vertical": "Vertical"},
+                {"Custom": "Custom"},
             ],
-            default: 'horizontal',
+            default: "Horizontal",
             hidden: false
         },
 
@@ -101,7 +101,7 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
 
         // Configuration settings
-        let theme = 'horizontal';
+        let theme = 'Horizontal';
         if (config.theme) theme = config.theme;
         let dataLabels = false;
         let horizontal = false;
@@ -111,7 +111,7 @@ looker.plugins.visualizations.add({
         let xTitle = queryResponse.fields.dimensions[0].label_short;
         
         console.log(`This is config.theme: ${config.theme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
-        if (theme == 'horizontal' || theme == 'vertical') {
+        if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
                 this.options.dataLabels.hidden = true;
@@ -120,13 +120,13 @@ looker.plugins.visualizations.add({
                 this.trigger('registerOptions', this.options);
             }
 
-            if (theme == 'horizontal') horizontal = true;
-            if (theme == 'vertical') horizontal = false;
+            if (theme == 'Horizontal') horizontal = true;
+            if (theme == 'Vertical') horizontal = false;
         }
 
-        if (theme == 'custom') {
-            if (this._custom != 'custom') {
-                this._custom = 'custom';
+        if (theme == 'Custom') {
+            if (this._custom != 'Custom') {
+                this._custom = 'Custom';
                 this.options.dataLabels.hidden = false;
                 this.options.dataLabels.hidden = false;
                 this.options.endingShape.hidden = false;

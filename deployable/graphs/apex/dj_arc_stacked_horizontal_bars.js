@@ -7,11 +7,23 @@ looker.plugins.visualizations.add({
             type: 'string',
             display: 'select',
             values: [
-                {'Horizontal': 'Horizontal'},
-                {'Vertical': 'Vertical'},
-                {'Custom': 'Custom'},
+                {"Horizontal": "Horizontal"},
+                {"Vertical": "Vertical"},
+                {"Custom": "Custom"},
             ],
             default: 'Horizontal',
+            hidden: false
+        },
+        theme: {
+            type: "string",
+            label: "Choose a theme ",
+            values: [
+                {"Large": "large"},
+                {"Medium": "medium"},
+                {"Small": "small"}
+            ],
+            display: "select",
+            default: "large",
             hidden: false
         },
 
@@ -122,8 +134,7 @@ looker.plugins.visualizations.add({
         let title = '';
         let yTitle = queryResponse.fields.dimensions[0].label_short;
         let xTitle = '';
-    
-        
+            
         console.log(`This is config.theme: ${config.theme}, and this is theme: ${theme}, finally this._custom: ${this._custom}`);
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
