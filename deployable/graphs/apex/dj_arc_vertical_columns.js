@@ -150,6 +150,7 @@ looker.plugins.visualizations.add({
         }
         if (config.yTitle) {
             if (config.yTitle != ``) yTitle = config.yTitle;
+        }
         if (config.xTitle) {
             if (config.xTitle != ``) xTitle = config.xTitle;
         }
