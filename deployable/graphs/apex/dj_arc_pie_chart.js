@@ -50,12 +50,6 @@ looker.plugins.visualizations.add({
         let settings = this.options;
         let changed = false;
 
-        if (config.collections) {
-            if (config.collections == 'classic') {
-                    config.value = 
-            }
-
-        }
 
 
 
