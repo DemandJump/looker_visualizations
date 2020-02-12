@@ -1,4 +1,6 @@
 looker.plugins.visualizations.add({
+    id: 'dj_arc_pie_chart',
+    label: 'Demandjump pie chart',
     options: {
         title: {
             label: 'Enter the title',
@@ -60,6 +62,11 @@ looker.plugins.visualizations.add({
         // });
         // console.log('Mutated data', datum);
 
+        // Pull pivots inot dimension array
+        if (queryResponse.fields.pivots) {
+            queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+            queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+        }
 
         // Configuration settings
         let title = '';

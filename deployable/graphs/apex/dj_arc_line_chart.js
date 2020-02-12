@@ -1,4 +1,6 @@
 looker.plugins.visualizations.add({
+    id: 'dj_arc_line_chart',
+    label: 'Demandjump line chart',
     options: {
         title: {
             label: 'Enter the title',
@@ -83,6 +85,11 @@ looker.plugins.visualizations.add({
         // });
         // console.log('Mutated data', datum);
         
+        // Pull pivots inot dimension array
+        if (queryResponse.fields.pivots) {
+            queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+            queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+        }
         
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        
         let title = ' ';

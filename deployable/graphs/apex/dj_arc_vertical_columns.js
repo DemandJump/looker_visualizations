@@ -1,4 +1,6 @@
 looker.plugins.visualizations.add({
+    id: 'dj_arc_column_graph',
+    label: 'Demandjump column graph',
     options: {
         chooseTheme: {
             label: `Choose a theme`,
@@ -134,6 +136,12 @@ looker.plugins.visualizations.add({
         //     }
         // });
         // console.log('Mutated data', datum);
+
+        // Pull pivots inot dimension array
+        if (queryResponse.fields.pivots) {
+            queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+            queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+        }
 
         // Configuration settings
         let theme = 'Horizontal';
