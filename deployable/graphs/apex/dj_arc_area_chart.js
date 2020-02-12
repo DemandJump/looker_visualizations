@@ -133,6 +133,13 @@ looker.plugins.visualizations.add({
         console.log(`This is the config`, config);
         console.log(`Queryresponse`, queryResponse);
         console.log(`Data`, data);
+        let datum = data;
+        datum.forEach(row => {
+            for(let i = 0; i < row.length; i++) {
+                if (row[i].value == null) row[i] = 0;
+            }
+        });
+        console.log('Mutated data', datum);
 
         // Configuration for all charts 
         let theme = `area`;
@@ -148,7 +155,7 @@ looker.plugins.visualizations.add({
         if (config.title) {
             if (config.title != ``) title = config.title;
         }
-        
+
 
         if (theme == `area`) {
             if (this._custom == `area`) {
@@ -200,7 +207,7 @@ looker.plugins.visualizations.add({
         
         let format = `category`; // Either datetime or category
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
-        let date = data[queryResponse.fields.dimension_like[0].name].value;
+        let date = datum[queryResponse.fields.dimension_like[0].name].value;
         if (date.length == 10 && date.includes('-', 4) && date.includes('-', 7)) format == `datetime`;
 
         let xaxis = [];
@@ -211,7 +218,7 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
             categoryData.push(obj);
         }
-        data.forEach(row => {
+        datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);

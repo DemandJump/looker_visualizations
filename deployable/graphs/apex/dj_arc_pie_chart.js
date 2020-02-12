@@ -52,6 +52,13 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
+        let datum = data;
+        datum.forEach(row => {
+            for(let i = 0; i < row.length; i++) {
+                if (row[i].value == null) row[i] = 0;
+            }
+        });
+        console.log('Mutated data', datum);
 
 
         // Configuration settings
@@ -68,10 +75,10 @@ looker.plugins.visualizations.add({
         let labels = [];
         let dataset = [];
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            labels.push(queryResponse.fields.measure_like[i].label_short);
-            dataset.push(data[0][queryResponse.fields.measure_like[i].name].value);
-        }
+        datum.forEach(row => {
+            labels.push(row[queryResponse.fields.dimension_like[0].name].value);
+            dataset.push(row[queryResponse.fields.measure_like[0].name].value);
+        });
 
         
         // Apex Charts

@@ -54,7 +54,14 @@ looker.plugins.visualizations.add({
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
-        console.log('Data', data)
+        console.log('Data', data);
+        let datum = data;
+        datum.forEach(row => {
+            for(let i = 0; i < row.length; i++) {
+                if (row[i].value == null) row[i] = 0;
+            }
+        });
+        console.log('Mutated data', datum);
         
         
         // Apex Charts
@@ -106,7 +113,7 @@ looker.plugins.visualizations.add({
         }
 
         data.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) data[i].push(row[queryResponse.fields.measure_like[i].name].value);
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) datum[i].push(row[queryResponse.fields.measure_like[i].name].value);
         });
         
             

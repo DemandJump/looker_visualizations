@@ -123,6 +123,13 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
+        let datum = data;
+        datum.forEach(row => {
+            for(let i = 0; i < row.length; i++) {
+                if (row[i].value == null) row[i] = 0;
+            }
+        });
+        console.log('Mutated data', datum);
 
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;
@@ -133,6 +140,7 @@ looker.plugins.visualizations.add({
         let title = '';
         let yTitle = '';
         let xTitle = '';
+
             
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
@@ -186,7 +194,7 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
         }
 
-        data.forEach(row => {
+        datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
