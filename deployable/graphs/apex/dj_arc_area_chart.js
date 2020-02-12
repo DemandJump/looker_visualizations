@@ -1,60 +1,71 @@
 looker.plugins.visualizations.add({
     options: {
         themes: {
-            label: 'Choose a theme',
+            label: `Choose a theme`,
             order: 1,
-            section: 'Format',
-            type: 'string',
-            display: 'select',
+            section: `Format`,
+            type: `string`,
+            display: `select`,
             values: [
                 {'Classic': 'area'},
                 {'Custom': 'custom'},
                 // {'Theme two': 'negative'}
             ],
-            default: 'area',
+            default: `area`,
             hidden: false
         },
 
         title: {
-            label: 'Title of visual',
+            label: `Title of visual`,
             order: 2,
-            section: 'Format',
-            type: 'string',
-            placholder: 'Enter the title of the visual',
+            section: `Format`,
+            type: `string`,
+            placholder: `Enter the title of the visual`,
             hidden: false
         },
 
         // alignTitle: {
-        //     label: 'Align to the left or right',
+        //     label: `Align to the left or right`,
         //     order: 2, 
-        //     section: 'Format',
-        //     type: 'boolean',
+        //     section: `Format`,
+        //     type: `boolean`,
         //     default: false,
         //     hidden: false
         // },
 
         label: {
-            label: 'Label by title',
+            label: `Label by title`,
             order: 3,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter the label of the visual',
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter the label of the visual`,
             hidden: false
         },
 
         // alignLabel: {
-        //     label: 'Align to the left or right ',
+        //     label: `Align to the left or right `,
         //     order: 4,
-        //     section: 'Format',
-        //     type: 'boolean',
+        //     section: `Format`,
+        //     type: `boolean`,
         //     default: false,
         //     hidden: false
         // },
 
+
+        customSpacing: {
+            order: 8,
+            section: `Format`,
+            type: `sentence_maker`,
+            words: [
+                {type: 'separator', text: ' '}
+            ],
+            hidden: false
+        },
+
         customLabel: {
             order: 9,
-            section: 'Format',
-            type: 'sentence_maker',
+            section: `Format`,
+            type: `sentence_maker`,
             words: [
                 {type: 'separator', text: 'Custom configuration:'}
             ],
@@ -62,46 +73,46 @@ looker.plugins.visualizations.add({
         },
 
         curve: {
-            label: 'Line behavior',
+            label: `Line behavior`,
             order: 10,
-            section: 'Format',
-            type: 'string',
-            display: 'select',
+            section: `Format`,
+            type: `string`,
+            display: `select`,
             values: [
                 {'Straight': 'straight'}, 
                 {'Smooth': 'smooth'}, 
                 {'Step': 'stepline'}, 
             ],
-            default: 'straight',
+            default: `straight`,
             hidden: false
         },
 
         dataLabels: {
-            label: 'Enable data labels',
-            order: 11,
-            section: 'Format',
-            type: 'boolean',
+            label: `Enable data labels`,
+            order: 12,
+            section: `Format`,
+            type: `boolean`,
             default: false,
             hidden: false
         },
 
         alignLegend: {
-            label: 'Align legend',
-            order: 12,
-            section: 'Format',
-            type: 'string',
-            display: 'select',
+            label: `Align legend`,
+            order: 11,
+            section: `Format`,
+            type: `string`,
+            display: `select`,
             values: [
                 {'Left': 'left'}, 
                 {'Center': 'center'}, 
                 {'Right': 'right'}, 
             ],
-            default: 'center',
+            default: `center`,
             hidden: false
         } 
     },
     create: function(element, config) {
-        this._custom = '';
+        this._custom = ``;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -116,45 +127,47 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let node = document.getElementById('chart-apex-area');
+        let node = document.getElementById(`chart-apex-area`);
         while(node.firstChild) node.firstChild.remove();
-        console.log('\n\n\n\nThese are the settings', this.options);
-        console.log('This is the config', config);
-        console.log('Queryresponse', queryResponse);
-        console.log('Data', data);
+        console.log(`\n\n\n\nThese are the settings`, this.options);
+        console.log(`This is the config`, config);
+        console.log(`Queryresponse`, queryResponse);
+        console.log(`Data`, data);
 
         // Configuration for all charts 
-        let theme = 'area';
+        let theme = `area`;
         if (config.themes) theme = config.themes;
         let changed = false;
 
         let title = queryResponse.fields.measure_like[0].label;
-        let label = '';
-        let curve = 'straight';
+        let label = ``;
+        let curve = `straight`;
         let dataLabels = false;
-        let alignLegend = 'center';
+        let alignLegend = `center`;
         
         if (config.title) {
-            if (config.title != '') title = config.title;
+            if (config.title != ``) title = config.title;
         }
+        
 
-
-        if (theme == 'area') {
-            if (this._custom == 'area') {
+        if (theme == `area`) {
+            if (this._custom == `area`) {
+                this.options.customSpacing.hidden = true;
+                this.options.customLabel.hidden = true;
                 this.options.curve.hidden = true;
                 this.options.dataLabel.hidden = true;
                 this.options.alignLegend.hidden = true;
-                this.options.customLabel.hidden = true;
                 changed = true;
             }
         }
 
-        if (theme == 'custom') {
-            if (this._custom == 'custom') {
+        if (theme == `custom`) {
+            if (this._custom == `custom`) {
+                this.options.customSpacing.hidden = false;
+                this.options.customLabel.hidden = false;
                 this.options.curve.hidden = false;
                 this.options.dataLabel.hidden = false;
                 this.options.alignLegend.hidden = false;
-                this.options.customLabel.hidden = false;
                 changed = true;
             }
 
@@ -163,70 +176,103 @@ looker.plugins.visualizations.add({
             if (config.alignLegend) alignLegend = config.alignLegend
         }
 
-        if (changed) this.trigger('registerOptions', this.options);
+        if (changed) this.trigger(`registerOptions`, this.options);
 
 
         let configuration = {
             chart: {
                 height: window.innerHeight - 45,
-                type: 'area',
+                type: `area`,
                 zoom: {enabled: true}
             },
             dataLabels: {enabled: dataLabels},
             stroke: {curve: curve}, // straight, smooth, stepline
             title: {
                 text: title,
-                align: 'left'
+                align: `left`
             },
             subtitle: {
                 text: label,
-                align: 'left'
+                align: `left`
             },
         };
 
-
-        let format = 'category'; // Either datetime or category
-        console.log('This is a datetime data piece', data[0][`djdh_sessions.session_start_date`].value);
-        if (data[0][`djdh_sessions.session_start_date`].value instanceof Date) {
-            console.log('This is a datetime value');
-        } else {
-            console.log('This is not a datetime value');
-        }
-        if (queryResponse.fields.dimension_like[0].label_short == 'Year') format = `yyyy`;
-
-
-        // configure the data
-        if (format ==  `year`) { // datetime format: yyyy
-
-        } else if (format == 'datetime') { // normal datetime values
-
-        } else { // Category with label creation
-
-        }
+        
+        let format = `category`; // Either datetime or category
+        if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
+        let date = data[queryResponse.fields.dimension_like[0].name].value;
+        if (date.length == 10 && date.includes('-', 4) && date.includes('-', 7)) format == `datetime`;
 
         let xaxis = [];
         let seriesData = [];
+        let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
             seriesData.push(obj);
+            categoryData.push(obj);
         }
-
         data.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+
+                let ob = {x: row[queryResponse.fields.dimension_like[i].name].value, y: row[queryResponse.fields.dimension_like.name].value};
+                categoryData[i].data.push(ob);
             }
         });
-        console.log('Series data', seriesData);
-
-
-        if (theme == 'area') {
-            configuration['series'] = seriesData;
-            configuration['labels'] = xaxis;
-            configuration['xaxis'] = {type: 'datetime'}; // category, numeric, datetime
-            configuration['yaxis'] = {opposite: true};
-            configuration['legend'] = {horizontalAlign: alignLegend};
+               
+    
+        if (format == `year`) {
+            console.log(`Category data`, categoryData);
+            configuration[`series`] = categoryData;
+            configuration[`xaxis`] = {
+                type: `datetime`,
+                axisBorder: {show: true},
+                axisTicks: {show: true}
+            };
+            configuration[`yaxis`] = {
+                tickAmount: 4,
+                floating: false,
+                labels: {
+                    style: {color: `#8e8da4`,},
+                    offsetY: -7,
+                    offsetX: 0,
+                },
+                axisBorder: {show: true,},
+                axisTicks: {show: true}
+            };
+            configuration[`fill`] = {
+                opacity: 0.5,
+                gradient: {enabled: false}
+            };
+            configuration[`tooltip`] = {
+                x: {format: `yyyy`},
+                fixed: {
+                    enabled: false,
+                    position: `topRight`
+                }
+            };
+            configuration[`grid`] = {
+                yaxis: {
+                    lines: {offsetX: -30}
+                },
+                padding: {left: 20}
+            };
+            configuration[`legend`] = {
+                position: `bottom`,
+                horizontalAlign: `center`
+            };
         }
+
+        if (format == `area` || format == `category`) {
+            console.log(`Series data`, seriesData);
+            configuration[`series`] = seriesData;
+            configuration[`labels`] = xaxis;
+            configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
+            configuration[`yaxis`] = {opposite: true};
+            configuration[`legend`] = {horizontalAlign: alignLegend};
+        }
+        if (format == `category`) delete configuration[`xaxis`];
 
 
         // Apex Charts
@@ -236,11 +282,11 @@ looker.plugins.visualizations.add({
         };
 
         let chart = new ApexCharts(
-            document.querySelector("#chart-apex-area"),
+            document.querySelector(`#chart-apex-area`),
             configuration
         );
         // Apex Charts Init
-        if (document.getElementById('chart-apex-area')) {
+        if (document.getElementById(`chart-apex-area`)) {
             chart.render();
         }
         /**************** Done! *****************/
