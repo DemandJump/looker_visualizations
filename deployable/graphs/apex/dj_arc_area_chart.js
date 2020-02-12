@@ -184,18 +184,24 @@ looker.plugins.visualizations.add({
             },
         };
 
-        console.log('This is a datetime data piece', data[0][queryResponse.fields.dimension_like.name].value);
-        if (data[0][queryResponse.fields.dimension_like.name].value instanceof Date) {
+
+        let format = 'category'; // Either datetime or category
+        console.log('This is a datetime data piece', data[0][`djdh_sessions.session_start_date`].value);
+        if (data[0][`djdh_sessions.session_start_date`].value instanceof Date) {
             console.log('This is a datetime value');
         } else {
             console.log('This is not a datetime value');
         }
+        if (queryResponse.fields.dimension_like[0].label_short == 'Year') format = `yyyy`;
+
 
         // configure the data
-        if (queryResponse.fields.dimension_like[0].label_short == 'Year') { // datetime format: yyyy
+        if (format ==  `year`) { // datetime format: yyyy
 
-        } else { // normal datetime values
-            // check if it's datetime, if not run category setup
+        } else if (format == 'datetime') { // normal datetime values
+
+        } else { // Category with label creation
+
         }
 
         let xaxis = [];
