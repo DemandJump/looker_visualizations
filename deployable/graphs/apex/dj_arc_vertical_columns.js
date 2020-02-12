@@ -54,7 +54,7 @@ looker.plugins.visualizations.add({
 
         customLabel: {
             order: 9,
-            section: 'Formatting',
+            section: 'Format',
             type: 'sentence_maker',
             words: [
                 {type: 'separator', text: 'Custom configuration:'}
