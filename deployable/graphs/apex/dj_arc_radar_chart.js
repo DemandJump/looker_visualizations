@@ -37,12 +37,12 @@ looker.plugins.visualizations.add({
         // });
         // console.log('Mutated data', datum);
 
-        
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
+        // Pull pivots inot dimension array
+        if (queryResponse.fields.pivots != []) {
+            queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+            queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+        }
+
 
         let title = ' ';
         let showTitle = false;
@@ -92,6 +92,11 @@ looker.plugins.visualizations.add({
         };
         
         
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
 
         // Radar Chart Init
         if (document.getElementById('radar-chart')) {

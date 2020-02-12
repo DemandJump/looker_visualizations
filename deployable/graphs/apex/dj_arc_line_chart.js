@@ -86,7 +86,7 @@ looker.plugins.visualizations.add({
         // console.log('Mutated data', datum);
         
         // Pull pivots inot dimension array
-        if (queryResponse.fields.pivots) {
+        if (queryResponse.fields.pivots != []) {
             queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }

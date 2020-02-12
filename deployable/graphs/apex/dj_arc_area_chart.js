@@ -1,5 +1,5 @@
 looker.plugins.visualizations.add({
-    id: 'dj_arc_area_chart
+    id: 'dj_arc_area_chart',
     label: 'Demandjump area chart',
     options: {
         themes: {
@@ -154,7 +154,7 @@ looker.plugins.visualizations.add({
         // console.log('Mutated data', datum);
 
         // Pull pivots inot dimension array
-        if (queryResponse.fields.pivots) {
+        if (queryResponse.fields.pivots != []) {
             queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
