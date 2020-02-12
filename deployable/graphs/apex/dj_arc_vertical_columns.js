@@ -130,6 +130,7 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
         let datum = data;
+        let pivot = false;
         // datum.forEach(row => {
         //     for(let i = 0; i < row.length; i++) {
         //         if (row[i].value == null) row[i] = 0;
@@ -139,6 +140,7 @@ looker.plugins.visualizations.add({
 
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
+            pivot = true;
             queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
@@ -222,14 +224,42 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
         }
 
-        datum.forEach(row => {
-            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-            else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
 
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
-            }
-        });
+        if (!pivot) {
+            datum.forEach(row => {
+                if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+    
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                }
+            });
+        } else {
+            let pivotLength = queryResponse.pivots.length;
+            let pivotNames = [];
+            let pivotLabels = [];
+            queryResponse.fields.measure_like.forEach(row => {
+                pivotNames.push(row.name);
+                pivotLabels.push(row.label);
+            });
+            
+            queryResponse.pivots.forEach((row, index) => {
+                let name = ``;
+                if (row.metadata.rendered) name = row.metadata.rendered;
+                else name = row.metadata.value;
+                xaxis.push(name);
+
+                let obj = {
+                    name: `${name} - ${pivotNames[i]}`,
+                    data: []
+                };
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    obj.data.push(datum[i][index].value);
+                }
+                seriesData.push(obj);
+            });
+
+        }
         console.log('Series data', seriesData);
 
     
