@@ -91,11 +91,11 @@ looker.plugins.visualizations.add({
         let dataset = [];
         let data = [];
 
-        for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-            labels.push(queryResponse.fields.measures[i].label);
+        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+            labels.push(queryResponse.fields.measure_like[i].label);
 
             let obj = {
-                label: queryResponse.fields.measures[i].label_short,
+                label: queryResponse.fields.measure_like[i].label_short,
                 backgroundColor: colors[i],
                 borderColor: colors[i],
                 data: [],
@@ -106,7 +106,7 @@ looker.plugins.visualizations.add({
         }
 
         data.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measures.length; i++) data[i].push(row[queryResponse.fields.measures[i].name].value);
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) data[i].push(row[queryResponse.fields.measure_like[i].name].value);
         });
         
             
@@ -151,7 +151,7 @@ looker.plugins.visualizations.add({
                         display: showX,
                         scaleLabel: {
                             display: true,
-                            labelString: queryResponse.fields.dimensions[0].label_short
+                            labelString: queryResponse.fields.dimension_like[0].label_short
                         }
                     }],
                     yAxes: [{

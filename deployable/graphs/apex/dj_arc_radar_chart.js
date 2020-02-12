@@ -46,9 +46,9 @@ looker.plugins.visualizations.add({
 
         let labels = [];
         let dataset = [];
-        for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-            labels.push(queryResponse.fields.measures[i].label_short.split(' '));
-            dataset.push(data[0][queryResponse.fields.measures[i].name].value);
+        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+            labels.push(queryResponse.fields.measure_like[i].label_short.split(' '));
+            dataset.push(data[0][queryResponse.fields.measure_like[i].name].value);
         }
 
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        
@@ -59,7 +59,7 @@ looker.plugins.visualizations.add({
             data: {
                 labels: labels,
                 datasets: [{
-                    label: queryResponse.fields.dimensions[0].label_short,
+                    label: queryResponse.fields.dimension_like[0].label_short,
                     backgroundColor: color(colors[5]).alpha(0.2).rgbString(),
                     borderColor: colors[5],
                     pointBackgroundColor: colors[5],

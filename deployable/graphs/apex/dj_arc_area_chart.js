@@ -106,7 +106,7 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
 
         // Configuration for all charts 
-        let title = queryResponse.fields.measures[0].label;
+        let title = queryResponse.fields.measure_like[0].label;
         if (config.title) {
             if (config.title != '') title = config.title;
         }
@@ -151,15 +151,15 @@ looker.plugins.visualizations.add({
             // 'area' data
             let xaxis = [];
             let seriesData = [];
-            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
                 seriesData.push(obj);
             }
     
             data.forEach(row => {
-                xaxis.push(row[queryResponse.fields.dimensions[0].name].value);
-                for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                    seriesData[i].data.push(row[queryResponse.fields.measures[i].name].value);
+                xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 }
             });
             console.log('Series data', seriesData);
@@ -183,7 +183,7 @@ looker.plugins.visualizations.add({
     
             data.forEach(row => {
                 for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                    seriesData[i].data.push({x: row[queryResponse.fields.dimensions[0].name].value, y: row[queryResponse.fields.measures[i].name].value});
+                    seriesData[i].data.push({x: row[queryResponse.fields.dimension_like[0].name].value, y: row[queryResponse.fields.measures[i].name].value});
                 }
             });
             console.log('Series data', seriesData);
