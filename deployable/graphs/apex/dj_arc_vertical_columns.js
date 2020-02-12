@@ -219,13 +219,15 @@ looker.plugins.visualizations.add({
         // Grab the data 
         let xaxis = [];
         let seriesData = [];
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
-            seriesData.push(obj);
-        }
+        
 
 
         if (!pivot) {
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
+                seriesData.push(obj);
+            }
+            
             datum.forEach(row => {
                 if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
                 else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
@@ -235,7 +237,6 @@ looker.plugins.visualizations.add({
                 }
             });
         } else {
-            let pivotLength = queryResponse.pivots.length;
             let pivotNames = [];
             let pivotLabels = [];
             queryResponse.fields.measure_like.forEach(row => {
