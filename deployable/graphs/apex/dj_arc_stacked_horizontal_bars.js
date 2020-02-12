@@ -85,6 +85,15 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
+        renderedData: {
+            label: 'Use rendered data',
+            order: 13,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
+            hidden: false
+        }
+
 
         // legend: {
         //     label: 'Put legend',
@@ -133,6 +142,7 @@ looker.plugins.visualizations.add({
 
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;
+        let rendered = false;
         let changed = false;
         let dataLabels = false;
         let horizontal = true;
@@ -149,6 +159,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = true;
                 this.options.horizontal.hidden = true;
                 this.options.endingShape.hidden = true;
+                this.options.renderedData.hidden = true;
                 changed = true;
             }
 
@@ -169,12 +180,14 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = false;
                 this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;
+                this.options.renderedData.hidden = false;
                 changed = true;
             }
 
             dataLabels = config.dataLabels;
             endingShape = config.endingShape;
             horizontal = config.horizontal;
+            rendered = config.renderedData;
         }
 
         if (changed) this.trigger('registerOptions', this.options);
@@ -195,10 +208,12 @@ looker.plugins.visualizations.add({
         }
 
         datum.forEach(row => {
-            if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
             else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+            
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                if (rendered && row[queryResponse.fields.measure_like[i].name].rendered) seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].rendered);
+                else seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
             }
         });
         console.log('Series data', seriesData);

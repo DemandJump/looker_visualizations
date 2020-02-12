@@ -109,7 +109,17 @@ looker.plugins.visualizations.add({
             ],
             default: `center`,
             hidden: false
-        } 
+        },
+
+        renderedData: {
+            label: 'Use rendered data',
+            order: 12,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
+            hidden: false
+        }
+
     },
     create: function(element, config) {
         this._custom = ``;
@@ -147,6 +157,7 @@ looker.plugins.visualizations.add({
         let changed = false;
 
         let title = queryResponse.fields.measure_like[0].label;
+        let rendered = true; 
         let label = ``;
         let curve = `straight`;
         let dataLabels = false;
@@ -164,6 +175,7 @@ looker.plugins.visualizations.add({
                 this.options.curve.hidden = true;
                 this.options.dataLabel.hidden = true;
                 this.options.alignLegend.hidden = true;
+                this.options.renderedData.hidden = true;
                 changed = true;
             }
         }
@@ -175,12 +187,14 @@ looker.plugins.visualizations.add({
                 this.options.curve.hidden = false;
                 this.options.dataLabel.hidden = false;
                 this.options.alignLegend.hidden = false;
+                this.options.renderedData.hidden = false;
                 changed = true;
             }
 
             if (config.curve) curve = config.curve;
             if (config.dataLabels) dataLabels = config.dataLabels;
-            if (config.alignLegend) alignLegend = config.alignLegend
+            if (config.alignLegend) alignLegend = config.alignLegend;
+            if (config.renderedData) rendered = config.renderedData;
         }
 
         if (changed) this.trigger(`registerOptions`, this.options);
@@ -221,9 +235,18 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                if (rendered && row[queryResponse.fields.measure_like[i].name].rendered) seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].rendered);
+                else seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
 
-                let ob = {x: row[queryResponse.fields.dimension_like[i].name].value, y: row[queryResponse.fields.dimension_like.name].value};
+                let ob = {};
+                let xVal;
+                let yVal;
+
+                if (rendered && row[queryResponse.fields.dimension_like[i].name].rendered) xVal = row[queryResponse.fields.dimension_like[i].name].rendered;
+                else xVal = row[queryResponse.fields.dimension_like[i].name].value;
+                if (rendered && row[queryResponse.fields.measure_like[i].name].rendered) yVal = row[queryResponse.fields.measure_like[i].name].rendered;
+                else yVal = row[queryResponse.fields.measure_like[i].name].rendered;
+                ob = {x: xVal, y: yVal};
                 categoryData[i].data.push(ob);
             }
         });

@@ -45,8 +45,11 @@ looker.plugins.visualizations.add({
         let dataset = [];
         
         datum.forEach(row => {
-            labels.push(row[queryResponse.fields.dimension_like[0].name].value);
-            dataset.push(row[queryResponse.fields.measure_like[0].name].value);
+            if (row[queryResponse.fields.dimension_like[0].name].rendered) labels.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+            else labels.push(row[queryResponse.fields.dimension_like[0].name].value);
+            
+            if (row[queryResponse.fields.measure_like[0].name].rendered) dataset.push(row[queryResponse.fields.measure_like[0].name].rendered);
+            else dataset.push(row[queryResponse.fields.measure_like[0].name].value);
         });
 
 
