@@ -9,30 +9,50 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
+        xTitle: {
+            label: 'X axis label',
+            order: 2,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter x axis label',
+            hidden: false
+        },
+
+        yTitle: {
+            label: 'Y axis Label',
+            order: 3,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter y axis label',
+            hidden: false
+        },
+        
         legend: {
             label: 'Show legend',
-            order: 2,
+            order: 4,
             section: 'Format',
             type: 'boolean',
             default: true,
             hidden: false
         },
-        showX: {
-            label: 'Show x axis',
-            order: 3,
-            section: 'Format',
-            type: 'boolean',
-            default: true,
-            hidden: false 
-        },
+        
         showY: {
             label: 'Show y axis', 
-            order: 4, 
+            order: 5, 
             section: 'Format',
             type: 'boolean',
             default: true,
             hidden: false
         }, 
+        
+        showX: {
+            label: 'Show x axis',
+            order: 6,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
+            hidden: false 
+        },
 
     },
     create: function(element, config) {
@@ -64,40 +84,25 @@ looker.plugins.visualizations.add({
         console.log('Mutated data', datum);
         
         
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
-
-        let title = ' ';
-        let showTitle = false;
-        if (config.title) {
-            if (config.title != '') showTitle = true;
-            title = config.title;
-        }
-
-        let showLegend = false;
-        if (config.showLegend) {
-            if (config.showLegend == true) showLegend = true;
-        }
-
-        let showX = false;
-        if (config.showX) {
-            if (config.showX == true) showX = true;
-        }
-
-        let showY = false;
-        if (config.showY) {
-            if (config.showY == true) showY = true;
-        }
-
-
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        
+        let title = ' ';
+        let showLegend = false;
+        let showX = true;
+        let showY = true;
+        let xTitle = queryResponse.fields.dimension_like[0].label_short;
+        let yTitle = '';
+
+        if (config.title) title = config.title;
+        if (config.showLegend) showLegend = true;
+        if (config.xTitle) xTitle = config.xTitle;
+        if (config.yTitle) yTitle = config.yTitle;
+        if (config.showX) showX = config.showX;
+        if (config.showY) showY = config.showY;
+
+
         let labels = [];
         let dataset = [];
-        let data = [];
-
+        let dataPass = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             labels.push(queryResponse.fields.measure_like[i].label);
 
@@ -109,11 +114,11 @@ looker.plugins.visualizations.add({
                 fill: false
             };
             dataset.push(obj);
-            data.push([]);
+            dataPass.push([]);
         }
 
-        data.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) datum[i].push(row[queryResponse.fields.measure_like[i].name].value);
+        datum.forEach(row => {
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataPass[i].push(row[queryResponse.fields.measure_like[i].name].value);
         });
         
             
@@ -127,7 +132,7 @@ looker.plugins.visualizations.add({
                 responsive: true,
                 maintainAspectRatio: false,
                 title: {
-                    display: showTitle,
+                    display: true,
                     text: title
                 },
                 legend: {
@@ -158,20 +163,26 @@ looker.plugins.visualizations.add({
                         display: showX,
                         scaleLabel: {
                             display: true,
-                            labelString: queryResponse.fields.dimension_like[0].label_short
+                            labelString: xTitle
                         }
                     }],
                     yAxes: [{
                         display: showY,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Values'
+                            labelString: yTitle
                         }
                     }]
                 }
             }
         };
 
+
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
         
         // Line
         if (document.getElementById('line-chart')) {

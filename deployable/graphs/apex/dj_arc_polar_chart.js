@@ -38,27 +38,16 @@ looker.plugins.visualizations.add({
         console.log('Mutated data', datum);
         
         
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
-        
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        
         let title = ' ';
-        let showTitle = false;
-        if (config.title) {
-            if (config.title != '') showTitle = true
-            title = config.title;
-        }
-
+        if (config.title) title = config.title;
         let labels = [];
         let dataset = [];
+        
         datum.forEach(row => {
             labels.push(row[queryResponse.fields.dimension_like[0].name].value);
             dataset.push(row[queryResponse.fields.measure_like[0].name].value);
         });
-
 
 
         let configPolar = {
@@ -76,7 +65,7 @@ looker.plugins.visualizations.add({
                     position: 'top',
                 },
                 title: {
-                    display: showTitle,
+                    display: true,
                     text: title
                 },
                 scale: {
@@ -92,6 +81,12 @@ looker.plugins.visualizations.add({
             }
         };
            
+
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
 
         // Polar
         if (document.getElementById('polar-chart')) {
