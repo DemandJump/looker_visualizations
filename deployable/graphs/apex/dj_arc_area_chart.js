@@ -184,8 +184,20 @@ looker.plugins.visualizations.add({
             },
         };
 
+        console.log('This is a datetime data piece', data[0][queryResponse.fields.dimension_like.name].value);
+        if (data[0][queryResponse.fields.dimension_like.name].value instanceof Date) {
+            console.log('This is a datetime value');
+        } else {
+            console.log('This is not a datetime value');
+        }
 
         // configure the data
+        if (queryResponse.fields.dimension_like[0].label_short == 'Year') { // datetime format: yyyy
+
+        } else { // normal datetime values
+            // check if it's datetime, if not run category setup
+        }
+
         let xaxis = [];
         let seriesData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
