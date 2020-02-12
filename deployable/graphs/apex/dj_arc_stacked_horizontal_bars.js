@@ -41,7 +41,17 @@ looker.plugins.visualizations.add({
             placeholder: 'Enter x axis label',
             hidden: false
         },
-        
+
+        customLabel: {
+            order: 9,
+            section: 'Formatting',
+            type: 'sentence_maker',
+            words: [
+                {type: 'separator', text: 'Custom configuration:'}
+            ],
+            hidden: false
+        },
+
         dataLabels: {
             label: 'Enable data labels',
             order: 10,
@@ -127,6 +137,7 @@ looker.plugins.visualizations.add({
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
+                this.options.customLabel.hidden = true;
                 this.options.dataLabels.hidden = true;
                 this.options.horizontal.hidden = true;
                 this.options.endingShape.hidden = true;
@@ -146,6 +157,7 @@ looker.plugins.visualizations.add({
         if (theme == 'Custom') {
             if (this._custom != 'Custom') {
                 this._custom = 'Custom';
+                this.options.customLabel.hidden = false;
                 this.options.dataLabels.hidden = false;
                 this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;

@@ -2,26 +2,28 @@ looker.plugins.visualizations.add({
     options: {
         themes: {
             label: 'Choose a theme',
-            order: 0.5,
+            order: 1,
             section: 'Format',
             type: 'string',
             display: 'select',
             values: [
-                {'Custom': 'custom'},
                 {'Classic': 'area'},
+                {'Custom': 'custom'},
                 // {'Theme two': 'negative'}
             ],
             default: 'area',
             hidden: false
         },
+
         title: {
             label: 'Title of visual',
-            order: 1,
+            order: 2,
             section: 'Format',
             type: 'string',
             placholder: 'Enter the title of the visual',
             hidden: false
         },
+
         // alignTitle: {
         //     label: 'Align to the left or right',
         //     order: 2, 
@@ -31,14 +33,15 @@ looker.plugins.visualizations.add({
         //     hidden: false
         // },
 
-        // label: {
-        //     label: 'Label by title',
-        //     order: 3,
-        //     section: 'Format',
-        //     type: 'string',
-        //     placeholder: 'Enter the label of the visual',
-        //     hidden: false
-        // },
+        label: {
+            label: 'Label by title',
+            order: 3,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter the label of the visual',
+            hidden: false
+        },
+
         // alignLabel: {
         //     label: 'Align to the left or right ',
         //     order: 4,
@@ -48,10 +51,20 @@ looker.plugins.visualizations.add({
         //     hidden: false
         // },
 
+        customLabel: {
+            order: 9,
+            section: 'Format',
+            type: 'sentence_maker',
+            words: [
+                {type: 'separator', text: 'Custom configuration:'}
+            ],
+            hidden: false
+        },
+
         curve: {
             label: 'Line behavior',
-            order: 12,
-            section: 'Misc',
+            order: 10,
+            section: 'Format',
             type: 'string',
             display: 'select',
             values: [
@@ -65,25 +78,30 @@ looker.plugins.visualizations.add({
 
         dataLabels: {
             label: 'Enable data labels',
-            order: 14,
-            section: 'Misc',
+            order: 11,
+            section: 'Format',
             type: 'boolean',
             default: false,
             hidden: false
         },
 
-        hoverLabel: {
-            label: 'Hover label',
-            order: 13,
-            section: 'Misc',
+        alignLegend: {
+            label: 'Align legend',
+            order: 12,
+            section: 'Format',
             type: 'string',
-            placeholder: "Enter the chart's hover label element",
+            display: 'select',
+            values: [
+                {'Left': 'left'}, 
+                {'Center': 'center'}, 
+                {'Right': 'right'}, 
+            ],
+            default: 'center',
             hidden: false
-        },
-
+        } 
     },
     create: function(element, config) {
-        this.theme = '';
+        this._custom = '';
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -106,27 +124,48 @@ looker.plugins.visualizations.add({
         console.log('Data', data);
 
         // Configuration for all charts 
+        let theme = 'area';
+        if (config.themes) theme = config.themes;
+        let changed = false;
+
         let title = queryResponse.fields.measure_like[0].label;
+        let label = '';
+        let curve = 'straight';
+        let dataLabels = false;
+        let alignLegend = 'center';
+        
         if (config.title) {
             if (config.title != '') title = config.title;
         }
 
-        let curve = 'straight';
-        if (config.curve) curve = config.curve;
 
-        let dataLabels = false;
-        if (config.dataLabels) dataLabels = config.dataLabels;
+        if (theme == 'area') {
+            if (this._custom == 'area') {
+                this.options.curve.hidden = true;
+                this.options.dataLabel.hidden = true;
+                this.options.alignLegend.hidden = true;
+                this.options.customLabel.hidden = true;
+                changed = true;
+            }
+        }
+
+        if (theme == 'custom') {
+            if (this._custom == 'custom') {
+                this.options.curve.hidden = false;
+                this.options.dataLabel.hidden = false;
+                this.options.alignLegend.hidden = false;
+                this.options.customLabel.hidden = false;
+                changed = true;
+            }
+
+            if (config.curve) curve = config.curve;
+            if (config.dataLabels) dataLabels = config.dataLabels;
+            if (config.alignLegend) alignLegend = config.alignLegend
+        }
+
+        if (changed) this.trigger('registerOptions', this.options);
 
 
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
-
-        // Grab the theme to configure the chart
-        let theme = 'area';
-        if (config.themes) theme = config.themes;
         let configuration = {
             chart: {
                 height: window.innerHeight - 45,
@@ -139,112 +178,44 @@ looker.plugins.visualizations.add({
                 text: title,
                 align: 'left'
             },
-            // subtitle: {
-            //     text: label,
-            //     align: alignLabel
-            // },
+            subtitle: {
+                text: label,
+                align: 'left'
+            },
         };
 
-        console.log('Theme: ', theme);
+
+        // configure the data
+        let xaxis = [];
+        let seriesData = [];
+        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+            let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
+            seriesData.push(obj);
+        }
+
+        data.forEach(row => {
+            xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+            }
+        });
+        console.log('Series data', seriesData);
+
 
         if (theme == 'area') {
-            // 'area' data
-            let xaxis = [];
-            let seriesData = [];
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
-                seriesData.push(obj);
-            }
-    
-            data.forEach(row => {
-                xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
-                }
-            });
-            console.log('Series data', seriesData);
-
-            // Area specific configuration settings
             configuration['series'] = seriesData;
             configuration['labels'] = xaxis;
             configuration['xaxis'] = {type: 'datetime'}; // category, numeric, datetime
             configuration['yaxis'] = {opposite: true};
-            configuration['legend'] = {horizontalAlign: 'left'};
-
-        } // if theme == area bracket
-
-
-        if (theme == 'negative') {
-            let seriesData = [];
-            for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                let obj = {name: queryResponse.fields.measures[i].label_short, data: []};
-                seriesData.push(obj);
-            }
-    
-            data.forEach(row => {
-                for(let i = 0; i < queryResponse.fields.measures.length; i++) {
-                    seriesData[i].data.push({x: row[queryResponse.fields.dimension_like[0].name].value, y: row[queryResponse.fields.measures[i].name].value});
-                }
-            });
-            console.log('Series data', seriesData);
-
-            // Area negative configuration settings
-            configuration['series'] = seriesData;
-            configuration['xaxis'] = {
-                type:'datetime', 
-                axisBorder: {
-                    show: false
-                }, 
-                axisTicks: {
-                    show: false
-                }
-            };
-            configuration['yaxis'] = {
-                tickAmount: 4,
-                floating: false,
-                labels: {
-                    style: {
-                        color: '#8e8da4',
-                    },
-                    offsetY: -7,
-                    offsetX: 0,
-                },
-                axisBorder: {
-                    show: false,
-                },
-                axisTicks: {
-                    show: false
-                }
-            };
-            configuration['fill'] = {
-                opacity: 0.5,
-                gradient: {
-                    enabled: true
-                }
-            };
-            configuration['tooltip'] = {
-                x: {
-                    format: 'datetime', // Pretty sure: {year: 'yyyy',month: 'MMM \'yy',day: 'dd MMM',hour: 'HH:mm',minute: 'HH:mm:ss'}
-                },
-                fixed: {
-                    enabled: false,
-                    position: 'topRight'
-                }
-            };
-            configuration['grid'] = {
-                yaxis: {
-                    lines: {
-                        offsetX: -30
-                    }
-                },
-                padding: {
-                    left: 20
-                }
-            };
-
-        } // if theme == 'negative' bracket
+            configuration['legend'] = {horizontalAlign: alignLegend};
+        }
 
 
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
 
         let chart = new ApexCharts(
             document.querySelector("#chart-apex-area"),
