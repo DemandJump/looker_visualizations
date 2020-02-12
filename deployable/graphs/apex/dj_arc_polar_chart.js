@@ -30,12 +30,12 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
         let datum = data;
-        datum.forEach(row => {
-            for(let i = 0; i < row.length; i++) {
-                if (row[i].value == null) row[i] = 0;
-            }
-        });
-        console.log('Mutated data', datum);
+        // datum.forEach(row => {
+        //     for(let i = 0; i < row.length; i++) {
+        //         if (row[i].value == null) row[i] = 0;
+        //     }
+        // });
+        // console.log('Mutated data', datum);
         
         
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        

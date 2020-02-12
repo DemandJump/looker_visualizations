@@ -109,12 +109,12 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
         let datum = data;
-        datum.forEach(row => {
-            for(let i = 0; i < row.length; i++) {
-                if (row[i].value == null) row[i] = 0;
-            }
-        });
-        console.log('Mutated data', datum);
+        // datum.forEach(row => {
+        //     for(let i = 0; i < row.length; i++) {
+        //         if (row[i].value == null) row[i] = 0;
+        //     }
+        // });
+        // console.log('Mutated data', datum);
 
         // Configuration settings
         let theme = 'Horizontal';
