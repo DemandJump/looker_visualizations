@@ -58,7 +58,7 @@ looker.plugins.visualizations.add({
                 datasets: [{
                     data: data,
                     backgroundColor: colors,
-                    label: queryResponse.fields.dimension_like[0].label_short
+                    label: queryResponse.fields.dimension_like[0].label
                 }],
                 labels: labels
             },

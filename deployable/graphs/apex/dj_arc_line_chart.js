@@ -89,7 +89,7 @@ looker.plugins.visualizations.add({
         let showLegend = false;
         let showX = true;
         let showY = true;
-        let xTitle = queryResponse.fields.dimension_like[0].label_short;
+        let xTitle = queryResponse.fields.dimension_like[0].label;
         let yTitle = '';
 
         if (config.title) title = config.title;
@@ -107,7 +107,7 @@ looker.plugins.visualizations.add({
             labels.push(queryResponse.fields.measure_like[i].label);
 
             let obj = {
-                label: queryResponse.fields.measure_like[i].label_short,
+                label: queryResponse.fields.measure_like[i].label,
                 backgroundColor: colors[i],
                 borderColor: colors[i],
                 data: [],

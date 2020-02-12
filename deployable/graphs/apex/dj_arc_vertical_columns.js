@@ -150,11 +150,11 @@ looker.plugins.visualizations.add({
 
             if (theme == 'Horizontal') {
                 horizontal = true;
-                yTitle = queryResponse.fields.dimension_like[0].label_short;
+                yTitle = queryResponse.fields.dimension_like[0].label;
             }
             if (theme == 'Vertical') {
                 horizontal = false;
-                xTitle = queryResponse.fields.dimension_like[0].label_short;
+                xTitle = queryResponse.fields.dimension_like[0].label;
             }
         }
 
@@ -198,14 +198,14 @@ looker.plugins.visualizations.add({
         let xaxis = [];
         let seriesData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
+            let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
             seriesData.push(obj);
         }
 
         datum.forEach(row => {
             if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
             else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-            
+
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 if (rendered && row[queryResponse.fields.measure_like[i].name].rendered) seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].rendered);
                 else seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
