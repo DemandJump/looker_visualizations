@@ -227,7 +227,7 @@ looker.plugins.visualizations.add({
                 let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
                 seriesData.push(obj);
             }
-            
+
             datum.forEach(row => {
                 if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
                 else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
@@ -251,10 +251,11 @@ looker.plugins.visualizations.add({
                 xaxis.push(name);
 
                 let obj = {
-                    name: `${name} - ${pivotNames[i]}`,
+                    name: ``,
                     data: []
                 };
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    obj.name = `${name} - ${pivotNames[i]}`;
                     obj.data.push(datum[i][index].value);
                 }
                 seriesData.push(obj);
