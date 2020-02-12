@@ -235,8 +235,7 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                if (rendered && row[queryResponse.fields.measure_like[i].name].rendered) seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].rendered);
-                else seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
 
                 let ob = {};
                 let xVal;
@@ -244,8 +243,7 @@ looker.plugins.visualizations.add({
 
                 if (rendered && row[queryResponse.fields.dimension_like[i].name].rendered) xVal = row[queryResponse.fields.dimension_like[i].name].rendered;
                 else xVal = row[queryResponse.fields.dimension_like[i].name].value;
-                if (rendered && row[queryResponse.fields.measure_like[i].name].rendered) yVal = row[queryResponse.fields.measure_like[i].name].rendered;
-                else yVal = row[queryResponse.fields.measure_like[i].name].rendered;
+                yVal = row[queryResponse.fields.measure_like[i].name].value;
                 ob = {x: xVal, y: yVal};
                 categoryData[i].data.push(ob);
             }

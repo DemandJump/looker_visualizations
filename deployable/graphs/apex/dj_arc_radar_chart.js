@@ -57,8 +57,7 @@ looker.plugins.visualizations.add({
             if (row[queryResponse.fields.dimension_like[0].name].rendered) labels.push(row[queryResponse.fields.dimension_like[0].name].rendered);
             else labels.push(row[queryResponse.fields.dimension_like[0].name].value);
             
-            if (row[queryResponse.fields.measure_like[0].name].rendered) dataset.push(row[queryResponse.fields.measure_like[0].name].rendered);
-            else dataset.push(row[queryResponse.fields.measure_like[0].name].value);
+            dataset.push(row[queryResponse.fields.measure_like[0].name].value);
         });
 
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        

@@ -118,10 +118,7 @@ looker.plugins.visualizations.add({
         }
 
         datum.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                if (row[queryResponse.fields.measure_like[i].name].rendered) dataPass[i].push(row[queryResponse.fields.measure_like[i].name].rendered);
-                else dataPass[i].push(row[queryResponse.fields.measure_like[i].name].value);
-            }
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataPass[i].push(row[queryResponse.fields.measure_like[i].name].value);
         });
         
             
