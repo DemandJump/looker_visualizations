@@ -245,7 +245,7 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                seriesData.data.push(row[queryResponse.fields.measure_like[i].name].value));
+                seriesData.data.push(row[queryResponse.fields.measure_like[i].name].value);
                 let ob = {};
                 let xVal;
                 let yVal;
