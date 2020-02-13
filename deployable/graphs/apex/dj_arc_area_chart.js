@@ -181,7 +181,7 @@ looker.plugins.visualizations.add({
                 this.options.customSpacing.hidden = true;
                 this.options.customLabel.hidden = true;
                 this.options.curve.hidden = true;
-                this.options.dataLabel.hidden = true;
+                this.options.dataLabels.hidden = true;
                 this.options.alignLegend.hidden = true;
                 this.options.renderedData.hidden = true;
                 changed = true;
@@ -193,7 +193,7 @@ looker.plugins.visualizations.add({
                 this.options.customSpacing.hidden = false;
                 this.options.customLabel.hidden = false;
                 this.options.curve.hidden = false;
-                this.options.dataLabel.hidden = false;
+                this.options.dataLabels.hidden = false;
                 this.options.alignLegend.hidden = false;
                 this.options.renderedData.hidden = false;
                 changed = true;
