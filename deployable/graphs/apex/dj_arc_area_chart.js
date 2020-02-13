@@ -303,8 +303,8 @@ looker.plugins.visualizations.add({
         }
 
         if (format == `area` || format == `category`) {
-            console.log(`Series data`, seriesData);
-            configuration[`series`] = seriesData;
+            console.log(`Series data`, yaxis);
+            configuration[`series`] = yaxis;
             configuration[`labels`] = xaxis;
             configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
             configuration[`yaxis`] = {opposite: true};
