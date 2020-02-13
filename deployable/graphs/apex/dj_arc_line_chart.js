@@ -20,7 +20,7 @@ looker.plugins.visualizations.add({
 
         title: {
             label: `Title of chart`,
-            order: 2,
+            order: 4,
             section: `Format`,
             type: `string`,
             placeholder: `Enter chart title here`,
@@ -29,7 +29,7 @@ looker.plugins.visualizations.add({
 
         showTitle: {
             label: `Show title`,
-            order: 2.5,
+            order: 5,
             section: `Format`,
             type: `boolean`,
             default: true,
@@ -38,7 +38,7 @@ looker.plugins.visualizations.add({
 
         xTitle: {
             label: `X axis label`,
-            order: 3,
+            order: 2,
             section: `Format`,
             type: `string`,
             placeholder: `Enter x axis label`,
@@ -47,7 +47,7 @@ looker.plugins.visualizations.add({
 
         yTitle: {
             label: `Y axis Label`,
-            order: 4,
+            order: 3,
             section: `Format`,
             type: `string`,
             placeholder: `Enter y axis label`,
@@ -91,10 +91,11 @@ looker.plugins.visualizations.add({
             display: `select`,
             values: [
                 {'Left': 'left'}, 
-                {'Center': 'center'}, 
-                {'Right': 'right'}, 
+                {'bottom': 'bottom'}, 
+                {'Right': 'right'},
+                {'Top': 'top'}
             ],
-            default: `center`,
+            default: `bottom`,
             hidden: false
         },
         
