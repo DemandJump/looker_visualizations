@@ -255,6 +255,43 @@ looker.plugins.visualizations.add({
         } else {
             let pivotNames = [];
             let pivotLabels = [];
+
+            // To construct the pivot labels
+            let measureLabels = [];
+            queryResponse.fields.measure_like.forEach(mes => {
+                if (mes.label_short) measureLabels.push(mes.label_short);
+                else measureLabels.push(mes.label_short);
+            });
+            
+            // Pivot data construct 
+            let pivotSeriesName = queryResponse.fields.measure_like[0].label;
+            if (queryResponse.fields.measure_like[0].label_short) pivotSeriesName = queryResponse.fields.measure_like[0].label_short;
+            let obj = {name: pivotSeriesName, data: []};
+            seriesData.push(obj);
+
+            // Data
+            queryResponse.fields.pivots.forEach(row => {
+                if (row.data != null) {
+                    for(let i = 0; i < measureLabels; i++) {
+                        // Label data
+                        let key = row.key;
+                        if (row.metadata[0].rendered != null) key = row.metadata[0].rendered;
+                        let label = `${key} ${measureLabels[i]}`;
+                        pivotLabels.push(label);
+
+                        // Keyword data
+                        datum.forEach(row => seriesData[0].data.push(row[measureLabels[i]][key].value));
+                    }
+                }
+            });
+
+
+
+
+
+
+
+
             queryResponse.fields.measure_like.forEach(row => {
                 pivotNames.push(row.name);
                 pivotLabels.push(row.label);
