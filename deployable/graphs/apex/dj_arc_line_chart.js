@@ -310,6 +310,7 @@ looker.plugins.visualizations.add({
                 }
             }
         };
+        console.log('Line configuration', configLine);
 
 
         // Apex Charts
