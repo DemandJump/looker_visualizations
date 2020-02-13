@@ -159,6 +159,7 @@ looker.plugins.visualizations.add({
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
 
+
         // Configuration for all charts 
         let theme = `area`;
         if (config.themes) theme = config.themes;
@@ -174,7 +175,6 @@ looker.plugins.visualizations.add({
         if (config.title) {
             if (config.title != ``) title = config.title;
         }
-
 
         if (theme == `area`) {
             if (this._custom == `area`) {

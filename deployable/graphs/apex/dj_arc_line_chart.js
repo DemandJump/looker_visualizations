@@ -2,62 +2,114 @@ looker.plugins.visualizations.add({
     id: 'dj_arc_line_chart',
     label: 'Demandjump line chart',
     options: {
-        title: {
-            label: 'Enter the title',
+        themes: {
+            label: `Choose a theme`,
             order: 1,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter the title of the chart',
+            section: `Format`,
+            type: `string`,
+            display: `select`,
+            values: [
+                {'Classic': 'classic'},
+                {'X axis': 'xaxis'},
+                {'Y axis': 'yaxis'},
+                {'Custom': 'custom'},
+            ],
+            default: `classic`,
+            hidden: false
+        },
+
+        title: {
+            label: `Enter the title`,
+            order: 2,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter the title of the chart`,
             hidden: false
         },
 
         xTitle: {
-            label: 'X axis label',
-            order: 2,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter x axis label',
+            label: `X axis label`,
+            order: 3,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter x axis label`,
             hidden: false
         },
 
         yTitle: {
-            label: 'Y axis Label',
-            order: 3,
+            label: `Y axis Label`,
+            order: 4,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter y axis label`,
+            hidden: false
+        },
+
+        customSpacing: {
+            order: 8,
             section: 'Format',
-            type: 'string',
-            placeholder: 'Enter y axis label',
+            type: 'sentence_maker',
+            words: [
+                {type: 'separator', text: ' '}
+            ],
+            hidden: false
+        },
+
+        customLabel: {
+            order: 9,
+            section: 'Format',
+            type: 'sentence_maker',
+            words: [
+                {type: 'separator', text: 'Custom configuration:'}
+            ],
             hidden: false
         },
         
         legend: {
-            label: 'Show legend',
-            order: 4,
-            section: 'Format',
-            type: 'boolean',
+            label: `Show legend`,
+            order: 10,
+            section: `Format`,
+            type: `boolean`,
             default: true,
+            hidden: false
+        },
+
+        alignLegend: {
+            label: `Align legend`,
+            order: 11,
+            section: `Format`,
+            type: `string`,
+            display: `select`,
+            values: [
+                {'Left': 'left'}, 
+                {'Center': 'center'}, 
+                {'Right': 'right'}, 
+            ],
+            default: `center`,
             hidden: false
         },
         
         showY: {
-            label: 'Show y axis', 
-            order: 5, 
-            section: 'Format',
-            type: 'boolean',
+            label: `Show y axis`, 
+            order: 12, 
+            section: `Format`,
+            type: `boolean`,
             default: true,
             hidden: false
         }, 
         
         showX: {
-            label: 'Show x axis',
-            order: 6,
-            section: 'Format',
-            type: 'boolean',
+            label: `Show x axis`,
+            order: 13,
+            section: `Format`,
+            type: `boolean`,
             default: true,
             hidden: false 
         },
 
     },
     create: function(element, config) {
+        this._custom = ``;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -71,19 +123,19 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let node = document.getElementById('line-chart');
+        let node = document.getElementById(`line-chart`);
         while(node.firstChild) node.firstChild.remove();
-        console.log('These are the settings', this.options);
-        console.log('This is the config', config);
-        console.log('Queryresponse', queryResponse);
-        console.log('Data', data);
+        console.log(`These are the settings`, this.options);
+        console.log(`This is the config`, config);
+        console.log(`Queryresponse`, queryResponse);
+        console.log(`Data`, data);
         let datum = data;
         // datum.forEach(row => {
         //     for(let i = 0; i < row.length; i++) {
         //         if (row[i].value == null) row[i] = 0;
         //     }
         // });
-        // console.log('Mutated data', datum);
+        // console.log(`Mutated data`, datum);
         
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
@@ -91,20 +143,61 @@ looker.plugins.visualizations.add({
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
         
-        let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        
-        let title = ' ';
-        let showLegend = false;
-        let showX = true;
-        let showY = true;
+        let theme = `classic`;
+        if (config.themes) theme = config.themes;
+        let changed = false;
+
+        let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,`#4dc9f6`,`#f67019`,`#f53794`,`#537bc4`,`#acc236`,`#166a8f`,`#00a950`,`#58595b`,`#8549ba`];   
+        let title = ` `;
         let xTitle = queryResponse.fields.dimension_like[0].label;
-        let yTitle = ' ';
+        let yTitle = ` `;
+        let alignLegend = `center`;
+        let showLegend = true;
+        let showX = false;
+        let showY = false;
+
+        if (theme == `xaxis`) showX = true;
+        if (theme == `yaxis`) showY = true;
+        if (theme == `classic`) {
+            showX = true;
+            showY = true;
+        }
+
+        if (theme == `classic` || theme == `xaxis` || theme == `yaxis`) {
+            if (this._custom != `hidden`) {
+                this._custom = `hidden`;
+                changed = true;
+                this.options.customSpacing.hidden = true;
+                this.options.customLabel.hidden = true;
+                this.options.legend.hidden = true;
+                this.options.alignLegend.hidden = true;
+                this.options.showX.hidden = true;
+                this.options.showY.hidden = true;
+            }
+            showLegend = true;
+        }
+        
+        if (theme == `custom`) {
+            if (this._custom != `custom`) {
+                this._custom = `custom`;
+                changed = true;
+                this.options.customSpacing.hidden = false;
+                this.options.customLabel.hidden = false;
+                this.options.legend.hidden = false;
+                this.options.alignLegend.hidden = false;
+                this.options.showX.hidden = false;
+                this.options.showY.hidden = false;
+            }
+
+            if (config.showLegend) showLegend = true;
+            if (config.alignLegend) alignLegend = config.alignLegend;
+            if (config.showX) showX = config.showX;
+            if (config.showY) showY = config.showY;
+        }
 
         if (config.title) title = config.title;
-        if (config.showLegend) showLegend = true;
         if (config.xTitle) xTitle = config.xTitle;
         if (config.yTitle) yTitle = config.yTitle;
-        if (config.showX) showX = config.showX;
-        if (config.showY) showY = config.showY;
 
 
         let labels = [];
@@ -129,7 +222,7 @@ looker.plugins.visualizations.add({
         
             
         let configLine = {
-            type: 'line',
+            type: `line`,
             data: {
                 labels: label,
                 datasets: datasets
@@ -143,7 +236,7 @@ looker.plugins.visualizations.add({
                 },
                 legend: {
                     display: showLegend,
-                    position: 'bottom'
+                    position: alignLegend
                 },
                 layout: {
                     padding: {
@@ -154,16 +247,16 @@ looker.plugins.visualizations.add({
                     }
                 },
                 tooltips: {
-                    mode: 'index',
+                    mode: `index`,
                     intersect: false,
                 },
                 hover: {
-                    mode: 'nearest',
+                    mode: `nearest`,
                     intersect: true
                 },
-                pointBackgroundColor: '#fff',
+                pointBackgroundColor: `#fff`,
                 pointBorderColor: window.chartColors.blue,
-                pointBorderWidth: '2',
+                pointBorderWidth: `2`,
                 scales: {
                     xAxes: [{
                         display: showX,
@@ -191,8 +284,8 @@ looker.plugins.visualizations.add({
         };
         
         // Line
-        if (document.getElementById('line-chart')) {
-            var ctx5 = document.getElementById('line-chart').getContext('2d');
+        if (document.getElementById(`line-chart`)) {
+            var ctx5 = document.getElementById(`line-chart`).getContext(`2d`);
             window.myLine = new Chart(ctx5, configLine);
         }
         /**************** Done! *****************/
