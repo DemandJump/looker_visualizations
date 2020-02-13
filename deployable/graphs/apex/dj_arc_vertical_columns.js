@@ -318,6 +318,10 @@ looker.plugins.visualizations.add({
                         return val;
                     }
                 }
+            },
+            legend: {
+                position: 'bottom', // front, back, bottom, top
+                horizontalAlign: 'center',
             }
         };
 

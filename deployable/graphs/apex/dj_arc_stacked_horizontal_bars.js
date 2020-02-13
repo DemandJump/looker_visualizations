@@ -297,8 +297,7 @@ looker.plugins.visualizations.add({
             },
             legend: {
                 position: 'bottom', // front, back, bottom, top
-                horizontalAlign: 'left',
-                offsetX: 40
+                horizontalAlign: 'center',
             }
         };
 
