@@ -123,6 +123,15 @@ looker.plugins.visualizations.add({
             type: `boolean`,
             default: true,
             hidden: false
+        },
+
+        formatDates: {
+            label: `Abbreviate datetime values`, 
+            order: 15,
+            section: `Format`,
+            type: `boolean`,
+            default: true, 
+            hidden: false
         }
     },
     create: function(element, config) {
@@ -174,6 +183,7 @@ looker.plugins.visualizations.add({
         let showX = false;
         let showY = false;
         let aspectRatio = true;
+        let formatDates = false;
 
         if (theme == `xaxis`) showX = true;
         if (theme == `yaxis`) showY = true;
@@ -193,6 +203,7 @@ looker.plugins.visualizations.add({
                 this.options.showX.hidden = true;
                 this.options.showY.hidden = true;
                 this.options.aspectRatio.hidden = true;
+                this.options.formatDates.hidden = true;
             }
             showLegend = true;
         }
@@ -208,6 +219,7 @@ looker.plugins.visualizations.add({
                 this.options.showX.hidden = false;
                 this.options.showY.hidden = false;
                 this.options.aspectRatio.hidden = false;
+                this.options.formatDates.hidden = false;
             }
 
             if (config.legend) showLegend = config.legend;
@@ -215,6 +227,7 @@ looker.plugins.visualizations.add({
             if (config.showX) showX = config.showX;
             if (config.showY) showY = config.showY;
             if (config.aspectRatio) aspectRatio = config.aspectRatio;
+            if (config.formatDates) formatDates = config.formatDates;
         }
         if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -232,7 +245,7 @@ looker.plugins.visualizations.add({
         if (formatChecker.length == 10 && formatChecker[4] == `-` && formatChecker[7] == `-`) format = `datetime`;
 
         // Labels
-        if (format == `datetime`) datum.forEach(row => labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value)));
+        if (format == `datetime` && formatDates == true) datum.forEach(row => labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value)));
         else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
 
         // Data
