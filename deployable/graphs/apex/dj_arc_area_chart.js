@@ -263,7 +263,7 @@ looker.plugins.visualizations.add({
         });
 
         console.log('catData', catData);
-        console.log('This is seriesdata so far', seriesData);       
+        console.log('This is seriesdata so far', seriesData);
     
         if (format == `year`) {
             console.log(`Category data`, categoryData);
