@@ -107,6 +107,14 @@ looker.plugins.visualizations.add({
             hidden: false 
         },
 
+        aspectRatio: {
+            label: `Maintain aspect ratio`,
+            order: 14,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+        }
     },
     create: function(element, config) {
         this._custom = ``;
@@ -155,6 +163,7 @@ looker.plugins.visualizations.add({
         let showLegend = true;
         let showX = false;
         let showY = false;
+        let aspectRatio = true;
 
         if (theme == `xaxis`) showX = true;
         if (theme == `yaxis`) showY = true;
@@ -173,6 +182,7 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = true;
                 this.options.showX.hidden = true;
                 this.options.showY.hidden = true;
+                this.options.aspectRatio.hidden = true;
             }
             showLegend = true;
         }
@@ -187,12 +197,14 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = false;
                 this.options.showX.hidden = false;
                 this.options.showY.hidden = false;
+                this.options.aspectRatio.hidden = false;
             }
 
             if (config.showLegend) showLegend = true;
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.showX) showX = config.showX;
             if (config.showY) showY = config.showY;
+            if (config.aspectRatio) aspectRatio = config.aspectRatio;
         }
 
         if (config.title) title = config.title;
@@ -226,6 +238,7 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data.push(dataPass[i]);
         let configLine = {
+            height: window.innerHeight - 45,
             type: `line`,
             data: {
                 labels: labels,
@@ -233,7 +246,7 @@ looker.plugins.visualizations.add({
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: aspectRatio,
                 title: {
                     display: true,
                     text: title
