@@ -18,36 +18,45 @@ looker.plugins.visualizations.add({
         }, 
 
         title: {
-            label: 'Title of visual',
+            label: `Title of chart`,
             order: 2,
-            section: 'Format',
-            type: 'string',
-            placholder: 'Enter the title of the visual',
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter chart title here`,
+            hidden: false
+        },
+
+        showTitle: {
+            label: `Show title`,
+            order: 2.5,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
             hidden: false
         },
         
         yTitle: {
-            label: 'Y axis Label',
+            label: `Y axis Label`,
             order: 3,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter y axis label',
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter y axis label`,
             hidden: false
         },
 
         xTitle: {
-            label: 'X axis label',
+            label: `X axis label`,
             order: 4,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter x axis label',
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter x axis label`,
             hidden: false
         },
 
         customSpacing: {
             order: 8,
-            section: 'Format',
-            type: 'sentence_maker',
+            section: `Format`,
+            type: `sentence_maker`,
             words: [
                 {type: 'separator', text: ' '}
             ],
@@ -56,8 +65,8 @@ looker.plugins.visualizations.add({
 
         customLabel: {
             order: 9,
-            section: 'Format',
-            type: 'sentence_maker',
+            section: `Format`,
+            type: `sentence_maker`,
             words: [
                 {type: 'separator', text: 'Custom configuration:'}
             ],
@@ -65,66 +74,66 @@ looker.plugins.visualizations.add({
         },
 
         dataLabels: {
-            label: 'Enable data labels',
+            label: `Enable data labels`,
             order: 10,
-            section: 'Format',
-            type: 'boolean',
+            section: `Format`,
+            type: `boolean`,
             default: false,
             hidden: false
         },
 
         horizontal: {
-            label: 'Plot graph horizontally',
+            label: `Plot graph horizontally`,
             order: 11,
-            section: 'Format',
-            type: 'boolean',
+            section: `Format`,
+            type: `boolean`,
             default: true,
             hidden: false
         },
         
         endingShape: {
-            label: 'Ending bar shape',
+            label: `Ending bar shape`,
             order: 12,
-            section: 'Format',
-            type: 'string',
-            display: 'select',
+            section: `Format`,
+            type: `string`,
+            display: `select`,
             values: [
                 {'Arrow': 'arrow'},
                 {'Rounded': 'rounded'},
                 {'Flat': 'flat'},
             ],
-            default: 'rounded',
+            default: `rounded`,
             hidden: false
         },
 
         renderedData: {
-            label: 'Use rendered data',
+            label: `Use rendered data`,
             order: 13,
-            section: 'Format',
-            type: 'boolean',
+            section: `Format`,
+            type: `boolean`,
             default: true,
             hidden: false
         }
 
 
         // legend: {
-        //     label: 'Put legend',
+        //     label: `Put legend`,
         //     order: 17,
-        //     section: 'Format',
-        //     type: 'string',
-        //     display: 'select',
+        //     section: `Format`,
+        //     type: `string`,
+        //     display: `select`,
         //     values: [
         //         {'Front': 'front'},
         //         {'Back': 'back'},
         //         {'Bottom': 'bottom'},
         //         {'Top': 'top'}
         //     ],
-        //     default: 'top',
+        //     default: `top`,
         //     hidden: false
         // },
     },
     create: function(element, config) {
-        this._custom = 'something';
+        this._custom = `something`;
         element.innerHTML = `
             <div class="row">
                 <div class="col-md-6">
@@ -167,6 +176,7 @@ looker.plugins.visualizations.add({
         let horizontal = true;
         let endingShape = 'flat'
         let title = ' ';
+        let showTitle = true;
         let yTitle = ' ';
         let xTitle = ' ';
  
@@ -213,6 +223,7 @@ looker.plugins.visualizations.add({
         if (changed) this.trigger('registerOptions', this.options);
 
         if (config.title) title = config.title;
+        if (config.showTitle) showTitle = config.showTitle;
         if (config.yTitle) yTitle = config.yTitle;
         if (config.xTitle) {
             if (config.xTitle != '') xTitle = config.xTitle;
@@ -300,6 +311,7 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
+        if (showTitle == false) delete options4[`title`];
 
 
         var chart4 = new ApexCharts(

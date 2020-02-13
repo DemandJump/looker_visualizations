@@ -19,11 +19,20 @@ looker.plugins.visualizations.add({
         },
 
         title: {
-            label: `Enter the title`,
+            label: `Title of chart`,
             order: 2,
             section: `Format`,
             type: `string`,
-            placeholder: `Enter the title of the chart`,
+            placeholder: `Enter chart title here`,
+            hidden: false
+        },
+
+        showTitle: {
+            label: `Show title`,
+            order: 2.5,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
             hidden: false
         },
 
@@ -47,8 +56,8 @@ looker.plugins.visualizations.add({
 
         customSpacing: {
             order: 8,
-            section: 'Format',
-            type: 'sentence_maker',
+            section: `Format`,
+            type: `sentence_maker`,
             words: [
                 {type: 'separator', text: ' '}
             ],
@@ -57,8 +66,8 @@ looker.plugins.visualizations.add({
 
         customLabel: {
             order: 9,
-            section: 'Format',
-            type: 'sentence_maker',
+            section: `Format`,
+            type: `sentence_maker`,
             words: [
                 {type: 'separator', text: 'Custom configuration:'}
             ],
@@ -157,6 +166,7 @@ looker.plugins.visualizations.add({
 
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,`#4dc9f6`,`#f67019`,`#f53794`,`#537bc4`,`#acc236`,`#166a8f`,`#00a950`,`#58595b`,`#8549ba`];   
         let title = ` `;
+        let showTitle = true;
         let xTitle = queryResponse.fields.dimension_like[0].label;
         let yTitle = ` `;
         let alignLegend = `center`;
@@ -208,6 +218,7 @@ looker.plugins.visualizations.add({
         }
 
         if (config.title) title = config.title;
+        if (config.showTitle) showTitle = config.showTitle;
         if (config.xTitle) xTitle = config.xTitle;
         if (config.yTitle) yTitle = config.yTitle;
 
@@ -249,7 +260,7 @@ looker.plugins.visualizations.add({
                 responsive: true,
                 maintainAspectRatio: aspectRatio,
                 title: {
-                    display: true,
+                    display: showTitle,
                     text: title
                 },
                 legend: {

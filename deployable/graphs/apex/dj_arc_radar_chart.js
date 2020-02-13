@@ -3,11 +3,20 @@ looker.plugins.visualizations.add({
     label: 'Demandjump radar chart',
     options: {
         title: {
-            label: 'Enter the title',
+            label: 'Title of chart',
             order: 1,
             section: 'Format',
             type: 'string',
-            placeholder: 'Enter the title of the chart',
+            placeholder: 'Enter chart title here',
+            hidden: false
+        },
+
+        showTitle: {
+            label: 'Show title',
+            order: 2,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
             hidden: false
         }
     },
@@ -49,7 +58,7 @@ looker.plugins.visualizations.add({
         let title = ' ';
         let showTitle = false;
         if (config.title) {
-            if (config.title != '') showTitle = true
+            if (config.showTitle) showTitle = config.showTitle;
             title = config.title;
         }
 

@@ -2,15 +2,6 @@ looker.plugins.visualizations.add({
     id: 'dj_arc_pie_chart',
     label: 'Demandjump pie chart',
     options: {
-        title: {
-            label: 'Enter the title',
-            order: 2,
-            section: 'Format',
-            type: 'string',
-            placeholder: 'Enter the title of the chart',
-            hidden: false
-        },
-
         collections: {
             label: 'Choose a theme',
             order: 1,
@@ -22,6 +13,24 @@ looker.plugins.visualizations.add({
                 {'Doughnut': 'doughnut'}
             ],
             default: 'classic',
+            hidden: false
+        },
+
+        title: {
+            label: 'Title of chart',
+            order: 2,
+            section: 'Format',
+            type: 'string',
+            placeholder: 'Enter chart title here',
+            hidden: false
+        },
+
+        showTitle: {
+            label: 'Show title',
+            order: 2.5,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
             hidden: false
         },
 
@@ -70,11 +79,12 @@ looker.plugins.visualizations.add({
 
         // Configuration settings
         let title = ' ';
+        let showTitle = true;
         let aspectRatio = true;
         if (config.aspectRatio) aspectRatio = config.aspectRatio;
 
         if (config.title) {
-            if (config.title != '') showTitle = true;
+            if (config.showTitle) showTitle = config.showTitle;
             title = config.title; 
         }
 
@@ -115,7 +125,7 @@ looker.plugins.visualizations.add({
                     position: 'top'
                 },
                 title: {
-                    display: true,
+                    display: showTitle,
                     text: title
                 },
                 animation: {
@@ -142,7 +152,7 @@ looker.plugins.visualizations.add({
                     position: 'top',
                 },
                 title: {
-                    display: true,
+                    display: showTitle,
                     text: title
                 },
                 animation: {

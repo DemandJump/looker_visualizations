@@ -3,11 +3,20 @@ looker.plugins.visualizations.add({
     label: 'Demandjump polar chart',
     options: {
         title: {
-            label: 'Enter the title',
+            label: 'Title of chart',
             order: 1,
             section: 'Format',
             type: 'string',
-            placeholder: 'Enter the title of the chart',
+            placeholder: 'Enter chart title here',
+            hidden: false
+        },
+
+        showTitle: {
+            label: 'Show title',
+            order: 2,
+            section: 'Format',
+            type: 'boolean',
+            default: true,
             hidden: false
         }
     },
@@ -47,7 +56,9 @@ looker.plugins.visualizations.add({
         
         let colors = [window.chartColors.red,window.chartColors.orange,window.chartColors.yellow,window.chartColors.green,window.chartColors.blue,'#4dc9f6','#f67019','#f53794','#537bc4','#acc236','#166a8f','#00a950','#58595b','#8549ba'];        
         let title = ' ';
+        let showTitle = true;
         if (config.title) title = config.title;
+        if (config.showTitle) showTitle = config.showTitle;
         let labels = [];
         let dataset = [];
         
@@ -74,7 +85,7 @@ looker.plugins.visualizations.add({
                     position: 'top',
                 },
                 title: {
-                    display: true,
+                    display: showTitle,
                     text: title
                 },
                 scale: {

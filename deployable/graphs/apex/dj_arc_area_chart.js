@@ -18,11 +18,20 @@ looker.plugins.visualizations.add({
         },
 
         title: {
-            label: `Title of visual`,
+            label: `Title of chart`,
             order: 2,
             section: `Format`,
             type: `string`,
-            placholder: `Enter the title of the visual`,
+            placeholder: `Enter chart title here`,
+            hidden: false
+        },
+
+        showTitle: {
+            label: `Show title`,
+            order: 2.5,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
             hidden: false
         },
 
@@ -114,10 +123,10 @@ looker.plugins.visualizations.add({
         },
 
         renderedData: {
-            label: 'Use rendered data',
+            label: `Use rendered data`,
             order: 12,
-            section: 'Format',
-            type: 'boolean',
+            section: `Format`,
+            type: `boolean`,
             default: true,
             hidden: false
         }
@@ -166,6 +175,7 @@ looker.plugins.visualizations.add({
         let changed = false;
 
         let title = queryResponse.fields.dimension_like[0].label;
+        let showTitle = true;
         let rendered = true; 
         let label = ` `;
         let curve = `straight`;
@@ -175,6 +185,7 @@ looker.plugins.visualizations.add({
         if (config.label) label = config.label;
         if (config.title) {
             if (config.title != ``) title = config.title;
+            if (config.showTitle) showTitle = config.showTitle;
         }
 
         if (theme == `area`) {
@@ -226,13 +237,13 @@ looker.plugins.visualizations.add({
                 align: `left`
             },
         };
+        if (showTitle == false) delete configuration[`title`];
 
         
         let format = `category`; // Either datetime or category
         let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
         if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
-        console.log('This is the format: ', format);
 
         let xaxis = [];
         let yaxis = [];
@@ -333,7 +344,6 @@ looker.plugins.visualizations.add({
             stroke: {width: 2}
         };
 
-        console.log('Configuration', configuration);
         let chart = new ApexCharts(
             document.querySelector(`#chart-apex-area`),
             configuration
