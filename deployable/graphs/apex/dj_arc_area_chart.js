@@ -172,6 +172,7 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         let alignLegend = `center`;
         
+        if (config.label) label = config.label;
         if (config.title) {
             if (config.title != ``) title = config.title;
         }
