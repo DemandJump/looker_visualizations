@@ -219,6 +219,8 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataPass[i].push(row[queryResponse.fields.measure_like[i].name].value);
         });
+
+        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataPass.data.push(dataPass[i]);
         
         console.log('labels', labels);
         console.log('Datapass', dataPass);
