@@ -225,8 +225,8 @@ looker.plugins.visualizations.add({
 
         let labels = [];
         let dataset = [];
-        let dataPass = [];
-        for(let i = 0; i < queryResponse.fields.dimension_like.length; i++) labels.push(queryResponse.fields.measure_like[i].label);
+
+        datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             let obj = {
                 label: queryResponse.fields.measure_like[i].label,
@@ -236,19 +236,15 @@ looker.plugins.visualizations.add({
                 fill: false
             };
             dataset.push(obj);
-            dataPass.push([]);
         }
-
         datum.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataPass[i].push(row[queryResponse.fields.measure_like[i].name].value);
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
         });
         
         console.log('labels', labels);
-        console.log('Datapass', dataPass);
         console.log('Dataset', dataset);
 
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data = dataPass[i];
-
+        
         let configLine = {
             height: window.innerHeight - 45,
             type: `line`,
@@ -306,95 +302,6 @@ looker.plugins.visualizations.add({
         };
 
 
-
-
-    // Line
-    let configLin = {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: window.chartColors.red,
-                borderColor: window.chartColors.red,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ],
-                fill: false,
-            }, {
-                label: 'My Second dataset',
-                fill: false,
-                backgroundColor: window.chartColors.blue,
-                borderColor: window.chartColors.blue,
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor()
-                ],
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-                display: false,
-                text: 'Chart.js Line Chart'
-            },
-            legend: {
-                display: true,
-                position: 'bottom'
-            },
-            layout: {
-                padding: {
-                    left: 10,
-                    right: 10,
-                    top: 10,
-                    bottom: 0
-                }
-            },
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-            },
-            hover: {
-                mode: 'nearest',
-                intersect: true
-            },
-            pointBackgroundColor: '#fff',
-            pointBorderColor: window.chartColors.blue,
-            pointBorderWidth: '2',
-            scales: {
-                xAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Months'
-                    }
-                }],
-                yAxes: [{
-                    display: true,
-                    scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
-                    }
-                }]
-            }
-        }
-    };
-
-
-
-
         // Apex Charts
         window.Apex = {
             dataLabels: {enabled: false},
@@ -404,7 +311,7 @@ looker.plugins.visualizations.add({
         // Line
         if (document.getElementById(`line-chart`)) {
             var ctx5 = document.getElementById(`line-chart`).getContext(`2d`);
-            window.myLine = new Chart(ctx5, configLin);
+            window.myLine = new Chart(ctx5, configLine);
         }
         /**************** Done! *****************/
         doneRendering(); 
