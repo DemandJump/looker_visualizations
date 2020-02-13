@@ -34,14 +34,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        aspectRatio: {
-            label: `Maintain`,
-            order: 3,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-        }
+        // aspectRatio: {
+        //     label: `Maintain`,
+        //     order: 3,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true,
+        //     hidden: false
+        // }
     },
     create: function(element, config) {
         element.innerHTML = `
@@ -80,7 +80,7 @@ looker.plugins.visualizations.add({
         // Configuration settings
         let title = ' ';
         let showTitle = true;
-        let aspectRatio = true;
+        let aspectRatio = false;
         if (config.aspectRatio) aspectRatio = config.aspectRatio;
 
         if (config.title) {

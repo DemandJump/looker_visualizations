@@ -218,10 +218,10 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            dataLabels = config.dataLabels;
-            endingShape = config.endingShape;
-            horizontal = config.horizontal;
-            rendered = config.renderedData;
+            if (config.dataLabels) dataLabels = config.dataLabels;
+            if (config.endingShape) endingShape = config.endingShape;
+            if (config.horizontal) horizontal = config.horizontal;
+            if (config.renderedData) rendered = config.renderedData;
         }
 
         if (changed) this.trigger('registerOptions', this.options);

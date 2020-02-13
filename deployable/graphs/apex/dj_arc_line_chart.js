@@ -117,14 +117,14 @@ looker.plugins.visualizations.add({
             hidden: false 
         },
 
-        aspectRatio: {
-            label: `Maintain aspect ratio`,
-            order: 13,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-        },
+        // aspectRatio: {
+        //     label: `Maintain aspect ratio`,
+        //     order: 13,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true,
+        //     hidden: false
+        // },
 
         formatDates: {
             label: `Abbreviate datetime values`, 
@@ -187,7 +187,7 @@ looker.plugins.visualizations.add({
         let showLegend = true;
         let showX = false;
         let showY = false;
-        let aspectRatio = true;
+        let aspectRatio = false;
         let formatDates = true;
 
         if (theme == `xaxis`) showX = true;

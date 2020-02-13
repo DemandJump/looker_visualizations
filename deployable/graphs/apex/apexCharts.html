@@ -594,6 +594,9 @@
 
 
     let configDoughnut2 = {
+        chart: {
+            height: 350,
+        },
         type: 'doughnut',
         data: {
             datasets: [{
@@ -623,7 +626,7 @@
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
             legend: {
                 display: false
             },

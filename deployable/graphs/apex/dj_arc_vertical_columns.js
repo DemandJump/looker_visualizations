@@ -206,10 +206,10 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            dataLabels = config.dataLabels;
-            endingShape = config.endingShape;
-            horizontal = config.horizontal;
-            rendered = config.renderedData;
+            if (config.dataLabels) dataLabels = config.dataLabels;
+            if (config.endingShape) endingShape = config.endingShape;
+            if (config.horizontal) horizontal = config.horizontal;
+            if (config.renderedData) rendered = config.renderedData;
         }
 
         if (changed) this.trigger('registerOptions', this.options);
@@ -272,6 +272,8 @@ looker.plugins.visualizations.add({
                 };
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     obj.name = `${name} - ${pivotNames[i]}`;
+                    console.log(`\n name: `, obj.name);
+                    console.log(datum[i][index].value);
                     obj.data.push(datum[i][index].value);
                 }
                 seriesData.push(obj);

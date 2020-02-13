@@ -87,6 +87,8 @@ looker.plugins.visualizations.add({
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 legend: {
                     position: 'top',
                 },
