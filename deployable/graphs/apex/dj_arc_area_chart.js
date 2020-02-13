@@ -236,13 +236,11 @@ looker.plugins.visualizations.add({
         let xaxis = [];
         let yaxis = [];
         let seriesData = [];
-        let catData = [];
         let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
             seriesData.push(obj);
             categoryData.push(obj);
-            catData.push(obj);
         }
 
         datum.forEach(row => {
@@ -263,8 +261,6 @@ looker.plugins.visualizations.add({
                 categoryData[i].data.push(ob);
             }
         });
-
-        console.log('catData', catData);
         console.log('This is seriesdata so far', seriesData);
     
         if (format == `year`) {
