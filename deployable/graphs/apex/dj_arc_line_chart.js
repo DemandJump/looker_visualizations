@@ -236,7 +236,8 @@ looker.plugins.visualizations.add({
         console.log('Datapass', dataPass);
         console.log('Dataset', dataset);
 
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data.push(dataPass[i]);
+        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data = dataPass[i];
+
         let configLine = {
             height: window.innerHeight - 45,
             type: `line`,
