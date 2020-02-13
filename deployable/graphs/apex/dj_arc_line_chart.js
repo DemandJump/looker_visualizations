@@ -176,7 +176,7 @@ looker.plugins.visualizations.add({
             }
             showLegend = true;
         }
-
+        
         if (theme == `custom`) {
             if (this._custom != `custom`) {
                 this._custom = `custom`;
@@ -225,7 +225,7 @@ looker.plugins.visualizations.add({
             type: `line`,
             data: {
                 labels: labels,
-                datasets: datasets
+                datasets: dataset
             },
             options: {
                 responsive: true,
