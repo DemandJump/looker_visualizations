@@ -110,9 +110,8 @@ looker.plugins.visualizations.add({
         let labels = [];
         let dataset = [];
         let dataPass = [];
+        for(let i = 0; i < queryResponse.fields.dimension_like.length; i++) labels.push(queryResponse.fields.measure_like[i].label);
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            labels.push(queryResponse.fields.measure_like[i].label);
-
             let obj = {
                 label: queryResponse.fields.measure_like[i].label,
                 backgroundColor: colors[i],

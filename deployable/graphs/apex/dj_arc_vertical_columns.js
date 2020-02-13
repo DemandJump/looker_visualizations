@@ -1,6 +1,6 @@
 looker.plugins.visualizations.add({
-    id: 'dj_arc_column_graph',
-    label: 'Demandjump column graph',
+    id: 'dj_arc_column_chart',
+    label: 'Demandjump column chart',
     options: {
         chooseTheme: {
             label: `Choose a theme`,
