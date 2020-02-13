@@ -244,7 +244,7 @@ looker.plugins.visualizations.add({
             categoryData.push(obj);
             catData.push(obj);
         }
-        console.log('This is seriesdata so far', seriesData)
+
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -261,7 +261,9 @@ looker.plugins.visualizations.add({
                 categoryData[i].data.push(ob);
             }
         });
-               
+
+        console.log('catData', catData);
+        console.log('This is seriesdata so far', seriesData);       
     
         if (format == `year`) {
             console.log(`Category data`, categoryData);
