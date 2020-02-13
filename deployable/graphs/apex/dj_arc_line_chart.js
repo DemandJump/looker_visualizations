@@ -216,9 +216,7 @@ looker.plugins.visualizations.add({
             if (config.showY) showY = config.showY;
             if (config.aspectRatio) aspectRatio = config.aspectRatio;
         }
-
-
-        if (changed) this.trigger('registerOptions', this.options);
+        if (changed) this.trigger(`registerOptions`, this.options);
 
         if (config.title) title = config.title;
         if (config.showTitle) showTitle = config.showTitle;
@@ -226,10 +224,18 @@ looker.plugins.visualizations.add({
         if (config.yTitle) yTitle = config.yTitle;
 
 
+        // Grab the data
         let labels = [];
         let dataset = [];
+        let format = `category`;
+        let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+        if (formatChecker.length == 10 && formatChecker[4] == `-` && formatChecker[7] == `-`) format = `datetime`;
 
-        datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
+        // Labels
+        if (format == `datetime`) datum.forEach(row => labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value)));
+        else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
+
+        // Data
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             let obj = {
                 label: queryResponse.fields.measure_like[i].label,
@@ -243,11 +249,12 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
         });
-        
-        console.log('labels', labels);
-        console.log('Dataset', dataset);
+
+        console.log(`labels`, labels);
+        console.log(`Dataset`, dataset);
 
 
+        // Graph configuration
         let configLine = {
             height: window.innerHeight - 45,
             type: `line`,
@@ -315,6 +322,30 @@ looker.plugins.visualizations.add({
         if (document.getElementById(`line-chart`)) {
             var ctx5 = document.getElementById(`line-chart`).getContext(`2d`);
             window.myLine = new Chart(ctx5, configLine);
+        }
+
+
+        // Functions
+        function convertDateTime(val) {
+            let day = val.substr(0, 4);
+            let month = val.substr(5, 2);
+            let year = val.substr(8, 2);
+
+            if(month == 1) mon = `Jan`;
+            if(month == 2) mon = `Feb`;
+            if(month == 3) mon = `Mar`;
+            if(month == 4) mon = `Apr`;
+            if(month == 5) mon = `May`;
+            if(month == 6) mon = `Jun`;
+            if(month == 7) mon = `Jul`;
+            if(month == 8) mon = `Aug`;
+            if(month == 9) mon = `Sep`;
+            if(month == 10) mon = `Oct`;
+            if(month == 11) mon = `Now`;
+            if(month == 12) mon = `Dec`;
+            
+            let ret = day + mon + year;
+            return ret;
         }
         /**************** Done! *****************/
         doneRendering(); 
