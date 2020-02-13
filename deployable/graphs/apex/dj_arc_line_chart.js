@@ -217,6 +217,9 @@ looker.plugins.visualizations.add({
             if (config.aspectRatio) aspectRatio = config.aspectRatio;
         }
 
+
+        if (changed) this.trigger('registerOptions', this.options);
+
         if (config.title) title = config.title;
         if (config.showTitle) showTitle = config.showTitle;
         if (config.xTitle) xTitle = config.xTitle;
@@ -244,7 +247,7 @@ looker.plugins.visualizations.add({
         console.log('labels', labels);
         console.log('Dataset', dataset);
 
-        
+
         let configLine = {
             height: window.innerHeight - 45,
             type: `line`,
