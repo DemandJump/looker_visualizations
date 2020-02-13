@@ -236,17 +236,20 @@ looker.plugins.visualizations.add({
         let xaxis = [];
         let yaxis = [];
         let seriesData = [];
+        let catData = [];
         let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
             seriesData.push(obj);
             categoryData.push(obj);
+            catData.push(obj);
         }
         console.log('This is seriesdata so far', seriesData)
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                catData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 let ob = {};
                 let xVal;
                 let yVal;
