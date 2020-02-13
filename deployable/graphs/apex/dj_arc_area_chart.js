@@ -229,6 +229,9 @@ looker.plugins.visualizations.add({
         
         let format = `category`; // Either datetime or category
         let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+        if (formatChecker.length == 10) console.log('Formatchecker length is 10');
+        console.log('Formatchecker 4', formatChecker[4]);
+        console.log('Formatchecker 7', formatChecker[7]);
         if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format == `datetime`;
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
         console.log('This is the format: ', format);
