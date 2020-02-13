@@ -165,7 +165,7 @@ looker.plugins.visualizations.add({
         if (config.themes) theme = config.themes;
         let changed = false;
 
-        let title = queryResponse.fields.measure_like[0].label;
+        let title = queryResponse.fields.dimension_like[0].label;
         let rendered = true; 
         let label = ` `;
         let curve = `straight`;
@@ -270,7 +270,7 @@ looker.plugins.visualizations.add({
         }
 
     
-        if (format == `year`) {
+        if (format == `yyyy`) {
             console.log(`Category data`, categoryData);
             configuration[`series`] = categoryData;
             configuration[`xaxis`] = {
@@ -312,7 +312,7 @@ looker.plugins.visualizations.add({
             };
         }
 
-        if (format == `area` || format == `category`) {
+        if (format == `datetime` || format == `category`) {
             console.log(`Series data`, seriesData);
             configuration[`series`] = seriesData;
             configuration[`labels`] = xaxis;
@@ -332,6 +332,7 @@ looker.plugins.visualizations.add({
             stroke: {width: 2}
         };
 
+        console.log('Configuration', configuration);
         let chart = new ApexCharts(
             document.querySelector(`#chart-apex-area`),
             configuration
