@@ -177,7 +177,7 @@ looker.plugins.visualizations.add({
         }
 
         if (theme == `area`) {
-            if (this._custom == `area`) {
+            if (this._custom != `area`) {
                 this.options.customSpacing.hidden = true;
                 this.options.customLabel.hidden = true;
                 this.options.curve.hidden = true;
@@ -189,7 +189,7 @@ looker.plugins.visualizations.add({
         }
 
         if (theme == `custom`) {
-            if (this._custom == `custom`) {
+            if (this._custom != `custom`) {
                 this.options.customSpacing.hidden = false;
                 this.options.customLabel.hidden = false;
                 this.options.curve.hidden = false;
