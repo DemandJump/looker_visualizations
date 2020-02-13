@@ -306,6 +306,95 @@ looker.plugins.visualizations.add({
         };
 
 
+
+
+    // Line
+    let configLin = {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+                fill: false,
+            }, {
+                label: 'My Second dataset',
+                fill: false,
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor(),
+                    randomScalingFactor()
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: false,
+                text: 'Chart.js Line Chart'
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 0
+                }
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            pointBackgroundColor: '#fff',
+            pointBorderColor: window.chartColors.blue,
+            pointBorderWidth: '2',
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Months'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                }]
+            }
+        }
+    };
+
+
+
+
         // Apex Charts
         window.Apex = {
             dataLabels: {enabled: false},
@@ -315,7 +404,7 @@ looker.plugins.visualizations.add({
         // Line
         if (document.getElementById(`line-chart`)) {
             var ctx5 = document.getElementById(`line-chart`).getContext(`2d`);
-            window.myLine = new Chart(ctx5, configLine);
+            window.myLine = new Chart(ctx5, configLin);
         }
         /**************** Done! *****************/
         doneRendering(); 
