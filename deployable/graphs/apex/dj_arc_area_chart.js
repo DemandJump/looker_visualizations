@@ -231,6 +231,16 @@ looker.plugins.visualizations.add({
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
         let date = datum[0][queryResponse.fields.dimension_like[0].name].value;
         console.log('This is date', date);
+        if (date.length == 10) console.log('Date length is 10');
+        if (date.includes('-', 1)) consol.log('Date includes - on line 1')
+        if (date.includes('-', 2)) consol.log('Date includes - on line 2')
+        if (date.includes('-', 3)) consol.log('Date includes - on line 3')
+        if (date.includes('-', 4)) consol.log('Date includes - on line 4')
+        if (date.includes('-', 5)) consol.log('Date includes - on line 5')
+        if (date.includes('-', 6)) consol.log('Date includes - on line 6')
+        if (date.includes('-', 7)) consol.log('Date includes - on line 7')
+        if (date.includes('-', 8)) consol.log('Date includes - on line 8')
+        if (date.includes('-', 9)) consol.log('Date includes - on line 9')
         if (date.length == 10 && date.includes('-', 4) && date.includes('-', 7)) format == `datetime`;
         console.log('This is the format: ', format);
 
