@@ -210,7 +210,7 @@ looker.plugins.visualizations.add({
                 this.options.aspectRatio.hidden = false;
             }
 
-            if (config.showLegend) showLegend = true;
+            if (config.legend) showLegend = config.legend;
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.showX) showX = config.showX;
             if (config.showY) showY = config.showY;
