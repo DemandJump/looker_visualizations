@@ -249,8 +249,8 @@ looker.plugins.visualizations.add({
                 let xVal;
                 let yVal;
 
-                if (rendered && row[queryResponse.fields.dimension_like[i].name].rendered) xVal = row[queryResponse.fields.dimension_like[i].name].rendered;
-                else xVal = row[queryResponse.fields.dimension_like[i].name].value;
+                if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                else xVal = row[queryResponse.fields.dimension_like[0].name].value;
                 yVal = row[queryResponse.fields.measure_like[i].name].value;
                 ob = {x: xVal, y: yVal};
                 categoryData[i].data.push(ob);
