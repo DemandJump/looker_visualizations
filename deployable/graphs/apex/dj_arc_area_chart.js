@@ -166,7 +166,7 @@ looker.plugins.visualizations.add({
 
         let title = queryResponse.fields.measure_like[0].label;
         let rendered = true; 
-        let label = ``;
+        let label = ` `;
         let curve = `straight`;
         let dataLabels = false;
         let alignLegend = `center`;
@@ -234,7 +234,7 @@ looker.plugins.visualizations.add({
         console.log('This is the format: ', format);
 
         let xaxis = [];
-        let yaxis = []''
+        let yaxis = [];
         let seriesData = [];
         let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {

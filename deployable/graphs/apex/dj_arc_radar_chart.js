@@ -1,4 +1,6 @@
 looker.plugins.visualizations.add({
+    id: 'dj_arc_radar_chart',
+    label: 'Demandjump radar chart',
     options: {
         title: {
             label: 'Enter the title',

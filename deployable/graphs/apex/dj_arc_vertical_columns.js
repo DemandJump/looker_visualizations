@@ -153,9 +153,9 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         let horizontal = false;
         let endingShape = 'rounded';
-        let title = '';
-        let yTitle = '';
-        let xTitle = '';
+        let title = ' ';
+        let yTitle = ' ';
+        let xTitle = ' ';
         
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {

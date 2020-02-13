@@ -69,7 +69,7 @@ looker.plugins.visualizations.add({
         }
 
         // Configuration settings
-        let title = '';
+        let title = ' ';
         let aspectRatio = true;
         if (config.aspectRatio) aspectRatio = config.aspectRatio;
 

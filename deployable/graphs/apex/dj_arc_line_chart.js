@@ -97,7 +97,7 @@ looker.plugins.visualizations.add({
         let showX = true;
         let showY = true;
         let xTitle = queryResponse.fields.dimension_like[0].label;
-        let yTitle = '';
+        let yTitle = ' ';
 
         if (config.title) title = config.title;
         if (config.showLegend) showLegend = true;
