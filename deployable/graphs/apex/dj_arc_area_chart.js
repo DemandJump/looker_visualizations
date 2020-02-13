@@ -228,20 +228,9 @@ looker.plugins.visualizations.add({
 
         
         let format = `category`; // Either datetime or category
+        let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+        if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format == `datetime`;
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
-        let date = datum[0][queryResponse.fields.dimension_like[0].name].value;
-        console.log('This is date', date);
-        if (date.length == 10) {console.log('Date length is 10');}
-        if (date.includes('-', 1)) {console.log('Date includes - on line 1');}
-        if (date.includes('-', 2)) {console.log('Date includes - on line 2');}
-        if (date.includes('-', 3)) {console.log('Date includes - on line 3');}
-        if (date.includes('-', 4)) {console.log('Date includes - on line 4');}
-        if (date.includes('-', 5)) {console.log('Date includes - on line 5');}
-        if (date.includes('-', 6)) {console.log('Date includes - on line 6');}
-        if (date.includes('-', 7)) {console.log('Date includes - on line 7');}
-        if (date.includes('-', 8)) {console.log('Date includes - on line 8');}
-        if (date.includes('-', 9)) {console.log('Date includes - on line 9');}
-        if (date.length == 10 && date.includes('-', 4) && date.includes('-', 7)) format == `datetime`;
         console.log('This is the format: ', format);
 
         let xaxis = [];
@@ -253,7 +242,6 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
             categoryData.push(obj);
         }
-        console.log('This is seriesdata so far', seriesData);
 
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
@@ -280,7 +268,6 @@ looker.plugins.visualizations.add({
                 }
             });
         }
-        console.log('This is seriesdata', seriesData);
 
     
         if (format == `year`) {
