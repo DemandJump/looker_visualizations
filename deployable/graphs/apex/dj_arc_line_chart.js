@@ -220,7 +220,9 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataPass[i].push(row[queryResponse.fields.measure_like[i].name].value);
         });
         
-            
+        console.log('labels', labels);
+        console.log('Datapass', dataPass);
+        console.log('Dataset', dataset);
         let configLine = {
             type: `line`,
             data: {
