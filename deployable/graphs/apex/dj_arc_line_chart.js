@@ -76,7 +76,7 @@ looker.plugins.visualizations.add({
         
         legend: {
             label: `Show legend`,
-            order: 10,
+            order: 15,
             section: `Format`,
             type: `boolean`,
             default: true,
@@ -85,7 +85,7 @@ looker.plugins.visualizations.add({
 
         alignLegend: {
             label: `Align legend`,
-            order: 11,
+            order: 16,
             section: `Format`,
             type: `string`,
             display: `select`,
@@ -101,7 +101,7 @@ looker.plugins.visualizations.add({
         
         showY: {
             label: `Show y axis`, 
-            order: 12, 
+            order: 11, 
             section: `Format`,
             type: `boolean`,
             default: true,
@@ -110,7 +110,7 @@ looker.plugins.visualizations.add({
         
         showX: {
             label: `Show x axis`,
-            order: 13,
+            order: 12,
             section: `Format`,
             type: `boolean`,
             default: true,
@@ -119,7 +119,7 @@ looker.plugins.visualizations.add({
 
         aspectRatio: {
             label: `Maintain aspect ratio`,
-            order: 14,
+            order: 13,
             section: `Format`,
             type: `boolean`,
             default: true,
@@ -128,7 +128,7 @@ looker.plugins.visualizations.add({
 
         formatDates: {
             label: `Abbreviate datetime values`, 
-            order: 15,
+            order: 14,
             section: `Format`,
             type: `boolean`,
             default: true, 
@@ -356,10 +356,10 @@ looker.plugins.visualizations.add({
             if(month == 8) mon = `Aug`;
             if(month == 9) mon = `Sep`;
             if(month == 10) mon = `Oct`;
-            if(month == 11) mon = `Now`;
+            if(month == 11) mon = `Nov`;
             if(month == 12) mon = `Dec`;
             
-            let ret = day + mon + year;
+            let ret = `${day} ${mon}`; // `${day} ${mon} ${year}`
             return ret;
         }
         /**************** Done! *****************/
