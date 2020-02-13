@@ -230,6 +230,7 @@ looker.plugins.visualizations.add({
         let format = `category`; // Either datetime or category
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
         let date = datum[0][queryResponse.fields.dimension_like[0].name].value;
+        console.log('This is date', date);
         if (date.length == 10 && date.includes('-', 4) && date.includes('-', 7)) format == `datetime`;
         console.log('This is the format: ', format);
 
