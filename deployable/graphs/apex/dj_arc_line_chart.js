@@ -152,20 +152,20 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let node = document.getElementById(`line-chart`);
         while(node.firstChild) node.firstChild.remove();
-        console.log(`These are the settings`, this.options);
+        console.log(`\n\n\n\n\nThese are the settings`, this.options);
         console.log(`This is the config`, config);
         console.log(`Queryresponse`, queryResponse);
         console.log(`Data`, data);
         let datum = data;
-        datum.forEach(row => {
-            for(let i = 0; i < row.length; i++) {
-                if (row[i].value == null) {
-                    let prev = row[i-1].value;
-                    let next = row[i+1].value;
-                    row[i].value = (prev + next) / 2;
-                }
-            }
-        });
+        // datum.forEach(row => {
+        //     for(let i = 0; i < row.length; i++) {
+        //         if (row[i].value == null) {
+        //             let prev = row[i-1].value;
+        //             let next = row[i+1].value;
+        //             row[i].value = (prev + next) / 2;
+        //         }
+        //     }
+        // });
         // console.log(`Mutated data`, datum);
         
         // Pull pivots inot dimension array
@@ -183,7 +183,7 @@ looker.plugins.visualizations.add({
         let showTitle = true;
         let xTitle = queryResponse.fields.dimension_like[0].label;
         let yTitle = ` `;
-        let alignLegend = `center`;
+        let alignLegend = `bottom`;
         let showLegend = true;
         let showX = false;
         let showY = false;
