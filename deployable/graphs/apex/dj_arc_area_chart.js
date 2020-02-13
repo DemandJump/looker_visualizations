@@ -242,28 +242,34 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
             categoryData.push(obj);
         }
+        console.log('This is seriesdata so far', seriesData);
 
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
-            }
         });
 
-        datum.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let ob = {};
-                let xVal;
-                let yVal;
+        if (format == `cateogry`) {
+            datum.forEach(row => {
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                }
+            });
+        } else {
+            datum.forEach(row => {
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    let ob = {};
+                    let xVal;
+                    let yVal;
 
-                if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-                yVal = row[queryResponse.fields.measure_like[i].name].value;
-                ob = {x: xVal, y: yVal};
-                categoryData[i].data.push(ob);
-            }
-        });
-        console.log('This is seriesdata so far', seriesData);
+                    if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                    else xVal = row[queryResponse.fields.dimension_like[0].name].value;
+                    yVal = row[queryResponse.fields.measure_like[i].name].value;
+                    ob = {x: xVal, y: yVal};
+                    categoryData[i].data.push(ob);
+                }
+            });
+        }
+        console.log('This is seriesdata', seriesData);
 
     
         if (format == `year`) {
@@ -316,7 +322,10 @@ looker.plugins.visualizations.add({
             configuration[`yaxis`] = {opposite: true};
             configuration[`legend`] = {horizontalAlign: alignLegend};
         }
-        if (format == `category`) delete configuration[`xaxis`];
+        if (format == `category`) {
+            configuration[`xaxis`] = {type: `category`};
+            delete configuration[`xaxis`];
+        }
 
 
         // Apex Charts
