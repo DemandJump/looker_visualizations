@@ -234,6 +234,7 @@ looker.plugins.visualizations.add({
         console.log('This is the format: ', format);
 
         let xaxis = [];
+        let yaxis = []''
         let seriesData = [];
         let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -244,8 +245,7 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                console.log('This is the series data name: ', row[queryResponse.fields.measure_like[i].name].value);
-                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                yaxis.push(row[queryResponse.fields.measure_like[i].name].value);
 
                 let ob = {};
                 let xVal;
