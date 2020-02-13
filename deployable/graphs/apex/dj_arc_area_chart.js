@@ -242,6 +242,7 @@ looker.plugins.visualizations.add({
             seriesData.push(obj);
             categoryData.push(obj);
         }
+        console.log('This is seriesdata so far', seriesData)
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
