@@ -234,7 +234,7 @@ looker.plugins.visualizations.add({
         console.log('This is the format: ', format);
 
         let xaxis = [];
-        let yaxis = [];
+        let yaxis = []''
         let seriesData = [];
         let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -245,8 +245,7 @@ looker.plugins.visualizations.add({
         datum.forEach(row => {
             xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                yaxis.push(row[queryResponse.fields.measure_like[i].name].value);
-
+                seriesData.data.push(row[queryResponse.fields.measure_like[i].name].value));
                 let ob = {};
                 let xVal;
                 let yVal;
@@ -303,8 +302,8 @@ looker.plugins.visualizations.add({
         }
 
         if (format == `area` || format == `category`) {
-            console.log(`Series data`, yaxis);
-            configuration[`series`] = yaxis;
+            console.log(`Series data`, seriesData);
+            configuration[`series`] = seriesData;
             configuration[`labels`] = xaxis;
             configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
             configuration[`yaxis`] = {opposite: true};
