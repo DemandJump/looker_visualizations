@@ -234,7 +234,7 @@ looker.plugins.visualizations.add({
         console.log('This is the format: ', format);
 
         let xaxis = [];
-        let yaxis = []''
+        let yaxis = [];
         let seriesData = [];
         let categoryData = [];
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
