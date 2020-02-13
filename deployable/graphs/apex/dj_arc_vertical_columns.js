@@ -138,13 +138,17 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
-        let datum = data;
         let pivot = false;
-        // datum.forEach(row => {
-        //     for(let i = 0; i < row.length; i++) {
-        //         if (row[i].value == null) row[i] = 0;
-        //     }
-        // });
+        let datum = data;
+        datum.forEach(row => {
+            for(let i = 0; i < row.length; i++) {
+                if (row[i].value == null) {
+                    let prev = row[i-1].value;
+                    let next = row[i+1].value;
+                    row[i].value = (prev + next) / 2;
+                }
+            }
+        });
         // console.log('Mutated data', datum);
 
         // Pull pivots inot dimension array
