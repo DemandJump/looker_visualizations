@@ -259,6 +259,8 @@ looker.plugins.visualizations.add({
                 pivotNames.push(row.name);
                 pivotLabels.push(row.label);
             });
+            console.log('Pivot names', pivotNames);
+            console.log('Pivot labels', pivotLabels);
             
             queryResponse.pivots.forEach((row, index) => {
                 let name = ``;
