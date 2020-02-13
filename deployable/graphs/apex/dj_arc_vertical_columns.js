@@ -145,6 +145,7 @@ looker.plugins.visualizations.add({
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
 
+
         // Configuration settings
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;

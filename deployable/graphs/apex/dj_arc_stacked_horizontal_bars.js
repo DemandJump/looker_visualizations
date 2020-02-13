@@ -158,6 +158,7 @@ looker.plugins.visualizations.add({
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
 
+
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;
         let rendered = false;
@@ -168,8 +169,7 @@ looker.plugins.visualizations.add({
         let title = ' ';
         let yTitle = ' ';
         let xTitle = ' ';
-
-            
+ 
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
                 this._custom = 'horizontalOrVertical';
