@@ -291,7 +291,7 @@ looker.plugins.visualizations.add({
             });
 
             // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-            queryResponse.fields.measure_like.forEach(row => {
+            queryResponse.fields.measure_like.forEach((row, index) => {
                 let obData = [];
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
                     let keyname = queryResponse.pivots[i].key;
@@ -301,8 +301,8 @@ looker.plugins.visualizations.add({
                 
                 let obj = {
                     label: row.label,
-                    backgroundColor: colors[i],
-                    borderColor: colors[i],
+                    backgroundColor: colors[index],
+                    borderColor: colors[index],
                     data: obData,
                     fill: false
                 }
