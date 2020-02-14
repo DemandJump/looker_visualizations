@@ -262,6 +262,7 @@ looker.plugins.visualizations.add({
                 if (mes.label_short) measureLabels.push(mes.label_short);
                 else measureLabels.push(mes.label_short);
             });
+            console.log('measureLabels'. measureLabels);
             
             // Pivot data construct 
             let pivotSeriesName = queryResponse.fields.measure_like[0].label;
@@ -284,6 +285,7 @@ looker.plugins.visualizations.add({
                     }
                 }
             });
+            console.log('pivotLabels', pivotLabels);
 
 
 
