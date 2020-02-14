@@ -253,22 +253,18 @@ looker.plugins.visualizations.add({
                     seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 }
             });
-            console.log('Series data', seriesData);
         } else {
 
             // Labels
-            let pLabels = [];
             queryResponse.pivots.forEach(p => {
                 if (p.metadata.rendered) {
-                    if (p.metadata.rendered != null) pLabels.push(p.metadata.rendered);
+                    if (p.metadata.rendered != null) xaxis.push(p.metadata.rendered);
                 } else {
-                    pLabels.push(p.key);
+                    xaxis.push(p.key);
                 }
             });
-            console.log('These are the pLabels', pLabels);
 
             // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-            let pSeries = [];
             queryResponse.fields.measure_like.forEach(row => {
                 let obData = [];
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
@@ -276,16 +272,16 @@ looker.plugins.visualizations.add({
                     let value = datum[0][row.name][keyname].value;
                     obData.push(value);
                 }
-                console.log(`Object data`, obData);
                 
                 let obj = {
                     name: row.label,
                     data: obData
                 }
-                pSeries.push(obj);
+                seriesData.push(obj);
             }); 
-            console.log(`This is the pSeries`, pSeries);
         }
+        console.log('These are the xaxis labels', xaxis);
+        console.log('Series data', seriesData);
 
     
         // Apex Charts
