@@ -75,13 +75,14 @@ looker.plugins.visualizations.add({
 
 
 
+
         let configRadar = {
             type: 'radar',
             data: {
                 labels: labels,
                 datasets: [{
                     label: queryResponse.fields.dimension_like[0].label,
-                    backgroundColor: color(colors[5]).alpha(0.2).rgbString(),
+                    backgroundColor: colors[5].alpha(0.2).rgbString(),
                     borderColor: colors[5],
                     pointBackgroundColor: colors[5],
                     data: dataset
