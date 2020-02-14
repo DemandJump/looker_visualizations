@@ -250,8 +250,17 @@ looker.plugins.visualizations.add({
         if (formatChecker.length == 10 && formatChecker[4] == `-` && formatChecker[7] == `-`) format = `datetime`;
 
         // Labels
-        if (format == `datetime` && formatDates == true) datum.forEach(row => labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value)));
+        if (format == `datetime` && formatDates == true) datum.forEach(row => {
+            let sameMonthChecker = checkIfSameMonth();
+            if (sameMonthChecker) { 
+                labels.push(row[queryResponse.fields.dimension_like[0].name].value);
+            } else {
+                labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value))
+            }
+
+        });
         else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
+
 
         // Data
         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -366,6 +375,21 @@ looker.plugins.visualizations.add({
             
             let ret = `${day} ${mon}`; // `${day} ${mon} ${year}`
             return ret;
+        }
+
+        function checkIfSameMonth() {
+            let yes = false;
+            let month = ``;
+            let prevMonth = ``;
+            datum.forEach(row => {
+                let val = row[queryResponse.fields.dimension_like[0].name].value;
+                month = val.substr(5, 2);
+
+                if (month == prevMonth) yes = true;
+                prevMonth = month; 
+            });
+
+            return yes;
         }
         /**************** Done! *****************/
         doneRendering(); 
