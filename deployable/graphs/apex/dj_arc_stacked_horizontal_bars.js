@@ -263,11 +263,10 @@ looker.plugins.visualizations.add({
         } else {
             // Labels
             queryResponse.pivots.forEach(p => {
-                if (p.metadata[0].rendered) {
-                    if (p.metadata[0].rendered != null) xaxis.push(p.metadata[0].rendered);
-                } else {
-                    xaxis.push(p.key);
-                }
+                if (p.metadata[queryResponse.pivots[0].name].rendered) {
+                    if (p.metadata[queryResponse.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.pivots[0].name].rendered);
+                } 
+                else xaxis.push(p.key);
             });
 
             // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
