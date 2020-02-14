@@ -285,7 +285,7 @@ looker.plugins.visualizations.add({
             // Labels
             queryResponse.pivots.forEach(p => {
                 if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
+                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) labels.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
                 } 
                 else labels.push(p.key);
             });
