@@ -292,31 +292,31 @@ looker.plugins.visualizations.add({
 
 
 
-            queryResponse.fields.measure_like.forEach(row => {
-                pivotNames.push(row.name);
-                pivotLabels.push(row.label);
-            });
-            console.log('Pivot names', pivotNames);
-            console.log('Pivot labels', pivotLabels);
+            // queryResponse.fields.measure_like.forEach(row => {
+            //     pivotNames.push(row.name);
+            //     pivotLabels.push(row.label);
+            // });
+            // console.log('Pivot names', pivotNames);
+            // console.log('Pivot labels', pivotLabels);
             
-            queryResponse.pivots.forEach((row, index) => {
-                let name = ``;
-                if (row.metadata.rendered) name = row.metadata.rendered;
-                else name = row.metadata.value;
-                xaxis.push(name);
+            // queryResponse.pivots.forEach((row, index) => {
+            //     let name = ``;
+            //     if (row.metadata.rendered) name = row.metadata.rendered;
+            //     else name = row.metadata.value;
+            //     xaxis.push(name);
 
-                let obj = {
-                    name: ``,
-                    data: []
-                };
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    obj.name = `${name} - ${pivotNames[i]}`;
-                    console.log(`\n name: `, obj.name);
-                    console.log(datum[i][index].value);
-                    obj.data.push(datum[i][index].value);
-                }
-                seriesData.push(obj);
-            });
+            //     let obj = {
+            //         name: ``,
+            //         data: []
+            //     };
+            //     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+            //         obj.name = `${name} - ${pivotNames[i]}`;
+            //         console.log(`\n name: `, obj.name);
+            //         console.log(datum[i][index].value);
+            //         obj.data.push(datum[i][index].value);
+            //     }
+            //     seriesData.push(obj);
+            // });
 
         }
         console.log('Series data', seriesData);
