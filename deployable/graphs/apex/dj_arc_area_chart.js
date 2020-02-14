@@ -224,9 +224,10 @@ looker.plugins.visualizations.add({
         if (changed) this.trigger(`registerOptions`, this.options);
 
 
+        let height = window.innerHeight - 45;
         let configuration = {
             chart: {
-                height: window.innerHeight - 45,
+                height: height,
                 type: `area`,
                 zoom: {enabled: true}
             },

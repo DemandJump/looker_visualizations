@@ -273,8 +273,9 @@ looker.plugins.visualizations.add({
 
 
         // Graph configuration
+        let height = window.innerHeight - 45;
         let configLine = {
-            height: window.innerHeight - 45,
+            height: height,
             type: `line`,
             data: {
                 labels: labels,

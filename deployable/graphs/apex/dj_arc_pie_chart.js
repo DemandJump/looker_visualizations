@@ -99,14 +99,7 @@ looker.plugins.visualizations.add({
             dataset.push(row[queryResponse.fields.measure_like[0].name].value);
         });
 
-        
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
 
-    
         let configPie = {
             type: 'pie',
             data: {
@@ -166,7 +159,12 @@ looker.plugins.visualizations.add({
         if (config.collections == 'classic') configuration = configPie;
         if (config.collections == 'doughnut') configuration = configDoughnut;
         
-        // Apex Charts Init
+
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
 
         if (document.getElementById('chart-area')) {
             let ctx2 = document.getElementById('chart-area').getContext('2d');

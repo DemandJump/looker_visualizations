@@ -292,9 +292,10 @@ looker.plugins.visualizations.add({
 
 
         // Column
-        var columnChartConfiguration = {
+        let height = window.innerHeight - 45;
+        let columnChartConfiguration = {
             chart: {
-                height: window.innerHeight - 45,
+                height: height,
                 type: 'bar',
             },
             plotOptions: {

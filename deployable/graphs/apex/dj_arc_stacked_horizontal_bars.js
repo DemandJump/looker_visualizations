@@ -232,7 +232,6 @@ looker.plugins.visualizations.add({
         if (config.xTitle) {
             if (config.xTitle != '') xTitle = config.xTitle;
         }
-
         
         // Grab the data 
         let xaxis = [];
@@ -287,9 +286,10 @@ looker.plugins.visualizations.add({
 
 
         // Stacked Bar
+        let height = window.innerHeight - 45;
         var options4 = {
             chart: {
-                height: window.innerHeight - 45,
+                height: height,
                 type: 'bar',
                 stacked: 'true',
             },
