@@ -248,15 +248,15 @@ looker.plugins.visualizations.add({
 
         
         let format = `category`; // Either datetime or category
+        let xaxis = [];
+        let seriesData = [];
+        let categoryData = [];
         
         if (pivot == false) {
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
 
-            let xaxis = [];
-            let seriesData = [];
-            let categoryData = [];
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
                 seriesData.push(obj);
