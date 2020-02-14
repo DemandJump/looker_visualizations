@@ -143,6 +143,17 @@ looker.plugins.visualizations.add({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 window.chartColors = {
     red: '#dc3545',
     orange: '#fd7e14',
