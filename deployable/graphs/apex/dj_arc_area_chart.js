@@ -331,6 +331,7 @@ looker.plugins.visualizations.add({
 
         if (format == `datetime` || format == `category`) {
             console.log(`Series data`, seriesData);
+            console.log(`xaxis data`, xaxis);
             configuration[`series`] = seriesData;
             configuration[`labels`] = xaxis;
             configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
