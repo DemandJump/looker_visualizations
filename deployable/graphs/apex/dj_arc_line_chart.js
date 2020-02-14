@@ -349,7 +349,7 @@ looker.plugins.visualizations.add({
         
         // Line
         if (document.getElementById(`line-chart`)) {
-            var ctx5 = document.getElementById(`line-chart`).getContext(`2d`);
+            let ctx5 = document.getElementById(`line-chart`).getContext(`2d`);
             window.myLine = new Chart(ctx5, configLine);
         }
 
