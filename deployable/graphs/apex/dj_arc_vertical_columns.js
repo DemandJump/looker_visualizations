@@ -239,6 +239,7 @@ looker.plugins.visualizations.add({
         console.log('piviot = ', pivot);
 
         if (pivot == false) {
+
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
                 seriesData.push(obj);
@@ -252,76 +253,39 @@ looker.plugins.visualizations.add({
                     seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 }
             });
+            console.log('Series data', seriesData);
         } else {
-            let pivotNames = [];
-            let pivotLabels = [];
 
-            // To construct the pivot labels
-            let measureLabels = [];
-            queryResponse.fields.measure_like.forEach(mes => {
-                if (mes.label_short) measureLabels.push(mes.label_short);
-                else measureLabels.push(mes.label_short);
-            });
-            console.log('measureLabels'. measureLabels);
-            
-            // Pivot data construct 
-            let pivotSeriesName = queryResponse.fields.measure_like[0].label;
-            if (queryResponse.fields.measure_like[0].label_short) pivotSeriesName = queryResponse.fields.measure_like[0].label_short;
-            let obj = {name: pivotSeriesName, data: []};
-            seriesData.push(obj);
-
-            // Data
-            queryResponse.fields.pivots.forEach(row => {
-                if (row.data != null) {
-                    for(let i = 0; i < measureLabels; i++) {
-                        // Label data
-                        let key = row.key;
-                        if (row.metadata[0].rendered != null) key = row.metadata[0].rendered;
-                        let label = `${key} ${measureLabels[i]}`;
-                        pivotLabels.push(label);
-
-                        // Keyword data
-                        datum.forEach(row => seriesData[0].data.push(row[measureLabels[i]][key].value));
-                    }
+            // Labels
+            let pLabels = [];
+            queryResponse.pivots.forEach(p => {
+                if (p.metadata.rendered) {
+                    if (p.metadata.rendered != null) pLabels.push(p.metadata.rendered);
+                } else {
+                    pLabels.push(p.key);
                 }
             });
-            console.log('pivotLabels', pivotLabels);
+            console.log('These are the pLabels', pLabels);
 
-
-
-
-
-
-
-
-            // queryResponse.fields.measure_like.forEach(row => {
-            //     pivotNames.push(row.name);
-            //     pivotLabels.push(row.label);
-            // });
-            // console.log('Pivot names', pivotNames);
-            // console.log('Pivot labels', pivotLabels);
-            
-            // queryResponse.pivots.forEach((row, index) => {
-            //     let name = ``;
-            //     if (row.metadata.rendered) name = row.metadata.rendered;
-            //     else name = row.metadata.value;
-            //     xaxis.push(name);
-
-            //     let obj = {
-            //         name: ``,
-            //         data: []
-            //     };
-            //     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            //         obj.name = `${name} - ${pivotNames[i]}`;
-            //         console.log(`\n name: `, obj.name);
-            //         console.log(datum[i][index].value);
-            //         obj.data.push(datum[i][index].value);
-            //     }
-            //     seriesData.push(obj);
-            // });
-
+            // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+            let pSeries = [];
+            queryResponse.fields.measure_like.forEach(row => {
+                let obData = [];
+                for(let i = 0; queryResponse.pivots.length; i++) {
+                    let keyname = queryResponse.pivots[i].key;
+                    let value = datum[0][row.name][keyname].value;
+                    obData.push(value);
+                }
+                console.log(`Object data`, obData);
+                
+                let obj = {
+                    name: row.label,
+                    data: obData
+                }
+                pSeries.push(obj);
+            }); 
+            console.log(`This is the pSeries`, pSeries);
         }
-        console.log('Series data', seriesData);
 
     
         // Apex Charts
