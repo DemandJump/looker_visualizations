@@ -154,6 +154,7 @@ looker.plugins.visualizations.add({
         console.log(`This is the config`, config);
         console.log(`Queryresponse`, queryResponse);
         console.log(`Data`, data);
+        let pivot = false;
         let datum = data;
         // datum.forEach(row => {
         //     for(let i = 0; i < row.length; i++) {
@@ -168,6 +169,7 @@ looker.plugins.visualizations.add({
 
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
+            pivot = true;
             queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
@@ -250,39 +252,67 @@ looker.plugins.visualizations.add({
         if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
         if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
 
-        let xaxis = [];
-        let yaxis = [];
-        let seriesData = [];
-        let categoryData = [];
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
-            seriesData.push(obj);
-            categoryData.push(obj);
-        }
+        if (pivot == false) {
 
-        datum.forEach(row => {
-            xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-        });
+            let xaxis = [];
+            let seriesData = [];
+            let categoryData = [];
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
+                seriesData.push(obj);
+                categoryData.push(obj);
+            }
 
-        if (format == `cateogry`) {
             datum.forEach(row => {
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+            });
+
+            if (format == `cateogry`) {
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                    }
+                });
+            } else {
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let ob = {};
+                        let xVal;
+                        let yVal;
+
+                        if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                        else xVal = row[queryResponse.fields.dimension_like[0].name].value;
+                        yVal = row[queryResponse.fields.measure_like[i].name].value;
+                        ob = {x: xVal, y: yVal};
+                        categoryData[i].data.push(ob);
+                    }
+                });
+            }
+        } else {
+
+            // Labels
+            queryResponse.pivots.forEach(p => {
+                if (p.metadata.rendered) {
+                    if (p.metadata.rendered != null) xaxis.push(p.metadata.rendered);
+                } else {
+                    xaxis.push(p.key);
                 }
             });
-        } else {
-            datum.forEach(row => {
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    let ob = {};
-                    let xVal;
-                    let yVal;
 
-                    if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                    else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-                    yVal = row[queryResponse.fields.measure_like[i].name].value;
-                    ob = {x: xVal, y: yVal};
-                    categoryData[i].data.push(ob);
+            // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+            queryResponse.fields.measure_like.forEach(row => {
+                let obData = [];
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let keyname = queryResponse.pivots[i].key;
+                    let value = datum[0][row.name][keyname].value;
+                    obData.push(value);
                 }
+                
+                let obj = {
+                    name: row.label,
+                    data: obData
+                }
+                seriesData.push(obj);
             });
         }
 
