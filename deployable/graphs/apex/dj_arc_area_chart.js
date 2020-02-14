@@ -312,8 +312,8 @@ looker.plugins.visualizations.add({
         } else {
             // Labels
             queryResponse.pivots.forEach(p => {
-                if (p.metadata.rendered) {
-                    if (p.metadata.rendered != null) xaxis.push(p.metadata.rendered);
+                if (p.metadata[0].rendered) {
+                    if (p.metadata[0].rendered != null) xaxis.push(p.metadata[0].rendered);
                 } 
                 else xaxis.push(p.key);
             });

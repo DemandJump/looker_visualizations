@@ -284,8 +284,8 @@ looker.plugins.visualizations.add({
         } else {
             // Labels
             queryResponse.pivots.forEach(p => {
-                if (p.metadata.rendered) {
-                    if (p.metadata.rendered != null) labels.push(p.metadata.rendered);
+                if (p.metadata[0].rendered) {
+                    if (p.metadata[0].rendered != null) xaxis.push(p.metadata[0].rendered);
                 } 
                 else labels.push(p.key);
             });
@@ -300,8 +300,11 @@ looker.plugins.visualizations.add({
                 }
                 
                 let obj = {
-                    name: row.label,
-                    data: obData
+                    label: row.label,
+                    backgroundColor: colors[i],
+                    borderColor: colors[i],
+                    data: obData,
+                    fill: false
                 }
                 dataset.push(obj);
             });
