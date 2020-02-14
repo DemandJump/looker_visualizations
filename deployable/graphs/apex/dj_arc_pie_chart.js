@@ -34,14 +34,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        // aspectRatio: {
-        //     label: `Maintain`,
-        //     order: 3,
-        //     section: `Format`,
-        //     type: `boolean`,
-        //     default: true,
-        //     hidden: false
-        // }
+        aspectRatio: {
+            label: `Maintain`,
+            order: 3,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+        }
     },
     create: function(element, config) {
         element.innerHTML = `
