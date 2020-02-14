@@ -271,7 +271,7 @@ looker.plugins.visualizations.add({
             let pSeries = [];
             queryResponse.fields.measure_like.forEach(row => {
                 let obData = [];
-                for(let i = 0; queryResponse.pivots.length; i++) {
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
                     let keyname = queryResponse.pivots[i].key;
                     let value = datum[0][row.name][keyname].value;
                     obData.push(value);
