@@ -236,7 +236,7 @@ looker.plugins.visualizations.add({
         let xaxis = [];
         let seriesData = [];
         
-
+        console.log('piviot = ', pivot);
 
         if (!pivot) {
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
