@@ -229,16 +229,12 @@ looker.plugins.visualizations.add({
         if (config.title) title = config.title;
         if (config.showTitle) showTitle = config.showTitle;
         if (config.yTitle) yTitle = config.yTitle;
-        if (config.xTitle) {
-            if (config.xTitle != '') xTitle = config.xTitle;
-        }
+        if (config.xTitle != '') xTitle = config.xTitle;
+
         
         // Grab the data 
         let xaxis = [];
         let seriesData = [];
-        
-        console.log('piviot = ', pivot);
-
         if (pivot == false) {
 
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -285,8 +281,14 @@ looker.plugins.visualizations.add({
         console.log('Series data', seriesData);
 
 
-        // Stacked Bar
         let height = window.innerHeight - 45;
+        // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
+        let columnWidth = '55';
+        if (config.columnWidth) columnWidth = config.columnWidth;
+        columnWidth.toString();
+        columnWidth = columnWidth + '%';
+
+        // Stacked Bar
         var options4 = {
             chart: {
                 height: height,

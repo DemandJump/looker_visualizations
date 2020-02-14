@@ -214,30 +214,15 @@ looker.plugins.visualizations.add({
 
         if (changed) this.trigger('registerOptions', this.options);
 
-        if (config.title) {
-            if (config.title != ``) title = config.title;
-            if (config.showTitle) showTitle = config.showTitle;
-        }
-        if (config.yTitle) {
-            if (config.yTitle != ``) yTitle = config.yTitle;
-        }
-        if (config.xTitle) {
-            if (config.xTitle != ``) xTitle = config.xTitle;
-        }
-
-        // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
-        let columnWidth = '55';
-        if (config.columnWidth) columnWidth = config.columnWidth;
-        columnWidth.toString();
-        columnWidth = columnWidth + '%';
+        if (config.title != ``) title = config.title;
+        if (config.showTitle) showTitle = config.showTitle;
+        if (config.yTitle != ``) yTitle = config.yTitle;
+        if (config.xTitle != ``) xTitle = config.xTitle;
 
 
         // Grab the data 
         let xaxis = [];
         let seriesData = [];
-        
-        console.log('piviot = ', pivot);
-
         if (pivot == false) {
 
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -283,16 +268,15 @@ looker.plugins.visualizations.add({
         console.log('These are the xaxis labels', xaxis);
         console.log('Series data', seriesData);
 
-    
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
 
+        let height = window.innerHeight - 45;
+        // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
+        let columnWidth = '55';
+        if (config.columnWidth) columnWidth = config.columnWidth;
+        columnWidth.toString();
+        columnWidth = columnWidth + '%';
 
         // Column
-        let height = window.innerHeight - 45;
         let columnChartConfiguration = {
             chart: {
                 height: height,
@@ -346,6 +330,13 @@ looker.plugins.visualizations.add({
         };
         if (showTitle == false) delete columnChartConfiguration[`title`];
 
+
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
+        
         let chart = new ApexCharts(
             document.querySelector("#chart-apex-column"),
             columnChartConfiguration
