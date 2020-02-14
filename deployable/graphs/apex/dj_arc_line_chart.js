@@ -189,7 +189,7 @@ looker.plugins.visualizations.add({
         let showLegend = true;
         let showX = false;
         let showY = false;
-        let aspectRatio = false;
+        let aspectRatio = true;
         let formatDates = true;
 
         if (theme == `xaxis`) showX = true;
