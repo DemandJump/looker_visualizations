@@ -156,6 +156,7 @@ looker.plugins.visualizations.add({
         console.log(`This is the config`, config);
         console.log(`Queryresponse`, queryResponse);
         console.log(`Data`, data);
+        let pivot = false;
         let datum = data;
         // datum.forEach(row => {
         //     for(let i = 0; i < row.length; i++) {
@@ -170,6 +171,7 @@ looker.plugins.visualizations.add({
         
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
+            pivot = true;
             queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
             queryResponse.fields.dimension_like = queryResponse.fields.pivots;
         }
@@ -245,40 +247,68 @@ looker.plugins.visualizations.add({
         // Grab the data
         let labels = [];
         let dataset = [];
-        let format = `category`;
-        let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
-        if (formatChecker.length == 10 && formatChecker[4] == `-` && formatChecker[7] == `-`) format = `datetime`;
 
-        // Labels
-        if (format == `datetime` && formatDates == true) datum.forEach(row => {
-            let sameMonthChecker = checkIfSameMonth();
-            if (sameMonthChecker) { 
-                labels.push(row[queryResponse.fields.dimension_like[0].name].value);
-            } else {
-                labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value))
+        if (!pivot) {
+            let format = `category`;
+            let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+            if (formatChecker.length == 10 && formatChecker[4] == `-` && formatChecker[7] == `-`) format = `datetime`;
+    
+            // Labels
+            if (format == `datetime` && formatDates == true) datum.forEach(row => {
+                let sameMonthChecker = checkIfSameMonth();
+                if (sameMonthChecker) { 
+                    labels.push(row[queryResponse.fields.dimension_like[0].name].value);
+                } else {
+                    labels.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value))
+                }
+    
+            });
+            else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
+    
+    
+            // Data
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let obj = {
+                    label: queryResponse.fields.measure_like[i].label,
+                    backgroundColor: colors[i],
+                    borderColor: colors[i],
+                    data: [],
+                    fill: false
+                };
+                dataset.push(obj);
             }
+            datum.forEach(row => {
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+            });
 
-        });
-        else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
+        } else {
+            // Labels
+            queryResponse.pivots.forEach(p => {
+                if (p.metadata.rendered) {
+                    if (p.metadata.rendered != null) labels.push(p.metadata.rendered);
+                } 
+                else labels.push(p.key);
+            });
 
-
-        // Data
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let obj = {
-                label: queryResponse.fields.measure_like[i].label,
-                backgroundColor: colors[i],
-                borderColor: colors[i],
-                data: [],
-                fill: false
-            };
-            dataset.push(obj);
+            // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+            queryResponse.fields.measure_like.forEach(row => {
+                let obData = [];
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let keyname = queryResponse.pivots[i].key;
+                    let value = datum[0][row.name][keyname].value;
+                    obData.push(value);
+                }
+                
+                let obj = {
+                    name: row.label,
+                    data: obData
+                }
+                dataset.push(obj);
+            });
         }
-        datum.forEach(row => {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) dataset[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
-        });
 
         console.log(`labels`, labels);
-        console.log(`Dataset`, dataset);
+        console.log(`Dataset`, dataset); 
 
 
         // Graph configuration

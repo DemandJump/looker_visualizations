@@ -308,8 +308,8 @@ looker.plugins.visualizations.add({
                     }
                 });
             }
-        } else {
 
+        } else {
             // Labels
             queryResponse.pivots.forEach(p => {
                 if (p.metadata.rendered) {
@@ -333,6 +333,7 @@ looker.plugins.visualizations.add({
                 }
                 seriesData.push(obj);
             });
+
         }
 
     

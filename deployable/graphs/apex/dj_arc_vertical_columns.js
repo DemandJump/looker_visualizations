@@ -352,6 +352,47 @@ looker.plugins.visualizations.add({
         );
         // Apex Charts Init
         if (document.getElementById('chart-apex-column')) chart.render();
+
+
+
+
+        // Functions
+        function convertDateTime(val) {
+            let day = val.substr(0, 4);
+            let month = val.substr(5, 2);
+            let year = val.substr(8, 2);
+
+            if(month == 1) mon = `Jan`;
+            if(month == 2) mon = `Feb`;
+            if(month == 3) mon = `Mar`;
+            if(month == 4) mon = `Apr`;
+            if(month == 5) mon = `May`;
+            if(month == 6) mon = `Jun`;
+            if(month == 7) mon = `Jul`;
+            if(month == 8) mon = `Aug`;
+            if(month == 9) mon = `Sep`;
+            if(month == 10) mon = `Oct`;
+            if(month == 11) mon = `Nov`;
+            if(month == 12) mon = `Dec`;
+            
+            let ret = `${day} ${mon}`; // `${day} ${mon} ${year}`
+            return ret;
+        }
+
+        function checkIfSameMonth() {
+            let yes = false;
+            let month = ``;
+            let prevMonth = ``;
+            datum.forEach(row => {
+                let val = row[queryResponse.fields.dimension_like[0].name].value;
+                month = val.substr(5, 2);
+
+                if (month == prevMonth) yes = true;
+                prevMonth = month; 
+            });
+
+            return yes;
+        }
         /**************** Done! *****************/
         doneRendering(); 
     }
