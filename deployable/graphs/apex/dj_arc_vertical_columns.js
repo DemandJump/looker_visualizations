@@ -238,7 +238,7 @@ looker.plugins.visualizations.add({
         
         console.log('piviot = ', pivot);
 
-        if (!pivot) {
+        if (pivot == false) {
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
                 seriesData.push(obj);
