@@ -237,27 +237,53 @@ looker.plugins.visualizations.add({
         // Grab the data 
         let xaxis = [];
         let seriesData = [];
-        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
-            seriesData.push(obj);
-        }
+        
+        console.log('piviot = ', pivot);
 
-        datum.forEach(row => {
-            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-            else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+        if (pivot == false) {
 
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
+                seriesData.push(obj);
             }
-        });
+
+            datum.forEach(row => {
+                if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+    
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                }
+            });
+        } else {
+
+            // Labels
+            queryResponse.pivots.forEach(p => {
+                if (p.metadata.rendered) {
+                    if (p.metadata.rendered != null) xaxis.push(p.metadata.rendered);
+                } else {
+                    xaxis.push(p.key);
+                }
+            });
+
+            // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+            queryResponse.fields.measure_like.forEach(row => {
+                let obData = [];
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let keyname = queryResponse.pivots[i].key;
+                    let value = datum[0][row.name][keyname].value;
+                    obData.push(value);
+                }
+                
+                let obj = {
+                    name: row.label,
+                    data: obData
+                }
+                seriesData.push(obj);
+            }); 
+        }
+        console.log('These are the xaxis labels', xaxis);
         console.log('Series data', seriesData);
-
-
-        // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
 
 
         // Stacked Bar
@@ -318,7 +344,13 @@ looker.plugins.visualizations.add({
         if (showTitle == false) delete options4[`title`];
 
 
-        var chart4 = new ApexCharts(
+        // Apex Charts
+        window.Apex = {
+            dataLabels: {enabled: false},
+            stroke: {width: 2}
+        };
+
+        let chart4 = new ApexCharts(
             document.querySelector("#chart-apex-stacked"),
             options4
         );
