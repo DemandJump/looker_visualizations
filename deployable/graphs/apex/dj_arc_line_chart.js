@@ -207,7 +207,7 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = true;
                 this.options.showX.hidden = true;
                 this.options.showY.hidden = true;
-                this.options.aspectRatio.hidden = true;
+                // this.options.aspectRatio.hidden = true;
                 this.options.formatDates.hidden = true;
             }
             showLegend = true;
@@ -223,7 +223,7 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = false;
                 this.options.showX.hidden = false;
                 this.options.showY.hidden = false;
-                this.options.aspectRatio.hidden = false;
+                // this.options.aspectRatio.hidden = false;
                 this.options.formatDates.hidden = false;
             }
 
@@ -231,7 +231,7 @@ looker.plugins.visualizations.add({
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.showX) showX = config.showX;
             if (config.showY) showY = config.showY;
-            if (config.aspectRatio) aspectRatio = config.aspectRatio;
+            // if (config.aspectRatio) aspectRatio = config.aspectRatio;
             if (config.formatDates) formatDates = config.formatDates;
         }
         if (changed) this.trigger(`registerOptions`, this.options);

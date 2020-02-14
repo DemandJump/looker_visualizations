@@ -247,7 +247,7 @@ looker.plugins.visualizations.add({
                     seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 }
             });
-            
+
         } else {
             // Labels
             queryResponse.pivots.forEach(p => {
@@ -295,7 +295,7 @@ looker.plugins.visualizations.add({
                 bar: {
                     horizontal: horizontal,
                     endingShape: endingShape, // Arrow, rounded, flat
-                    columnWidth: '55%',
+                    columnWidth: columnWidth,
                 },
             },
             dataLabels: {

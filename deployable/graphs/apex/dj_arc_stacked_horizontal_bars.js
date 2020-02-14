@@ -291,12 +291,6 @@ looker.plugins.visualizations.add({
 
 
         let height = window.innerHeight - 45;
-        // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
-        let columnWidth = '55';
-        if (config.columnWidth) columnWidth = config.columnWidth;
-        columnWidth.toString();
-        columnWidth = columnWidth + '%';
-
         // Stacked Bar
         var options4 = {
             chart: {
