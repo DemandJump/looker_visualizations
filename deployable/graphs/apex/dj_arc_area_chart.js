@@ -129,6 +129,15 @@ looker.plugins.visualizations.add({
             type: `boolean`,
             default: true,
             hidden: false
+        },
+        
+        formatDates: {
+            label: `Abbreviate datetime values`, 
+            order: 13,
+            section: `Format`,
+            type: `boolean`,
+            default: true, 
+            hidden: false
         }
 
     },
@@ -187,6 +196,7 @@ looker.plugins.visualizations.add({
         let curve = `straight`;
         let dataLabels = false;
         let alignLegend = `center`;
+        let formatDates = true;
         
         if (config.label) label = config.label;
         if (config.title) {
@@ -202,6 +212,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = true;
                 this.options.alignLegend.hidden = true;
                 this.options.renderedData.hidden = true;
+                this.options.formatDates.hidden = true;
                 changed = true;
             }
         }
@@ -214,6 +225,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = false;
                 this.options.alignLegend.hidden = false;
                 this.options.renderedData.hidden = false;
+                this.options.formatDates.hidden = false; 
                 changed = true;
             }
 
@@ -221,6 +233,7 @@ looker.plugins.visualizations.add({
             if (config.dataLabels) dataLabels = config.dataLabels;
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.renderedData) rendered = config.renderedData;
+            if (config.formatDates) formatDates = config.formatDates;
         }
 
         if (changed) this.trigger(`registerOptions`, this.options);
@@ -263,9 +276,17 @@ looker.plugins.visualizations.add({
                 categoryData.push(obj);
             }
 
-            datum.forEach(row => {
-                xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+            // Labels
+            if (format == `datetime` && formatDates == true) datum.forEach(row => {
+                let sameMonthChecker = checkIfSameMonth();
+                if (sameMonthChecker) { 
+                    xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                } else {
+                    xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value))
+                }
+
             });
+            else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
 
             if (format == `cateogry`) {
                 datum.forEach(row => {
@@ -387,6 +408,44 @@ looker.plugins.visualizations.add({
         // Apex Charts Init
         if (document.getElementById(`chart-apex-area`)) {
             chart.render();
+        }
+
+        // Functions
+        function convertDateTime(val) {
+            let day = val.substr(0, 4);
+            let month = val.substr(5, 2);
+            let year = val.substr(8, 2);
+
+            if(month == 1) mon = `Jan`;
+            if(month == 2) mon = `Feb`;
+            if(month == 3) mon = `Mar`;
+            if(month == 4) mon = `Apr`;
+            if(month == 5) mon = `May`;
+            if(month == 6) mon = `Jun`;
+            if(month == 7) mon = `Jul`;
+            if(month == 8) mon = `Aug`;
+            if(month == 9) mon = `Sep`;
+            if(month == 10) mon = `Oct`;
+            if(month == 11) mon = `Nov`;
+            if(month == 12) mon = `Dec`;
+            
+            let ret = `${day} ${mon}`; // `${day} ${mon} ${year}`
+            return ret;
+        }
+
+        function checkIfSameMonth() {
+            let yes = false;
+            let month = ``;
+            let prevMonth = ``;
+            datum.forEach(row => {
+                let val = row[queryResponse.fields.dimension_like[0].name].value;
+                month = val.substr(5, 2);
+
+                if (month == prevMonth) yes = true;
+                prevMonth = month; 
+            });
+
+            return yes;
         }
         /**************** Done! *****************/
         doneRendering(); 
