@@ -223,23 +223,32 @@ looker.plugins.visualizations.add({
         // Grab the data 
         let xaxis = [];
         let seriesData = [];
-        if (pivot == false) {
-
+        
+        if (!pivot) {
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
                 seriesData.push(obj);
             }
 
+            let sameMonthChecker = true; 
+            let format = `category`;
+            let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+            if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
+            if (format == `datetime`) sameMonthChecker = checkIfSameMonth();
+
             datum.forEach(row => {
-                if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                if (format == `datetime` && !sameMonthChecker) xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value));
+                else {
+                    if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                }
     
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 }
             });
+            
         } else {
-
             // Labels
             queryResponse.pivots.forEach(p => {
                 if (p.metadata.rendered) {
@@ -336,7 +345,7 @@ looker.plugins.visualizations.add({
             dataLabels: {enabled: false},
             stroke: {width: 2}
         };
-        
+
         let chart = new ApexCharts(
             document.querySelector("#chart-apex-column"),
             columnChartConfiguration

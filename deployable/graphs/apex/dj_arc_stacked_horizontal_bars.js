@@ -235,23 +235,32 @@ looker.plugins.visualizations.add({
         // Grab the data 
         let xaxis = [];
         let seriesData = [];
-        if (pivot == false) {
-
+        
+        if (!pivot) {
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
                 seriesData.push(obj);
             }
 
+            let sameMonthChecker = true; 
+            let format = `category`;
+            let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+            if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
+            if (format == `datetime`) sameMonthChecker = checkIfSameMonth();
+
             datum.forEach(row => {
-                if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                if (format == `datetime` && !sameMonthChecker) xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value));
+                else {
+                    if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                }
     
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
                 }
             });
-        } else {
 
+        } else {
             // Labels
             queryResponse.pivots.forEach(p => {
                 if (p.metadata.rendered) {
@@ -358,7 +367,48 @@ looker.plugins.visualizations.add({
         );
         // Apex Charts Init
         if (document.getElementById('chart-apex-stacked')) chart4.render();
-                /**************** Done! *****************/
+
+
+
+
+        // Functions
+        function convertDateTime(val) {
+            let day = val.substr(0, 4);
+            let month = val.substr(5, 2);
+            let year = val.substr(8, 2);
+
+            if(month == 1) mon = `Jan`;
+            if(month == 2) mon = `Feb`;
+            if(month == 3) mon = `Mar`;
+            if(month == 4) mon = `Apr`;
+            if(month == 5) mon = `May`;
+            if(month == 6) mon = `Jun`;
+            if(month == 7) mon = `Jul`;
+            if(month == 8) mon = `Aug`;
+            if(month == 9) mon = `Sep`;
+            if(month == 10) mon = `Oct`;
+            if(month == 11) mon = `Nov`;
+            if(month == 12) mon = `Dec`;
+            
+            let ret = `${day} ${mon}`; // `${day} ${mon} ${year}`
+            return ret;
+        }
+
+        function checkIfSameMonth() {
+            let yes = false;
+            let month = ``;
+            let prevMonth = ``;
+            datum.forEach(row => {
+                let val = row[queryResponse.fields.dimension_like[0].name].value;
+                month = val.substr(5, 2);
+
+                if (month == prevMonth) yes = true;
+                prevMonth = month; 
+            });
+
+            return yes;
+        }
+        /**************** Done! *****************/
         doneRendering(); 
     }
 });

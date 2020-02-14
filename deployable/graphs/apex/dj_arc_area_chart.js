@@ -265,7 +265,7 @@ looker.plugins.visualizations.add({
         let seriesData = [];
         let categoryData = [];
         
-        if (pivot == false) {
+        if (pivot) {
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
@@ -277,15 +277,14 @@ looker.plugins.visualizations.add({
             }
 
             // Labels
-            if (format == `datetime` && formatDates == true) datum.forEach(row => {
-                let sameMonthChecker = checkIfSameMonth(pivot);
-                if (sameMonthChecker) { 
-                    xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-                } else {
-                    xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value))
-                }
+            if (format == `datetime` && formatDates == true) {
+                let sameMonthChecker = checkIfSameMonth();
+                datum.forEach(row => {
+                    if (sameMonthChecker) xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                    else xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value));
 
-            });
+                });
+            }
             else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
 
             if (format == `cateogry`) {
@@ -313,15 +312,10 @@ looker.plugins.visualizations.add({
 
             // Labels
             queryResponse.pivots.forEach(p => {
-                let retVal;
                 if (p.metadata.rendered) {
-                    if (p.metadata.rendered != null) retVal = p.metadata.rendered;
+                    if (p.metadata.rendered != null) xaxis.push(p.metadata.rendered);
                 } 
-                else retVal = p.key;
-
-                let formatDates = checkIfSameMonth(pivot);
-                if (retVal.length == 10 && retVal[4] == '-' && retVal[7] == '-') format = `datetime`;
-
+                else xaxis.push(p.key);
             });
 
             // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
@@ -438,30 +432,19 @@ looker.plugins.visualizations.add({
             return ret;
         }
 
-        function checkIfSameMonth(pivot) {
+        function checkIfSameMonth() {
             let yes = false;
             let month = ``;
             let prevMonth = ``;
+            datum.forEach(row => {
+                let val = row[queryResponse.fields.dimension_like[0].name].value;
+                month = val.substr(5, 2);
 
-            if (pivot == true) {
-                queryResponse.pivots.forEach(row => {
-                    let val = row[0].key;
-                    month = val.substr(5, 2);
+                if (month == prevMonth) yes = true;
+                prevMonth = month; 
+            });
 
-                    if (month == prevMonth) yes = true;
-                    prevMonth = month;
-                });
-            } else {
-                datum.forEach(row => {
-                    let val = row[queryResponse.fields.dimension_like[0].name].value;
-                    month = val.substr(5, 2);
-    
-                    if (month == prevMonth) yes = true;
-                    prevMonth = month; 
-                });
-    
-                return yes;
-            }
+            return yes;
         }
         /**************** Done! *****************/
         doneRendering(); 
