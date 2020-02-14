@@ -409,6 +409,7 @@ looker.plugins.visualizations.add({
         if (document.getElementById(`chart-apex-area`)) {
             chart.render();
         }
+        
 
         // Functions
         function convertDateTime(val) {
