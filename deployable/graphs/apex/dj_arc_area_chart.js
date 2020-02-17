@@ -259,6 +259,7 @@ looker.plugins.visualizations.add({
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.renderedData) rendered = config.renderedData;
             if (config.formatDates) formatDates = config.formatDates;
+            if (config.stack) stack = config.stack;
         }
 
         if (changed) this.trigger(`registerOptions`, this.options);
@@ -379,8 +380,6 @@ looker.plugins.visualizations.add({
                     seriesData.push(obj);
                 }
 
-                console.log('This is stack', stack);
-                console.log('This is overlay', config.stack);
                 // Series data
                 if (stack == `overlay`) {
                     datum.forEach(row => {
