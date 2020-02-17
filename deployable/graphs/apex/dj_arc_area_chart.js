@@ -487,19 +487,20 @@ looker.plugins.visualizations.add({
 
         let axisElements = $(".apexcharts-xaxis-texts-g");
         let tooltip = $(".apexcharts-tooltip");
-        console.log('This is the jquery reference to the axis element', axisElements);
         console.log('Here are the children', axisElements[0].children);
 
         datum.forEach((row, index) => {
-            axisElements[0].children[index].onclick = function(event) {
-                let links = row[queryResponse.fields.dimension_like[0].name].links;
-                console.log('These are the links', links);
-                LookerCharts.Utils.openDrillMenu({
-                    links: row[queryResponse.fields.dimension_like[0].name].links,
-                    event: event
-                });
-            }
-        })
+            let links = row[queryResponse.fields.dimension_like[0].name].links;
+            axisElements[0].children[index].addEventListener("click", lookerDrill(links));
+        });
+
+        function lookerDrill(links) {
+            console.log('These are the links', links);
+            LookerCharts.Utils.openDrillMenu({
+                links: row[queryResponse.fields.dimension_like[0].name].links,
+                event: event
+            });
+        }
 
         // document.getElementsByClassName('apexcharts-xaxis')[0]
         //     .addEventListener('click', function (event) {
