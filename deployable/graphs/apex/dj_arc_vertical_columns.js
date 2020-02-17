@@ -278,7 +278,7 @@ looker.plugins.visualizations.add({
                     seriesData.push(obj);
                 }); 
             }
-
+      
             if (pivotB) {
                 // Labels
                 datum.forEach(row => {
@@ -287,10 +287,8 @@ looker.plugins.visualizations.add({
                 });
 
                 // Series Object
-                for(let i = 0; i < queryResponse.pivotTableColumns.length; i++) {
-                    let name;
-                    if (queryResponse.pivotTableColumns[i].data[queryResponse.fields.pivots[0].name].value) name = queryResponse.pivotTableColumns[i].data[queryResponse.fields.pivots[0].name].value;
-                    else name = queryResponse.pivotTableColumns[i].key;
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.pivots[0].name].value;
                     let obj = {
                         name: name,
                         data: []
