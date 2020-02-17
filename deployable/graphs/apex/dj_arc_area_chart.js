@@ -175,6 +175,7 @@ looker.plugins.visualizations.add({
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
+        let d3 = d3v5;
         let node = document.getElementById(`chart-apex-area`);
         while(node.firstChild) node.firstChild.remove();
         console.log(`\n\n\n\nThese are the settings`, this.options);
