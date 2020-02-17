@@ -490,14 +490,13 @@ looker.plugins.visualizations.add({
         console.log('Here are the children', axisElements[0].children);
 
         datum.forEach((row, index) => {
-            let links = row[queryResponse.fields.dimension_like[0].name].links;
-            axisElements[0].children[index].addEventListener("click", lookerDrill(links));
+            axisElements[0].children[index].addEventListener("click", lookerDrill(row[queryResponse.fields.dimension_like[0].name].links));
         });
 
         function lookerDrill(links) {
             console.log('These are the links', links);
             LookerCharts.Utils.openDrillMenu({
-                links: row[queryResponse.fields.dimension_like[0].name].links,
+                links: links,
                 event: event
             });
         }
