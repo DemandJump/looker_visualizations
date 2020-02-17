@@ -62,6 +62,20 @@ looker.plugins.visualizations.add({
         //     hidden: false
         // },
 
+        stack: {
+            label: `Series positioning`,
+            order: 5,
+            section: `Format`,
+            type: `string`,
+            display: `radio`,
+            values: [
+                {"Overlay": "overlay"},
+                {"Stack": "stack"}
+            ],
+            default: `overlay`,
+            hidden: false
+        },
+
 
         customSpacing: {
             order: 8,
@@ -204,6 +218,7 @@ looker.plugins.visualizations.add({
         let rendered = true; 
         let label = ` `;
         let curve = `straight`;
+        let stack = `overlay`;
         let dataLabels = false;
         let alignLegend = `center`;
         let formatDates = true;
@@ -365,11 +380,26 @@ looker.plugins.visualizations.add({
                 }
 
                 // Series data
-                datum.forEach(row => {
+                if (stack == `overlay`) {
+                    datum.forEach(row => {
+                        for(let i = 0; i < queryResponse.pivots.length; i++) {
+                            seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                        }
+                    });
+                }
+                if (stack == `stack`) {
+                    let series = []; 
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                        datum.forEach((row, index) => {
+                            if (i == 0) {
+                                series.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                            } else {
+                                let value = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                            }
+                        });
+                        seriesData[i].data = series;
                     }
-                });
+                }
             }
         }
 
