@@ -144,6 +144,10 @@ looker.plugins.visualizations.add({
     create: function(element, config) {
         this._custom = ``;
         element.innerHTML = `
+            <style>
+            @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+            * { font-family: 'Roboto' !important; }
+            </style>
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">

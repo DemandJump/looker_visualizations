@@ -147,6 +147,10 @@ looker.plugins.visualizations.add({
     create: function(element, config) {
         this._custom = ``;
         element.innerHTML = `
+            <style>
+            @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+            * { font-family: 'Roboto' !important; }
+            </style>
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
@@ -251,7 +255,7 @@ looker.plugins.visualizations.add({
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.showX) showX = config.showX;
             if (config.showY) showY = config.showY;
-            // if (config.aspectRatio) aspectRatio = config.aspectRatio;
+            if (config.aspectRatio) aspectRatio = config.aspectRatio;
             if (config.formatDates) formatDates = config.formatDates;
             if (config.fillLines) fillLines = config.fillLines;
         }
