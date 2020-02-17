@@ -492,6 +492,8 @@ looker.plugins.visualizations.add({
 
         datum.forEach((row, index) => {
             axisElements[0].children[index].onclick = function(event) {
+                let links = row[queryResponse.fields.dimension_like[0].name].links;
+                console.log('These are the links', links);
                 LookerCharts.Utils.openDrillMenu({
                     links: row[queryResponse.fields.dimension_like[0].name].links,
                     event: event
