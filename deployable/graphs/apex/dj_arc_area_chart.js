@@ -492,15 +492,20 @@ looker.plugins.visualizations.add({
         datum.forEach((row, index) => {
             // console.log('This is teh axis element child', axisElements[0].children[index]);
             // console.log('This is the span element', axisElements[0].children[index].firstChild);
-            axisElements[0].children[index].firstChild.onclick = function(event) {
-                console.log('This is the event', event);
-                console.log('These are the links', links);
-                LookerCharts.Utils.openDrillMenu({ 
-                    links: row[queryResponse.fields.dimension_like[0].name].links,
-                    event: event
-                });
-            }
+            let span = axisElements[0].children[index].firstChild;
+            let links = row[queryResponse.fields.dimension_like[0].name].links;
+            span.addEventListener('click', drillDown(span, links));
         });
+
+
+        function drillDown(element, links) {
+            console.log('\nelement', element);
+            console.log('links', links);
+            LookerCharts.Utils.openDrillMenu({ 
+                links: elements,
+                event: links
+            });
+        }
 
         // document.getElementsByClassName('apexcharts-xaxis')[0]
         //     .addEventListener('click', function (event) {
