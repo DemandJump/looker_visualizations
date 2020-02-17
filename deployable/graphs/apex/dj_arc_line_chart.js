@@ -166,6 +166,8 @@ looker.plugins.visualizations.add({
         console.log(`Queryresponse`, queryResponse);
         console.log(`Data`, data);
         let pivot = false;
+        let pivotA = false;
+        let pivotB = false;
         let datum = data;
         // datum.forEach(row => {
         //     for(let i = 0; i < row.length; i++) {
@@ -181,8 +183,12 @@ looker.plugins.visualizations.add({
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
             pivot = true;
-            queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
-            queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+            if (queryResponse.fields.dimension_like.length == 0) {
+                pivotA = true;
+                queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+                queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+            } 
+            else pivotB = true;
         }
         
         let theme = `classic`;
