@@ -490,21 +490,14 @@ looker.plugins.visualizations.add({
         console.log('Here are the children', axisElements[0].children);
 
         datum.forEach((row, index) => {
-            // console.log('This is teh axis element child', axisElements[0].children[index]);
-            // console.log('This is the span element', axisElements[0].children[index].firstChild);
-            let span = axisElements[0].children[index];
             let id = axisElements[0].children[index].id;
-            console.log('This is the element id', id);
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
-            // span.addEventListener('click', drillDown(span, links));
             idElem.addEventListener('click', drillDown(idElem, links));
         });
 
 
         function drillDown(element, links) {
-            console.log('\nelement', element);
-            console.log('links', links);
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
                 event: element
