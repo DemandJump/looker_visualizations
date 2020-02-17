@@ -316,7 +316,7 @@ looker.plugins.visualizations.add({
                 // Series data
                 datum.forEach(row => {
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        seriesData.data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                        seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
                     }
                 });
             }
