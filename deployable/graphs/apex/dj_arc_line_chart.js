@@ -117,14 +117,14 @@ looker.plugins.visualizations.add({
             hidden: false 
         },
 
-        // aspectRatio: {
-        //     label: `Maintain aspect ratio`,
-        //     order: 13,
-        //     section: `Format`,
-        //     type: `boolean`,
-        //     default: true,
-        //     hidden: false
-        // },
+        aspectRatio: {
+            label: `Maintain aspect ratio`,
+            order: 13,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: true
+        },
 
         formatDates: {
             label: `Abbreviate datetime values`, 
@@ -141,7 +141,7 @@ looker.plugins.visualizations.add({
             section: `Format`,
             type: `boolean`,
             default: true,
-            hidden: false
+            hidden: true
         }
     },
     create: function(element, config) {
@@ -225,7 +225,8 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = true;
                 this.options.showX.hidden = true;
                 this.options.showY.hidden = true;
-                // this.options.aspectRatio.hidden = true;
+                this.options.aspectRatio.hidden = true;
+                this.options.fillLines.hidden = true;
                 this.options.formatDates.hidden = true;
             }
             showLegend = true;
@@ -241,7 +242,8 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = false;
                 this.options.showX.hidden = false;
                 this.options.showY.hidden = false;
-                // this.options.aspectRatio.hidden = false;
+                this.options.aspectRatio.hidden = false;
+                this.options.fillLines.hidden = false;
                 this.options.formatDates.hidden = false;
             }
 
