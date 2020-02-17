@@ -342,32 +342,37 @@ looker.plugins.visualizations.add({
                 });
             }
 
+            
             if (pivotB) {
-                // Series object
+                // Labels
+                datum.forEach(row => {
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                });
+
+                // Series Object
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
                     let obj = {
-                        name: queryResponse.pivots[i].key,
+                        name: name,
                         data: []
                     };
-                    obj.push(seriesData);
+                    seriesData.push(obj);
                 }
 
-                // Labels and data
+                // Series data
                 datum.forEach(row => {
-                    if (row[queryResponse.fields.dimension_like[o].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        seriesData[i].data.push(row[queryResponse.fields.dimension_like[0].name][queryResponse.pivots[i].key].value);
+                        seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
                     }
                 });
             }
-
         }
 
     
         if (format == `yyyy`) {
             console.log(`Category data`, categoryData);
+            console.log(`xaxis data`, xaxis);
             configuration[`series`] = categoryData;
             configuration[`xaxis`] = {
                 type: `datetime`,
