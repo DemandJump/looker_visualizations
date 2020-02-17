@@ -483,7 +483,10 @@ looker.plugins.visualizations.add({
 
 
         let axisElements = $(".apexcharts-xaxis");
-        console.log('This is the axis element', axisElements);
+        console.log('This is the jquery reference to the axis element', axisElements);
+
+        let axisElement = document.getElementsByClassName('apexcharts-xaxis');
+        console.log('This is the reference to the axis element', axisElement);
 
         document.getElementsByClassName('apexcharts-xaxis').addEventListener('click', function (event) {
             // do something
