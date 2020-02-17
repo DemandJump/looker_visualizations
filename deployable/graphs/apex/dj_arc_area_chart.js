@@ -488,11 +488,15 @@ looker.plugins.visualizations.add({
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let tooltip = $(".apexcharts-tooltip");
         console.log('Here are the children', axisElements[0].children);
+        console.log('This is tooltip', tooltip);
+
 
         datum.forEach((row, index) => {
             let id = axisElements[0].children[index].id;
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
+
+            console.log('This is the innerhtml of the current element', axisElements[0].children[index].innerHtml);
             idElem.addEventListener('click', drillDown(idElem, links));
         });
 
