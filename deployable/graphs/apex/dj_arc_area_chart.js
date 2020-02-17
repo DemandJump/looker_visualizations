@@ -496,7 +496,7 @@ looker.plugins.visualizations.add({
             let id = axisElements[0].children[index].id;
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
-            idElem.addEventListener('click', drillDown(axisElements[0].children[index].firstChild, links));
+            idElem.addEventListener('click', drillDown(axisElements[0].children[index].lastElementChild, links));
         });
 
 
