@@ -391,14 +391,16 @@ looker.plugins.visualizations.add({
                 if (stack == `stack`) {
                     let series = []; 
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let newSeries = [];
                         datum.forEach((row, index) => {
                             if (i == 0) {
                                 series.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
                             } else {
-                                series[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                                newSeries[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
                             }
                         });
-                        seriesData[i].data = series;
+                        if (i == 0) seriesData[i].data = series;
+                        seriesData[i].data = newSeries;
                     }
                 }
             }
