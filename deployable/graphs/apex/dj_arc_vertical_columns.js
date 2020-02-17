@@ -288,7 +288,7 @@ looker.plugins.visualizations.add({
 
                 // Series Object
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
-                    let name = queryResponse.pivots[i].data[queryResponse.pivots[0].name].value;
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name].value;
                     let obj = {
                         name: name,
                         data: []
