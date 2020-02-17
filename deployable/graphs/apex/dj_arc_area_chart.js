@@ -395,7 +395,7 @@ looker.plugins.visualizations.add({
                             if (i == 0) {
                                 series.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
                             } else {
-                                let series[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                                series[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
                             }
                         });
                         seriesData[i].data = series;
