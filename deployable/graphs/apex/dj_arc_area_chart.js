@@ -501,7 +501,7 @@ looker.plugins.visualizations.add({
 
             console.log('This is the current dimension we are on', tooltipTitle);
             for(let i = 1; i < tooltip[0].children.length; i++) {
-                console.log(`Child ${i}`, tootlip[0].children[i].innerHtml);
+                console.log(`Child ${i}`, tooltip[0].children[i].innerHtml);
             }
 
             console.log('This is the innerhtml of the current element', axisElements[0].children[index].innerHtml);
