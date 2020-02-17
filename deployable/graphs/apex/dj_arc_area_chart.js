@@ -500,7 +500,7 @@ looker.plugins.visualizations.add({
             idElem.onclick = function(event) {
                 LookerCharts.Utils.openDrillMenu({
                     links: links,
-                    event: axisElements[0].children[index].firstChild
+                    event: axisElements[0].children[index].lastElementChild
                 });
             }
 
