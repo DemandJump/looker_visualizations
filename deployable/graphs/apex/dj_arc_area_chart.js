@@ -499,8 +499,7 @@ looker.plugins.visualizations.add({
             let rect = idElem.getBoundingClientRect();
             console.log(rect.top, rect.right, rect.bottom, rect.left);
 
-            console.log('This is the innerhtml of the current element', axisElements[0].children[index].innerHtml);
-            idElem.addEventListener('click', drillDown(idElem, links));
+            // idElem.addEventListener('click', drillDown(idElem, links));
         });
 
 
