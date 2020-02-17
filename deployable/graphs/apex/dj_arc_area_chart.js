@@ -379,6 +379,8 @@ looker.plugins.visualizations.add({
                     seriesData.push(obj);
                 }
 
+                console.log('This is stack', stack);
+                console.log('This is overlay', config.stack);
                 // Series data
                 if (stack == `overlay`) {
                     datum.forEach(row => {
@@ -394,7 +396,7 @@ looker.plugins.visualizations.add({
                             if (i == 0) {
                                 series.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
                             } else {
-                                let value = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                                let series[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
                             }
                         });
                         seriesData[i].data = series;
