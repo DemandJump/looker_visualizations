@@ -496,13 +496,8 @@ looker.plugins.visualizations.add({
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
 
-            let tooltipId = tooltip[0].id;
-            let tooltipTitle = tooltip[0].children[0].innerHtml;
-
-            console.log('This is the current dimension we are on', tooltipTitle);
-            for(let i = 1; i < tooltip[0].children.length; i++) {
-                console.log(`Child ${i}`, tooltip[0].children[i].innerHtml);
-            }
+            let rect = idElem.getBoundingClientRect();
+            console.log(rect.top, rect.right, rect.bottom, rect.left);
 
             console.log('This is the innerhtml of the current element', axisElements[0].children[index].innerHtml);
             idElem.addEventListener('click', drillDown(idElem, links));
