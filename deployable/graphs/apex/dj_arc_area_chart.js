@@ -495,7 +495,12 @@ looker.plugins.visualizations.add({
             let links = row[queryResponse.fields.dimension_like[0].name].links;
             // idElem.addEventListener('click', drillDown(idElem, links));
             let element = d3.select(`#${id}`);
-            element.on(`click`, drilldown(idElem, links));
+            element.on(`click`, function() {
+                LookerCharts.Utils.openDrillMenu({
+                    links: links,
+                    event: this
+                });
+            });
         });
 
 
