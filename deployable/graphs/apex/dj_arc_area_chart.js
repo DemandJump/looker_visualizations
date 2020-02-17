@@ -485,7 +485,7 @@ looker.plugins.visualizations.add({
         }
 
 
-        let axisElements = document.getElementByClassName("apexcharts-xaxis-texts-g");
+        let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let tooltip = $(".apexcharts-tooltip");
         console.log('Here are the children', axisElements[0].children);
 
