@@ -154,8 +154,12 @@ looker.plugins.visualizations.add({
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
             pivot = true;
-            queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
-            queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+            if (queryResponse.fields.dimension_like.length == 0) {
+                pivotA = true;
+                queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+                queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+            } 
+            else pivotB = true;
         }
 
 
@@ -249,29 +253,55 @@ looker.plugins.visualizations.add({
             });
 
         } else {
-            // Labels
-            queryResponse.pivots.forEach(p => {
-                if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
-                } 
-                else xaxis.push(p.key);
-            });
+            if (pivotA) {
+                // Labels
+                queryResponse.pivots.forEach(p => {
+                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
+                    } 
+                    else xaxis.push(p.key);
+                });
+    
+                // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+                queryResponse.fields.measure_like.forEach(row => {
+                    let obData = [];
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let keyname = queryResponse.pivots[i].key;
+                        let value = datum[0][row.name][keyname].value;
+                        obData.push(value);
+                    }
+                    
+                    let obj = {
+                        name: row.label,
+                        data: obData
+                    }
+                    seriesData.push(obj);
+                }); 
+            }
 
-            // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-            queryResponse.fields.measure_like.forEach(row => {
-                let obData = [];
+            if (pivotB) {
+                // Labels
+                datum.forEach(row => {
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                });
+
+                // Series Object
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
-                    let keyname = queryResponse.pivots[i].key;
-                    let value = datum[0][row.name][keyname].value;
-                    obData.push(value);
+                    let obj = {
+                        name: queryResponse.pivots[i].key,
+                        data: []
+                    };
+                    seriesData.push(obj);
                 }
-                
-                let obj = {
-                    name: row.label,
-                    data: obData
-                }
-                seriesData.push(obj);
-            }); 
+
+                // Series data
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        seriesData.data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                    }
+                });
+            }
         }
         console.log('These are the xaxis labels', xaxis);
         console.log('Series data', seriesData);

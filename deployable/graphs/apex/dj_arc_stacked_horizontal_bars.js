@@ -310,6 +310,8 @@ looker.plugins.visualizations.add({
                     };
                     seriesData.push(obj);
                 }
+                console.log('This is the xaxis', xaxis);
+                console.log('This is seriesData', seriesData); 
 
                 // Series data
                 datum.forEach(row => {
