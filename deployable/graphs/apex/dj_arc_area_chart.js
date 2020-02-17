@@ -496,7 +496,14 @@ looker.plugins.visualizations.add({
             let id = axisElements[0].children[index].id;
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
-            idElem.addEventListener('click', drillDown(idElem, links));
+            // idElem.addEventListener('click', drillDown(idElem, links));
+            idElem.onclick = function(event) {
+                LookerCharts.Utils.openDrillMenu({
+                    links: links,
+                    event: element
+                });
+            }
+
         });
 
 
