@@ -481,6 +481,16 @@ looker.plugins.visualizations.add({
         }
 
 
+        let axisElements = $(".apexcharts-xaxis");
+        console.log('This is the axis element', axisElements);
+
+        document.getElementsByClassName('apexcharts-xaxis').addEventListener('click', function (event) {
+            // do something
+            console.log('This is the click event', event);
+            
+        });
+
+
         // Functions
         function convertDateTime(val) {
             let day = val.substr(0, 4);
