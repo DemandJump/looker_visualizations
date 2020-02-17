@@ -494,7 +494,7 @@ looker.plugins.visualizations.add({
             // console.log('This is the span element', axisElements[0].children[index].firstChild);
             let span = axisElements[0].children[index].firstChild;
             let links = row[queryResponse.fields.dimension_like[0].name].links;
-            span.addEventListener('click', drillDown(span, links));
+            // span.addEventListener('click', drillDown(span, links));
         });
 
 
