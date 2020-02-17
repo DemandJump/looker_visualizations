@@ -133,6 +133,15 @@ looker.plugins.visualizations.add({
             type: `boolean`,
             default: true, 
             hidden: false
+        },
+
+        fillLines: {
+            label: `Fill line's area`,
+            order: 15,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
         }
     },
     create: function(element, config) {
@@ -191,6 +200,7 @@ looker.plugins.visualizations.add({
         let showY = false;
         let aspectRatio = true;
         let formatDates = true;
+        let fillLines = false;
 
         if (theme == `xaxis`) showX = true;
         if (theme == `yaxis`) showY = true;
@@ -235,6 +245,7 @@ looker.plugins.visualizations.add({
             if (config.showY) showY = config.showY;
             // if (config.aspectRatio) aspectRatio = config.aspectRatio;
             if (config.formatDates) formatDates = config.formatDates;
+            if (config.fillLines) fillLines = config.fillLines;
         }
         if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -282,32 +293,62 @@ looker.plugins.visualizations.add({
             });
 
         } else {
-            // Labels
-            queryResponse.pivots.forEach(p => {
-                if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) labels.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
-                } 
-                else labels.push(p.key);
-            });
+            if (pivotA) {
+                // Labels
+                queryResponse.pivots.forEach(p => {
+                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) labels.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
+                    } 
+                    else labels.push(p.key);
+                });
+    
+                // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+                queryResponse.fields.measure_like.forEach((row, index) => {
+                    let obData = [];
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let keyname = queryResponse.pivots[i].key;
+                        let value = datum[0][row.name][keyname].value;
+                        obData.push(value);
+                    }
+                    
+                    let obj = {
+                        label: row.label,
+                        backgroundColor: colors[index],
+                        borderColor: colors[index],
+                        data: obData,
+                        fill: false
+                    };
+                    dataset.push(obj);
+                });
+            }
+            
+            if (pivotB) {
+                // Labels
+                datum.forEach(row => {
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) labels.push(row[queryResponse.fields.dimension_like[0].name].rendered);
+                    else labels.push(row[queryResponse.fields.dimension_like[0].name].value);
+                });
 
-            // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-            queryResponse.fields.measure_like.forEach((row, index) => {
-                let obData = [];
+                // Series Object
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
-                    let keyname = queryResponse.pivots[i].key;
-                    let value = datum[0][row.name][keyname].value;
-                    obData.push(value);
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+                    let obj = {
+                        label: name,
+                        backgroundColor: colors[i],
+                        borderColor: colors[i],
+                        data: [],
+                        fill: fillLines
+                    };
+                    dataset.push(obj);
                 }
-                
-                let obj = {
-                    label: row.label,
-                    backgroundColor: colors[index],
-                    borderColor: colors[index],
-                    data: obData,
-                    fill: false
-                }
-                dataset.push(obj);
-            });
+
+                // Series data
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        dataset[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                    }
+                });
+            }
         }
 
         console.log(`labels`, labels);
