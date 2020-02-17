@@ -491,6 +491,7 @@ looker.plugins.visualizations.add({
 
         datum.forEach((row, index) => {
             console.log('This is teh axis element child', axisElements[0].children[index]);
+            console.log('This is the span element', axisElements[0].children[index].firstChild);
             axisElements[0].children[index].onclick = function(event) {
                 console.log('This is the event', event);
                 console.log('These are the links', links);
