@@ -399,9 +399,12 @@ looker.plugins.visualizations.add({
                                 newSeries[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
                             }
                         });
-                        if (i == 0) seriesData[i].data = series;
-                        seriesData[i].data = newSeries;
-                        series = newSeries;
+                        if (i == 0) {
+                            seriesData[i].data = series;
+                        } else {
+                            seriesData[i].data = newSeries;
+                            series = newSeries;
+                        }
                     }
                 }
             }
