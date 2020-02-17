@@ -490,6 +490,9 @@ looker.plugins.visualizations.add({
         console.log('Here are the children', axisElements[0].children);
 
         datum.forEach((row, index) => {
+            console.log('This is the element', axisElements[0].children[index]); 
+            console.log('This is the element [0] ', axisElements[0].children[index][0]);
+            console.log('This is the element [1] ', axisElements[0].children[index][1]);
             let id = axisElements[0].children[index].id;
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
