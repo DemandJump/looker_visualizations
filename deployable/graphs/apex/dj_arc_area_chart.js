@@ -507,7 +507,7 @@ looker.plugins.visualizations.add({
             console.log('links', links);
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
-                event: elements
+                event: element
             });
         }
 
