@@ -74,14 +74,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
         
-        legend: {
-            label: `Show legend`,
-            order: 15,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-        },
+        // legend: {
+        //     label: `Show legend`,
+        //     order: 15,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true,
+        //     hidden: false
+        // },
 
         alignLegend: {
             label: `Align legend`,
@@ -135,14 +135,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        fillLines: {
-            label: `Fill line's area`,
-            order: 15,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: true
-        }
+        // fillLines: {
+        //     label: `Fill line's area`,
+        //     order: 15,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true,
+        //     hidden: true
+        // }
     },
     create: function(element, config) {
         this._custom = ``;
@@ -225,12 +225,12 @@ looker.plugins.visualizations.add({
                 changed = true;
                 this.options.customSpacing.hidden = true;
                 this.options.customLabel.hidden = true;
-                this.options.legend.hidden = true;
+                // this.options.legend.hidden = true;
                 this.options.alignLegend.hidden = true;
                 this.options.showX.hidden = true;
                 this.options.showY.hidden = true;
                 this.options.aspectRatio.hidden = true;
-                this.options.fillLines.hidden = true;
+                // this.options.fillLines.hidden = true;
                 this.options.formatDates.hidden = true;
             }
             showLegend = true;
@@ -242,22 +242,22 @@ looker.plugins.visualizations.add({
                 changed = true;
                 this.options.customSpacing.hidden = false;
                 this.options.customLabel.hidden = false;
-                this.options.legend.hidden = false;
+                // this.options.legend.hidden = false;
                 this.options.alignLegend.hidden = false;
                 this.options.showX.hidden = false;
                 this.options.showY.hidden = false;
                 this.options.aspectRatio.hidden = false;
-                this.options.fillLines.hidden = false;
+                // this.options.fillLines.hidden = false;
                 this.options.formatDates.hidden = false;
             }
 
-            if (config.legend) showLegend = config.legend;
+            // if (config.legend) showLegend = config.legend;
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.showX) showX = config.showX;
             if (config.showY) showY = config.showY;
             if (config.aspectRatio) aspectRatio = config.aspectRatio;
             if (config.formatDates) formatDates = config.formatDates;
-            if (config.fillLines) fillLines = config.fillLines;
+            // if (config.fillLines) fillLines = config.fillLines;
         }
         if (changed) this.trigger(`registerOptions`, this.options);
 
