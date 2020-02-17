@@ -287,9 +287,12 @@ looker.plugins.visualizations.add({
                 });
 
                 // Series Object
-                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                for(let i = 0; i < queryResponse.pivotTableColumns.length; i++) {
+                    let name;
+                    if (queryResponse.pivotTableColumns[i].data[queryResponse.fields.pivots[0].name].value) name = queryResponse.pivotTableColumns[i].data[queryResponse.fields.pivots[0].name].value;
+                    else name = queryResponse.pivotTableColumns[i].key;
                     let obj = {
-                        name: queryResponse.pivots[i].key,
+                        name: name,
                         data: []
                     };
                     seriesData.push(obj);

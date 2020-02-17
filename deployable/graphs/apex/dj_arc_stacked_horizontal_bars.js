@@ -313,9 +313,7 @@ looker.plugins.visualizations.add({
                     };
                     seriesData.push(obj);
                 }
-                console.log('This is the xaxis', xaxis);
-                console.log('This is seriesData', seriesData); 
-
+                
                 // Series data
                 datum.forEach(row => {
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
