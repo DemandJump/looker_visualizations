@@ -305,6 +305,8 @@ looker.plugins.visualizations.add({
                 // Series Object
                 for(let i = 0; i < queryResponse.pivots.length; i++) {
                     let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name].value;
+                    console.log('\n\nName: ', name);
+                    console.log('All the data', queryResponse.pivots[i]);
                     let obj = {
                         name: name,
                         data: []
