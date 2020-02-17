@@ -490,6 +490,7 @@ looker.plugins.visualizations.add({
         console.log('Here are the children', axisElements[0].children);
 
         datum.forEach((row, index) => {
+            console.log('This is teh axis element child', axisElements[0].children[index]);
             axisElements[0].children[index].onclick = function(event) {
                 console.log('This is the event', event);
                 console.log('These are the links', links);
