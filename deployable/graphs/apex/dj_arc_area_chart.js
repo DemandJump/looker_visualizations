@@ -490,13 +490,10 @@ looker.plugins.visualizations.add({
         console.log('Here are the children', axisElements[0].children);
 
         datum.forEach((row, index) => {
-            console.log('This is the element', axisElements[0].children[index]); 
-            console.log('This is the element first child', axisElements[0].children[index].firstChild);
-            console.log('This is the element last child', axisElements[0].children[index].lastElementChild);
             let id = axisElements[0].children[index].id;
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
-            idElem.addEventListener('click', drillDown(axisElements[0].children[index].lastElementChild, links));
+            idElem.addEventListener('click', drillDown(idElem, links));
         });
 
 
