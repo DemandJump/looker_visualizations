@@ -401,6 +401,7 @@ looker.plugins.visualizations.add({
                         });
                         if (i == 0) seriesData[i].data = series;
                         seriesData[i].data = newSeries;
+                        series = newSeries;
                     }
                 }
             }
@@ -487,7 +488,7 @@ looker.plugins.visualizations.add({
         document.getElementsByClassName('apexcharts-xaxis').addEventListener('click', function (event) {
             // do something
             console.log('This is the click event', event);
-            
+
         });
 
 
