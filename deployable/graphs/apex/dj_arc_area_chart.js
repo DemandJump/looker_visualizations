@@ -535,18 +535,17 @@ looker.plugins.visualizations.add({
             .style(`width`, d => `${d.width}px`)
             .style(`height`, d => `${d.height}px`)
             .style(`position`, `absolute`)
-            .style(`left`, d => `${d.left}px`)
+            .style(`left`, d => `${d.left + 10}px`)
             .style(`bottom`, d => `${d.bottom}px`)
             .style(`top`, d => `${d.top}px`)
             .style(`right`, d => `${d.right}px`)
             .style(`z-index`, `4`)
-            .style(`transform`, d => {
-                console.log(`rotate type of ${typeof(d.transform)}`);
-                return d.transform;
-            })
+            .style(`transform`, d => d.transform)
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
-            .style(`backgroundColor`, `blue`);
+            .style(`backgroundColor`, `blue`)
+            .html(d => d.text);
+
 
 
 
