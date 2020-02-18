@@ -491,21 +491,29 @@ looker.plugins.visualizations.add({
         console.log(`This is tooltip`, tooltip);
 
         let links = [];
+        let nodes = [];
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
         console.log(`Links: `, links);
 
         let elem = axisElements[0].children;
         for(let i = 0; i < links.length; i++) {
-            console.log(`\nElement ${i}`, elem[i]);
             let ps = elem[i].getBoundingClientRect();
-            let transform = elem[i].attributes.transform.value;
-            let width = document.getElementById(elem[i].id).offsetWidth;
-            let height = document.getElementById(elem[i].id).offsetHeight;
-            let id = `_${elem[i].id}`;
-            let text = elem[i].children[0].innerHTML;
-            console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `text: ${text}`);
-            console.log(`width`, width);
-            console.log(`height`, height);
+            let node = {
+                id: `_${elem[i].id}`,
+                originalId: elem[i].id,
+                width: document.getElementById(elem[i].id).offsetWidth,
+                height: document.getElementById(elem[i].id).offsetHeight,
+                top: ps.top,
+                left: ps.left,
+                bottom: ps.bottom,
+                right: ps.right,
+                transform: elem[i].attributes.transform.value,
+                text: elem[i].children[0].innerHTML,
+                links: links[i]
+            };
+            
+            console.log(`\nElement ${i}`, elem[i]);
+            console.log(`top: ${node.top}, right: ${node.right}, bottom: ${node.bottom}, left: ${node.left}`, node.transform, `width: ${node.width}, height: ${node.height}, text: ${node.text}`);
 
             // Create the element
             let span = document.createElement(`span`);
@@ -525,6 +533,7 @@ looker.plugins.visualizations.add({
             console.log(`This is the new element`, span);
             element.appendChild(span);
         }
+        console.log(`These are the nodes`, nodes);
 
 
         datum.forEach((row, index) => {
