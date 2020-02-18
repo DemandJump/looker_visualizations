@@ -526,7 +526,9 @@ looker.plugins.visualizations.add({
         let container = d3.select(`.container`);
         console.log('This is container', container);
         
-        container.selectAll(`.dimension`).data(nodes).enter().append(`span`)
+        container.selectAll(`.dimension`).data(nodes).enter().append(`span`);
+            
+        conteiner.merge()
             .attr(`class`, `dimension`)
             .attr(`id`, d => {
                 console.log(`This is a node`, d);
