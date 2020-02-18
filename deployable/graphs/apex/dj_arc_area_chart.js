@@ -305,7 +305,7 @@ looker.plugins.visualizations.add({
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
 
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let obj = {name: queryResponse.fields.measure_like[i].label_short, data: []};
+                let obj = {name: queryResponse.fields.measure_like[i].label_short, data: [], links: []};
                 seriesData.push(obj);
                 categoryData.push(obj);
             }
@@ -333,12 +333,14 @@ looker.plugins.visualizations.add({
                         let ob = {};
                         let xVal;
                         let yVal;
+                        let links = row[queryResponse.fields.measure_like[0].name].links;
 
                         if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
                         else xVal = row[queryResponse.fields.dimension_like[0].name].value;
                         yVal = row[queryResponse.fields.measure_like[i].name].value;
                         ob = {x: xVal, y: yVal};
                         categoryData[i].data.push(ob);
+                        categoryData[i].links.push(links);
                     }
                 });
             }
@@ -356,15 +358,18 @@ looker.plugins.visualizations.add({
                 // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
                 queryResponse.fields.measure_like.forEach(row => {
                     let obData = [];
+                    let liData = [];
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
                         let value = datum[0][row.name][keyname].value;
                         obData.push(value);
+                        liData.push(datum[0][row.name][keyname].links);
                     }
                     
                     let obj = {
                         name: row.label,
-                        data: obData
+                        data: obData,
+                        links: liData
                     }
                     seriesData.push(obj);
                 });
@@ -383,13 +388,18 @@ looker.plugins.visualizations.add({
                     let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
                     let obj = {
                         name: name,
-                        data: []
+                        data: [],
+                        links: []
                     };
                     seriesData.push(obj);
                 }
 
                 // Series data
-                if (stack == `overlay`) {
+                datum.forEach(row => { 
+                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
+                });
+
+                if (stack == `overlay`) { 
                     datum.forEach(row => {
                         for(let i = 0; i < queryResponse.pivots.length; i++) {
                             seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
@@ -547,12 +557,28 @@ looker.plugins.visualizations.add({
             .on('click', d => drillDown(d.links, d3.event));
 
 
+
         // Apexcharts-plot-series
         let circleValues = [];
-        let currentDim = documet.getElementsByClassName(`apexcharts-tooltip light`);
+        let currentDim = document.getElementsByClassName(`apexcharts-tooltip light`);
         let currentDimValue = currentDim.children[0].innerHTML;
+        let citeration;
         console.log(`This is the current dimension value`, currentDimValue);
-        queryResponse.fields.pivots.forEach(row => {
+
+        // Link the current date to the corresponding value in every series data set
+        let circleLinks = [];
+        for(let i = 0; i < xaxis.length; i++) {
+            if (xaxis[i] == currentDimValue) citeration = i;
+        }
+        
+        // Grab the links from each of the values on that specific date and pass it into circle links.
+        seriesData.forEach(row => {
+            let val = row.data[i];
+
+        });
+
+
+        queryResponse.fields.pivots.forEach((row, index) => {
             let name = row.data[queryResponse.fields.pivots[0].name];
             name.replace(` `, `-`);
 
@@ -560,7 +586,7 @@ looker.plugins.visualizations.add({
             let ps = holder.getBoundingClientRect();
 
             let data = {
-                index: `set this value`,
+                index: index,
                 id: `_${holder.id}`,
                 originalId: holder.id,
                 width: ps.width,
@@ -569,13 +595,16 @@ looker.plugins.visualizations.add({
                 left: ps.left,
                 bottom: ps.bottom,
                 right: ps.right,
-                links: `set this value`,
+                links: circleLinks[index],
                 element: holder  
             };
             circleValues.push(data);
             console.log(`This is the current holder data`, holder);
         });
         console.log(`Theser are the circle values`, circleValues);
+
+
+
 
         let graphs = d3.select(`.apexcharts-plot-series`);
 
