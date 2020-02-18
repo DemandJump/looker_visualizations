@@ -576,7 +576,7 @@ looker.plugins.visualizations.add({
         seriesData.forEach(row => circleLinks.push(row.links[citeration]));
 
 
-        queryResponse.fields.pivots.forEach((row, index) => {
+        queryResponse.pivots.forEach((row, index) => {
             let name = row.data[queryResponse.fields.pivots[0].name];
             name.replace(` `, `-`);
 
