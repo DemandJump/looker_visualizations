@@ -497,7 +497,7 @@ looker.plugins.visualizations.add({
             let links = row[queryResponse.fields.dimension_like[0].name].links;
 
             let rect = idElem.getBoundingClientRect();
-            console.log('This is the element', idElem);
+            console.log('This is the element', axisElements[0].children[index]);
             console.log(rect.top, rect.right, rect.bottom, rect.left);
 
             // idElem.addEventListener('click', drillDown(idElem, links));
