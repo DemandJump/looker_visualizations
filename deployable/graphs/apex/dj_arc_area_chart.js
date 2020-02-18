@@ -515,32 +515,10 @@ looker.plugins.visualizations.add({
                 right: ps.right,
                 transform: elem[i].attributes.transform.value,
                 text: elem[i].children[0].innerHTML,
-                links: links[i]
+                links: links[i],
+                element: elem[i]
             };
             nodes.push(node);
-            
-            console.log(`\nElement ${i}`, elem[i]);
-            console.log(`top: ${node.top}, right: ${node.right}, bottom: ${node.bottom}, left: ${node.left}`, node.transform, `width: ${node.width}, height: ${node.height}, text: ${node.text}`);
-
-
-            // Create the element
-            let span = document.createElement(`span`);
-            span.setAttribute(`id`, node.id);
-            span.setAttribute(`width`, `${node.width}px`);
-            span.setAttribute(`height`, `${node.height}px`);
-            span.style.transform = node.transform;
-            span.setAttribute(`position`, `absolute`);
-            span.setAttribute(`left`, `${node.left}px`);
-            span.setAttribute(`top`, `${node.top}px`);
-            span.setAttribute(`bottom`, `${node.bottom}px`);
-            span.setAttribute(`right`, `${node.right}px`);
-            span.setAttribute(`z-index`, 4);
-            span.setAttribute(`backgroungColor`, `blue`); 
-            span.setAttribute(`font-size`, `12px`);
-            span.setAttribute(`font-weight`, 100);
-            span.innerText = node.text;
-            console.log(`This is the new element`, span);
-            element.appendChild(span);
         }
         console.log(`These are the nodes`, nodes);
 
@@ -566,9 +544,6 @@ looker.plugins.visualizations.add({
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             .style(`backgroundColor`, `blue`);
-
-
-
 
 
 
