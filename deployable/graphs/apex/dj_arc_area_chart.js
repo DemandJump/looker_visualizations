@@ -502,7 +502,8 @@ looker.plugins.visualizations.add({
             let width = document.getElementById(elem[i].id);
             let height = document.getElementById(elem[i].id);
             let id = `_${elem[i].id}`;
-            console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `width: ${width}, height: ${height}`);
+            let text = elem[i].children[0].innerHTML;
+            console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `text: ${text}`);
             console.log(`width`, width);
             console.log(`height`, height);
 
@@ -520,8 +521,9 @@ looker.plugins.visualizations.add({
             span.setAttribute(`z-index`, 4);
             span.setAttribute(`backgroungColor`, `blue`); 
             span.setAttribute(`font-size`, `12px`)
-            span.innerText = `Node ${i}`;
+            span.innerText = `${i}: ${text}`;
             console.log(`This is the new element`, span);
+            element.appendChild(span);
         }
 
 
