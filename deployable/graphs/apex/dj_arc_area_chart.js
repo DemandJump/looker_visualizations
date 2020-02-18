@@ -515,6 +515,9 @@ looker.plugins.visualizations.add({
             console.log(`\nElement ${i}`, elem[i]);
             console.log(`top: ${node.top}, right: ${node.right}, bottom: ${node.bottom}, left: ${node.left}`, node.transform, `width: ${node.width}, height: ${node.height}, text: ${node.text}`);
 
+            console.log(`Bounding width`, ps.width); 
+            console.log(`Bounding height`, ps.height);
+
             // Create the element
             let span = document.createElement(`span`);
             span.setAttribute(`id`, id);
