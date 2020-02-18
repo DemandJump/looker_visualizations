@@ -539,6 +539,8 @@ looker.plugins.visualizations.add({
             .style(`bottom`, d => `${d.bottom}px`)
             .style(`top`, d => `${d.top}px`)
             .style(`right`, d => `${d.right}px`)
+            .style(`background-color`, `transparent`)
+            .style(`opacity`, `0`)
             .style(`z-index`, `4`)
             .style(`transform`, `rotate(-45)`)
             .style(`font-size`, `12px`)
