@@ -501,7 +501,7 @@ looker.plugins.visualizations.add({
             let transform = elem[i].attributes.transform.value;
             let width = elem[i].offsetWidth;
             let height = elem[i].offsetHeight;
-            let id = `_${eleme[i].id}`;
+            let id = `_${elem[i].id}`;
             console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `width: ${width}, height: ${height}`);
 
             // Create the element
