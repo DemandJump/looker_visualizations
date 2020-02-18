@@ -501,8 +501,8 @@ looker.plugins.visualizations.add({
             let node = {
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
-                width: elem[i].offsetWidth,
-                height: elem[i].offsetHeight,
+                width: ps.width,
+                height: ps.height,
                 top: ps.top,
                 left: ps.left,
                 bottom: ps.bottom,
@@ -515,42 +515,28 @@ looker.plugins.visualizations.add({
             console.log(`\nElement ${i}`, elem[i]);
             console.log(`top: ${node.top}, right: ${node.right}, bottom: ${node.bottom}, left: ${node.left}`, node.transform, `width: ${node.width}, height: ${node.height}, text: ${node.text}`);
 
-            console.log(`Bounding width`, ps.width); 
-            console.log(`Bounding height`, ps.height);
 
             // Create the element
             let span = document.createElement(`span`);
-            span.setAttribute(`id`, id);
-            span.setAttribute(`width`, width);
-            span.setAttribute(`height`, height);
-            span.setAttribute(`transform`, transform);
+            span.setAttribute(`id`, node.id);
+            span.setAttribute(`width`, `${node.width}px`);
+            span.setAttribute(`height`, `${node.height}px`);
+            span.style.transform = node.transform;
             span.setAttribute(`position`, `absolute`);
-            span.setAttribute(`left`, ps.left);
-            span.setAttribute(`top`, ps.top);
-            span.setAttribute(`bottom`, ps.bottom);
-            span.setAttribute(`right`, ps.right);
+            span.setAttribute(`left`, `${node.left}px`);
+            span.setAttribute(`top`, `${node.top}px`);
+            span.setAttribute(`bottom`, `${node.bottom}px`);
+            span.setAttribute(`right`, `${node.right}px`);
             span.setAttribute(`z-index`, 4);
             span.setAttribute(`backgroungColor`, `blue`); 
             span.setAttribute(`font-size`, `12px`)
-            span.innerText = `${i}: ${text}`;
+            span.innerText = `${i}: ${node.text}`;
             console.log(`This is the new element`, span);
             element.appendChild(span);
         }
         console.log(`These are the nodes`, nodes);
 
 
-        datum.forEach((row, index) => {
-            let id = axisElements[0].children[index].id;
-            let idElem = document.getElementById(id);
-            let links = row[queryResponse.fields.dimension_like[0].name].links;
-
-            let transform = axisElements[0].children[index].attributes.transform.value;
-            // console.log(`This is the element`, axisElements[0].children[index]);
-            let rect = idElem.getBoundingClientRect();
-            // console.log(rect.top, rect.right, rect.bottom, rect.left, `rotate: ${transform}`);
-
-            // idElem.addEventListener('click', drillDown(idElem, links));
-        });
 
 
         function drillDown(element, links) {
