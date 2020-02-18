@@ -159,7 +159,7 @@ looker.plugins.visualizations.add({
         this._custom = ``;
         element.innerHTML = `
             <style>
-            @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+            @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
             * { font-family: 'Roboto' !important; }
             </style>
             <div class="row">
@@ -511,6 +511,7 @@ looker.plugins.visualizations.add({
                 text: elem[i].children[0].innerHTML,
                 links: links[i]
             };
+            nodes.push(node);
             
             console.log(`\nElement ${i}`, elem[i]);
             console.log(`top: ${node.top}, right: ${node.right}, bottom: ${node.bottom}, left: ${node.left}`, node.transform, `width: ${node.width}, height: ${node.height}, text: ${node.text}`);
@@ -529,8 +530,9 @@ looker.plugins.visualizations.add({
             span.setAttribute(`right`, `${node.right}px`);
             span.setAttribute(`z-index`, 4);
             span.setAttribute(`backgroungColor`, `blue`); 
-            span.setAttribute(`font-size`, `12px`)
-            span.innerText = `${i}: ${node.text}`;
+            span.setAttribute(`font-size`, `12px`);
+            span.setAttribute(`font-weight`, `100`);
+            span.innerText = node.text;
             console.log(`This is the new element`, span);
             element.appendChild(span);
         }
