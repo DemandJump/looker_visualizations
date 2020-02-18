@@ -573,10 +573,7 @@ looker.plugins.visualizations.add({
         }
         
         // Grab the links from each of the values on that specific date and pass it into circle links.
-        seriesData.forEach(row => {
-            let val = row.data[i];
-
-        });
+        seriesData.forEach(row => circleLinks.push(row.links[citeration]));
 
 
         queryResponse.fields.pivots.forEach((row, index) => {
