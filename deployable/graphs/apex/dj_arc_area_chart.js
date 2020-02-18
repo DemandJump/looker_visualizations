@@ -501,6 +501,9 @@ looker.plugins.visualizations.add({
             let transform = elem[i].attributes.transform.value;
             let width = document.getElementById(elem[i].id);
             let height = document.getElementById(elem[i].id);
+            let width1 = $(`#${elem[i].id}`)width;
+            let height1 = $(`#${elem[i].id}`).height;
+            console.log(`jw: ${width1}, jh: ${height1}`);
             let id = `_${elem[i].id}`;
             console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `width: ${width}, height: ${height}`);
 
@@ -517,8 +520,8 @@ looker.plugins.visualizations.add({
             span.setAttribute(`right`, ps.right);
             span.setAttribute(`z-index`, 4);
             span.setAttribute(`backgroungColor`, `blue`); 
+            span.setAttribute(`font-size`, `12px`)
             span.innerText = `Node ${i}`;
-            span.setAttribute(``)
             console.log(`This is the new element`, span);
         }
 
