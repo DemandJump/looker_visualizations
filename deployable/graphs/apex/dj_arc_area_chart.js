@@ -532,15 +532,15 @@ looker.plugins.visualizations.add({
                 console.log(`This is a node`, d);
                 return d.id;
             })
-            .style(`width`, d => `${d.width}px`)
-            .style(`height`, d => `${d.height}px`)
+            .style(`width`, d => `${d.height}px`)
+            .style(`height`, d => `${d.width}px`)
             .style(`position`, `absolute`)
             .style(`left`, d => `${d.left}px`)
             .style(`bottom`, d => `${d.bottom}px`)
             .style(`top`, d => `${d.top}px`)
             .style(`right`, d => `${d.right}px`)
             .style(`z-index`, `4`)
-            .style(`transform`, d => `rotate(-45)`)
+            .style(`transform`, `rotate(-45)`)
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             .style(`background-color`, `blue`)
