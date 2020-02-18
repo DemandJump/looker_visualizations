@@ -494,12 +494,30 @@ looker.plugins.visualizations.add({
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
         console.log(`Links: `, links);
 
-        let element = axisElements[0].children;
+        let elem = axisElements[0].children;
         for(let i = 0; i < links.length; i++) {
-            console.log(`\nElement ${i}`, element[i]);
-            let p = element[i].getBoundingClientRect();
-            let transform = element[i].attributes.transform.value;
-            console.log(p.top, p.right, p.bottom, p.left, transform);
+            console.log(`\nElement ${i}`, elem[i]);
+            let ps = elem[i].getBoundingClientRect();
+            let transform = elem[i].attributes.transform.value;
+            let width = elem[i].offsetWidth;
+            let height = elem[i].offsetHeight;
+            let id = `_${eleme[i].id}`;
+            console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `width: ${width}, height: ${height}`);
+
+            // Create the element
+            let span = document.createElement(`span`);
+            span.setAttribute(`id`, id);
+            span.setAttribute(`width`, width);
+            span.setAttribute(`height`, height);
+            span.setAttribute(`transform`, transform);
+            span.setAttribute(`position`, `absolute`);
+            span.setAttribute(`left`, ps.left);
+            span.setAttribute(`top`, ps.top);
+            span.setAttribute(`bottom`, ps.bottom);
+            span.setAttribute(`right`, ps.right);
+            span.setAttribute(`z-index`, 4);
+            span.setAttribute(`bakcgroungColor`, `blue`); 
+            console.log(`This is the new element`, span);
         }
 
 
