@@ -506,6 +506,7 @@ looker.plugins.visualizations.add({
         for(let i = 0; i < links.length; i++) {
             let ps = elem[i].getBoundingClientRect();
             let node = {
+                index: i,
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
                 width: ps.width,
@@ -543,17 +544,17 @@ looker.plugins.visualizations.add({
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             // .html(d => d.text)
-            .on('click', (d, i, nodes) => drillDown(nodes, d.links));
+            .on('click', (d, i, nodes) => drillDown(nodes, d.links, d.index));
 
 
 
 
 
-        function drillDown(element, links) {
-            console.log(`this is the element`, element);
+        function drillDown(element, links, index) {
+            console.log(`this is the element`, element[index]);
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
-                event: element
+                event: element[index]
             });
         }
 
