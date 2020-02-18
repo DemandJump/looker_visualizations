@@ -552,6 +552,7 @@ looker.plugins.visualizations.add({
 
         function drillDown(element, links, index) {
             console.log(`this is the element`, element[index]);
+            console.log(`This is the d3 event`, d3.event);
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
                 event: element[index]
