@@ -580,7 +580,7 @@ looker.plugins.visualizations.add({
             let name = row.data[queryResponse.fields.pivots[0].name];
             name.replace(` `, `-`);
 
-            let holder = documet.getElementsByClassName(`apexcharts-area-series ${name}`);
+            let holder = document.getElementsByClassName(`apexcharts-area-series ${name}`);
             let ps = holder.getBoundingClientRect();
 
             let data = {
