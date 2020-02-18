@@ -562,7 +562,7 @@ looker.plugins.visualizations.add({
         let circleValues = [];
         let currentDim = document.getElementsByClassName(`apexcharts-tooltip light`);
         console.log(`current Dimension html`, currentDim);
-        let currentDimValue = currentDim.children[0].innerHTML;
+        let currentDimValue = currentDim[0].children[0].innerHTML;
         let citeration;
         console.log(`This is the current dimension value`, currentDimValue);
 
