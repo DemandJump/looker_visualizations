@@ -544,7 +544,7 @@ looker.plugins.visualizations.add({
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             .style(`background-color`, `blue`)
-            .html(d => d.text);
+            // .html(d => d.text);
 
 
 
