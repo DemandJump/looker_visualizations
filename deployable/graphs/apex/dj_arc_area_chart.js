@@ -173,6 +173,12 @@ looker.plugins.visualizations.add({
                 </div>
             </div>
             `;
+            
+            this._container = d3.select(element).append('div')
+                .attr('class', 'container')
+                .style('position', 'absolute')
+                .style('top', '0')
+                .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let node = document.getElementById(`chart-apex-area`);
@@ -531,12 +537,38 @@ looker.plugins.visualizations.add({
             span.setAttribute(`z-index`, 4);
             span.setAttribute(`backgroungColor`, `blue`); 
             span.setAttribute(`font-size`, `12px`);
-            span.setAttribute(`font-weight`, `100`);
+            span.setAttribute(`font-weight`, 100);
             span.innerText = node.text;
             console.log(`This is the new element`, span);
             element.appendChild(span);
         }
         console.log(`These are the nodes`, nodes);
+
+        let container = d3.select(`.container`);
+        
+        container.selectAll('span').data(nodes).enter().append("span")
+            .attr(`id`, d => {
+                console.log(`This is a node`, d);
+                return d.id;
+            })
+            .style(`width`, d => `${d.width}px`)
+            .style(`height`, d => `${d.height}px`)
+            .style(`position`, `absolute`)
+            .style(`left`, d => `${d.left}px`)
+            .style(`bottom`, d => `${d.bottom}px`)
+            .style(`top`, d => `${d.top}px`)
+            .style(`right`, d => `${d.right}px`)
+            .style(`z-index`, `4`)
+            .style(`transform`, d => {
+                console.log(`rotate type of ${typeof(d.transform)}`);
+                return d.transform;
+            })
+            .style(`font-size`, `12px`)
+            .style(`font-weight`, `100`)
+            .style(`backgroundColor`, `blue`);
+
+
+
 
 
 
