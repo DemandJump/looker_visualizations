@@ -566,15 +566,11 @@ looker.plugins.visualizations.add({
         let citeration;
         console.log(`This is the current dimension value`, currentDimValue);
 
-        // Link the current date to the corresponding value in every series data set
-        let circleLinks = [];
-        for(let i = 0; i < xaxis.length; i++) {
-            if (xaxis[i] == currentDimValue) citeration = i;
-        }
-        
-        // Grab the links from each of the values on that specific date and pass it into circle links.
-        seriesData.forEach(row => circleLinks.push(row.links[citeration]));
 
+
+        xaxis.forEach(xaxis => {
+            
+        });
 
         queryResponse.pivots.forEach((row, index) => {
             let name = row.data[queryResponse.fields.pivots[0].name];
