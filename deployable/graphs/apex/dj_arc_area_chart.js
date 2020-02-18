@@ -501,8 +501,8 @@ looker.plugins.visualizations.add({
             let node = {
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
-                width: document.getElementById(elem[i].id).offsetWidth,
-                height: document.getElementById(elem[i].id).offsetHeight,
+                width: elem[i].offsetWidth,
+                height: elem[i].offsetHeight,
                 top: ps.top,
                 left: ps.left,
                 bottom: ps.bottom,
