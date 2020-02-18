@@ -544,6 +544,13 @@ looker.plugins.visualizations.add({
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             .style(`background-color`, `blue`)
+            .style(`border`, (d, i) => {
+                if (i % 2) {
+                    return `1px solid black`;
+                } else {
+                    return `1px dashed black`;
+                }
+            })
             // .html(d => d.text);
 
 
