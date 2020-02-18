@@ -545,18 +545,15 @@ looker.plugins.visualizations.add({
             .style(`transform`, `rotate(-45)`)
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
-            .style(`border`, (d, i) => {
-                if (i % 2) return `1px solid black`;
-                else return `1px dashed white`;
-            })
             // .html(d => d.text)
-            .on('click', d => drillDown(this, d.links));
+            .on('click', (d, i, nodes) => drillDown(nodes, d.links));
 
 
 
 
 
         function drillDown(element, links) {
+            console.log(`this is the element`, element);
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
                 event: element
