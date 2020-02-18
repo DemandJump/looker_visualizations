@@ -528,10 +528,7 @@ looker.plugins.visualizations.add({
             
         container.merge(enter)
             .attr(`class`, `dimension`)
-            .attr(`id`, d => {
-                console.log(`This is a node`, d);
-                return d.id;
-            })
+            .attr(`id`, d => d.id)
             .style(`width`, d => `${d.height}px`)
             .style(`height`, d => `${d.width}px`)
             .style(`position`, `absolute`)
