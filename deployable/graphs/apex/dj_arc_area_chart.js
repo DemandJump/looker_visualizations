@@ -540,7 +540,7 @@ looker.plugins.visualizations.add({
             .style(`top`, d => `${d.top}px`)
             .style(`right`, d => `${d.right}px`)
             .style(`z-index`, `4`)
-            .style(`transform`, d => d.transform)
+            .style(`transform`, d => `rotate(-45)`)
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             .style(`backgroundColor`, `blue`)
