@@ -543,7 +543,7 @@ looker.plugins.visualizations.add({
             .style(`transform`, d => `rotate(-45)`)
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
-            .style(`backgroundColor`, `blue`)
+            .style(`background-color`, `blue`)
             .html(d => d.text);
 
 
