@@ -494,12 +494,13 @@ looker.plugins.visualizations.add({
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
         console.log(`Links: `, links);
 
-        axisElements[0].children.forEach(element => {
-            console.log(`This is the element`, element);
-            let p = element.getBoundingClientRect();
-            let transform = elements.attributes.transform.value;
+        let element = axisElements[0].children;
+        for(let i = 0; i < links.length; i++) {
+            console.log(`\nElement ${i}`, element[i]);
+            let p = element[i].getBoundingClientRect();
+            let transform = element[i].attributes.transform.value;
             console.log(p.top, p.right, p.bottom, p.left, transform);
-        });
+        }
 
 
         datum.forEach((row, index) => {
