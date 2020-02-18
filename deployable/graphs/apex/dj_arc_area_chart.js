@@ -501,7 +501,6 @@ looker.plugins.visualizations.add({
         let links = [];
         let nodes = [];
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
-        console.log(`Links: `, links);
 
         let elem = axisElements[0].children;
         for(let i = 0; i < links.length; i++) {
@@ -525,6 +524,7 @@ looker.plugins.visualizations.add({
         console.log(`These are the nodes`, nodes);
 
         let container = d3.select(`.container`);
+        console.log('This is container', container);
         
         container.selectAll(`.dimension`).data(nodes).enter().append(`span`)
             .attr(`class`, `dimension`)
