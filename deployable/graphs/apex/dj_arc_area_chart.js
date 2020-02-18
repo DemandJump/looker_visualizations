@@ -496,7 +496,7 @@ looker.plugins.visualizations.add({
             let idElem = document.getElementById(id);
             let links = row[queryResponse.fields.dimension_like[0].name].links;
 
-            let transform = axisElements[0].children[index][attributes].transform.value;
+            let transform = axisElements[0].children[index].attributes.transform.value;
             console.log('This is the element', axisElements[0].children[index]);
             let rect = idElem.getBoundingClientRect();
             console.log(rect.top, rect.right, rect.bottom, rect.left, `rotate: ${transform}`);
