@@ -516,7 +516,9 @@ looker.plugins.visualizations.add({
             span.setAttribute(`bottom`, ps.bottom);
             span.setAttribute(`right`, ps.right);
             span.setAttribute(`z-index`, 4);
-            span.setAttribute(`bakcgroungColor`, `blue`); 
+            span.setAttribute(`backgroungColor`, `blue`); 
+            span.innerText = `Node ${i}`;
+            span.setAttribute(``)
             console.log(`This is the new element`, span);
         }
 
