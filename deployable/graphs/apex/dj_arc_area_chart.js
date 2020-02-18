@@ -528,7 +528,7 @@ looker.plugins.visualizations.add({
         
         container.selectAll(`.dimension`).data(nodes).enter().append(`span`);
             
-        conteiner.merge()
+        container.merge()
             .attr(`class`, `dimension`)
             .attr(`id`, d => {
                 console.log(`This is a node`, d);
