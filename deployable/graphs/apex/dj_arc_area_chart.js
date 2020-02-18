@@ -543,15 +543,12 @@ looker.plugins.visualizations.add({
             .style(`transform`, `rotate(-45)`)
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
-            .style(`background-color`, `blue`)
             .style(`border`, (d, i) => {
-                if (i % 2) {
-                    return `1px solid black`;
-                } else {
-                    return `1px dashed white`;
-                }
+                if (i % 2) return `1px solid black`;
+                else return `1px dashed white`;
             })
-            // .html(d => d.text);
+            // .html(d => d.text)
+            .on('click', d => drillDown(this, d.links));
 
 
 
