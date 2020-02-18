@@ -544,15 +544,16 @@ looker.plugins.visualizations.add({
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             // .html(d => d.text)
-            .on('click', (d, i, nodes) => drillDown(nodes, d.links, d.index));
+            .on('click', (d, i, nodes) => drillDown(nodes, d.links, d.index, d3.event));
 
 
 
 
 
-        function drillDown(element, links, index) {
+        function drillDown(element, links, index, event) {
             console.log(`this is the element`, element[index]);
             console.log(`This is the d3 event`, d3.event);
+            console.log(`This is the event`, event);
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
                 event: element[index]
