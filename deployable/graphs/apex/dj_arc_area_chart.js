@@ -544,7 +544,41 @@ looker.plugins.visualizations.add({
             .style(`font-size`, `12px`)
             .style(`font-weight`, `100`)
             // .html(d => d.text)
-            .on('click', (d, i, nodes) => drillDown(d.links, d3.event));
+            .on('click', d => drillDown(d.links, d3.event));
+
+
+        // Apexcharts-plot-series
+        let circleValues = [];
+        let currentDim = documet.getElementsByClassName(`apexcharts-tooltip light`);
+        let currentDimValue = currentDim.children[0].innerHTML;
+        console.log(`This is the current dimension value`, currentDimValue);
+        queryResponse.fields.pivots.forEach(row => {
+            let name = row.data[queryResponse.fields.pivots[0].name];
+            name.replace(` `, `-`);
+
+            let holder = documet.getElementsByClassName(`apexcharts-area-series ${name}`);
+            let ps = holder.getBoundingClientRect();
+
+            let data = {
+                index: `set this value`,
+                id: `_${holder.id}`,
+                originalId: holder.id,
+                width: ps.width,
+                height: ps.height,
+                top: ps.top,
+                left: ps.left,
+                bottom: ps.bottom,
+                right: ps.right,
+                links: `set this value`,
+                element: holder  
+            };
+            circleValues.push(data);
+            console.log(`This is the current holder data`, holder);
+        });
+        console.log(`Theser are the circle values`, circleValues);
+
+        let graphs = d3.select(`.apexcharts-plot-series`);
+
 
 
 
