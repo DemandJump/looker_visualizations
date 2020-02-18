@@ -499,8 +499,8 @@ looker.plugins.visualizations.add({
             console.log(`\nElement ${i}`, elem[i]);
             let ps = elem[i].getBoundingClientRect();
             let transform = elem[i].attributes.transform.value;
-            let width = document.getElementById(elem[i].id);
-            let height = document.getElementById(elem[i].id);
+            let width = document.getElementById(elem[i].id).offsetWidth;
+            let height = document.getElementById(elem[i].id).offsetHeight;
             let id = `_${elem[i].id}`;
             let text = elem[i].children[0].innerHTML;
             console.log(`top: ${ps.top}, right: ${ps.right}, bottom: ${ps.bottom}, left: ${ps.left}`, transform, `text: ${text}`);
