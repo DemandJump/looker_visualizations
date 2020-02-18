@@ -535,7 +535,7 @@ looker.plugins.visualizations.add({
             .style(`width`, d => `${d.width}px`)
             .style(`height`, d => `${d.height}px`)
             .style(`position`, `absolute`)
-            .style(`left`, d => `${d.left + 10}px`)
+            .style(`left`, d => `${d.left}px`)
             .style(`bottom`, d => `${d.bottom}px`)
             .style(`top`, d => `${d.top}px`)
             .style(`right`, d => `${d.right}px`)
