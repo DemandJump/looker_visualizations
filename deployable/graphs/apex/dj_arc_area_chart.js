@@ -487,8 +487,19 @@ looker.plugins.visualizations.add({
 
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let tooltip = $(".apexcharts-tooltip");
-        console.log('Here are the children', axisElements[0].children);
-        console.log('This is tooltip', tooltip);
+        console.log(`Here are the children`, axisElements[0].children);
+        console.log(`This is tooltip`, tooltip);
+
+        let links = [];
+        datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
+        console.log(`Links: `, links);
+        
+        axisElements[0].children.forEach(element => {
+            console.log(`This is the element`, element);
+            let p = element.getBoundingClientRect();
+            let transform = elements.attributes.transform.value;
+            console.log(p.top, p.right, p.bottom, p.left, transform);
+        });
 
 
         datum.forEach((row, index) => {
@@ -497,9 +508,9 @@ looker.plugins.visualizations.add({
             let links = row[queryResponse.fields.dimension_like[0].name].links;
 
             let transform = axisElements[0].children[index].attributes.transform.value;
-            console.log('This is the element', axisElements[0].children[index]);
+            // console.log(`This is the element`, axisElements[0].children[index]);
             let rect = idElem.getBoundingClientRect();
-            console.log(rect.top, rect.right, rect.bottom, rect.left, `rotate: ${transform}`);
+            // console.log(rect.top, rect.right, rect.bottom, rect.left, `rotate: ${transform}`);
 
             // idElem.addEventListener('click', drillDown(idElem, links));
         });
