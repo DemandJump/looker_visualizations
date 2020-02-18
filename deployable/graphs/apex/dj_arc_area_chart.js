@@ -548,7 +548,7 @@ looker.plugins.visualizations.add({
                 if (i % 2) {
                     return `1px solid black`;
                 } else {
-                    return `1px dashed black`;
+                    return `1px dashed white`;
                 }
             })
             // .html(d => d.text);
