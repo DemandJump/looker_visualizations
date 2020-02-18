@@ -493,7 +493,7 @@ looker.plugins.visualizations.add({
         let links = [];
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
         console.log(`Links: `, links);
-        
+
         axisElements[0].children.forEach(element => {
             console.log(`This is the element`, element);
             let p = element.getBoundingClientRect();
@@ -522,11 +522,6 @@ looker.plugins.visualizations.add({
                 event: element
             });
         }
-
-        // document.getElementsByClassName('apexcharts-xaxis')[0]
-        //     .addEventListener('click', function (event) {
-        //         console.log('This is the click event', event);
-        //     });
 
 
         // Functions
