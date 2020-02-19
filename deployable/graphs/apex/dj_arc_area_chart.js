@@ -580,13 +580,13 @@ looker.plugins.visualizations.add({
                 name.replace(` `, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 console.log(`This is the current holder data`, holder);
-                let ps = holder.getBoundingClientRect();
+                let ps = holder[0].getBoundingClientRect();
     
                 let data = {
                     pivot: name,
                     dolumn: index,
-                    id: `_${holder.id}`,
-                    originalId: holder.id,
+                    id: `_${holder[0].id}`,
+                    originalId: holder[0].id,
                     width: ps.width,
                     height: ps.height,
                     top: ps.top,
@@ -603,9 +603,6 @@ looker.plugins.visualizations.add({
 
 
 
-
-
-        let graphs = d3.select(`.apexcharts-plot-series`);
 
 
 
