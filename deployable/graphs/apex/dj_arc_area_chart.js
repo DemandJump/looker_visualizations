@@ -561,12 +561,7 @@ looker.plugins.visualizations.add({
         // Apexcharts-plot-series
         let circleValues = [];
         let circleLinks = [];
-        let currentDim = document.getElementsByClassName(`apexcharts-tooltip light`);
-        let currentDimValue = currentDim[0].children[0].innerHTML;
-        console.log(`current Dimension html`, currentDim);
-        console.log(`This is the current dimension value`, currentDimValue);
         for(let i = 0; i < xaxis.length; i++) { 
-
             let seriesLinks = [];
             seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
             circleLinks.push(seriesLinks);
@@ -574,16 +569,14 @@ looker.plugins.visualizations.add({
             let valueData = {name: xaxis[i], yValues: []};
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
-                console.log(`current name:`, name);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-                console.log(`This is the current holder data`, holder);
                 let ps = holder[0].getBoundingClientRect();
 
-                console.log('This is circleLinks currently', circleLinks);
-    
                 let data = {
                     pivot: name,
-                    dolumn: index,
+                    column: index,
+                    data: circleLinks[i][index].data,
+                    links: circleLinks[i][index].links,
                     id: `_${holder[0].id}`,
                     originalId: holder[0].id,
                     width: ps.width,
@@ -592,7 +585,6 @@ looker.plugins.visualizations.add({
                     left: ps.left,
                     bottom: ps.bottom,
                     right: ps.right,
-                    links: circleLinks[i][index].links,
                     element: holder  
                 };
                 valueData.yValues.push(data);
