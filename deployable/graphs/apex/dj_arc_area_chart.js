@@ -537,11 +537,9 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        console.log(`These are the nodes`, nodes);
-
+        // console.log(`These are the nodes`, nodes);
         let container = d3.select(`.container`).selectAll(`.dimension`).data(nodes);
-        let enter = container.enter().append(`span`);
-            
+        let enter = container.enter().append(`span`);  
         container.merge(enter)
             .attr(`class`, `dimension`)
             .attr(`id`, d => d.id)
@@ -556,30 +554,22 @@ looker.plugins.visualizations.add({
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
             .style(`transform`, `rotate(-45)`)
-            .style(`font-size`, `12px`)
-            .style(`font-weight`, `100`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
-
 
 
         // Apexcharts-plot-series
         let circleValues = [];
         let circleLinks = [];
         let currentDim = document.getElementsByClassName(`apexcharts-tooltip light`);
-        console.log(`current Dimension html`, currentDim);
         let currentDimValue = currentDim[0].children[0].innerHTML;
+        console.log(`current Dimension html`, currentDim);
         console.log(`This is the current dimension value`, currentDimValue);
-
-
-
         for(let i = 0; i < xaxis.length; i++) { 
-            console.log(`This is the current xaxis`, xaxis[i]);
 
             let seriesLinks = [];
-            seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], axis: xaxis[i]}));
+            seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
             circleLinks.push(seriesLinks);
-
 
             let valueData = {name: xaxis[i], yValues: []};
             queryResponse.pivots.forEach((row, index) => {
