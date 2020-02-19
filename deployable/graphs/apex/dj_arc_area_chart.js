@@ -633,7 +633,7 @@ looker.plugins.visualizations.add({
             .style(`bottom`, d => `${d.bottom}px`)
             .style(`top`, d => `${d.top}px`)
             .style(`right`, d => `${d.right}px`)
-            .style(`background-color`, `blue`)
+            .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`z-index`, `110`)
             .style(`transform`, `rotate(-45)`)
@@ -661,7 +661,9 @@ looker.plugins.visualizations.add({
             .style(`top`, circle.top)
             .style(`left`, circle.left)
             .style(`width`, hc.width)
-            .style(`height`, hc.height);
+            .style(`height`, hc.height)
+            .style(`background-color`, `transparent`)
+            .style(`border`, `1px solid dashed`);
 
 
 
