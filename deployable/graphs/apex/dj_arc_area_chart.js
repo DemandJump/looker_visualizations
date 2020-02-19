@@ -570,7 +570,8 @@ looker.plugins.visualizations.add({
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 let circle;
-                for(let i = 0; i < holder[0].children; i++) {
+                console.log(`This is holder`, holder);
+                for(let i = 0; i < holder[0].children.length; i++) {
                     if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap`) circle = holder[0].children[i];
                 }
                 console.log(`This is circle`, circle);
