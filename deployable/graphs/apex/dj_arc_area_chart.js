@@ -607,6 +607,7 @@ looker.plugins.visualizations.add({
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
             .style(`transform`, `rotate(-45)`)
+            .style(`border`, `1px solid black`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
 
