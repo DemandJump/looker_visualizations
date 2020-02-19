@@ -580,11 +580,14 @@ looker.plugins.visualizations.add({
                         cid = circle.children[i].id;
                     }
                 }
-                console.log(`This is the holder of the holder`, circleHolder);
-                console.log(`This is really circle holder`, circle);
+                // console.log(`This is the holder of the holder`, circleHolder);
+                // console.log(`This is really circle holder`, circle);
 
-                let ps = holder[0].getBoundingClientRect();
-                console.log(`position:`, ps.top, ps.left, ps.bottom, ps.right);
+                console.log(`\nholder of holder`, circleHolder.getBoundingClientRect());
+                console.log(`holder of circle`, circle.getBoundingClientRect());
+
+                let cData = document.getElementById(cid);
+                let ps = cData.getBoundingClientRect();
 
                 let data = {
                     pivot: name,
