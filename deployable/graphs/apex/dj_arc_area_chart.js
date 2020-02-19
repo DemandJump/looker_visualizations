@@ -589,11 +589,6 @@ looker.plugins.visualizations.add({
                 let ps = cData.getBoundingClientRect();
                 hc = holder[0].getBoundingClientRect();
 
-                console.log(`The circle`, ps);
-                console.log(`Thh holder of all holders`, hc);
-                console.log(`Circle c coordinates:: cx:`, cData.cx);
-                console.log(`Circle c coordinates:: cy:`, cData.cy);
-
 
                 let data = {
                     pivot: name,
@@ -615,8 +610,12 @@ looker.plugins.visualizations.add({
 
                 if (i == 0) {
                     console.log(`${name}, this is holder`, holder);
-                    console.log(`This is the bounding client function: `, ps);
                     console.log(`This is the data`, data);
+
+                    console.log(`The circle`, ps);
+                    console.log(`Thh holder of all holders`, hc);
+                    console.log(`Circle c coordinates:: cx:`, cData.cx);
+                    console.log(`Circle c coordinates:: cy:`, cData.cy);
                 }
             });
         }
