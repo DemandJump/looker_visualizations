@@ -585,7 +585,7 @@ looker.plugins.visualizations.add({
                 let ps = cData.getBoundingClientRect();
 
                 let jcir = $(`#${cid}`);
-                console.log(`This is jcir`, jcir);
+                console.log(`This is jcir`, jcir[0]);
                 console.log(`Position of element`, jcir[0].position);
                 console.log(`offset of element`, jcir[0].offset);
 
