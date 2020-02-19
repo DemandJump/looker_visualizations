@@ -580,11 +580,15 @@ looker.plugins.visualizations.add({
                         cid = circle.children[i].id;
                     }
                 }
-                console.log(`This is the circle holder`, circleHolder);
-                console.log(`This is really circle`, circle);
-                console.log(`This is cid`, cid);
+                console.log(`This is the holder of the holder`, circleHolder);
+                console.log(`This is really circle holder`, circle);
+
+                let hh = circleHolder.getBoundingClientRect();
+                console.log(`\nholder of holder`, hh.top, hh.left, hh.bottom, hh.right);
+                let h = circle.getBoundingClientRect();
+                console.log(`holder of circle`, hh.top, hh.left, hh.bottom, hh.right);
+
                 let cData = document.getElementById(cid);
-                console.log(`This is is cData`, cData);
                 let ps = cData.getBoundingClientRect();
 
                 let data = {
