@@ -565,7 +565,7 @@ looker.plugins.visualizations.add({
         // Apexcharts-plot-series
         let circleValues = [];
         let circleLinks = [];
-        let circleHolder, circle, cid, holder;
+        let circleHolder, circle, cid, holder, hc;
         for(let i = 0; i < xaxis.length; i++) { 
             let seriesLinks = [];
             seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
@@ -587,7 +587,7 @@ looker.plugins.visualizations.add({
 
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
-                let hc = holder[0].getBoundingClientRect();
+                hc = holder[0].getBoundingClientRect();
 
                 console.log(`The circle`, ps);
                 console.log(`Thh holder of all holders`, hc);
