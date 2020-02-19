@@ -569,6 +569,16 @@ looker.plugins.visualizations.add({
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
+                let circle;
+                for(let i = 0; i < holder[0].children; i++) {
+                    if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap`) circle = holder[0].children[i];
+                }
+                console.log(`This is circle`, circle);
+                for(let i = 0; i < circle.children.length; i++) {
+                    if (circle.children[i].localName == `circle`) circle = circle.children[i];
+                }
+                console.log(`This is really circle`, circle);
+
                 let ps = holder[0].getBoundingClientRect();
 
                 let data = {
