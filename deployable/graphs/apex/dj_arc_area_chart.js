@@ -582,7 +582,8 @@ looker.plugins.visualizations.add({
                 }
                 console.log(`This is really circle`, circle);
                 let cData = document.getElementById(cid);
-                let ps = cData[0].getBoundingClientRect();
+                console.log(`This is is cData`, cData);
+                let ps = cData.getBoundingClientRect();
 
                 let data = {
                     pivot: name,
