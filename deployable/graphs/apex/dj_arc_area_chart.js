@@ -180,6 +180,9 @@ looker.plugins.visualizations.add({
                 .style('position', 'absolute')
                 .style('top', '0')
                 .style('left', '0');
+
+            this._measures = d3.select(element).append('div')
+                .attr(`class`, `mesContainer`);
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
@@ -585,10 +588,7 @@ looker.plugins.visualizations.add({
                 let ps = cData.getBoundingClientRect();
 
                 console.log(`The circle`, ps);
-                console.log(`The circle holder`, circle.getBoundingClientRect());
-                console.log(`The holder of the holder`, circleHolder.getBoundingClientRect());
                 console.log(`Thh holder of all holders`, holder[0].getBoundingClientRect());
-
                 console.log(`Circle c coordinates:: cx:`, cData.cx);
                 console.log(`Circle c coordinates:: cy:`, cData.cy);
 
@@ -652,6 +652,13 @@ looker.plugins.visualizations.add({
                 event: event
             });
         }
+
+
+        // Find the distance between two grid axis ticks, and starting midpoint between two
+        let grid = document.getElementsByClassName(`apexcharts-grid`);
+        console.log(`This is the grid`, grid);
+        let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
+        console.log(`These are the grid points`, gridpoints);
 
 
         // Functions
