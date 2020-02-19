@@ -596,8 +596,12 @@ looker.plugins.visualizations.add({
                 }
                 console.log(`This is the holder of holder`, circleHolder);
                 console.log(`This is the holder of the circle`, circle);
-                var x = getOffset( document.getElementById(cid) ); 
-                console.log(`This is get offset`, x);
+
+                console.log(`This is get offset of the circle`, getOffset( document.getElementById(cid) ));
+                console.log(`This is get offset of the circle holder`, getOffset( document.getElementById(circle.id) ));
+                console.log(`This is get offset of the holder of the holder`, getOffset( document.getElementById(circleHolder.id) ));
+                console.log(`This is get offset of the circle`, getOffset( document.getElementById(holder[0].id) ));
+                
 
                 let data = {
                     pivot: name,
