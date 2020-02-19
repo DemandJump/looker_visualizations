@@ -585,6 +585,7 @@ looker.plugins.visualizations.add({
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name];
                 name.replace(` `, `-`);
+                console.log(`current name:`, name);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 console.log(`This is the current holder data`, holder);
                 let ps = holder[0].getBoundingClientRect();
