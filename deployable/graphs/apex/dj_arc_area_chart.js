@@ -574,7 +574,7 @@ looker.plugins.visualizations.add({
                 let data = {
                     pivot: name,
                     column: index,
-                    xaxis: cirleLinks[i][index].name, 
+                    xaxis: circleLinks[i][index].name, 
                     data: circleLinks[i][index].data,
                     links: circleLinks[i][index].links,
                     id: `_${holder[0].id}`,
