@@ -602,7 +602,7 @@ looker.plugins.visualizations.add({
                     left: ps.left,
                     bottom: ps.bottom,
                     right: ps.right,
-                    links: circleLinks[i].data[index],
+                    links: circleLinks[i][index].data,
                     element: holder  
                 };
                 valueData.yValues.push(data);
