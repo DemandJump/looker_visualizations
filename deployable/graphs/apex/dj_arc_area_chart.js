@@ -570,18 +570,19 @@ looker.plugins.visualizations.add({
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 let circle;
+                let cid;
                 console.log(`This is holder`, holder);
-                for(let i = 0; i < holder[0].children.length; i++) {
-                    console.log(`This is the classname`, holder[0].children[i].className.baseVal);
-                    if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circle = holder[0].children[i];
-                }
-                console.log(`This is circle`, circle);
+                for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circle = holder[0].children[i];
                 for(let i = 0; i < circle.children.length; i++) {
-                    if (circle.children[i].localName == `circle`) circle = circle.children[i];
+                    if (circle.children[i].localName == `circle`) {
+                        circle = circle.children[i];
+                        cid = circle.children[i].id;
+                    }
                 }
                 console.log(`This is really circle`, circle);
+                let cData = document.getElementById(cid);
 
-                let ps = holder[0].getBoundingClientRect();
+                let ps = cData[0].getBoundingClientRect();
 
                 let data = {
                     pivot: name,
