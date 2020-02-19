@@ -591,7 +591,24 @@ looker.plugins.visualizations.add({
             });
         }
         console.log(`Theser are the circle values`, circleValues);
-
+        let container = d3.select(`.container`).selectAll(`.measures`).data(circleValues);
+        let enter = container.enter().append(`span`);  
+        container.merge(enter)
+            .attr(`class`, `measures`)
+            .attr(`id`, d => d.id)
+            .style(`width`, d => `${d.height}px`)
+            .style(`height`, d => `${d.width}px`)
+            .style(`position`, `absolute`)
+            .style(`left`, d => `${d.left}px`)
+            .style(`bottom`, d => `${d.bottom}px`)
+            .style(`top`, d => `${d.top}px`)
+            .style(`right`, d => `${d.right}px`)
+            .style(`background-color`, `transparent`)
+            .style(`opacity`, `0`)
+            .style(`z-index`, `4`)
+            .style(`transform`, `rotate(-45)`)
+            // .html(d => d.text)
+            .on('click', d => drillDown(d.links, d3.event));
 
 
 
