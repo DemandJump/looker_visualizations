@@ -571,6 +571,7 @@ looker.plugins.visualizations.add({
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 let circle;
                 let cid;
+
                 console.log(`This is holder`, holder);
                 for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circle = holder[0].children[i];
                 for(let i = 0; i < circle.children.length; i++) {
@@ -581,7 +582,6 @@ looker.plugins.visualizations.add({
                 }
                 console.log(`This is really circle`, circle);
                 let cData = document.getElementById(cid);
-
                 let ps = cData[0].getBoundingClientRect();
 
                 let data = {
