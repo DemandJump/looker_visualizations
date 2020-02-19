@@ -591,9 +591,9 @@ looker.plugins.visualizations.add({
             });
         }
         console.log(`Theser are the circle values`, circleValues);
-        let container = d3.select(`.container`).selectAll(`.measures`).data(circleValues);
-        let enter = container.enter().append(`span`);  
-        container.merge(enter)
+        let mConainter = d3.select(`.container`).selectAll(`.measures`).data(circleValues);
+        let mEnter = mContainer.enter().append(`span`);  
+        mContainer.merge(mEnter)
             .attr(`class`, `measures`)
             .attr(`id`, d => d.id)
             .style(`width`, d => `${d.height}px`)
