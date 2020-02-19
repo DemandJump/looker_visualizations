@@ -565,17 +565,22 @@ looker.plugins.visualizations.add({
 
         // Apexcharts-plot-series
         let circleValues = [];
+        let circleLinks = [];
         let currentDim = document.getElementsByClassName(`apexcharts-tooltip light`);
         console.log(`current Dimension html`, currentDim);
         let currentDimValue = currentDim[0].children[0].innerHTML;
-        let citeration;
         console.log(`This is the current dimension value`, currentDimValue);
 
 
 
-        let circleData = [];
         for(let i = 0; i < xaxis.length; i++) { 
             console.log(`This is the current xaxis`, xaxis[i]);
+
+            let seriesLinks = [];
+            seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], axis: xaxis[i]));
+            circleLinks.push(seriesLinks);
+
+
             let valueData = {name: xaxis[i], yValues: []};
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name];
@@ -583,6 +588,8 @@ looker.plugins.visualizations.add({
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 console.log(`This is the current holder data`, holder);
                 let ps = holder[0].getBoundingClientRect();
+                
+                console.log('This is circleLinks currently', circleLinks);
     
                 let data = {
                     pivot: name,
@@ -595,11 +602,12 @@ looker.plugins.visualizations.add({
                     left: ps.left,
                     bottom: ps.bottom,
                     right: ps.right,
-                    links: circleLinks[i],
+                    links: circleLinks[i].data[index],
                     element: holder  
                 };
                 valueData.yValues.push(data);
             });
+            circleValues.push(valueData);
         }
         console.log(`Theser are the circle values`, circleValues);
 
