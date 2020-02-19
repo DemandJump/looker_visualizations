@@ -588,6 +588,12 @@ looker.plugins.visualizations.add({
                     element: holder  
                 };
                 circleValues.push(data);
+
+                if (i == 0) {
+                    console.log(`${name}, this is holder`, holder);
+                    console.log(`This is the bounding client function: `, ps);
+                    console.log(`This is the data`, data);
+                }
             });
         }
         console.log(`Theser are the circle values`, circleValues);
