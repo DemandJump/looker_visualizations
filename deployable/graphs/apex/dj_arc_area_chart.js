@@ -573,7 +573,7 @@ looker.plugins.visualizations.add({
 
                 console.log(`This is holder`, holder);
                 for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circleHolder = holder[0].children[i];
-                for(let i = 0; i < circle.children.length; i++) {
+                for(let i = 0; i < circleHolder.children.length; i++) {
                     console.log(`children of holder`, circle.children[i]);
                     if  (circleHolder.children[i].className.baseVal == `apexcharts-series-markers` || circleHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
                         circleHolder = circle.children[i];
