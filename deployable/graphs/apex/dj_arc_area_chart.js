@@ -183,6 +183,17 @@ looker.plugins.visualizations.add({
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
+        Object.defineProperty( Element.prototype, 'documentOffsetTop', {
+            get: function () { 
+                return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop : 0 );
+            }
+        } );
+        
+        Object.defineProperty( Element.prototype, 'documentOffsetLeft', {
+            get: function () { 
+                return this.offsetLeft + ( this.offsetParent ? this.offsetParent.documentOffsetLeft : 0 );
+            }
+        } );
         let node = document.getElementById(`chart-apex-area`);
         while(node.firstChild) node.firstChild.remove();
         console.log(`\n\n\n\nThese are the settings`, this.options);
@@ -606,7 +617,12 @@ looker.plugins.visualizations.add({
                 console.log(`This is get offset of the circle`, getOffset( document.getElementById(cid) ));
                 console.log(`This is get offset of the circle holder`, getOffset( document.getElementById(circle.id) ));
                 console.log(`This is get offset of the holder of the holder`, getOffset( document.getElementById(circleHolder.id) ));
-                console.log(`This is get offset of the circle`, getOffset( document.getElementById(holder[0].id) ));
+                console.log(`Thh holder of all holders`, getOffset( document.getElementById(holder[0].id) ));
+
+                console.log(`circle:: offsetLeft: ${document.getelementById(cid).offsetLeft}, offsetTop: ${document.getElementById(cid).offsetTop
+                console.log(`circle holder:: offsetLeft: ${document.getelementById(circl.id).offsetLeft}, offsetTop: ${document.getElementById(circl.id).offsetTop
+                console.log(`holder of holder:: offsetLeft: ${document.getelementById(circleHolder.id).offsetLeft}, offsetTop: ${document.getElementById(circleHolder.id).offsetTop
+                console.log(`hhh:: offsetLeft: ${document.getelementById(holder[0].id).offsetLeft}, offsetTop: ${document.getElementById(holder[0].id).offsetTop}`); 
                 
 
                 let data = {
