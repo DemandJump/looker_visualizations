@@ -183,17 +183,6 @@ looker.plugins.visualizations.add({
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
-        Object.defineProperty( Element.prototype, 'documentOffsetTop', {
-            get: function () { 
-                return this.offsetTop + ( this.offsetParent ? this.offsetParent.documentOffsetTop : 0 );
-            }
-        } );
-        
-        Object.defineProperty( Element.prototype, 'documentOffsetLeft', {
-            get: function () { 
-                return this.offsetLeft + ( this.offsetParent ? this.offsetParent.documentOffsetLeft : 0 );
-            }
-        } );
         let node = document.getElementById(`chart-apex-area`);
         while(node.firstChild) node.firstChild.remove();
         console.log(`\n\n\n\nThese are the settings`, this.options);
@@ -600,7 +589,8 @@ looker.plugins.visualizations.add({
                 console.log(`The holder of the holder`, circleHolder.getBoundingClientRect());
                 console.log(`Thh holder of all holders`, holder[0].getBoundingClientRect());
 
-                console.log(`Circle c coordinates:: cx: ${cData.cx}, cy: ${cData.cy}`);
+                console.log(`Circle c coordinates:: cx:`, cData.cx);
+                console.log(`Circle c coordinates:: cy:`, cData.cy);
 
 
                 let data = {
