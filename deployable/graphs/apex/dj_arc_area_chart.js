@@ -580,14 +580,13 @@ looker.plugins.visualizations.add({
                         cid = circle.children[i].id;
                     }
                 }
-                console.log(`This is the holder of the holder`, circleHolder);
-                console.log(`This is really circle holder`, circle);
-
-                console.log(`\nholder of holder`, circleHolder.getBoundingClientRect());
 
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
-                console.log(`Coordinates`, ps);
+
+                let jcir = $(`#${cid}`);
+                console.log(`Position of element`, jcir.position);
+                console.log(`offset of element`, jcir.offset);
 
                 let data = {
                     pivot: name,
