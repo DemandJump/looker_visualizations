@@ -566,7 +566,6 @@ looker.plugins.visualizations.add({
             seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
             circleLinks.push(seriesLinks);
 
-            let valueData = {name: xaxis[i], yValues: []};
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
@@ -575,6 +574,7 @@ looker.plugins.visualizations.add({
                 let data = {
                     pivot: name,
                     column: index,
+                    xaxis: cirleLinks[i][index].name, 
                     data: circleLinks[i][index].data,
                     links: circleLinks[i][index].links,
                     id: `_${holder[0].id}`,
@@ -587,9 +587,8 @@ looker.plugins.visualizations.add({
                     right: ps.right,
                     element: holder  
                 };
-                valueData.yValues.push(data);
+                circleValues.push(data);
             });
-            circleValues.push(valueData);
         }
         console.log(`Theser are the circle values`, circleValues);
 
