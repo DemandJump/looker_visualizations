@@ -619,9 +619,9 @@ looker.plugins.visualizations.add({
                 console.log(`This is get offset of the holder of the holder`, getOffset( document.getElementById(circleHolder.id) ));
                 console.log(`Thh holder of all holders`, getOffset( document.getElementById(holder[0].id) ));
 
-                console.log(`circle:: offsetLeft: ${document.getelementById(cid).offsetLeft}, offsetTop: ${document.getElementById(cid).offsetTop
-                console.log(`circle holder:: offsetLeft: ${document.getelementById(circl.id).offsetLeft}, offsetTop: ${document.getElementById(circl.id).offsetTop
-                console.log(`holder of holder:: offsetLeft: ${document.getelementById(circleHolder.id).offsetLeft}, offsetTop: ${document.getElementById(circleHolder.id).offsetTop
+                console.log(`circle:: offsetLeft: ${document.getelementById(cid).offsetLeft}, offsetTop: ${document.getElementById(cid).offsetTop}`);
+                console.log(`circle holder:: offsetLeft: ${document.getelementById(circl.id).offsetLeft}, offsetTop: ${document.getElementById(circl.id).offsetTop}`);
+                console.log(`holder of holder:: offsetLeft: ${document.getelementById(circleHolder.id).offsetLeft}, offsetTop: ${document.getElementById(circleHolder.id).offsetTop}`);
                 console.log(`hhh:: offsetLeft: ${document.getelementById(holder[0].id).offsetLeft}, offsetTop: ${document.getElementById(holder[0].id).offsetTop}`); 
                 
 
