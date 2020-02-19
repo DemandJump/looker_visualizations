@@ -573,8 +573,10 @@ looker.plugins.visualizations.add({
 
 
 
+        let circleData = [];
         for(let i = 0; i < xaxis.length; i++) { 
             console.log(`This is the current xaxis`, xaxis[i]);
+            let valueData = {name: xaxis[i], yValues: []};
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name];
                 name.replace(` `, `-`);
@@ -596,7 +598,7 @@ looker.plugins.visualizations.add({
                     links: circleLinks[i],
                     element: holder  
                 };
-                circleValues.push(data);
+                valueData.yValues.push(data);
             });
         }
         console.log(`Theser are the circle values`, circleValues);
