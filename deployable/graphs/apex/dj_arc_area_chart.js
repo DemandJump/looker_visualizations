@@ -672,7 +672,7 @@ looker.plugins.visualizations.add({
         console.log(`These are the grid points`, gridpoints);
 
         console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
-        gridpoints.forEach(gridpoint => console.log(`gridpoints bounding clients coords`, gridpoint.getBoundingClientRect()));
+        for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
 
 
 
