@@ -592,7 +592,7 @@ looker.plugins.visualizations.add({
                     left: ps.left,
                     bottom: ps.bottom,
                     right: ps.right,
-                    links: circleLinks[i][index].data,
+                    links: circleLinks[i][index].links,
                     element: holder  
                 };
                 valueData.yValues.push(data);
