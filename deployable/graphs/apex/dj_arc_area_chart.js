@@ -660,6 +660,9 @@ looker.plugins.visualizations.add({
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
         console.log(`These are the grid points`, gridpoints);
 
+        console.log(`grid bounding client coords`, grid.getBoundingClientRect());
+        console.log(`gridpoints bounding clients coords`, gridpoints.getBoundingClientRect());
+
 
         // Functions
         function convertDateTime(val) {
