@@ -162,6 +162,11 @@ looker.plugins.visualizations.add({
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
             * { font-family: 'Roboto' !important; }
+            .class:after
+            .mesContainer {
+                content: '.';
+                visibility: hidden;
+            }
             </style>
             <div class="row">
                 <div class="col-md-6">
@@ -668,20 +673,36 @@ looker.plugins.visualizations.add({
 
         // Find the distance between two grid axis ticks, and starting midpoint between two
         let grid = document.getElementsByClassName(`apexcharts-grid`);
-        console.log(`This is the grid`, grid);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
-        console.log(`These are the grid points`, gridpoints);
 
+        console.log(`This is the grid`, grid);
+        console.log(`These are the grid points`, gridpoints);
         console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
-        for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
+        for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect().right);
 
         // Get the distance between two gridpoints
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
         let gridWidth = gridpointB.x - gridpointA.x;
         console.log(`Distance between two gridpoints is` , gridWidth);
+        let seriesContainers = [];
+        xaxis.forEach((axis, index) => {
+            let obj = {
+                name: axis,
+                x: {
+
+                }
+                gridWidth: gridWidth,
+                  
+            };
+        });
+
+
 
         // Construct a div for each xaxis series
+        let seriesContainer = d3.select(`.container`).selectAll(`.series`).data(seriesContainers);
+        let enter = container.enter().append(`div`);  
+        container.merge(enter)
 
 
 
