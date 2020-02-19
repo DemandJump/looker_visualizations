@@ -597,7 +597,7 @@ looker.plugins.visualizations.add({
             .attr(`class`, `measures`)
             .attr(`id`, d => {
                 console.log(`This is a node`, d);
-                return d.id
+                return d.id;
             })
             .style(`width`, d => `${d.height}px`)
             .style(`height`, d => `${d.width}px`)
@@ -608,7 +608,7 @@ looker.plugins.visualizations.add({
             .style(`right`, d => `${d.right}px`)
             .style(`background-color`, `blue`)
             .style(`opacity`, `0`)
-            .style(`z-index`, `4`)
+            .style(`z-index`, `11`)
             .style(`transform`, `rotate(-45)`)
             .style(`border`, `1px solid black`)
             // .html(d => d.text)
