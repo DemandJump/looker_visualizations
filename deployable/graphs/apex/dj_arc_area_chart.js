@@ -599,8 +599,8 @@ looker.plugins.visualizations.add({
                 console.log(`This is a node`, d);
                 return d.id;
             })
-            .style(`width`, d => `${d.height}px`)
-            .style(`height`, d => `${d.width}px`)
+            .style(`width`, d => `14px`)
+            .style(`height`, d => `14px`)
             .style(`position`, `absolute`)
             .style(`left`, d => `${d.left}px`)
             .style(`bottom`, d => `${d.bottom}px`)
@@ -612,7 +612,7 @@ looker.plugins.visualizations.add({
             .style(`transform`, `rotate(-45)`)
             .style(`border`, `1px solid black`)
             // .html(d => d.text)
-            .on('click', d => drillDown(d.links, d3.event));
+            // .on('click', d => drillDown(d.links, d3.event));
 
 
 
