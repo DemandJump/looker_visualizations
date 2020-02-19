@@ -331,12 +331,12 @@ looker.plugins.visualizations.add({
                     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                         let ob = {};
                         let xVal;
-                        let yVal;
+                        let yVal = 0;
                         let links = row[queryResponse.fields.measure_like[0].name].links;
 
                         if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
                         else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-                        yVal = row[queryResponse.fields.measure_like[i].name].value;
+                        if (row[queryResponse.fields.measure_like[i].name].value) yVal = row[queryResponse.fields.measure_like[i].name].value;
                         ob = {x: xVal, y: yVal};
                         categoryData[i].data.push(ob);
                         categoryData[i].links.push(links);
@@ -360,7 +360,8 @@ looker.plugins.visualizations.add({
                     let liData = [];
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
-                        let value = datum[0][row.name][keyname].value;
+                        let value = 0;
+                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
                         obData.push(value);
                         liData.push(datum[0][row.name][keyname].links);
                     }
@@ -401,7 +402,9 @@ looker.plugins.visualizations.add({
                 if (stack == `overlay`) { 
                     datum.forEach(row => {
                         for(let i = 0; i < queryResponse.pivots.length; i++) {
-                            seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                            let value = 0;
+                            if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                            seriesData[i].data.push(value);
                         }
                     });
                 }
@@ -412,10 +415,10 @@ looker.plugins.visualizations.add({
                         datum.forEach((row, index) => {
                             let value = 0;
                             if (i == 0) {
-                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
+                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
                                 series.push(value);
                             } else {
-                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
+                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
                                 newSeries[index] = series[index] + value;
                             }
                         });
