@@ -601,10 +601,7 @@ looker.plugins.visualizations.add({
         let mEnter = mContainer.enter().append(`span`);  
         mContainer.merge(mEnter)
             .attr(`class`, `measures`)
-            .attr(`id`, d => {
-                console.log(`This is a node`, d);
-                return d.id;
-            })
+            .attr(`id`, d => d.id)
             .style(`width`, d => `14px`)
             .style(`height`, d => `14px`)
             .style(`position`, `absolute`)
