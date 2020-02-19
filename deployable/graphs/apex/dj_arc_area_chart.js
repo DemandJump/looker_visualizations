@@ -215,7 +215,6 @@ looker.plugins.visualizations.add({
             else pivotB = true;
         }
 
-
         // Configuration for all charts 
         let theme = `area`;
         if (config.themes) theme = config.themes;
@@ -411,10 +410,13 @@ looker.plugins.visualizations.add({
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let newSeries = [];
                         datum.forEach((row, index) => {
+                            let value = 0;
                             if (i == 0) {
-                                series.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
+                                series.push(value);
                             } else {
-                                newSeries[index] = series[index] + row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
+                                newSeries[index] = series[index] + value;
                             }
                         });
                         if (i == 0) {
@@ -568,34 +570,34 @@ looker.plugins.visualizations.add({
 
 
 
-        xaxis.forEach(xaxis => {
-            
-        });
+        for(let i = 0; i < xaxis.length; i++) { 
+            console.log(`This is the current xaxis`, xaxis[i]);
+            queryResponse.pivots.forEach((row, index) => {
+                let name = row.data[queryResponse.fields.pivots[0].name];
+                name.replace(` `, `-`);
+                let holder = document.getElementsByClassName(`apexcharts-area-series ${name}`);
+                let ps = holder.getBoundingClientRect();
+    
+                let data = {
+                    pivot: name,
+                    dolumn: index,
+                    id: `_${holder.id}`,
+                    originalId: holder.id,
+                    width: ps.width,
+                    height: ps.height,
+                    top: ps.top,
+                    left: ps.left,
+                    bottom: ps.bottom,
+                    right: ps.right,
+                    links: circleLinks[i],
+                    element: holder  
+                };
+                circleValues.push(data);
+                console.log(`This is the current holder data`, holder);
+            });
+            console.log(`Theser are the circle values`, circleValues);
+        }
 
-        queryResponse.pivots.forEach((row, index) => {
-            let name = row.data[queryResponse.fields.pivots[0].name];
-            name.replace(` `, `-`);
-
-            let holder = document.getElementsByClassName(`apexcharts-area-series ${name}`);
-            let ps = holder.getBoundingClientRect();
-
-            let data = {
-                index: index,
-                id: `_${holder.id}`,
-                originalId: holder.id,
-                width: ps.width,
-                height: ps.height,
-                top: ps.top,
-                left: ps.left,
-                bottom: ps.bottom,
-                right: ps.right,
-                links: circleLinks[index],
-                element: holder  
-            };
-            circleValues.push(data);
-            console.log(`This is the current holder data`, holder);
-        });
-        console.log(`Theser are the circle values`, circleValues);
 
 
 
