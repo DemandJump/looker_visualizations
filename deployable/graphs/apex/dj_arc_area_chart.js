@@ -595,7 +595,7 @@ looker.plugins.visualizations.add({
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
 
-                console.log(`The circle`, ps.getBoundingClientRect());
+                console.log(`The circle`, ps);
                 console.log(`The circle holder`, circle.getBoundingClientRect());
                 console.log(`The holder of the holder`, circleHolder.getBoundingClientRect());
                 console.log(`Thh holder of all holders`, holder[0].getBoundingClientRect());
