@@ -595,35 +595,13 @@ looker.plugins.visualizations.add({
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
 
-                function getOffset( el ) {
-                    var _x = 0;
-                    var _y = 0;
-                    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-                        _x += el.offsetLeft - el.scrollLeft;
-                        _y += el.offsetTop - el.scrollTop;
-                        // chrome/safari
-                        if ($.browser.webkit) {
-                            el = el.parentNode;
-                        } else {
-                            // firefox/IE
-                            el = el.offsetParent;
-                        }
-                    }
-                    return { top: _y, left: _x };
-                }
-                console.log(`This is the holder of holder`, circleHolder);
-                console.log(`This is the holder of the circle`, circle);
+                console.log(`The circle`, ps.getBoundingClientRect());
+                console.log(`The circle holder`, circle.getBoundingClientRect());
+                console.log(`The holder of the holder`, circleHolder.getBoundingClientRect());
+                console.log(`Thh holder of all holders`, holder[0].getBoundingClientRect());
 
-                console.log(`This is get offset of the circle`, getOffset( document.getElementById(cid) ));
-                console.log(`This is get offset of the circle holder`, getOffset( document.getElementById(circle.id) ));
-                console.log(`This is get offset of the holder of the holder`, getOffset( document.getElementById(circleHolder.id) ));
-                console.log(`Thh holder of all holders`, getOffset( document.getElementById(holder[0].id) ));
+                console.log(`Circle c coordinates:: cx: ${cData.cx}, cy: ${cData.cy}`);
 
-                console.log(`circle:: offsetLeft: ${document.getElementById(cid).offsetLeft}, offsetTop: ${document.getElementById(cid).offsetTop}`);
-                console.log(`circle holder:: offsetLeft: ${document.getElementById(circle.id).offsetLeft}, offsetTop: ${document.getElementById(circle.id).offsetTop}`);
-                console.log(`holder of holder:: offsetLeft: ${document.getElementById(circleHolder.id).offsetLeft}, offsetTop: ${document.getElementById(circleHolder.id).offsetTop}`);
-                console.log(`hhh:: offsetLeft: ${document.getElementById(holder[0].id).offsetLeft}, offsetTop: ${document.getElementById(holder[0].id).offsetTop}`); 
-                
 
                 let data = {
                     pivot: name,
