@@ -594,6 +594,8 @@ looker.plugins.visualizations.add({
                     }
                     return { top: _y, left: _x };
                 }
+                console.log(`This is the holder of holder`, circleHolder);
+                console.log(`This is the holder of the circle`, circle);
                 var x = getOffset( document.getElementById(cid) ); 
                 console.log(`This is get offset`, x);
 
