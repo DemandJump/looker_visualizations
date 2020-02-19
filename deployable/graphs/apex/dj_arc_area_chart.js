@@ -576,6 +576,7 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circle = holder[0].children[i];
                 for(let i = 0; i < circle.children.length; i++) {
                     console.log(`children of holder`, circle.children[i]);
+                    
                     if (circle.children[i].localName == `circle`) {
                         circle = circle.children[i];
                         cid = circle.children[i].id;
