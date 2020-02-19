@@ -565,6 +565,7 @@ looker.plugins.visualizations.add({
         // Apexcharts-plot-series
         let circleValues = [];
         let circleLinks = [];
+        let circleHolder, circle, cid, holder;
         for(let i = 0; i < xaxis.length; i++) { 
             let seriesLinks = [];
             seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
@@ -572,8 +573,7 @@ looker.plugins.visualizations.add({
 
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
-                let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-                let circleHolder, circle, cid;
+                holder = document.getElementsByClassName(`apexcharts-series ${name}`);
 
                 console.log(`This is holder`, holder);
                 for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circleHolder = holder[0].children[i];
