@@ -572,6 +572,7 @@ looker.plugins.visualizations.add({
                 let circle;
                 console.log(`This is holder`, holder);
                 for(let i = 0; i < holder[0].children.length; i++) {
+                    console.log(`This is the classname`, holder[0].children[i].className.baseVal);
                     if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap`) circle = holder[0].children[i];
                 }
                 console.log(`This is circle`, circle);
