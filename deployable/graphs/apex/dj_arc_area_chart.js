@@ -583,7 +583,7 @@ looker.plugins.visualizations.add({
 
             let valueData = {name: xaxis[i], yValues: []};
             queryResponse.pivots.forEach((row, index) => {
-                let name = row.data[queryResponse.fields.pivots[0].name].replace(` `, `-`);
+                let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 console.log(`current name:`, name);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 console.log(`This is the current holder data`, holder);
