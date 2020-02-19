@@ -687,15 +687,26 @@ looker.plugins.visualizations.add({
         console.log(`Distance between two gridpoints is` , gridWidth);
         let seriesContainers = [];
         xaxis.forEach((axis, index) => {
-            let obj = {
-                name: axis,
-                x: {
+            let coords = gridpoints[i].getBoundingClientRect();
 
-                }
-                gridWidth: gridWidth,
-                  
+            let seriesValues = [];
+            for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i]);
+            let obj = {
+                index: index
+                name: axis,
+                coordinates: {
+                    x: coords.x,
+                    y: coords.y,
+                    top: coords.top,
+                    left: coords.left,
+                    bottom: coords.bottom,
+                    right: coords.right,
+                    gridWidth: gridWidth,
+                },
+                seriesData: seriesValues
             };
         });
+        console.log(`Here's the series container data`); 
 
 
 
