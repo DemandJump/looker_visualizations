@@ -608,7 +608,7 @@ looker.plugins.visualizations.add({
             .style(`right`, d => `${d.right}px`)
             .style(`background-color`, `blue`)
             .style(`opacity`, `0`)
-            .style(`z-index`, `11`)
+            .style(`z-index`, `110`)
             .style(`transform`, `rotate(-45)`)
             .style(`border`, `1px solid black`)
             // .html(d => d.text)
