@@ -579,6 +579,7 @@ looker.plugins.visualizations.add({
                 let name = row.data[queryResponse.fields.pivots[0].name];
                 name.replace(` `, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-area-series ${name}`);
+                console.log(`This is the current holder data`, holder);
                 let ps = holder.getBoundingClientRect();
     
                 let data = {
@@ -596,10 +597,9 @@ looker.plugins.visualizations.add({
                     element: holder  
                 };
                 circleValues.push(data);
-                console.log(`This is the current holder data`, holder);
             });
-            console.log(`Theser are the circle values`, circleValues);
         }
+        console.log(`Theser are the circle values`, circleValues);
 
 
 
