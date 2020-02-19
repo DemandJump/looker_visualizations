@@ -655,7 +655,7 @@ looker.plugins.visualizations.add({
         }
 
 
-
+        console.log(`hc width: ${hc.width}, and hc height: ${hc.height}`);
         let mesContainer = d3.select(`.mesContainer`)
             .style(`top`, circle.top)
             .style(`left`, circle.left)
@@ -674,6 +674,15 @@ looker.plugins.visualizations.add({
 
         console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
         for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
+
+        // Get the distance between two gridpoints
+        let gridpointA = gridpoints[0].getBoundingClientRect();
+        let gridpointB = gridpoints[1].getBoundingClientRect();
+        let gridWidth = gridpointB.x - gridpointA.x;
+        console.log(`Distance between two gridpoints is` , gridWidth);
+
+        // Construct a div for each xaxis series
+
 
 
 
