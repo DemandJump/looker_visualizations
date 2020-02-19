@@ -182,7 +182,8 @@ looker.plugins.visualizations.add({
                 .style('left', '0');
 
             this._measures = d3.select(element).append('div')
-                .attr(`class`, `mesContainer`);
+                .attr(`class`, `mesContainer`)
+                .style(`position`, `absolute`);
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
@@ -586,9 +587,10 @@ looker.plugins.visualizations.add({
 
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
+                let hc = holder[0].getBoundintClientRect();
 
                 console.log(`The circle`, ps);
-                console.log(`Thh holder of all holders`, holder[0].getBoundingClientRect());
+                console.log(`Thh holder of all holders`, hc);
                 console.log(`Circle c coordinates:: cx:`, cData.cx);
                 console.log(`Circle c coordinates:: cy:`, cData.cy);
 
@@ -654,14 +656,28 @@ looker.plugins.visualizations.add({
         }
 
 
+
+        let mesContainer = d3.select(`.mesContainer`)
+            .style(`top`, circle.top)
+            .style(`left`, circle.left)
+            .style(`width`, hc.width)
+            .style(`height`, hc.height);
+
+
+
         // Find the distance between two grid axis ticks, and starting midpoint between two
         let grid = document.getElementsByClassName(`apexcharts-grid`);
         console.log(`This is the grid`, grid);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
         console.log(`These are the grid points`, gridpoints);
 
-        console.log(`grid bounding client coords`, grid.getBoundingClientRect());
-        console.log(`gridpoints bounding clients coords`, gridpoints.getBoundingClientRect());
+        console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
+        gridpoints.forEach(gridpoint => console.log(`gridpoints bounding clients coords`, gridpoint.getBoundingClientRect()));
+
+
+
+
+
 
 
         // Functions
