@@ -577,7 +577,7 @@ looker.plugins.visualizations.add({
             console.log(`This is the current xaxis`, xaxis[i]);
 
             let seriesLinks = [];
-            seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], axis: xaxis[i]));
+            seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], axis: xaxis[i]}));
             circleLinks.push(seriesLinks);
 
 
@@ -588,7 +588,7 @@ looker.plugins.visualizations.add({
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 console.log(`This is the current holder data`, holder);
                 let ps = holder[0].getBoundingClientRect();
-                
+
                 console.log('This is circleLinks currently', circleLinks);
     
                 let data = {
