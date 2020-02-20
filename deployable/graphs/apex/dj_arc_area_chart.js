@@ -645,12 +645,12 @@ looker.plugins.visualizations.add({
                 coordinates: {
                     x: gridpointA.x,
                     y: gridpointA.y,
-                    top: gridpointA.top,
+                    top: fodata.top,
                     left: gridpointA.left,
                     bottom: gridpointA.bottom,
                     right: gridpointA.right,
-                    width: fodata[`_groups`][0][0].attributes.width.value,
-                    height: fodata[`_groups`][0][0].attributes.height.value - ps.height,
+                    width: foreignObject[`_groups`][0][0].attributes.width.value,
+                    height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
                     gridSpacing: gridpointB.x - gridpointA.x,
                     spacing: cspacing
                 },
