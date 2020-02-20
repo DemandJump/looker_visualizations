@@ -716,11 +716,11 @@ looker.plugins.visualizations.add({
         seriesContainer.merge(enterSeries)
             .attr(`id`, d => d.index)
             .style(`position`, `absolute`)
-            .style(`left`, d => d.left)
-            .style(`right`, d => d.right)
-            .style(`bottom`, d => d.bottom)
-            .style(`top`, d => d.top)
-            .style(`width`, d => d.width)
+            .style(`left`, d => d.coordinates.left)
+            .style(`right`, d => d.coordinates.right)
+            .style(`bottom`, d => d.coordinates.bottom)
+            .style(`top`, d => d.coordinates.top)
+            .style(`width`, d => d.coordinates.gridWidth)
             .style(`height`, d => `1400px`)
             .html(d => d.name);
 
