@@ -620,7 +620,7 @@ looker.plugins.visualizations.add({
                 };
                 circleValues.push(data);
 
-                if (i == 0) {
+                if (index == 0) {
                     console.log(`${name}, this is holder`, holder);
                     console.log(`This is the data`, data);
 
