@@ -709,7 +709,7 @@ looker.plugins.visualizations.add({
         let seriesContainers = [];
         xaxis.forEach((axis, index) => {
             let coords = gridpoints[index].getBoundingClientRect();
-            if (index != 0) spacing += gridWidth;
+            if (index != 0) cspacing += gridWidth;
 
             let seriesValues = [];
             for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i]);
@@ -726,6 +726,7 @@ looker.plugins.visualizations.add({
                     width: cwidth,
                     height: cheight,
                     gridWidth: gridWidth,
+                    spacing: cspacing
                 },
                 seriesData: seriesValues
             };
