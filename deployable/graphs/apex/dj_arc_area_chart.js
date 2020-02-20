@@ -656,10 +656,7 @@ looker.plugins.visualizations.add({
             .attr(`class`, `series`)
             .style(`position`, `absolute`)
             .style(`z-index`, `22`)
-            .style(`left`, d => {
-              console.log(`This is d`, d);
-              return d.coordinates.left; 
-            })
+            .style(`left`, d => spacing)
             .style(`right`, d => d.coordinates.right)
             .style(`bottom`, d => d.coordinates.bottom)
             .style(`top`, d => d.coordinates.top)
