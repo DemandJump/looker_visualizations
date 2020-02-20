@@ -675,6 +675,7 @@ looker.plugins.visualizations.add({
 
 
         function createSeries(d) {
+            d3.event.stopPropagation();
             constructSeriesContainers();
             d3.select(`.container`).selectAll(`.measure`).remove();
             
