@@ -660,12 +660,12 @@ looker.plugins.visualizations.add({
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
         let enterSeries = seriesContainer.enter().append(`div`);  
-        seriesContainer.merge(enterSeries)
+        seriesContainer.merge(data)
             .attr(`class`, `series`)
             .style(`position`, `absolute`)
             .style(`z-index`, `22`)
             .style(`left`, d => {
-                console.log(`This is the spacing`, d.spacing);
+                console.log(`This is the spacing`, d);
                 return d.spacing;
             })
             .style(`top`, d => d.coordinates.top)
