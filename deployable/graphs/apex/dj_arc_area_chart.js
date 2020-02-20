@@ -674,7 +674,6 @@ looker.plugins.visualizations.add({
 
 
         function createSeries(d) {
-            console.log(`\n name: ${d.name}:: This series of data passed through mouseover`, d);
             // We're gonna grab the data of each circle now and pass their coordinates through to create the new visuals who's data is already constructed
             let holderOfHolder, circleHolder, cid, holder, hc;
             d.seriesData.forEach(row => {
