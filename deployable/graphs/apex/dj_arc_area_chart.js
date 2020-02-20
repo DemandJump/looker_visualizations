@@ -710,7 +710,9 @@ looker.plugins.visualizations.add({
                 .style(`color`, d => djColors[d.column])
                 .style(`border`, `1px solid white`)
                 .style(`border-radius`, `50%`)
-                .on('click', d => drillDown(d.links, d3.event));
+                .on('click', d => drillDown(d.links, d3.event))
+                .on(`mouseover`, d => d3.select(this).style(`opacity`, `1`))
+                .on(`mouseout`, d => d3.select(this).style(`opacity`, `0`));
         }
 
 
