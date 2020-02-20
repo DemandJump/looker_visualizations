@@ -657,7 +657,6 @@ looker.plugins.visualizations.add({
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
         constructSeriesContainers(); 
-        
         function constructSeriesContainers() {
             // Construct a div for each xaxis series
             let enterSeries = seriesContainer.enter().append(`div`);  
@@ -666,15 +665,13 @@ looker.plugins.visualizations.add({
                 .attr(`class`, `series`)
                 .style(`width`, `4px`)
                 .style(`height`, d => `${d.coordinates.height}px`)
-                .style(`z-index`, `22`)
+                .style(`z-index`, `21`)
                 .style(`position`, `absolute`)
                 .style(`left`, d => `${d.coordinates.spacing - 2}px`)
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `0`)
                 .on(`mouseover`, d => createSeries(d));
         }
-
-
 
 
         function createSeries(d) {
@@ -686,10 +683,11 @@ looker.plugins.visualizations.add({
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
             });
-            let seriesCon = document.getElementById(d.index.toString());
-            seriesCon.parentNode.removeChild(seriesCon);
+            // let seriesCon = document.getElementById(d.index.toString());
+            // seriesCon.parentNode.removeChild(seriesCon);
             createSeriesDrills(d);
         }
+
 
         function createSeriesDrills(series) {
             individualSeries[series.index] = series.seriesData;
