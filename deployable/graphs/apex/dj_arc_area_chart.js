@@ -706,15 +706,23 @@ looker.plugins.visualizations.add({
                 seriesData: seriesValues
             };
         });
-        console.log(`Here's the series container data`); 
+        console.log(`Here's the series container data`, seriesContainers); 
 
 
 
         // Construct a div for each xaxis series
         let seriesContainer = d3.select(`.container`).selectAll(`.series`).data(seriesContainers);
-        let enter = container.enter().append(`div`);  
-        container.merge(enter)
-
+        let enterSeries = container.enter().append(`div`);  
+        seriesContainer.merge(enterSeries)
+            .attr(`id`, d => d.index)
+            .style(`position`, `absolute`)
+            .style(`left`, d => d.left)
+            .style(`right`, d => d.right)
+            .style(`bottom`, d => d.bottom)
+            .style(`top`, d => d.top)
+            .style(`width`, d => d.width)
+            .style(`height`, d => `1400px`)
+            .html(d => d.name);
 
 
 
