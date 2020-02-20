@@ -601,7 +601,7 @@ looker.plugins.visualizations.add({
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
                 hc = holder[0].getBoundingClientRect();
-                
+
                 let data = {
                     pivot: name,
                     column: index,
@@ -681,7 +681,42 @@ looker.plugins.visualizations.add({
             .style(`opacity`, `0`)
             .style(`border`, `1px dashed black`)
             .html(d => d.name)
-            .on(`mouseover`, )
+            .on(`mouseover`, d => createSeries(d));
+
+
+
+
+            function createSeries(d) {
+                console.log(`This series of data passed through mouseover`, d);
+                // We're gonna grab the data of each circle now and pass their coordinates through to create the new visuals who's data is already constructed
+                let holderOfHolder, circleHolder, cid, holder, hc;
+                let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
+                holder = document.getElementsByClassName(`apexcharts-series ${name}`);
+
+                for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
+                for(let i = 0; i < holderOfHolder.children.length; i++) {
+                    // console.log(`children of holder`, holderOfHolder.children[i]);
+                    if  (holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers` || holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
+                        circleHolder = holderOfHolder.children[i];
+                        cid = circleHolder.children[i].id;
+                    }
+                }
+
+                console.log(`Name: ${name}, This is the holder`, holder);
+                console.log(`Holder of holder`, holderOfHolder);
+                console.log(`cid: ${cid} Holder of circle`, circleHolder);
+                let circle = document.getElementById(cid);
+                console.log(`This is the circle`, circle)
+
+                let obj = {
+                    holder: holder.getBoundingRect(),
+                    holderOfHolder: holderOfHolder.getBoundingRect(),
+                    circleHolder: circleHolder.getBoundingRect(),
+                    circle: circle.getBoundingRect()
+                };
+                console.log(`Heres the bounding data`, obj);
+                
+            }
 
 
 
@@ -689,7 +724,10 @@ looker.plugins.visualizations.add({
 
 
 
-        // Functions
+
+        /**************************** 
+         * Functions
+        ****************************/
         function drillDown(links, event) {
             LookerCharts.Utils.openDrillMenu({ 
                 links: links,
