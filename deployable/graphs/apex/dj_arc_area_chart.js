@@ -704,7 +704,7 @@ looker.plugins.visualizations.add({
         let cbottom = gridpointA.bottom;
         let cwidth = gridpointA.width;
         let cheight = gridpointA.height;
-        let cspacing = gridpointA.left;
+        let cspacing = gridpointA.left - (gridWidth / 2);
         let seriesContainers = [];
         
         xaxis.forEach((axis, index) => {
