@@ -740,7 +740,7 @@ looker.plugins.visualizations.add({
         // Construct a div for each xaxis series
         let seriesContainer = d3.select(`.container`).selectAll(`.series`).data(seriesContainers);
         let enterSeries = container.enter().append(`div`);  
-        seriesContainer.merge(seriesContainers)
+        seriesContainer.merge(enterSeries)
             .attr(`id`, d => d.index)
             .style(`position`, `absolute`)
             .style(`left`, d => d.coordinates.left)
