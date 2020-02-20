@@ -706,10 +706,8 @@ looker.plugins.visualizations.add({
                 .style(`left`, data => `${data.coordinates.left - 3}px`)
                 .style(`top`, data => `${data.coordinates.top}px`)
                 .style(`opacity`, `0`)
-                .style(`background-color`, `transparent`)
-                .style(`fill`, d => djColors[d.column])
-                .styel(`stroke-width`, `2px`)
-                .style(`border`, `1px solid white`)
+                .style(`background-color`, d => djColors[d.column])
+                .style(`border`, `2px solid white`)
                 .style(`border-radius`, `50%`)
                 .on('click', d => drillDown(d.links, d3.event))
                 .on(`mouseover`, function(d) {
