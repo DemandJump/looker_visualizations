@@ -701,7 +701,7 @@ looker.plugins.visualizations.add({
                     console.log(`This is the circle`, circle)
 
                     let obj = {
-                        holder: holder.getBoundingClientRect(),
+                        holder: holder[0].getBoundingClientRect(),
                         holderOfHolder: holderOfHolder.getBoundingClientRect(),
                         circleHolder: circleHolder.getBoundingClientRect(),
                         circle: circle.getBoundingClientRect()
