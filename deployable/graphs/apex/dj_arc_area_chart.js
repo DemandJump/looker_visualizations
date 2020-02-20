@@ -587,7 +587,6 @@ looker.plugins.visualizations.add({
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 holder = document.getElementsByClassName(`apexcharts-series ${name}`);
 
-                // console.log(`This is holder`, holder);
                 for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circleHolder = holder[0].children[i];
                 for(let i = 0; i < circleHolder.children.length; i++) {
                     // console.log(`children of holder`, circleHolder.children[i]);
@@ -693,6 +692,7 @@ looker.plugins.visualizations.add({
         // for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
 
         // Series grid data
+        let gridData = grid[0].getBoundingClientRect();
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
         let gridWidth = gridpointB.x - gridpointA.x;
@@ -702,8 +702,8 @@ looker.plugins.visualizations.add({
         let cleft = gridpointA.left;
         let cright = gridpointA.right;
         let cbottom = gridpointA.bottom;
-        let cwidth = gridpointA.width;
-        let cheight = gridpointA.height;
+        let cwidth = grid[0].width;
+        let cheight = grid[0].height;
         let cspacing = gridpointA.left - (gridWidth / 2);
         let seriesContainers = [];
         
