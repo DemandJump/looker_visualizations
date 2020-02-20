@@ -618,6 +618,12 @@ looker.plugins.visualizations.add({
         console.log(`This is the graph`, graph);
         let graphdata = graph[0].getBoundingClientRect();
         console.log(`This is the coordinate data of the graph`, graphdata);
+        var h = document.getElementById('someDiv').clientHeight;
+        var i = document.getElementById('someDiv').offsetHeight;
+        var j = document.getElementById('someDiv').scrollHeight;
+        console.log(`client height`, h);
+        console.log(`offset height`, i);
+        console.log(`scroll height`, j);
 
 
         let gridData = grid[0].getBoundingClientRect();
