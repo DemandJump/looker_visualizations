@@ -668,14 +668,12 @@ looker.plugins.visualizations.add({
                 .style(`left`, d => `${d.coordinates.spacing - 1}px`)
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `0`)
-                .on(`mouseover`, d => createSeries(d))
-                .on(`mouseout`, d => hideTooltip(d));
+                .on(`mouseover`, d => createSeries(d));
         }
 
 
         function createSeries(d) {
             // d3.event.stopPropagation();
-            let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `1 !important`);
             // constructSeriesContainers();
             d3.select(`.container`).selectAll(`.measure`).remove();
             
@@ -687,11 +685,6 @@ looker.plugins.visualizations.add({
             // let seriesCon = document.getElementById(d.index.toString());
             // seriesCon.parentNode.removeChild(seriesCon);
             createSeriesDrills(d);
-        }
-
-
-        function hideTooltip(d) {
-            let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `0`);
         }
 
 
