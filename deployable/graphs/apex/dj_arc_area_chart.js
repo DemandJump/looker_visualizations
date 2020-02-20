@@ -674,7 +674,7 @@ looker.plugins.visualizations.add({
 
 
         function createSeries(d) {
-            d3.event.stopPropagation();
+            // d3.event.stopPropagation();
             let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `1`);
 
             // constructSeriesContainers();
