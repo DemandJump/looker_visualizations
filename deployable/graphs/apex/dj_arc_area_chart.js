@@ -704,7 +704,7 @@ looker.plugins.visualizations.add({
                 .append(`div`).attr(`class`, `measure`)
                     .selectAll(`.measures`).data(individualSeries[series.index]);
             let singleSeries = seriesSection.enter().append(`div`);  
-            seriesContainer.merge(singleSeries)
+            seriesSection.merge(singleSeries)
                 .attr(`class`, `measures`)
                 .style(`width`, data => {
                     console.log(`New instantiated measures`, data);
