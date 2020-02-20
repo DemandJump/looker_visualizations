@@ -660,7 +660,7 @@ looker.plugins.visualizations.add({
         let enterSeries = seriesContainer.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
             .attr(`class`, `series`)
-            .style(`width`, d => `6px`)
+            .style(`width`, `6px`)
             .style(`height`, d => `${d.coordinates.height}px`)
             .style(`z-index`, `22`)
             .style(`position`, `absolute`)
@@ -668,9 +668,7 @@ looker.plugins.visualizations.add({
             .style(`top`, d => `${d.coordinates.top}px`)
             // .style(`right`, d => d.coordinates.right)
             // .style(`bottom`, d => d.coordinates.bottom)
-            .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
-            .style(`border`, `1px dashed black`)
             .html(d => d.name)
             .on(`mouseover`, d => createSeries(d));
 
