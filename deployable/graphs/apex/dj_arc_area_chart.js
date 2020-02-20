@@ -641,7 +641,7 @@ looker.plugins.visualizations.add({
                     bottom: gridpointA.bottom,
                     right: gridpointA.right,
                     width: foreignObject[`_groups`][0][0].attributes.width.value,
-                    height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
+                    height: foreignObject[`_groups`][0][0].attributes.height.value - graphdata.top,
                     gridSpacing: gridpointB.x - gridpointA.x,
                     spacing: cspacing
                 },
@@ -659,7 +659,7 @@ looker.plugins.visualizations.add({
         let enterSeries = seriesContainer.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
             .attr(`class`, `series`)
-            .style(`width`, d => `${d.coordinates.gridSpacing}px`)
+            .style(`width`, d => `6px`)
             .style(`height`, d => `${d.coordinates.height}px`)
             .style(`z-index`, `22`)
             .style(`position`, `absolute`)
