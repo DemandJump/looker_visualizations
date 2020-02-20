@@ -653,14 +653,14 @@ looker.plugins.visualizations.add({
         console.log(`Here's the series container data`, seriesContainers); 
 
         let individualSeries = {};
+        let seriesContainer = d3.select(`.container`)
+            .append(`div`).attr(`class`, `measureSeries`)
+                .selectAll(`.series`).data(seriesContainers);
+        let enterSeries = seriesContainer.enter().append(`div`);  
         constructSeriesContainers(); 
         
         function constructSeriesContainers() {
             // Construct a div for each xaxis series
-            let seriesContainer = d3.select(`.container`)
-                .append(`div`).attr(`class`, `measureSeries`)
-                    .selectAll(`.series`).data(seriesContainers);
-            let enterSeries = seriesContainer.enter().append(`div`);  
             seriesContainer.merge(enterSeries)
                 .attr(`id`, d => d.index)
                 .attr(`class`, `series`)
@@ -678,8 +678,8 @@ looker.plugins.visualizations.add({
 
 
         function createSeries(d) {
-            // constructSeriesContainers();
-            // d3.select(`.container`).selectAll(`.measure`).remove();
+            constructSeriesContainers();
+            d3.select(`.container`).selectAll(`.measure`).remove();
             
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
