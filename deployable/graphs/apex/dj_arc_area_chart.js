@@ -729,7 +729,7 @@ looker.plugins.visualizations.add({
                 },
                 seriesData: seriesValues
             };
-            seriesContainer.push(obj);
+            seriesContainers.push(obj);
         });
         console.log(`Here's the series container data`, seriesContainers); 
 
