@@ -657,7 +657,7 @@ looker.plugins.visualizations.add({
             .style(`left`, d => {
               console.log(`This is d`, d);
               return d.coordinates.left; 
-            } )
+            })
             .style(`right`, d => d.coordinates.right)
             .style(`bottom`, d => d.coordinates.bottom)
             .style(`top`, d => d.coordinates.top)
