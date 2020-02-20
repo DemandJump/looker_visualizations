@@ -696,12 +696,9 @@ looker.plugins.visualizations.add({
         }
 
         function createSeriesDrills(series) {
-            // Construct a div for each xaxis series
+            console.log(`name: ${series.name}, series`, series.seriesData);
             individualSeries[series.index] = series.seriesData;
-            // d3.event.stopPropagation();
-            console.log(`This is series`, series);
-            console.log(`This is individual series`, individualSeries[series.index]);
-
+            d3.event.stopPropagation();
             let seriesSection = d3.select(`.container`)
                 .append(`div`).attr(`class`, `measure`)
                     .selectAll(`.measures`).data(individualSeries[series.index]);
