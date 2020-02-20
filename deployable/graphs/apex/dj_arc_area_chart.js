@@ -517,9 +517,7 @@ looker.plugins.visualizations.add({
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let ps;
-        console.log(`Here are the children`, axisElements[0].children);
-        // let tooltip = $(".apexcharts-tooltip");
-        // console.log(`This is tooltip`, tooltip);
+        // console.log(`Here are the children`, axisElements[0].children);
 
             // X axis drilldown menu
 
@@ -670,13 +668,16 @@ looker.plugins.visualizations.add({
                 .style(`left`, d => `${d.coordinates.spacing - 1}px`)
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `0`)
-                .on(`mouseover`, d => createSeries(d));
+                .on(`mouseover`, d => createSeries(d))
+                .on(`mouseout`, d => hideTooltip(d));
         }
 
 
         function createSeries(d) {
             d3.event.stopPropagation();
-            constructSeriesContainers();
+            let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `1`);
+
+            // constructSeriesContainers();
             d3.select(`.container`).selectAll(`.measure`).remove();
             
             d.seriesData.forEach(row => {
@@ -687,6 +688,12 @@ looker.plugins.visualizations.add({
             // let seriesCon = document.getElementById(d.index.toString());
             // seriesCon.parentNode.removeChild(seriesCon);
             createSeriesDrills(d);
+        }
+
+
+        function hideTooltip(d) {
+            let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `0`);
+            // let tooltip = $(".apexcharts-tooltip");
         }
 
 
