@@ -665,7 +665,7 @@ looker.plugins.visualizations.add({
             .style(`top`, circle.top)
             .style(`left`, circle.left)
             .style(`width`, hc.width)
-            .style(`height`, hc.height)
+            .style(`height`, `100px`)
             .style(`background-color`, `transparent`)
             .style(`border`, `1px solid dashed`);
 
@@ -675,19 +675,29 @@ looker.plugins.visualizations.add({
         let grid = document.getElementsByClassName(`apexcharts-grid`);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
 
-        console.log(`This is the grid`, grid);
-        console.log(`These are the grid points`, gridpoints);
+        // console.log(`This is the grid`, grid);
+        // console.log(`These are the grid points`, gridpoints);
         console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
-        for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect().right);
+        for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
 
-        // Get the distance between two gridpoints
+        // Series grid data
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
         let gridWidth = gridpointB.x - gridpointA.x;
+        let y = gridpointA.y;
+        let x = gridPointsA.x;
+        let top = gridPointsA.top;
+        let left = gridPointsA.left;
+        let right = gridPointsA.right;
+        let bottom = gridPointsA.bottom;
+        let width = gridPointsA.width;
+        let height = gridPointsA.height;
+        let spacing = gridPointsA.left;
         console.log(`Distance between two gridpoints is` , gridWidth);
         let seriesContainers = [];
         xaxis.forEach((axis, index) => {
             let coords = gridpoints[index].getBoundingClientRect();
+            if (index != 0) spacing += gridWidth;
 
             let seriesValues = [];
             for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i]);
@@ -695,12 +705,14 @@ looker.plugins.visualizations.add({
                 index: index,
                 name: axis,
                 coordinates: {
-                    x: coords.x,
-                    y: coords.y,
-                    top: coords.top,
-                    left: coords.left,
-                    bottom: coords.bottom,
-                    right: coords.right,
+                    x: x,
+                    y: y,
+                    top: top,
+                    left: left,
+                    bottom: bottom,
+                    right: right,
+                    width: width,
+                    height: height,
                     gridWidth: gridWidth,
                 },
                 seriesData: seriesValues
