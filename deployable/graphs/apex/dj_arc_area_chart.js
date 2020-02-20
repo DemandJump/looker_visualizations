@@ -690,7 +690,7 @@ looker.plugins.visualizations.add({
         // console.log(`This is the grid`, grid);
         // console.log(`These are the grid points`, gridpoints);
         console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
-        for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
+        // for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
 
         // Series grid data
         let gridpointA = gridpoints[0].getBoundingClientRect();
