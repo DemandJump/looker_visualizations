@@ -661,11 +661,11 @@ looker.plugins.visualizations.add({
             seriesContainer.merge(enterSeries)
                 .attr(`id`, d => d.index)
                 .attr(`class`, `series`)
-                .style(`width`, `2px`)
+                .style(`width`, `1px`)
                 .style(`height`, d => `${d.coordinates.height}px`)
                 .style(`z-index`, `21`)
                 .style(`position`, `absolute`)
-                .style(`left`, d => `${d.coordinates.spacing - 1}px`)
+                .style(`left`, d => `${d.coordinates.spacing - .5}px`)
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `0`)
                 .on(`mouseover`, d => createSeries(d));
@@ -703,9 +703,8 @@ looker.plugins.visualizations.add({
                 .style(`position`, `absolute`)
                 .style(`left`, data => `${data.coordinates.left - 3}px`)
                 .style(`top`, data => `${data.coordinates.top}px`)
-                // .style(`opacity`, `0`)
+                .style(`opacity`, `0`)
                 .style(`background-color`, `transparent`)
-                .style(`border`, `1px dashed black`)
                 .style(`border-radius`, `50%`)
                 .on('click', d => drillDown(d.links, d3.event));
         }
