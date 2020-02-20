@@ -675,8 +675,7 @@ looker.plugins.visualizations.add({
 
         function createSeries(d) {
             // d3.event.stopPropagation();
-            let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `1`);
-
+            let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `1 !important`);
             // constructSeriesContainers();
             d3.select(`.container`).selectAll(`.measure`).remove();
             
@@ -693,7 +692,6 @@ looker.plugins.visualizations.add({
 
         function hideTooltip(d) {
             let tooltip = d3.select(`.apexcharts-tooltip`).style(`opacity`, `0`);
-            // let tooltip = $(".apexcharts-tooltip");
         }
 
 
