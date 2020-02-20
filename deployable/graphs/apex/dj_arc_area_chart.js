@@ -676,7 +676,7 @@ looker.plugins.visualizations.add({
 
         function createSeries(d) {
             constructSeriesContainers();
-            d3.select(`.container`).selectAll(`.measure`).remove();
+            // d3.select(`.container`).selectAll(`.measure`).remove();
             
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
