@@ -192,8 +192,9 @@ looker.plugins.visualizations.add({
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
-        let node = document.getElementById(`chart-apex-area`);
-        while(node.firstChild) node.firstChild.remove();
+        d3.select("#chart-apex-area").selectAll("*").remove(); // Clear out the data before we add the vis
+        // let node = document.getElementById(`chart-apex-area`);
+        // while(node.firstChild) node.firstChild.remove();
         console.log(`\n\n\n\nThese are the settings`, this.options);
         console.log(`This is the config`, config);
         console.log(`Queryresponse`, queryResponse);
@@ -522,6 +523,7 @@ looker.plugins.visualizations.add({
         /******************************** 
          * Drilldown Menu Configuration
         ********************************/
+        d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         console.log(`Here are the children`, axisElements[0].children);
         // let tooltip = $(".apexcharts-tooltip");
