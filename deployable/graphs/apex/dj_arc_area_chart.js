@@ -525,6 +525,7 @@ looker.plugins.visualizations.add({
         ********************************/
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
+        let ps;
         console.log(`Here are the children`, axisElements[0].children);
         // let tooltip = $(".apexcharts-tooltip");
         // console.log(`This is tooltip`, tooltip);
@@ -536,7 +537,7 @@ looker.plugins.visualizations.add({
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
         let elem = axisElements[0].children;
         for(let i = 0; i < links.length; i++) {
-            let ps = elem[i].getBoundingClientRect();
+            ps = elem[i].getBoundingClientRect();
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
@@ -566,9 +567,9 @@ looker.plugins.visualizations.add({
             .style(`height`, d => `${d.width}px`)
             .style(`position`, `absolute`)
             .style(`left`, d => `${d.left}px`)
-            .style(`bottom`, d => `${d.bottom}px`)
+            // .style(`bottom`, d => `${d.bottom}px`)
             .style(`top`, d => `${d.top}px`)
-            .style(`right`, d => `${d.right}px`)
+            // .style(`right`, d => `${d.right}px`)
             .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
@@ -624,7 +625,7 @@ looker.plugins.visualizations.add({
         console.log(`Coordinate data of the graph`, graphdata);
         console.log(`Coordinate data of the foreign object`, fodata);
         
-        // x of graphdata, y
+        
 
 
         let gridData = grid[0].getBoundingClientRect();
@@ -648,8 +649,8 @@ looker.plugins.visualizations.add({
                     left: gridpointA.left,
                     bottom: gridpointA.bottom,
                     right: gridpointA.right,
-                    width: gridData.height,
-                    height: gridData.height,
+                    width: fodata[0][0].attributes.width.value,
+                    height: fodata[0][0].attributes.height.value - ps.height,
                     gridSpacing: gridpointB.x - gridpointA.x,
                     spacing: cspacing
                 },
@@ -667,17 +668,14 @@ looker.plugins.visualizations.add({
         let enterSeries = seriesContainer.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
             .attr(`class`, `series`)
-            .style(`position`, `absolute`)
+            .style(`width`, d => d.coordinates.gridSpacing)
+            .style(`height`, d => d.coordinates.height)
             .style(`z-index`, `22`)
-            .style(`left`, d => {
-                console.log(`This is the spacing`, d);
-                return d.spacing;
-            })
-            .style(`top`, d => d.coordinates.top)
+            .style(`position`, `absolute`)
+            .style(`left`, d => d.coordinates.spacing)
+            .style(`top`, d => `0`)
             // .style(`right`, d => d.coordinates.right)
             // .style(`bottom`, d => d.coordinates.bottom)
-            .style(`width`, d => d.coordinates.gridSpacing)
-            .style(`height`, d => `1400px`)
             .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`border`, `1px dashed black`)
@@ -691,31 +689,34 @@ looker.plugins.visualizations.add({
                 console.log(`This series of data passed through mouseover`, d);
                 // We're gonna grab the data of each circle now and pass their coordinates through to create the new visuals who's data is already constructed
                 let holderOfHolder, circleHolder, cid, holder, hc;
-                let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
-                holder = document.getElementsByClassName(`apexcharts-series ${name}`);
+                d.seriesData.forEach(row => {
+                    let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
+                    holder = document.getElementsByClassName(`apexcharts-series ${name}`);
 
-                for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
-                for(let i = 0; i < holderOfHolder.children.length; i++) {
-                    // console.log(`children of holder`, holderOfHolder.children[i]);
-                    if  (holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers` || holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
-                        circleHolder = holderOfHolder.children[i];
-                        cid = circleHolder.children[i].id;
+                    for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
+                    for(let i = 0; i < holderOfHolder.children.length; i++) {
+                        // console.log(`children of holder`, holderOfHolder.children[i]);
+                        if  (holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers` || holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
+                            circleHolder = holderOfHolder.children[i];
+                            cid = circleHolder.children[i].id;
+                        }
                     }
-                }
 
-                console.log(`Name: ${name}, This is the holder`, holder);
-                console.log(`Holder of holder`, holderOfHolder);
-                console.log(`cid: ${cid} Holder of circle`, circleHolder);
-                let circle = document.getElementById(cid);
-                console.log(`This is the circle`, circle)
+                    console.log(`Name: ${name}, This is the holder`, holder);
+                    console.log(`Holder of holder`, holderOfHolder);
+                    console.log(`cid: ${cid} Holder of circle`, circleHolder);
+                    let circle = document.getElementById(cid);
+                    console.log(`This is the circle`, circle)
 
-                let obj = {
-                    holder: holder.getBoundingRect(),
-                    holderOfHolder: holderOfHolder.getBoundingRect(),
-                    circleHolder: circleHolder.getBoundingRect(),
-                    circle: circle.getBoundingRect()
-                };
-                console.log(`Heres the bounding data`, obj);
+                    let obj = {
+                        holder: holder.getBoundingRect(),
+                        holderOfHolder: holderOfHolder.getBoundingRect(),
+                        circleHolder: circleHolder.getBoundingRect(),
+                        circle: circle.getBoundingRect()
+                    };
+                    console.log(`Heres the bounding data`, obj);
+
+                });
                 
             }
 
