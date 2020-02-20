@@ -621,13 +621,13 @@ looker.plugins.visualizations.add({
                 circleValues.push(data);
 
                 if (index == 0) {
-                    console.log(`${name}, this is holder`, holder);
-                    console.log(`This is the data`, data);
+                    // console.log(`${name}, this is holder`, holder);
+                    // console.log(`This is the data`, data);
 
-                    console.log(`The circle`, ps);
-                    console.log(`Thh holder of all holders`, hc);
-                    console.log(`Circle c coordinates:: cx:`, cData.cx);
-                    console.log(`Circle c coordinates:: cy:`, cData.cy);
+                    // console.log(`The circle`, ps);
+                    // console.log(`Thh holder of all holders`, hc);
+                    // console.log(`Circle c coordinates:: cx:`, cData.cx);
+                    // console.log(`Circle c coordinates:: cy:`, cData.cy);
                 }
             });
         }
