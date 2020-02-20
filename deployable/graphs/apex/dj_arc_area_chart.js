@@ -686,10 +686,10 @@ looker.plugins.visualizations.add({
                 let name = row.pivot.replace(/ /g, `-`);
                 holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 console.log(`This is holder`, holder);
-                console.log(`one layer in`, holder[0].children[holder[0].children.length - 1]);
-                console.log(`two layers in`, holder[0].children[holder[0].children.length - 1].children[0]);
-                console.log(`three layers in`, holder[0].children[holder[0].children.length - 1].children[0].children[0]);
-                row.coordinates = holder[0].children[holder[0].children.length - 1].children[0].children[0].getBoundingClientRect();
+                console.log(`one layer in`, holder[0].children[holder[0].children.length - 2]);
+                console.log(`two layers in`, holder[0].children[holder[0].children.length - 2].children[0]);
+                console.log(`three layers in`, holder[0].children[holder[0].children.length - 2].children[0].children[0]);
+                row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
                 console.log(`These are the row coordinates`, row.coordinates); 
                 // for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
                 // for(let i = 0; i < holderOfHolder.children.length; i++) {
