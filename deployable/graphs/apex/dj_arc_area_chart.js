@@ -614,6 +614,12 @@ looker.plugins.visualizations.add({
 
         let grid = document.getElementsByClassName(`apexcharts-grid`);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
+        let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
+        console.log(`This is the graph`, graph);
+        let graphdata = graph[0].getBoundingClientRect();
+        console.log(`This is the coordinate data of the graph`, graphdata);
+
+
         let gridData = grid[0].getBoundingClientRect();
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
