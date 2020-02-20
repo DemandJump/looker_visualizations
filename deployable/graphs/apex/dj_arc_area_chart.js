@@ -680,27 +680,11 @@ looker.plugins.visualizations.add({
         function createSeries(d) {
             // constructSeriesContainers();
             // d3.select(`.container`).selectAll(`.measure`).remove();
-            // We're gonna grab the data of each circle now and pass their coordinates through to create the new visuals who's data is already constructed
-            let holderOfHolder, circleHolder, cid, holder, hc;
+            
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
-                holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-                console.log(`This is holder`, holder);
-                console.log(`one layer in`, holder[0].children[holder[0].children.length - 2]);
-                console.log(`two layers in`, holder[0].children[holder[0].children.length - 2].children[0]);
-                console.log(`three layers in`, holder[0].children[holder[0].children.length - 2].children[0].children[0]);
+                let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
-                console.log(`These are the row coordinates`, row.coordinates); 
-                // for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
-                // for(let i = 0; i < holderOfHolder.children.length; i++) {
-                //     // console.log(`children of holder`, holderOfHolder.children[i]);
-                //     if  (holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers` || holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
-                //         circleHolder = holderOfHolder.children[i];
-                //         cid = circleHolder.children[i].id;
-                //     }
-                // }
-                // let circle = document.getElementById(cid);
-                // row.coordinates = circle.getBoundingClientRect();
             });
             let seriesCon = document.getElementById(d.index.toString());
             seriesCon.parentNode.removeChild(seriesCon);
