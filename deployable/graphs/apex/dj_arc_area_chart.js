@@ -656,11 +656,11 @@ looker.plugins.visualizations.add({
         let seriesContainer = d3.select(`.container`)
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
-        let enterSeries = seriesContainer.enter().append(`div`);  
         constructSeriesContainers(); 
         
         function constructSeriesContainers() {
             // Construct a div for each xaxis series
+            let enterSeries = seriesContainer.enter().append(`div`);  
             seriesContainer.merge(enterSeries)
                 .attr(`id`, d => d.index)
                 .attr(`class`, `series`)
