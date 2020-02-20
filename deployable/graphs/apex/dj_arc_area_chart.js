@@ -687,7 +687,7 @@ looker.plugins.visualizations.add({
         console.log(`Distance between two gridpoints is` , gridWidth);
         let seriesContainers = [];
         xaxis.forEach((axis, index) => {
-            let coords = gridpoints[i].getBoundingClientRect();
+            let coords = gridpoints[index].getBoundingClientRect();
 
             let seriesValues = [];
             for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i]);
