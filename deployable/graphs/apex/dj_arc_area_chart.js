@@ -618,12 +618,8 @@ looker.plugins.visualizations.add({
         console.log(`This is the graph`, graph);
         let graphdata = graph[0].getBoundingClientRect();
         console.log(`This is the coordinate data of the graph`, graphdata);
-        var hh = graph[0].clientHeight;
-        var ii = graph[0].offsetHeight;
-        var jj = graph[0].scrollHeight;
-        console.log(`client height`, hh);
-        console.log(`offset height`, ii);
-        console.log(`scroll height`, jj);
+        let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
+        console.log(`This is the foreignObject`, foreignObject);
 
 
         let gridData = grid[0].getBoundingClientRect();
@@ -668,7 +664,10 @@ looker.plugins.visualizations.add({
             .attr(`class`, `series`)
             .style(`position`, `absolute`)
             .style(`z-index`, `22`)
-            .style(`left`, d => d.spacing)
+            .style(`left`, d => {
+                console.log(`This is the spacing`, d.spacing);
+                return d.spacing;
+            })
             .style(`top`, d => d.coordinates.top)
             // .style(`right`, d => d.coordinates.right)
             // .style(`bottom`, d => d.coordinates.bottom)
