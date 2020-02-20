@@ -660,7 +660,7 @@ looker.plugins.visualizations.add({
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
         let enterSeries = seriesContainer.enter().append(`div`);  
-        seriesContainer.merge(data)
+        seriesContainer.merge(enterSeries)
             .attr(`class`, `series`)
             .style(`position`, `absolute`)
             .style(`z-index`, `22`)
