@@ -517,15 +517,20 @@ looker.plugins.visualizations.add({
         }
 
 
-        let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
-        let tooltip = $(".apexcharts-tooltip");
-        console.log(`Here are the children`, axisElements[0].children);
-        console.log(`This is tooltip`, tooltip);
 
+
+        /******************************** 
+         * Drilldown Menu Configuration
+        ********************************/
+        let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
+        console.log(`Here are the children`, axisElements[0].children);
+        // let tooltip = $(".apexcharts-tooltip");
+        // console.log(`This is tooltip`, tooltip);
+
+            // X axis drilldown menu
         let links = [];
         let nodes = [];
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
-
         let elem = axisElements[0].children;
         for(let i = 0; i < links.length; i++) {
             let ps = elem[i].getBoundingClientRect();
@@ -567,7 +572,9 @@ looker.plugins.visualizations.add({
             .on('click', d => drillDown(d.links, d3.event));
 
 
-        // Apexcharts-plot-series
+
+
+            // Y axis drilldown menu
         let circleValues = [];
         let circleLinks = [];
         let circleHolder, circle, cid, holder, hc;
@@ -671,6 +678,11 @@ looker.plugins.visualizations.add({
 
 
 
+
+
+
+            // Grid Series Container data
+
         // Find the distance between two grid axis ticks, and starting midpoint between two
         let grid = document.getElementsByClassName(`apexcharts-grid`);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
@@ -719,7 +731,6 @@ looker.plugins.visualizations.add({
             };
         });
         console.log(`Here's the series container data`, seriesContainers); 
-
 
 
         // Construct a div for each xaxis series
