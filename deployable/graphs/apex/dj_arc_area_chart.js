@@ -692,7 +692,7 @@ looker.plugins.visualizations.add({
             let seriesValues = [];
             for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i]);
             let obj = {
-                index: index
+                index: index,
                 name: axis,
                 coordinates: {
                     x: coords.x,
