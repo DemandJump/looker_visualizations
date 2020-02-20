@@ -587,10 +587,10 @@ looker.plugins.visualizations.add({
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 holder = document.getElementsByClassName(`apexcharts-series ${name}`);
 
-                console.log(`This is holder`, holder);
+                // console.log(`This is holder`, holder);
                 for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circleHolder = holder[0].children[i];
                 for(let i = 0; i < circleHolder.children.length; i++) {
-                    console.log(`children of holder`, circleHolder.children[i]);
+                    // console.log(`children of holder`, circleHolder.children[i]);
                     if  (circleHolder.children[i].className.baseVal == `apexcharts-series-markers` || circleHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
                         circle = circleHolder.children[i];
                         cid = circle.children[i].id;
