@@ -663,11 +663,11 @@ looker.plugins.visualizations.add({
             seriesContainer.merge(enterSeries)
                 .attr(`id`, d => d.index)
                 .attr(`class`, `series`)
-                .style(`width`, `3px`)
+                .style(`width`, `2px`)
                 .style(`height`, d => `${d.coordinates.height}px`)
                 .style(`z-index`, `21`)
                 .style(`position`, `absolute`)
-                .style(`left`, d => `${d.coordinates.spacing - 1.5}px`)
+                .style(`left`, d => `${d.coordinates.spacing - 1}px`)
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `0`)
                 .on(`mouseover`, d => createSeries(d));
