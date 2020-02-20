@@ -659,15 +659,15 @@ looker.plugins.visualizations.add({
         let enterSeries = seriesContainer.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
             .attr(`class`, `series`)
-            .style(`width`, d => d.coordinates.gridSpacing)
-            .style(`height`, d => d.coordinates.height)
+            .style(`width`, d => `${d.coordinates.gridSpacing}px`)
+            .style(`height`, d => `${d.coordinates.height}px`)
             .style(`z-index`, `22`)
             .style(`position`, `absolute`)
             .style(`left`, d => {
-              console.log(`These are the coordinates`, d.coordinates)
-              return d.coordinates.spacing;
+              console.log(`These are the coordinates (spacinge: ${d.coordinates.spacing})`, d.coordinates);
+              return `${d.coordinates.spacing}px`;
             })
-            .style(`top`, d => d.coordinates.top)
+            .style(`top`, d => `${d.coordinates.top}px`)
             // .style(`right`, d => d.coordinates.right)
             // .style(`bottom`, d => d.coordinates.bottom)
             .style(`background-color`, `transparent`)
