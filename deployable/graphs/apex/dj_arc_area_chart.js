@@ -552,8 +552,10 @@ looker.plugins.visualizations.add({
             nodes.push(node);
         }
         // console.log(`These are the nodes`, nodes);
-        let container = d3.select(`.container`).selectAll(`.dimension`).data(nodes);
-        let enter = container.enter().append(`span`);  
+        let container = d3.select(`.container`)
+            .append(`div`).attr(`class`, `dimensions`)
+                .selectAll(`.dimension`).data(nodes);
+        let enter = container.enter().append(`span`);
         container.merge(enter)
             .attr(`class`, `dimension`)
             .attr(`id`, d => d.id)
@@ -599,8 +601,7 @@ looker.plugins.visualizations.add({
                 let cData = document.getElementById(cid);
                 let ps = cData.getBoundingClientRect();
                 hc = holder[0].getBoundingClientRect();
-
-
+                
                 let data = {
                     pivot: name,
                     column: index,
@@ -618,117 +619,41 @@ looker.plugins.visualizations.add({
                     element: holder  
                 };
                 circleValues.push(data);
-
-                if (index == 0) {
-                    // console.log(`${name}, this is holder`, holder);
-                    // console.log(`This is the data`, data);
-
-                    // console.log(`The circle`, ps);
-                    // console.log(`Thh holder of all holders`, hc);
-                    // console.log(`Circle c coordinates:: cx:`, cData.cx);
-                    // console.log(`Circle c coordinates:: cy:`, cData.cy);
-                }
             });
         }
         console.log(`Theser are the circle values`, circleValues);
-        let mContainer = d3.select(`.container`).selectAll(`.measures`).data(circleValues);
-        let mEnter = mContainer.enter().append(`span`);  
-        mContainer.merge(mEnter)
-            .attr(`class`, `measures`)
-            .attr(`id`, d => d.id)
-            .style(`width`, d => `14px`)
-            .style(`height`, d => `14px`)
-            .style(`position`, `absolute`)
-            .style(`left`, d => `${d.left}px`)
-            .style(`bottom`, d => `${d.bottom}px`)
-            .style(`top`, d => `${d.top}px`)
-            .style(`right`, d => `${d.right}px`)
-            .style(`background-color`, `transparent`)
-            .style(`opacity`, `0`)
-            .style(`z-index`, `110`)
-            .style(`transform`, `rotate(-45)`)
-            .style(`border`, `1px solid black`)
-            // .html(d => d.text)
-            // .on('click', d => drillDown(d.links, d3.event));
-
-
-
-
-
-
-
-
-        function drillDown(links, event) {
-            LookerCharts.Utils.openDrillMenu({ 
-                links: links,
-                event: event
-            });
-        }
-
-
-        console.log(`hc width: ${hc.width}, and hc height: ${hc.height}`);
-        let mesContainer = d3.select(`.mesContainer`)
-            .style(`top`, circle.top)
-            .style(`left`, circle.left)
-            .style(`width`, hc.width)
-            .style(`height`, `100px`)
-            .style(`background-color`, `transparent`)
-            .style(`border`, `1px solid dashed`);
-
-
-
-
 
 
             // Grid Series Container data
-
-        // Find the distance between two grid axis ticks, and starting midpoint between two
         let grid = document.getElementsByClassName(`apexcharts-grid`);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
-
-        // console.log(`This is the grid`, grid);
-        // console.log(`These are the grid points`, gridpoints);
         console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
-        // for(let i = 0; i < gridpoints.length; i++) console.log(`gridpoints bounding clients coords`, gridpoints[i].getBoundingClientRect());
 
         // Series grid data
         let gridData = grid[0].getBoundingClientRect();
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
-        let gridWidth = gridpointB.x - gridpointA.x;
-        let cy = gridpointA.y;
-        let cx = gridpointA.x;
-        let ctop = gridpointA.top;
-        let cleft = gridpointA.left;
-        let cright = gridpointA.right;
-        let cbottom = gridpointA.bottom;
-        let cwidth = grid[0].width;
-        let cheight = grid[0].height;
-        let cspacing = gridpointA.left - (gridWidth / 2);
+        let gridSpacing = gridpointB.x - gridpointA.x;
         let seriesContainers = [];
         
         xaxis.forEach((axis, index) => {
-            if (index != 0) cspacing += gridWidth;
-
+            if (index != 0) cspacing += gridSpacing;
             let seriesValues = [];
-            for(let i = 0; i < queryResponse.pivots.length; i++) {
-                let iteration = i + (index * queryResponse.pivots.length); 
-                seriesValues.push(circleValues[iteration]);
-            }
+            for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i + (index * queryResponse.pivots.length)]);
             let obj = {
                 index: index,
                 name: axis,
                 coordinates: {
-                    x: cx,
-                    y: cy,
-                    top: ctop,
-                    left: cleft,
-                    bottom: cbottom,
-                    right: cright,
-                    width: cwidth,
-                    height: cheight,
-                    gridWidth: gridWidth,
-                    spacing: cspacing
+                    x: gridpointA.x,
+                    y: gridpointA.y,
+                    top: gridpointA.top,
+                    left: gridpointA.left,
+                    bottom: gridpointA.bottom,
+                    right: gridpointA.right,
+                    width: gridData[0].height,
+                    height: gridData[0].height,
+                    gridSpacing: gridpointB.x - gridpointA.x,
+                    spacing: gridpointA.left - (gridSpacing / 2)
                 },
                 seriesData: seriesValues
             };
@@ -738,11 +663,14 @@ looker.plugins.visualizations.add({
 
 
         // Construct a div for each xaxis series
-        let seriesContainer = d3.select(`.container`).selectAll(`.series`).data(seriesContainers);
+        let seriesContainer = d3.select(`.container`)
+            .append(`div`).attr(`class`, `measureSeries`)
+                .selectAll(`.series`).data(seriesContainers);
         let enterSeries = container.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
-            .attr(`id`, d => d.index)
+            .attr(`class`, `series`)
             .style(`position`, `absolute`)
+            .style(`z-index`, `22`)
             .style(`left`, d => d.coordinates.left)
             .style(`right`, d => d.coordinates.right)
             .style(`bottom`, d => d.coordinates.bottom)
@@ -750,8 +678,10 @@ looker.plugins.visualizations.add({
             .style(`width`, d => d.coordinates.gridWidth)
             .style(`height`, d => `1400px`)
             .style(`background-color`, `transparent`)
+            .style(`opacity`, `0`)
             .style(`border`, `1px dashed black`)
-            .html(d => d.name);
+            .html(d => d.name)
+            .on(`mouseover`, )
 
 
 
@@ -760,6 +690,14 @@ looker.plugins.visualizations.add({
 
 
         // Functions
+        function drillDown(links, event) {
+            LookerCharts.Utils.openDrillMenu({ 
+                links: links,
+                event: event
+            });
+        }
+
+
         function convertDateTime(val) {
             let day = val.substr(0, 4);
             let month = val.substr(5, 2);
