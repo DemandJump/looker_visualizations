@@ -663,11 +663,11 @@ looker.plugins.visualizations.add({
             seriesContainer.merge(enterSeries)
                 .attr(`id`, d => d.index)
                 .attr(`class`, `series`)
-                .style(`width`, `4px`)
+                .style(`width`, `3px`)
                 .style(`height`, d => `${d.coordinates.height}px`)
                 .style(`z-index`, `21`)
                 .style(`position`, `absolute`)
-                .style(`left`, d => `${d.coordinates.spacing - 2}px`)
+                .style(`left`, d => `${d.coordinates.spacing - 1.5}px`)
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `0`)
                 .on(`mouseover`, d => createSeries(d));
@@ -676,7 +676,7 @@ looker.plugins.visualizations.add({
 
         function createSeries(d) {
             constructSeriesContainers();
-            // d3.select(`.container`).selectAll(`.measure`).remove();
+            d3.select(`.container`).selectAll(`.measure`).remove();
             
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
