@@ -528,6 +528,7 @@ looker.plugins.visualizations.add({
         // console.log(`This is tooltip`, tooltip);
 
             // X axis drilldown menu
+
         let links = [];
         let nodes = [];
         datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
@@ -576,7 +577,8 @@ looker.plugins.visualizations.add({
 
 
 
-            // Y axis drilldown menu
+            // Y axis drilldown menu (data for each series)
+
         let circleValues = [];
         let circleLinks = [];
         let circleHolder, circle, cid, holder, hc;
@@ -588,20 +590,6 @@ looker.plugins.visualizations.add({
             queryResponse.pivots.forEach((row, index) => {
                 let name = row.data[queryResponse.fields.pivots[0].name].replace(/ /g, `-`);
                 holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-
-                for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) circleHolder = holder[0].children[i];
-                for(let i = 0; i < circleHolder.children.length; i++) {
-                    // console.log(`children of holder`, circleHolder.children[i]);
-                    if  (circleHolder.children[i].className.baseVal == `apexcharts-series-markers` || circleHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
-                        circle = circleHolder.children[i];
-                        cid = circle.children[i].id;
-                    }
-                }
-
-                let cData = document.getElementById(cid);
-                let ps = cData.getBoundingClientRect();
-                hc = holder[0].getBoundingClientRect();
-
                 let data = {
                     pivot: name,
                     column: index,
@@ -610,12 +598,6 @@ looker.plugins.visualizations.add({
                     links: circleLinks[i][index].links,
                     id: `_${holder[0].id}`,
                     originalId: holder[0].id,
-                    width: ps.width,
-                    height: ps.height,
-                    top: ps.top,
-                    left: ps.left,
-                    bottom: ps.bottom,
-                    right: ps.right,
                     element: holder  
                 };
                 circleValues.push(data);
@@ -624,12 +606,12 @@ looker.plugins.visualizations.add({
         console.log(`Theser are the circle values`, circleValues);
 
 
-            // Grid Series Container data
+
+
+            // Grid Series Container data (each series)
+
         let grid = document.getElementsByClassName(`apexcharts-grid`);
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
-        console.log(`grid bounding client coords`, grid[0].getBoundingClientRect());
-
-        // Series grid data
         let gridData = grid[0].getBoundingClientRect();
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
@@ -650,8 +632,8 @@ looker.plugins.visualizations.add({
                     left: gridpointA.left,
                     bottom: gridpointA.bottom,
                     right: gridpointA.right,
-                    width: gridData[0].height,
-                    height: gridData[0].height,
+                    width: gridData.height,
+                    height: gridData.height,
                     gridSpacing: gridpointB.x - gridpointA.x,
                     spacing: gridpointA.left - (gridSpacing / 2)
                 },
