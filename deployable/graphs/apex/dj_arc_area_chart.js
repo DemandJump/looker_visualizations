@@ -707,19 +707,19 @@ looker.plugins.visualizations.add({
             let singleSeries = seriesSection.enter().append(`div`);  
             seriesContainer.merge(singleSeries)
                 .attr(`class`, `measures`)
-                .style(`width`, d => {
-                    console.log(`New instantiated measures`, d);
-                    return `${d.coordinates.width}px`;
+                .style(`width`, data => {
+                    console.log(`New instantiated measures`, data);
+                    return `${data.coordinates.width}px`;
                 })
-                .style(`height`, d => `${d.coordinates.height}px`)
+                .style(`height`, data => `${data.coordinates.height}px`)
                 .style(`z-index`, `22`)
                 .style(`position`, `absolute`)
-                .style(`left`, d => `${d.coordinates.left - 3}px`)
-                .style(`top`, d => `${d.coordinates.top}px`)
+                .style(`left`, data => `${data.coordinates.left - 3}px`)
+                .style(`top`, data => `${data.coordinates.top}px`)
                 // .style(`opacity`, `0`)
                 .style(`background-color`, `transparent`)
                 .style(`border`, `1px dashed black`)
-                .on(`mouseover`, d => createSeries(d));
+                .on('click', d => drillDown(d.links, d3.event));
         }
 
 
