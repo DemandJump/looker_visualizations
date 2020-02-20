@@ -699,8 +699,8 @@ looker.plugins.visualizations.add({
             let singleSeries = seriesSection.enter().append(`div`);  
             seriesSection.merge(singleSeries)
                 .attr(`class`, `measures`)
-                .style(`width`, data => `${data.coordinates.width}px`)
-                .style(`height`, data => `${data.coordinates.height}px`)
+                .style(`width`, data => `${data.coordinates.width -2}px`)
+                .style(`height`, data => `${data.coordinates.height -2}px`)
                 .style(`z-index`, `22`)
                 .style(`position`, `absolute`)
                 .style(`left`, data => `${data.coordinates.left - 3}px`)
