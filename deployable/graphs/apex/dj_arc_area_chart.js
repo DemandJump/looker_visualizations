@@ -711,7 +711,10 @@ looker.plugins.visualizations.add({
             if (index != 0) cspacing += gridWidth;
 
             let seriesValues = [];
-            for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i]);
+            for(let i = 0; i < queryResponse.pivots.length; i++) {
+                let iteration = i + (index * queryResponse.pivots.length); 
+                seriesValues.push(circleValues[iteration]);
+            }
             let obj = {
                 index: index,
                 name: axis,
