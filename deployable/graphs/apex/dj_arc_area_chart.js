@@ -699,6 +699,8 @@ looker.plugins.visualizations.add({
             // Construct a div for each xaxis series
             individualSeries[series.index] = series;
             // d3.event.stopPropagation();
+            console.log(`This is series`, series);
+            console.log(`This is individual series`, individualSeries[series.index]);
 
             let seriesSection = d3.select(`.container`)
                 .append(`div`).attr(`class`, `measure`)
