@@ -697,14 +697,14 @@ looker.plugins.visualizations.add({
         let gridpointB = gridpoints[1].getBoundingClientRect();
         let gridWidth = gridpointB.x - gridpointA.x;
         let cy = gridpointA.y;
-        let cx = gridPointsA.x;
-        let ctop = gridPointsA.top;
-        let cleft = gridPointsA.left;
-        let cright = gridPointsA.right;
-        let cbottom = gridPointsA.bottom;
-        let cwidth = gridPointsA.width;
-        let cheight = gridPointsA.height;
-        let cspacing = gridPointsA.left;
+        let cx = gridPointA.x;
+        let ctop = gridPointA.top;
+        let cleft = gridPointA.left;
+        let cright = gridPointA.right;
+        let cbottom = gridPointA.bottom;
+        let cwidth = gridPointA.width;
+        let cheight = gridPointA.height;
+        let cspacing = gridPointA.left;
         console.log(`Distance between two gridpoints is` , gridWidth);
         let seriesContainers = [];
         xaxis.forEach((axis, index) => {
