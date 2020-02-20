@@ -641,7 +641,8 @@ looker.plugins.visualizations.add({
                     bottom: gridpointA.bottom,
                     right: gridpointA.right,
                     width: foreignObject[`_groups`][0][0].attributes.width.value,
-                    height: foreignObject[`_groups`][0][0].attributes.height.value - graphdata.top,
+                    // height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
+                    height: graphdata.top,
                     gridSpacing: gridpointB.x - gridpointA.x,
                     spacing: cspacing
                 },
