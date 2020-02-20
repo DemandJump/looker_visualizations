@@ -190,6 +190,7 @@ looker.plugins.visualizations.add({
         console.log(`This is the config`, config);
         console.log(`Queryresponse`, queryResponse);
         console.log(`Data`, data);
+        let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
@@ -280,6 +281,7 @@ looker.plugins.visualizations.add({
                 type: `area`,
                 zoom: {enabled: true}
             },
+            colors: djColors,
             dataLabels: {enabled: dataLabels},
             stroke: {curve: curve}, // straight, smooth, stepline
             title: {
@@ -705,6 +707,8 @@ looker.plugins.visualizations.add({
                 .style(`top`, data => `${data.coordinates.top}px`)
                 .style(`opacity`, `0`)
                 .style(`background-color`, `transparent`)
+                .style(`color`, d => djColors[d.column])
+                .style(`border`, `1px solid white`)
                 .style(`border-radius`, `50%`)
                 .on('click', d => drillDown(d.links, d3.event));
         }
