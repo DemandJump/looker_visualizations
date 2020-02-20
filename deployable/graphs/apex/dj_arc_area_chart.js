@@ -617,6 +617,7 @@ looker.plugins.visualizations.add({
         let gridpointB = gridpoints[1].getBoundingClientRect();
         let gridSpacing = gridpointB.x - gridpointA.x;
         let seriesContainers = [];
+        let cspacing = gridpointA.left - (gridSpacing / 2);
         
         xaxis.forEach((axis, index) => {
             if (index != 0) cspacing += gridSpacing;
@@ -635,7 +636,7 @@ looker.plugins.visualizations.add({
                     width: gridData.height,
                     height: gridData.height,
                     gridSpacing: gridpointB.x - gridpointA.x,
-                    spacing: gridpointA.left - (gridSpacing / 2)
+                    spacing: cspacing
                 },
                 seriesData: seriesValues
             };
