@@ -663,10 +663,7 @@ looker.plugins.visualizations.add({
             .style(`height`, d => `${d.coordinates.height}px`)
             .style(`z-index`, `22`)
             .style(`position`, `absolute`)
-            .style(`left`, d => {
-              console.log(`These are the coordinates (spacinge: ${d.coordinates.spacing})`, d.coordinates);
-              return `${d.coordinates.spacing}px`;
-            })
+            .style(`left`, d => `${d.coordinates.spacing - 3}px`)
             .style(`top`, d => `${d.coordinates.top}px`)
             // .style(`right`, d => d.coordinates.right)
             // .style(`bottom`, d => d.coordinates.bottom)
