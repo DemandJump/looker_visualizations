@@ -616,10 +616,15 @@ looker.plugins.visualizations.add({
         let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
         let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
         console.log(`This is the graph`, graph);
-        let graphdata = graph[0].getBoundingClientRect();
-        console.log(`This is the coordinate data of the graph`, graphdata);
         let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
         console.log(`This is the foreignObject`, foreignObject);
+        
+        let graphdata = graph[0].getBoundingClientRect();
+        let fodata = foreignObject[0][0].getBoundingClientRect();
+        console.log(`Coordinate data of the graph`, graphdata);
+        console.log(`Coordinate data of the foreign object`, fodata);
+        
+        // x of graphdata, y
 
 
         let gridData = grid[0].getBoundingClientRect();
