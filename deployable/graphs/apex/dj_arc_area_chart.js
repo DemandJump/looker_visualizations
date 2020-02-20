@@ -709,6 +709,7 @@ looker.plugins.visualizations.add({
                 // .style(`opacity`, `0`)
                 .style(`background-color`, `transparent`)
                 .style(`border`, `1px dashed black`)
+                .style(`border-radius`, `50%`)
                 .on('click', d => drillDown(d.links, d3.event));
         }
 
