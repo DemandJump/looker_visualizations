@@ -621,7 +621,7 @@ looker.plugins.visualizations.add({
         console.log(`This is the foreignObject`, foreignObject);
         
         let graphdata = graph[0].getBoundingClientRect();
-        let fodata = foreignObject[`_groups`][0].getBoundingClientRect();
+        let fodata = foreignObject[`_groups`][0][0].getBoundingClientRect();
         console.log(`Coordinate data of the graph`, graphdata);
         console.log(`Coordinate data of the foreign object`, fodata);
         
@@ -649,8 +649,8 @@ looker.plugins.visualizations.add({
                     left: gridpointA.left,
                     bottom: gridpointA.bottom,
                     right: gridpointA.right,
-                    width: fodata[`_groups`][0].attributes.width.value,
-                    height: fodata[`_groups`][0].attributes.height.value - ps.height,
+                    width: fodata[`_groups`][0][0].attributes.width.value,
+                    height: fodata[`_groups`][0][0].attributes.height.value - ps.height,
                     gridSpacing: gridpointB.x - gridpointA.x,
                     spacing: cspacing
                 },
