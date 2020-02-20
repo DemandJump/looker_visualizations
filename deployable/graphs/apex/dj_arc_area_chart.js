@@ -649,7 +649,7 @@ looker.plugins.visualizations.add({
         let seriesContainer = d3.select(`.container`)
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
-        let enterSeries = container.enter().append(`div`);  
+        let enterSeries = seriesContainer.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
             .attr(`class`, `series`)
             .style(`position`, `absolute`)
