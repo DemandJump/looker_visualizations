@@ -702,7 +702,6 @@ looker.plugins.visualizations.add({
             console.log(`This is series`, series);
             console.log(`This is individual series`, individualSeries[series.index]);
 
-
             let seriesSection = d3.select(`.container`)
                 .append(`div`).attr(`class`, `measure`)
                     .selectAll(`.measures`).data(individualSeries[series.index]);
