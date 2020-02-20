@@ -162,11 +162,6 @@ looker.plugins.visualizations.add({
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
             * { font-family: 'Roboto' !important; }
-            .class:after
-            .mesContainer {
-                content: '.';
-                visibility: hidden;
-            }
             </style>
             <div class="row">
                 <div class="col-md-6">
@@ -185,10 +180,6 @@ looker.plugins.visualizations.add({
                 .style('position', 'absolute')
                 .style('top', '0')
                 .style('left', '0');
-
-            this._measures = d3.select(element).append('div')
-                .attr(`class`, `mesContainer`)
-                .style(`position`, `absolute`);
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5;
@@ -673,7 +664,7 @@ looker.plugins.visualizations.add({
             .style(`z-index`, `22`)
             .style(`position`, `absolute`)
             .style(`left`, d => d.coordinates.spacing)
-            .style(`top`, d => `0`)
+            .style(`top`, d => d.coordinates.top)
             // .style(`right`, d => d.coordinates.right)
             // .style(`bottom`, d => d.coordinates.bottom)
             .style(`background-color`, `transparent`)
