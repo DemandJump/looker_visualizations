@@ -652,13 +652,14 @@ looker.plugins.visualizations.add({
         });
         console.log(`Here's the series container data`, seriesContainers); 
 
-
+        let individualSeries = {};
         // Construct a div for each xaxis series
         let seriesContainer = d3.select(`.container`)
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
         let enterSeries = seriesContainer.enter().append(`div`);  
         seriesContainer.merge(enterSeries)
+            .attr(`id`, d => d.index)
             .attr(`class`, `series`)
             .style(`width`, `6px`)
             .style(`height`, d => `${d.coordinates.height}px`)
@@ -666,49 +667,61 @@ looker.plugins.visualizations.add({
             .style(`position`, `absolute`)
             .style(`left`, d => `${d.coordinates.spacing - 3}px`)
             .style(`top`, d => `${d.coordinates.top}px`)
-            // .style(`right`, d => d.coordinates.right)
-            // .style(`bottom`, d => d.coordinates.bottom)
             .style(`opacity`, `0`)
-            .html(d => d.name)
             .on(`mouseover`, d => createSeries(d));
 
 
 
 
-            function createSeries(d) {
-                console.log(`\n name: ${d.name}:: This series of data passed through mouseover`, d);
-                // We're gonna grab the data of each circle now and pass their coordinates through to create the new visuals who's data is already constructed
-                let holderOfHolder, circleHolder, cid, holder, hc;
-                d.seriesData.forEach(row => {
-                    let name = row.pivot.replace(/ /g, `-`);
-                    holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-
-                    for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
-                    for(let i = 0; i < holderOfHolder.children.length; i++) {
-                        // console.log(`children of holder`, holderOfHolder.children[i]);
-                        if  (holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers` || holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
-                            circleHolder = holderOfHolder.children[i];
-                            cid = circleHolder.children[i].id;
-                        }
+        function createSeries(d) {
+            console.log(`\n name: ${d.name}:: This series of data passed through mouseover`, d);
+            // We're gonna grab the data of each circle now and pass their coordinates through to create the new visuals who's data is already constructed
+            let holderOfHolder, circleHolder, cid, holder, hc;
+            d.seriesData.forEach(row => {
+                let name = row.pivot.replace(/ /g, `-`);
+                holder = document.getElementsByClassName(`apexcharts-series ${name}`);
+                for(let i = 0; i < holder[0].children.length; i++) if (holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap` || holder[0].children[i].className.baseVal == `apexcharts-series-markers-wrap hidden`) holderOfHolder = holder[0].children[i];
+                for(let i = 0; i < holderOfHolder.children.length; i++) {
+                    // console.log(`children of holder`, holderOfHolder.children[i]);
+                    if  (holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers` || holderOfHolder.children[i].className.baseVal == `apexcharts-series-markers hidden`) {
+                        circleHolder = holderOfHolder.children[i];
+                        cid = circleHolder.children[i].id;
                     }
+                }
+                let circle = document.getElementById(cid);
+                row.coordinates = circle.getBoundingClientRect();
+            });
+            let seriesCon = document.getElementById(d.index.toString());
+            seriesCon.parentNode.removeChild(seriesCon);
+            createSeriesDrills(d);
+        }
 
-                    console.log(`Name: ${name}, This is the holder`, holder);
-                    console.log(`Holder of holder`, holderOfHolder);
-                    console.log(`cid: ${cid} Holder of circle`, circleHolder);
-                    let circle = document.getElementById(cid);
-                    console.log(`This is the circle`, circle)
+        function createSeriesDrills(series) {
+            // Construct a div for each xaxis series
+            individualSeries[series.index] = series;
+            // d3.event.stopPropagation();
 
-                    let obj = {
-                        holder: holder[0].getBoundingClientRect(),
-                        holderOfHolder: holderOfHolder.getBoundingClientRect(),
-                        circleHolder: circleHolder.getBoundingClientRect(),
-                        circle: circle.getBoundingClientRect()
-                    };
-                    console.log(`Heres the bounding data`, obj);
+            let seriesSection = d3.select(`.container`)
+                .append(`div`).attr(`class`, `measure`)
+                    .selectAll(`.measures`).data(individualSeries[series.index]);
+            let singleSeries = seriesSection.enter().append(`div`);  
+            seriesContainer.merge(singleSeries)
+                .attr(`class`, `measures`)
+                .style(`width`, d => {
+                    console.log(`New instantiated measures`, d);
+                    return `${d.coordinates.width}px`;
+                })
+                .style(`height`, d => `${d.coordinates.height}px`)
+                .style(`z-index`, `22`)
+                .style(`position`, `absolute`)
+                .style(`left`, d => `${d.coordinates.left - 3}px`)
+                .style(`top`, d => `${d.coordinates.top}px`)
+                // .style(`opacity`, `0`)
+                .style(`background-color`, `transparent`)
+                .style(`border`, `1px dashed black`)
+                .on(`mouseover`, d => createSeries(d));
+        }
 
-                });
-                
-            }
 
 
 
