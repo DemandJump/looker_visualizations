@@ -168,6 +168,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     const burrow = this.burrow(data, userTaxonomy); 
     const root = pack(burrow);
+    console.log(`This is the root`, root);
     let focus = root.children[0];
     root.children.forEach(collapseNulls);
     let nodes = root.descendants().slice(1);
