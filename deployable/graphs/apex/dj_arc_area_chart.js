@@ -660,7 +660,7 @@ looker.plugins.visualizations.add({
             seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
             circleLinks.push(seriesLinks);
 
-            seriesData.forEach(series => {
+            seriesData.forEach((series, index) => {
                 holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
                 let data = {
                     pivot: name,
