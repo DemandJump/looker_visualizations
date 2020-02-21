@@ -205,6 +205,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   let breadCrumbData = [];
   let breadCrumbs;
 
+  console.log(`This is the height of the window`, window.innerHeight);
    
   // console.log('root', root);
       // console.log('nodes', nodes);
@@ -564,8 +565,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           viewBoxFactor = height + 35;
       } else {
           headerSpace = circleHeight * .1;
-          width = circleHeight * .9;
-          height = circleHeight * .9;
+          width = circleHeight;
+          height = circleHeight;
           viewBoxFactor = height + 35;
       }
   } // End of refactorCircleViewport
