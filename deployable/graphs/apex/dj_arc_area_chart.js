@@ -412,7 +412,7 @@ looker.plugins.visualizations.add({
                     if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
                         if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
                     } 
-                    else xaxis.push({name: p.key, links: lonks);
+                    else xaxis.push({name: p.key, links: lonks});
                 });
     
                 // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
