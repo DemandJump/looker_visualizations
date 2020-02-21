@@ -46,8 +46,8 @@ looker.plugins.visualizations.add({
       // this._header = d3.select(element).append("h2")
       //     .attr("class", "header")
 
-      this._breadcrumbs = d3.select(element).append("div")
-          .attr("class", "breadcrumbContainer");
+      // this._breadcrumbs = d3.select(element).append("div")
+      //     .attr("class", "breadcrumbContainer");
 
       this._container = d3.select(element).append("div")
           .attr("class", "container")
@@ -303,8 +303,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               .text(d => d.data.text4);
 
   zoomTo([root.x, root.y, root.r * 2]);
-  simulateClick(document.getElementById('0'), 'click');
-  simulateClick(document.getElementById('0'), 'click');
+  // simulateClick(document.getElementById('0'), 'click');
+  // simulateClick(document.getElementById('0'), 'click');
 
   /*******************************************************
       * Visual's Functions Section *
@@ -470,7 +470,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function zoomThenRefactor(d) {
       zoom(d);
       // refactor(d);
-      initBreadCrumbs(d);
+      // initBreadCrumbs(d);
   }
 
   /*******************************************************
