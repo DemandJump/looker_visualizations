@@ -196,6 +196,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
       // Initial parameters for breadcrumb function
   let breadCrumbIds = []; 
+  let breadCrumbInit = true;
   for(let i = 1; i <= maxDepth; i++) {
       let id = `bc${i}`;
       breadCrumbIds.push(id);
@@ -302,8 +303,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               .text(d => d.data.text4);
 
   zoomTo([root.x, root.y, root.r * 2]);
-  simulateClick(document.getElementById('0'), 'click');
   // simulateClick(document.getElementById('0'), 'click');
+  simulateClick(document.getElementById('0'), 'click');
 
   /*******************************************************
       * Visual's Functions Section *
@@ -325,9 +326,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
  }
 
   function zoom(d) {          
+      const focus0 = focus;
       focus = d;
       // console.log('Zoom function: Node ->', d);
       // console.log('Zoom function: Focus', focus); // This is the current node that they're on
+
 
       const transition = svg.transition() 
           .duration(d3.event.altKey ? 6400 : 640)  
@@ -456,9 +459,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   } // End of zoom function
 
+  // function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
+  //         // I instantiaed something wrong in the spacing, this works correctly!
+  //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
+  //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
+  //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
+  //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
+  // }
 
   function zoomThenRefactor(d) {
       zoom(d);
+      // refactor(d);
       // initBreadCrumbs(d);
   }
 
@@ -839,8 +850,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   let dval = 74;
                   if (d.data) {
                       if (d.data.dj_score) {
-                          // return d.data.dj_score + (d.data.dj_score * (difference = dval - d.data.dj_score));
-                          return d.data.dj_score;
+                          let difference = dval - d.data.dj_score;
+                          return d.data.dj_score + (difference * d.data.dj_score);
+                          // return d.data.dj_score;
                       } else { 
                           return dval;
                       }
