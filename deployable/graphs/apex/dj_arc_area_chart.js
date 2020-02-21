@@ -618,7 +618,8 @@ looker.plugins.visualizations.add({
                 bottom: ps.bottom,
                 right: ps.right,
                 transform: elem[i].attributes.transform.value,
-                xaxis: elem[i].children[0].innerHTML,
+                // xaxis: elem[i].children[0].innerHTML,
+                xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
             };
