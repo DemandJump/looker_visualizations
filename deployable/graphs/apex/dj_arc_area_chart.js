@@ -467,7 +467,7 @@ looker.plugins.visualizations.add({
                     let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
                     let obj = {
                         name: name,
-                        className: row.label_short.replace(/ /g, `-`),
+                        className: name.replace(/ /g, `-`),
                         data: [],
                         links: []
                     };
