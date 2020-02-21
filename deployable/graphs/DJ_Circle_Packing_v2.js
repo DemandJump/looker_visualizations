@@ -839,7 +839,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   let dval = 74;
                   if (d.data) {
                       if (d.data.dj_score) {
-                          return d.data.dj_score + (d.data.dj_score * (difference = dval - d.data.dj_score));
+                          // return d.data.dj_score + (d.data.dj_score * (difference = dval - d.data.dj_score));
+                          return d.data.dj_score;
                       } else { 
                           return dval;
                       }
