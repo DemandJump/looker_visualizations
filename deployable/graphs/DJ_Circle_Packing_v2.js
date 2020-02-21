@@ -144,7 +144,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
    * Error Clauses 
   **********************/
   // this.clearErrors(); // Clear any errors from previous updates.
-  if (queryResponse.fields.dimensions.length == 0) this.addError({title: "No Dimensions", message: "This chart requires dimensions."}); return;
+  if (queryResponse.fields.dimensions.length == 0) this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
   
       // Check if the config.influence is a dimension, and if they're not numbers
   let addError = false;
