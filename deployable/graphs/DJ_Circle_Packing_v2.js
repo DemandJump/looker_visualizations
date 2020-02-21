@@ -46,11 +46,8 @@ looker.plugins.visualizations.add({
           </style>
         `;
 
-        // this._header = d3.select(element).append("h2")
-        //     .attr("class", "header")
-
-        this._breadcrumbs = d3.select(element).append("div")
-            .attr("class", "breadcrumbContainer");
+        // this._breadcrumbs = d3.select(element).append("div")
+        //     .attr("class", "breadcrumbContainer");
 
         this._container = d3.select(element).append("div")
             .attr("class", "container")
@@ -118,6 +115,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
     let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
     let taxonomyPass = dimensions;
+    let changed = false;
 
     /***************************************
      * Configuring the settings
@@ -132,28 +130,19 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     this.options = settings;
     configureNotes ();
-            // Instantiate this setting for the next setting
-    if(this._configuration == 0) {
-        this._configuration = true;
-        this.trigger('registerOptions', settings);
-        this.options = settings; 
-    }
     configureDimensions();
-    if(this._configRef != config.dimensionAmount) {
+    if(changed || this._configRef != config.dimensionAmount) {
         this._configRef = config.dimensionAmount;
         this.options = settings;
-        this.trigger('registerOptions', this.options);
+        this.trigger('registerOptions', settings);
     }
 
     /**********************
      * Error Clauses 
     **********************/
     // this.clearErrors(); // Clear any errors from previous updates.
-    if (queryResponse.fields.dimensions.length == 0) { // This throws error if there are no dimensions for the hierarchy
-      this.addError({title: "No Dimensions", message: "This chart requires dimensions."}); return;
-    }
+    if (queryResponse.fields.dimensions.length == 0) this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
     
-        // Check if the config.influence is a dimension, and if they're not numbers
     let addError = false;
     checkSelectedInfluence();
     if (addError) this.addError({title: "Factor error", message: "The variable factor must be a number"});
@@ -200,15 +189,15 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         .range([6, 42]);
 
         // Initial parameters for breadcrumb function
-    let breadCrumbIds = []; 
-    let breadCrumbInit = true;
-    for(let i = 1; i <= maxDepth; i++) {
-        let id = `bc${i}`;
-        breadCrumbIds.push(id);
-    }
-    // console.log('These are the breadcrumb ids:', breadCrumbIds);
-    let breadCrumbData = [];
-    let breadCrumbs;
+    // let breadCrumbIds = []; 
+    // let breadCrumbInit = true;
+    // for(let i = 1; i <= maxDepth; i++) {
+    //     let id = `bc${i}`;
+    //     breadCrumbIds.push(id);
+    // }
+    // // console.log('These are the breadcrumb ids:', breadCrumbIds);
+    // let breadCrumbData = [];
+    // let breadCrumbs;
 
      
     // console.log('root', root);
@@ -331,11 +320,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
    }
 
     function zoom(d) {          
-        const focus0 = focus;
         focus = d;
-        // console.log('Zoom function: Node ->', d);
-        // console.log('Zoom function: Focus', focus); // This is the current node that they're on
-
 
         const transition = svg.transition() 
             .duration(d3.event.altKey ? 6400 : 640)  
@@ -464,18 +449,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     } // End of zoom function
 
-    // function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
-    //         // I instantiaed something wrong in the spacing, this works correctly!
-    //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
-    //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
-    //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
-    //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-    // }
 
     function zoomThenRefactor(d) {
         zoom(d);
-        // refactor(d);
-        initBreadCrumbs(d);
+        // initBreadCrumbs(d);
     }
 
     /*******************************************************
@@ -483,48 +460,48 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     *******************************************************/
     function grabUniqueValues() {
       if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
-        if (config.groupSwitch == true) {
-            if (config.group != 'null') {
-                uniqueValues.push(data[0][config.group]["value"]);
-                let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
-                data.forEach(node => {
-                    node.groupColor = node[grouper];
-                    let checker = 0;
-                    for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
-                        if (node[grouper].value == uniqueValues[i]) { checker++; }
-                    } // If the counter equals 0, then add it to the set of unique values for the next iteration
-                    if (checker == 0) uniqueValues.push(node[grouper].value);
-                });
-            }
-        }
-    }
+          if (config.groupSwitch == true) {
+              if (config.group != 'null') {
+                  uniqueValues.push(data[0][config.group]["value"]);
+                  let grouper = config.group; // This is the dimension/measure name that we'll be using to find the unique values. Append the value to the side to bypass the taxonomyPass pull
+                  data.forEach(node => {
+                      node.groupColor = node[grouper];
+                      let checker = 0;
+                      for(let i = 0; i < uniqueValues.length; i++) { // If it equals any of the current unique values it will add to the counter.
+                          if (node[grouper].value == uniqueValues[i]) { checker++; }
+                      } // If the counter equals 0, then add it to the set of unique values for the next iteration
+                      if (checker == 0) uniqueValues.push(node[grouper].value);
+                  });
+              }
+          }
+      }
     // console.log('These are the unique values found: ', uniqueValues);
     } // End of grab uniqueValues
 
 
     function dimensionValueSettings() {
-      let val = {"None": "null"};  
-      valsArr.push(val);
-      val = {"Default": "default"}
-      configArr.push(val);
-      
-      measures.forEach(mes => { // Value object >.>  {"name": "value"} 
-          let key = mes.label; // Key of value pair
-          let valuepair = mes.name; // value of value pair
-          let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-          val[key] = valuepair;
-          valsArr.push(val);
-          configArr.push(val);
-      });
+        let val = {"None": "null"};  
+        valsArr.push(val);
+        val = {"Default": "default"}
+        configArr.push(val);
+        
+        measures.forEach(mes => { // Value object >.>  {"name": "value"} 
+            let key = mes.label; // Key of value pair
+            let valuepair = mes.name; // value of value pair
+            let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+            val[key] = valuepair;
+            valsArr.push(val);
+            configArr.push(val);
+        });
 
-      dimensions.forEach(dimension => {
-          let key = dimension.label; // Key of value pair
-          let valuepair = dimension.name; // value of value pair
-          let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-          val[key] = valuepair;
-          valsArr.push(val);
-          configArr.push(val);
-      });
+        dimensions.forEach(dimension => {
+            let key = dimension.label; // Key of value pair
+            let valuepair = dimension.name; // value of value pair
+            let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+            val[key] = valuepair;
+            valsArr.push(val);
+            configArr.push(val);
+        });
     } // End of dimensionValueSettings
 
 
@@ -576,17 +553,17 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
     } // End of refactorCircleViewport
 
     function collapseNulls(d) {
-      d._children = [];
-      if(d.children) {
-          d.children.forEach(collapseNulls); // For each child run this collapse function
-          d._children = []; 
-          d.children.forEach( (child, index) => {
-              if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
-                  d._children.push(child); // Add child to side list
-                  d.children.splice(index, 1);
-              }
-          });
-      }
+        d._children = [];
+        if(d.children) {
+            d.children.forEach(collapseNulls); // For each child run this collapse function
+            d._children = []; 
+            d.children.forEach( (child, index) => {
+                if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
+                    d._children.push(child); // Add child to side list
+                    d.children.splice(index, 1);
+                }
+            });
+        }
     } // End of collapse function
 
     function findActualLeafNodes() {
@@ -625,42 +602,53 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
     function configureNotes() {
             // Adds the configuration for dimensions in the hierarchy
-        settings['notes'] = {
-            label: "Notes for building the dimension",
-            order: .4,
-            section: "Configuration",
-            type: "sentence_maker",
-            words: [
-                { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
-            ]
-        };
-
-        settings['dimensionAmount'] = {
-            label: "Number of dimensions in hierarchy",
-            order: .3,
-            section: "Configuration",
-            type: "string", 
-            display: "select",
-            values: [],
-            default: "2",
-            hidden: false
-        };
-        settings['spacing'] = {
-            label: "Notes for building the dimension",
-            order: .6,
-            section: "Configuration",
-            type: "sentence_maker",
-            words: [
-                { type: "separator", text: " " }
-            ]
-        };
-
-        for(let i = 0; i < dimensions.length + measures.length; i++) {
-            let num = i.toString();
-            let val = {};
-            val[num] = num;
-            settings.dimensionAmount.values.push(val);
+        if (settings[`notes`]) {
+            changed = true;
+            settings['notes'] = {
+                label: "Notes for building the dimension",
+                order: .4,
+                section: "Configuration",
+                type: "sentence_maker",
+                words: [
+                    { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
+                ]
+            };
         }
+
+        if (settings[`dimensionAmount`]) {
+            changed = true;
+            settings['dimensionAmount'] = {
+                label: "Number of dimensions in hierarchy",
+                order: .3,
+                section: "Configuration",
+                type: "string", 
+                display: "select",
+                values: [],
+                default: "2",
+                hidden: false
+            };
+        }
+
+        if (settings[`spacing`]) {
+            changed = true;
+            settings['spacing'] = {
+                label: "Notes for building the dimension",
+                order: .6,
+                section: "Configuration",
+                type: "sentence_maker",
+                words: [
+                    { type: "separator", text: " " }
+                ]
+            };
+            
+            for(let i = 0; i < dimensions.length + measures.length; i++) {
+                let num = i.toString();
+                let val = {};
+                val[num] = num;
+                settings.dimensionAmount.values.push(val);
+            }
+        }
+
     } // End of configureNotes
 
     function configureDimensions() {
@@ -864,8 +852,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                     }
                 })
                 .sort((a, b) => {
-                    // console.log(`Sort function: this is a`, a);
-                    // console.log(`Sort function: this is b`, b);
                     let aval = 74; 
                     let bval = 74;
 

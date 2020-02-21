@@ -1,7 +1,7 @@
 # Noteworthy Looker Functionality 
 
 ### The looker visualization docs doesn't document everything
-- There's a lot of functionality that default looker visualizations use that isn't anywhere to be found in the API. I wanna save you some time and share with you some of what I found. 
+- There's a lot of functionality that default looker visualizations use that isn't anywhere to be found in the API. I wanna save you some time and share with you some of what I found. The beginning is for if you're new to looker's custom visualizations and want to grasp it quicklet
 - Rudimentary stuff that's easy to figure out, but a lot of the parameters further down aren't in the docs, very useful, and not found unless you do some extra digging.
 
 
@@ -24,19 +24,11 @@
 
 
 ###### Options Parameters:
-1. New stuff to save that really help with formatting the settings and beautiful customization:
+1. New stuff that really helps with formatting the settings and customization:
 
 - `section:` This will give you a navbar at the top of the element, the value is the name of it. All options that have the corresponding name will show in that tab within the settings. If you use a Section parameter ensure all options are in one of the cooresponding values you gave, otherwise it will not show in the settings.
 
-- `type:` This is the data type of the option, and usually reflects `display` value because it pertains to the type of input you want to create. The different values can be: `boolean`, `string`, `array`, `number`, or `sentence_maker`. 
-
-- `display:` This is the different type of inputs there are. The different values are `radio`, `select`, `text`(default), `number`, `colors`,
-
-- `values:` If you have a display that holds multiple options or values to choose from, the `values` value is an array that holds objects with `"name` and `value"` values pertaining to each object. This configures the name in the settings and the output that's given to config based on what the user chooses. 
-
 - `display_size:` I've only seen this when you want two options side by side, but it's really nifty. The default is for an option to take up the full width of settings menu, but you can add this value in two options and set each to `half` for two options to sit by side in the settings.
-
-- `label:` The label is what the user will see in the settings menu. It's not the name of the option, but is nice for keeping your naming conventions and giving a good label in the settings menu.
 
 - `order:` By default looker will take all your settings and sort them descending alphabetically by the `label's` value. If you don't wanna rip your hair out trying to find peculiar names to describe each option in a structured manner, fret no longer! Use this value. Decimals count too, but the devs used decimals on the values that were being hidden by a boolean switch as one of their neat quirks. 
 
@@ -76,9 +68,7 @@
     display: 'color_application',
     label: 'Color Configuration'
 },
-another paramter is: supports: ['continuous']
+another parameter is: supports: ['continuous']
 
-
-
-- These are the different params you can put in the values array to construct sentence returns with varying input data. This is really nifty type structure that you can implement. Each one with a name becomes a value within it's specific object in the configuration array.
+- These are the different parameters you can put in the values array to construct sentence returns with varying input data. This is really nifty type structure that you can implement. Each one with a name becomes a value within it's specific object in the configuration array.
 
