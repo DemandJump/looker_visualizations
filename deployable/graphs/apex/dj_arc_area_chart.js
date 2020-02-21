@@ -549,7 +549,7 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        // console.log(`These are the nodes`, nodes);
+        console.log(`These are the xaxis drilldown nodes`, nodes);
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
                 .selectAll(`.dimension`).data(nodes);
