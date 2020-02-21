@@ -530,6 +530,7 @@ looker.plugins.visualizations.add({
           links.push(row[queryResponse.fields.dimension_like[0].name].links)
         });
         let elem = axisElements[0].children;
+        console.log(`This is elem`, elem);
         for(let i = 0; i < links.length; i++) {
             ps = elem[i].getBoundingClientRect();
             let node = {
