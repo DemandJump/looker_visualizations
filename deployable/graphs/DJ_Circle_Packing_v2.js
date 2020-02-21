@@ -1003,7 +1003,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       // return `${vws(d.nr)}vh`; // View height font scaling
       if (d.nr <= 14) { d.font = 0; }
       else { d.font = nullText(d.nr); }
-      return `${d.font}px`; 
+      if (d.depth == maxDepth) return `${d.font + 2}px`;
+      else return `${d.font}px`; 
   }
 
   function tSpaceOne(d) {
