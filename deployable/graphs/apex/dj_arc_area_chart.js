@@ -363,8 +363,9 @@ looker.plugins.visualizations.add({
                     if (stack == `overlay`) {
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                             let links = row[queryResponse.fields.measure_like[i].name].links;
-                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) let xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                            else let xVal = row[queryResponse.fields.dimension_like[0].name].value;
+                            let xVal;
+                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                            else xVal = row[queryResponse.fields.dimension_like[0].name].value;
 
                             let yVal = 0;
                             if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
@@ -378,8 +379,9 @@ looker.plugins.visualizations.add({
                         let newSeries = [];
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                             let links = row[queryResponse.fields.measure_like[i].name].links;
-                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) let xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                            else let xVal = row[queryResponse.fields.dimension_like[0].name].value;
+                            let xVal;
+                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                            else xVal = row[queryResponse.fields.dimension_like[0].name].value;
 
                             let yVal = 0;
                             if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
