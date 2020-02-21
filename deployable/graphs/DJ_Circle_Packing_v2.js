@@ -27,6 +27,7 @@ looker.plugins.visualizations.add({
   create: function(element, config) {
       let d3 = d3v5;
       this._currentDimensions = 0;
+      this._configuration = false;
       this._configRef = 0;
       d3.select(element).style('box-sizing', 'border-box');
   
@@ -45,8 +46,8 @@ looker.plugins.visualizations.add({
       // this._header = d3.select(element).append("h2")
       //     .attr("class", "header")
 
-      // this._breadcrumbs = d3.select(element).append("div")
-          // .attr("class", "breadcrumbContainer");
+      this._breadcrumbs = d3.select(element).append("div")
+          .attr("class", "breadcrumbContainer");
 
       this._container = d3.select(element).append("div")
           .attr("class", "container")
@@ -106,7 +107,6 @@ looker.plugins.visualizations.add({
       // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
   let d3 = d3v5;
-  let changed = false;
   this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
   // console.log(`config`, config);
   // console.log(`\n\ndirect reference to settings (this.options)`, this.options);
@@ -129,8 +129,14 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   this.options = settings;
   configureNotes ();
+          // Instantiate this setting for the next setting
+  if(this._configuration == 0) {
+      this._configuration = true;
+      this.trigger('registerOptions', settings);
+      this.options = settings; 
+  }
   configureDimensions();
-  if(changed || this._configRef != config.dimensionAmount) {
+  if(this._configRef != config.dimensionAmount) {
       this._configRef = config.dimensionAmount;
       this.options = settings;
       this.trigger('registerOptions', this.options);
@@ -464,7 +470,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function zoomThenRefactor(d) {
       zoom(d);
       // refactor(d);
-      // initBreadCrumbs(d);
+      initBreadCrumbs(d);
   }
 
   /*******************************************************
@@ -614,55 +620,43 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   function configureNotes() {
           // Adds the configuration for dimensions in the hierarchy
-      if (!settings[`notes`]) {
-          changed = true;
-          settings['notes'] = {
-              label: "Notes for building the dimension",
-              order: .4,
-              section: "Configuration",
-              type: "sentence_maker",
-              words: [
-                  { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
-              ]
-          };
-      }
+      settings['notes'] = {
+          label: "Notes for building the dimension",
+          order: .4,
+          section: "Configuration",
+          type: "sentence_maker",
+          words: [
+              { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
+          ]
+      };
 
-      if (!settings[`dimensionAmount`]) {
-          changed = true;
-          settings['dimensionAmount'] = {
-              label: "Number of dimensions in hierarchy",
-              order: .3,
-              section: "Configuration",
-              type: "string", 
-              display: "select",
-              values: [],
-              default: "2",
-              hidden: false
-          };
+      settings['dimensionAmount'] = {
+          label: "Number of dimensions in hierarchy",
+          order: .3,
+          section: "Configuration",
+          type: "string", 
+          display: "select",
+          values: [],
+          default: "2",
+          hidden: false
+      };
+      settings['spacing'] = {
+          label: "Notes for building the dimension",
+          order: .6,
+          section: "Configuration",
+          type: "sentence_maker",
+          words: [
+              { type: "separator", text: " " }
+          ]
+      };
 
-      }
       for(let i = 0; i < dimensions.length + measures.length; i++) {
           let num = i.toString();
           let val = {};
           val[num] = num;
           settings.dimensionAmount.values.push(val);
       }
-
-      if (!settings[`spacing`]) {
-          changed = true;
-          settings['spacing'] = {
-              label: "Notes for building the dimension",
-              order: .6,
-              section: "Configuration",
-              type: "sentence_maker",
-              words: [
-                  { type: "separator", text: " " }
-              ]
-          };
-      }
-
   } // End of configureNotes
-
 
   function configureDimensions() {
           // Clean up the dimension settings before appending new ones
@@ -681,68 +675,55 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
           let dimName = `dim${i}`;
           let dimLabel = `${labels[i]} Dimension`;
-
-          if (!settings[dimName]) {
-              changed = true;
-              settings[dimName] = {
-                  label: dimLabel,
-                  order: [i] + 1.1, 
-                  section: `Configuration`,
-                  values: valsArr,
-                  default: `null`,
-                  type: `string`,
-                  display: `select`, 
-                  hidden: false
-              };
-          }
+          settings[dimName] = {
+              label: dimLabel,
+              order: [i] + 1.1, 
+              section: `Configuration`,
+              values: valsArr,
+              default: `null`,
+              type: `string`,
+              display: `select`, 
+              hidden: false
+          };
 
           if(i != 0) { // The root will have nulls passed in!
               dimName = `dim${i}s`;
-              if (!settings[dimName]) {
-                  changed = true;
-                  settings[dimName] = {
-                      label: `Node Sizing`,
-                      order: [i] + 1.2,
-                      section: `Configuration`,
-                      values: configArr,
-                      default: `default`,
-                      type: `string`,
-                      display: `select`,
-                      display_size: `half`,
-                      hidden: false
-                  };
-              }
+              settings[dimName] = {
+                  label: `Node Sizing`,
+                  order: [i] + 1.2,
+                  section: `Configuration`,
+                  values: configArr,
+                  default: `default`,
+                  type: `string`,
+                  display: `select`,
+                  display_size: `half`,
+                  hidden: false
+              };
           
               dimName = `dim${i}c`;
-              if (!settings[dimName]) {
-                  changed = true;
-                  settings[dimName] = {
-                      label: `Node Coloring`,
-                      order: [i] + 1.3,
-                      section: `Configuration`,
-                      values: configArr,
-                      default: `default`,
-                      type: `string`,
-                      display: `select`,
-                      display_size: `half`,
-                      hidden: false
-                  };
-              }
+              settings[dimName] = {
+                  label: `Node Coloring`,
+                  order: [i] + 1.3,
+                  section: `Configuration`,
+                  values: configArr,
+                  default: `default`,
+                  type: `string`,
+                  display: `select`,
+                  display_size: `half`,
+                  hidden: false
+              };
           } // end of if i 1=0
 
           let spacing = `spacing${i}`;
-          if (!settings[spacing]) {
-              changed = true;
-              settings[spacing] = {
-                  label: `Notes for building the dimension`,
-                  order: [i] + 1.4,
-                  section: `Configuration`,
-                  type: `sentence_maker`,
-                  words: [
-                      { type: `separator`, text: ` ` }
-                  ]
-              };
-          }
+          settings[spacing] = {
+              label: `Notes for building the dimension`,
+              order: [i] + 1.4,
+              section: `Configuration`,
+              type: `sentence_maker`,
+              words: [
+                  { type: `separator`, text: ` ` }
+              ]
+          };
 
       } // End of for loop
   } // End of configureDimensions
@@ -797,6 +778,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   /*******************************************************
       * Taxonomy Functions Section *
   *******************************************************/
+
   
   function packageContentCreateTaxonomy() {
       // console.log('This is the config', config);
