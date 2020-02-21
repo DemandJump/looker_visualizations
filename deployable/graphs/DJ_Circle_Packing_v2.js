@@ -567,7 +567,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           headerSpace = circleHeight * .1;
           width = circleHeight;
           height = circleHeight;
-          viewBoxFactor = height + 25;
+          viewBoxFactor = height * 1.025;
       }
   } // End of refactorCircleViewport
 
