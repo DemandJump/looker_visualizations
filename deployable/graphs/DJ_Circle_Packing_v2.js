@@ -220,7 +220,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .style('margin', '0 auto');
 
   let svg = this._svg        
-      .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
+      .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
       .style("cursor", "pointer")
       .style("max-height", height) // Essential for responsive media
       .style("max-width", width) // This one makes it nice and spacy
