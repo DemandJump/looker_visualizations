@@ -220,7 +220,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       .style('margin', '0 auto');
 
   let svg = this._svg        
-      .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`) // This does the normal zoom
+      .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
       .style("cursor", "pointer")
       .style("max-height", height) // Essential for responsive media
       .style("max-width", width) // This one makes it nice and spacy
@@ -562,12 +562,12 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           headerSpace = 40;
           width = circleHeight - 40;
           height = circleHeight - 40;
-          viewBoxFactor = height + 35;
+          viewBoxFactor = height + 25;
       } else {
           headerSpace = circleHeight * .1;
           width = circleHeight;
           height = circleHeight;
-          viewBoxFactor = height + 35;
+          viewBoxFactor = height + 25;
       }
   } // End of refactorCircleViewport
 
