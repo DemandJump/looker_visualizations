@@ -605,7 +605,7 @@ looker.plugins.visualizations.add({
         let nodes = [];
         let elem = axisElements[0].children;
         console.log(`This is elem`, elem);
-        for(let i = 0; i < links.length; i++) {
+        for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
             let node = {
                 index: i,
