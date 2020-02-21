@@ -602,12 +602,7 @@ looker.plugins.visualizations.add({
 
             // X axis drilldown menu
 
-        let links = [];
         let nodes = [];
-        datum.forEach(row => {
-          console.log(`dimension_like through data`, row);
-          links.push(row[queryResponse.fields.dimension_like[0].name].links)
-        });
         let elem = axisElements[0].children;
         console.log(`This is elem`, elem);
         for(let i = 0; i < links.length; i++) {
@@ -624,7 +619,7 @@ looker.plugins.visualizations.add({
                 right: ps.right,
                 transform: elem[i].attributes.transform.value,
                 xaxis: elem[i].children[0].innerHTML,
-                links: links[i],
+                links: xaxis[i].links,
                 element: elem[i]
             };
             nodes.push(node);
