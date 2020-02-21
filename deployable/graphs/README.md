@@ -43,7 +43,7 @@
 - `hidden:` You can hide options until further notice, whether it's conditionally based on the data that's pulled in through the UpdateAsync function or through other options in the settings menu. I say go wild, it's really nice for keeping it looking professional and organized.
 
 - `words:` This is an array that holds objects to construct for the type `sentence_maker`. 
-limit_displayed_rows_values: {
+- limit_displayed_rows_values: {
     type: "sentence_maker",
     label: "Limit Displayed Rows Values",
     section: "Plot",
@@ -67,11 +67,10 @@ limit_displayed_rows_values: {
         },
         { type: "number", name: "num_rows", value: 0 },
         { type: "separator", text: "rows" }
-    ],
-    
+    ], 
 }
 
-- `color palletes`: This is for using color collections. You need to use lookerapi to grab the colors though.
+- `color_application:` This is for using color collections. You need to use lookerapi to grab the colors though.
  color_application: {
     type: 'object',
     display: 'color_application',
