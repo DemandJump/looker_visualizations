@@ -326,11 +326,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
  }
 
   function zoom(d) {          
-      const focus0 = focus;
       focus = d;
       // console.log('Zoom function: Node ->', d);
       // console.log('Zoom function: Focus', focus); // This is the current node that they're on
-
 
       const transition = svg.transition() 
           .duration(d3.event.altKey ? 6400 : 640)  
@@ -459,17 +457,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
 
   } // End of zoom function
 
-  // function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
-  //         // I instantiaed something wrong in the spacing, this works correctly!
-  //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
-  //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
-  //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
-  //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
-  // }
 
   function zoomThenRefactor(d) {
       zoom(d);
-      // refactor(d);
       // initBreadCrumbs(d);
   }
 
