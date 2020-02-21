@@ -852,7 +852,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                       if (d.data.dj_score) {
                           let difference = d.data.dj_score - dval;
                           return d.data.dj_score + (difference * d.data.dj_score);
-                          // return d.data.dj_score;
                       } else { 
                           return dval;
                       }
