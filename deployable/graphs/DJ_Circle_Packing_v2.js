@@ -615,6 +615,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
         if (node.depth < minDepth) minDepth = node.depth;
         if (node.depth > maxDepth) maxDepth = node.depth;
     });
+    console.log(`MaxDepth: ${maxDepth}, MinDepth: ${minDepth}`);
   }
 
   function configureNotes() {
