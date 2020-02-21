@@ -295,7 +295,11 @@ looker.plugins.visualizations.add({
         };
         if (showTitle == false) delete configuration[`title`];
 
+
+
         
+          // Pull in all the data into the xaxis and series
+
         let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
@@ -307,7 +311,8 @@ looker.plugins.visualizations.add({
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
 
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let obj = {name: queryResponse.fields.measure_like[i].label_short, data: [], links: []};
+                let name = queryResponse.fields.measure_like[i].label_short;
+                let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
                 categoryData.push(obj);
             }
@@ -316,33 +321,82 @@ looker.plugins.visualizations.add({
             if (format == `datetime` && formatDates == true) {
                 let sameMonthChecker = checkIfSameMonth();
                 datum.forEach(row => {
-                    if (sameMonthChecker) xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-                    else xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value));
-
+                    if (sameMonthChecker) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: row[queryResponse.fields.dimension_like[0].name].links});
+                    else xaxis.push({name: convertDateTime(row[queryResponse.fields.dimension_like[0].name].value), links: row[queryResponse.fields.dimension_like[0].name].links});
                 });
             }
-            else datum.forEach(row => labels.push(row[queryResponse.fields.dimension_like[0].name].value));
+            else datum.forEach(row => xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: row[queryResponse.fields.dimension_like[0].name].links}));
 
             if (format == `cateogry`) {
-                datum.forEach(row => {
-                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                        seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                let series = [];
+                datum.forEach((row, index) => {
+                    if (stack == `overlay`) {
+                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                            let value = 0;
+                            if (row[queryReponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                            seriesData[i].data.push(value);
+                            seriesData[i].links.push(row[queryResponse.fields.measure_like[i].name].links);
+                        }
+                    }
+                    if (stack == `stack`) {
+                        let newSeries = [];
+                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                            seriesData[i].links.push(row[queryResponse.fields.measure_like[i].name].links);
+
+                            let value = 0;
+                            if (row[queryReponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+
+                            if (index == 0) {
+                                series.push(value);
+                                seriesData[i].data.push(value);
+                            } else {
+                                newSeries[i] = series[i] + value;
+                                seriesData[i].data.push(newSeries[i]);
+                            }
+                        }
+                        if (index != 0) series = newSeries;
                     }
                 });
             } else {
-                datum.forEach(row => {
-                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                        let ob = {};
-                        let xVal;
-                        let yVal = 0;
-                        let links = row[queryResponse.fields.measure_like[0].name].links;
+                let series = [];
+                datum.forEach((row, index) => {
+                    if (stack == `overlay`) {
+                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                            let links = row[queryResponse.fields.measure_like[i].name].links;
+                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) let xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                            else let xVal = row[queryResponse.fields.dimension_like[0].name].value;
 
-                        if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                        else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-                        if (row[queryResponse.fields.measure_like[i].name].value) yVal = row[queryResponse.fields.measure_like[i].name].value;
-                        ob = {x: xVal, y: yVal};
-                        categoryData[i].data.push(ob);
-                        categoryData[i].links.push(links);
+                            let yVal = 0;
+                            if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
+
+                            let ob = {x: xVal, y: yVal};
+                            categoryData[i].data.push(ob);
+                            categoryData[i].links.push(links);
+                        }
+                    }
+                    if (stack == `stack`) {
+                        let newSeries = [];
+                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                            let links = row[queryResponse.fields.measure_like[i].name].links;
+                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) let xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                            else let xVal = row[queryResponse.fields.dimension_like[0].name].value;
+
+                            let yVal = 0;
+                            if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
+
+                            if (index == 0) {
+                                series.push(value);
+                                yVal = series[i];
+                            } else {
+                                newSeries[i] = series[i] + yVal;
+                                yVal = newSeries[i];
+                            }
+
+                            let ob = {x: xVal, y: yVal};
+                            categoryData[i].data.push(ob);
+                            categoryData[i].links.push(links);
+                        }
+                        if (index != 0) series = newSeries;
                     }
                 });
             }
@@ -351,26 +405,45 @@ looker.plugins.visualizations.add({
             if (pivotA) {
                 // Labels
                 queryResponse.pivots.forEach(p => {
+                    let lonks = [];
+                    if (p.metadata[queryReponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
                     if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
                     } 
-                    else xaxis.push(p.key);
+                    else xaxis.push({name: p.key, links: lonks);
                 });
     
                 // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-                queryResponse.fields.measure_like.forEach(row => {
+                let series = [];
+                queryResponse.fields.measure_like.forEach((row, index) => {
                     let obData = [];
                     let liData = [];
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
+                        let dimName = queryRespnose.fields.measure_like[0].name;
                         let value = 0;
-                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
-                        obData.push(value);
-                        liData.push(datum[0][row.name][keyname].links);
+
+                        liData.push(datum[dimName][row.name][keyname].links);
+                        
+                        if (datum[dimName][row.name][keyname].value != null) value = datum[dimName][row.name][keyname].value;
+                        if (stack == `overlay`) obData.push(value);
+                        if (stack == `stack`) {
+                            if (index == 0) series.push(value);
+                            else newSeries[i] = series[i] + value;
+                        }
                     }
+                    if (stack == `stack`) {
+                        if (index == 0) obData = series;
+                        else {
+                            obData = newSeries;
+                            series = newSeries;
+                        }
+                    }
+
                     
                     let obj = {
-                        name: row.label,
+                        name: row.label_short,
+                        className: row.label_short.replace(/ /g, `-`),
                         data: obData,
                         links: liData
                     }
@@ -382,8 +455,9 @@ looker.plugins.visualizations.add({
             if (pivotB) {
                 // Labels
                 datum.forEach(row => {
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                    let lonks = row[queryRepsonse.dimension_like[0].name].links;
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
                 });
 
                 // Series Object
@@ -391,6 +465,7 @@ looker.plugins.visualizations.add({
                     let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
                     let obj = {
                         name: name,
+                        className: row.label_short.replace(/ /g, `-`),
                         data: [],
                         links: []
                     };
@@ -418,10 +493,10 @@ looker.plugins.visualizations.add({
                         datum.forEach((row, index) => {
                             let value = 0;
                             if (i == 0) {
-                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
+                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
                                 series.push(value);
                             } else {
-                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value
+                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
                                 newSeries[index] = series[index] + value;
                             }
                         });
