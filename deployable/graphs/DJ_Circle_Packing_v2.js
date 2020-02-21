@@ -204,12 +204,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // console.log('These are the breadcrumb ids:', breadCrumbIds);
   let breadCrumbData = [];
   let breadCrumbs;
-
-  console.log(`This is the height of the window`, window.innerHeight);
    
-  // console.log('root', root);
-      // console.log('nodes', nodes);
-  // console.log('This is the focus', focus);
+  console.log('root', root);
+  console.log('nodes', nodes);
+  console.log('This is the focus', focus);
   /******************************************************************************************************************************************
       * Build the svg
   ******************************************************************************************************************************************/
