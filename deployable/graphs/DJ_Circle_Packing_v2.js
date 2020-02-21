@@ -1,310 +1,315 @@
-// import * as d3 from 'd3';
-console.log("Rendering dj circle packing");
-
 looker.plugins.visualizations.add({
-    id: "dj_circle_packing_v2",
-    label: "Demand Jump Circle Packing Visual (Version 2)",
+  id: "DJ_Circle_Packing_V2",
+  label: "Demand Jump Circle Packing Visual (Version 2)",
 
-    options: {
-        dynamicSizing: {
-          label: "Dynamic node sizing", 
-          order: .1, 
-          section: "Configuration",
-          type: "boolean",
-          default: false,
-          hidden: false
-        },
-        dynamicColoring: {
-          label: "Dynamic node coloring", 
-          order: .2, 
-          section: "Configuration",
-          type: "boolean",
-          default: false,
-          hidden: false
-        },
+  options: {
+      dynamicSizing: {
+        label: "Dynamic node sizing", 
+        order: .1, 
+        section: "Configuration",
+        type: "boolean",
+        default: false,
+        hidden: false
+      },
+      dynamicColoring: {
+        label: "Dynamic node coloring", 
+        order: .2, 
+        section: "Configuration",
+        type: "boolean",
+        default: false,
+        hidden: false
+      },
 
-    },
-
-
-        // Onto the create section 
-    create: function(element, config) {
-        let d3 = d3v5;
-        this._currentDimensions = 0;
-        this._configuration = false;
-        this._configRef = 0;
-        d3.select(element).style('box-sizing', 'border-box');
-    
-            // This is inner styling of the visualization which looker gives to us as the variable 'element'
-        element.innerHTML =`
-          <style>
-              @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
-              html, body { margin: 0; padding: 0; }
-              .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
-              .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
-              .header, .breadcrumbContainer, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #F5F5F5, -1px  1px 3px #F5F5F5, 1px -1px 3px #F5F5F5, 1px  1px 3px #F5F5F5; }
-              .breadcrumbContainer { position: absolute; top: 0; left: 0; }
-          </style>
-        `;
-
-        // this._breadcrumbs = d3.select(element).append("div")
-        //     .attr("class", "breadcrumbContainer");
-
-        this._container = d3.select(element).append("div")
-            .attr("class", "container")
-            .style("position", "relative");
-
-        this._svg = d3.select("div.container").append("svg")
-            .attr("class", "svg")
-            .style("position", "relative");
-
-    },
+  },
 
 
-    burrow: function(table, taxonomy) { // Table is the data, and taxonomy is the dimensions/measures/tableCalcs passed in
-            //// create nested object
-        var obj = {};
-        table.forEach((row, index) => {
-                //// start at root
-            var layer = obj;
+      // Onto the create section 
+  create: function(element, config) {
+      this._currentDimensions = 0;
+      this._configuration = false;
+      this._configRef = 0;
+      d3.select(element).style('box-sizing', 'border-box');
+  
+          // This is inner styling of the visualization which looker gives to us as the variable 'element'
+      element.innerHTML =`
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+            html, body { margin: 0; padding: 0; }
+            .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
+            .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }
+            .header, .breadcrumbContainer, .text, .text2, .text3, .text4 { text-shadow: -1px -1px 3px #F5F5F5, -1px  1px 3px #F5F5F5, 1px -1px 3px #F5F5F5, 1px  1px 3px #F5F5F5; }
+            .breadcrumbContainer { position: absolute; top: 0; left: 0; }
+        </style>
+      `;
 
-                //// create children as nested objects
-            taxonomy.forEach(t => {
-                var key = row[t.name].value;
-                layer[key] = key in layer ? layer[key] : {}; // If key is in layer object, it returns true and creates a new layer for this descendant
-                layer = layer[key];
-            });
-            layer.__data = row;
-        });
+      // this._header = d3.select(element).append("h2")
+      //     .attr("class", "header")
 
-            //// recursively create children array
-        var descend = function(obj, depth) {
-            var arr = [];
-            var depth = depth || 0;
-            for (var k in obj) {
-                if (k == '__data') { continue; }
-                var child = {
-                    name: k,
-                    depth: depth,
-                    children: descend(obj[k], depth+1)
-                };
-                if ('__data' in obj[k]) {
-                    child.data = obj[k].__data;
-                }
-            arr.push(child);
-            }
-            return arr;
-        };
+      this._breadcrumbs = d3.select(element).append("div")
+          .attr("class", "breadcrumbContainer");
 
-            //// use descend to create nested children arrys
-        return {
-            name: 'root',
-            children: descend(obj, 1),
-            depth: 0
-        };
-    },
-    
+      this._container = d3.select(element).append("div")
+          .attr("class", "container")
+          .style("position", "relative");
 
-        // Onto the update async section
+      this._svg = d3.select("div.container").append("svg")
+          .attr("class", "svg")
+          .style("position", "relative");
+
+  },
+
+
+  burrow: function(table, taxonomy) { // Table is the data, and taxonomy is the dimensions/measures/tableCalcs passed in
+          //// create nested object
+      var obj = {};
+      table.forEach((row, index) => {
+              //// start at root
+          var layer = obj;
+
+              //// create children as nested objects
+          taxonomy.forEach(t => {
+              var key = row[t.name].value;
+              layer[key] = key in layer ? layer[key] : {}; // If key is in layer object, it returns true and creates a new layer for this descendant
+              layer = layer[key];
+          });
+          layer.__data = row;
+      });
+
+          //// recursively create children array
+      var descend = function(obj, depth) {
+          var arr = [];
+          var depth = depth || 0;
+          for (var k in obj) {
+              if (k == '__data') { continue; }
+              var child = {
+                  name: k,
+                  depth: depth,
+                  children: descend(obj[k], depth+1)
+              };
+              if ('__data' in obj[k]) {
+                  child.data = obj[k].__data;
+              }
+          arr.push(child);
+          }
+          return arr;
+      };
+
+          //// use descend to create nested children arrys
+      return {
+          name: 'root',
+          children: descend(obj, 1),
+          depth: 0
+      };
+  },
+  
+
+      // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
-    let d3 = d3v5;
-    this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
-    // console.log(`config`, config);
-    console.log(`\n\ndirect reference to settings (this.options)`, this.options);
-    console.log(`queryResponse`, queryResponse);
-    console.log(`data`, data);
-    let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
-    let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
-    let taxonomyPass = dimensions;
-    let changed = false;
+  this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
+  // console.log(`config`, config);
+  // console.log(`\n\ndirect reference to settings (this.options)`, this.options);
+  // console.log(`queryResponse`, queryResponse);
+  // console.log(`data`, data);
+  let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
+  let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
+  let taxonomyPass = dimensions;
 
-    /***************************************
-     * Configuring the settings
-    ***************************************/
-    let uniqueValues = []; /*/ / Get the unique values out of the grouping dimension / /*/
-    grabUniqueValues();
+  /***************************************
+   * Configuring the settings
+  ***************************************/
+  let uniqueValues = []; /*/ / Get the unique values out of the grouping dimension / /*/
+  grabUniqueValues();
 
-    let settings = this.options; /*/ / Input the dimension values in the options / /*/ 
-    valsArr = [];
-    configArr = [];
-    dimensionValueSettings(); // Grab all the dimensions for the settings
+  let settings = this.options; /*/ / Input the dimension values in the options / /*/ 
+  let valsArr = [];
+  let configArr = [];
+  dimensionValueSettings(); // Grab all the dimensions for the settings
 
-    this.options = settings;
-    configureNotes ();
-    configureDimensions();
-    if(changed || this._configRef != config.dimensionAmount) {
-        this._configRef = config.dimensionAmount;
-        this.options = settings;
-        this.trigger('registerOptions', settings);
-    }
+  this.options = settings;
+  configureNotes ();
+          // Instantiate this setting for the next setting
+  if(this._configuration == 0) {
+      this._configuration = true;
+      this.trigger('registerOptions', settings);
+      this.options = settings; 
+  }
+  configureDimensions();
+  if(this._configRef != config.dimensionAmount) {
+      this._configRef = config.dimensionAmount;
+      this.options = settings;
+      this.trigger('registerOptions', this.options);
+  }
 
-    /**********************
-     * Error Clauses 
-    **********************/
-    // this.clearErrors(); // Clear any errors from previous updates.
-    if (queryResponse.fields.dimensions.length == 0) this.addError({title: "No Dimensions", message: "This chart requires dimensions."});
-    
-    let addError = false;
-    checkSelectedInfluence();
-    if (addError) this.addError({title: "Factor error", message: "The variable factor must be a number"});
-    /*********************************************************
-     * Preload the data for the visual 
-    *********************************************************/    
-        /*/ / This is for sizing the svg and the header correctly / /*/
-    let headerSpace;
-    let width;
-    let height;
-    let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
-    let circleHeight = window.innerHeight;
-    refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
-    let view;
-    // clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
+  /**********************
+   * Error Clauses 
+  **********************/
+  // this.clearErrors(); // Clear any errors from previous updates.
+  if (queryResponse.fields.dimensions.length == 0) { // This throws error if there are no dimensions for the hierarchy
+    this.addError({title: "No Dimensions", message: "This chart requires dimensions."}); return;
+  }
+  
+      // Check if the config.influence is a dimension, and if they're not numbers
+  let addError = false;
+  checkSelectedInfluence();
+  if (addError) this.addError({title: "Factor error", message: "The variable factor must be a number"});
+  /*********************************************************
+   * Preload the data for the visual 
+  *********************************************************/    
+      /*/ / This is for sizing the svg and the header correctly / /*/
+  let headerSpace;
+  let width;
+  let height;
+  let viewBoxFactor; // This keeps the viewbox from scrolling, it starts around 35px but needs to be increased as it scales down
+  let circleHeight = window.innerHeight;
+  refactorCircleViewport(); // This ensures that the svg is not scrollable - one factor is the text we added, the other is the viewbox attributes!
+  let view;
+  // clearInfluenceNulls(); // Otherwise not all the nodes will have the required data, since we'd be passing it to the raw data insteads
 
-    let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
-    let max = -111111111111;
-    minAndMaxInfluenceValues();
+  let min = 100000000000; // Now run through the data, grab the min and max, then replace all the nulls with the min value
+  let max = -111111111111;
+  minAndMaxInfluenceValues();
 
-    let userTaxonomy = []; // Package the data and create the new taxonomy
-    packageContentCreateTaxonomy();
+  let userTaxonomy = []; // Package the data and create the new taxonomy
+  packageContentCreateTaxonomy();
 
-    const burrow = this.burrow(data, userTaxonomy); 
-    const root = pack(burrow);
-    console.log(`This is the root`, root);
-    let focus = root.children[0];
-    root.children.forEach(collapseNulls);
-    let nodes = root.descendants().slice(1);
-    nodes.forEach((node, index) => node.index = index);
-    unpackageData(); // This edits the nodes and unpackages the concatenated data
-    root.data.name = root.children[0].data.name; // Grab the unpackaged data's name
-    findActualLeafNodes(); // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
+  const burrow = this.burrow(data, userTaxonomy); 
+  const root = pack(burrow);
+  let focus = root.children[0];
+  root.children.forEach(collapseNulls);
+  let nodes = root.descendants().slice(1);
+  nodes.forEach((node, index) => node.index = index);
+  unpackageData(); // This edits the nodes and unpackages the concatenated data
+  root.data.name = root.children[0].data.name; // Grab the unpackaged data's name
+  findActualLeafNodes(); // Find all new leaf nodes and use a variable to denote them for the d3 hierarchy
 
-    let maxDepth = -10; // Find the min and max values of the hierarchy for the color scale function
-    let minDepth = 100;
-    findMinAndMaxDepth();
+  let maxDepth = -10; // Find the min and max values of the hierarchy for the color scale function
+  let minDepth = 100;
+  findMinAndMaxDepth();
 
-    let color = d3.scaleLinear() // These are the color scaling functions (one other is in the colorByGroup function)
-        .domain([minDepth, maxDepth])
-        .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
-        .interpolate(d3.interpolateHcl);
-    let nullText = d3.scaleLinear()
-        .domain([12, 264])
-        .range([6, 42]);
+  let color = d3.scaleLinear() // These are the color scaling functions (one other is in the colorByGroup function)
+      .domain([minDepth, maxDepth])
+      .range(["hsl(199, 100%, 40%)", "hsl(152, 80%, 80%)"]) // hsl(25, 98%, 61%) hsl(145, 63%, 49%) "hsl(152, 80%, 80%)"
+      .interpolate(d3.interpolateHcl);
+  let nullText = d3.scaleLinear()
+      .domain([12, 264])
+      .range([6, 42]);
 
-        // Initial parameters for breadcrumb function
-    // let breadCrumbIds = []; 
-    // let breadCrumbInit = true;
-    // for(let i = 1; i <= maxDepth; i++) {
-    //     let id = `bc${i}`;
-    //     breadCrumbIds.push(id);
-    // }
-    // // console.log('These are the breadcrumb ids:', breadCrumbIds);
-    // let breadCrumbData = [];
-    // let breadCrumbs;
+      // Initial parameters for breadcrumb function
+  let breadCrumbIds = []; 
+  let breadCrumbInit = true;
+  for(let i = 1; i <= maxDepth; i++) {
+      let id = `bc${i}`;
+      breadCrumbIds.push(id);
+  }
+  // console.log('These are the breadcrumb ids:', breadCrumbIds);
+  let breadCrumbData = [];
+  let breadCrumbs;
 
-     
-    // console.log('root', root);
-    console.log('nodes', nodes);
-    // console.log('This is the focus', focus);
-    /******************************************************************************************************************************************
-        * Build the svg
-    ******************************************************************************************************************************************/
+   
+  // console.log('root', root);
+      // console.log('nodes', nodes);
+  // console.log('This is the focus', focus);
+  /******************************************************************************************************************************************
+      * Build the svg
+  ******************************************************************************************************************************************/
 
-    let container = this._container
-        .style('box-sizing', 'border-box')
-        .style('text-align', 'center')
-        .style('margin', '0 auto');
+  let container = this._container
+      .style('box-sizing', 'border-box')
+      .style('text-align', 'center')
+      .style('margin', '0 auto');
 
-    let svg = this._svg        
-        .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
-        .style("cursor", "pointer")
-        .style("max-height", height) // Essential for responsive media
-        .style("max-width", width) // This one makes it nice and spacy
-        .on("click", () => zoomThenRefactor(root)); // This zoom function 
+  let svg = this._svg        
+      .attr("viewBox", `-${width / 2} -${height / 2} ${viewBoxFactor} ${height}`) // This does the normal zoom
+      .style("cursor", "pointer")
+      .style("max-height", height) // Essential for responsive media
+      .style("max-width", width) // This one makes it nice and spacy
+      .on("click", () => zoomThenRefactor(root)); // This zoom function 
 
-    const node = svg.append("g")
-        .attr('class', 'nodes')
-        .selectAll("circle")
-        .data(nodes, function(d) { return d} ).enter()
-        .append("circle") 
-            .attr('class', 'node')
-            .attr('id', d => d.index)
-            .attr("fill", d => {
-                if (config.dynamicColoring == true) {
-                    return questionSearchColoring(d);
-                } else {
-                    if(d.data) {
-                        if(d.data.leaf) {
-                            if(d.data.leaf == true) return 'white';
-                        }
-                    }
-                    return color(d.depth);
-                }
-            })
-            .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
-            .on("mouseover", function() { 
-              d3.select(this)
-                  .attr("stroke", "#000")
-                  .attr('stroke-width', d => `${d.height}px`); 
-            }) // Highight the border based hover
-            .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
-            .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
+  const node = svg.append("g")
+      .attr('class', 'nodes')
+      .selectAll("circle")
+      .data(nodes, function(d) { return d} ).enter()
+      .append("circle") 
+          .attr('class', 'node')
+          .attr('id', d => d.index)
+          .attr("fill", d => {
+              if (config.dynamicColoring == true) {
+                  return questionSearchColoring(d);
+              } else {
+                  if(d.data) {
+                      if(d.data.leaf) {
+                          if(d.data.leaf == true) return 'white';
+                      }
+                  }
+                  return color(d.depth);
+              }
+          })
+          .attr("pointer-events", d => !d.children ? "none" : null) // Not really sure if this applies to nodes when cursor is pointer for on whole svg
+          .on("mouseover", function() { 
+            d3.select(this)
+                .attr("stroke", "#000")
+                .attr('stroke-width', d => `${d.height}px`); 
+          }) // Highight the border based hover
+          .on("mouseout", function() { d3.select(this).attr("stroke", null); }) // Remove the highlight as you pass over
+          .on("click", d => focus !== d && (zoomThenRefactor(d), d3.event.stopPropagation())); // Stop other events and run the zoom function
 
 
-    const label = svg.append("g")
-        .attr('class', 'text')
-        .attr("pointer-events", "none")
-        .attr("text-anchor", "middle")
-            .selectAll("text.text")
-            .data(nodes, function(d) { return d} ).enter()
-            .append("text")
-                .style("fill-opacity", d => d.parent === root ? 1 : 0)
-                .style("display", d => d.parent === root ? "inline" : "none")
-                .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                .text(d => d.data.text1);
-        
-    const label2 = svg.append("g")
-        .attr('class', 'text2')
-        .attr('pointer-events', 'none')
-        .attr('text-anchor', 'middle')
-            .selectAll('text.text2')
-            .data(nodes, function(d) { return d} ).enter()
-            .append('text')
-                .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .text(d => d.data.text2);
+  const label = svg.append("g")
+      .attr('class', 'text')
+      .attr("pointer-events", "none")
+      .attr("text-anchor", "middle")
+          .selectAll("text.text")
+          .data(nodes, function(d) { return d} ).enter()
+          .append("text")
+              .style("fill-opacity", d => d.parent === root ? 1 : 0)
+              .style("display", d => d.parent === root ? "inline" : "none")
+              .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+              .text(d => d.data.text1);
+      
+  const label2 = svg.append("g")
+      .attr('class', 'text2')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+          .selectAll('text.text2')
+          .data(nodes, function(d) { return d} ).enter()
+          .append('text')
+              .style('fill-opacity', d => d.parent === root ? 1 : 0)
+              .style('display', d => d.parent === root ? 'inline' : 'none')
+              .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+              .text(d => d.data.text2);
 
-    const label3 = svg.append("g")
-        .attr('class', 'text3')
-        .attr('pointer-events', 'none')
-        .attr('text-anchor', 'middle')
-            .selectAll('text.text3')
-            .data(nodes, function(d) { return d} ).enter()
-            .append('text')
-                .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .text(d => d.data.text3);
+  const label3 = svg.append("g")
+      .attr('class', 'text3')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+          .selectAll('text.text3')
+          .data(nodes, function(d) { return d} ).enter()
+          .append('text')
+              .style('fill-opacity', d => d.parent === root ? 1 : 0)
+              .style('display', d => d.parent === root ? 'inline' : 'none')
+              .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+              .text(d => d.data.text3);
 
-    const label4 = svg.append("g")
-        .attr('class', 'text4')
-        .attr('pointer-events', 'none')
-        .attr('text-anchor', 'middle')
-            .selectAll('text.text3')
-            .data(nodes, function(d) { return d} ).enter()
-            .append('text')
-                .style('fill-opacity', d => d.parent === root ? 1 : 0)
-                .style('display', d => d.parent === root ? 'inline' : 'none')
-                .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                .text(d => d.data.text4);
+  const label4 = svg.append("g")
+      .attr('class', 'text4')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+          .selectAll('text.text3')
+          .data(nodes, function(d) { return d} ).enter()
+          .append('text')
+              .style('fill-opacity', d => d.parent === root ? 1 : 0)
+              .style('display', d => d.parent === root ? 'inline' : 'none')
+              .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+              .text(d => d.data.text4);
 
-    zoomTo([root.x, root.y, root.r * 2]);
-    simulateClick(document.getElementById('0'), 'click');
-    simulateClick(document.getElementById('0'), 'click');
+  zoomTo([root.x, root.y, root.r * 2]);
+  simulateClick(document.getElementById('0'), 'click');
+  simulateClick(document.getElementById('0'), 'click');
 
-    /*******************************************************
-        * Visual's Functions Section *
-    *******************************************************/
-   function zoomTo(v) {
+  /*******************************************************
+      * Visual's Functions Section *
+  *******************************************************/
+ function zoomTo(v) {
       // console.log('zoomTo function: v', v); // coordinates and scale
       const k = width / v[2]; // Divide the size of the svg based on the scale of the size
       view = v;
@@ -318,148 +323,160 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           d.nr = d.r * k; // Variable to hold the changing radius size 
           return d.r * k;
       }); // This changes the size of the nodes with reference to the change of the camera
-   }
+ }
 
-    function zoom(d) {          
-        focus = d;
-
-        const transition = svg.transition() 
-            .duration(d3.event.altKey ? 6400 : 640)  
-            .tween("zoom", d => { // Tween
-                // console.log('Zoom function: This is view', view);
-                const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-                // console.log('Zoom function: This is i', i);
-                return t => zoomTo(i(t));
-            });
-
-        label
-            .filter(function(d) { 
-                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-                return d.parent === focus || this.style.display === "inline"; 
-            })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none";
-
-                    d3.select(this)
-                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                        .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
-                        .attr('dy', d => tSpaceOne(d))
-                        .text(d => d.data.text1);
-
-                    if(d === focus) {
-                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                            d3.select(this)
-                                .style('display', 'inline')
-                                .style('fill-opacity', 1)
-                                .style('font-size', d => sizeText(d))
-                                .style('dy', d => tSpaceOne(d));
-                        }}
-                    }
-
-                });
-
-        label2
-            .filter(function(d) { 
-                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-                return d.parent === focus || this.style.display === "inline"; 
-            })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-
-                    d3.select(this)
-                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                        .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                        .attr('dy', d => tSpaceTwo(d))
-                        .text(d => d.data.text2);
-
-                    if(d === focus) {
-                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                            d3.select(this)
-                                .style('display', 'inline')
-                                .style('fill-opacity', 1)
-                                .style('font-size', d => textSizing(d))
-                                .style('dy', d => tSpaceTwo(d));
-                        }}
-                    }
-
-                });
-
-        label3
-            .filter(function(d) { 
-                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-                return d.parent === focus || this.style.display === "inline"; 
-            })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    d3.select(this)
-                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                        .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                        .attr('dy', d => tSpaceThree(d))
-                        .text(d => d.data.text3);
-
-                    if(d === focus) {
-                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                            d3.select(this)
-                                .style('display', 'inline')
-                                .style('fill-opacity', 1)
-                                .style('font-size', d => textSizing(d))
-                                .style('dy', d => tSpaceTwo(d));
-                        }}
-                    }
-
-                });
-        label4
-            .filter(function(d) { 
-                if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
-                return d.parent === focus || this.style.display === "inline"; 
-            })
-            .transition(transition)
-                .style("fill-opacity", d => d.parent === focus ? 0 : 0)
-                .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                    
-                    d3.select(this)
-                        .style("fill-opacity", d => d.parent === focus ? 1 : 0)
-                        .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
-                        .attr('dy', d => tSpaceFour(d))
-                        .text(d => d.data.text4);
-
-                    if(d === focus) {
-                        if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
-                            d3.select(this)
-                                .style('display', 'inline')
-                                .style('fill-opacity', 1)
-                                .style('font-size', d => textSizing(d))
-                                .style('dy', d => tSpaceTwo(d));
-                        }}
-                    }
-
-                });
-          
-
-    } // End of zoom function
+  function zoom(d) {          
+      const focus0 = focus;
+      focus = d;
+      // console.log('Zoom function: Node ->', d);
+      // console.log('Zoom function: Focus', focus); // This is the current node that they're on
 
 
-    function zoomThenRefactor(d) {
-        zoom(d);
-        // initBreadCrumbs(d);
-    }
+      const transition = svg.transition() 
+          .duration(d3.event.altKey ? 6400 : 640)  
+          .tween("zoom", d => { // Tween
+              // console.log('Zoom function: This is view', view);
+              const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+              // console.log('Zoom function: This is i', i);
+              return t => zoomTo(i(t));
+          });
 
-    /*******************************************************
-        * Configuration and Data's Functions Section *
-    *******************************************************/
-    function grabUniqueValues() {
+      label
+          .filter(function(d) { 
+              if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+              return d.parent === focus || this.style.display === "inline"; 
+          })
+          .transition(transition)
+              .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+              .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+              .on("end", function(d) { 
+                  if (d.parent !== focus) this.style.display = "none";
+
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => sizeText(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceOne(d))
+                      .text(d => d.data.text1);
+
+                  if(d === focus) {
+                      if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                              .style('display', 'inline')
+                              .style('fill-opacity', 1)
+                              .style('font-size', d => sizeText(d))
+                              .style('dy', d => tSpaceOne(d));
+                      }}
+                  }
+
+              });
+
+      label2
+          .filter(function(d) { 
+              if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+              return d.parent === focus || this.style.display === "inline"; 
+          })
+          .transition(transition)
+              .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+              .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+              .on("end", function(d) { 
+                  if (d.parent !== focus) this.style.display = "none"; 
+
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceTwo(d))
+                      .text(d => d.data.text2);
+
+                  if(d === focus) {
+                      if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                              .style('display', 'inline')
+                              .style('fill-opacity', 1)
+                              .style('font-size', d => textSizing(d))
+                              .style('dy', d => tSpaceTwo(d));
+                      }}
+                  }
+
+              });
+
+      label3
+          .filter(function(d) { 
+              if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+              return d.parent === focus || this.style.display === "inline"; 
+          })
+          .transition(transition)
+              .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+              .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+              .on("end", function(d) { 
+                  if (d.parent !== focus) this.style.display = "none"; 
+                  
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceThree(d))
+                      .text(d => d.data.text3);
+
+                  if(d === focus) {
+                      if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                              .style('display', 'inline')
+                              .style('fill-opacity', 1)
+                              .style('font-size', d => textSizing(d))
+                              .style('dy', d => tSpaceTwo(d));
+                      }}
+                  }
+
+              });
+      label4
+          .filter(function(d) { 
+              if(d === focus) { if(d.data.leaf){ if(d.data.leaf == true){return d === focus;} } }
+              return d.parent === focus || this.style.display === "inline"; 
+          })
+          .transition(transition)
+              .style("fill-opacity", d => d.parent === focus ? 0 : 0)
+              .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+              .on("end", function(d) { 
+                  if (d.parent !== focus) this.style.display = "none"; 
+                  
+                  d3.select(this)
+                      .style("fill-opacity", d => d.parent === focus ? 1 : 0)
+                      .style("font-size", d => textSizing(d)) // This also calculates the number of text spaces each nodes uses
+                      .attr('dy', d => tSpaceFour(d))
+                      .text(d => d.data.text4);
+
+                  if(d === focus) {
+                      if(d.data.leaf){if(d.data.leaf == true) { // If you clicked a leaf node, do this instead!
+                          d3.select(this)
+                              .style('display', 'inline')
+                              .style('fill-opacity', 1)
+                              .style('font-size', d => textSizing(d))
+                              .style('dy', d => tSpaceTwo(d));
+                      }}
+                  }
+
+              });
+        
+
+  } // End of zoom function
+
+  // function refactor(d) {  // Refactors the text based on the node's radius after the zoom function
+  //         // I instantiaed something wrong in the spacing, this works correctly!
+  //     label.attr('dy', spaceOne).style('font-size', d => sizeText(d)).text(d => d.data.text1);
+  //     label2.attr('dy', spaceTwo).style('font-size', d => sizeText(d)).text(d => d.data.text2);
+  //     label3.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text3);
+  //     label4.attr('dy', spaceThree).style('font-size', d => sizeText(d)).text(d => d.data.text4);
+  // }
+
+  function zoomThenRefactor(d) {
+      zoom(d);
+      // refactor(d);
+      initBreadCrumbs(d);
+  }
+
+  /*******************************************************
+      * Configuration and Data's Functions Section *
+  *******************************************************/
+  function grabUniqueValues() {
       if (config.group) { // If this has been instantiated in the config (This error sometimes happens)
           if (config.groupSwitch == true) {
               if (config.group != 'null') {
@@ -476,37 +493,37 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               }
           }
       }
-    // console.log('These are the unique values found: ', uniqueValues);
-    } // End of grab uniqueValues
+  // console.log('These are the unique values found: ', uniqueValues);
+  } // End of grab uniqueValues
 
 
-    function dimensionValueSettings() {
-        let val = {"None": "null"};  
-        valsArr.push(val);
-        val = {"Default": "default"}
-        configArr.push(val);
-        
-        measures.forEach(mes => { // Value object >.>  {"name": "value"} 
-            let key = mes.label; // Key of value pair
-            let valuepair = mes.name; // value of value pair
-            let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-            val[key] = valuepair;
-            valsArr.push(val);
-            configArr.push(val);
-        });
+  function dimensionValueSettings() {
+      let val = {"None": "null"};  
+      valsArr.push(val);
+      val = {"Default": "default"}
+      configArr.push(val);
+      
+      measures.forEach(mes => { // Value object >.>  {"name": "value"} 
+          let key = mes.label; // Key of value pair
+          let valuepair = mes.name; // value of value pair
+          let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+          val[key] = valuepair;
+          valsArr.push(val);
+          configArr.push(val);
+      });
 
-        dimensions.forEach(dimension => {
-            let key = dimension.label; // Key of value pair
-            let valuepair = dimension.name; // value of value pair
-            let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
-            val[key] = valuepair;
-            valsArr.push(val);
-            configArr.push(val);
-        });
-    } // End of dimensionValueSettings
+      dimensions.forEach(dimension => {
+          let key = dimension.label; // Key of value pair
+          let valuepair = dimension.name; // value of value pair
+          let val = {}; // pass in val into the values into ad pieces, we'll do this for all our given dimensions in looker
+          val[key] = valuepair;
+          valsArr.push(val);
+          configArr.push(val);
+      });
+  } // End of dimensionValueSettings
 
 
-    function checkSelectedInfluence() {
+  function checkSelectedInfluence() {
       if (config.influenceSwitch == true) {
           if (config.influence != 'null' ) {
               let numberchecker = 0;
@@ -519,11 +536,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               if (numberchecker < 1 || error == true) addError = true;
           }
       }
-    } // End of checkSelectedInfluence
+  } // End of checkSelectedInfluence
 
 
-    function minAndMaxInfluenceValues() {
-           // Now run through the data, grab the min and max, then replace all the nulls with the min value
+  function minAndMaxInfluenceValues() {
+          // Now run through the data, grab the min and max, then replace all the nulls with the min value
       data.forEach(node => { // Find min and max values in data
           if (min > node.value) min = node.value;
           if (max < node.value) max = node.value;
@@ -536,9 +553,9 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           }
       });
       // console.log(`The finished min ${min}, and max ${max}`);
-      } // End of minAndMaxInfluenceValues
+    } // End of minAndMaxInfluenceValues
 
-    function refactorCircleViewport() {
+  function refactorCircleViewport() {
           // This ensures there's no scrolling for the viewport!
       if (circleHeight < 400) { // The header space cannot go below 40px, so this is the catch
           headerSpace = 40;
@@ -551,134 +568,123 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
           height = circleHeight * .9;
           viewBoxFactor = height + 35;
       }
-    } // End of refactorCircleViewport
+  } // End of refactorCircleViewport
 
-    function collapseNulls(d) {
-        d._children = [];
-        if(d.children) {
-            d.children.forEach(collapseNulls); // For each child run this collapse function
-            d._children = []; 
-            d.children.forEach( (child, index) => {
-                if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
-                    d._children.push(child); // Add child to side list
-                    d.children.splice(index, 1);
-                }
-            });
-        }
-    } // End of collapse function
+  function collapseNulls(d) {
+      d._children = [];
+      if(d.children) {
+          d.children.forEach(collapseNulls); // For each child run this collapse function
+          d._children = []; 
+          d.children.forEach( (child, index) => {
+              if (child.data.name == null || child.data.name == 'null~null~null' || child.data.name == 'null') { // If the node is null, then it's dj score and phrase type are null. With the packaged data that's all put together with ~ inbetween each value, so it checks out alright (^:;
+                  d._children.push(child); // Add child to side list
+                  d.children.splice(index, 1);
+              }
+          });
+      }
+  } // End of collapse function
 
-    function findActualLeafNodes() {
-        nodes.forEach(d => {
-            if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
+  function findActualLeafNodes() {
+      nodes.forEach(d => {
+          if(d.data.name == 'null~null~null' || d.data.name == 'null') { d.data.leaf = false; }
 
-            if(d.children) {
-                if(d.children.length == 0 && d._children) {
-                    if (d._children.length == 1) {
-                        if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
-                        if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
-                    } else if (d._children.length > 1) {
-                        let checker = true;
-                        for(let i = 0; i < d._children.length; i++) {
-                            if(d._children[i] != 'null')  {
-                                checker = false; 
-                                break;
-                            }
-                        } // for loop end
-                        if(checker) {d.data.leaf = true}
-                    } // else if end 
-                } // end of d._children: We're only looking for the nodes that have all collapsed null values
-            } else {
-              d.data.leaf = true;
-            }
+          if(d.children) {
+              if(d.children.length == 0 && d._children) {
+                  if (d._children.length == 1) {
+                      if (d._children[0].data.name == 'null~null~null') d.data.leaf = true; // If it's null null null configured
+                      if (d._children[0].data.name == 'null') d.data.leaf= true; // If it's not configured but null
+                  } else if (d._children.length > 1) {
+                      let checker = true;
+                      for(let i = 0; i < d._children.length; i++) {
+                          if(d._children[i] != 'null')  {
+                              checker = false; 
+                              break;
+                          }
+                      } // for loop end
+                      if(checker) {d.data.leaf = true}
+                  } // else if end 
+              } // end of d._children: We're only looking for the nodes that have all collapsed null values
+          } else {
+            d.data.leaf = true;
+          }
 
-        }); // forEach end
-    } // End of FindActualLeafNodes
+      }); // forEach end
+  } // End of FindActualLeafNodes
 
-    function findMinAndMaxDepth() {
-      nodes.forEach(node => {
-          if (node.depth < minDepth) minDepth = node.depth;
-          if (node.depth > maxDepth) maxDepth = node.depth;
-      });
-    }
+  function findMinAndMaxDepth() {
+    nodes.forEach(node => {
+        if (node.depth < minDepth) minDepth = node.depth;
+        if (node.depth > maxDepth) maxDepth = node.depth;
+    });
+  }
 
-    function configureNotes() {
-            // Adds the configuration for dimensions in the hierarchy
-        if (settings[`notes`]) {
-            changed = true;
-            settings['notes'] = {
-                label: "Notes for building the dimension",
-                order: .4,
-                section: "Configuration",
-                type: "sentence_maker",
-                words: [
-                    { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
-                ]
-            };
-        }
+  function configureNotes() {
+          // Adds the configuration for dimensions in the hierarchy
+      settings['notes'] = {
+          label: "Notes for building the dimension",
+          order: .4,
+          section: "Configuration",
+          type: "sentence_maker",
+          words: [
+              { type: "separator", text: "Choose the dimensions that go in the hierarchy, then the dimensions that factor it's color and sizing." }
+          ]
+      };
 
-        if (settings[`dimensionAmount`]) {
-            changed = true;
-            settings['dimensionAmount'] = {
-                label: "Number of dimensions in hierarchy",
-                order: .3,
-                section: "Configuration",
-                type: "string", 
-                display: "select",
-                values: [],
-                default: "2",
-                hidden: false
-            };
-        }
+      settings['dimensionAmount'] = {
+          label: "Number of dimensions in hierarchy",
+          order: .3,
+          section: "Configuration",
+          type: "string", 
+          display: "select",
+          values: [],
+          default: "2",
+          hidden: false
+      };
+      settings['spacing'] = {
+          label: "Notes for building the dimension",
+          order: .6,
+          section: "Configuration",
+          type: "sentence_maker",
+          words: [
+              { type: "separator", text: " " }
+          ]
+      };
 
-        if (settings[`spacing`]) {
-            changed = true;
-            settings['spacing'] = {
-                label: "Notes for building the dimension",
-                order: .6,
-                section: "Configuration",
-                type: "sentence_maker",
-                words: [
-                    { type: "separator", text: " " }
-                ]
-            };
-            
-            for(let i = 0; i < dimensions.length + measures.length; i++) {
-                let num = i.toString();
-                let val = {};
-                val[num] = num;
-                settings.dimensionAmount.values.push(val);
-            }
-        }
+      for(let i = 0; i < dimensions.length + measures.length; i++) {
+          let num = i.toString();
+          let val = {};
+          val[num] = num;
+          settings.dimensionAmount.values.push(val);
+      }
+  } // End of configureNotes
 
-    } // End of configureNotes
+  function configureDimensions() {
+          // Clean up the dimension settings before appending new ones
+      for(let i = 0; i < dimensions.length + measures.length; i++) {
+          let dimName = `dim${i}`;
+          delete settings[dimName];
+          dimName = `dim${i}s`;
+          delete settings[dimName];
+          dimName = `dim${i}c`;
+          delete settings[dimName]; 
+      }
 
-    function configureDimensions() {
-            // Clean up the dimension settings before appending new ones
-        for(let i = 0; i < dimensions.length + measures.length; i++) {
-            let dimName = `dim${i}`;
-            delete settings[dimName];
-            dimName = `dim${i}s`;
-            delete settings[dimName];
-            dimName = `dim${i}c`;
-            delete settings[dimName]; 
-        }
-
-            // Instantiate the dimensions
-        let dimAmount = config['dimensionAmount']
-        let labels = ['Root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
-        for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
-            let dimName = `dim${i}`;
-            let dimLabel = `${labels[i]} Dimension`;
-            settings[dimName] = {
-                label: dimLabel,
-                order: [i] + 1.1, 
-                section: `Configuration`,
-                values: valsArr,
-                default: `null`,
-                type: `string`,
-                display: `select`, 
-                hidden: false
-            };
+          // Instantiate the dimensions
+      let dimAmount = config['dimensionAmount']
+      let labels = ['Root', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'];
+      for(let i = 0; i < dimAmount; i++) { // dim#, dim#s, dim#c are the config values
+          let dimName = `dim${i}`;
+          let dimLabel = `${labels[i]} Dimension`;
+          settings[dimName] = {
+              label: dimLabel,
+              order: [i] + 1.1, 
+              section: `Configuration`,
+              values: valsArr,
+              default: `null`,
+              type: `string`,
+              display: `select`, 
+              hidden: false
+          };
 
           if(i != 0) { // The root will have nulls passed in!
               dimName = `dim${i}s`;
@@ -693,7 +699,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
                   display_size: `half`,
                   hidden: false
               };
-        
+          
               dimName = `dim${i}c`;
               settings[dimName] = {
                   label: `Node Coloring`,
@@ -719,406 +725,405 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
               ]
           };
 
-        } // End of for loop
-    } // End of configureDimensions
+      } // End of for loop
+  } // End of configureDimensions
 
 
-    function initBreadCrumbs(d) {
-        d3.select('.breadcrumbContainer').selectAll('*').remove();
-        d3.select('.breadcrumbContainer').style('display', 'inline-block');
-        breadCrumbData = [];
-    
-        let id = `#bc${d.depth}`;
-        d3.select(id).html(d.data.name);
+  function initBreadCrumbs(d) {
+      d3.select('.breadcrumbContainer').selectAll('*').remove();
+      d3.select('.breadcrumbContainer').style('display', 'inline-block');
+      breadCrumbData = [];
+  
+      let id = `#bc${d.depth}`;
+      d3.select(id).html(d.data.name);
 
-        d.breadCrumbId = id;
-        breadCrumbData.push(d);
+      d.breadCrumbId = id;
+      breadCrumbData.push(d);
 
-        let node = d;
-        for(let i = d.depth; i > 1; i--) {
-            node = node.parent;
-            // id = `#bc${i - 1}`;
-            // d3.select(id).html(` > ${node.data.name}`);
-            node.breadCrumbId = id;
-            breadCrumbData.unshift(node);
-        }
-
-
-        breadCrumbs = d3.select('.breadcrumbContainer');
-        console.log('This is the breadcrumb data', breadCrumbData);
-        breadCrumbs.selectAll('span').data(breadCrumbData).enter().append('span')
-            .attr('class', 'breadCrumb')
-            .attr('id', d => {
-                return d.breadCrumbId;
-            })
-            .html((d, i) => {
-                if(i == 0) return ' ' + d.data.name + ' ';
-                return ` > ${d.data.name} `;
-            })
-            .style('position', 'relative')
-            .style('z-index', '1')
-            .style('font-size', '1.2rem')
-            .on("click", d => crumbZoom(d));
-    }
-
-    function crumbZoom(d) {
-        let bcSelect = nodes.filter(node => d.index == node.index);
-        if (bcSelect.length != 0) zoomThenRefactor(bcSelect[0]);
-        // let id = `#${d.index}`;
-        // if (d.index) simulateClick(document.getElementById(`${d.index}`), 'click');
-    }
+      let node = d;
+      for(let i = d.depth; i > 1; i--) {
+          node = node.parent;
+          // id = `#bc${i - 1}`;
+          // d3.select(id).html(` > ${node.data.name}`);
+          node.breadCrumbId = id;
+          breadCrumbData.unshift(node);
+      }
 
 
-    /*******************************************************
-        * Taxonomy Functions Section *
-    *******************************************************/
+      breadCrumbs = d3.select('.breadcrumbContainer');
+      // console.log('This is the breadcrumb data', breadCrumbData);
+      breadCrumbs.selectAll('span').data(breadCrumbData).enter().append('span')
+          .attr('class', 'breadCrumb')
+          .attr('id', d => {
+              return d.breadCrumbId;
+          })
+          .html((d, i) => {
+              if(i == 0) return ' ' + d.data.name + ' ';
+              return ` > ${d.data.name} `;
+          })
+          .style('position', 'relative')
+          .style('z-index', '1')
+          .style('font-size', '1.2rem')
+          .on("click", d => crumbZoom(d));
+  }
 
-    
-    function packageContentCreateTaxonomy() {
-        // console.log('This is the config', config);
+  function crumbZoom(d) {
+      let bcSelect = nodes.filter(node => d.index == node.index);
+      if (bcSelect.length != 0) zoomThenRefactor(bcSelect[0]);
+      // let id = `#${d.index}`;
+      // if (d.index) simulateClick(document.getElementById(`${d.index}`), 'click');
+  }
 
-        for(let i = 0; i < config.dimensionAmount; i++) {
-            let confname = `dim${i}`;
-            let confcolor = `dim${i}c`;
-            let confsize = `dim${i}s`;
 
-            dimensions.forEach(dim => {
-                if(dim.name == config[confname]) userTaxonomy.push(dim);
-            });
-            measures.forEach(mes => {
-                if(mes.name == config[confname]) userTaxonomy.push(mes);
-            })
+  /*******************************************************
+      * Taxonomy Functions Section *
+  *******************************************************/
 
-                // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
-            data.forEach(node => {
-                node['default'] = 'null';
-                
-                let configname = config[confname];
-                let query = node[configname]['value'];
-                // console.log('configname', configname);
-                let configcolor;
-                let dycol;
+  
+  function packageContentCreateTaxonomy() {
+      // console.log('This is the config', config);
 
-                let configsize;
-                let dynsz;
+      for(let i = 0; i < config.dimensionAmount; i++) {
+          let confname = `dim${i}`;
+          let confcolor = `dim${i}c`;
+          let confsize = `dim${i}s`;
 
-                if (i != 0) {
-                    configcolor = config[confcolor];
-                    dycol = node[configcolor]['value'];
-                    configsize = config[confsize];
-                    dynsz = node[configsize]['value'];
-                }
+          dimensions.forEach(dim => {
+              if(dim.name == config[confname]) userTaxonomy.push(dim);
+          });
+          measures.forEach(mes => {
+              if(mes.name == config[confname]) userTaxonomy.push(mes);
+          })
 
-                if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
-                    node[configname].value = `${query}~null~null`;
-                } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
-                    node[configname].value = `${query}~${dycol}~${dynsz}`;
-                } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
-                    node[configname].value = `${query}~${dycol}~null`;
-                } else if(config.dynamicSizing == true && configsize != 'default') { // Just sizing
-                    node[configname].value = `${query}~null~${dynsz}`;
-                } else { // Just name
-                    node[configname].value = `${query}~null~null`;
-                }
+              // Then construct and package the new data based on the given coloring and phrase typing ~ If there's nulls based on the config that's fine
+          data.forEach(node => {
+              node['default'] = 'null';
+              
+              let configname = config[confname];
+              let query = node[configname]['value'];
+              // console.log('configname', configname);
+              let configcolor;
+              let dycol;
 
-                if (dynsz != null) {
-                  node.dj_score = dynsz;
-                }
-                // if(node.dj_score == null) node.dj_score = dynsz;
-                // if(node.dj_score == 'null' || node.dj_score == '-') node.dj_score = 74;
+              let configsize;
+              let dynsz;
 
-            }); // End of the data loop
-        } // End of for loop 
-        console.log('This is the new data', data);
-    } // End of packageContentCreateTaxonomy
-    
+              if (i != 0) {
+                  configcolor = config[confcolor];
+                  dycol = node[configcolor]['value'];
+                  configsize = config[confsize];
+                  dynsz = node[configsize]['value'];
+              }
 
-    function pack(data) {
-        if (config.dynamicSizing == true) {
-            return d3.pack()
-                .size([width - 2, height - 2])
-                .padding(3)
-            (d3.hierarchy(data)
-                .sum(d => {
-                    // console.log('sum function', d);
-                    let dval = 74;
-                    if (d.data) {
-                        if (d.data.dj_score) {
-                            return d.data.dj_score;
-                        } else { 
-                            return dval;
-                        }
-                    } else {
-                        return dval;
-                    }
-                })
-                .sort((a, b) => {
-                    let aval = 74; 
-                    let bval = 74;
+              if(confname == 'dim0') { // If it's the root skip this rendering to keep the circle layout intact
+                  node[configname].value = `${query}~null~null`;
+              } else if(config.dynamicColoring == true && configcolor != 'default' && config.dynamicSizing == true && configsize != 'default') {
+                  node[configname].value = `${query}~${dycol}~${dynsz}`;
+              } else if(config.dynamicColoring == true && configcolor != 'default') { // Just coloring
+                  node[configname].value = `${query}~${dycol}~null`;
+              } else if(config.dynamicSizing == true && configsize != 'default') { // Just sizing
+                  node[configname].value = `${query}~null~${dynsz}`;
+              } else { // Just name
+                  node[configname].value = `${query}~null~null`;
+              }
 
-                    if (a.data) {
-                        if (a.data.dj_score) {
-                            if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
-                                aval = a.data.dj_score; 
-                            }
-                            if (a.data.dj_score == '' || a.data.dj_score == 'null') {
-                                a.data.dj_score = aval;
-                            }
-                        }
-                    }
-                    if (b.data) {
-                        if (b.data.dj_score) {
-                            if(b.data.dj_score != '' || b.data.dj_score != 'null') {
-                                bval = b.data.dj_score;
-                            }
-                            if(b.data.dj_score == '' || b.data.dj_score == 'null') {
-                                b.data.dj_score = bval;
-                            }
-                        }
-                    }
-                    return bval - aval;
-                }));
+              if (dynsz != null) {
+                node.dj_score = dynsz;
+              }
+              // if(node.dj_score == null) node.dj_score = dynsz;
+              // if(node.dj_score == 'null' || node.dj_score == '-') node.dj_score = 74;
 
-        } else {
-            // console.log("Packing function if they don't choose an influence");
-            return d3.pack()
-                .size([width - 2, height - 2])
-                .padding(3)
-            (d3.hierarchy(data)
-                .sum(d => {
-                    d.value = 1;
-                    return d.value;
-                })
-                .sort((a, b) => b.value - a.value));
-        }
+          }); // End of the data loop
+      } // End of for loop 
+      // console.log('This is the new data', data);
+  } // End of packageContentCreateTaxonomy
+  
 
-    }
+  function pack(data) {
+      if (config.dynamicSizing == true) {
+          return d3.pack()
+              .size([width - 2, height - 2])
+              .padding(3)
+          (d3.hierarchy(data)
+              .sum(d => {
+                  // console.log('sum function', d);
+                  let dval = 74;
+                  if (d.data) {
+                      if (d.data.dj_score) {
+                          return d.data.dj_score;
+                      } else { 
+                          return dval;
+                      }
+                  } else {
+                      return dval;
+                  }
+              })
+              .sort((a, b) => {
+                  // console.log(`Sort function: this is a`, a);
+                  // console.log(`Sort function: this is b`, b);
+                  let aval = 74; 
+                  let bval = 74;
 
-        // Have it break on words instead of through the text > Focus on words and char lengths
-    function sizeText(d) {
-        if (d.nr <= 14) { d.font = 0; } 
-        else { d.font = nullText(d.nr); }
-        // console.log('This is d.font', d.font);
+                  if (a.data) {
+                      if (a.data.dj_score) {
+                          if (a.data.dj_score != '' || a.data.dj_score != 'null'){ 
+                              aval = a.data.dj_score; 
+                          }
+                          if (a.data.dj_score == '' || a.data.dj_score == 'null') {
+                              a.data.dj_score = aval;
+                          }
+                      }
+                  }
+                  if (b.data) {
+                      if (b.data.dj_score) {
+                          if(b.data.dj_score != '' || b.data.dj_score != 'null') {
+                              bval = b.data.dj_score;
+                          }
+                          if(b.data.dj_score == '' || b.data.dj_score == 'null') {
+                              b.data.dj_score = bval;
+                          }
+                      }
+                  }
+                  return bval - aval;
+              }));
 
-        d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
-        d.data.textuse = 1;
-        let words = d["data"]["name"].split(" ");
-        let fchars = d.data.name.length;
-        let diameter = d.nr * 2; // Length of circle
-        let charlen = parseInt(fchars) * 8.74;
-        let cirlen = diameter / 8.74;
-        let t1 = Math.floor(fchars * .25); // : 22 // Desired percents of space each take up
-        let t2 = Math.floor(fchars * .42); // : 40 // This should be no more than the width of the diameter 
-        let t3 = Math.floor(fchars * .25); // : 16
-        let t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
-        let tBox = 1;
+      } else {
+          // console.log("Packing function if they don't choose an influence");
+          return d3.pack()
+              .size([width - 2, height - 2])
+              .padding(3)
+          (d3.hierarchy(data)
+              .sum(d => {
+                  d.value = 1;
+                  return d.value;
+              })
+              .sort((a, b) => b.value - a.value));
+      }
 
-            for(let i = 0; i < words.length; i++) {
-                if (tBox == 1) {
-                    if (d.data.text1 == '') {
-                        d.data.text1 = words[i] + ' ';
-                        continue;
-                    }
-                    if (d.data.text1.length + words[i].length < t1) {
-                        d.data.text1 = d.data.text1 + words[i] + ' ';
-                        continue;
-                    } else {
-                        tBox ++;
-                        d.data.textuse = 2;
-                    }
-                }
+  }
 
-                if (tBox == 2) {
-                    if (d.data.text2 == '') {
-                        d.data.text2 = words[i] + ' ';
-                        continue;
-                    }
-                    if (d.data.text2.length + words[i].length < t2) {
-                        d.data.text2 = d.data.text2 + words[i] + ' ';
-                        continue;
-                    } else {
-                        tBox ++;
-                        d.data.textuse = 3;
-                    }
-                }
+      // Have it break on words instead of through the text > Focus on words and char lengths
+  function sizeText(d) {
+      if (d.nr <= 14) { d.font = 0; } 
+      else { d.font = nullText(d.nr); }
+      // console.log('This is d.font', d.font);
 
-                if (tBox == 3) {
-                    if (d.data.text3 == '') {
-                        d.data.text3 = words[i] + ' ';
-                        continue;
-                    }
-                    if (d.data.text3.length + words[i].length < t3) {
-                        d.data.text3 = d.data.text3 + words[i] + ' ';
-                        continue;
-                    } else {
-                        tBox ++;
-                        d.data.textuse = 4;
-                    }
-                }
+      d.data.text1 = d.data.text2 = d.data.text3 = d.data.text4 = '';
+      d.data.textuse = 1;
+      let words = d["data"]["name"].split(" ");
+      let fchars = d.data.name.length;
+      let diameter = d.nr * 2; // Length of circle
+      let charlen = parseInt(fchars) * 8.74;
+      let cirlen = diameter / 8.74;
+      let t1 = Math.floor(fchars * .25); // : 22 // Desired percents of space each take up
+      let t2 = Math.floor(fchars * .42); // : 40 // This should be no more than the width of the diameter 
+      let t3 = Math.floor(fchars * .25); // : 16
+      let t4 = Math.floor(fchars * .22); // This should be else really ~ // : 22
+      let tBox = 1;
 
-                if (tBox == 4) {
-                    if (d.data.text4 == '') {
-                        d.data.text4 = words[i] + ' ';
-                        continue;
-                    }
-                    d.data.text4 = d.data.text4 + words[i] + ' ';
-                    continue;
-                }
+          for(let i = 0; i < words.length; i++) {
+              if (tBox == 1) {
+                  if (d.data.text1 == '') {
+                      d.data.text1 = words[i] + ' ';
+                      continue;
+                  }
+                  if (d.data.text1.length + words[i].length < t1) {
+                      d.data.text1 = d.data.text1 + words[i] + ' ';
+                      continue;
+                  } else {
+                      tBox ++;
+                      d.data.textuse = 2;
+                  }
+              }
 
-                if (tBox == 4) console.log('Error: word left out of textboxes: ', word);
-            } // End of for loop 
+              if (tBox == 2) {
+                  if (d.data.text2 == '') {
+                      d.data.text2 = words[i] + ' ';
+                      continue;
+                  }
+                  if (d.data.text2.length + words[i].length < t2) {
+                      d.data.text2 = d.data.text2 + words[i] + ' ';
+                      continue;
+                  } else {
+                      tBox ++;
+                      d.data.textuse = 3;
+                  }
+              }
+
+              if (tBox == 3) {
+                  if (d.data.text3 == '') {
+                      d.data.text3 = words[i] + ' ';
+                      continue;
+                  }
+                  if (d.data.text3.length + words[i].length < t3) {
+                      d.data.text3 = d.data.text3 + words[i] + ' ';
+                      continue;
+                  } else {
+                      tBox ++;
+                      d.data.textuse = 4;
+                  }
+              }
+
+              if (tBox == 4) {
+                  if (d.data.text4 == '') {
+                      d.data.text4 = words[i] + ' ';
+                      continue;
+                  }
+                  d.data.text4 = d.data.text4 + words[i] + ' ';
+                  continue;
+              }
+
+              // if (tBox == 4) console.log('Error: word left out of textboxes: ', word);
+          } // End of for loop 
 
 // px linearscale to have reference from dy to the font size
 
-        if (d.data.id == '0') { // Unique styling if it's root (circle) 
-            d.data.text1 = d.data.name;
-            d.data.textuse = 1;
-            delete d.data.text2;
-            delete d.data.text3;
-            delete d.data.text4;
-            return '54px';
-        }
+      if (d.data.id == '0') { // Unique styling if it's root (circle) 
+          d.data.text1 = d.data.name;
+          d.data.textuse = 1;
+          delete d.data.text2;
+          delete d.data.text3;
+          delete d.data.text4;
+          return '54px';
+      }
 
-            // Clean up all the empty text boxes
-        if (d.data.text2 == '') delete d.data.text2;
-        if (d.data.text3 == '') delete d.data.text3;
-        if (d.data.text4 == '') delete d.data.text4;
-          // Return the font size
-        // return '12px';  // return `${vws(d.nr)}vh`;
-        return `${d.font}px`; 
-    } // of sizeText function ~ Builds text boxes and assigns font size
+          // Clean up all the empty text boxes
+      if (d.data.text2 == '') delete d.data.text2;
+      if (d.data.text3 == '') delete d.data.text3;
+      if (d.data.text4 == '') delete d.data.text4;
+        // Return the font size
+      // return '12px';  // return `${vws(d.nr)}vh`;
+      return `${d.font}px`; 
+  } // of sizeText function ~ Builds text boxes and assigns font size
 
-    function textSizing(d) {
-        if (d.data.id == '0') { return '54px'; }
-        // return '12px'; // Original styling 
-        // return `${vws(d.nr)}vh`; // View height font scaling
-        if (d.nr <= 14) { d.font = 0; }
-        else { d.font = nullText(d.nr); }
-        return `${d.font}px`; 
-    }
+  function textSizing(d) {
+      if (d.data.id == '0') { return '54px'; }
+      // return '12px'; // Original styling 
+      // return `${vws(d.nr)}vh`; // View height font scaling
+      if (d.nr <= 14) { d.font = 0; }
+      else { d.font = nullText(d.nr); }
+      return `${d.font}px`; 
+  }
 
-    function tSpaceOne(d) {
-        let two = d.font * -.5;
-        let three = d.font * -1;
-        let four = d.font * -1.5;
-        
-        return d.data.textuse == 1 ? `0px`
-        : d.data.textuse == 2 ? `${two}px`
-        : d.data.textuse == 3 ? `${three}px`
-        : `${four}`;
-    }
-    function tSpaceTwo(d) {
-        let two = d.font * .5;
-        let four = d.font * -.5;
+  function tSpaceOne(d) {
+      let two = d.font * -.5;
+      let three = d.font * -1;
+      let four = d.font * -1.5;
+      
+      return d.data.textuse == 1 ? `0px`
+      : d.data.textuse == 2 ? `${two}px`
+      : d.data.textuse == 3 ? `${three}px`
+      : `${four}`;
+  }
+  function tSpaceTwo(d) {
+      let two = d.font * .5;
+      let four = d.font * -.5;
 
-        return d.data.textuse == 1 ? `0px`
-        : d.data.textuse == 2 ? `${two}px`
-        : d.data.textuse == 3 ? `0px`
-        : `${four}px`;
-    }
-    function tSpaceThree(d) {
-        let three = d.font * 1;
-        let four = d.font * .5;
+      return d.data.textuse == 1 ? `0px`
+      : d.data.textuse == 2 ? `${two}px`
+      : d.data.textuse == 3 ? `0px`
+      : `${four}px`;
+  }
+  function tSpaceThree(d) {
+      let three = d.font * 1;
+      let four = d.font * .5;
 
-        return d.data.textuse == 1 ? `0px`
-        : d.data.textuse == 2 ? `0px`
-        : d.data.textuse == 3 ? `${three}px`
-        : `${four}px`;
-    }
-    function tSpaceFour(d) {
-        let four = d.font * 1.5;
+      return d.data.textuse == 1 ? `0px`
+      : d.data.textuse == 2 ? `0px`
+      : d.data.textuse == 3 ? `${three}px`
+      : `${four}px`;
+  }
+  function tSpaceFour(d) {
+      let four = d.font * 1.5;
 
-        return d.data.textuse == 1 ? `0px`
-        : d.data.textuse == 2 ? `0px`
-        : d.data.textuse == 3 ? `0px`
-        : `${four}px`;
-    }
-
-
-    /*  This vis shouldn't go beyond 6 depths 
-      Blue:
-        #009de9, #19b8f7, #43d3ff, #78e6ff, #aef0ff, #dcf7ff
-      Green:
-                 #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
-    */
-    function questionSearchColoring(d) {
-        // console.log(`This is d`, d);
-        // console.log(`This is the node's phrase type: `, d.data.phrase_type);
-        if (config.dynamicColoring == true) {
-                if (d.data.phrase_type == 'search' || d.data.phrase_type == 'Topic') { // Then blue
-                    // console.log('Phrase type Topic. This is the current depth', d.depth);
-                    return d.depth == 0 ? '#009de9'
-                    : d.depth == 1 ? '#009de9'
-                    : d.depth == 2 ? '#19b8f7'
-                    : d.depth == 3 ? '#43d3ff'
-                    : d.depth == 4 ? '#78e6ff'
-                    : d.depth == 5 ? '#aef0ff'
-                    : '#dcf7ff'; 
-                } else if (d.data.phrase_type == 'question' || d.data.phrase_type == 'Question') { // Then green
-                    // console.log('Phrase type depth. This is the current depth', d.depth);
-                    return d.depth == 0 ? '#3ec173'
-                    : d.depth == 1 ? '#3ec173'
-                    : d.depth == 2 ? '#3ec173'
-                    : d.depth == 3 ? '#43dd81'
-                    : d.depth == 4 ? '#60f49c'
-                    : d.depth == 5 ? '#a4ffb3'
-                    : '#d4ffcc';
-                } else {
-                    return color(d.depth);
-                }
-        } else { // Standard styling of visual!
-            return color(d.depth);
-        }
-    }
+      return d.data.textuse == 1 ? `0px`
+      : d.data.textuse == 2 ? `0px`
+      : d.data.textuse == 3 ? `0px`
+      : `${four}px`;
+  }
 
 
-    function unpackageData() {
-        let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
+  /*  This vis shouldn't go beyond 6 depths 
+    Blue:
+      #009de9, #19b8f7, #43d3ff, #78e6ff, #aef0ff, #dcf7ff
+    Green:
+               #3ec173, #43dd81, #60f49c, #a4ffb3, #d4ffcc
+  */
+  function questionSearchColoring(d) {
+      // console.log(`This is d`, d);
+      // console.log(`This is the node's phrase type: `, d.data.phrase_type);
+      if (config.dynamicColoring == true) {
+              if (d.data.phrase_type == 'search' || d.data.phrase_type == 'Topic') { // Then blue
+                  // console.log('Phrase type Topic. This is the current depth', d.depth);
+                  return d.depth == 0 ? '#009de9'
+                  : d.depth == 1 ? '#009de9'
+                  : d.depth == 2 ? '#19b8f7'
+                  : d.depth == 3 ? '#43d3ff'
+                  : d.depth == 4 ? '#78e6ff'
+                  : d.depth == 5 ? '#aef0ff'
+                  : '#dcf7ff'; 
+              } else if (d.data.phrase_type == 'question' || d.data.phrase_type == 'Question') { // Then green
+                  // console.log('Phrase type depth. This is the current depth', d.depth);
+                  return d.depth == 0 ? '#3ec173'
+                  : d.depth == 1 ? '#3ec173'
+                  : d.depth == 2 ? '#3ec173'
+                  : d.depth == 3 ? '#43dd81'
+                  : d.depth == 4 ? '#60f49c'
+                  : d.depth == 5 ? '#a4ffb3'
+                  : '#d4ffcc';
+              } else {
+                  return color(d.depth);
+              }
+      } else { // Standard styling of visual!
+          return color(d.depth);
+      }
+  }
 
-        nodes.forEach(node => {
-            content = node.data.name;
-            sqs = false; // squiggle switch
-            for(let i = 0; i < content.length; i++) { 
-                if (content[i] == '~' && sqs == false) {
-                    sq1 = i;
-                    sqs = true; 
-                }
-                if (content[i] == '~' && sqs == true) sq2 = i;
-            } // End of squiggly search, now we can pull the specific data pieces out of the string
-            node.data.unpackagedData = content;
-            node.data.name = content.slice(0, sq1); // The search query is the name anyways 
-            node.data.phrase_type = content.slice(sq1 + 1, sq2);
-            node.data.dj_score = content.slice(sq2 + 1);
-        });
-    }
 
+  function unpackageData() {
+      let content, sq1, sq2, sqs; // Find to squigglies `${sval}~${ftval}~${djval}`
 
+      nodes.forEach(node => {
+          content = node.data.name;
+          sqs = false; // squiggle switch
+          for(let i = 0; i < content.length; i++) { 
+              if (content[i] == '~' && sqs == false) {
+                  sq1 = i;
+                  sqs = true; 
+              }
+              if (content[i] == '~' && sqs == true) sq2 = i;
+          } // End of squiggly search, now we can pull the specific data pieces out of the string
+          node.data.unpackagedData = content;
+          node.data.name = content.slice(0, sq1); // The search query is the name anyways 
+          node.data.phrase_type = content.slice(sq1 + 1, sq2);
+          node.data.dj_score = content.slice(sq2 + 1);
+      });
+  }
 
 
 
+  
+      // This is the function that simulates a click on a selected element
+  function simulateClick(el, etype){
+      if (el.fireEvent) {
+          el.fireEvent('on' + etype);
+      } else {
+          var evObj = document.createEvent('MouseEvents');
+          evObj.initEvent(etype, true, false);
+          var canceled = !el.dispatchEvent(evObj);
+          if (canceled) { // A handler called preventDefault.
+              // console.log("automatic click canceled");
+          } else {
+              // None of the handlers called preventDefault.
+          } 
+      }
+  }
 
-
-
-        // This is the function that simulates a click on a selected element
-    function simulateClick(el, etype){
-        if (el.fireEvent) {
-            el.fireEvent('on' + etype);
-        } else {
-            var evObj = document.createEvent('MouseEvents');
-            evObj.initEvent(etype, true, false);
-            var canceled = !el.dispatchEvent(evObj);
-            if (canceled) { // A handler called preventDefault.
-                console.log("automatic click canceled");
-            } else {
-                // None of the handlers called preventDefault.
-            } 
-        }
-    }
-
-    /**************** Done! *****************/
-    doneRendering() // Always call done to indicate a visualization has finished rendering
+  /**************** Done! *****************/
+  doneRendering() // Always call done to indicate a visualization has finished rendering
 }
 });
+
 
 
 
