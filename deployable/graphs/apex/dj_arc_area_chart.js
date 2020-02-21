@@ -705,7 +705,7 @@ looker.plugins.visualizations.add({
         xaxis.forEach((axis, index) => {
             if (index != 0) cspacing += gridSpacing;
             let seriesValues = [];
-            for(let i = 0; i < queryResponse.pivots.length; i++) seriesValues.push(circleValues[i + (index * queryResponse.pivots.length)]);
+            for(let i = 0; i < seriesData.length; i++) seriesValues.push(circleValues[i + (index * seriesData.length)]);
             let obj = {
                 index: index,
                 name: axis,
