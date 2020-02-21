@@ -457,7 +457,7 @@ looker.plugins.visualizations.add({
             if (pivotB) {
                 // Labels
                 datum.forEach(row => {
-                    let lonks = row[queryResponse.dimension_like[0].name].links;
+                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
                     if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
                     else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
                 });
