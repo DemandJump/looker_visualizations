@@ -25,6 +25,7 @@ looker.plugins.visualizations.add({
 
       // Onto the create section 
   create: function(element, config) {
+      let d3 = d3v5;
       this._currentDimensions = 0;
       this._configuration = false;
       this._configRef = 0;
@@ -105,6 +106,7 @@ looker.plugins.visualizations.add({
 
       // Onto the update async section
 updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
+  let d3 = d3v5;
   this._svg.selectAll("*").remove(); // Clear out the data before we add the vis
   // console.log(`config`, config);
   // console.log(`\n\ndirect reference to settings (this.options)`, this.options);
