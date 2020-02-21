@@ -2,17 +2,13 @@
 
 ### The looker visualization docs doesn't document everything
 - There's a lot of functionality that default looker visualizations use that isn't anywhere to be found in the API. I wanna save you some time and share with you some of what I found. 
-- It goes over how to pull in data but not what most of the functions are, you have to dig through console logs to get all the information; however, you can't find all functions that they use that way.
-- Enough babeling, here's what I found ~
+- Rudimentary stuff that's easy to figure out, but a lot of the parameters further down aren't in the docs, very useful, and not found unless you do some extra digging.
 
 
-
-## UpdateAsync Parameters
+## General functions
 #### QueryResponse
 - The `QueryResponse` holds your data with info on how you structured your data, and some values pertaining to the query. 
 - This data ranges from the sql that structured it, table and row info, sorting, to the raw data and all it's values within.
-
-###### QueryResponse Parameters: 
 
 
 #### Config
@@ -25,6 +21,7 @@
 - These can be used to create a bunch of different input fields, and they're prestyled for looker so it's a great construct for passing data and settings into your visual.
 - Customizing it and finding all the functionality is kind of easy, just do some digging in their bar charts or tables for some cool functionality. 
 - These objects have different values that looker takes in to format what type each input is, along with some styling functionality that will make it look professional. Here's a bit of what I found:
+
 
 ###### Options Parameters:
 1. New stuff to save that really help with formatting the settings and beautiful customization:
@@ -72,10 +69,16 @@ limit_displayed_rows_values: {
         { type: "separator", text: "rows" }
     ],
     
-	disabledReason: function(e, t) {
-		if (!(null != t ? t.has_row_totals : void 0)) return "Query has no row totals"
-	}
 }
+
+- `color palletes`: This is for using color collections. You need to use lookerapi to grab the colors though.
+ color_application: {
+    type: 'object',
+    display: 'color_application',
+    label: 'Color Configuration'
+},
+another paramter is: supports: ['continuous']
+
 
 
 - These are the different params you can put in the values array to construct sentence returns with varying input data. This is really nifty type structure that you can implement. Each one with a name becomes a value within it's specific object in the configuration array.
