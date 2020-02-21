@@ -519,13 +519,16 @@ looker.plugins.visualizations.add({
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let ps;
-        // console.log(`Here are the children`, axisElements[0].children);
+        console.log(`Here are the children`, axisElements[0].children);
 
             // X axis drilldown menu
 
         let links = [];
         let nodes = [];
-        datum.forEach(row => links.push(row[queryResponse.fields.dimension_like[0].name].links));
+        datum.forEach(row => {
+          console.log(`dimension_like through data`, row);
+          links.push(row[queryResponse.fields.dimension_like[0].name].links)
+        });
         let elem = axisElements[0].children;
         for(let i = 0; i < links.length; i++) {
             ps = elem[i].getBoundingClientRect();
@@ -575,7 +578,7 @@ looker.plugins.visualizations.add({
 
         let circleValues = [];
         let circleLinks = [];
-        let circleHolder, circle, cid, holder, hc;
+        let holder;
         for(let i = 0; i < xaxis.length; i++) { 
             let seriesLinks = [];
             seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
@@ -602,29 +605,27 @@ looker.plugins.visualizations.add({
 
 
 
-            // Grid Series Container data (each series)
+            // Y axis Grid Series Container data (each series)
 
-        let grid = document.getElementsByClassName(`apexcharts-grid`);
-        let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
         let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
-        console.log(`This is the graph`, graph);
-        let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
-        console.log(`This is the foreignObject`, foreignObject);
-        
         let graphdata = graph[0].getBoundingClientRect();
+
+        let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
         let fodata = foreignObject[`_groups`][0][0].getBoundingClientRect();
-        console.log(`Coordinate data of the graph`, graphdata);
-        console.log(`Coordinate data of the foreign object`, fodata);
-        
-        
 
-
-        let gridData = grid[0].getBoundingClientRect();
+        let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
         let gridpointA = gridpoints[0].getBoundingClientRect();
         let gridpointB = gridpoints[1].getBoundingClientRect();
         let gridSpacing = gridpointB.x - gridpointA.x;
+
         let seriesContainers = [];
         let cspacing = gridpointA.left - (gridSpacing / 2);
+
+        // console.log(`This is the graph`, graph);
+        // console.log(`This is the foreignObject`, foreignObject);
+        // console.log(`Coordinate data of the graph`, graphdata);
+        // console.log(`Coordinate data of the foreign object`, fodata);
+        
         
         xaxis.forEach((axis, index) => {
             if (index != 0) cspacing += gridSpacing;
@@ -656,27 +657,22 @@ looker.plugins.visualizations.add({
         let seriesContainer = d3.select(`.container`)
             .append(`div`).attr(`class`, `measureSeries`)
                 .selectAll(`.series`).data(seriesContainers);
-        constructSeriesContainers(); 
-        function constructSeriesContainers() {
-            // Construct a div for each xaxis series
-            let enterSeries = seriesContainer.enter().append(`div`);  
-            seriesContainer.merge(enterSeries)
-                .attr(`id`, d => d.index)
-                .attr(`class`, `series`)
-                .style(`width`, `1px`)
-                .style(`height`, d => `${d.coordinates.height}px`)
-                .style(`z-index`, `21`)
-                .style(`position`, `absolute`)
-                .style(`left`, d => `${d.coordinates.spacing - .5}px`)
-                .style(`top`, d => `${d.coordinates.top}px`)
-                .style(`opacity`, `0`)
-                .on(`mouseover`, d => createSeries(d));
-        }
+        let enterSeries = seriesContainer.enter().append(`div`);  
+        seriesContainer.merge(enterSeries)
+            .attr(`id`, d => d.index)
+            .attr(`class`, `series`)
+            .style(`width`, `1px`)
+            .style(`height`, d => `${d.coordinates.height}px`)
+            .style(`z-index`, `21`)
+            .style(`position`, `absolute`)
+            .style(`left`, d => `${d.coordinates.spacing - .5}px`)
+            .style(`top`, d => `${d.coordinates.top}px`)
+            .style(`opacity`, `0`)
+            .on(`mouseover`, d => createSeries(d));
 
 
         function createSeries(d) {
             // d3.event.stopPropagation();
-            // constructSeriesContainers();
             d3.select(`.container`).selectAll(`.measure`).remove();
             
             d.seriesData.forEach(row => {
@@ -719,6 +715,12 @@ looker.plugins.visualizations.add({
         }
 
 
+        function drillDown(links, event) {
+            LookerCharts.Utils.openDrillMenu({ 
+                links: links,
+                event: event
+            });
+        }
 
 
 
@@ -729,14 +731,6 @@ looker.plugins.visualizations.add({
         /**************************** 
          * Functions
         ****************************/
-        function drillDown(links, event) {
-            LookerCharts.Utils.openDrillMenu({ 
-                links: links,
-                event: event
-            });
-        }
-
-
         function convertDateTime(val) {
             let day = val.substr(0, 4);
             let month = val.substr(5, 2);
