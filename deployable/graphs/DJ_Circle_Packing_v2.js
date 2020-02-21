@@ -994,7 +994,8 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       if (d.data.text4 == '') delete d.data.text4;
         // Return the font size
       // return '12px';  // return `${vws(d.nr)}vh`;
-      return `${d.font}px`; 
+      if (d.depth == maxDepth) return `${d.font + 5}px`;
+      else return `${d.font}px`; 
   } // of sizeText function ~ Builds text boxes and assigns font size
 
   function textSizing(d) {
@@ -1011,6 +1012,11 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
       let two = d.font * -.5;
       let three = d.font * -1;
       let four = d.font * -1.5;
+      if (d.depth == maxDepth) {
+          two = (d.font + 5) * -.5;
+          three = (d.font + 5)* -1;
+          four = (d.font + 5) *-1.5;
+      }
       
       return d.data.textuse == 1 ? `0px`
       : d.data.textuse == 2 ? `${two}px`
@@ -1020,6 +1026,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function tSpaceTwo(d) {
       let two = d.font * .5;
       let four = d.font * -.5;
+      if (d.depth == maxDepth) {
+          two = (d.font + 5) * .5;
+          four = (d.font + 5) * -.5;
+      }
 
       return d.data.textuse == 1 ? `0px`
       : d.data.textuse == 2 ? `${two}px`
@@ -1029,6 +1039,10 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   function tSpaceThree(d) {
       let three = d.font * 1;
       let four = d.font * .5;
+      if (d.depth == maxDepth) {
+          three = (d.font + 5) * 1;
+          four = (d.font + 5) * .5;
+      }
 
       return d.data.textuse == 1 ? `0px`
       : d.data.textuse == 2 ? `0px`
@@ -1037,6 +1051,7 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   }
   function tSpaceFour(d) {
       let four = d.font * 1.5;
+      if (d.depth == maxDepth) four = (d.font + 5) * 1.5;
 
       return d.data.textuse == 1 ? `0px`
       : d.data.textuse == 2 ? `0px`
