@@ -662,10 +662,8 @@ looker.plugins.visualizations.add({
 
             seriesData.forEach((series, index) => {
                 holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
-                console.log(`\nThis is the holder`, holder);
-                console.log(`This is the series`, series, `\n`);
                 let data = {
-                    pivot: name,
+                    pivot: series.name,
                     column: index,
                     xaxis: circleLinks[i][index].name, 
                     data: circleLinks[i][index].data,
