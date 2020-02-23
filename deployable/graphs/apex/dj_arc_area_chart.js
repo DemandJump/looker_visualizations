@@ -769,7 +769,10 @@ looker.plugins.visualizations.add({
                     .selectAll(`.measures`).data(individualSeries[series.index]);
             let singleSeries = seriesSection.enter().append(`div`);  
             seriesSection.merge(singleSeries)
-                .attr(`class`, `measures`)
+                .attr(`class`, d => {
+                    console.log(`This is the node`, d);
+                    return `measures`;
+                  })
                 .style(`width`, data => `${data.coordinates.width -2}px`)
                 .style(`height`, data => `${data.coordinates.height -2}px`)
                 .style(`z-index`, `22`)
@@ -784,9 +787,9 @@ looker.plugins.visualizations.add({
                 .on(`mouseover`, function(d) {
                   d3.select(this).style(`opacity`, `1`);
                 }) 
-                .on(`mouseout`, function(d) {
-                  d3.select(this).style(`opacity`, `0`);
-                });
+                // .on(`mouseout`, function(d) {
+                //   d3.select(this).style(`opacity`, `0`);
+                // });
         }
 
 
