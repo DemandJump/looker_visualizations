@@ -772,7 +772,7 @@ looker.plugins.visualizations.add({
                 .attr(`class`, d => {
                     console.log(`This is the node`, d);
                     return `measures`;
-                  })
+                })
                 .style(`width`, data => `${data.coordinates.width -2}px`)
                 .style(`height`, data => `${data.coordinates.height -2}px`)
                 .style(`z-index`, `22`)
