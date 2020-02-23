@@ -662,6 +662,8 @@ looker.plugins.visualizations.add({
 
             seriesData.forEach((series, index) => {
                 holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
+                console.log(`This is the holder`, holder);
+                console.log(`This is the series`, series);
                 let data = {
                     pivot: name,
                     column: index,
@@ -752,6 +754,7 @@ looker.plugins.visualizations.add({
             
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
+                console.log(`This is the pivot name`, name);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
             });
@@ -769,10 +772,7 @@ looker.plugins.visualizations.add({
                     .selectAll(`.measures`).data(individualSeries[series.index]);
             let singleSeries = seriesSection.enter().append(`div`);  
             seriesSection.merge(singleSeries)
-                .attr(`class`, d => {
-                    console.log(`This is the node`, d);
-                    return `measures`;
-                })
+                .attr(`class`, `measures`)
                 .style(`width`, data => `${data.coordinates.width -2}px`)
                 .style(`height`, data => `${data.coordinates.height -2}px`)
                 .style(`z-index`, `22`)
@@ -787,9 +787,9 @@ looker.plugins.visualizations.add({
                 .on(`mouseover`, function(d) {
                   d3.select(this).style(`opacity`, `1`);
                 }) 
-                // .on(`mouseout`, function(d) {
-                //   d3.select(this).style(`opacity`, `0`);
-                // });
+                .on(`mouseout`, function(d) {
+                  d3.select(this).style(`opacity`, `0`);
+                });
         }
 
 
