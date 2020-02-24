@@ -309,6 +309,7 @@ looker.plugins.visualizations.add({
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
+            console.log(`This is the format`, format);
 
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let name = queryResponse.fields.measure_like[i].label_short;
@@ -749,13 +750,12 @@ looker.plugins.visualizations.add({
 
         function createSeries(d) {
             // d3.event.stopPropagation();
-            d3.select(`.container`).selectAll(`.measure`).remove();
+            d3.select(`.container`).selectAll(`.measures`).remove();
             d3.select(`.container`).selectAll(`.xaxis`).remove();
 
             
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
-                console.log(`This is the pivot name`, name);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
             });
@@ -767,23 +767,13 @@ looker.plugins.visualizations.add({
 
 
         function createXAxis(series) {
-            console.log(`This is the series data`, series);
             let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
-            let xaxisName = tooltip[0].innerHTML;
             let tooltipCoords = tooltip[0].getBoundingClientRect();
-            console.log(`This is the xaxisName`, xaxisName);
             console.log(`This is the tooltip coordinates`, tooltipCoords);
-            console.log(`Tooltip`, tooltip);
-
-            let xaxisLinks;
-            for(let i = 0; i < xaxis.length; i++) {
-                if (xaxisName == xaxis[i].name) xaxisLinks = xaxis[i].links;
-            }
-            console.log(`xaxisLinks`, xaxisLinks);
 
             let object = [
                 {
-                    name: xaxisName,
+                    name: series.name.name,
                     id: `_${tooltip[0].id}`,
                     originalId: tooltip[0].id,
                     coordinates: {
@@ -796,7 +786,7 @@ looker.plugins.visualizations.add({
                         x: tooltipCoords.x,
                         y: tooltipCoords.y
                     },
-                    links: xaxisLinks,
+                    links: series.links,
                     element: tooltip
                 }
             ];
