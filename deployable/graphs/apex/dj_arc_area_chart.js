@@ -344,7 +344,7 @@ looker.plugins.visualizations.add({
                             seriesData[i].links.push(row[queryResponse.fields.measure_like[i].name].links);
 
                             let value = 0;
-                            if (row[queryReponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                            if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
 
                             if (index == 0) {
                                 series.push(value);
@@ -408,7 +408,7 @@ looker.plugins.visualizations.add({
                 // Labels
                 queryResponse.pivots.forEach(p => {
                     let lonks = [];
-                    if (p.metadata[queryReponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
+                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
                     if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
                         if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
                     } 
