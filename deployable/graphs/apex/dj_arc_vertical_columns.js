@@ -261,7 +261,6 @@ looker.plugins.visualizations.add({
             datum.forEach(row => {
                 let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
                 let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-                if (lonks == null || lonks == undefined) lonks = [];
 
                 if (format == `dateime` && formatDates == true) {
                     let sameMonthChecker = checkIfSameMonth();
@@ -278,7 +277,7 @@ looker.plugins.visualizations.add({
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     let value = 0;
                     let lonks = row[queryResponse.fields.measure_like[i].name].links;
-                    if (lonks == null || lonks == undefined) lonks = [];
+
                     if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
                     seriesData[i].data.push(value);
                     seriesData[i].links.push(lonks);
@@ -289,7 +288,7 @@ looker.plugins.visualizations.add({
             if (pivotA) {
                 // Labels
                 queryResponse.pivots.forEach(p => {
-                    let lonks = [];
+                    let lonks = undefined;
                     if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
                     if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
                         if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
@@ -458,8 +457,13 @@ looker.plugins.visualizations.add({
         console.log(`This is axis elements`, axisElements);
         console.log(`Here are the children`, elem);
 
-        xaxis.forEach(link => {
-            link.links.push({label: `by Measue Addition Name`, url: `/explore/djdh_amp_web/djdh_page_views?fields=djdh_…ws.page_view_start_date&limit=500&column_limit=50`, type_label: `Drill into this measure`});
+        xaxis.forEach((axis, index) => {
+            axis.links.push({label: `by Measue Addition Name`, url: `/explore/djdh_amp_web/djdh_page_views?fields=djdh_…ws.page_view_start_date&limit=500&column_limit=50`, type_label: `Drill into this measure`});
+
+            // Iterate through each of the series
+            for(let i = 0; i < seriesData.length; i++) {
+                if (seriesData[i].links[index] != null || seriesData[i].links[index] != [] || seriesData[i].links[index] != undefined) axis.links.push(seriesData[i].links[index]);
+            }
         });
 
         for(let i = 0; i < xaxis.length; i++) {
