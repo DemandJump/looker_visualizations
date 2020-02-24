@@ -422,7 +422,7 @@ looker.plugins.visualizations.add({
                     let liData = [];
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
-                        let dimName = queryRespnose.fields.measure_like[0].name;
+                        let dimName = queryResponse.fields.measure_like[0].name;
                         let value = 0;
 
                         liData.push(datum[dimName][row.name][keyname].links);
