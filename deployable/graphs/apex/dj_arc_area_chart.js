@@ -803,7 +803,7 @@ looker.plugins.visualizations.add({
             let xaxisDrilldown = xaxisSeries.enter().append(`div`);
             xaxisSeries.merge(xaxisDrilldown)
                 .attr(`class`, `drilldown`)
-                .attr(`id`, d => return d.id)
+                .attr(`id`, d => d.id)
                 .style(`width`, d => `${d.coordinates.width}px`)
                 .style(`height`, d => `${d.coordinates.height}px`)
                 .style(`z-index`, `22`)
