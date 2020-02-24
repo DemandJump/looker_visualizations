@@ -445,6 +445,7 @@ looker.plugins.visualizations.add({
             // X axis drilldown menu
 
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
+        if (!horizontal) axisElements.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
@@ -454,7 +455,6 @@ looker.plugins.visualizations.add({
         xaxis.forEach((axis, index) => {
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
-                    console.log(`This is the links found `, seriesData[i].links[index]);
                     for(let j = 0; j < seriesData[i].links[index].length; j++) {
                         console.log(`Added this link`, seriesData[i].links[index][j]);
                         axis.links.push(seriesData[i].links[index][j]);
