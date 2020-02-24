@@ -483,6 +483,8 @@ looker.plugins.visualizations.add({
                 left: ps.left,
                 bottom: ps.bottom,
                 right: ps.right,
+                x: ps.x,
+                y: ps.y,
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
