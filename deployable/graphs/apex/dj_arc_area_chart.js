@@ -10,7 +10,7 @@ looker.plugins.visualizations.add({
             display: `select`,
             values: [
                 {'Classic': 'classic'},
-                {'Curve': 'curve'}, 
+                {'Smooth': 'smooth'}, 
                 {'Step': 'stepline'},
                 {'Custom': 'custom'},
                 // {'Theme two': 'negative'}
@@ -240,7 +240,7 @@ looker.plugins.visualizations.add({
             if (config.showTitle) showTitle = config.showTitle;
         }
 
-        if (theme == `classic` || theme == `curve` || theme == `stepline`) {
+        if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
             if (this._custom != `classic`) {
                 this._custom = `classic`;
                 this.options.customSpacing.hidden = true;
@@ -254,7 +254,7 @@ looker.plugins.visualizations.add({
             }
 
             if (theme == `classic`) curve = `straight`;
-            if (theme == `curve`) curve = `curve`;
+            if (theme == `smooth`) curve = `smooth`;
             if (theme == `stepline`) curve = `stepline`;
         }
 
