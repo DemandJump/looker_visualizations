@@ -781,7 +781,7 @@ looker.plugins.visualizations.add({
             }
             console.log(`xaxisLinks`, xaxisLinks);
 
-            let obj = [
+            let object = [
                 {
                     name: xaxisName,
                     id: `_${tooltip[0].id}`,
