@@ -807,12 +807,12 @@ looker.plugins.visualizations.add({
                     console.log(`This is the xaxis drilldown`, d);
                     return d.id;
                 })
-                .style(`width`, d => d.coordinates.width)
-                .style(`height`, d => d.coordinates.height)
+                .style(`width`, d => `${d.coordinates.width}px`)
+                .style(`height`, d => `${d.coordinates.height}px`)
                 .style(`z-index`, `22`)
                 .style(`position`, `absolute`)
-                .style(`left`, d => d.coordinates.left)
-                .style(`top`, d => d.coordinates.top)
+                .style(`left`, d => `${d.coordinates.left}px`)
+                .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `1`)
                 .style(`border`, `1px dashed black`)
                 .on('click', d => drillDown(d.links, d3.event));
