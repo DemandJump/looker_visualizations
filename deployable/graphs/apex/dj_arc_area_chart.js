@@ -311,6 +311,7 @@ looker.plugins.visualizations.add({
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
             console.log(`This is the format`, format);
 
+            // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let name = queryResponse.fields.measure_like[i].label_short;
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
@@ -319,14 +320,19 @@ looker.plugins.visualizations.add({
             }
 
             // Labels
-            if (format == `datetime` && formatDates == true) {
-                let sameMonthChecker = checkIfSameMonth();
-                datum.forEach(row => {
-                    if (sameMonthChecker) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: row[queryResponse.fields.dimension_like[0].name].links});
-                    else xaxis.push({name: convertDateTime(row[queryResponse.fields.dimension_like[0].name].value), links: row[queryResponse.fields.dimension_like[0].name].links});
-                });
-            }
-            else datum.forEach(row => xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: row[queryResponse.fields.dimension_like[0].name].links}));
+            datum.forEach(row => {
+                let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
+                let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                if (lonks == null || lonks == undefined) lonks = [];
+
+                if (format == `dateime` && formatDates == true) {
+                    let sameMonthChecker = checkIfSameMonth();
+                    if (sameMonthChecker) xaxis.push({name: nameVal, links: lonks});
+                    else xaxis.push({name: convertDateTime(nameVal), links: lonks});
+                } else {
+                    xaxis.push({name: nameVal, links: lonks});
+                }
+            });
 
             if (format == `cateogry`) {
                 let series = [];
@@ -334,9 +340,11 @@ looker.plugins.visualizations.add({
                     if (stack == `overlay`) {
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                             let value = 0;
+                            let lonks = row[queryResponse.fields.measure_like[i].name].links;
+                            if (lonks == null || lonks == undefined) lonks = [];
                             if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
                             seriesData[i].data.push(value);
-                            seriesData[i].links.push(row[queryResponse.fields.measure_like[i].name].links);
+                            seriesData[i].links.push(lonks);
                         }
                     }
                     if (stack == `stack`) {
