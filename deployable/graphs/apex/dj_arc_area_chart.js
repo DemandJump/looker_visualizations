@@ -605,14 +605,14 @@ looker.plugins.visualizations.add({
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let elem = axisElements[0].children;
-        console.log(`This is axis elements`, axisElements);
+        // console.log(`This is axis elements`, axisElements);
         let ps;
-        console.log(`Here are the children`, axisElements[0].children);
+        // console.log(`Here are the children`, axisElements[0].children);
 
             // X axis drilldown menu
 
         let nodes = [];
-        console.log(`This is elem`, elem);
+        // console.log(`This is elem`, elem);
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
             let node = {
