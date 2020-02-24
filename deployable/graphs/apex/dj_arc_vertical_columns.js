@@ -249,9 +249,6 @@ looker.plugins.visualizations.add({
         let categoryData = [];
         
         if (!pivot) {
-            let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
-            // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let name = queryResponse.fields.measure_like[i].label_short;
@@ -373,6 +370,7 @@ looker.plugins.visualizations.add({
         columnWidth = columnWidth + '%';
         let axisNames = [];
         xaxis.forEach(axis => axisNames.push(axis.name));
+        console.log(`Axis names`, axisNames);
 
         // Column
         let columnChartConfiguration = {
