@@ -459,12 +459,11 @@ looker.plugins.visualizations.add({
         xaxis.forEach((axis, index) => {
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
-                    for(let j = 0; j < seriesData[i].links[index]) {
+                    for(let j = 0; j < seriesData[i].links[index]; j++) {
                         console.log(`Added this link`, seriesData[i].links[index][j]);
                         axis.links.push(seriesData[i].links[index][j]);
                     }
                 }
-
             }
         });
 

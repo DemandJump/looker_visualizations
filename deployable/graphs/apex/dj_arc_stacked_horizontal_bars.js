@@ -469,7 +469,6 @@ looker.plugins.visualizations.add({
                         axis.links.push(seriesData[i].links[index][j]);
                     }
                 }
-
             }
         });
 
