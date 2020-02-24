@@ -792,7 +792,7 @@ looker.plugins.visualizations.add({
                         x: tooltipCoords.x,
                         y: tooltipCoords.y
                     },
-                    links: series.links,
+                    links: series.name.links,
                     element: tooltip
                 }
             ];
