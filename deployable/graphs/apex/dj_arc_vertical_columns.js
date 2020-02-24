@@ -246,7 +246,6 @@ looker.plugins.visualizations.add({
         let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
-        let categoryData = [];
         
         if (!pivot) {
             // Series data structure
@@ -254,7 +253,7 @@ looker.plugins.visualizations.add({
                 let name = queryResponse.fields.measure_like[i].label_short;
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
-                categoryData.push(obj);
+                xaxis.push(obj);
             }
 
             // Labels
@@ -360,6 +359,8 @@ looker.plugins.visualizations.add({
         console.log('These are the xaxis labels', xaxis);
         console.log('Series data', seriesData);
 
+        let axisNames = [];
+        xaxis.forEach(axis => axisNames.push(axis.name));
 
         let height = window.innerHeight - 45;
         // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
@@ -367,8 +368,6 @@ looker.plugins.visualizations.add({
         if (config.columnWidth) columnWidth = config.columnWidth;
         columnWidth.toString();
         columnWidth = columnWidth + '%';
-        let axisNames = [];
-        xaxis.forEach(axis => axisNames.push(axis.name));
 
         // Column
         let columnChartConfiguration = {
@@ -502,41 +501,6 @@ looker.plugins.visualizations.add({
             .style(`transform`, `rotate(-45)`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
-
-
-
-
-
-            // Y axis (Series Drilldown)
-
-        // let tooltip = document.getElementsByClassName(`apexcharts-tooltip-series-group active`);
-        // console.log(`This is the tooltip values`);
-        // let ttSeries = document.getElementsByClassName(`apexcharts-tooltip-title`);
-        // let ttName = ttSeries[0].innerHTML;
-        
-        // seriesData.forEach((row, index) => {
-        //     if (row.name == ttName.splice(0, -2)) {
-        //         console.log(`Name found`, row.name);
-
-        //     }
-        // });
-        
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
 
 
         function drillDown(links, event) {

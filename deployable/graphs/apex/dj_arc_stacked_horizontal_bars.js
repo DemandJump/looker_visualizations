@@ -250,33 +250,50 @@ looker.plugins.visualizations.add({
         if (config.showTitle) showTitle = config.showTitle;
         if (config.yTitle) yTitle = config.yTitle;
         if (config.xTitle != '') xTitle = config.xTitle;
-
         
-        // Grab the data 
+
+       
+
+
+          // Pull in all the data into the xaxis and series
+
+        let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
         
         if (!pivot) {
+            // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
+                let name = queryResponse.fields.measure_like[i].label_short;
+                let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
+                xaxis.push(obj);
             }
 
-            let sameMonthChecker = true; 
-            let format = `category`;
-            let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
-            // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-            if (format == `datetime`) sameMonthChecker = checkIfSameMonth();
-
+            // Labels
             datum.forEach(row => {
-                if (format == `datetime` && !sameMonthChecker) xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value));
-                else {
-                    if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
+                let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+
+                if (format == `dateime` && formatDates == true) {
+                    let sameMonthChecker = checkIfSameMonth();
+                    if (sameMonthChecker) xaxis.push({name: nameVal, links: lonks});
+                    else xaxis.push({name: convertDateTime(nameVal), links: lonks});
+                } else {
+                    xaxis.push({name: nameVal, links: lonks});
                 }
-    
+            });
+
+            // Series data
+            let series = [];
+            datum.forEach((row, index) => {
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                    let value = 0;
+                    let lonks = row[queryResponse.fields.measure_like[i].name].links;
+
+                    if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                    seriesData[i].data.push(value);
+                    seriesData[i].links.push(lonks);
                 }
             });
 
@@ -284,34 +301,47 @@ looker.plugins.visualizations.add({
             if (pivotA) {
                 // Labels
                 queryResponse.pivots.forEach(p => {
+                    let lonks = undefined;
+                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
                     if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
                     } 
-                    else xaxis.push(p.key);
+                    else xaxis.push({name: p.key, links: lonks});
                 });
     
                 // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-                queryResponse.fields.measure_like.forEach(row => {
+                let series = [];
+                queryResponse.fields.measure_like.forEach((row, index) => {
                     let obData = [];
+                    let liData = [];
+                    let newSeries = [];
+
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
-                        let value = datum[0][row.name][keyname].value;
+                        let value = 0;
+
+                        liData.push(datum[0][row.name][keyname].links);
+                        
+                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
                         obData.push(value);
                     }
-                    
+
                     let obj = {
-                        name: row.label,
-                        data: obData
+                        name: row.label_short,
+                        className: row.label_short.replace(/ /g, `-`),
+                        data: obData,
+                        links: liData
                     }
                     seriesData.push(obj);
-                }); 
+                });
             }
 
             if (pivotB) {
                 // Labels
                 datum.forEach(row => {
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
                 });
 
                 // Series Object
@@ -319,15 +349,23 @@ looker.plugins.visualizations.add({
                     let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
                     let obj = {
                         name: name,
-                        data: []
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
                     };
                     seriesData.push(obj);
                 }
 
                 // Series data
+                datum.forEach(row => { 
+                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
+                });
+
                 datum.forEach(row => {
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                        let value = 0;
+                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                        seriesData[i].data.push(value);
                     }
                 });
             }
@@ -336,9 +374,13 @@ looker.plugins.visualizations.add({
         console.log('Series data', seriesData);
 
 
+
+
+        let axisNames = [];
+        xaxis.forEach(axis => axisNames.push(axis.name));
         let height = window.innerHeight - 45;
         // Stacked Bar
-        var options4 = {
+        let options4 = {
             chart: {
                 height: height,
                 type: 'bar',
@@ -362,7 +404,7 @@ looker.plugins.visualizations.add({
                 text: title
             },
             xaxis: {
-                categories: xaxis,
+                categories: axisNames,
                 labels: {
                     formatter: function (val) {
                         return val;
@@ -411,12 +453,10 @@ looker.plugins.visualizations.add({
 
 
 
-
-
         /******************************** 
          * Drilldown Menu Configuration
         ********************************/
-        d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
+       d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
             
             // X axis drilldown menu
 
@@ -424,9 +464,12 @@ looker.plugins.visualizations.add({
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
-        // console.log(`This is axis elements`, axisElements);
-        // console.log(`Here are the children`, axisElements[0].children);
-        // console.log(`This is elem`, elem);
+        console.log(`This is axis elements`, axisElements);
+        console.log(`Here are the children`, elem);
+
+        xaxis.forEach((axis, index) => {
+            for(let i = 0; i < seriesData.length; i++) if (seriesData[i].links[index] !== undefined) axis.links.push(seriesData[i].links[index]);
+        });
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
@@ -441,7 +484,6 @@ looker.plugins.visualizations.add({
                 bottom: ps.bottom,
                 right: ps.right,
                 transform: elem[i].attributes.transform.value,
-                // xaxis: elem[i].children[0].innerHTML,
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
@@ -470,14 +512,6 @@ looker.plugins.visualizations.add({
             .style(`transform`, `rotate(-45)`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
-
-
-
-
-
-
-
-
 
 
         function drillDown(links, event) {
