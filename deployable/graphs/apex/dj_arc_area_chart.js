@@ -333,7 +333,7 @@ looker.plugins.visualizations.add({
                     if (stack == `overlay`) {
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                             let value = 0;
-                            if (row[queryReponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                            if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
                             seriesData[i].data.push(value);
                             seriesData[i].links.push(row[queryResponse.fields.measure_like[i].name].links);
                         }
