@@ -437,7 +437,7 @@ looker.plugins.visualizations.add({
 
                         liData.push(datum[0][row.name][keyname].links);
                         
-                        if (datum[dimName][row.name][keyname].value != null) value = datum[dimName][row.name][keyname].value;
+                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
                         if (stack == `overlay`) obData.push(value);
                         if (stack == `stack`) {
                             if (index == 0) series.push(value);
@@ -604,56 +604,56 @@ looker.plugins.visualizations.add({
         ********************************/
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
+        let elem = axisElements[0].children;
         console.log(`This is axis elements`, axisElements);
         let ps;
         console.log(`Here are the children`, axisElements[0].children);
 
             // X axis drilldown menu
 
-        // let nodes = [];
-        // let elem = axisElements[0].children;
-        // console.log(`This is elem`, elem);
-        // for(let i = 0; i < xaxis.length; i++) {
-        //     ps = elem[i].getBoundingClientRect();
-        //     let node = {
-        //         index: i,
-        //         id: `_${elem[i].id}`,
-        //         originalId: elem[i].id,
-        //         width: ps.width,
-        //         height: ps.height,
-        //         top: ps.top,
-        //         left: ps.left,
-        //         bottom: ps.bottom,
-        //         right: ps.right,
-        //         transform: elem[i].attributes.transform.value,
-        //         // xaxis: elem[i].children[0].innerHTML,
-        //         xaxis: xaxis[i].name,
-        //         links: xaxis[i].links,
-        //         element: elem[i]
-        //     };
-        //     nodes.push(node);
-        // }
-        // console.log(`These are the xaxis drilldown nodes`, nodes);
-        // let container = d3.select(`.container`)
-        //     .append(`div`).attr(`class`, `dimensions`)
-        //         .selectAll(`.dimension`).data(nodes);
-        // let enter = container.enter().append(`span`);
-        // container.merge(enter)
-        //     .attr(`class`, `dimension`)
-        //     .attr(`id`, d => d.id)
-        //     .style(`width`, d => `${d.height}px`)
-        //     .style(`height`, d => `${d.width}px`)
-        //     .style(`position`, `absolute`)
-        //     .style(`left`, d => `${d.left}px`)
-        //     // .style(`bottom`, d => `${d.bottom}px`)
-        //     .style(`top`, d => `${d.top}px`)
-        //     // .style(`right`, d => `${d.right}px`)
-        //     .style(`background-color`, `transparent`)
-        //     .style(`opacity`, `0`)
-        //     .style(`z-index`, `4`)
-        //     .style(`transform`, `rotate(-45)`)
-        //     // .html(d => d.text)
-        //     .on('click', d => drillDown(d.links, d3.event));
+        let nodes = [];
+        console.log(`This is elem`, elem);
+        for(let i = 0; i < xaxis.length; i++) {
+            ps = elem[i].getBoundingClientRect();
+            let node = {
+                index: i,
+                id: `_${elem[i].id}`,
+                originalId: elem[i].id,
+                width: ps.width,
+                height: ps.height,
+                top: ps.top,
+                left: ps.left,
+                bottom: ps.bottom,
+                right: ps.right,
+                transform: elem[i].attributes.transform.value,
+                // xaxis: elem[i].children[0].innerHTML,
+                xaxis: xaxis[i].name,
+                links: xaxis[i].links,
+                element: elem[i]
+            };
+            nodes.push(node);
+        }
+        console.log(`These are the xaxis drilldown nodes`, nodes);
+        let container = d3.select(`.container`)
+            .append(`div`).attr(`class`, `dimensions`)
+                .selectAll(`.dimension`).data(nodes);
+        let enter = container.enter().append(`span`);
+        container.merge(enter)
+            .attr(`class`, `dimension`)
+            .attr(`id`, d => d.id)
+            .style(`width`, d => `${d.height}px`)
+            .style(`height`, d => `${d.width}px`)
+            .style(`position`, `absolute`)
+            .style(`left`, d => `${d.left}px`)
+            // .style(`bottom`, d => `${d.bottom}px`)
+            .style(`top`, d => `${d.top}px`)
+            // .style(`right`, d => `${d.right}px`)
+            .style(`background-color`, `transparent`)
+            .style(`opacity`, `0`)
+            .style(`z-index`, `4`)
+            .style(`transform`, `rotate(-45)`)
+            // .html(d => d.text)
+            .on('click', d => drillDown(d.links, d3.event));
 
 
 
@@ -757,25 +757,23 @@ looker.plugins.visualizations.add({
         function createSeries(d) {
             // d3.event.stopPropagation();
             d3.select(`.container`).selectAll(`.measures`).remove();
-            d3.select(`.container`).selectAll(`.xaxis`).remove();
+            // d3.select(`.container`).selectAll(`.xaxis`).remove();
 
-            
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
                 let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
                 row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
             });
-            // let seriesCon = document.getElementById(d.index.toString());
-            // seriesCon.parentNode.removeChild(seriesCon);
+
             createSeriesDrills(d);
-            createXAxis(d);
+            // createXAxis(d);
         }
 
 
         function createXAxis(series) {
             let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
             let tooltipCoords = tooltip[0].getBoundingClientRect();
-            console.log(`This is the tooltip coordinates`, tooltipCoords);
+            console.log(`This is the series`, series);
 
             let object = [
                 {
@@ -812,8 +810,7 @@ looker.plugins.visualizations.add({
                 .style(`top`, d => `${d.coordinates.top}px`)
                 .style(`opacity`, `1`)
                 .style(`border`, `1px dashed black`)
-                .on('click', d => drillDown(d.links, d3.event));
-                
+                .on('click', d => drillDown(d.links, d3.event));        
         }
 
 
