@@ -803,10 +803,7 @@ looker.plugins.visualizations.add({
             let xaxisDrilldown = xaxisSeries.enter().append(`div`);
             xaxisSeries.merge(xaxisDrilldown)
                 .attr(`class`, `drilldown`)
-                .attr(`id`, d => {
-                    console.log(`This is the xaxis drilldown`, d);
-                    return d.id;
-                })
+                .attr(`id`, d => return d.id)
                 .style(`width`, d => `${d.coordinates.width}px`)
                 .style(`height`, d => `${d.coordinates.height}px`)
                 .style(`z-index`, `22`)
