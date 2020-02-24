@@ -750,6 +750,8 @@ looker.plugins.visualizations.add({
         function createSeries(d) {
             // d3.event.stopPropagation();
             d3.select(`.container`).selectAll(`.measure`).remove();
+            d3.select(`.container`).selectAll(`.xaxis`).remove();
+
             
             d.seriesData.forEach(row => {
                 let name = row.pivot.replace(/ /g, `-`);
@@ -760,6 +762,62 @@ looker.plugins.visualizations.add({
             // let seriesCon = document.getElementById(d.index.toString());
             // seriesCon.parentNode.removeChild(seriesCon);
             createSeriesDrills(d);
+            createXAxis(d);
+        }
+
+
+        function createXAxis(series) {
+            console.log(`This is the series data`, series);
+            let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
+            let xaxisName = tooltip[0].innerHTML;
+            let tooltipCoords = tooltip[0].getBoundingClientRect();
+            console.log(`This is the xaxisName`, xaxisName);
+            console.log(`This is the tooltip coordinates`, tooltipCoords);
+            console.log(`Tooltip`, tooltip);
+
+            let xaxisLinks;
+            for(let i = 0; i < xaxis.length; i++) {
+                if (xaxisName == xaxis[i].name) xaxisLinks = xaxis[i].links;
+            }
+            console.log(`xaxisLinks`, xaxisLinks);
+
+            let obj = [
+                {
+                    name: xaxisName,
+                    id: `_${tooltip[0].id}`,
+                    originalId: tooltip[0].id,
+                    coordinates: {
+                        width: tooltipCoords.width,
+                        height: tooltipCoords.height,
+                        top: tooltipCoords.top,
+                        left: tooltipCoords.left,
+                        bottom: tooltipCoords.bottom,
+                        right: tooltipCoords.right,
+                        x: tooltipCoords.x,
+                        y: tooltipCoords.y
+                    },
+                    links: xaxisLinks,
+                    element: tooltip
+                }
+            ];
+
+            let xaxisSeries = d3.select(`.container`)
+                .append(`div`).attr(`class`, `xaxis`)
+                    .selectAll(`.drilldown`).data(object);
+            let xaxisDrilldown = xaxisSeries.enter().append(`div`);
+            xaxisSeries.merge(xaxisDrilldown)
+                .attr(`class`, `drilldown`)
+                .attr(`id`, d => d.id)
+                .style(`width`, d => d.coordinates.width)
+                .style(`height`, d => d.coordinates.height)
+                .style(`z-index`, `22`)
+                .style(`position`, `absolute`)
+                .style(`left`, d => d.coordinates.left)
+                .style(`top`, d => d.coordinates.top)
+                .style(`opacity`, `1`)
+                .style(`border`, `1px dashed black`)
+                .on('click', d => drillDown(d.links, d3.event));
+                
         }
 
 
@@ -767,11 +825,11 @@ looker.plugins.visualizations.add({
             individualSeries[series.index] = series.seriesData;
             // d3.event.stopPropagation();
             let seriesSection = d3.select(`.container`)
-                .append(`div`).attr(`class`, `measure`)
-                    .selectAll(`.measures`).data(individualSeries[series.index]);
+                .append(`div`).attr(`class`, `measures`)
+                    .selectAll(`.measure`).data(individualSeries[series.index]);
             let singleSeries = seriesSection.enter().append(`div`);  
             seriesSection.merge(singleSeries)
-                .attr(`class`, `measures`)
+                .attr(`class`, `measure`)
                 .style(`width`, data => `${data.coordinates.width -2}px`)
                 .style(`height`, data => `${data.coordinates.height -2}px`)
                 .style(`z-index`, `22`)
