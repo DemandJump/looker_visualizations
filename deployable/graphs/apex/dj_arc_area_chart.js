@@ -9,7 +9,9 @@ looker.plugins.visualizations.add({
             type: `string`,
             display: `select`,
             values: [
-                {'Classic': 'area'},
+                {'Classic': 'classic'},
+                {'Curve': 'curve'}, 
+                {'Step': 'stepline'},
                 {'Custom': 'custom'},
                 // {'Theme two': 'negative'}
             ],
@@ -238,28 +240,34 @@ looker.plugins.visualizations.add({
             if (config.showTitle) showTitle = config.showTitle;
         }
 
-        if (theme == `area`) {
-            if (this._custom != `area`) {
+        if (theme == `classic` || theme == `curve` || theme == `stepline`) {
+            if (this._custom != `classic`) {
+                this._custom = `classic`;
                 this.options.customSpacing.hidden = true;
                 this.options.customLabel.hidden = true;
                 this.options.curve.hidden = true;
                 this.options.dataLabels.hidden = true;
                 this.options.alignLegend.hidden = true;
                 this.options.renderedData.hidden = true;
-                this.options.formatDates.hidden = true;
+                // this.options.formatDates.hidden = true;
                 changed = true;
             }
+
+            if (theme == `classic`) curve = `straight`;
+            if (theme == `curve`) curve = `curve`;
+            if (theme == `stepline`) curve = `stepline`;
         }
 
         if (theme == `custom`) {
             if (this._custom != `custom`) {
+                this._custom = `custom`;
                 this.options.customSpacing.hidden = false;
                 this.options.customLabel.hidden = false;
                 this.options.curve.hidden = false;
                 this.options.dataLabels.hidden = false;
                 this.options.alignLegend.hidden = false;
                 this.options.renderedData.hidden = false;
-                this.options.formatDates.hidden = false; 
+                // this.options.formatDates.hidden = false; 
                 changed = true;
             }
 
