@@ -274,14 +274,8 @@ looker.plugins.visualizations.add({
             datum.forEach(row => {
                 let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
                 let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-
-                if (format == `dateime` && formatDates == true) {
-                    let sameMonthChecker = checkIfSameMonth();
-                    if (sameMonthChecker) xaxis.push({name: nameVal, links: lonks});
-                    else xaxis.push({name: convertDateTime(nameVal), links: lonks});
-                } else {
-                    xaxis.push({name: nameVal, links: lonks});
-                }
+                console.log(`nameval: ${nameVal}, and links: ${lonks}`);
+                xaxis.push({name: nameVal, links: lonks});
             });
 
             // Series data
