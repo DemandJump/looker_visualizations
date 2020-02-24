@@ -150,6 +150,12 @@ looker.plugins.visualizations.add({
                 </div>
             </div>
             `;
+        
+        this._container = d3.select(element).append('div')
+            .attr('class', 'container')
+            .style('position', 'absolute')
+            .style('top', '0')
+            .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5; 

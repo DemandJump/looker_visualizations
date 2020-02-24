@@ -119,7 +119,7 @@ looker.plugins.visualizations.add({
     },
     create: function(element, config) {
         let d3 = d3v5;
-        this._custom = false
+        this._custom = `something`;
         element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -135,6 +135,12 @@ looker.plugins.visualizations.add({
                 </div>
             </div>
             `;
+
+        this._container = d3.select(element).append('div')
+            .attr('class', 'container')
+            .style('position', 'absolute')
+            .style('top', '0')
+            .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         let d3 = d3v5; 
@@ -456,6 +462,15 @@ looker.plugins.visualizations.add({
 
 
 
+
+
+
+
+
+
+
+
+        
 
 
 
