@@ -145,14 +145,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
         
-        formatDates: {
-            label: `Abbreviate datetime values`, 
-            order: 13,
-            section: `Format`,
-            type: `boolean`,
-            default: true, 
-            hidden: false
-        }
+        // formatDates: {
+        //     label: `Abbreviate datetime values`, 
+        //     order: 13,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true, 
+        //     hidden: false
+        // }
 
     },
     create: function(element, config) {
@@ -445,7 +445,7 @@ looker.plugins.visualizations.add({
                             else newSeries[i] = series[i] + value;
                         }
                     }
-                    
+
                     if (stack == `stack`) {
                         if (index == 0) obData = series;
                         else {
