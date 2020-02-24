@@ -529,14 +529,18 @@ looker.plugins.visualizations.add({
 
 
             // Y axis (Series Drilldown)
-        let tooltip = document.getElementsByClassName(`apexcharts-tooltip-series-group active`);
-        console.log(`This is the tooltip values`);
-        let ttSeries = document.getElementsByClassName(`apexcharts-tooltip-title`);
-        let ttName = ttSeries[0].innerHTML;
+            
+        // let tooltip = document.getElementsByClassName(`apexcharts-tooltip-series-group active`);
+        // console.log(`This is the tooltip values`);
+        // let ttSeries = document.getElementsByClassName(`apexcharts-tooltip-title`);
+        // let ttName = ttSeries[0].innerHTML;
         
-        seriesData.forEach((row, index) => {
-            if (row.name == ttName.splice(0, -2)) 
-        });
+        // seriesData.forEach((row, index) => {
+        //     if (row.name == ttName.splice(0, -2)) {
+        //         console.log(`Name found`, row.name);
+
+        //     }
+        // });
         
 
 
