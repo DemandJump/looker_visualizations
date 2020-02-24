@@ -464,6 +464,14 @@ looker.plugins.visualizations.add({
 
 
 
+            // Y axis (Series Drilldown)
+        let tooltip = document.getElementsByClassName(`apexcharts-tooltip-series-group active`);
+        console.log(`This is the tooltip values`);
+        
+
+
+
+
 
 
 

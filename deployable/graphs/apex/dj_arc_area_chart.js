@@ -188,10 +188,10 @@ looker.plugins.visualizations.add({
         d3.select("#chart-apex-area").selectAll("*").remove(); // Clear out the data before we add the vis
         // let node = document.getElementById(`chart-apex-area`);
         // while(node.firstChild) node.firstChild.remove();
-        // console.log(`\n\n\n\nThese are the settings`, this.options);
-        // console.log(`This is the config`, config);
-        // console.log(`Queryresponse`, queryResponse);
-        // console.log(`Data`, data);
+        console.log(`\n\n\n\nThese are the settings`, this.options);
+        console.log(`This is the config`, config);
+        console.log(`Queryresponse`, queryResponse);
+        console.log(`Data`, data);
         let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
         let pivot = false;
         let pivotA = false;
@@ -579,8 +579,8 @@ looker.plugins.visualizations.add({
         if (format == `datetime` || format == `category`) {
             let axisData = [];
             xaxis.forEach(axis => axisData.push(axis.name));
-            // console.log(`Series data`, seriesData);
-            // console.log(`xaxis data`, xaxis);
+            console.log(`Series data`, seriesData);
+            console.log(`xaxis data`, xaxis);
             configuration[`series`] = seriesData;
             configuration[`labels`] = axisData;
             // configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
@@ -643,7 +643,7 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        // console.log(`These are the xaxis drilldown nodes`, nodes);
+        console.log(`These are the xaxis drilldown nodes`, nodes);
 
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
