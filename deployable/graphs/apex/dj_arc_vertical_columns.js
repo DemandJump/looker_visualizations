@@ -458,15 +458,7 @@ looker.plugins.visualizations.add({
         console.log(`Here are the children`, elem);
 
         xaxis.forEach((axis, index) => {
-            axis.links.push({label: `by Measue Addition Name`, url: `/explore/djdh_amp_web/djdh_page_views?fields=djdh_…ws.page_view_start_date&limit=500&column_limit=50`, type_label: `Drill into this measure`});
-
-            // Iterate through each of the series
-            for(let i = 0; i < seriesData.length; i++) {
-                console.log(`Current series data`, seriesData[i].links[index]);
-                if (seriesData[i].links[index] === undefined) console.log(`Found undefined link`);
-                if (seriesData[i].links[index] === `undefined`) console.log(`Found undefined string link`);
-                if (seriesData[i].links[index] !== undefined) axis.links.push(seriesData[i].links[index]);
-            }
+            for(let i = 0; i < seriesData.length; i++) if (seriesData[i].links[index] !== undefined) axis.links.push(seriesData[i].links[index]);
         });
 
         for(let i = 0; i < xaxis.length; i++) {
