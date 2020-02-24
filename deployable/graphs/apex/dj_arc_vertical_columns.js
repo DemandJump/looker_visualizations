@@ -407,9 +407,9 @@ looker.plugins.visualizations.add({
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
-        // console.log(`This is axis elements`, axisElements);
-        // console.log(`Here are the children`, axisElements[0].children);
-        // console.log(`This is elem`, elem);
+        console.log(`This is axis elements`, axisElements);
+        console.log(`Here are the children`, axisElements[0].children);
+        console.log(`This is elem`, elem);
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
