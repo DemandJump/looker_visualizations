@@ -274,7 +274,6 @@ looker.plugins.visualizations.add({
             datum.forEach(row => {
                 let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
                 let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-                console.log(`nameval: ${nameVal}, and links: ${lonks}`);
                 xaxis.push({name: nameVal, links: lonks});
             });
 
