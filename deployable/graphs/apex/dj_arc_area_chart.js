@@ -317,7 +317,6 @@ looker.plugins.visualizations.add({
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
-            console.log(`This is the format`, format);
 
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -715,12 +714,6 @@ looker.plugins.visualizations.add({
         let seriesContainers = [];
         let cspacing = gridpointA.left - (gridSpacing / 2);
 
-        // console.log(`This is the graph`, graph);
-        // console.log(`This is the foreignObject`, foreignObject);
-        // console.log(`Coordinate data of the graph`, graphdata);
-        // console.log(`Coordinate data of the foreign object`, fodata);
-        
-        
         xaxis.forEach((axis, index) => {
             if (index != 0) cspacing += gridSpacing;
             let seriesValues = [];
