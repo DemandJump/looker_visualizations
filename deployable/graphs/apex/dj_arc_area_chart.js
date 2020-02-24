@@ -559,12 +559,13 @@ looker.plugins.visualizations.add({
 
         if (format == `datetime` || format == `category`) {
             let axisData = [];
-            xaxis.forEach(axis => axisData.push(axis.name));
+            xaxis.forEach(axis => axisData.push(axis.name.name));
             console.log(`Series data`, seriesData);
             console.log(`xaxis data`, xaxis);
             configuration[`series`] = seriesData;
             configuration[`labels`] = axisData;
             configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
+            // configuration[`xaxis`] = {type: `category`}; // Look automatically formats dates, and we pull in a random amount of dynamically mades dates that are already formatted. Category pulls in those formats and it doesn't break trying to reformat the data
             configuration[`yaxis`] = {opposite: true};
             configuration[`legend`] = {horizontalAlign: alignLegend};
         }
