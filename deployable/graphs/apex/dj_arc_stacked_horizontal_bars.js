@@ -468,7 +468,15 @@ looker.plugins.visualizations.add({
         // console.log(`Here are the children`, elem);
 
         xaxis.forEach((axis, index) => {
-            for(let i = 0; i < seriesData.length; i++) if (seriesData[i].links[index] !== undefined) axis.links.push(seriesData[i].links[index]);
+            for(let i = 0; i < seriesData.length; i++) {
+                if (seriesData[i].links[index] !== undefined) {
+                    for(let j = 0; j < seriesData[i].links[index]) {
+                        console.log(`Added this link`, seriesData[i].links[index][j]);
+                        axis.links.push(seriesData[i].links[index][j]);
+                    }
+                }
+
+            }
         });
 
         for(let i = 0; i < xaxis.length; i++) {
@@ -490,7 +498,7 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        // console.log(`These are the xaxis drilldown nodes`, nodes);
+        console.log(`These are the xaxis drilldown nodes`, nodes);
 
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
