@@ -463,7 +463,9 @@ looker.plugins.visualizations.add({
             // Iterate through each of the series
             for(let i = 0; i < seriesData.length; i++) {
                 console.log(`Current series data`, seriesData[i].links[index]);
-                if (seriesData[i].links[index] !== null || seriesData[i].links[index] !== [] || seriesData[i].links[index] !== undefined) axis.links.push(seriesData[i].links[index]);
+                if (seriesData[i].links[index] === undefined) console.log(`Found undefined link`);
+                if (seriesData[i].links[index] === `undefined`) console.log(`Found undefined string link`);
+                if (seriesData[i].links[index] !== undefined) axis.links.push(seriesData[i].links[index]);
             }
         });
 
