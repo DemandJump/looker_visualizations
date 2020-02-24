@@ -451,7 +451,6 @@ looker.plugins.visualizations.add({
          * Drilldown Menu Configuration
         ********************************/
        d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
-            
             // X axis drilldown menu
 
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
