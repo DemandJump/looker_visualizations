@@ -451,7 +451,7 @@ looker.plugins.visualizations.add({
         // console.log(`This is axis elements`, axisElements);
         // console.log(`Here are the children`, elem);
 
-        xaxis.forEach((axis, index) => {
+        xaxis = xaxis.forEach((axis, index) => {
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
                     console.log(`This is the links found `, seriesData[i].links[index]);
