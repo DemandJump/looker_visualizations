@@ -414,7 +414,7 @@ looker.plugins.visualizations.add({
                 width: 2,
                 colors: ['transparent']
             },
-            series: seriesData,
+            series: seriesData.data,
             title: {
                 text: title,
             },
