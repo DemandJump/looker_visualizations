@@ -350,7 +350,9 @@ looker.plugins.visualizations.add({
                     if (stack == `stack`) {
                         let newSeries = [];
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                            seriesData[i].links.push(row[queryResponse.fields.measure_like[i].name].links);
+                            let lonks = row[queryResponse.fields.measure_like[i].name].links;
+                            if (lonks == null || lonks == undefined) lonks = []; 
+                            seriesData[i].links.push(lonks);
 
                             let value = 0;
                             if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
@@ -433,7 +435,7 @@ looker.plugins.visualizations.add({
                         let keyname = queryResponse.pivots[i].key;
                         let value = 0;
 
-                        liData.push(datum[0][row.name][queryResponse.pivots.key][keyname].links);
+                        liData.push(datum[0][row.name][keyname].links);
                         
                         if (datum[dimName][row.name][keyname].value != null) value = datum[dimName][row.name][keyname].value;
                         if (stack == `overlay`) obData.push(value);
