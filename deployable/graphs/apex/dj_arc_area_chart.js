@@ -307,7 +307,7 @@ looker.plugins.visualizations.add({
         
         if (!pivot) {
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
-            if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
+            // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
             if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
             console.log(`This is the format`, format);
 
