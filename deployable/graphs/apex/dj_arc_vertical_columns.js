@@ -451,11 +451,11 @@ looker.plugins.visualizations.add({
         // console.log(`This is axis elements`, axisElements);
         // console.log(`Here are the children`, elem);
 
-        xaxis = xaxis.forEach((axis, index) => {
+        xaxis.forEach((axis, index) => {
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
                     console.log(`This is the links found `, seriesData[i].links[index]);
-                    for(let j = 0; j < seriesData[i].links[index]; j++) {
+                    for(let j = 0; j < seriesData[i].links[index].length; j++) {
                         console.log(`Added this link`, seriesData[i].links[index][j]);
                         axis.links.push(seriesData[i].links[index][j]);
                     }
