@@ -597,6 +597,7 @@ looker.plugins.visualizations.add({
         ********************************/
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
+        console.log(`This is axis elements`, axisElements);
         let ps;
         console.log(`Here are the children`, axisElements[0].children);
 
