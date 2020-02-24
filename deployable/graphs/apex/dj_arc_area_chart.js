@@ -431,6 +431,7 @@ looker.plugins.visualizations.add({
                 queryResponse.fields.measure_like.forEach((row, index) => {
                     let obData = [];
                     let liData = [];
+                    let newSeries = [];
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
                         let value = 0;
@@ -444,6 +445,7 @@ looker.plugins.visualizations.add({
                             else newSeries[i] = series[i] + value;
                         }
                     }
+                    
                     if (stack == `stack`) {
                         if (index == 0) obData = series;
                         else {
@@ -633,7 +635,8 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        console.log(`These are the xaxis drilldown nodes`, nodes);
+        // console.log(`These are the xaxis drilldown nodes`, nodes);
+
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
                 .selectAll(`.dimension`).data(nodes);
@@ -770,6 +773,35 @@ looker.plugins.visualizations.add({
         }
 
 
+        function createSeriesDrills(series) {
+            individualSeries[series.index] = series.seriesData;
+            // d3.event.stopPropagation();
+            let seriesSection = d3.select(`.container`)
+                .append(`div`).attr(`class`, `measures`)
+                    .selectAll(`.measure`).data(individualSeries[series.index]);
+            let singleSeries = seriesSection.enter().append(`div`);  
+            seriesSection.merge(singleSeries)
+                .attr(`class`, `measure`)
+                .style(`width`, data => `${data.coordinates.width -2}px`)
+                .style(`height`, data => `${data.coordinates.height -2}px`)
+                .style(`z-index`, `22`)
+                .style(`position`, `absolute`)
+                .style(`left`, data => `${data.coordinates.left - 3}px`)
+                .style(`top`, data => `${data.coordinates.top}px`)
+                .style(`opacity`, `0`)
+                .style(`background-color`, d => djColors[d.column])
+                .style(`border`, `2px solid white`)
+                .style(`border-radius`, `50%`)
+                .on('click', d => drillDown(d.links, d3.event))
+                .on(`mouseover`, function(d) {
+                  d3.select(this).style(`opacity`, `1`);
+                }) 
+                .on(`mouseout`, function(d) {
+                  d3.select(this).style(`opacity`, `0`);
+                });
+        }
+
+
         function createXAxis(series) {
             let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
             let tooltipCoords = tooltip[0].getBoundingClientRect();
@@ -811,35 +843,6 @@ looker.plugins.visualizations.add({
                 .style(`opacity`, `1`)
                 .style(`border`, `1px dashed black`)
                 .on('click', d => drillDown(d.links, d3.event));        
-        }
-
-
-        function createSeriesDrills(series) {
-            individualSeries[series.index] = series.seriesData;
-            // d3.event.stopPropagation();
-            let seriesSection = d3.select(`.container`)
-                .append(`div`).attr(`class`, `measures`)
-                    .selectAll(`.measure`).data(individualSeries[series.index]);
-            let singleSeries = seriesSection.enter().append(`div`);  
-            seriesSection.merge(singleSeries)
-                .attr(`class`, `measure`)
-                .style(`width`, data => `${data.coordinates.width -2}px`)
-                .style(`height`, data => `${data.coordinates.height -2}px`)
-                .style(`z-index`, `22`)
-                .style(`position`, `absolute`)
-                .style(`left`, data => `${data.coordinates.left - 3}px`)
-                .style(`top`, data => `${data.coordinates.top}px`)
-                .style(`opacity`, `0`)
-                .style(`background-color`, d => djColors[d.column])
-                .style(`border`, `2px solid white`)
-                .style(`border-radius`, `50%`)
-                .on('click', d => drillDown(d.links, d3.event))
-                .on(`mouseover`, function(d) {
-                  d3.select(this).style(`opacity`, `1`);
-                }) 
-                .on(`mouseout`, function(d) {
-                  d3.select(this).style(`opacity`, `0`);
-                });
         }
 
 
