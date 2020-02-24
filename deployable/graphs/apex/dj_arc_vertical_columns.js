@@ -370,7 +370,6 @@ looker.plugins.visualizations.add({
         columnWidth = columnWidth + '%';
         let axisNames = [];
         xaxis.forEach(axis => axisNames.push(axis.name));
-        console.log(`Axis names`, axisNames);
 
         // Column
         let columnChartConfiguration = {
@@ -457,8 +456,11 @@ looker.plugins.visualizations.add({
         let ps;
         let nodes = [];
         console.log(`This is axis elements`, axisElements);
-        console.log(`Here are the children`, axisElements[0].children);
-        console.log(`This is elem`, elem);
+        console.log(`Here are the children`, elem);
+
+        xaxis.forEach(link => {
+            link.links.push({label: `by Measue Addition Name`, url: `/explore/djdh_amp_web/djdh_page_views?fields=djdh_…ws.page_view_start_date&limit=500&column_limit=50`, type_label: `Drill into this measure`});
+        });
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
