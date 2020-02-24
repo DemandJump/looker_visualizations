@@ -603,50 +603,50 @@ looker.plugins.visualizations.add({
 
             // X axis drilldown menu
 
-        let nodes = [];
-        let elem = axisElements[0].children;
-        console.log(`This is elem`, elem);
-        for(let i = 0; i < xaxis.length; i++) {
-            ps = elem[i].getBoundingClientRect();
-            let node = {
-                index: i,
-                id: `_${elem[i].id}`,
-                originalId: elem[i].id,
-                width: ps.width,
-                height: ps.height,
-                top: ps.top,
-                left: ps.left,
-                bottom: ps.bottom,
-                right: ps.right,
-                transform: elem[i].attributes.transform.value,
-                // xaxis: elem[i].children[0].innerHTML,
-                xaxis: xaxis[i].name,
-                links: xaxis[i].links,
-                element: elem[i]
-            };
-            nodes.push(node);
-        }
-        console.log(`These are the xaxis drilldown nodes`, nodes);
-        let container = d3.select(`.container`)
-            .append(`div`).attr(`class`, `dimensions`)
-                .selectAll(`.dimension`).data(nodes);
-        let enter = container.enter().append(`span`);
-        container.merge(enter)
-            .attr(`class`, `dimension`)
-            .attr(`id`, d => d.id)
-            .style(`width`, d => `${d.height}px`)
-            .style(`height`, d => `${d.width}px`)
-            .style(`position`, `absolute`)
-            .style(`left`, d => `${d.left}px`)
-            // .style(`bottom`, d => `${d.bottom}px`)
-            .style(`top`, d => `${d.top}px`)
-            // .style(`right`, d => `${d.right}px`)
-            .style(`background-color`, `transparent`)
-            .style(`opacity`, `0`)
-            .style(`z-index`, `4`)
-            .style(`transform`, `rotate(-45)`)
-            // .html(d => d.text)
-            .on('click', d => drillDown(d.links, d3.event));
+        // let nodes = [];
+        // let elem = axisElements[0].children;
+        // console.log(`This is elem`, elem);
+        // for(let i = 0; i < xaxis.length; i++) {
+        //     ps = elem[i].getBoundingClientRect();
+        //     let node = {
+        //         index: i,
+        //         id: `_${elem[i].id}`,
+        //         originalId: elem[i].id,
+        //         width: ps.width,
+        //         height: ps.height,
+        //         top: ps.top,
+        //         left: ps.left,
+        //         bottom: ps.bottom,
+        //         right: ps.right,
+        //         transform: elem[i].attributes.transform.value,
+        //         // xaxis: elem[i].children[0].innerHTML,
+        //         xaxis: xaxis[i].name,
+        //         links: xaxis[i].links,
+        //         element: elem[i]
+        //     };
+        //     nodes.push(node);
+        // }
+        // console.log(`These are the xaxis drilldown nodes`, nodes);
+        // let container = d3.select(`.container`)
+        //     .append(`div`).attr(`class`, `dimensions`)
+        //         .selectAll(`.dimension`).data(nodes);
+        // let enter = container.enter().append(`span`);
+        // container.merge(enter)
+        //     .attr(`class`, `dimension`)
+        //     .attr(`id`, d => d.id)
+        //     .style(`width`, d => `${d.height}px`)
+        //     .style(`height`, d => `${d.width}px`)
+        //     .style(`position`, `absolute`)
+        //     .style(`left`, d => `${d.left}px`)
+        //     // .style(`bottom`, d => `${d.bottom}px`)
+        //     .style(`top`, d => `${d.top}px`)
+        //     // .style(`right`, d => `${d.right}px`)
+        //     .style(`background-color`, `transparent`)
+        //     .style(`opacity`, `0`)
+        //     .style(`z-index`, `4`)
+        //     .style(`transform`, `rotate(-45)`)
+        //     // .html(d => d.text)
+        //     .on('click', d => drillDown(d.links, d3.event));
 
 
 
