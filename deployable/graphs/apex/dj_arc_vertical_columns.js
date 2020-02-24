@@ -238,66 +238,120 @@ looker.plugins.visualizations.add({
         if (config.xTitle != ``) xTitle = config.xTitle;
 
 
-        // Grab the data 
+        
+
+
+          // Pull in all the data into the xaxis and series
+
+        let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
+        let categoryData = [];
         
         if (!pivot) {
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let obj = {name: queryResponse.fields.measure_like[i].label, data: []};
-                seriesData.push(obj);
-            }
-
-            let sameMonthChecker = true; 
-            let format = `category`;
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-            if (format == `datetime`) sameMonthChecker = checkIfSameMonth();
+            if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
 
+            // Series data structure
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let name = queryResponse.fields.measure_like[i].label_short;
+                let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
+                seriesData.push(obj);
+                categoryData.push(obj);
+            }
+
+            // Labels
             datum.forEach(row => {
-                if (format == `datetime` && !sameMonthChecker) xaxis.push(convertDateTime(row[queryResponse.fields.dimension_like[0].name].value));
-                else {
-                    if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
-                }
-    
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    seriesData[i].data.push(row[queryResponse.fields.measure_like[i].name].value);
+                let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
+                let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                if (lonks == null || lonks == undefined) lonks = [];
+
+                if (format == `dateime` && formatDates == true) {
+                    let sameMonthChecker = checkIfSameMonth();
+                    if (sameMonthChecker) xaxis.push({name: nameVal, links: lonks});
+                    else xaxis.push({name: convertDateTime(nameVal), links: lonks});
+                } else {
+                    xaxis.push({name: nameVal, links: lonks});
                 }
             });
+
+            if (format == `cateogry`) {
+                let series = [];
+                datum.forEach((row, index) => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let value = 0;
+                        let lonks = row[queryResponse.fields.measure_like[i].name].links;
+                        if (lonks == null || lonks == undefined) lonks = [];
+                        if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                        seriesData[i].data.push(value);
+                        seriesData[i].links.push(lonks);
+                    }
+                });
+            } else {
+                let series = [];
+                datum.forEach((row, index) => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let links = row[queryResponse.fields.measure_like[i].name].links;
+                        let xVal;
+                        if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                        else xVal = row[queryResponse.fields.dimension_like[0].name].value;
+
+                        let yVal = 0;
+                        if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
+
+                        let ob = {x: xVal, y: yVal};
+                        categoryData[i].data.push(ob);
+                        categoryData[i].links.push(links);
+                    }
+                });
+            }
 
         } else {
             if (pivotA) {
                 // Labels
                 queryResponse.pivots.forEach(p => {
+                    let lonks = [];
+                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
                     if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push(p.metadata[queryResponse.fields.pivots[0].name].rendered);
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
                     } 
-                    else xaxis.push(p.key);
+                    else xaxis.push({name: p.key, links: lonks});
                 });
     
                 // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-                queryResponse.fields.measure_like.forEach(row => {
+                let series = [];
+                queryResponse.fields.measure_like.forEach((row, index) => {
                     let obData = [];
+                    let liData = [];
+                    let newSeries = [];
+
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
-                        let value = datum[0][row.name][keyname].value;
+                        let value = 0;
+
+                        liData.push(datum[0][row.name][keyname].links);
+                        
+                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
                         obData.push(value);
                     }
-                    
+
                     let obj = {
-                        name: row.label,
-                        data: obData
+                        name: row.label_short,
+                        className: row.label_short.replace(/ /g, `-`),
+                        data: obData,
+                        links: liData
                     }
                     seriesData.push(obj);
-                }); 
+                });
             }
-      
+
             if (pivotB) {
                 // Labels
                 datum.forEach(row => {
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push(row[queryResponse.fields.dimension_like[0].name].rendered);
-                    else xaxis.push(row[queryResponse.fields.dimension_like[0].name].value);
+                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
                 });
 
                 // Series Object
@@ -305,15 +359,23 @@ looker.plugins.visualizations.add({
                     let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
                     let obj = {
                         name: name,
-                        data: []
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
                     };
                     seriesData.push(obj);
                 }
 
                 // Series data
+                datum.forEach(row => { 
+                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
+                });
+
                 datum.forEach(row => {
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        seriesData[i].data.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value);
+                        let value = 0;
+                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                        seriesData[i].data.push(value);
                     }
                 });
             }
@@ -328,6 +390,8 @@ looker.plugins.visualizations.add({
         if (config.columnWidth) columnWidth = config.columnWidth;
         columnWidth.toString();
         columnWidth = columnWidth + '%';
+        let axisNames = [];
+        xaxis.forEach(axis => axisNames.push(axis.name));
 
         // Column
         let columnChartConfiguration = {
@@ -355,7 +419,7 @@ looker.plugins.visualizations.add({
                 text: title,
             },
             xaxis: {
-                categories: xaxis,
+                categories: axisNames,
                 title: {
                     text: xTitle
                 }
@@ -467,6 +531,12 @@ looker.plugins.visualizations.add({
             // Y axis (Series Drilldown)
         let tooltip = document.getElementsByClassName(`apexcharts-tooltip-series-group active`);
         console.log(`This is the tooltip values`);
+        let ttSeries = document.getElementsByClassName(`apexcharts-tooltip-title`);
+        let ttName = ttSeries[0].innerHTML;
+        
+        seriesData.forEach((row, index) => {
+            if (row.name == ttName.splice(0, -2)) 
+        });
         
 
 
