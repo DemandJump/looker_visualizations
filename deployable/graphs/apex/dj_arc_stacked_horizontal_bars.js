@@ -453,7 +453,7 @@ looker.plugins.visualizations.add({
             // X axis drilldown menu
 
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
-        if (!horizontal) axisElements = document.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
+        if (horizontal) axisElements = document.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
