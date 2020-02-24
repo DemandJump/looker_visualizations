@@ -569,7 +569,7 @@ looker.plugins.visualizations.add({
 
         if (format == `datetime` || format == `category`) {
             let axisData = [];
-            xaxis.forEach(axis => axisData.push(axis.name.name));
+            xaxis.forEach(axis => axisData.push(axis.name));
             console.log(`Series data`, seriesData);
             console.log(`xaxis data`, xaxis);
             configuration[`series`] = seriesData;
