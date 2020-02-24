@@ -251,7 +251,6 @@ looker.plugins.visualizations.add({
         if (!pivot) {
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-            if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
 
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -276,36 +275,18 @@ looker.plugins.visualizations.add({
                 }
             });
 
-            if (format == `cateogry`) {
-                let series = [];
-                datum.forEach((row, index) => {
-                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                        let value = 0;
-                        let lonks = row[queryResponse.fields.measure_like[i].name].links;
-                        if (lonks == null || lonks == undefined) lonks = [];
-                        if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
-                        seriesData[i].data.push(value);
-                        seriesData[i].links.push(lonks);
-                    }
-                });
-            } else {
-                let series = [];
-                datum.forEach((row, index) => {
-                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                        let links = row[queryResponse.fields.measure_like[i].name].links;
-                        let xVal;
-                        if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                        else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-
-                        let yVal = 0;
-                        if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
-
-                        let ob = {x: xVal, y: yVal};
-                        categoryData[i].data.push(ob);
-                        categoryData[i].links.push(links);
-                    }
-                });
-            }
+            // Series data
+            let series = [];
+            datum.forEach((row, index) => {
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    let value = 0;
+                    let lonks = row[queryResponse.fields.measure_like[i].name].links;
+                    if (lonks == null || lonks == undefined) lonks = [];
+                    if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                    seriesData[i].data.push(value);
+                    seriesData[i].links.push(lonks);
+                }
+            });
 
         } else {
             if (pivotA) {
@@ -494,7 +475,6 @@ looker.plugins.visualizations.add({
                 bottom: ps.bottom,
                 right: ps.right,
                 transform: elem[i].attributes.transform.value,
-                // xaxis: elem[i].children[0].innerHTML,
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
@@ -529,7 +509,7 @@ looker.plugins.visualizations.add({
 
 
             // Y axis (Series Drilldown)
-            
+
         // let tooltip = document.getElementsByClassName(`apexcharts-tooltip-series-group active`);
         // console.log(`This is the tooltip values`);
         // let ttSeries = document.getElementsByClassName(`apexcharts-tooltip-title`);
