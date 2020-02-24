@@ -423,10 +423,9 @@ looker.plugins.visualizations.add({
                     let liData = [];
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
-                        let dimName = queryResponse.fields.measure_like[0].name;
                         let value = 0;
 
-                        liData.push(datum[dimName][row.name][keyname].links);
+                        liData.push(datum[0][row.name][queryResponse.pivots.key][keyname].links);
                         
                         if (datum[dimName][row.name][keyname].value != null) value = datum[dimName][row.name][keyname].value;
                         if (stack == `overlay`) obData.push(value);
