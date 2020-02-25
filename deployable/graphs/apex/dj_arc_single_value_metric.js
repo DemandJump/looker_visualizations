@@ -391,7 +391,7 @@ looker.plugins.visualizations.add({
 
     </style>
 
-                <div class="h-100 row align-items-center">
+                <div class="h-100 row align-items-center" id="jeff">
                     <div class="col">
                         <div class="widgetChart" style="padding:0rem;">
                             <div class="widgetNumbers" id="value">No value specified</div>
@@ -412,6 +412,10 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
+
+        let elem = document.getElemenyById(`jeff`);
+        console.log(`This is the spacing of the elemennt`, elem.getBoundingClientRect());
+        console.log(`This is the element's spacing`, element.getBoundingClientRect());
 
         let name = ' ';
         if (config.name) name = config.name;
