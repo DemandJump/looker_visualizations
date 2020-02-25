@@ -276,8 +276,8 @@ looker.plugins.visualizations.add({
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.renderedData) rendered = config.renderedData;
             if (config.formatDates) formatDates = config.formatDates;
-            if (config.stack) stack = config.stack;
         }
+        if (config.stack) stack = config.stack;
 
         if (changed) this.trigger(`registerOptions`, this.options);
 
