@@ -456,7 +456,6 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
                     for(let j = 0; j < seriesData[i].links[index].length; j++) {
-                        console.log(`Added this link`, seriesData[i].links[index][j]);
                         axis.links.push(seriesData[i].links[index][j]);
                     }
                 }
@@ -466,7 +465,7 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
-            console.log(`These are the coordinates of element[${i}]`);
+            console.log(`These are the coordinates of element[${i}]`, ps);
             let w = ps.width;
             let h = ps.height;
             let top = ps.top;
@@ -475,12 +474,16 @@ looker.plugins.visualizations.add({
                 index: i,
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
-                width: w,
-                height: h,
-                top: top,
-                left: left,
-                // bottom: ps.bottom,
-                // right: ps.right,
+                coordinates: {
+                    x: ps.x,
+                    y: ps.y,
+                    width: w,
+                    height: h,
+                    top: top,
+                    left: left,
+                    bottom: ps.bottom,
+                    right: ps.right,
+                },
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
@@ -507,6 +510,7 @@ looker.plugins.visualizations.add({
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
             .style(`transform`, `rotate(-45)`)
+            .style(`border`, `1px dashed black`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
 
