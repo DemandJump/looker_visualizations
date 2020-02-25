@@ -433,15 +433,12 @@ looker.plugins.visualizations.add({
 
 
 
-
-
         /******************************** 
          * Drilldown Menu Configuration
         ********************************/
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
-            
+ 
             // X axis drilldown menu
-
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         if (horizontal) axisElements = document.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
         let elem = axisElements[0].children;
@@ -460,7 +457,6 @@ looker.plugins.visualizations.add({
                 }
             }
         });
-        console.log(`New xaxis link values`, xaxis); 
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
