@@ -391,7 +391,7 @@ looker.plugins.visualizations.add({
 
     </style>
 
-                <div class="h-100 row align-items-center" id="jeff">
+                <div class="h-100 row align-items-center" style="overflow-x:hidden;" id="jeff">
                     <div class="col">
                         <div class="widgetChart" style="padding:0rem;">
                             <div class="widgetNumbers" id="value">No value specified</div>
