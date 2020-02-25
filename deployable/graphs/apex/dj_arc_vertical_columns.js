@@ -452,6 +452,7 @@ looker.plugins.visualizations.add({
                 if (seriesData[i].links[index] !== undefined) {
                     for(let j = 0; j < seriesData[i].links[index].length; j++) {
                         if (!seriesData[i].links[index][j][`type_label`]) seriesData[i].links[index][j][`type_label`] = `Drill into ${seriesData[i].name}`;
+                        console.log(`This is axis links`, axis.links);
                         axis.links.push(seriesData[i].links[index][j]);
                     }
                 }
