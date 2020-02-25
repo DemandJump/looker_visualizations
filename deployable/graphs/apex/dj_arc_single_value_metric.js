@@ -296,6 +296,10 @@ looker.plugins.visualizations.add({
   height: 100%!important
 }
 
+.w-100 {
+  width: 100%!important
+}
+
 .row {
   display: -webkit-box;
   display: -webkit-flex;
@@ -391,7 +395,7 @@ looker.plugins.visualizations.add({
 
     </style>
 
-                <div class="h-100 row align-items-center" id="container">
+                <div class="h-100 w-100 row align-items-center" id="container">
                     <div class="col">
                         <div class="widgetChart" style="padding:0rem;">
                             <div class="widgetNumbers" id="value">No value specified</div>
