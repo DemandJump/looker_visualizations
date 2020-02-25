@@ -187,6 +187,8 @@ looker.plugins.visualizations.add({
         let endingShape = 'rounded';
         let title = ' ';
         let showTitle = true;
+        if (config.showTitle) showTitle = config.showTitle;
+        console.log(`This is config showTitle`, config.showTitle);
         let yTitle = ' ';
         let xTitle = ' ';
         
