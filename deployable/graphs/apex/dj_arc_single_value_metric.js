@@ -402,17 +402,7 @@ looker.plugins.visualizations.add({
                         </div>
                     </div>
                 </div>
-/*
-                <div class="dj_arc_svm_container">
-                    <div class="widgetChart" style="padding:0rem;">
-                        <div class="widgetNumbers" id="value">No value specified</div>
-                        <div class="widgetSubheading" id="name">No heading specified</div>
-                        <div class="widgetDescription text-info">
-                            <span class="pl-1"></span>
-                        </div>
-                    </div>
-                </div>
-*/
+
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
