@@ -451,7 +451,12 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
                     for(let j = 0; j < seriesData[i].links[index].length; j++) {
-                        if (!seriesData[i].links[index][j][`type_label`]) seriesData[i].links[index][j][`type_label`] = `Drill into ${seriesData[i].data[index][j]}`; 
+                        console.log(`This is the link`, seriesData[i].links[index][j]);
+                        if (!seriesData[i].links[index][j][`type_label`]) {
+                            console.log(`This doesn't have a type label`);
+
+                            seriesData[i].links[index][j][`type_label`] = `Drill into ${seriesData[i].data[index]}`; 
+                        }
                         axis.links.push(seriesData[i].links[index][j]);
                     }
                 }
