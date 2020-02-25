@@ -11,7 +11,7 @@ looker.plugins.visualizations.add({
     },
     create: function(element, config) {
         element.innerHTML = `
-            <style>
+    <style>
 
 .widgetChart {
   text-align: center;
@@ -347,32 +347,15 @@ body .card.mb-3 {
     border-width: 0;
     transition: all .2s;
 }
-            </style>
+    </style>
 
-
-                    <div class="card mb-3 widgetChart">
-                        <div class="widgetNumbers" id="value">1.2M</div>
-                        <div class="widgetSubheading" id="name">Leads Generated</div>
-                        <div class="widgetDescription text-info">
-                            <span class="pl-1"></span>
-                        </div>
+                <div class="widgetChart" style="padding:0rem;">
+                    <div class="widgetNumbers" id="value">No value specified</div>
+                    <div class="widgetSubheading" id="name">No heading specified</div>
+                    <div class="widgetDescription text-info">
+                        <span class="pl-1"></span>
                     </div>
-
-                    <div class="widgetChart">
-                        <div class="widgetNumbers" id="value">1.2M</div>
-                        <div class="widgetSubheading" id="name">Leads Generated</div>
-                        <div class="widgetDescription text-info">
-                            <span class="pl-1"></span>
-                        </div>
-                    </div>
-
-                    <div class="widgetChart" style="padding:0rem;">
-                        <div class="widgetNumbers" id="value">1.2M</div>
-                        <div class="widgetSubheading" id="name">Leads Generated</div>
-                        <div class="widgetDescription text-info">
-                            <span class="pl-1"></span>
-                        </div>
-                    </div>
+                </div>
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
