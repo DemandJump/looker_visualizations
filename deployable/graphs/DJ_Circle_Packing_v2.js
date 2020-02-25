@@ -35,6 +35,7 @@ looker.plugins.visualizations.add({
       element.innerHTML =`
         <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+            * { font-family: 'Roboto' !important; }
             html, body { margin: 0; padding: 0; }
             .text, .text2, .text3, .text4 { font-family: Roboto; font-weight: 300; }
             .header, .breadcrumbContainer { font-family: Roboto; font-weight: 300; font-size: 2rem; margin: 0; padding: 0; }

@@ -12,6 +12,9 @@ looker.plugins.visualizations.add({
     create: function(element, config) {
         element.innerHTML = `
     <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
+* { font-family: 'Roboto' !important; }
+
 .dj_arc_svm_container {
     text-align: center;
 }
@@ -417,24 +420,17 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-        let boundingClient = element.getBoundingClientRect();
-        let elem = document.getElementById(`container`);
-        elem.style.width = boundingClient.width;
-        console.log(`This is the element`, element);
-        console.log(`This is the container of our element`, elem);
-        
-        console.log(`This is the spacing of the elemennt`, elem.getBoundingClientRect());
-        console.log(`This is the element's spacing`, element.getBoundingClientRect());
-
         let name = ' ';
         if (config.name) name = config.name;
 
         let value = data[0][queryResponse.fields.measures[0].name].value;
 
         let nameNode = document.getElementById('name');
+        nameNode.style.fontWeight = `300`;
         nameNode.innerHTML = name;
         
         let valueNode = document.getElementById('value');
+        valueNode.style.fontWeight = `400`;
         valueNode.innerHTML = value;
         
         /**************** Done! *****************/
