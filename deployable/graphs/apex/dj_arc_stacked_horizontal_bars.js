@@ -476,10 +476,12 @@ looker.plugins.visualizations.add({
             let h = ps.height;
             console.log(`This is the theme: ${theme}, and this is horizontal's value: ${horizontal}`);
             if (horizontal) {
-                console.log(`Horizontal width and height`);
+                console.log(`Inversed width and height`);
                 w = ps.height;
                 h = ps.width;
             }
+            console.log(`This is width`, w);
+            console.log(`This is height`, h);
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
