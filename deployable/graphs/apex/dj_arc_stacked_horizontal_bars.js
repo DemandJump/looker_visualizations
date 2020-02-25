@@ -472,14 +472,15 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
-            let elemWidth = ps.width;
-            let elemHeight = ps.height;
-            console.log(`Bounding client data`, ps);
-            console.log(`This is the theme: ${theme}, and this is horizontal's value: ${horizontal}`);
-            if (horizontal) {
+            let elemWidth;
+            let elemHeight;
+            if (horizontal == true) {
                 console.log(`Inversed width and height`);
                 elemWidth = ps.height;
                 elemHeight = ps.width;
+            } else {
+                elemWidth = ps.width;
+                elemHeight = ps.height
             }
             console.log(`This is width`, elemWidth);
             console.log(`This is height`, elemHeight);
@@ -515,8 +516,8 @@ looker.plugins.visualizations.add({
                 console.log(`This is the node`, d); 
                 return d.id;
             })
-            .style(`width`, d => `${d.coordinates.height}px`)
-            .style(`height`, d => `${d.coordinates.width}px`)
+            .style(`width`, d => `${d.coordinates.width}px`)
+            .style(`height`, d => `${d.coordinates.height}px`)
             .style(`position`, `absolute`)
             .style(`top`, d => `${d.coordinates.top}px`)
             .style(`left`, d => `${d.coordinates.left}px`)
