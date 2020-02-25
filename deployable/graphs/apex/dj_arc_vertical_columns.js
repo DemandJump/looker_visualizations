@@ -261,7 +261,6 @@ looker.plugins.visualizations.add({
                 let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
                 let lonks = row[queryResponse.fields.dimension_like[0].name].links;
 
-                console.log(`nameval: ${nameVal}, and links: ${lonks}`);
                 xaxis.push({name: nameVal, links: lonks});
             });
 
@@ -278,79 +277,80 @@ looker.plugins.visualizations.add({
                 }
             });
 
-        } else {
-            if (pivotA) {
-                // Labels
-                queryResponse.pivots.forEach(p => {
-                    let lonks = undefined;
-                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
-                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
-                    } 
-                    else xaxis.push({name: p.key, links: lonks});
-                });
+        } 
+        // else {
+        //     if (pivotA) {
+        //         // Labels
+        //         queryResponse.pivots.forEach(p => {
+        //             let lonks = undefined;
+        //             if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
+        //             if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+        //                 if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
+        //             } 
+        //             else xaxis.push({name: p.key, links: lonks});
+        //         });
     
-                // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-                let series = [];
-                queryResponse.fields.measure_like.forEach((row, index) => {
-                    let obData = [];
-                    let liData = [];
-                    let newSeries = [];
+        //         // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+        //         let series = [];
+        //         queryResponse.fields.measure_like.forEach((row, index) => {
+        //             let obData = [];
+        //             let liData = [];
+        //             let newSeries = [];
 
-                    for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        let keyname = queryResponse.pivots[i].key;
-                        let value = 0;
+        //             for(let i = 0; i < queryResponse.pivots.length; i++) {
+        //                 let keyname = queryResponse.pivots[i].key;
+        //                 let value = 0;
 
-                        liData.push(datum[0][row.name][keyname].links);
+        //                 liData.push(datum[0][row.name][keyname].links);
                         
-                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
-                        obData.push(value);
-                    }
+        //                 if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
+        //                 obData.push(value);
+        //             }
 
-                    let obj = {
-                        name: row.label_short,
-                        className: row.label_short.replace(/ /g, `-`),
-                        data: obData,
-                        links: liData
-                    }
-                    seriesData.push(obj);
-                });
-            }
+        //             let obj = {
+        //                 name: row.label_short,
+        //                 className: row.label_short.replace(/ /g, `-`),
+        //                 data: obData,
+        //                 links: liData
+        //             }
+        //             seriesData.push(obj);
+        //         });
+        //     }
 
-            if (pivotB) {
-                // Labels
-                datum.forEach(row => {
-                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
-                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
-                });
+        //     if (pivotB) {
+        //         // Labels
+        //         datum.forEach(row => {
+        //             let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+        //             if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
+        //             else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
+        //         });
 
-                // Series Object
-                for(let i = 0; i < queryResponse.pivots.length; i++) {
-                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
-                    let obj = {
-                        name: name,
-                        className: name.replace(/ /g, `-`),
-                        data: [],
-                        links: []
-                    };
-                    seriesData.push(obj);
-                }
+        //         // Series Object
+        //         for(let i = 0; i < queryResponse.pivots.length; i++) {
+        //             let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+        //             let obj = {
+        //                 name: name,
+        //                 className: name.replace(/ /g, `-`),
+        //                 data: [],
+        //                 links: []
+        //             };
+        //             seriesData.push(obj);
+        //         }
 
-                // Series data
-                datum.forEach(row => { 
-                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
-                });
+        //         // Series data
+        //         datum.forEach(row => { 
+        //             for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
+        //         });
 
-                datum.forEach(row => {
-                    for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        let value = 0;
-                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-                        seriesData[i].data.push(value);
-                    }
-                });
-            }
-        }
+        //         datum.forEach(row => {
+        //             for(let i = 0; i < queryResponse.pivots.length; i++) {
+        //                 let value = 0;
+        //                 if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+        //                 seriesData[i].data.push(value);
+        //             }
+        //         });
+        //     }
+        // }
         console.log('These are the xaxis labels', xaxis);
         console.log('Series data', seriesData);
 
@@ -466,16 +466,21 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
+            console.log(`These are the coordinates of element[${i}]`);
+            let w = ps.width;
+            let h = ps.height;
+            let top = ps.top;
+            let left = ps.left;
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
-                width: ps.width,
-                height: ps.height,
-                top: ps.top,
-                left: ps.left,
-                bottom: ps.bottom,
-                right: ps.right,
+                width: w,
+                height: h,
+                top: top,
+                left: left,
+                // bottom: ps.bottom,
+                // right: ps.right,
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]

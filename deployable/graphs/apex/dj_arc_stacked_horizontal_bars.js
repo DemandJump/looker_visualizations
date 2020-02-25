@@ -460,16 +460,16 @@ looker.plugins.visualizations.add({
         // console.log(`This is axis elements`, axisElements);
         // console.log(`Here are the children`, elem);
 
-        // xaxis.forEach((axis, index) => {
-        //     for(let i = 0; i < seriesData.length; i++) {
-        //         if (seriesData[i].links[index] !== undefined) {
-        //             for(let j = 0; j < seriesData[i].links[index].length; j++) {
-        //                 console.log(`Added this link`, seriesData[i].links[index][j]);
-        //                 axis.links.push(seriesData[i].links[index][j]);
-        //             }
-        //         }
-        //     }
-        // });
+        xaxis.forEach((axis, index) => {
+            for(let i = 0; i < seriesData.length; i++) {
+                if (seriesData[i].links[index] !== undefined) {
+                    for(let j = 0; j < seriesData[i].links[index].length; j++) {
+                        console.log(`Added this link`, seriesData[i].links[index][j]);
+                        axis.links.push(seriesData[i].links[index][j]);
+                    }
+                }
+            }
+        });
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
