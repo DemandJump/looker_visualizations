@@ -507,7 +507,7 @@ looker.plugins.visualizations.add({
             .style(`top`, d => `${d.top}px`)
             // .style(`right`, d => `${d.right}px`)
             .style(`background-color`, `transparent`)
-            .style(`opacity`, `0`)
+            .style(`opacity`, `1`)
             .style(`z-index`, `4`)
             .style(`transform`, `rotate(-45)`)
             .style(`border`, `1px dashed black`)
