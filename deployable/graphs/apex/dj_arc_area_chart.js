@@ -225,7 +225,6 @@ looker.plugins.visualizations.add({
         let changed = false;
 
         let title = queryResponse.fields.dimension_like[0].label;
-        let showTitle = true;
         let rendered = true; 
         let label = ` `;
         let curve = `straight`;
@@ -236,7 +235,7 @@ looker.plugins.visualizations.add({
         
         if (config.label) label = config.label;
         if (config.title) if (config.title != ``) title = config.title;
-        if (config.showTitle) showTitle = config.showTitle;
+        if (!config.showTitle) config.showTitle = false;
 
         if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
             if (this._custom != `classic`) {
@@ -297,7 +296,7 @@ looker.plugins.visualizations.add({
             },
         };
 
-        if (showTitle) {
+        if (config.showTitle) {
             configuration[`title`] = {
                 text: title,
                 align: `left`
