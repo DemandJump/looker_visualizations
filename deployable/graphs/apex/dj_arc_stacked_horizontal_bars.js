@@ -474,6 +474,7 @@ looker.plugins.visualizations.add({
             ps = elem[i].getBoundingClientRect();
             let w = ps.width;
             let h = ps.height;
+            console.log(`This is the theme: ${theme}, and this is horizontal's value: ${horizontal}`);
             if (horizontal) {
                 console.log(`Horizontal width and height`);
                 w = ps.height;
