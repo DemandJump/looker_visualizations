@@ -251,6 +251,8 @@ looker.plugins.visualizations.add({
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 let name = queryResponse.fields.measure_like[i].label_short;
+                console.log(`This is name`, name);
+                console.log(`This is the current queryResponse field`, queryResponse.fields.measure_like[i]); 
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
             }
