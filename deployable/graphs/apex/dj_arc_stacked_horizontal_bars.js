@@ -429,7 +429,7 @@ looker.plugins.visualizations.add({
             }
         };
         if (config.showTitle == true) {
-            columnChartConfiguration[`title`] = {
+            options4[`title`] = {
                 text: title
             };
         }

@@ -400,8 +400,8 @@ looker.plugins.visualizations.add({
                 <div class="h-100 w-100 row align-items-center" id="container">
                     <div class="col">
                         <div class="widgetChart" style="padding:0rem;">
-                            <div class="widgetNumbers" id="value">No value specified</div>
-                            <div class="widgetSubheading" id="name">No heading specified</div>
+                            <div class="widgetNumbers" id="value"></div>
+                            <div class="widgetSubheading" id="name"></div>
                             <div class="widgetDescription text-info">
                                 <span class="pl-1"></span>
                             </div>
@@ -421,7 +421,7 @@ looker.plugins.visualizations.add({
 
         let name = ' ';
         if (config.name) name = config.name;
-        
+
         let value = data[0][queryResponse.fields.measure_like[0].name].value;
         if (data[0][queryResponse.fields.measure_like[0].name].rendered) value = data[0][queryResponse.fields.measure_like[0].name].rendered;
 
