@@ -389,9 +389,6 @@ looker.plugins.visualizations.add({
                 colors: ['transparent']
             },
             series: seriesData,
-            title: {
-                text: title,
-            },
             xaxis: {
                 categories: axisNames,
                 title: {
@@ -419,9 +416,7 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
-        console.log(`This is config.showTitle`, config.showTitle); 
         if (config.showTitle == true) {
-            console.log(`Appending title`);
             columnChartConfiguration[`title`] = {
                 text: title
             };

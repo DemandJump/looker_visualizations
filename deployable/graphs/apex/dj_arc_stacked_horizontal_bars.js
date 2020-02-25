@@ -200,7 +200,7 @@ looker.plugins.visualizations.add({
         let horizontal = true;
         let endingShape = 'flat'
         let title = ' ';
-        let showTitle = true;
+        if (!config.showTitle) config.showTitle = false;
         let yTitle = ' ';
         let xTitle = ' ';
  
@@ -247,7 +247,7 @@ looker.plugins.visualizations.add({
         if (changed) this.trigger('registerOptions', this.options);
 
         if (config.title) title = config.title;
-        if (config.showTitle) showTitle = config.showTitle;
+        // if (config.showTitle) showTitle = config.showTitle;
         if (config.yTitle) yTitle = config.yTitle;
         if (config.xTitle != '') xTitle = config.xTitle;
         
@@ -428,9 +428,8 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
-        console.log(`This is showTitle`, showTitle); 
-        if (showTitle) {
-            options4[`title`] = {
+        if (config.showTitle == true) {
+            columnChartConfiguration[`title`] = {
                 text: title
             };
         }
