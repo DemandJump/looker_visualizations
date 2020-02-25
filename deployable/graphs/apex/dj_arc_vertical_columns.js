@@ -420,7 +420,8 @@ looker.plugins.visualizations.add({
             }
         };
         console.log(`This is config.showTitle`, config.showTitle); 
-        if (config.showTitle) {
+        if (config.showTitle == true) {
+            console.log(`Appending title`);
             columnChartConfiguration[`title`] = {
                 text: title
             };
