@@ -291,6 +291,54 @@ looker.plugins.visualizations.add({
     white-space: normal;
   }
 }
+
+.h-100 {
+  height: 100%!important
+}
+
+.row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px
+}
+@media (min-width:576px) {
+  .row {
+      margin-right: -15px;
+      margin-left: -15px
+  }
+}
+@media (min-width:768px) {
+  .row {
+      margin-right: -15px;
+      margin-left: -15px
+  }
+}
+@media (min-width:992px) {
+  .row {
+      margin-right: -15px;
+      margin-left: -15px
+  }
+}
+@media (min-width:1200px) {
+  .row {
+      margin-right: -15px;
+      margin-left: -15px
+  }
+}
+
+.align-items-center {
+  -webkit-box-align: center!important;
+  -webkit-align-items: center!important;
+  -ms-flex-align: center!important;
+  align-items: center!important
+}
+
     </style>
 
                 <div class="h-100 row align-items-center">
