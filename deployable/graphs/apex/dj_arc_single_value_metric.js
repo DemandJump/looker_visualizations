@@ -350,7 +350,6 @@ body .card.mb-3 {
             </style>
 
 
-            <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-3 widgetChart">
                         <div class="widgetNumbers" id="value">1.2M</div>
@@ -360,7 +359,6 @@ body .card.mb-3 {
                         </div>
                     </div>
                 </div>
-            </div>
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
