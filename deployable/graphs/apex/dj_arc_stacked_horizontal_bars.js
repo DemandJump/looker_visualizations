@@ -397,9 +397,6 @@ looker.plugins.visualizations.add({
                 colors: ['#fff']
             },
             series: seriesData,
-            title: {
-                text: title
-            },
             xaxis: {
                 categories: axisNames,
                 labels: {
@@ -431,7 +428,12 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
-        if (showTitle == false) delete options4[`title`];
+        console.log(`This is showTitle`, showTitle); 
+        if (showTitle) {
+            options4[`title`] = {
+                text: title
+            };
+        }
 
 
         // Apex Charts

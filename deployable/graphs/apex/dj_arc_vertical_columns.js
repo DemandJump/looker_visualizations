@@ -419,8 +419,12 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
-        if (showTitle == false) delete columnChartConfiguration[`title`];
-
+        console.log(`This is showTitle`, showTitle); 
+        if (showTitle) {
+            columnChartConfiguration[`title`] = {
+                text: title
+            };
+        }
 
         // Apex Charts
         window.Apex = {
