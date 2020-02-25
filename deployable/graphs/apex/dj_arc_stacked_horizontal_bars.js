@@ -267,7 +267,6 @@ looker.plugins.visualizations.add({
                 let name = queryResponse.fields.measure_like[i].label_short;
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
-                xaxis.push(obj);
             }
 
             // Labels
@@ -464,7 +463,6 @@ looker.plugins.visualizations.add({
             for(let i = 0; i < seriesData.length; i++) {
                 if (seriesData[i].links[index] !== undefined) {
                     for(let j = 0; j < seriesData[i].links[index].length; j++) {
-                        console.log(`Added this link`, seriesData[i].links[index][j]);
                         axis.links.push(seriesData[i].links[index][j]);
                     }
                 }
@@ -473,18 +471,25 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
+            console.log(`These are the coordinates of element[${i}]`, ps);
+            let w = ps.width;
+            let h = ps.height;
+            let top = ps.top;
+            let left = ps.left;
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
-                width: ps.width,
-                height: ps.height,
-                top: ps.top,
-                left: ps.left,
-                bottom: ps.bottom,
-                right: ps.right,
-                x: ps.x,
-                y: ps.y,
+                coordinates: {
+                    x: ps.x,
+                    y: ps.y,
+                    width: w,
+                    height: h,
+                    top: top,
+                    left: left,
+                    bottom: ps.bottom,
+                    right: ps.right,
+                },
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
@@ -500,15 +505,15 @@ looker.plugins.visualizations.add({
         container.merge(enter)
             .attr(`class`, `dimension`)
             .attr(`id`, d => d.id)
-            .style(`width`, d => `${d.height}px`)
-            .style(`height`, d => `${d.width}px`)
+            .style(`width`, d => `${d.coordinates.height}px`)
+            .style(`height`, d => `${d.coordinates.width}px`)
             .style(`position`, `absolute`)
-            .style(`x`, d => `${d.x}px`)
-            .style(`y`, d => `${d.y}px`)
-            // .style(`left`, d => `${d.left}px`)
-            // .style(`bottom`, d => `${d.bottom}px`)
-            // .style(`top`, d => `${d.top}px`)
-            // .style(`right`, d => `${d.right}px`)
+            .style(`x`, d => `${d.coordinates.x}px`)
+            .style(`y`, d => `${d.coordinates.y}px`)
+            // .style(`top`, d => `${d.coordinates.top}px`)
+            // .style(`left`, d => `${d.coordinates.left}px`)
+            // .style(`bottom`, d => `${d.coordinates.bottom}px`)
+            // .style(`right`, d => `${d.coordinates.right}px`)
             .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)

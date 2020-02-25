@@ -253,7 +253,6 @@ looker.plugins.visualizations.add({
                 let name = queryResponse.fields.measure_like[i].label_short;
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
-                xaxis.push(obj);
             }
 
             // Labels
@@ -277,80 +276,79 @@ looker.plugins.visualizations.add({
                 }
             });
 
-        } 
-        // else {
-        //     if (pivotA) {
-        //         // Labels
-        //         queryResponse.pivots.forEach(p => {
-        //             let lonks = undefined;
-        //             if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
-        //             if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-        //                 if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
-        //             } 
-        //             else xaxis.push({name: p.key, links: lonks});
-        //         });
+        } else {
+            if (pivotA) {
+                // Labels
+                queryResponse.pivots.forEach(p => {
+                    let lonks = undefined;
+                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
+                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
+                    } 
+                    else xaxis.push({name: p.key, links: lonks});
+                });
     
-        //         // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-        //         let series = [];
-        //         queryResponse.fields.measure_like.forEach((row, index) => {
-        //             let obData = [];
-        //             let liData = [];
-        //             let newSeries = [];
+                // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+                let series = [];
+                queryResponse.fields.measure_like.forEach((row, index) => {
+                    let obData = [];
+                    let liData = [];
+                    let newSeries = [];
 
-        //             for(let i = 0; i < queryResponse.pivots.length; i++) {
-        //                 let keyname = queryResponse.pivots[i].key;
-        //                 let value = 0;
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let keyname = queryResponse.pivots[i].key;
+                        let value = 0;
 
-        //                 liData.push(datum[0][row.name][keyname].links);
+                        liData.push(datum[0][row.name][keyname].links);
                         
-        //                 if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
-        //                 obData.push(value);
-        //             }
+                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
+                        obData.push(value);
+                    }
 
-        //             let obj = {
-        //                 name: row.label_short,
-        //                 className: row.label_short.replace(/ /g, `-`),
-        //                 data: obData,
-        //                 links: liData
-        //             }
-        //             seriesData.push(obj);
-        //         });
-        //     }
+                    let obj = {
+                        name: row.label_short,
+                        className: row.label_short.replace(/ /g, `-`),
+                        data: obData,
+                        links: liData
+                    }
+                    seriesData.push(obj);
+                });
+            }
 
-        //     if (pivotB) {
-        //         // Labels
-        //         datum.forEach(row => {
-        //             let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-        //             if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
-        //             else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
-        //         });
+            if (pivotB) {
+                // Labels
+                datum.forEach(row => {
+                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
+                });
 
-        //         // Series Object
-        //         for(let i = 0; i < queryResponse.pivots.length; i++) {
-        //             let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
-        //             let obj = {
-        //                 name: name,
-        //                 className: name.replace(/ /g, `-`),
-        //                 data: [],
-        //                 links: []
-        //             };
-        //             seriesData.push(obj);
-        //         }
+                // Series Object
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+                    let obj = {
+                        name: name,
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
+                    };
+                    seriesData.push(obj);
+                }
 
-        //         // Series data
-        //         datum.forEach(row => { 
-        //             for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
-        //         });
+                // Series data
+                datum.forEach(row => { 
+                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
+                });
 
-        //         datum.forEach(row => {
-        //             for(let i = 0; i < queryResponse.pivots.length; i++) {
-        //                 let value = 0;
-        //                 if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-        //                 seriesData[i].data.push(value);
-        //             }
-        //         });
-        //     }
-        // }
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let value = 0;
+                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                        seriesData[i].data.push(value);
+                    }
+                });
+            }
+        }
         console.log('These are the xaxis labels', xaxis);
         console.log('Series data', seriesData);
 
@@ -440,87 +438,87 @@ looker.plugins.visualizations.add({
         /******************************** 
          * Drilldown Menu Configuration
         ********************************/
-        // d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
+        d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
             
-        //     // X axis drilldown menu
+            // X axis drilldown menu
 
-        // let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
-        // if (horizontal) axisElements = document.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
-        // let elem = axisElements[0].children;
-        // let ps;
-        // let nodes = [];
-        // console.log(`This is axis elements`, axisElements);
-        // console.log(`Here are the children`, elem);
+        let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
+        if (horizontal) axisElements = document.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
+        let elem = axisElements[0].children;
+        let ps;
+        let nodes = [];
+        console.log(`This is axis elements`, axisElements);
+        console.log(`Here are the children`, elem);
 
-        // xaxis.forEach((axis, index) => {
-        //     for(let i = 0; i < seriesData.length; i++) {
-        //         if (seriesData[i].links[index] !== undefined) {
-        //             for(let j = 0; j < seriesData[i].links[index].length; j++) {
-        //                 axis.links.push(seriesData[i].links[index][j]);
-        //             }
-        //         }
-        //     }
-        // });
-        // console.log(`New xaxis link values`, xaxis); 
+        xaxis.forEach((axis, index) => {
+            for(let i = 0; i < seriesData.length; i++) {
+                if (seriesData[i].links[index] !== undefined) {
+                    for(let j = 0; j < seriesData[i].links[index].length; j++) {
+                        axis.links.push(seriesData[i].links[index][j]);
+                    }
+                }
+            }
+        });
+        console.log(`New xaxis link values`, xaxis); 
 
-        // for(let i = 0; i < xaxis.length; i++) {
-        //     ps = elem[i].getBoundingClientRect();
-        //     console.log(`These are the coordinates of element[${i}]`, ps);
-        //     let w = ps.width;
-        //     let h = ps.height;
-        //     let top = ps.top;
-        //     let left = ps.left;
-        //     let node = {
-        //         index: i,
-        //         id: `_${elem[i].id}`,
-        //         originalId: elem[i].id,
-        //         coordinates: {
-        //             x: ps.x,
-        //             y: ps.y,
-        //             width: w,
-        //             height: h,
-        //             top: top,
-        //             left: left,
-        //             bottom: ps.bottom,
-        //             right: ps.right,
-        //         },
-        //         xaxis: xaxis[i].name,
-        //         links: xaxis[i].links,
-        //         element: elem[i]
-        //     };
-        //     nodes.push(node);
-        // }
-        // console.log(`These are the xaxis drilldown nodes`, nodes);
+        for(let i = 0; i < xaxis.length; i++) {
+            ps = elem[i].getBoundingClientRect();
+            console.log(`These are the coordinates of element[${i}]`, ps);
+            let w = ps.width;
+            let h = ps.height;
+            let top = ps.top;
+            let left = ps.left;
+            let node = {
+                index: i,
+                id: `_${elem[i].id}`,
+                originalId: elem[i].id,
+                coordinates: {
+                    x: ps.x,
+                    y: ps.y,
+                    width: w,
+                    height: h,
+                    top: top,
+                    left: left,
+                    bottom: ps.bottom,
+                    right: ps.right,
+                },
+                xaxis: xaxis[i].name,
+                links: xaxis[i].links,
+                element: elem[i]
+            };
+            nodes.push(node);
+        }
+        console.log(`These are the xaxis drilldown nodes`, nodes);
 
-        // let container = d3.select(`.container`)
-        //     .append(`div`).attr(`class`, `dimensions`)
-        //         .selectAll(`.dimension`).data(nodes);
-        // let enter = container.enter().append(`span`);
-        // container.merge(enter)
-        //     .attr(`class`, `dimension`)
-        //     .attr(`id`, d => d.id)
-        //     .style(`width`, d => `${d.height}px`)
-        //     .style(`height`, d => `${d.width}px`)
-        //     .style(`position`, `absolute`)
-        //     .style(`left`, d => `${d.left}px`)
-        //     // .style(`bottom`, d => `${d.bottom}px`)
-        //     .style(`top`, d => `${d.top}px`)
-        //     // .style(`right`, d => `${d.right}px`)
-        //     // .style(`background-color`, `transparent`)
-        //     .style(`opacity`, `1`)
-        //     .style(`z-index`, `4`)
-        //     .style(`transform`, `rotate(-45)`)
-        //     .style(`border`, `1px dashed black`)
-        //     // .html(d => d.text)
-        //     .on('click', d => drillDown(d.links, d3.event));
+        let container = d3.select(`.container`)
+            .append(`div`).attr(`class`, `dimensions`)
+                .selectAll(`.dimension`).data(nodes);
+        let enter = container.enter().append(`span`);
+        container.merge(enter)
+            .attr(`class`, `dimension`)
+            .attr(`id`, d => d.id)
+            .style(`width`, d => `${d.coordinates.height}px`)
+            .style(`height`, d => `${d.coordinates.width}px`)
+            .style(`position`, `absolute`)
+            .style(`top`, d => `${d.coordinates.top}px`)
+            .style(`left`, d => `${d.coordinates.left}px`)
+            // .style(`bottom`, d => `${d.coordinates.bottom}px`)
+            // .style(`right`, d => `${d.coordinates.right}px`)
+            // .style(`background-color`, `transparent`)
+            .style(`opacity`, `1`)
+            .style(`z-index`, `4`)
+            // .style(`transform`, `rotate(-90)`)
+            .style(`border`, `1px dashed black`)
+            // .html(d => d.text)
+            .on('click', d => drillDown(d.links, d3.event));
 
 
-        // function drillDown(links, event) {
-        //     LookerCharts.Utils.openDrillMenu({ 
-        //         links: links,
-        //         event: event
-        //     });
-        // }
+        function drillDown(links, event) {
+            LookerCharts.Utils.openDrillMenu({ 
+                links: links,
+                event: event
+            });
+        }
 
 
         /**************************** 
