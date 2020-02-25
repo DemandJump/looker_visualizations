@@ -339,6 +339,56 @@ looker.plugins.visualizations.add({
   align-items: center!important
 }
 
+.col {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px
+}
+
+
+@media (min-width:576px) {
+  .col {
+    padding-right: 15px;
+    padding-left: 15px
+  }
+}
+
+@media (min-width:768px) {
+  .col {
+    padding-right: 15px;
+    padding-left: 15px
+  }
+}
+
+@media (min-width:992px) {
+  .col {
+    padding-right: 15px;
+    padding-left: 15px
+  }
+}
+
+@media (min-width:1200px) {
+  .col {
+    padding-right: 15px;
+    padding-left: 15px
+  }
+}
+
+.col {
+  -webkit-flex-basis: 0;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  max-width: 100%
+}
+
+
+
     </style>
 
                 <div class="h-100 row align-items-center">
