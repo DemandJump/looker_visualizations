@@ -350,7 +350,6 @@ body .card.mb-3 {
             </style>
 
 
-                <div class="col-md-4">
                     <div class="card mb-3 widgetChart">
                         <div class="widgetNumbers" id="value">1.2M</div>
                         <div class="widgetSubheading" id="name">Leads Generated</div>
@@ -358,7 +357,22 @@ body .card.mb-3 {
                             <span class="pl-1"></span>
                         </div>
                     </div>
-                </div>
+
+                    <div class="widgetChart">
+                        <div class="widgetNumbers" id="value">1.2M</div>
+                        <div class="widgetSubheading" id="name">Leads Generated</div>
+                        <div class="widgetDescription text-info">
+                            <span class="pl-1"></span>
+                        </div>
+                    </div>
+
+                    <div class="widgetChart" style="padding:0rem;">
+                        <div class="widgetNumbers" id="value">1.2M</div>
+                        <div class="widgetSubheading" id="name">Leads Generated</div>
+                        <div class="widgetDescription text-info">
+                            <span class="pl-1"></span>
+                        </div>
+                    </div>
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
