@@ -447,8 +447,8 @@ looker.plugins.visualizations.add({
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
-        console.log(`This is axis elements`, axisElements);
-        console.log(`Here are the children`, elem);
+        // console.log(`This is axis elements`, axisElements);
+        // console.log(`Here are the children`, elem);
 
         xaxis.forEach((axis, index) => {
             for(let i = 0; i < seriesData.length; i++) {
@@ -463,11 +463,12 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
-            console.log(`These are the coordinates of element[${i}]`, ps);
             let w = ps.width;
             let h = ps.height;
-            let top = ps.top;
-            let left = ps.left;
+            if (horizontal) {
+                w = ps.height;
+                h = ps.width;
+            }
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
@@ -477,8 +478,8 @@ looker.plugins.visualizations.add({
                     y: ps.y,
                     width: w,
                     height: h,
-                    top: top,
-                    left: left,
+                    top: ps.top,
+                    left: ps.left,
                     bottom: ps.bottom,
                     right: ps.right,
                 },
