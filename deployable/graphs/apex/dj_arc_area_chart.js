@@ -235,10 +235,8 @@ looker.plugins.visualizations.add({
         let formatDates = true;
         
         if (config.label) label = config.label;
-        if (config.title) {
-            if (config.title != ``) title = config.title;
-            if (config.showTitle) showTitle = config.showTitle;
-        }
+        if (config.title) if (config.title != ``) title = config.title;
+        if (config.showTitle) showTitle = config.showTitle;
 
         if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
             if (this._custom != `classic`) {
@@ -292,16 +290,19 @@ looker.plugins.visualizations.add({
             colors: djColors,
             dataLabels: {enabled: dataLabels},
             stroke: {curve: curve}, // straight, smooth, stepline
-            title: {
-                text: title,
-                align: `left`
-            },
+
             subtitle: {
                 text: label,
                 align: `left`
             },
         };
-        if (showTitle == false) delete configuration[`title`];
+
+        if (showTitle) {
+            configuration[`title`] = {
+                text: title,
+                align: `left`
+            };
+        }
 
 
 
