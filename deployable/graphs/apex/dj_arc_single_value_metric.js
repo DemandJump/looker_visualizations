@@ -287,66 +287,6 @@ looker.plugins.visualizations.add({
     white-space: normal;
   }
 }
-
-
-.mbg-3,
-body .card.mb-3 {
-  margin-bottom: 15px !important;
-}
-
-
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(26, 54, 126, 0.125);
-    border-radius: 0.25rem;
-}
-
-.card > hr {
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.card > .list-group:first-child .list-group-item:first-child {
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-}
-
-.card > .list-group:last-child .list-group-item:last-child {
-    border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
-}
-.accordion .card {  
-    overflow: hidden;
-}
-  
-.fc-bootstrap4 .fc-popover .card-body {
-    padding: 0;
-}
-
-body .card.mb-3 {
-    margin-bottom: 15px !important;
-}
-  
-.card.mb-3 {
-    margin-bottom: 30px !important;
-}
-
-.mb-3,
-.my-3 {
-  margin-bottom: 1rem !important;
-}
-
-.card {
-    box-shadow: 0 0.46875rem 2.1875rem rgba(4,9,20,.03), 0 0.9375rem 1.40625rem rgba(4,9,20,.03), 0 0.25rem 0.53125rem rgba(4,9,20,.05), 0 0.125rem 0.1875rem rgba(4,9,20,.03);
-    border-width: 0;
-    transition: all .2s;
-}
     </style>
 
                 <div class="widgetChart" style="padding:0rem;">
