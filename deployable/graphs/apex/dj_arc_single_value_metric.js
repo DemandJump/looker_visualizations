@@ -311,8 +311,7 @@ looker.plugins.visualizations.add({
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px
+  margin-top: 20px;
 }
 @media (min-width:576px) {
   .row {
@@ -424,13 +423,14 @@ looker.plugins.visualizations.add({
         if (config.name) name = config.name;
 
         let value = data[0][queryResponse.fields.measures[0].name].value;
+        if (data[0][queryResponse.fields.measures[0].name].rendered) value = data[0][queryResponse.fields.measures[0].name].rendered;
 
         let nameNode = document.getElementById('name');
         nameNode.style.fontWeight = `300`;
         nameNode.innerHTML = name;
         
         let valueNode = document.getElementById('value');
-        valueNode.style.fontWeight = `400`;
+        valueNode.style.fontWeight = `300`;
         valueNode.innerHTML = value;
         
         /**************** Done! *****************/
