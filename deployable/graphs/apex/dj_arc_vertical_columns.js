@@ -461,12 +461,8 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
-            let w = ps.width;
-            let h = ps.height;
-            if (horizontal) {
-                w = ps.height;
-                h = ps.width;
-            }
+            let elemWidth = ps.width;
+            let elemHeight = ps.height;
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
@@ -474,8 +470,8 @@ looker.plugins.visualizations.add({
                 coordinates: {
                     x: ps.x,
                     y: ps.y,
-                    width: w,
-                    height: h,
+                    width: elemWidth,
+                    height: elemHeight,
                     top: ps.top,
                     left: ps.left,
                     bottom: ps.bottom,

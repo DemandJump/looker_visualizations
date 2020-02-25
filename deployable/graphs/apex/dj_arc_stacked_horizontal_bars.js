@@ -472,18 +472,8 @@ looker.plugins.visualizations.add({
 
         for(let i = 0; i < xaxis.length; i++) {
             ps = elem[i].getBoundingClientRect();
-            let elemWidth;
-            let elemHeight;
-            if (horizontal == true) {
-                console.log(`Inversed width and height`);
-                elemWidth = ps.height;
-                elemHeight = ps.width;
-            } else {
-                elemWidth = ps.width;
-                elemHeight = ps.height
-            }
-            console.log(`This is width`, elemWidth);
-            console.log(`This is height`, elemHeight);
+            let elemWidth = ps.width;
+            let elemHeight = ps.height;
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
