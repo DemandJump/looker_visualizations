@@ -218,11 +218,11 @@ looker.plugins.visualizations.add({
 
             if (theme == 'Horizontal') {
                 horizontal = true;
-                yTitle = queryResponse.fields.dimension_like[0].label;
+                // yTitle = queryResponse.fields.dimension_like[0].label;
             }
             if (theme == 'Vertical') {
                 horizontal = false;
-                xTitle = queryResponse.fields.dimension_like[0].label;
+                // xTitle = queryResponse.fields.dimension_like[0].label;
             }
         }
 
