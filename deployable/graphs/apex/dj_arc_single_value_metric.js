@@ -413,7 +413,7 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-        let elem = document.getElemenyById(`jeff`);
+        let elem = document.getElementById(`jeff`);
         console.log(`This is the spacing of the elemennt`, elem.getBoundingClientRect());
         console.log(`This is the element's spacing`, element.getBoundingClientRect());
 
