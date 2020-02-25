@@ -421,16 +421,16 @@ looker.plugins.visualizations.add({
 
         let name = ' ';
         if (config.name) name = config.name;
-
+        
         let value = data[0][queryResponse.fields.measure_like[0].name].value;
         if (data[0][queryResponse.fields.measure_like[0].name].rendered) value = data[0][queryResponse.fields.measure_like[0].name].rendered;
 
         let nameNode = document.getElementById('name');
         nameNode.style.fontWeight = `300`;
-        nameNode.innerHTML = name;
-        
         let valueNode = document.getElementById('value');
         valueNode.style.fontWeight = `300`;
+        
+        nameNode.innerHTML = name;
         valueNode.innerHTML = value;
         
         /**************** Done! *****************/
