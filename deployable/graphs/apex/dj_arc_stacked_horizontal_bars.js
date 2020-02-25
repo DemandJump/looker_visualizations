@@ -481,8 +481,8 @@ looker.plugins.visualizations.add({
                 elemWidth = ps.height;
                 elemHeight = ps.width;
             }
-            console.log(`This is width`, w);
-            console.log(`This is height`, h);
+            console.log(`This is width`, elemWidth);
+            console.log(`This is height`, elemHeight);
             let node = {
                 index: i,
                 id: `_${elem[i].id}`,
