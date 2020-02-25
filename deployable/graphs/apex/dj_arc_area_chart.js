@@ -317,11 +317,13 @@ looker.plugins.visualizations.add({
         if (!pivot) {
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-            if (queryResponse.fields.dimension_like[0].label_short == `Year`) format = `yyyy`;
+            if (queryResponse.fields.dimension_like[0].label_short == `Year` || queryResponse.fields.dimension_like[0].label == `Year`) format = `yyyy`;
 
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let name = queryResponse.fields.measure_like[i].label_short;
+                let name = queryResponse.fields.measure_like[i].label;
+                if (queryResponse.fields.measure_like[i].label_short) name = queryResponse.fields.measure_like[i].label_short;
+
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
                 categoryData.push(obj);
@@ -462,10 +464,12 @@ looker.plugins.visualizations.add({
                         }
                     }
 
+                    let name = row.label;
+                    if (row.label_short) name = row.label_short;
                     
                     let obj = {
-                        name: row.label_short,
-                        className: row.label_short.replace(/ /g, `-`),
+                        name: name,
+                        className: name.replace(/ /g, `-`),
                         data: obData,
                         links: liData
                     }

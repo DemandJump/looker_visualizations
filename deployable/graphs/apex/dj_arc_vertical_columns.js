@@ -250,9 +250,9 @@ looker.plugins.visualizations.add({
         if (!pivot) {
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let name = queryResponse.fields.measure_like[i].label_short;
-                console.log(`This is name`, name);
-                console.log(`This is the current queryResponse field`, queryResponse.fields.measure_like[i]); 
+                let name = queryResponse.fields.measure_like[i].label;
+                if (queryResponse.fields.measure_like[i].label_short) name = queryResponse.fields.measure_like[i].label_short;
+
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
             }
@@ -307,9 +307,12 @@ looker.plugins.visualizations.add({
                         obData.push(value);
                     }
 
+                    let name = row.label;
+                    if (row.label_short) name = row.label_short;
+
                     let obj = {
-                        name: row.label_short,
-                        className: row.label_short.replace(/ /g, `-`),
+                        name: name,
+                        className: name.replace(/ /g, `-`),
                         data: obData,
                         links: liData
                     }
