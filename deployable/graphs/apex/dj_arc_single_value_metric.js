@@ -352,7 +352,7 @@ looker.plugins.visualizations.add({
                         </div>
                     </div>
                 </div>
-
+/*
                 <div class="dj_arc_svm_container">
                     <div class="widgetChart" style="padding:0rem;">
                         <div class="widgetNumbers" id="value">No value specified</div>
@@ -362,6 +362,7 @@ looker.plugins.visualizations.add({
                         </div>
                     </div>
                 </div>
+*/
             `;
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
