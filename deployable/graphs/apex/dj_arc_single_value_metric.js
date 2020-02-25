@@ -391,7 +391,7 @@ looker.plugins.visualizations.add({
 
     </style>
 
-                <div class="h-100 row align-items-center" style="overflow-x:hidden;" id="jeff">
+                <div class="h-100 row align-items-center" id="container">
                     <div class="col">
                         <div class="widgetChart" style="padding:0rem;">
                             <div class="widgetNumbers" id="value">No value specified</div>
@@ -413,7 +413,12 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
-        let elem = document.getElementById(`jeff`);
+        let boundingClient = element.getBoundingClientRect();
+        let elem = document.getElementById(`container`);
+        elem.style.width = boundingClient.width;
+        console.log(`This is the element`, element);
+        console.log(`This is the container of our element`, elem);
+        
         console.log(`This is the spacing of the elemennt`, elem.getBoundingClientRect());
         console.log(`This is the element's spacing`, element.getBoundingClientRect());
 
