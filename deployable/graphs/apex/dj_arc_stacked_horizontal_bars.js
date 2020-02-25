@@ -509,16 +509,13 @@ looker.plugins.visualizations.add({
             .style(`width`, d => `${d.coordinates.height}px`)
             .style(`height`, d => `${d.coordinates.width}px`)
             .style(`position`, `absolute`)
-            .style(`x`, d => `${d.coordinates.x}px`)
-            .style(`y`, d => `${d.coordinates.y}px`)
-            // .style(`top`, d => `${d.coordinates.top}px`)
-            // .style(`left`, d => `${d.coordinates.left}px`)
+            .style(`top`, d => `${d.coordinates.top}px`)
+            .style(`left`, d => `${d.coordinates.left}px`)
             // .style(`bottom`, d => `${d.coordinates.bottom}px`)
             // .style(`right`, d => `${d.coordinates.right}px`)
             .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
-            .style(`transform`, `rotate(-45)`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
 

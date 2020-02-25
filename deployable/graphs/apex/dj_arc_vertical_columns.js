@@ -505,11 +505,9 @@ looker.plugins.visualizations.add({
             .style(`left`, d => `${d.coordinates.left}px`)
             // .style(`bottom`, d => `${d.coordinates.bottom}px`)
             // .style(`right`, d => `${d.coordinates.right}px`)
-            // .style(`background-color`, `transparent`)
-            .style(`opacity`, `1`)
+            .style(`background-color`, `transparent`)
+            .style(`opacity`, `0`)
             .style(`z-index`, `4`)
-            // .style(`transform`, `rotate(-90)`)
-            .style(`border`, `1px dashed black`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
 
