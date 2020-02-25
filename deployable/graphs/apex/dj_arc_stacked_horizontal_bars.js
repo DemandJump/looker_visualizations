@@ -475,6 +475,7 @@ looker.plugins.visualizations.add({
             let w = ps.width;
             let h = ps.height;
             if (horizontal) {
+                console.log(`Horizontal width and height`);
                 w = ps.height;
                 h = ps.width;
             }
@@ -498,7 +499,7 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        // console.log(`These are the xaxis drilldown nodes`, nodes);
+        console.log(`These are the xaxis drilldown nodes`, nodes);
 
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
