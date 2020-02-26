@@ -627,6 +627,18 @@ looker.plugins.visualizations.add({
         // console.log(`Here are the children`, axisElements[0].children);
         // console.log(`This is elem`, elem);
 
+        xaxis.forEach((axis, index) => {
+            if (axis.links == undefined) axis.links = [];
+            for(let i = 0; i < seriesData.length; i++) {
+                if (seriesData[i].links[index] !== undefined) {
+                    for(let j = 0; j < seriesData[i].links[index].length; j++) {
+                        if (!seriesData[i].links[index][j][`type_label`]) seriesData[i].links[index][j][`type_label`] = `Drill into ${seriesData[i].name}`;
+                        axis.links.push(seriesData[i].links[index][j]);
+                    }
+                }
+            }
+        });
+
         for(let i = 0; i < xaxis.length; i++) {
             if (xaxis[i].links == undefined) xaxis[i].links = [];
             ps = elem[i].getBoundingClientRect();
