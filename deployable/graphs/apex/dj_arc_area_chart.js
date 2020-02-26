@@ -639,12 +639,12 @@ looker.plugins.visualizations.add({
                 left: ps.left,
                 bottom: ps.bottom,
                 right: ps.right,
-                transform: elem[i].attributes.transform.value,
                 // xaxis: elem[i].children[0].innerHTML,
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
                 element: elem[i]
             };
+            if (elem[i].attributes.transform) node[`transform`] = elem[i].attributes.transform.value;
             nodes.push(node);
         }
         // console.log(`These are the xaxis drilldown nodes`, nodes);
@@ -666,7 +666,7 @@ looker.plugins.visualizations.add({
             .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
-            .style(`transform`, `rotate(-45)`)
+            // .style(`transform`, `rotate(-45)`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
 
