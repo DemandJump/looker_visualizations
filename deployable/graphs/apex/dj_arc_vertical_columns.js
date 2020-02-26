@@ -191,13 +191,8 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            if (theme == 'Horizontal') {
-                horizontal = true;
-                // yTitle = queryResponse.fields.dimension_like[0].label;
-            if (theme == 'Vertical') {
-                horizontal = false;
-                // xTitle = queryResponse.fields.dimension_like[0].label;
-            }
+            if (theme == 'Horizontal') horizontal = true;
+            if (theme == 'Vertical') horizontal = false;
         }
 
         if (theme == 'Custom') {

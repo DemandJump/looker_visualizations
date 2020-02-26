@@ -197,7 +197,7 @@ looker.plugins.visualizations.add({
         let rendered = false;
         let changed = false;
         let dataLabels = false;
-        let horizontal = true;
+        let horizontal = false;
         let endingShape = 'flat'
         let title = ' ';
         if (!config.showTitle) config.showTitle = false;
@@ -216,14 +216,8 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            if (theme == 'Horizontal') {
-                horizontal = true;
-                // yTitle = queryResponse.fields.dimension_like[0].label;
-            }
-            if (theme == 'Vertical') {
-                horizontal = false;
-                // xTitle = queryResponse.fields.dimension_like[0].label;
-            }
+            if (theme == 'Horizontal') horizontal = true;
+            if (theme == 'Vertical') horizontal = false;
         }
 
         if (theme == 'Custom') {
@@ -246,10 +240,10 @@ looker.plugins.visualizations.add({
 
         if (changed) this.trigger('registerOptions', this.options);
 
-        if (config.title) title = config.title;
+        if (config.title != ``) title = config.title;
         // if (config.showTitle) showTitle = config.showTitle;
-        if (config.yTitle) yTitle = config.yTitle;
-        if (config.xTitle != '') xTitle = config.xTitle;
+        if (config.yTitle != ``) yTitle = config.yTitle;
+        if (config.xTitle != ``) xTitle = config.xTitle;
         
 
        
