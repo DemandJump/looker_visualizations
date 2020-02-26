@@ -216,8 +216,8 @@ looker.plugins.visualizations.add({
                 changed = true;
             }
 
-            if (theme == 'Horizontal') horizontal = true;
-            if (theme == 'Vertical') horizontal = false;
+            if (theme == 'Horizontal') config.horizontal = true;
+            if (theme == 'Vertical') config.horizontal = false;
         }
 
         if (theme == 'Custom') {
