@@ -115,7 +115,6 @@ updateAsync: function(data, element, config, queryResponse, details, doneRenderi
   // console.log(`data`, data);
   let dimensions = queryResponse.fields.dimension_like; // console.log(`Checking out query resposne dimension fields: `, dimensions);
   let measures = queryResponse.fields.measure_like; // console.log(`Checking out query resposne measure fields: `, measures);
-  let taxonomyPass = dimensions;
 
   /***************************************
    * Configuring the settings
