@@ -383,7 +383,7 @@ looker.plugins.visualizations.add({
                         }
                     }
                 }
-                
+
             } else {
                 if (stack == `overlay`) {
                     datum.forEach((row, index) => {
@@ -406,7 +406,7 @@ looker.plugins.visualizations.add({
 
                 if (stack == `stack`) {
                     let series = [];
-                    for(let i = 0; i < queryResponse.fields.measure_like.lengthl i++) {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                       
                         let newSeries = [];
                         let links = [];
