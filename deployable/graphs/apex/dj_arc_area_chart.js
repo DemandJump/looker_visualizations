@@ -715,6 +715,11 @@ looker.plugins.visualizations.add({
 
             seriesData.forEach((series, index) => {
                 holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
+                if (holder == undefined) {
+                    let newNamingConvention = series.name.replace(/ /g, `x`);
+                    newNamingConvention.replace(/-/g, `x`);
+                    holder = document.getElementsByClassName(`apexcharts-series ${newNamingConvention}`);
+                }
                 let data = {
                     pivot: series.name,
                     column: index,
