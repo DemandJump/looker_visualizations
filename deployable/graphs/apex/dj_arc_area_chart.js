@@ -408,7 +408,7 @@ looker.plugins.visualizations.add({
                             if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
 
                             if (index == 0) {
-                                series.push(value);
+                                series.push(yVal);
                                 yVal = series[i];
                             } else {
                                 newSeries[i] = series[i] + yVal;
