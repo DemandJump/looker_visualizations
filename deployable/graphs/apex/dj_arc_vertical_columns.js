@@ -154,16 +154,6 @@ looker.plugins.visualizations.add({
         let pivotA = false;
         let pivotB = false;
         let datum = data;
-        // datum.forEach(row => {
-        //     for(let i = 0; i < row.length; i++) {
-        //         if (row[i].value == null) {
-        //             let prev = row[i-1].value;
-        //             let next = row[i+1].value;
-        //             row[i].value = (prev + next) / 2;
-        //         }
-        //     }
-        // });
-        // console.log('Mutated data', datum);
 
         // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
@@ -175,7 +165,6 @@ looker.plugins.visualizations.add({
             } 
             else pivotB = true;
         }
-
 
         // Configuration settings
         let theme = 'Horizontal';
@@ -205,7 +194,6 @@ looker.plugins.visualizations.add({
             if (theme == 'Horizontal') {
                 horizontal = true;
                 // yTitle = queryResponse.fields.dimension_like[0].label;
-            }
             if (theme == 'Vertical') {
                 horizontal = false;
                 // xTitle = queryResponse.fields.dimension_like[0].label;
