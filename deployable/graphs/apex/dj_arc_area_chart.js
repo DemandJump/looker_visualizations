@@ -345,9 +345,8 @@ looker.plugins.visualizations.add({
             });
 
             if (format == `cateogry`) {
-                let series = [];
-                datum.forEach((row, index) => {
-                    if (stack == `overlay`) {
+                if (stack == `overlay`) {
+                    datum.forEach((row, index) => {
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                             let value = 0;
                             let lonks = row[queryResponse.fields.measure_like[i].name].links;
@@ -356,34 +355,41 @@ looker.plugins.visualizations.add({
                             seriesData[i].data.push(value);
                             seriesData[i].links.push(lonks);
                         }
-                    }
-                    if (stack == `stack`) {
-                        let newSeries = [];
-                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                            let lonks = row[queryResponse.fields.measure_like[i].name].links;
-                            if (lonks == null || lonks == undefined) lonks = []; 
-                            seriesData[i].links.push(lonks);
+                    });
+                }
 
+                if (stack == `stack`) {
+                    let series = [];
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let newSeries = [];
+                        let links = [];
+                        datum.forEach((row, index) => {
                             let value = 0;
                             if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
-
-                            if (index == 0) {
+                            if (i == 0) {
                                 series.push(value);
-                                seriesData[i].data.push(value);
                             } else {
-                                newSeries[i] = series[i] + value;
-                                seriesData[i].data.push(newSeries[i]);
+                                newSeries[index] = series[index] + value;
                             }
+                            links.push(row[queryResponse.fields.measure_like[i].name].links);
+                        });
+
+                        seriesData[i].links = links;
+                        if (i == 0) {
+                            seriesData[i].data = series;
+                        } else {
+                          seriesData[i].data = newSeries;
+                          series = newSeries
                         }
-                        if (index != 0) series = newSeries;
                     }
-                });
+                }
+                
             } else {
-                let series = [];
-                datum.forEach((row, index) => {
-                    if (stack == `overlay`) {
+                if (stack == `overlay`) {
+                    datum.forEach((row, index) => {
                         for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                             let links = row[queryResponse.fields.measure_like[i].name].links;
+                            if (links == undefined || links == null) links = [];
                             let xVal;
                             if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
                             else xVal = row[queryResponse.fields.dimension_like[0].name].value;
@@ -395,33 +401,44 @@ looker.plugins.visualizations.add({
                             categoryData[i].data.push(ob);
                             categoryData[i].links.push(links);
                         }
-                    }
-                    if (stack == `stack`) {
+                    });
+                }
+
+                if (stack == `stack`) {
+                    let series = [];
+                    for(let i = 0; i < queryResponse.fields.measure_like.lengthl i++) {
+                      
                         let newSeries = [];
-                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                            let links = row[queryResponse.fields.measure_like[i].name].links;
+                        let links = [];
+                        datum.forEach((row, index) => {
                             let xVal;
+                            let yVal = 0;
+                            
                             if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
                             else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-
-                            let yVal = 0;
                             if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
 
-                            if (index == 0) {
-                                series.push(yVal);
-                                yVal = series[i];
+                            let object;
+                            if (i == 0) {
+                                object = {x: xVal, y: yVal};
+                                series.push(object);
                             } else {
-                                newSeries[i] = series[i] + yVal;
-                                yVal = newSeries[i];
+                                let stackY = series[index].y + yVal;
+                                object = {x: xVal, y: stackY};
+                                newSeries[index] = object;
                             }
+                            links.push(row[queryResponse.fields.measure_like[i].name].links);
+                        });
 
-                            let ob = {x: xVal, y: yVal};
-                            categoryData[i].data.push(ob);
-                            categoryData[i].links.push(links);
+                        categoryData[i].links = links;
+                        if (i == 0) {
+                            categoryData[i].data = series;
+                        } else {
+                            categoryData[i].data = newSeries;
+                            series = newSeries;
                         }
-                        if (index != 0) series = newSeries;
                     }
-                });
+                }
             }
 
         } else {
