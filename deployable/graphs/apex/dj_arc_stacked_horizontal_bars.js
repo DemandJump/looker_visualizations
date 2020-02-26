@@ -379,7 +379,7 @@ looker.plugins.visualizations.add({
                 type: 'bar',
                 stacked: 'true',
             },
-            colors: djcolors,
+            colors: djColors,
             plotOptions: {
                 bar: {
                     horizontal: horizontal,

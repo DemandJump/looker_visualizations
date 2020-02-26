@@ -358,7 +358,7 @@ looker.plugins.visualizations.add({
                 height: height,
                 type: 'bar',
             },
-            colors: djcolors,
+            colors: djColors,
             plotOptions: {
                 bar: {
                     horizontal: horizontal,
