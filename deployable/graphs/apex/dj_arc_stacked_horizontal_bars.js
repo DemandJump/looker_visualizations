@@ -115,14 +115,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        renderedData: {
-            label: `Use rendered data`,
-            order: 13,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-        },
+        // renderedData: {
+        //     label: `Use rendered data`,
+        //     order: 13,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true,
+        //     hidden: false
+        // },
         
         doNotTruncate: {
             label: `Don't Truncate data`,
@@ -233,7 +233,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = true;
                 this.options.horizontal.hidden = true;
                 this.options.endingShape.hidden = true;
-                this.options.renderedData.hidden = true;
+                // this.options.renderedData.hidden = true;
                 this.options.doNotTruncate.hidden = true;
                 changed = true;
             }
@@ -250,7 +250,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = false;
                 this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;
-                this.options.renderedData.hidden = false;
+                // this.options.renderedData.hidden = false;
                 this.options.doNotTruncate.hidden = false;
                 changed = true;
             }
@@ -258,7 +258,7 @@ looker.plugins.visualizations.add({
             if (config.dataLabels) dataLabels = config.dataLabels;
             if (config.endingShape) endingShape = config.endingShape;
             if (config.horizontal) horizontal = config.horizontal;
-            if (config.renderedData) rendered = config.renderedData;
+            // if (config.renderedData) rendered = config.renderedData;
             if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
         }
 

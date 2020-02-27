@@ -295,7 +295,7 @@ looker.plugins.visualizations.add({
                 this.options.curve.hidden = true;
                 this.options.dataLabels.hidden = true;
                 this.options.alignLegend.hidden = true;
-                this.options.renderedData.hidden = true;
+                // this.options.renderedData.hidden = true;
                 this.options.doNotTruncate.hidden = true;
                 this.options.fill.hidden = true;
                 // this.options.formatDates.hidden = true;
@@ -315,7 +315,7 @@ looker.plugins.visualizations.add({
                 this.options.curve.hidden = false;
                 this.options.dataLabels.hidden = false;
                 this.options.alignLegend.hidden = false;
-                this.options.renderedData.hidden = false;
+                // this.options.renderedData.hidden = false;
                 this.options.doNotTruncate.hidden = false;
                 this.options.fill.hidden = false;
                 // this.options.formatDates.hidden = false; 
@@ -325,7 +325,7 @@ looker.plugins.visualizations.add({
             if (config.curve) curve = config.curve;
             if (config.dataLabels) dataLabels = config.dataLabels;
             if (config.alignLegend) alignLegend = config.alignLegend;
-            if (config.renderedData) rendered = config.renderedData;
+            // if (config.renderedData) rendered = config.renderedData;
             if (config.formatDates) formatDates = config.formatDates;
             if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
             if (config.fill) fill = config.fill;
@@ -350,10 +350,11 @@ looker.plugins.visualizations.add({
             colors: djColors,
             dataLabels: {
                 enabled: dataLabels,
-                offsetX: -6,
+                offsetX: -4,
                 style: {
                   fontSize: '12px',
                   colors: ['#fff']
+                }
             },
             stroke: {curve: curve}, // straight, smooth, stepline
             fill: {type: fill},
@@ -720,35 +721,34 @@ looker.plugins.visualizations.add({
 
 
             // Y axis drilldown menu (data for each series)
+        // let circleValues = [];
+        // let circleLinks = [];
+        // let holder;
+        // for(let i = 0; i < xaxis.length; i++) { 
+        //     let seriesLinks = [];
+        //     seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
+        //     circleLinks.push(seriesLinks);
 
-        let circleValues = [];
-        let circleLinks = [];
-        let holder;
-        for(let i = 0; i < xaxis.length; i++) { 
-            let seriesLinks = [];
-            seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
-            circleLinks.push(seriesLinks);
-
-            seriesData.forEach((series, index) => {
-                holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
-                if (holder == undefined) {
-                    let newNamingConvention = series.name.replace(/ /g, `x`);
-                    newNamingConvention.replace(/-/g, `x`);
-                    holder = document.getElementsByClassName(`apexcharts-series ${newNamingConvention}`);
-                }
-                let data = {
-                    pivot: series.name,
-                    column: index,
-                    xaxis: circleLinks[i][index].name, 
-                    data: circleLinks[i][index].data,
-                    links: circleLinks[i][index].links,
-                    id: `_${holder[0].id}`,
-                    originalId: holder[0].id,
-                    element: holder  
-                };
-                circleValues.push(data);
-            });
-        }
+        //     seriesData.forEach((series, index) => {
+        //         holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
+        //         if (holder == undefined) {
+        //             let newNamingConvention = series.name.replace(/ /g, `x`);
+        //             newNamingConvention.replace(/-/g, `x`);
+        //             holder = document.getElementsByClassName(`apexcharts-series ${newNamingConvention}`);
+        //         }
+        //         let data = {
+        //             pivot: series.name,
+        //             column: index,
+        //             xaxis: circleLinks[i][index].name, 
+        //             data: circleLinks[i][index].data,
+        //             links: circleLinks[i][index].links,
+        //             id: `_${holder[0].id}`,
+        //             originalId: holder[0].id,
+        //             element: holder  
+        //         };
+        //         circleValues.push(data);
+        //     });
+        // }
         // console.log(`These are the circle values`, circleValues);
 
 
