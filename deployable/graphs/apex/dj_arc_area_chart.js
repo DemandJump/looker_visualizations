@@ -1,8 +1,3 @@
-import * as d3 from 'd3';
-import $ from 'jquery';
-import ApexCharts from 'apexcharts';
-console.log(`Rendering dj area chart`);
-
 looker.plugins.visualizations.add({
     id: 'dj_arc_area_chart',
     label: 'Demandjump area chart',

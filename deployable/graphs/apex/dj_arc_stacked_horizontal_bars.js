@@ -1,8 +1,3 @@
-import * as d3 from 'd3';
-import $ from 'jquery';
-import ApexCharts from 'apexcharts';
-console.log(`Rendering dj column stack chart`);
-
 looker.plugins.visualizations.add({
     id: 'dj_arc_column_stack_chart',
     label: 'Demandjump column stack chart',
