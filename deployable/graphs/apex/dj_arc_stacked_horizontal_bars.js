@@ -427,6 +427,7 @@ looker.plugins.visualizations.add({
                 style: {
                   fontSize: '12px',
                   colors: ['#fff']
+                }
             },
             stroke: {
                 width: 1,
@@ -436,29 +437,19 @@ looker.plugins.visualizations.add({
             xaxis: {
                 categories: axisNames,
                 labels: {
-                    formatter: function (val) {
-                        return val;
-                    }
+                    formatter: function (val) {return val;}
                 },
-                title: {
-                    text: xTitle
-                },
+                title: {text: xTitle},
             },
             yaxis: {
-                title: {
-                    text: yTitle
-                },
+                title: {text: yTitle},
             },
             tooltip: {
                 y: {
-                    formatter: function (val) {
-                        return val;
-                    }
+                    formatter: function (val) {return val;}
                 }
             },
-            fill: {
-                opacity: 1
-            },
+            fill: {opacity: 1},
             legend: {
                 position: 'bottom', // front, back, bottom, top
                 horizontalAlign: 'center',
@@ -466,11 +457,7 @@ looker.plugins.visualizations.add({
         };
         
         if (config.stackType == true) options4[`chart`].stackType = `100%`;
-        if (config.showTitle == true) {
-            options4[`title`] = {
-                text: title
-            };
-        }
+        if (config.showTitle == true) options4[`title`] = {text: title};
 
 
         // Apex Charts
