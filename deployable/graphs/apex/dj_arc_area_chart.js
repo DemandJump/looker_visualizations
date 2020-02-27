@@ -28,6 +28,24 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
+        xTitle: {
+            label: `X axis label`,
+            order: 1.9,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter chart title here`,
+            hidden: false
+        },
+
+        yTitle: {
+            label: `Y axis label`,
+            order: 1.94,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter chart title here`,
+            hidden: false
+        },
+
         showTitle: {
             label: `Show title`,
             order: 4,
@@ -146,10 +164,19 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
+
+        doNotTruncate: {
+            label: `Don't Truncate data`,
+            order: 13,
+            section: `Format`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        },
         
         // formatDates: {
         //     label: `Abbreviate datetime values`, 
-        //     order: 13,
+        //     order: 14,
         //     section: `Format`,
         //     type: `boolean`,
         //     default: true, 
@@ -228,11 +255,14 @@ looker.plugins.visualizations.add({
         let title = queryResponse.fields.dimension_like[0].label;
         let rendered = true; 
         let label = ` `;
+        let xTitle = ` `;
+        let yTitle = ` `;
         let curve = `straight`;
         let stack = `overlay`;
         let dataLabels = false;
         let alignLegend = `center`;
         let formatDates = true;
+        let doNotTruncate = false;
         
         if (config.label) label = config.label;
         if (config.title) if (config.title != ``) title = config.title;
@@ -247,6 +277,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = true;
                 this.options.alignLegend.hidden = true;
                 this.options.renderedData.hidden = true;
+                this.options.doNotTruncate.hidden = true;
                 // this.options.formatDates.hidden = true;
                 changed = true;
             }
@@ -265,6 +296,7 @@ looker.plugins.visualizations.add({
                 this.options.dataLabels.hidden = false;
                 this.options.alignLegend.hidden = false;
                 this.options.renderedData.hidden = false;
+                this.options.doNotTruncate.hidden = false;
                 // this.options.formatDates.hidden = false; 
                 changed = true;
             }
@@ -274,11 +306,13 @@ looker.plugins.visualizations.add({
             if (config.alignLegend) alignLegend = config.alignLegend;
             if (config.renderedData) rendered = config.renderedData;
             if (config.formatDates) formatDates = config.formatDates;
+            if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
         }
-        if (config.stack) stack = config.stack;
-
         if (changed) this.trigger(`registerOptions`, this.options);
-
+        
+        if (config.stack) stack = config.stack;
+        if (config.xTitle != ``) xTitle = config.xTitle;
+        if (config.yTitle != ``) yTitle = config.yTitle;
 
         let height = window.innerHeight - 45;
         let configuration = {
@@ -295,6 +329,12 @@ looker.plugins.visualizations.add({
                 text: label,
                 align: `left`
             },
+            yaxis: {
+                title: {text: yTitle},
+            },
+            xaxis: {
+                title: {text: xTitle},
+            }
         };
 
         if (config.showTitle) {
@@ -305,6 +345,21 @@ looker.plugins.visualizations.add({
         }
 
 
+        // Truncate the data 
+        if (!doNotTruncate) {
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let truncate = false;
+                datum.forEach(row => {
+                    if (row[queryResponse.fields.measure_like[i].name].value > 100) truncate = true;
+                });
+                if (truncate) {
+                    datum.forEach(row => {
+                        row[queryResponse.fields.measure_like[i].name].original = row[queryResponse.fields.measure_like[i].name].value;
+                        row[queryResponse.fields.measure_like[i].name].value = Math.trunc(row[queryResponse.fields.measure_like[i].name].value); 
+                    });
+                }
+            }
+        }
 
         
           // Pull in all the data into the xaxis and series

@@ -113,9 +113,16 @@ looker.plugins.visualizations.add({
             type: `boolean`,
             default: true,
             hidden: false
+        },
+
+        doNotTruncate: {
+            label: `Don't Truncate data`,
+            order: 14,
+            section: `Format`,
+            type: `boolean`,
+            default: false,
+            hidden: false
         }
-
-
     },
     create: function(element, config) {
         let d3 = d3v5;
@@ -180,6 +187,7 @@ looker.plugins.visualizations.add({
         if (!config.showTitle) config.showTitle = false
         let yTitle = ' ';
         let xTitle = ' ';
+        let doNotTruncate = false;
         
         if (theme == 'Horizontal' || theme == 'Vertical') {
             if (this._custom != 'horizontalOrVertical') {
@@ -190,6 +198,7 @@ looker.plugins.visualizations.add({
                 this.options.horizontal.hidden = true;
                 this.options.endingShape.hidden = true;
                 this.options.renderedData.hidden = true;
+                this.options.doNotTruncate.hidden = true;
                 changed = true;
             }
 
@@ -206,6 +215,7 @@ looker.plugins.visualizations.add({
                 this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;
                 this.options.renderedData.hidden = false;
+                this.options.doNotTruncate.hidden = false;
                 changed = true;
             }
 
@@ -213,6 +223,7 @@ looker.plugins.visualizations.add({
             if (config.endingShape) endingShape = config.endingShape;
             if (config.horizontal) horizontal = config.horizontal;
             if (config.renderedData) rendered = config.renderedData;
+            if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
         }
 
         if (changed) this.trigger('registerOptions', this.options);
@@ -223,11 +234,24 @@ looker.plugins.visualizations.add({
         if (config.xTitle != ``) xTitle = config.xTitle;
 
 
-        
+        // Truncate the data 
+        if (!doNotTruncate) {
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                let truncate = false;
+                datum.forEach(row => {
+                    if (row[queryResponse.fields.measure_like[i].name].value > 100) truncate = true;
+                });
+                if (truncate) {
+                    datum.forEach(row => {
+                        row[queryResponse.fields.measure_like[i].name].original = row[queryResponse.fields.measure_like[i].name].value;
+                        row[queryResponse.fields.measure_like[i].name].value = Math.trunc(row[queryResponse.fields.measure_like[i].name].value); 
+                    });
+                }
+            }
+        }  
 
 
-          // Pull in all the data into the xaxis and series
-
+            // Pull in all the data into the xaxis and series
         let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
