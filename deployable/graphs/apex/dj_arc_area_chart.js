@@ -259,10 +259,13 @@ looker.plugins.visualizations.add({
         let yTitle = ` `;
         let curve = `straight`;
         let stack = `overlay`;
+        let stacked = false; 
         let dataLabels = false;
         let alignLegend = `center`;
         let formatDates = true;
         let doNotTruncate = false;
+        let height = window.innerHeight - 45;
+
         
         if (config.label) label = config.label;
         if (config.title) if (config.title != ``) title = config.title;
@@ -308,17 +311,21 @@ looker.plugins.visualizations.add({
             if (config.formatDates) formatDates = config.formatDates;
             if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
         }
-        if (changed) this.trigger(`registerOptions`, this.options);
         
-        if (config.stack) stack = config.stack;
+        if (config.stack) {
+            stack = config.stack;
+            if (stack == `overlay`) stacked = false;
+            if (stack == `stack`) stacked = true;
+        }
         if (config.xTitle != ``) xTitle = config.xTitle;
         if (config.yTitle != ``) yTitle = config.yTitle;
 
-        let height = window.innerHeight - 45;
+
         let configuration = {
             chart: {
                 height: height,
                 type: `area`,
+                stacked: stacked,
                 zoom: {enabled: true}
             },
             colors: djColors,
@@ -367,7 +374,6 @@ looker.plugins.visualizations.add({
         let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
-        let categoryData = [];
         
         if (!pivot) {
             let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
@@ -381,7 +387,6 @@ looker.plugins.visualizations.add({
 
                 let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
                 seriesData.push(obj);
-                categoryData.push(obj);
             }
 
             // Labels
@@ -400,102 +405,34 @@ looker.plugins.visualizations.add({
             });
 
             if (format == `cateogry`) {
-                if (stack == `overlay`) {
-                    datum.forEach((row, index) => {
-                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                            let value = 0;
-                            let lonks = row[queryResponse.fields.measure_like[i].name].links;
-                            if (lonks == null || lonks == undefined) lonks = [];
-                            if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
-                            seriesData[i].data.push(value);
-                            seriesData[i].links.push(lonks);
-                        }
-                    });
-                }
-
-                if (stack == `stack`) {
-                    let series = [];
+                datum.forEach((row, index) => {
                     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                        let newSeries = [];
-                        let links = [];
-                        datum.forEach((row, index) => {
-                            let value = 0;
-                            if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
-                            if (i == 0) {
-                                series.push(value);
-                            } else {
-                                newSeries[index] = series[index] + value;
-                            }
-                            links.push(row[queryResponse.fields.measure_like[i].name].links);
-                        });
-
-                        seriesData[i].links = links;
-                        if (i == 0) {
-                            seriesData[i].data = series;
-                        } else {
-                          seriesData[i].data = newSeries;
-                          series = newSeries
-                        }
+                        let value = 0;
+                        let lonks = row[queryResponse.fields.measure_like[i].name].links;
+                        if (lonks == null || lonks == undefined) lonks = [];
+                        if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                        seriesData[i].data.push(value);
+                        seriesData[i].links.push(lonks);
                     }
-                }
-
+                });
             } else {
-                if (stack == `overlay`) {
-                    datum.forEach((row, index) => {
-                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                            let links = row[queryResponse.fields.measure_like[i].name].links;
-                            if (links == undefined || links == null) links = [];
-                            let xVal;
-                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                            else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-
-                            let yVal = 0;
-                            if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
-
-                            let ob = {x: xVal, y: yVal};
-                            categoryData[i].data.push(ob);
-                            categoryData[i].links.push(links);
-                        }
-                    });
-                }
-
-                if (stack == `stack`) {
-                    let series = [];
+                datum.forEach((row, index) => {
                     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                      
-                        let newSeries = [];
-                        let links = [];
-                        datum.forEach((row, index) => {
-                            let xVal;
-                            let yVal = 0;
-                            
-                            if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-                            else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-                            if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
+                        let links = row[queryResponse.fields.measure_like[i].name].links;
+                        if (links == undefined || links == null) links = [];
+                        let xVal;
+                        if (rendered && row[queryResponse.fields.dimension_like[0].name].rendered) xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+                        else xVal = row[queryResponse.fields.dimension_like[0].name].value;
 
-                            let object;
-                            if (i == 0) {
-                                object = {x: xVal, y: yVal};
-                                series.push(object);
-                            } else {
-                                let stackY = series[index].y + yVal;
-                                object = {x: xVal, y: stackY};
-                                newSeries[index] = object;
-                            }
-                            links.push(row[queryResponse.fields.measure_like[i].name].links);
-                        });
+                        let yVal = 0;
+                        if (row[queryResponse.fields.measure_like[i].name].value != null) yVal = row[queryResponse.fields.measure_like[i].name].value;
 
-                        categoryData[i].links = links;
-                        if (i == 0) {
-                            categoryData[i].data = series;
-                        } else {
-                            categoryData[i].data = newSeries;
-                            series = newSeries;
-                        }
+                        let ob = {x: xVal, y: yVal};
+                        seriesData[i].data.push(ob);
+                        seriesData[i].links.push(links);
                     }
-                }
+                });
             }
-
         } else {
             if (pivotA) {
                 // Labels
@@ -521,19 +458,7 @@ looker.plugins.visualizations.add({
                         liData.push(datum[0][row.name][keyname].links);
                         
                         if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
-                        if (stack == `overlay`) obData.push(value);
-                        if (stack == `stack`) {
-                            if (index == 0) series.push(value);
-                            else newSeries[i] = series[i] + value;
-                        }
-                    }
-
-                    if (stack == `stack`) {
-                        if (index == 0) obData = series;
-                        else {
-                            obData = newSeries;
-                            series = newSeries;
-                        }
+                        obData.push(value);
                     }
 
                     let name = row.label;
@@ -548,7 +473,6 @@ looker.plugins.visualizations.add({
                     seriesData.push(obj);
                 });
             }
-
             
             if (pivotB) {
                 // Labels
@@ -575,45 +499,52 @@ looker.plugins.visualizations.add({
                     for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
                 });
 
-                if (stack == `overlay`) { 
-                    datum.forEach(row => {
-                        for(let i = 0; i < queryResponse.pivots.length; i++) {
-                            let value = 0;
-                            if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-                            seriesData[i].data.push(value);
-                        }
-                    });
-                }
-                if (stack == `stack`) {
-                    let series = []; 
+                datum.forEach(row => {
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        let newSeries = [];
-                        datum.forEach((row, index) => {
-                            let value = 0;
-                            if (i == 0) {
-                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-                                series.push(value);
-                            } else {
-                                if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-                                newSeries[index] = series[index] + value;
-                            }
-                        });
-                        if (i == 0) {
-                            seriesData[i].data = series;
-                        } else {
-                            seriesData[i].data = newSeries;
-                            series = newSeries;
-                        }
+                        let value = 0;
+                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                        seriesData[i].data.push(value);
                     }
-                }
+                });
             }
         }
 
+        
+        // Add the type for each series
+        let settings = this.options;
+        seriesData.forEach((series, index) => {
+            let name = `series_${index}`;
+
+            if (!settings[name]) {
+                changed = true;
+                settings[name] = {
+                    label: `${series.name} series chart type`,
+                    order: index,
+                    section: `Chart Type`,
+                    type: `string`,
+                    display: `select`,
+                    values: [
+                        {'Area': 'area'}, 
+                        {'Column': 'column'}, 
+                        {'Line': 'line'}, 
+                    ],
+                    default: `area`,
+                    hidden: false
+                }
+            } else {
+                let type = `area`;
+                if (config[name]) type = config[name];
+                series.type = type;
+            }
+        });
+        if (changed) this.trigger(`registerOptions`, this.options);
+
+
     
         if (format == `yyyy`) {
-            // console.log(`Category data`, categoryData);
+            // console.log(`Category data`, seriesData);
             // console.log(`xaxis data`, xaxis);
-            configuration[`series`] = categoryData;
+            configuration[`series`] = seriesData;
             configuration[`xaxis`] = {
                 type: `datetime`,
                 axisBorder: {show: true},
