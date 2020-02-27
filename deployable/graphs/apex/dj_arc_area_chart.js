@@ -544,9 +544,9 @@ looker.plugins.visualizations.add({
             if (!settings[name]) {
                 changed = true;
                 settings[name] = {
-                    label: `${series.name} series chart type`,
+                    label: `Chart type: ${series.name}`,
                     order: index,
-                    section: `Chart Type`,
+                    section: `Type of Chart`,
                     type: `string`,
                     display: `select`,
                     values: [
