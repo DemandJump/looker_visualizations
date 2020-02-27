@@ -155,15 +155,30 @@ looker.plugins.visualizations.add({
             default: `center`,
             hidden: false
         },
-
-        renderedData: {
-            label: `Use rendered data`,
+                
+        fill: {
+            label: `Gradient type`,
             order: 12,
             section: `Format`,
-            type: `boolean`,
-            default: true,
+            type: `string`,
+            display: `select`,
+            values: [
+                {'Gradient': 'gradient'}, 
+                {'Solid': 'solid'}, 
+                {'Pattern': 'pattern'}
+            ],
+            default: `gradient`,
             hidden: false
         },
+
+        // renderedData: {
+        //     label: `Use rendered data`,
+        //     order: 12,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: true,
+        //     hidden: false
+        // },
 
         doNotTruncate: {
             label: `Don't Truncate data`,
@@ -264,6 +279,7 @@ looker.plugins.visualizations.add({
         let alignLegend = `center`;
         let formatDates = true;
         let doNotTruncate = false;
+        let fill = `gradient`;
         let height = window.innerHeight - 45;
 
         
@@ -281,6 +297,7 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = true;
                 this.options.renderedData.hidden = true;
                 this.options.doNotTruncate.hidden = true;
+                this.options.fill.hidden = true;
                 // this.options.formatDates.hidden = true;
                 changed = true;
             }
@@ -300,6 +317,7 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = false;
                 this.options.renderedData.hidden = false;
                 this.options.doNotTruncate.hidden = false;
+                this.options.fill.hidden = false;
                 // this.options.formatDates.hidden = false; 
                 changed = true;
             }
@@ -310,6 +328,7 @@ looker.plugins.visualizations.add({
             if (config.renderedData) rendered = config.renderedData;
             if (config.formatDates) formatDates = config.formatDates;
             if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
+            if (config.fill) fill = config.fill;
         }
         
         if (config.stack) {
@@ -331,7 +350,7 @@ looker.plugins.visualizations.add({
             colors: djColors,
             dataLabels: {enabled: dataLabels},
             stroke: {curve: curve}, // straight, smooth, stepline
-
+            fill: {type: fill},
             subtitle: {
                 text: label,
                 align: `left`
