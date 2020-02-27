@@ -35,6 +35,15 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
+        showToolbar: {
+            label: `Show toolbar`,
+            order: 6,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+        },
+
         yTitle: {
             label: `Y axis Label`,
             order: 3,
@@ -391,7 +400,6 @@ looker.plugins.visualizations.add({
             },
             dataLabels: {
                 enabled: dataLabels,
-                // offsetX: -4,
                 style: {
                   fontSize: '12px',
                   colors: ['#fff']
@@ -405,24 +413,15 @@ looker.plugins.visualizations.add({
             series: seriesData,
             xaxis: {
                 categories: axisNames,
-                title: {
-                    text: xTitle
-                }
+                title: {text: xTitle}
             },
             yaxis: {
-                title: {
-                    text: yTitle
-                }
+                title: {text: yTitle}
             },
-            fill: {
-                opacity: 1
-
-            },
+            fill: {opacity: 1},
             tooltip: {
                 y: {
-                    formatter: function (val) {
-                        return val;
-                    }
+                    formatter: function (val) {return val;}
                 }
             },
             legend: {
@@ -430,11 +429,13 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
-        if (config.showTitle == true) {
-            columnChartConfiguration[`title`] = {
-                text: title
-            };
+        
+        if (config.showTitle == true) columnChartConfiguration[`title`] = {text: title};
+        if (config.showToolbar) {
+            options4[`chart`].toolbar = {show: true};
+            options4[`chart`].zoom = {enabled: true};
         }
+
 
         // Apex Charts
         window.Apex = {

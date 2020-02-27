@@ -34,6 +34,15 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
+
+        showToolbar: {
+            label: `Show toolbar`,
+            order: 6,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+        },
         
         yTitle: {
             label: `Y axis Label`,
@@ -204,6 +213,7 @@ looker.plugins.visualizations.add({
         if (config.chooseTheme) theme = config.chooseTheme;
         let rendered = false;
         let changed = false;
+        let showToolbar = true;
         let dataLabels = false;
         let horizontal = false;
         let endingShape = 'flat';
@@ -255,6 +265,7 @@ looker.plugins.visualizations.add({
 
         if (config.title != ``) title = config.title;
         // if (config.showTitle) showTitle = config.showTitle;
+        if (config.showToolbar) showToolbar = config.showToolbar;
         if (config.yTitle != ``) yTitle = config.yTitle;
         if (config.xTitle != ``) xTitle = config.xTitle;
         
@@ -412,7 +423,6 @@ looker.plugins.visualizations.add({
             },
             dataLabels: {
                 enabled: dataLabels,
-                // offsetX: -4,
                 style: {
                   fontSize: '12px',
                   colors: ['#fff']
@@ -445,8 +455,13 @@ looker.plugins.visualizations.add({
             }
         };
         
-        if (config.stackType == true) options4[`chart`].stackType = `100%`;
-        if (config.showTitle == true) options4[`title`] = {text: title};
+        
+        if (config.stackType) options4[`chart`].stackType = `100%`;
+        if (config.showTitle) options4[`title`] = {text: title};
+        if (config.showToolbar) {
+            options4[`chart`].toolbar = {show: true};
+            options4[`chart`].zoom = {enabled: true};
+        }
 
 
         // Apex Charts
