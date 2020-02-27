@@ -73,6 +73,15 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
+        stackType: {
+            label: `100% Stack Type`,
+            order: 6,
+            section: `Format`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        },
+
         dataLabels: {
             label: `Enable data labels`,
             order: 10,
@@ -209,6 +218,7 @@ looker.plugins.visualizations.add({
         let dataLabels = false;
         let horizontal = false;
         let endingShape = 'flat';
+        let stackType = false;
         let title = ' ';
         if (!config.showTitle) config.showTitle = false;
         let yTitle = ' ';
@@ -412,7 +422,11 @@ looker.plugins.visualizations.add({
                 },
             },
             dataLabels: {
-                enabled: dataLabels
+                enabled: dataLabels,
+                offsetX: -6,
+                style: {
+                  fontSize: '12px',
+                  colors: ['#fff']
             },
             stroke: {
                 width: 1,
@@ -450,6 +464,8 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
+        
+        if (config.stackType == true) options4[`chart`].stackType = `100%`;
         if (config.showTitle == true) {
             options4[`title`] = {
                 text: title

@@ -348,7 +348,13 @@ looker.plugins.visualizations.add({
                 zoom: {enabled: true}
             },
             colors: djColors,
-            dataLabels: {enabled: dataLabels},
+            dataLabels: {
+                enabled: dataLabels,
+                offsetX: -6,
+                style: {
+                  fontSize: '12px',
+                  colors: ['#fff']
+            },
             stroke: {curve: curve}, // straight, smooth, stepline
             fill: {type: fill},
             subtitle: {

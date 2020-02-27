@@ -391,7 +391,11 @@ looker.plugins.visualizations.add({
                 },
             },
             dataLabels: {
-                enabled: dataLabels
+                enabled: dataLabels,
+                offsetX: -6,
+                style: {
+                  fontSize: '12px',
+                  colors: ['#fff']
             },
             stroke: {
                 show: true,
