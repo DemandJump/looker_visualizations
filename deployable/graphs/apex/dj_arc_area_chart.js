@@ -350,7 +350,7 @@ looker.plugins.visualizations.add({
             colors: djColors,
             dataLabels: {
                 enabled: dataLabels,
-                offsetX: -4,
+                // offsetX: -4,
                 style: {
                   fontSize: '12px',
                   colors: ['#fff']
