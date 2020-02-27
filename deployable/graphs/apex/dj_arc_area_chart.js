@@ -745,151 +745,151 @@ looker.plugins.visualizations.add({
 
             // Y axis Grid Series Container data (each series)
 
-        let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
-        let graphdata = graph[0].getBoundingClientRect();
+        // let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
+        // let graphdata = graph[0].getBoundingClientRect();
 
-        let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
-        let fodata = foreignObject[`_groups`][0][0].getBoundingClientRect();
+        // let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
+        // let fodata = foreignObject[`_groups`][0][0].getBoundingClientRect();
 
-        let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
-        let gridpointA = gridpoints[0].getBoundingClientRect();
-        let gridpointB = gridpoints[1].getBoundingClientRect();
-        let gridSpacing = gridpointB.x - gridpointA.x;
+        // let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
+        // let gridpointA = gridpoints[0].getBoundingClientRect();
+        // let gridpointB = gridpoints[1].getBoundingClientRect();
+        // let gridSpacing = gridpointB.x - gridpointA.x;
 
-        let seriesContainers = [];
-        let cspacing = gridpointA.left - (gridSpacing / 2);
+        // let seriesContainers = [];
+        // let cspacing = gridpointA.left - (gridSpacing / 2);
 
-        xaxis.forEach((axis, index) => {
-            if (index != 0) cspacing += gridSpacing;
-            let seriesValues = [];
-            for(let i = 0; i < seriesData.length; i++) seriesValues.push(circleValues[i + (index * seriesData.length)]);
-            let obj = {
-                index: index,
-                name: axis,
-                coordinates: {
-                    x: gridpointA.x,
-                    y: gridpointA.y,
-                    top: fodata.top,
-                    left: gridpointA.left,
-                    bottom: gridpointA.bottom,
-                    right: gridpointA.right,
-                    width: foreignObject[`_groups`][0][0].attributes.width.value,
-                    // height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
-                    height: graphdata.top,
-                    gridSpacing: gridpointB.x - gridpointA.x,
-                    spacing: cspacing
-                },
-                seriesData: seriesValues
-            };
-            seriesContainers.push(obj);
-        });
-        // console.log(`Here's the series container data`, seriesContainers); 
+        // xaxis.forEach((axis, index) => {
+        //     if (index != 0) cspacing += gridSpacing;
+        //     let seriesValues = [];
+        //     for(let i = 0; i < seriesData.length; i++) seriesValues.push(circleValues[i + (index * seriesData.length)]);
+        //     let obj = {
+        //         index: index,
+        //         name: axis,
+        //         coordinates: {
+        //             x: gridpointA.x,
+        //             y: gridpointA.y,
+        //             top: fodata.top,
+        //             left: gridpointA.left,
+        //             bottom: gridpointA.bottom,
+        //             right: gridpointA.right,
+        //             width: foreignObject[`_groups`][0][0].attributes.width.value,
+        //             // height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
+        //             height: graphdata.top,
+        //             gridSpacing: gridpointB.x - gridpointA.x,
+        //             spacing: cspacing
+        //         },
+        //         seriesData: seriesValues
+        //     };
+        //     seriesContainers.push(obj);
+        // });
+        // // console.log(`Here's the series container data`, seriesContainers); 
 
-        let individualSeries = {};
-        let seriesContainer = d3.select(`.container`)
-            .append(`div`).attr(`class`, `measureSeries`)
-                .selectAll(`.series`).data(seriesContainers);
-        let enterSeries = seriesContainer.enter().append(`div`);  
-        seriesContainer.merge(enterSeries)
-            .attr(`id`, d => d.index)
-            .attr(`class`, `series`)
-            .style(`width`, `1px`)
-            .style(`height`, d => `${d.coordinates.height}px`)
-            .style(`z-index`, `21`)
-            .style(`position`, `absolute`)
-            .style(`left`, d => `${d.coordinates.spacing - .5}px`)
-            .style(`top`, d => `${d.coordinates.top}px`)
-            .style(`opacity`, `0`)
-            .on(`mouseover`, d => createSeries(d));
-
-
-        function createSeries(d) {
-            // d3.event.stopPropagation();
-            d3.select(`.container`).selectAll(`.measures`).remove();
-            // d3.select(`.container`).selectAll(`.xaxis`).remove();
-
-            d.seriesData.forEach(row => {
-                let name = row.pivot.replace(/ /g, `-`);
-                let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-                row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
-            });
-
-            createSeriesDrills(d);
-            // createXAxis(d);
-        }
+        // let individualSeries = {};
+        // let seriesContainer = d3.select(`.container`)
+        //     .append(`div`).attr(`class`, `measureSeries`)
+        //         .selectAll(`.series`).data(seriesContainers);
+        // let enterSeries = seriesContainer.enter().append(`div`);  
+        // seriesContainer.merge(enterSeries)
+        //     .attr(`id`, d => d.index)
+        //     .attr(`class`, `series`)
+        //     .style(`width`, `1px`)
+        //     .style(`height`, d => `${d.coordinates.height}px`)
+        //     .style(`z-index`, `21`)
+        //     .style(`position`, `absolute`)
+        //     .style(`left`, d => `${d.coordinates.spacing - .5}px`)
+        //     .style(`top`, d => `${d.coordinates.top}px`)
+        //     .style(`opacity`, `0`)
+        //     .on(`mouseover`, d => createSeries(d));
 
 
-        function createSeriesDrills(series) {
-            individualSeries[series.index] = series.seriesData;
-            // d3.event.stopPropagation();
-            let seriesSection = d3.select(`.container`)
-                .append(`div`).attr(`class`, `measures`)
-                    .selectAll(`.measure`).data(individualSeries[series.index]);
-            let singleSeries = seriesSection.enter().append(`div`);  
-            seriesSection.merge(singleSeries)
-                .attr(`class`, `measure`)
-                .style(`width`, data => `${data.coordinates.width -2}px`)
-                .style(`height`, data => `${data.coordinates.height -2}px`)
-                .style(`z-index`, `22`)
-                .style(`position`, `absolute`)
-                .style(`left`, data => `${data.coordinates.left - 3}px`)
-                .style(`top`, data => `${data.coordinates.top}px`)
-                .style(`opacity`, `0`)
-                .style(`background-color`, d => djColors[d.column])
-                .style(`border`, `2px solid white`)
-                .style(`border-radius`, `50%`)
-                .on('click', d => drillDown(d.links, d3.event))
-                .on(`mouseover`, function(d) {
-                  d3.select(this).style(`opacity`, `1`);
-                }) 
-                .on(`mouseout`, function(d) {
-                  d3.select(this).style(`opacity`, `0`);
-                });
-        }
+        // function createSeries(d) {
+        //     // d3.event.stopPropagation();
+        //     d3.select(`.container`).selectAll(`.measures`).remove();
+        //     // d3.select(`.container`).selectAll(`.xaxis`).remove();
+
+        //     d.seriesData.forEach(row => {
+        //         let name = row.pivot.replace(/ /g, `-`);
+        //         let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
+        //         row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
+        //     });
+
+        //     createSeriesDrills(d);
+        //     // createXAxis(d);
+        // }
 
 
-        function createXAxis(series) {
-            let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
-            let tooltipCoords = tooltip[0].getBoundingClientRect();
-            console.log(`This is the series`, series);
+        // function createSeriesDrills(series) {
+        //     individualSeries[series.index] = series.seriesData;
+        //     // d3.event.stopPropagation();
+        //     let seriesSection = d3.select(`.container`)
+        //         .append(`div`).attr(`class`, `measures`)
+        //             .selectAll(`.measure`).data(individualSeries[series.index]);
+        //     let singleSeries = seriesSection.enter().append(`div`);  
+        //     seriesSection.merge(singleSeries)
+        //         .attr(`class`, `measure`)
+        //         .style(`width`, data => `${data.coordinates.width -2}px`)
+        //         .style(`height`, data => `${data.coordinates.height -2}px`)
+        //         .style(`z-index`, `22`)
+        //         .style(`position`, `absolute`)
+        //         .style(`left`, data => `${data.coordinates.left - 3}px`)
+        //         .style(`top`, data => `${data.coordinates.top}px`)
+        //         .style(`opacity`, `0`)
+        //         .style(`background-color`, d => djColors[d.column])
+        //         .style(`border`, `2px solid white`)
+        //         .style(`border-radius`, `50%`)
+        //         .on('click', d => drillDown(d.links, d3.event))
+        //         .on(`mouseover`, function(d) {
+        //           d3.select(this).style(`opacity`, `1`);
+        //         }) 
+        //         .on(`mouseout`, function(d) {
+        //           d3.select(this).style(`opacity`, `0`);
+        //         });
+        // }
 
-            let object = [
-                {
-                    name: series.name.name,
-                    id: `_${tooltip[0].id}`,
-                    originalId: tooltip[0].id,
-                    coordinates: {
-                        width: tooltipCoords.width,
-                        height: tooltipCoords.height,
-                        top: tooltipCoords.top,
-                        left: tooltipCoords.left,
-                        bottom: tooltipCoords.bottom,
-                        right: tooltipCoords.right,
-                        x: tooltipCoords.x,
-                        y: tooltipCoords.y
-                    },
-                    links: series.name.links,
-                    element: tooltip
-                }
-            ];
 
-            let xaxisSeries = d3.select(`.container`)
-                .append(`div`).attr(`class`, `xaxis`)
-                    .selectAll(`.drilldown`).data(object);
-            let xaxisDrilldown = xaxisSeries.enter().append(`div`);
-            xaxisSeries.merge(xaxisDrilldown)
-                .attr(`class`, `drilldown`)
-                .attr(`id`, d => d.id)
-                .style(`width`, d => `${d.coordinates.width}px`)
-                .style(`height`, d => `${d.coordinates.height}px`)
-                .style(`z-index`, `22`)
-                .style(`position`, `absolute`)
-                .style(`left`, d => `${d.coordinates.left}px`)
-                .style(`top`, d => `${d.coordinates.top}px`)
-                .style(`opacity`, `1`)
-                .style(`border`, `1px dashed black`)
-                .on('click', d => drillDown(d.links, d3.event));        
-        }
+        // function createXAxis(series) {
+        //     let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
+        //     let tooltipCoords = tooltip[0].getBoundingClientRect();
+        //     console.log(`This is the series`, series);
+
+        //     let object = [
+        //         {
+        //             name: series.name.name,
+        //             id: `_${tooltip[0].id}`,
+        //             originalId: tooltip[0].id,
+        //             coordinates: {
+        //                 width: tooltipCoords.width,
+        //                 height: tooltipCoords.height,
+        //                 top: tooltipCoords.top,
+        //                 left: tooltipCoords.left,
+        //                 bottom: tooltipCoords.bottom,
+        //                 right: tooltipCoords.right,
+        //                 x: tooltipCoords.x,
+        //                 y: tooltipCoords.y
+        //             },
+        //             links: series.name.links,
+        //             element: tooltip
+        //         }
+        //     ];
+
+        //     let xaxisSeries = d3.select(`.container`)
+        //         .append(`div`).attr(`class`, `xaxis`)
+        //             .selectAll(`.drilldown`).data(object);
+        //     let xaxisDrilldown = xaxisSeries.enter().append(`div`);
+        //     xaxisSeries.merge(xaxisDrilldown)
+        //         .attr(`class`, `drilldown`)
+        //         .attr(`id`, d => d.id)
+        //         .style(`width`, d => `${d.coordinates.width}px`)
+        //         .style(`height`, d => `${d.coordinates.height}px`)
+        //         .style(`z-index`, `22`)
+        //         .style(`position`, `absolute`)
+        //         .style(`left`, d => `${d.coordinates.left}px`)
+        //         .style(`top`, d => `${d.coordinates.top}px`)
+        //         .style(`opacity`, `1`)
+        //         .style(`border`, `1px dashed black`)
+        //         .on('click', d => drillDown(d.links, d3.event));        
+        // }
 
 
         function drillDown(links, event) {
