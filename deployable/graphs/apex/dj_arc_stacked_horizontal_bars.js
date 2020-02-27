@@ -98,7 +98,7 @@ looker.plugins.visualizations.add({
             type: `string`,
             display: `select`,
             values: [
-                {'Arrow': 'arrow'},
+                // {'Arrow': 'arrow'},
                 {'Rounded': 'rounded'},
                 {'Flat': 'flat'},
             ],
