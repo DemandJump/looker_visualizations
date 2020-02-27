@@ -423,7 +423,7 @@ looker.plugins.visualizations.add({
             },
             dataLabels: {
                 enabled: dataLabels,
-                offsetX: -6,
+                offsetX: -4,
                 style: {
                   fontSize: '12px',
                   colors: ['#fff']
