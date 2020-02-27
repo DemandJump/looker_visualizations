@@ -557,6 +557,7 @@ looker.plugins.visualizations.add({
                 }
                 let type = `area`;
                 if (config[name]) type = config[name];
+                console.log(`This is the current type`, type); 
                 series.type = type;
             }
         });
