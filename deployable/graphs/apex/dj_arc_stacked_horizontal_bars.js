@@ -34,15 +34,6 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
-
-        showToolbar: {
-            label: `Show toolbar`,
-            order: 6,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-        },
         
         yTitle: {
             label: `Y axis Label`,
@@ -413,8 +404,6 @@ looker.plugins.visualizations.add({
                 height: height,
                 type: 'bar',
                 stacked: 'true',
-                toolbar: {show: true},
-                zoom: {enabled: true}
             },
             colors: djColors,
             plotOptions: {
@@ -460,10 +449,6 @@ looker.plugins.visualizations.add({
         
         if (config.stackType) options4[`chart`].stackType = `100%`;
         if (config.showTitle) options4[`title`] = {text: title};
-        // if (config.showToolbar) {
-        //     options4[`chart`].toolbar = {show: true};
-        //     options4[`chart`].zoom = {enabled: true};
-        // }
 
 
         // Apex Charts
