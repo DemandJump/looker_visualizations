@@ -1,3 +1,8 @@
+import * as d3 from 'd3';
+import $ from 'jquery';
+import ApexCharts from 'apexcharts';
+console.log(`Rendering dj column stack chart`);
+
 looker.plugins.visualizations.add({
     id: 'dj_arc_column_stack_chart',
     label: 'Demandjump column stack chart',
@@ -150,7 +155,6 @@ looker.plugins.visualizations.add({
         // },
     },
     create: function(element, config) {
-        let d3 = d3v5;
         this._custom = `something`;
         element.innerHTML = `
             <style>
@@ -161,7 +165,7 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
-                            <div id="chart-apex-stacked"></div>
+                            <div id="chart-apex-stack"></div>
                         </div>
                     </div>
                 </div>
@@ -175,31 +179,19 @@ looker.plugins.visualizations.add({
             .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let d3 = d3v5; 
+        d3.select("#chart-apex-stack").selectAll("*").remove(); // Clear out the data before we add the vis
         let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
         let djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
-        let node = document.getElementById('chart-apex-stacked');
-        while(node.firstChild) node.firstChild.remove();
         console.log('\n\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
+        
+        // Pull pivots inot dimension array
         let pivot = false; 
         let pivotA = false;
         let pivotB = false;
         let datum = data;
-        // datum.forEach(row => {
-        //     for(let i = 0; i < row.length; i++) {
-        //         if (row[i].value == null) {
-        //             let prev = row[i-1].value;
-        //             let next = row[i+1].value;
-        //             row[i].value = (prev + next) / 2;
-        //         }
-        //     }
-        // });
-        // console.log('Mutated data', datum);
-
-        // Pull pivots inot dimension array
         if (queryResponse.fields.pivots.length != 0) {
             pivot = true;
             if (queryResponse.fields.dimension_like.length == 0) {
@@ -210,7 +202,7 @@ looker.plugins.visualizations.add({
             else pivotB = true;
         }
 
-
+        // Configuration settings
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;
         let rendered = false;
