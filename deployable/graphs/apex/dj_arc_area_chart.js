@@ -551,6 +551,10 @@ looker.plugins.visualizations.add({
                     hidden: false
                 }
             } else {
+                if (`${series.name} series chart type` != settings[name].label) {
+                    settings[name].label = `${series.name} series chart type`;
+                    changed = true;
+                }
                 let type = `area`;
                 if (config[name]) type = config[name];
                 series.type = type;
