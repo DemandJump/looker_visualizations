@@ -35,15 +35,6 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        showToolbar: {
-            label: `Show toolbar`,
-            order: 6,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-        },
-
         yTitle: {
             label: `Y axis Label`,
             order: 3,
@@ -431,10 +422,6 @@ looker.plugins.visualizations.add({
         };
         
         if (config.showTitle == true) columnChartConfiguration[`title`] = {text: title};
-        if (config.showToolbar) {
-            options4[`chart`].toolbar = {show: true};
-            options4[`chart`].zoom = {enabled: true};
-        }
 
 
         // Apex Charts
