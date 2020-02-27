@@ -198,6 +198,33 @@ looker.plugins.visualizations.add({
         //     hidden: false
         // }
 
+        allArea: {
+            label: `All area chart types`,
+            order: 40,
+            section: `Type of Chart`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        },
+
+        allColumn: {
+            label: `All column chart types`,
+            order: 41,
+            section: `Type of Chart`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        },
+
+        allLine: {
+            label: `All line chart types`,
+            order: 42,
+            section: `Type of Chart`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        }
+
     },
     create: function(element, config) {
         let d3 = d3v5;
@@ -562,9 +589,12 @@ looker.plugins.visualizations.add({
                     settings[name].label = `${series.name} series chart type`;
                     changed = true;
                 }
+                
                 let type = `area`;
-                if (config[name]) type = config[name];
-                console.log(`This is the current type`, type); 
+                if (config.allArea) type = `area`;
+                else if (config.allColumn) type = `column`;
+                else if (config.allLine) type = `line`;
+                else if (config[name]) type = config[name];
                 series.type = type;
             }
         });
