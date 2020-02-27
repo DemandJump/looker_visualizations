@@ -413,6 +413,8 @@ looker.plugins.visualizations.add({
                 height: height,
                 type: 'bar',
                 stacked: 'true',
+                toolbar: {show: true},
+                zoom: {enabled: true}
             },
             colors: djColors,
             plotOptions: {
@@ -458,10 +460,10 @@ looker.plugins.visualizations.add({
         
         if (config.stackType) options4[`chart`].stackType = `100%`;
         if (config.showTitle) options4[`title`] = {text: title};
-        if (config.showToolbar) {
-            options4[`chart`].toolbar = {show: true};
-            options4[`chart`].zoom = {enabled: true};
-        }
+        // if (config.showToolbar) {
+        //     options4[`chart`].toolbar = {show: true};
+        //     options4[`chart`].zoom = {enabled: true};
+        // }
 
 
         // Apex Charts
