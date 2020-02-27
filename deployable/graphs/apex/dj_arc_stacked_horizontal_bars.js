@@ -100,20 +100,20 @@ looker.plugins.visualizations.add({
             hidden: false
         },
         
-        endingShape: {
-            label: `Ending bar shape`,
-            order: 12,
-            section: `Format`,
-            type: `string`,
-            display: `select`,
-            values: [
-                // {'Arrow': 'arrow'},
-                {'Rounded': 'rounded'},
-                {'Flat': 'flat'},
-            ],
-            default: `rounded`,
-            hidden: false
-        },
+        // endingShape: {
+        //     label: `Ending bar shape`,
+        //     order: 12,
+        //     section: `Format`,
+        //     type: `string`,
+        //     display: `select`,
+        //     values: [
+        //         // {'Arrow': 'arrow'},
+        //         {'Rounded': 'rounded'},
+        //         {'Flat': 'flat'},
+        //     ],
+        //     default: `rounded`,
+        //     hidden: false
+        // },
 
         // renderedData: {
         //     label: `Use rendered data`,
@@ -206,7 +206,7 @@ looker.plugins.visualizations.add({
         let changed = false;
         let dataLabels = false;
         let horizontal = false;
-        let endingShape = 'flat';
+        // let endingShape = 'flat';
         let stackType = false;
         let title = ' ';
         if (!config.showTitle) config.showTitle = false;
@@ -221,7 +221,7 @@ looker.plugins.visualizations.add({
                 this.options.customLabel.hidden = true;
                 this.options.dataLabels.hidden = true;
                 this.options.horizontal.hidden = true;
-                this.options.endingShape.hidden = true;
+                // this.options.endingShape.hidden = true;
                 // this.options.renderedData.hidden = true;
                 this.options.doNotTruncate.hidden = true;
                 changed = true;
@@ -238,14 +238,14 @@ looker.plugins.visualizations.add({
                 this.options.customLabel.hidden = false;
                 this.options.dataLabels.hidden = false;
                 this.options.horizontal.hidden = false;
-                this.options.endingShape.hidden = false;
+                // this.options.endingShape.hidden = false;
                 // this.options.renderedData.hidden = false;
                 this.options.doNotTruncate.hidden = false;
                 changed = true;
             }
 
             if (config.dataLabels) dataLabels = config.dataLabels;
-            if (config.endingShape) endingShape = config.endingShape;
+            // if (config.endingShape) endingShape = config.endingShape;
             if (config.horizontal) horizontal = config.horizontal;
             // if (config.renderedData) rendered = config.renderedData;
             if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
@@ -407,7 +407,7 @@ looker.plugins.visualizations.add({
             plotOptions: {
                 bar: {
                     horizontal: horizontal,
-                    endingShape: endingShape, // Arrow, rounded, flat
+                    // endingShape: endingShape, // Arrow, rounded, flat
                 },
             },
             dataLabels: {
