@@ -591,10 +591,15 @@ looker.plugins.visualizations.add({
                 }
                 
                 let type = `area`;
-                if (config.allArea) type = `area`;
-                else if (config.allColumn) type = `column`;
-                else if (config.allLine) type = `line`;
-                else if (config[name]) type = config[name];
+                if (config.allArea) {
+                    type = `area`;
+                } else if (config.allColumn) {
+                    type = `column`;
+                } else if (config.allLine) {
+                    type = `line`;
+                } else if (config[name]) {
+                    type = config[name];
+                }
                 series.type = type;
             }
         });
