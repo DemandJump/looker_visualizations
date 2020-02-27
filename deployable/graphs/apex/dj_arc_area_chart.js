@@ -598,13 +598,29 @@ looker.plugins.visualizations.add({
                 series.type = type;
             }
         });
+
+        // Cleanup extra chart types
+        let seriesAmount = seriesData.length;
+        let checker = true;
+        while (checker) {
+            let name = `series_${seriesAmount}`;
+            if (settings[name]) {
+                changed = true;
+                seriesAmount++;
+
+                delete settings[name];
+            } else {
+                checker = false;
+            }
+        }
+
+        // Rebuild the configuration
+        this.options = settings;
         if (changed) this.trigger(`registerOptions`, this.options);
 
 
-    
+        // Create the rest of the configuration based on the format
         if (format == `yyyy`) {
-            // console.log(`Category data`, seriesData);
-            // console.log(`xaxis data`, xaxis);
             configuration[`series`] = seriesData;
             configuration[`xaxis`] = {
                 type: `datetime`,
