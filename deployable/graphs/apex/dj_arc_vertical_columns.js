@@ -164,7 +164,7 @@ looker.plugins.visualizations.add({
         let pivotB = false;
         ifPivotQuery();
 
-        let allPercents = false;
+        let allPercents = true;
         ifPercentQuery();
         
 

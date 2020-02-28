@@ -275,7 +275,7 @@ looker.plugins.visualizations.add({
         let pivotB = false;
         ifPivotQuery();
 
-        let allPercents = false;
+        let allPercents = true;
         ifPercentQuery();
 
 
@@ -912,6 +912,7 @@ looker.plugins.visualizations.add({
             }
             console.log(`\n\nRecreating the data:`);
             if (allPercents) {
+                console.log(`iterating through the data`);
                 datum.forEach(row => {
                     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                         let value = row[queryResponse.fields.measure_like[i].name].value;
