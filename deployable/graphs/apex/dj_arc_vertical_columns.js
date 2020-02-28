@@ -156,7 +156,7 @@ looker.plugins.visualizations.add({
         console.log('\n\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
-        console.log('Data', datum);
+        console.log('The data', datum);
         
         // Pull pivots inot dimension array
         let pivot = false;
