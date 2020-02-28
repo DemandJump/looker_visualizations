@@ -96,6 +96,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
+        sideYaxis: {
+            label: `Set y axis on the right`,
+            order: 6,
+            section: `Format`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        },
 
         customSpacing: {
             order: 8,
@@ -132,14 +140,14 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        dataLabels: {
-            label: `Enable data labels`,
-            order: 12,
-            section: `Format`,
-            type: `boolean`,
-            default: false,
-            hidden: false
-        },
+        // dataLabels: {
+        //     label: `Enable data labels`,
+        //     order: 12,
+        //     section: `Format`,
+        //     type: `boolean`,
+        //     default: false,
+        //     hidden: false
+        // },
 
         alignLegend: {
             label: `Align legend`,
@@ -203,7 +211,7 @@ looker.plugins.visualizations.add({
             order: 40,
             section: `Type of Chart`,
             type: `boolean`,
-            default: false,
+            default: true,
             hidden: false
         },
 
@@ -227,7 +235,6 @@ looker.plugins.visualizations.add({
 
     },
     create: function(element, config) {
-        let d3 = d3v5;
         this._custom = ``;
         element.innerHTML = `
             <style>
@@ -253,35 +260,29 @@ looker.plugins.visualizations.add({
             .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        let d3 = d3v5;
         d3.select("#chart-apex-area").selectAll("*").remove(); // Clear out the data before we add the vis
         let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
         let djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
         let datum = data;
-        console.log(`\n\n\n\nThese are the settings`, this.options);
-        console.log(`This is the config`, config);
-        console.log(`Queryresponse`, queryResponse);
-        console.log(`Data`, data);
+        // console.log(`\n\n\n\nThese are the settings`, this.options);
+        // console.log(`This is the config`, config);
+        // console.log(`Queryresponse`, queryResponse);
+        // console.log(`Data`, data);
         
         // Pull pivots inot dimension array
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
-        if (queryResponse.fields.pivots.length != 0) {
-            pivot = true;
-            if (queryResponse.fields.dimension_like.length == 0) {
-                pivotA = true;
-                queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
-                queryResponse.fields.dimension_like = queryResponse.fields.pivots;
-            } 
-            else pivotB = true;
-        }
+        ifPivotQuery();
+
+        let allPercents = false;
+        ifPercentQuery();
+
 
         // Configuration for all charts 
         let theme = `area`;
         if (config.themes) theme = config.themes;
         let changed = false;
-
         let title = queryResponse.fields.dimension_like[0].label;
         let rendered = true; 
         let label = ` `;
@@ -291,6 +292,7 @@ looker.plugins.visualizations.add({
         let stack = `overlay`;
         let stacked = false; 
         let dataLabels = false;
+        let sideYaxis = false;
         let alignLegend = `center`;
         let formatDates = true;
         let doNotTruncate = false;
@@ -308,7 +310,7 @@ looker.plugins.visualizations.add({
                 this.options.customSpacing.hidden = true;
                 this.options.customLabel.hidden = true;
                 this.options.curve.hidden = true;
-                this.options.dataLabels.hidden = true;
+                // this.options.dataLabels.hidden = true;
                 this.options.alignLegend.hidden = true;
                 // this.options.renderedData.hidden = true;
                 this.options.doNotTruncate.hidden = true;
@@ -328,7 +330,7 @@ looker.plugins.visualizations.add({
                 this.options.customSpacing.hidden = false;
                 this.options.customLabel.hidden = false;
                 this.options.curve.hidden = false;
-                this.options.dataLabels.hidden = false;
+                // this.options.dataLabels.hidden = false;
                 this.options.alignLegend.hidden = false;
                 // this.options.renderedData.hidden = false;
                 this.options.doNotTruncate.hidden = false;
@@ -338,7 +340,7 @@ looker.plugins.visualizations.add({
             }
 
             if (config.curve) curve = config.curve;
-            if (config.dataLabels) dataLabels = config.dataLabels;
+            // if (config.dataLabels) dataLabels = config.dataLabels;
             if (config.alignLegend) alignLegend = config.alignLegend;
             // if (config.renderedData) rendered = config.renderedData;
             if (config.formatDates) formatDates = config.formatDates;
@@ -353,44 +355,7 @@ looker.plugins.visualizations.add({
         }
         if (config.xTitle != ``) xTitle = config.xTitle;
         if (config.yTitle != ``) yTitle = config.yTitle;
-
-
-        let configuration = {
-            chart: {
-                height: height,
-                type: `area`,
-                stacked: stacked,
-                zoom: {enabled: true}
-            },
-            colors: djColors,
-            dataLabels: {
-                enabled: dataLabels,
-                offsetX: -4,
-                style: {
-                  fontSize: '12px',
-                  colors: ['#fff']
-                }
-            },
-            stroke: {curve: curve}, // straight, smooth, stepline
-            fill: {type: fill},
-            subtitle: {
-                text: label,
-                align: `left`
-            },
-            yaxis: {
-                title: {text: yTitle},
-            },
-            xaxis: {
-                title: {text: xTitle},
-            }
-        };
-
-        if (config.showTitle) {
-            configuration[`title`] = {
-                text: title,
-                align: `left`
-            };
-        }
+        if (config.sideYaxis) sideYaxis = config.sideYaxis;
 
 
         // Truncate the data 
@@ -411,15 +376,14 @@ looker.plugins.visualizations.add({
 
         
           // Pull in all the data into the xaxis and series
-
         let format = `category`; // Either datetime or category
         let xaxis = [];
         let seriesData = [];
         
         if (!pivot) {
-            let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+            // let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
             // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-            if (queryResponse.fields.dimension_like[0].label_short == `Year` || queryResponse.fields.dimension_like[0].label == `Year`) format = `yyyy`;
+            // if (queryResponse.fields.dimension_like[0].label_short == `Year` || queryResponse.fields.dimension_like[0].label == `Year`) format = `yyyy`;
 
             // Series data structure
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -553,118 +517,88 @@ looker.plugins.visualizations.add({
         
         // Add the type for each series
         let settings = this.options;
-        seriesData.forEach((series, index) => {
-            let name = `series_${index}`;
+        seriesTypes();
 
-            if (!settings[name]) {
-                changed = true;
-                settings[name] = {
-                    label: `Chart type: ${series.name}`,
-                    order: index,
-                    section: `Type of Chart`,
-                    type: `string`,
-                    display: `select`,
-                    values: [
-                        {'Area': 'area'}, 
-                        {'Column': 'column'}, 
-                        {'Line': 'line'}, 
-                    ],
-                    default: `area`,
-                    hidden: false
-                }
-            } else {
-                if (`${series.name} series chart type` != settings[name].label) {
-                    settings[name].label = `${series.name} series chart type`;
-                    changed = true;
-                }
-                
-                let type = `area`;
-                if (config.allArea) {
-                    type = `area`;
-                } else if (config.allColumn) {
-                    type = `column`;
-                } else if (config.allLine) {
-                    type = `line`;
-                } else if (config[name]) {
-                    type = config[name];
-                }
-                series.type = type;
-            }
-        });
-
-        // Cleanup extra chart types
-        let seriesAmount = seriesData.length;
-        let checker = true;
-        while (checker) {
-            let name = `series_${seriesAmount}`;
-            if (settings[name]) {
-                changed = true;
-                seriesAmount++;
-
-                delete settings[name];
-            } else {
-                checker = false;
-            }
-        }
-
-        // Rebuild the configuration
+            // Rebuild the settings
         this.options = settings;
         if (changed) this.trigger(`registerOptions`, this.options);
 
+        // console.log(`Series data`, seriesData);
+        // console.log(`xaxis data`, xaxis)
 
-        // Create the rest of the configuration based on the format
-        if (format == `yyyy`) {
-            configuration[`series`] = seriesData;
-            configuration[`xaxis`] = {
-                type: `datetime`,
-                axisBorder: {show: true},
-                axisTicks: {show: true}
-            };
-            configuration[`yaxis`] = {
-                tickAmount: 4,
-                floating: false,
-                labels: {
-                    style: {color: `#8e8da4`,},
-                    offsetY: -7,
-                    offsetX: 0,
-                },
-                axisBorder: {show: true,},
-                axisTicks: {show: true}
-            };
-            configuration[`fill`] = {
-                opacity: 0.5,
-                gradient: {enabled: false}
-            };
-            configuration[`tooltip`] = {
-                x: {format: `yyyy`},
-                fixed: {
-                    enabled: false,
-                    position: `topRight`
+
+
+
+        // Building a configuration
+        let axisData = [];
+        xaxis.forEach(axis => axisData.push(axis.name));
+
+        let configuration = {
+            chart: {
+                height: height,
+                type: `area`,
+                stacked: stacked,
+                zoom: {
+                    enabled: true
                 }
-            };
-            configuration[`grid`] = {
-                yaxis: {
-                    lines: {offsetX: -30}
+            },
+            series: seriesData,
+            labels: axisData,
+            colors: djColors,
+            dataLabels: {
+                enabled: dataLabels,
+                offsetX: -4,
+                style: {
+                    fontSize: '12px',
+                    colors: ['#fff']
+                }
+            },
+            stroke: {
+                curve: curve, // straight, smooth, stepline
+            }, 
+            fill: {
+                type: fill
+            },
+            subtitle: {
+                text: label,
+                align: `left`
+            },
+            xaxis: {
+                type: `category`, // category, numeric, datetime
+                title: {
+                    text: xTitle
                 },
-                padding: {left: 20}
-            };
-            configuration[`legend`] = {
-                position: `bottom`,
-                horizontalAlign: `center`
-            };
-        }
+            },
+            yaxis: {
+                title: {
+                    text: yTitle
+                },
+                opposite: sideYaxis,
+                labels: {
+                    formatter: function(val) {
+                        if (allPercents) return val + `%`;
+                        else return val;
+                    }
+                }
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        if (allPercents) return val + `%`;
+                        else return val;
+                    }
+                }
+            },
+            legend: {
+                horizontalAlign: alignLegend
+            }
+        };
 
-        if (format == `datetime` || format == `category`) {
-            let axisData = [];
-            xaxis.forEach(axis => axisData.push(axis.name));
-            console.log(`Series data`, seriesData);
-            console.log(`xaxis data`, xaxis);
-            configuration[`series`] = seriesData;
-            configuration[`labels`] = axisData;
-            // configuration[`xaxis`] = {type: `datetime`}; // category, numeric, datetime
-            configuration[`xaxis`] = {type: `category`}; // Looker automatically formats dates, and we pull in a random amount of dynamically mades dates that are already formatted. Category pulls in those formats and it doesn't break trying to reformat the data
-            configuration[`yaxis`] = {opposite: true};
-            configuration[`legend`] = {horizontalAlign: alignLegend};
+        if (config.showTitle) {
+            configuration[`title`] = {
+                text: title,
+                align: `left`
+            };
         }
 
 
@@ -684,14 +618,12 @@ looker.plugins.visualizations.add({
         }
 
 
-
-
         /******************************** 
          * Drilldown Menu Configuration
         ********************************/
         d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
+            
             // X axis drilldown menu
-
         let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
         let elem = axisElements[0].children;
         let ps;
@@ -755,8 +687,6 @@ looker.plugins.visualizations.add({
             // .style(`transform`, `rotate(-45)`)
             // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
-
-
 
 
             // Y axis drilldown menu (data for each series)
@@ -952,12 +882,102 @@ looker.plugins.visualizations.add({
 
 
 
-
-
-
-        /**************************** 
+        /**********************************
          * Functions
-        ****************************/
+        **********************************/
+        function ifPivotQuery() {
+            if (queryResponse.fields.pivots.length != 0) {
+                pivot = true;
+                if (queryResponse.fields.dimension_like.length == 0) {
+                    pivotA = true;
+                    queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+                    queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+                } 
+                else pivotB = true;
+            }
+        }
+
+        
+        function ifPercentQuery() {
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                if (datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
+                    continue;
+                } else {
+                    allPercents = false;
+                    break;
+                }
+            }
+            if (allPercents) {
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let value = row[queryResponse.fields.measure_like[i].name].value;
+                        let percent = value * 100;
+                        let truncate = percent.toFixed(1);
+                        row[queryResponse.fields.measure_like[i].name].original = value;
+                        row[queryResponse.fields.measure_like[i].name].value = truncate;
+                    }
+                });
+            }
+        }
+
+
+        function seriesTypes() {
+            seriesData.forEach((series, index) => {
+                let name = `series_${index}`;
+    
+                if (!settings[name]) {
+                    changed = true;
+                    settings[name] = {
+                        label: `Chart type: ${series.name}`,
+                        order: index,
+                        section: `Type of Chart`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                            {'Area': 'area'}, 
+                            {'Column': 'column'}, 
+                            {'Line': 'line'}, 
+                        ],
+                        default: `area`,
+                        hidden: false
+                    }
+                } else {
+                    if (`${series.name} series chart type` != settings[name].label) {
+                        settings[name].label = `${series.name} series chart type`;
+                        changed = true;
+                    }
+                    
+                    let type = `area`;
+                    if (config.allArea) {
+                        type = `area`;
+                    } else if (config.allColumn) {
+                        type = `column`;
+                    } else if (config.allLine) {
+                        type = `line`;
+                    } else if (config[name]) {
+                        type = config[name];
+                    }
+                    series.type = type;
+                }
+            });
+    
+            // Cleanup extra chart types
+            let seriesAmount = seriesData.length;
+            let checker = true;
+            while (checker) {
+                let name = `series_${seriesAmount}`;
+                if (settings[name]) {
+                    changed = true;
+                    seriesAmount++;
+    
+                    delete settings[name];
+                } else {
+                    checker = false;
+                }
+            }
+        }
+
+
         function convertDateTime(val) {
             let day = val.substr(0, 4);
             let month = val.substr(5, 2);

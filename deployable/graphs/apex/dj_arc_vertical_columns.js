@@ -125,7 +125,6 @@ looker.plugins.visualizations.add({
         }
     },
     create: function(element, config) {
-        let d3 = d3v5;
         this._custom = `something`;
         element.innerHTML = `
             <style>
@@ -150,29 +149,24 @@ looker.plugins.visualizations.add({
             .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) { 
-        let d3 = d3v5;
         d3.select("#chart-apex-column").selectAll("*").remove(); // Clear out the data before we add the vis
         let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
         let djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
         let datum = data;
-        console.log('\n\n\n\n\nThese are the settings', this.options);
-        console.log('This is the config', config);
-        console.log('Queryresponse', queryResponse);
-        console.log('Data', data);
+        // console.log('\n\n\n\n\nThese are the settings', this.options);
+        // console.log('This is the config', config);
+        // console.log('Queryresponse', queryResponse);
+        // console.log('Data', data);
         
         // Pull pivots inot dimension array
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
-        if (queryResponse.fields.pivots.length != 0) {
-            pivot = true;
-            if (queryResponse.fields.dimension_like.length == 0) {
-                pivotA = true;
-                queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
-                queryResponse.fields.dimension_like = queryResponse.fields.pivots;
-            } 
-            else pivotB = true;
-        }
+        ifPivotQuery();
+
+        let allPercents = true;
+        ifPercentQuery();
+
 
         // Configuration settings
         let theme = 'Horizontal';
@@ -274,7 +268,6 @@ looker.plugins.visualizations.add({
             });
 
             // Series data
-            let series = [];
             datum.forEach((row, index) => {
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     let value = 0;
@@ -299,18 +292,16 @@ looker.plugins.visualizations.add({
                 });
     
                 // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-                let series = [];
                 queryResponse.fields.measure_like.forEach((row, index) => {
                     let obData = [];
                     let liData = [];
-                    let newSeries = [];
 
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         let keyname = queryResponse.pivots[i].key;
                         let value = 0;
 
                         liData.push(datum[0][row.name][keyname].links);
-                        
+
                         if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
                         obData.push(value);
                     }
@@ -362,14 +353,13 @@ looker.plugins.visualizations.add({
                 });
             }
         }
-        console.log('These are the xaxis labels', xaxis);
-        console.log('Series data', seriesData);
+        // console.log('These are the xaxis labels', xaxis);
+        // console.log('Series data', seriesData);
 
         let axisNames = [];
         xaxis.forEach(axis => axisNames.push(axis.name));
 
         let height = window.innerHeight - 45;
-        // If we want the user to adjust the column width, here's the functionality. It already auto computes based on multiple measures
         let columnWidth = '55';
         if (config.columnWidth) columnWidth = config.columnWidth;
         columnWidth.toString();
@@ -404,15 +394,30 @@ looker.plugins.visualizations.add({
             series: seriesData,
             xaxis: {
                 categories: axisNames,
-                title: {text: xTitle}
+                title: {text: xTitle},
+                labels: {
+                    formatter: function(val) {
+                        if (allPercents && horizontal) return val + `%`;
+                        else return val;
+                    }
+                }
             },
             yaxis: {
-                title: {text: yTitle}
+                title: {text: yTitle},
+                labels: {
+                    formatter: function(val) {
+                        if (allPercents && !horizontal) return val + `%`;
+                        else return val;
+                    }
+                }
             },
             fill: {opacity: 1},
             tooltip: {
                 y: {
-                    formatter: function (val) {return val;}
+                    formatter: function (val) {
+                        if (allPercents) return val + `%`;
+                        else return val;
+                    }
                 }
             },
             legend: {
@@ -420,7 +425,7 @@ looker.plugins.visualizations.add({
                 horizontalAlign: 'center',
             }
         };
-        
+
         if (config.showTitle == true) columnChartConfiguration[`title`] = {text: title};
 
 
@@ -451,8 +456,6 @@ looker.plugins.visualizations.add({
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
-        // console.log(`This is axis elements`, axisElements);
-        // console.log(`Here are the children`, elem);
 
         xaxis.forEach((axis, index) => {
             if (axis.links == undefined) axis.links = [];
@@ -490,7 +493,7 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        console.log(`These are the xaxis drilldown nodes`, nodes);
+        // console.log(`These are the xaxis drilldown nodes`, nodes);
 
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
@@ -504,12 +507,9 @@ looker.plugins.visualizations.add({
             .style(`position`, `absolute`)
             .style(`top`, d => `${d.coordinates.top}px`)
             .style(`left`, d => `${d.coordinates.left}px`)
-            // .style(`bottom`, d => `${d.coordinates.bottom}px`)
-            // .style(`right`, d => `${d.coordinates.right}px`)
             .style(`background-color`, `transparent`)
             .style(`opacity`, `0`)
             .style(`z-index`, `4`)
-            // .html(d => d.text)
             .on('click', d => drillDown(d.links, d3.event));
 
 
@@ -521,9 +521,48 @@ looker.plugins.visualizations.add({
         }
 
 
-        /**************************** 
+
+
+        /**********************************
          * Functions
-        ****************************/
+        **********************************/
+
+        function ifPivotQuery() {
+            if (queryResponse.fields.pivots.length != 0) {
+                pivot = true;
+                if (queryResponse.fields.dimension_like.length == 0) {
+                    pivotA = true;
+                    queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
+                    queryResponse.fields.dimension_like = queryResponse.fields.pivots;
+                } 
+                else pivotB = true;
+            }
+        }
+
+        
+        function ifPercentQuery() {
+            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                if (datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
+                    continue;
+                } else {
+                    allPercents = false;
+                    break;
+                }
+            }
+            if (allPercents) {
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let value = row[queryResponse.fields.measure_like[i].name].value;
+                        let percent = value * 100;
+                        let truncate = percent.toFixed(1);
+                        row[queryResponse.fields.measure_like[i].name].original = value;
+                        row[queryResponse.fields.measure_like[i].name].value = truncate;
+                    }
+                });
+            }
+        }
+
+
         function convertDateTime(val) {
             let day = val.substr(0, 4);
             let month = val.substr(5, 2);
@@ -546,6 +585,7 @@ looker.plugins.visualizations.add({
             return ret;
         }
 
+        
         function checkIfSameMonth() {
             let yes = false;
             let month = ``;
