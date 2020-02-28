@@ -543,9 +543,7 @@ looker.plugins.visualizations.add({
             if (!pivot) {
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     if (datum[0][queryResponse.fields.measure_like[i].name].rendered) {
-                        if (datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
-                            continue;
-                        } else {
+                        if (!datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
                             allPercents = false;
                             break;
                         }
@@ -571,9 +569,7 @@ looker.plugins.visualizations.add({
                     queryResponse.fields.measure_like.forEach(mes => {
                         for(let i = 0; i < queryResponse.pivots.length; i++) {
                             if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                                if (datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
-                                    continue;
-                                } else {
+                                if (!datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
                                     allPercents = false;
                                     break;
                                 }
@@ -602,9 +598,7 @@ looker.plugins.visualizations.add({
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
                         queryResponse.fields.measure_like.forEach(mes => {
                             if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                                if (datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
-                                    continue;
-                                } else {
+                                if (!datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
                                     allPercents = false;
                                     break;
                                 }
@@ -618,7 +612,7 @@ looker.plugins.visualizations.add({
                     if (allPercents) {
                         datum.forEach(row => {
                             for(let i = 0; i < queryResponse.pivots.length; i++) {
-                                for(let mi = 0; i < queryResponse.fields.measure_like.length; i++) {
+                                for(let mi = 0; mi < queryResponse.fields.measure_like.length; mi++) {
                                     let value = row[queryResponse.fields.measure_like[mi].name][queryResponse.pivots[i].key].value;
                                     let percent = value * 100;
                                     let truncate = percent.toFixed(1);
