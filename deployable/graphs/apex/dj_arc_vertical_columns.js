@@ -545,11 +545,11 @@ looker.plugins.visualizations.add({
                     if (datum[0][queryResponse.fields.measure_like[i].name].rendered) {
                         if (!datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
                             allPercents = false;
-                            break;
+                            return;
                         }
                     } else { // If there is no rendered value: just to be safe
                         allPercents = false;
-                        break;
+                        return;
                     }
                 }
 
@@ -571,11 +571,11 @@ looker.plugins.visualizations.add({
                             if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
                                 if (!datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
                                     allPercents = false;
-                                    break;
+                                    return;
                                 }
                             } else {
                                 allPercents = false;
-                                break;
+                                return;
                             }
                         }
                     }); 
@@ -600,11 +600,11 @@ looker.plugins.visualizations.add({
                             if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
                                 if (!datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
                                     allPercents = false;
-                                    break;
+                                    return;
                                 }
                             } else {
                                 allPercents = false;
-                                break;
+                                return;
                             }
                         });
                     }
