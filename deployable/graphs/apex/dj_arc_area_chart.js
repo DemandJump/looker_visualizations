@@ -899,8 +899,6 @@ looker.plugins.visualizations.add({
 
         
         function ifPercentQuery() {
-            console.log(`Pivot: ${pivot}, pivotA: ${pivotA}, pivotB: ${pivotB}`);
-
             if (!pivot) {
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     if (datum[0][queryResponse.fields.measure_like[i].name].rendered) {
@@ -930,19 +928,19 @@ looker.plugins.visualizations.add({
             } else {
                 if (pivotA) {
                     queryResponse.fields.measure_like.forEach(mes => {
-                      for(let i = 0; i < queryResponse.pivots.length; i++) {
-                          if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                              if (datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
-                                  continue;
-                              } else {
-                                  allPercents = false;
-                                  break;
-                              }
-                          } else {
-                              allPercents = false;
-                              break;
-                          }
-                      }
+                        for(let i = 0; i < queryResponse.pivots.length; i++) {
+                            if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
+                                if (datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
+                                    continue;
+                                } else {
+                                    allPercents = false;
+                                    break;
+                                }
+                            } else {
+                                allPercents = false;
+                                break;
+                            }
+                        }
                     }); 
 
                     if (allPercents) {
@@ -961,27 +959,31 @@ looker.plugins.visualizations.add({
 
                 if (pivotB) {
                     for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        if (datum[0][queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].rendered) {
-                            if (datum[0][queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
-                                continue;
+                        queryResponse.fields.measure_like.forEach(mes => {
+                            if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
+                                if (datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
+                                    continue;
+                                } else {
+                                    allPercents = false;
+                                    break;
+                                }
                             } else {
                                 allPercents = false;
                                 break;
                             }
-                        } else {
-                            allPercents = false;
-                            break;
-                        }
+                        });
                     }
 
                     if (allPercents) {
                         datum.forEach(row => {
                             for(let i = 0; i < queryResponse.pivots.length; i++) {
-                                let value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-                                let percent = value * 100;
-                                let truncate = percent.toFixed(1);
-                                row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].original = value;
-                                row[queryResponse.fields.measure_like[0].name][queryResponse.pibots[i].key].value = truncate;
+                                for(let mi = 0; i < queryResponse.fields.measure_like.length; i++) {
+                                    let value = row[queryResponse.fields.measure_like[mi].name][queryResponse.pivots[i].key].value;
+                                    let percent = value * 100;
+                                    let truncate = percent.toFixed(1);
+                                    row[queryResponse.fields.measure_like[mi].name][queryResponse.pivots[i].key].original = value;
+                                    row[queryResponse.fields.measure_like[mi].name][queryResponse.pibots[i].key].value = truncate;
+                                }
                             }
                         });
                     }
