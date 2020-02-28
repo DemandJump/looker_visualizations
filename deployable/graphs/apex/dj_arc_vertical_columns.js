@@ -166,7 +166,6 @@ looker.plugins.visualizations.add({
 
         let allPercents = true;
         ifPercentQuery();
-        
 
 
         // Configuration settings
