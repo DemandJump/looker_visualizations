@@ -886,7 +886,6 @@ looker.plugins.visualizations.add({
          * Functions
         **********************************/
         function ifPivotQuery() {
-            console.log(`Pivot: ${pivot}, pivotA: ${pivotA}, pivotB: ${pivotB}`);
             if (queryResponse.fields.pivots.length != 0) {
                 pivot = true;
                 if (queryResponse.fields.dimension_like.length == 0) {
@@ -900,30 +899,36 @@ looker.plugins.visualizations.add({
 
         
         function ifPercentQuery() {
-            console.log(`Iterating through the ifPercentQuery function`);
+            console.log(`Pivot: ${pivot}, pivotA: ${pivotA}, pivotB: ${pivotB}`);
+
+            if (!pivot) {
+                if (allPercents) {
+                    datum.forEach(row => {
+                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                            let value = row[queryResponse.fields.measure_like[i].name].value;
+                            let percent = value * 100;
+                            let truncate = percent.toFixed(1);
+                            row[queryResponse.fields.measure_like[i].name].original = value;
+                            row[queryResponse.fields.measure_like[i].name].value = truncate;
+                        }
+                    });
+                }
+            } else {
+                if (pivotA) {
+
+                }
+
+                if (pivotB) {
+
+                }
+            }
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 if (datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
-                    console.log(`Found percent value`, datum[0][queryResponse.fields.measure_like[i].name].rendered);
                     continue;
                 } else {
-                    console.log(`All percents is false`, datum[0][queryResponse.fields.measure_like[i].name].rendered);
                     allPercents = false;
                     break;
                 }
-            }
-            console.log(`\n\nRecreating the data:`);
-            if (allPercents) {
-                console.log(`iterating through the data`);
-                datum.forEach(row => {
-                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                        let value = row[queryResponse.fields.measure_like[i].name].value;
-                        let percent = value * 100;
-                        let truncate = percent.toFixed(1);
-                        row[queryResponse.fields.measure_like[i].name].original = value;
-                        row[queryResponse.fields.measure_like[i].name].value = truncate;
-                        console.log(`New data values:`, row);
-                    }
-                });
             }
         }
 
