@@ -886,6 +886,7 @@ looker.plugins.visualizations.add({
          * Functions
         **********************************/
         function ifPivotQuery() {
+            console.log(`Pivot: ${pivot}, pivotA: ${pivotA}, pivotB: ${pivotB}`);
             if (queryResponse.fields.pivots.length != 0) {
                 pivot = true;
                 if (queryResponse.fields.dimension_like.length == 0) {
