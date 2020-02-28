@@ -899,8 +899,10 @@ looker.plugins.visualizations.add({
 
         
         function ifPercentQuery() {
+            console.log(`Iterating through the ifPercentQuery function`);
             for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                 if (datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
+                    console.log(`Found percent value`, datum[0][queryResponse.fields.measure_like[i].name].rendered);
                     continue;
                 } else {
                     console.log(`All percents is false`, datum[0][queryResponse.fields.measure_like[i].name].rendered);
@@ -908,6 +910,7 @@ looker.plugins.visualizations.add({
                     break;
                 }
             }
+            console.log(`\n\nRecreating the data:`);
             if (allPercents) {
                 datum.forEach(row => {
                     for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
@@ -916,6 +919,7 @@ looker.plugins.visualizations.add({
                         let truncate = percent.toFixed(1);
                         row[queryResponse.fields.measure_like[i].name].original = value;
                         row[queryResponse.fields.measure_like[i].name].value = truncate;
+                        console.log(`New data values:`, row);
                     }
                 });
             }
