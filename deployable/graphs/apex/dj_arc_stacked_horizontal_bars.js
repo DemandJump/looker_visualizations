@@ -149,7 +149,7 @@ looker.plugins.visualizations.add({
         //     hidden: false
         // },
     },
-    create: function(element, config) {
+    create: function(element, config) { 
         this._custom = `something`;
         element.innerHTML = `
             <style>

@@ -527,7 +527,7 @@ looker.plugins.visualizations.add({
         /**********************************
          * Functions
         **********************************/
-        function ifPivotQuery() {
+        function ifPivotQuery() { 
             if (queryResponse.fields.pivots.length != 0) {
                 pivot = true;
                 if (queryResponse.fields.dimension_like.length == 0) {

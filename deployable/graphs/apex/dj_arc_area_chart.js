@@ -1004,7 +1004,7 @@ looker.plugins.visualizations.add({
         }
 
         function checkIfSameMonth() {
-            let yes = false;
+            let yes = false; 
             let month = ``;
             let prevMonth = ``;
             datum.forEach(row => {
