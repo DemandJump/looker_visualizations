@@ -547,6 +547,7 @@ looker.plugins.visualizations.add({
                 if (datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
                     continue;
                 } else {
+                    console.log(`All percents is false`, datum[0][queryResponse.fields.measure_like[i].name].rendered);
                     allPercents = false;
                     break;
                 }
