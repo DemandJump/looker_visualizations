@@ -397,7 +397,7 @@ looker.plugins.visualizations.add({
 
     </style>
 
-                <div class="h-100 w-100 row align-items-center" id="container">
+                <div class="h-100 w-100 row align-items-center svlc" id="container">
                     <div class="col">
                         <div class="widgetChart" style="padding:0rem;">
                             <div class="widgetNumbers" id="value"></div>
@@ -419,6 +419,11 @@ looker.plugins.visualizations.add({
         console.log('Queryresponse', queryResponse);
         console.log('Data', data);
 
+        // Media query looks take 100% width at 640px screen size
+        // Min width of alook is 135px < drops to 50px with repsonsive design
+        // Normal look drops to 100px
+
+        // Grab the data of the specific look
         let name = ' ';
         if (config.name) name = config.name;
 
@@ -432,6 +437,17 @@ looker.plugins.visualizations.add({
         
         nameNode.innerHTML = name;
         valueNode.innerHTML = value;
+
+
+        // Grab the data of the element and then give the architect element the same spacing
+        let elementData = element.getBoundingClientRect();
+        let container = document.getElementsByClassName(`svlc`);
+        let containerData = container.getBoundingClientRect();
+
+        console.log(`This is the container`, container);
+        console.log(`This is the container data`, containerData);
+        console.log(`This is the element data`, elementData);
+
         
         /**************** Done! *****************/
         doneRendering(); 
