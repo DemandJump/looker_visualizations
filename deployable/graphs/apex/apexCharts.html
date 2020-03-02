@@ -12,6 +12,86 @@
 </style>
 <body>
     <div class="row">
+        <div class="col-md-4" style="position: relative;">
+            <div id="chart-spark1" style="min-height: 160px;"></div>
+        </div>
+
+        <div class="col-md-4" style="position: relative;">
+            <div id="chart-spark2" style="min-height: 160px;"></div>
+        </div>
+
+        <div class="col-md-4" style="position: relative;">
+            <div id="chart-spark3" style="min-height: 160px;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <table>
+            <thead>
+                <tr>
+                    <th>Total Value</th>
+                    <th>Percentage of Portfolio</th>
+                    <th>Last 10 days</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+
+        <tbody>
+            <tr>
+                <td>$32,554</td>
+                <td>15%</td>
+                <td style="position: relative;">
+                    <div id="chart-1" style="min-height: 35px;"></div>
+                </td>
+
+                <td style="position: relative;">
+                    <div id="chart-5" style="min-height: 35px;"></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>$23,533</td>
+                <td>7%</td>
+                <td style="position: relative;">
+                    <div id="chart-2" style="min-height: 35px;"></div>
+                </td>
+                <td style="position: relative;">
+                    <div id="chart-6" style="min-height: 35px;"></div>
+                </td>
+            </tr>
+
+        <tr>
+            <td>$54,276</td>
+            <td>9%</td>
+            <td style="position: relative;">
+                <div id="chart-3" style="min-height: 38.95px;"></div>
+            </td>
+
+            <td style="position: relative;">
+                <div id="chart-7" style="min-height: 51px;"></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>$11,533</td>
+            <td>2%</td>
+            <td style="position: relative;">
+                <div id="chart-4" style="min-height: 38.95px;"></div>
+            </td>
+
+            <td style="position: relative;">
+                <div id="chart-8" style="min-height: 41px;"></div>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+        </div>
+
+
+
+
+
+    <div class="row">
 
         <div class="col-md-6">
             <div class="main-card mb-3 card">
@@ -506,6 +586,7 @@
         document.querySelector("#chart-apex-stacked"),
         options4
     );
+    
 
 
 
@@ -900,6 +981,431 @@
             window.myDoughnut = new Chart(ctx33, configDoughnut2);
         }
 
+
+
+
+
+
+
+
+
+        // Onto the sparklines
+        var sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19, 46];
+        var randomizeArray = function (arg) {
+            var array = arg.slice();
+            var currentIndex = array.length,
+                temporaryValue, randomIndex;
+
+            while (0 !== currentIndex) {
+
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        };
+
+
+
+        var sparkLineOptions = {
+          series: [{
+          data: randomizeArray(sparklineData)
+        }],
+          chart: {
+          type: 'area',
+          height: 160,
+          sparkline: {
+            enabled: true
+          },
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        fill: {
+          opacity: 0.3,
+        },
+        yaxis: {
+          min: 0
+        },
+        colors: ['#DCE6EC'],
+        title: {
+          text: '$424,652',
+          offsetX: 0,
+          style: {
+            fontSize: '24px',
+          }
+        },
+        subtitle: {
+          text: 'Sales',
+          offsetX: 0,
+          style: {
+            fontSize: '14px',
+          }
+        }
+        };
+
+        var sparklineChart = new ApexCharts(document.querySelector("#chart-spark1"), sparkLineOptions);
+        sparkLineChart.render();
+      
+        var optionsSpark2 = {
+          series: [{
+          data: randomizeArray(sparklineData)
+        }],
+          chart: {
+          type: 'area',
+          height: 160,
+          sparkline: {
+            enabled: true
+          },
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        fill: {
+          opacity: 0.3,
+        },
+        yaxis: {
+          min: 0
+        },
+        colors: ['#DCE6EC'],
+        title: {
+          text: '$235,312',
+          offsetX: 0,
+          style: {
+            fontSize: '24px',
+          }
+        },
+        subtitle: {
+          text: 'Expenses',
+          offsetX: 0,
+          style: {
+            fontSize: '14px',
+          }
+        }
+        };
+
+        var chartSpark2 = new ApexCharts(document.querySelector("#chart-spark2"), optionsSpark2);
+        chartSpark2.render();
+      
+        var optionsSpark3 = {
+          series: [{
+          data: randomizeArray(sparklineData)
+        }],
+          chart: {
+          type: 'area',
+          height: 160,
+          sparkline: {
+            enabled: true
+          },
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        fill: {
+          opacity: 0.3
+        },
+        xaxis: {
+          crosshairs: {
+            width: 1
+          },
+        },
+        yaxis: {
+          min: 0
+        },
+        title: {
+          text: '$135,965',
+          offsetX: 0,
+          style: {
+            fontSize: '24px',
+          }
+        },
+        subtitle: {
+          text: 'Profits',
+          offsetX: 0,
+          style: {
+            fontSize: '14px',
+          }
+        }
+        };
+
+        var chartSpark3 = new ApexCharts(document.querySelector("#chart-spark3"), optionsSpark3);
+        chartSpark3.render();
+      
+        var sparkLineOptions1 = {
+          series: [{
+          data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+        }],
+          chart: {
+          type: 'line',
+          width: 100,
+          height: 35,
+          sparkline: {
+            enabled: true
+          }
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function (seriesName) {
+                return ''
+              }
+            }
+          },
+          marker: {
+            show: false
+          }
+        }
+        };
+
+        var sparkLineChart1 = new ApexCharts(document.querySelector("#chart-1"), sparkLineOptions1);
+        sparkLineChart1.render();
+      
+        var sparkLineOptions2 = {
+          series: [{
+          data: [12, 14, 2, 47, 42, 15, 47, 75, 65, 19, 14]
+        }],
+          chart: {
+          type: 'line',
+          width: 100,
+          height: 35,
+          sparkline: {
+            enabled: true
+          }
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function (seriesName) {
+                return ''
+              }
+            }
+          },
+          marker: {
+            show: false
+          }
+        }
+        };
+
+        var sparkLineChart2 = new ApexCharts(document.querySelector("#chart-2"), sparkLineOptions2);
+        sparkLineChart2.render();
+      
+        var sparkLineOptions3 = {
+          series: [43, 32, 12, 9],
+          chart: {
+          type: 'pie',
+          width: 40,
+          height: 40,
+          sparkline: {
+            enabled: true
+          }
+        },
+        stroke: {
+          width: 1
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+        }
+        };
+
+        var sparkLineChart3 = new ApexCharts(document.querySelector("#chart-3"), sparkLineOptions3);
+        sparkLineChart3.render();
+      
+        var sparkLineOptions4 = {
+          series: [43, 32, 12, 9],
+          chart: {
+          type: 'donut',
+          width: 40,
+          height: 40,
+          sparkline: {
+            enabled: true
+          }
+        },
+        stroke: {
+          width: 1
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+        }
+        };
+
+        var sparkLineChart4 = new ApexCharts(document.querySelector("#chart-4"), sparkLineOptions4);
+        sparkLineChart4.render();
+      
+        var sparkLineOptions5 = {
+          series: [{
+          data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
+        }],
+          chart: {
+          type: 'bar',
+          width: 100,
+          height: 35,
+          sparkline: {
+            enabled: true
+          }
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '80%'
+          }
+        },
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        xaxis: {
+          crosshairs: {
+            width: 1
+          },
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function (seriesName) {
+                return ''
+              }
+            }
+          },
+          marker: {
+            show: false
+          }
+        }
+        };
+
+        var sparkLineChart5 = new ApexCharts(document.querySelector("#chart-5"), sparkLineOptions5);
+        sparkLineChart5.render();
+      
+        var sparkLineOptions6 = {
+          series: [{
+          data: [12, 14, 2, 47, 42, 15, 47, 75, 65, 19, 14]
+        }],
+          chart: {
+          type: 'bar',
+          width: 100,
+          height: 35,
+          sparkline: {
+            enabled: true
+          }
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '80%'
+          }
+        },
+        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+        xaxis: {
+          crosshairs: {
+            width: 1
+          },
+        },
+        tooltip: {
+          fixed: {
+            enabled: false
+          },
+          x: {
+            show: false
+          },
+          y: {
+            title: {
+              formatter: function (seriesName) {
+                return ''
+              }
+            }
+          },
+          marker: {
+            show: false
+          }
+        }
+        };
+
+        var sparkLineChart6 = new ApexCharts(document.querySelector("#chart-6"), sparkLineOptions6);
+        sparkLineChart6.render();
+      
+        var sparkLineOptions7 = {
+          series: [45],
+          chart: {
+          type: 'radialBar',
+          width: 50,
+          height: 50,
+          sparkline: {
+            enabled: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              margin: 0,
+              size: '50%'
+            },
+            track: {
+              margin: 0
+            },
+            dataLabels: {
+              show: false
+            }
+          }
+        }
+        };
+
+        var sparkLineChart7 = new ApexCharts(document.querySelector("#chart-7"), sparkLineOptions7);
+        sparkLineChart7.render();
+      
+        var sparkLineOptions8 = {
+          series: [53, 67],
+          chart: {
+          type: 'radialBar',
+          width: 40,
+          height: 40,
+          sparkline: {
+            enabled: true
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              margin: 0,
+              size: '50%'
+            },
+            track: {
+              margin: 1
+            },
+            dataLabels: {
+              show: false
+            }
+          }
+        }
+        };
+
+        var sparkLineChart8 = new ApexCharts(document.querySelector("#chart-8"), sparkLineOptions8);
+        sparkLineChart8.render();
 
 
 </script>
