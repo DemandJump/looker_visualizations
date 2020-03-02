@@ -449,6 +449,8 @@ looker.plugins.visualizations.add({
         console.log(`This is the container data`, containerData);
         console.log(`This is the element data`, elementData);
 
+        let visContainer = document.getElementsByClassName(`vis-container`);
+        console.log(`This is the vis container`, visContainer);
         
         /**************** Done! *****************/
         doneRendering(); 
