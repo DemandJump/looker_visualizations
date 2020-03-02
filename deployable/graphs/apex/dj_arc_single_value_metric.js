@@ -455,6 +455,8 @@ looker.plugins.visualizations.add({
         container[0].style.left = `${elementData.left}px`;
         container[0].style.bottom = `${elementData.bottom}px`;
         container[0].style.right = `${elementData.right}px`;
+
+        console.log(`This is the new element data`, containerData);
         
         /**************** Done! *****************/
         doneRendering(); 
