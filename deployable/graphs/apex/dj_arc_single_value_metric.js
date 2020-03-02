@@ -442,9 +442,10 @@ looker.plugins.visualizations.add({
         // Grab the data of the element and then give the architect element the same spacing
         let elementData = element.getBoundingClientRect();
         let container = document.getElementsByClassName(`svlc`);
-        console.log(`This is the container`, container);
         let containerData = container[0].getBoundingClientRect();
-
+        
+        console.log(`This is the element`, element);
+        console.log(`This is the container`, container);
         console.log(`This is the container data`, containerData);
         console.log(`This is the element data`, elementData);
 
@@ -453,32 +454,3 @@ looker.plugins.visualizations.add({
         doneRendering(); 
     }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
