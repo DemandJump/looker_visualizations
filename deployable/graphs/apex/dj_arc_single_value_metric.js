@@ -449,8 +449,12 @@ looker.plugins.visualizations.add({
         console.log(`This is the container data`, containerData);
         console.log(`This is the element data`, elementData);
 
-        let visContainer = document.getElementsByClassName(`vis-container`);
-        console.log(`This is the vis container`, visContainer);
+        container[0].style.width = `${elementData.width}px`;
+        container[0].style.height = `${elementData.height}px`;
+        container[0].style.top = `${elementData.top}px`;
+        container[0].style.left = `${elementData.left}px`;
+        container[0].style.bottom = `${elementData.bottom}px`;
+        container[0].style.right = `${elementData.right}px`;
         
         /**************** Done! *****************/
         doneRendering(); 
