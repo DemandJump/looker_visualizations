@@ -669,12 +669,6 @@ looker.plugins.visualizations.add({
                 }
 
                 // Series Data
-                let current = {data: [], links: []};
-                let previous = {data: [], links: []}; // Previous will always be full, match current's with it
-                let sw = false;
-                let pass = true;
-
-
                 let sql = queryResponse.sql;
                 let chop = 0;
                 console.log(`This is the sql `, sql);
@@ -684,7 +678,6 @@ looker.plugins.visualizations.add({
                         break;
                     }
                 }
-
                 let stringFind = sql.substr(chop, 11);
                 let backwardsIteration = parseInt(stringFind, 10);
 
@@ -693,16 +686,16 @@ looker.plugins.visualizations.add({
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
 
-                    previous.data.push(val);
-                    previous.links.push(links);
+                    seriesData[0].data.push(val);
+                    seriesData[0].links.push(links);
                 }
 
                 for(let i = backwardsIteration; i >= 0; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
 
-                    current.data.push(val);
-                    current.links.push(links);
+                    seriesData[1].data.push(val);
+                    seriesData[1].links.push(links);
                 }
 
                 seriesData[0].data = current.data;
