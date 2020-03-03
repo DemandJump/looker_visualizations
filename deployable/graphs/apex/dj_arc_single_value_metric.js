@@ -709,32 +709,6 @@ looker.plugins.visualizations.add({
                 seriesData[0].links = current.links;
                 seriesData[1].data = previous.data;
                 seriesData[1].links = previous.links;
-
-            //     datum.forEach((row, index) => {
-            //         let value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
-
-            //         if (value == null || datum[index][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value != null) sw = true;
-            //         else {
-            //             for(let i = index; i < datum.length; i++) {
-            //                 if (datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value == null) continue;
-            //                 else {
-            //                     pass = false;
-            //                     break;
-            //                 }
-            //             }
-
-            //             if (pass) sw = true;
-            //         }
-
-
-
-            //         if (sw) { // load previous period data
-            //             previous.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value);
-            //         } else { // load current period data
-            //             current.push(value);
-            //         }
-            //     });
-
             }
         }
 
