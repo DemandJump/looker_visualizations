@@ -35,16 +35,15 @@ looker.plugins.visualizations.add({
             type: `string`,
             display: `select`,
             values: [
-              {"None": "none"},
-              {"Bar chart": "normalBarChart"},
-              {"Bar chart with labels": "barWithLabels"},
-              {"Pie chart": "pieChart"},
-              {"Donut chart": "donutChart"},
-              {"Radial chart": "radialChart"},
-              {"Straight line": "straightLine"},
-              {"Straight line gradient": "straightLineGradient"}, 
-              {"Smooth line": "smoothLine"},
-              {"Smooth line gradient": "smoothLineGradient"},
+                {"None": "none"},
+                {"Bar chart": "normalBarChart"},
+                {"Bar chart with labels": "barWithLabels"},
+                {"Pie chart": "pie"},
+                {"Donut chart": "donut"},
+                {"Radial chart": "radial"},
+                {"Line": "line"}, 
+                {"Area": "area"},
+                {"Multi": "multi"},
             ],
             default: `none`,
             hidden: false
@@ -61,6 +60,7 @@ looker.plugins.visualizations.add({
 
     },
     create: function(element, config) {
+        this._seriesCount = -1;
         element.innerHTML = `
     <style>
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap');
@@ -662,9 +662,11 @@ looker.plugins.visualizations.add({
 
         // Pulling out dynamic configuration for each sparkline
         let settings = this.options;
+        let seriesCount = this._seriesCount;
         let configuration = {}; // This is the configuration for the sparkline
         sparkLines();
 
+        this._seriesCount = seriesCount;
         this.options = settings;
         if (changed) this.trigger(`registerOptions`, settings);
 
@@ -936,7 +938,7 @@ looker.plugins.visualizations.add({
 
 
             // pieChart
-            if (sparkline == `pieChart`) {
+            if (sparkline == `pie`) {
 
                 if (!settings[`pcRadius`]) {
                     changed = true;
@@ -1026,7 +1028,7 @@ looker.plugins.visualizations.add({
 
 
             // donutChart
-            if (sparkline == `donutChart`) {
+            if (sparkline == `donut`) {
                 
                 if (!settings[`dcDiameter`]) {
                     changed = true;
@@ -1115,7 +1117,7 @@ looker.plugins.visualizations.add({
 
 
             // radialChart
-            if (sparkline == `radialChart`) {
+            if (sparkline == `radial`) {
 
                 if (!settings[`rcDiamter`]) {
                     changed = true;
@@ -1225,7 +1227,7 @@ looker.plugins.visualizations.add({
 
 
             // straightLineGradient > linechart > no gradient
-            if (sparkline == `straightLineGradient`) {
+            if (sparkline == `line`) {
 
                 if (!settings[`lStrokeWidth`]) {
                     changed = true;
@@ -1530,22 +1532,196 @@ looker.plugins.visualizations.add({
                 delete settings[`areaShowXaxis`];
             }
 
-              // Possible new visuals
-            /* Candlestick visual */
-            /* Multi type graph > areachart > type in series */
 
-                  /*
-                  {"None": "none"},
-                  {"Bar chart": "normalBarChart"},
-                  {"Bar chart with labels": "barWithLabels"},
-                  {"Pie chart": "pieChart"},
-                  {"Donut chart": "donutChart"},
-                  {"Radial chart": "radialChart"},
-                  {"Straight line": "straightLine"},
-                  {"Straight line gradient": "straightLineGradient"}, 
-                  {"Smooth line": "smoothLine"},
-                  {"Smooth line gradient": "smoothLineGradient"},
-                  */
+            /* Multi type graph > areachart > type in series */
+            if (sparkline == `multi`) {
+              
+                if (!settings[`areaStrokeWidth`]) {
+                    changed = true;
+                    settings[`areaStrokeWidth`] = {
+                        label: `Stroke width`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `2`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaCurve`]) {
+                    changed = true;
+                    settings[`areaCurve`] = {
+                        label: `Line behavior`, 
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                          {"Straight": "straight"},
+                          {"Smooth": "smooth"},
+                          {"Stepline": "stepline"}
+                        ],
+                        default: "smooth",
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaShowMarkers`]) {
+                    changed = true;
+                    settings[`areaShowMarkers`] = {
+                        label: `Show markers`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaMarkerSize`]) {
+                    changed = true;
+                    settings[`areaMarkerSize`] = {
+                        label: `Marker size`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `0`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaTooltip`]) {
+                    changed = true;
+                    settings[`areaTooltip`] = {
+                        label: `Enable tooltip`,
+                        order: 5,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaFixedTooltip`]) {
+                    changed = true;
+                    settings[`areaFixedTooltip`] = {
+                        label: `Fixed tooltip`,
+                        order: 6,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaShowXaxis`]) {
+                    changed = true;
+                    settings[`areaShowXaxis`] = {
+                        label: `Show x axis`, 
+                        order: 7,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (seriesCount == -1) seriesCount = seriesInformation.seriesData.length;
+                if (seriesCount != seriesInformation.seriesData.length) {
+                    for(let i = 0; i < seriesCount; i++) delete settings[`seriesType_${i}`];
+                    seriesCount = seriesInformation.seriesData.length;
+                }
+                seriesInformation.seriesData.forEach((series, index) => {
+                    if (!settings[`seriesType_${index}`] || settings[`seriesType_${index}`].label != `${series.name} graph type`) {
+                        changed = true;
+                        settings[`seriesType_${index}`] = {
+                            label: `${series.name} graph type`, 
+                            order: index,
+                            section: `Graph Type`,
+                            type: `string`, 
+                            display: `select`,
+                            values: [
+                                {'Area': 'area'}, 
+                                {'Column': 'column'}, 
+                                {'Line': 'line'}, 
+                            ],
+                            default: `area`,
+                            hidden: false
+                        };
+                    }
+
+                    let type = `area`;
+                    if (config[`seriesType_${index}`]) type = config[`seriesType_${index}`];
+                    series.type = type;
+                });
+
+
+
+                // Configuration data
+                let strokeWidth = 2;
+                let curve = `smooth`;
+                let showMarkers = false;
+                let markerSize = 0;
+                let tooltip = false;
+                let fixedTooltip = false;
+                let showXaxis = false;
+
+                if (config.areaStrokeWidth) strokeWidth = config.strokeWidth;
+                if (config.areaCurve) curve = config.areaCurve;
+                if (config.areaShowMarkers) showMarkers = config.areaShowMarkers;
+                if (config.areaMarkerSize) markerSize = parseInt(config.areaMarkerSize, 10);
+                if (config.areaTooltip) tooltip = config.areaTooltip;
+                if (config.areaFixedTooltip) fixedTooltip = config.fixedTooltip;
+                if (config.areaShowXaxis) showXaxis = config.areaShowXaxis;
+
+
+                // Chart configuration
+                configuration = {
+                    chart: {
+                        type: `area`,
+                        height: window.innerHeight,
+                        sparkline: {enabled: true}
+                    },
+                    colors: djColors,
+                    stroke: {
+                        width: strokeWidth,
+                        curve: curve
+                    },
+                    markers: {size: markerSize},
+                    tootlip: {
+                        enabled: tootltip,
+                        fixed: {enabled: fixedTooltip},
+                        x: {show: showXaxis},
+                        y: {
+                            title: {formatter: seriesName => seriesName + `Ayy`}
+                        },
+                        marker: {show: showMarkers}
+                    },
+                    fill: {
+                        type: `gradient`,
+                        gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.7,
+                            opacityTo: 0.9,
+                            stops: [0, 90, 100]
+                        }
+                    },
+                    yaxis: {min: 0},
+                    series: seriesInformation.seriesData
+                };
+    
+            } else {
+                delete settings[`areaStrokeWidth`];
+                delete settings[`areaCurve`];
+                delete settings[`areaShowMarkers`];
+                delete settings[`areaMarkerSize`];
+                delete settings[`areaTooltip`];
+                delete settings[`areaFixedTooltip`];
+                delete settings[`areaShowXaxis`];
+            }
+
         }
         
 
