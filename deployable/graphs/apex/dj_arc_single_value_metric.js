@@ -652,7 +652,7 @@ looker.plugins.visualizations.add({
                     let links = [];
                     if (row[queryResonse.fields.dimension_like[0].name].links) links = row[queryResponse.fields.dimension_like[0].name].links;
 
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: links]});
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: links});
                     else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: links}); 
                 });
 
