@@ -465,10 +465,13 @@ looker.plugins.visualizations.add({
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
         // let node = document.getElementById('chart-apex-negative');
         // while(node.firstChild) node.firstChild.remove();
+        let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
+        let djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
+        let datum = data;
         console.log('These are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
-        console.log('Data', data);
+        console.log('Data', datum);
 
         // Media query looks take 100% width at 640px screen size
         // Min width of alook is 135px < drops to 50px with repsonsive design
@@ -511,6 +514,7 @@ looker.plugins.visualizations.add({
 
 
         // Find out whether it's a pivot
+        let changed = false;
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
@@ -651,7 +655,287 @@ looker.plugins.visualizations.add({
             xaxis: xaxis,
             data: seriesData
         };
-        console.log(`This is the series information`);
+        console.log(`This is the series information`, seriesInformation);
+
+
+
+
+        // Pulling out dynamic configuration for each sparkline
+        let settings = this.options;
+        let configuration = {}; // This is the configuration for the sparkline
+        sparkLines();
+
+        this.options = settings;
+        if (changed) this.trigger(`registerOptions`, settings);
+
+
+
+        function sparkLines() {
+            let sparkline = config.sparklines;
+
+
+            // normalBarChart
+            if (sparkline == `normalBarChart`) {
+                // User configuration on the chart
+                if (!settings[`nbcTooltip`]) {
+                    changed = true;
+                    settings[`nbcTooltip`] = {
+                        label: `Enable sparkline tooltip`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`nbcCurve`]) {
+                    changed = true;
+                    settings[`nbcCurve`] = {
+                        label: `Line behavior`,
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                          {"Straight": "straight"},
+                          {"Smooth": "smooth"},
+                          {"Stepline": "stepline"}
+                        ],
+                        default: "smooth",
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`nbcStroke`]) {
+                    changed = true;
+                    settings[`nbcStroke`] = {
+                        label: `Stroke width`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `3`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`nbcMarkers`]) {
+                    changed = true;
+                    settings[`nbcMarkers`] = {
+                        label: `Marker size`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `0`,
+                        hidden: false
+                    };
+                }
+
+
+                // Grab chart info if configuration is created
+                let tooltip = false;
+                let curve = `smooth`;
+                let strokeWidth = 3;
+                let markerSize = 0;
+
+                if (config.nbcTooltip) tooltip = config.nbcTooltip;
+                if (config.nbcCurve) curve = config.nbcCurve;
+                if (config.nbcStroke) strokeWidth = parseInt(config.nbcStroke, 10);
+                if (config.nbcMarkers) markerSize = parseInt(config.nbcMarkers, 10);
+                
+
+                // Chart configuration
+                configuration.chart.type = `bar`;
+                configuration.chart.height = window.innerHeight;
+                configuration.chart.sparkline = {enabled: true};
+                configuration.tooltip = {enabled: tooltip};
+                configuration.stroke = {width: strokeWidth, curve: curve};
+                configuration.colors = djColors;
+                configuration.markers = {size: markerSize};
+                configuration.series = seriesInformation.seriesData;
+                configuration.yaxis = {min: 0};
+            } else {
+                delete settings[`nbcTooltip`];
+                delete settings[`nbcCurve`];
+                delete settings[`nbcStroke`];
+                delete settings[`nbcMarkers`];
+            }
+
+
+            // barWithLabels
+            if (sparkline == `barWithLabels`) {
+
+                if (!settings[`fbcStack`]) {
+                    changed = true;
+                    settings[`fbcStack`] = {
+                        label: `Stack layout`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`fbcToolbar`]) {
+                    changed = true;
+                    settings[`fbcToolbar`] = {
+                        label: `Enable Toolbar`,
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    }; 
+                }
+
+                if (!settings[`fbcHorizontal`]) {
+                    changed = true;
+                    settings[`fbcHorizontal`] = {
+                        label: `Horizontal graph`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `bolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`fbcStrokeWidth`]) {
+                    changed = true;
+                    settings[`fbcStrokeWidth`] = {
+                        label: `Stroke Width`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `0`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`fbcCurve`]) {
+                    changed = true;
+                    settings[`fbcCurve`] = {
+                        label: `Line behavior`,
+                        order: 5,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        vales: [
+                          {"Straight": "straight"},
+                          {"Smooth": "smooth"},
+                          {"Stepline": "stepline"}
+                        ],
+                        default: "smooth",
+                        hidden: false
+                    };
+                }
+
+                if (settings[`fbcAlignLegend`]) {
+                    changed = true;
+                    settings[`fbcAlignLegend`] = {
+                        label: `Align legend`,
+                        order: 6,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                          {"Bottom": "bottom"},
+                          {"Top": "top"},
+                          {"Left": "left"},
+                          {"Right": "right"}
+                        ],
+                        default: `bottom`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`fbcHorizontalAlign`]) {
+                    changed = true;
+                    settings[`fbcHorizontalAlign`] = { 
+                        label: `Horizontally align legend`,
+                        order: 7,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                          {"Center": "center"},
+                          {"Right": "right"},
+                          {"Left": "left"}
+                        ],
+                        default: `center`,
+                        hidden: false
+                    };
+                }
+
+
+                // Grab chart configuration
+                let stack = false;
+                let toolbar = false;
+                let horizontal = false;
+                let strokeWidth = `0`;
+                let curve = `smooth`;
+                let alignLegend = `bottom`;
+                let horizontalAlign = `center`;
+
+                if (config.fbcStack) stack = config.fbcStack;
+                if (config.fbcToolbar) toolbar = config.fbcToolbar;
+                if (config.fbcHorizontal) horizontal = config.fbcHorizontal;
+                if (config.fbcStrokeWidth) strokeWidth = parseInt(config.fbcStrokeWidth, 10);
+                if (config.fbcCurve) curve = config.fbcCurve;
+                if (config.fbcAlignLegend) alignLegend = config.fbcAlignLegend;
+
+
+                // Chart configuration
+                configuration.chart.type = `bar`;
+                configuration.chart.height = window.innerHeight;
+                configuration.chart.stacked = stack;
+                configuration.chart.toolbar = {show: toolbar};
+                configuration.plotOptions.bar = {horizontal: horizontal};
+                configuration.colors = djColors;
+                configuration.stroke.width = strokeWidth;
+                configuration.stroke.colors = djAlphaColors;
+                configuration.stroke.curve = curve;
+                configuration.tooltip.y = {formatter: val => val + `K`};
+                configuration.fill = {opacity: 0.8};
+                configuration.legend.position = alignLegend;
+                configuration.legend.horizontalAlign = horizontalAlign;
+
+                configuration.series = seriesInformation.seriesData;
+            } else {
+                delete settings[`fbcStack`];
+                delete settings[`fbcToolbar`];
+                delete settings[`fbcHorizontal`];
+                delete settings[`fbcStrokeWidth`];
+                delete settings[`fbcCurve`];
+                delete settings[`fbcAlignLegend`];
+            }
+            // pieChart
+            // donutChart
+            // radialChart
+            // straightLine
+            // straightLineGradient
+            // smoothLine
+            // smoothLineGradient
+
+                  /*
+                  {"None": "none"},
+                  {"Bar chart": "normalBarChart"},
+                  {"Bar chart with labels": "barWithLabels"},
+                  {"Pie chart": "pieChart"},
+                  {"Donut chart": "donutChart"},
+                  {"Radial chart": "radialChart"},
+                  {"Straight line": "straightLine"},
+                  {"Straight line gradient": "straightLineGradient"}, 
+                  {"Smooth line": "smoothLine"},
+                  {"Smooth line gradient": "smoothLineGradient"},
+                  */
+        }
+        
+
 
 
         /****************************************** 
@@ -951,83 +1235,5 @@ looker.plugins.visualizations.add({
         };
 
 
-
-
-        var fancyBarChart = {
-            chart: {
-                height: 265,
-                type: 'bar',
-                stacked: false,
-                toolbar: {
-                    show: false,
-                }
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                },
-
-            },
-            colors: ['#007bff', '#16aaff'],
-            stroke: {
-                width: 0,
-                colors: ['#fff'],
-                curve: 'smooth'
-            },
-            series: [{
-                name: 'Marine',
-                data: [44, 55, 41, 37, 22, 43]
-            }, {
-                name: 'Striking',
-                data: [53, 32, 33, 52, 13, 43]
-            },],
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return val + "K";
-                    }
-                }
-            },
-            fill: {
-                opacity: .8
-
-            },
-
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center',
-            }
-        };
-
-
-
-
-        var normalBarChart = {
-            chart: {
-                type: 'bar',
-                height: 120,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            tooltip: {
-                enabled: false,
-            },
-            stroke: {
-                width: 3,
-                curve: 'smooth'
-            },
-            colors: ['#007bff'],
-            markers: {
-                size: 0
-            },
-
-            series: [{
-                data: sparklineData
-            }],
-            yaxis: {
-                min: 0
-            },
-        };
 
 */
