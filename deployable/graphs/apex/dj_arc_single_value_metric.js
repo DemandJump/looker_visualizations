@@ -740,54 +740,6 @@ looker.plugins.visualizations.add({
 
 
 
-/*
-SELECT * FROM (
-SELECT *, DENSE_RANK() OVER (ORDER BY z___min_rank) as z___pivot_row_rank, RANK() OVER (PARTITION BY z__pivot_col_rank ORDER BY z___min_rank) as z__pivot_col_ordering, CASE WHEN z___min_rank = z___rank THEN 1 ELSE 0 END AS z__is_highest_ranked_cell FROM (
-SELECT *, MIN(z___rank) OVER (PARTITION BY "date_dim.date_date") as z___min_rank FROM (
-SELECT *, RANK() OVER (ORDER BY "date_dim.date_date" DESC, z__pivot_col_rank) AS z___rank FROM (
-SELECT *, DENSE_RANK() OVER (ORDER BY CASE WHEN "date_dim.period_selection" IS NULL THEN 1 ELSE 0 END, "date_dim.period_selection") AS z__pivot_col_rank FROM (
-SELECT
-	CASE
-        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE)
-        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) < CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)
-        THEN 'Current Period'
-        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST((TO_CHAR(TO_DATE(
-      DATEADD(DAY,(-((DATEDIFF(DAY, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE), CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)))*2)),CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE))
-
-    ), 'YYYY-MM-DD')) AS DATE)
-        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) <= CAST((TO_CHAR(TO_DATE(
-      DATEADD(DAY, -1, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE))
-
-    ), 'YYYY-MM-DD')) AS DATE)
-        THEN 'Previous Period'
-      END
-     AS "date_dim.period_selection",
-	TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD') AS "date_dim.date_date",
-	COALESCE(SUM(adperformance_fact."IMPRESSIONS" ), 0) AS "adperformance_fact.impressions"
-FROM ADWORDS.ADPERFORMANCE_FACT  AS adperformance_fact
-INNER JOIN ADWORDS.DATE_DIM  AS date_dim ON (date_dim."DATEKEY") = (adperformance_fact."DATEKEY")
-
-WHERE ((((CASE
-        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE)
-        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) < CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)
-        THEN 'Current Period'
-        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST((TO_CHAR(TO_DATE(
-      DATEADD(DAY,(-((DATEDIFF(DAY, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE), CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)))*2)),CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE))
-
-    ), 'YYYY-MM-DD')) AS DATE)
-        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) <= CAST((TO_CHAR(TO_DATE(
-      DATEADD(DAY, -1, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE))
-
-    ), 'YYYY-MM-DD')) AS DATE)
-        THEN 'Previous Period'
-      END) IS NOT NULL))) AND (adperformance_fact."_PID"  = 700)
-GROUP BY 1,TO_DATE(date_dim."DATE" )) ww
-) bb WHERE z__pivot_col_rank <= 16384
-) aa
-) xx
-) zz
- WHERE (z__pivot_col_rank <= 50 OR z__is_highest_ranked_cell = 1) AND (z___pivot_row_rank <= 500 OR z__pivot_col_ordering = 1) ORDER BY z___pivot_row_rank"
-*/
         // Pull all the information into a single object
         let seriesInformation = {
             pivot: {
