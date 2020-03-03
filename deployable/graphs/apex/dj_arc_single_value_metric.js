@@ -752,13 +752,13 @@ looker.plugins.visualizations.add({
                         height: window.innerHeight,
                         sparkline: {enabled: true}
                     },
+                    colors: djColors,
                     tooltip: {enabled: tooltip},
                     stroke: {
                         width: strokeWidth,
                         colors: djAlphaColors,
                         curve: curve
                     },
-                    colors: djColors,
                     markers: {size: markerSize},
                     yaxis: {min: 0},
                     series: seriesInformation.seriesData
@@ -904,10 +904,10 @@ looker.plugins.visualizations.add({
                         stacked: stack,
                         toolbar: {show: toolbar}
                     },
+                    colors: djColors,
                     plotOptions: {
                         bar: {horizontal: horizontal},
                     },
-                    colors: djColors,
                     stroke: {
                         width: strokeWidth,
                         colors: djAlphaColors,
@@ -958,7 +958,7 @@ looker.plugins.visualizations.add({
                         order: 2,
                         section: `Sparkline`,
                         type: `string`,
-                        palceholder: `Enter a value`,
+                        placeholder: `Enter a value`,
                         default: `1`,
                         hidden: false
                     };
@@ -1008,6 +1008,7 @@ looker.plugins.visualizations.add({
                         height: diameter,
                         sparkline: {enabled: true}
                     },
+                    colors: djColors,
                     stroke: {width: strokeWidth},
                     tooltip: {
                         enabled: tooltip,
@@ -1097,6 +1098,7 @@ looker.plugins.visualizations.add({
                         height: diameter,
                         sparkline: {enabled: true},
                     },
+                    colors: djColors,
                     stroke: {width: strokeWidth},
                     tooltip: {
                         enabled: tooltip,
@@ -1199,6 +1201,7 @@ looker.plugins.visualizations.add({
                         height: diameter,
                         sparkline: {enabled: true}
                     },
+                    colors: djColors,
                     dataLabels: {enabled: dataLabels},
                     plotOptions: {
                         radialBar: {
@@ -1223,9 +1226,309 @@ looker.plugins.visualizations.add({
 
             // straightLineGradient > linechart > no gradient
             if (sparkline == `straightLineGradient`) {
+
+                if (!settings[`lStrokeWidth`]) {
+                    changed = true;
+                    settings[`lStrokeWidth`] = {
+                        label: `Stroke width`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `1`,
+                        hiddne: false
+                    };
+                }
+
+                if (!settings[`lCurve`]) {
+                    changed = true;
+                    settings[`lCurve`] = {
+                        label: `Line behavior`,
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                          {"Straight": "straight"},
+                          {"Smooth": "smooth"},
+                          {"Stepline": "stepline"}
+                        ],
+                        default: "straight",
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`lShowMarkers`]) {
+                    changed = true;
+                    settings[`lShowMarkers`] = {
+                        label: `Show markers`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`lMarkerSize`]) {
+                    changed = true;
+                    settings[`lMarkerSize`] = {
+                        label: `Marker Size`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `0`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`lTooltip`]) {
+                    changed = true;
+                    settings[`lTooltip`] = {
+                        label: `Enable tooltip`,
+                        order: 5,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`lFixedTooltip`]) {
+                    changed = true;
+                    settings[`lFixedTooltip`] = {
+                        label: `Fixed tooltip`,
+                        order: 6,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`lShowXaxis`]) {
+                    changed = true;
+                    settings[`lShowXaxis`] = {
+                        label: `Show x axis`,
+                        order: 7,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                // Configuration data
+                let strokeWidth = 1;
+                let curve = `straight`;
+                let showMarkers = false;
+                let markerSize = 0;
+                let tooltip = false;
+                let fixedTooltip = false;
+                let showXaxis = false;
+
+                if (config.lStrokeWidth) strokeWidth = parseInt(config.strokeWidth, 10);
+                if (config.lCurve) curve = config.lCurve;
+                if (config.lShowMarkers) showMarkers = config.lShowMarkers;
+                if (config.lMarkerSize) markerSize = pareseInt(config.lMarkerSize, 10);
+                if (config.lTooltip) tooltip = config.lTooltip;
+                if (config.lFixedTooltip) fixedTooltip = config.lFixedTooltip;
+                if (config.lShowXaxis) showXaxis = config.lShowXaxis;
+
+                // Chart configuration
+                configuration = {
+                    chart: {
+                        type: `line`,
+                        height: window.innerHeight,
+                        sparkline: {enabled: true}
+                    },
+                    colors: djColors,
+                    stroke: {
+                        width: strokeWidth,
+                        curve: curve
+                    },
+                    markers: {size: markerSize},
+                    tooltip: {
+                        enabled: tooltip,
+                        fixed: {enabled: fixedTooltip},
+                        x: {show: showXaxis},
+                        y: {
+                            title: {formatter: seriesName => seriesName + `Ay`}
+                        }
+                    },
+                    yaxis: {min: 0},
+                    series: seriesInformation.seriesData[0].data
+                };
                 
+            } else {
+                delete settings[`lStrokeWidth`];
+                delete settings[`lCurve`];
+                delete settings[`lShowMarkers`];
+                delete settings[`lMarkerSize`];
+                delete settings[`lTooltip`];
+                delete settings[`lFixedTooltip`];
             }
+
+
             // smoothLineGradient > areachart 
+            if (sparkline == `area`) {
+
+                if (!settings[`areaStrokeWidth`]) {
+                    changed = true;
+                    settings[`areaStrokeWidth`] = {
+                        label: `Stroke width`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `2`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaCurve`]) {
+                    changed = true;
+                    settings[`areaCurve`] = {
+                        label: `Line behavior`, 
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `string`,
+                        display: `select`,
+                        values: [
+                          {"Straight": "straight"},
+                          {"Smooth": "smooth"},
+                          {"Stepline": "stepline"}
+                        ],
+                        default: "smooth",
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaShowMarkers`]) {
+                    changed = true;
+                    settings[`areaShowMarkers`] = {
+                        label: `Show markers`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaMarkerSize`]) {
+                    changed = true;
+                    settings[`areaMarkerSize`] = {
+                        label: `Marker size`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `0`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaTooltip`]) {
+                    changed = true;
+                    settings[`areaTooltip`] = {
+                        label: `Enable tooltip`,
+                        order: 5,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaFixedTooltip`]) {
+                    changed = true;
+                    settings[`areaFixedTooltip`] = {
+                        label: `Fixed tooltip`,
+                        order: 6,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`areaShowXaxis`]) {
+                    changed = true;
+                    settings[`areaShowXaxis`] = {
+                        label: `Show x axis`, 
+                        order: 7,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+
+                // Configuration data
+                let strokeWidth = 2;
+                let curve = `smooth`;
+                let showMarkers = false;
+                let markerSize = 0;
+                let tooltip = false;
+                let fixedTooltip = false;
+                let showXaxis = false;
+
+                if (config.areaStrokeWidth) strokeWidth = config.strokeWidth;
+                if (config.areaCurve) curve = config.areaCurve;
+                if (config.areaShowMarkers) showMarkers = config.areaShowMarkers;
+                if (config.areaMarkerSize) markerSize = parseInt(config.areaMarkerSize, 10);
+                if (config.areaTooltip) tooltip = config.areaTooltip;
+                if (config.areaFixedTooltip) fixedTooltip = config.fixedTooltip;
+                if (config.areaShowXaxis) showXaxis = config.areaShowXaxis;
+
+
+                // Chart configuration
+                configuration = {
+                    chart: {
+                        type: `area`,
+                        height: window.innerHeight,
+                        sparkline: {enabled: true}
+                    },
+                    colors: djColors,
+                    stroke: {
+                        width: strokeWidth,
+                        curve: curve
+                    },
+                    markers: {size: markerSize},
+                    tootlip: {
+                        enabled: tootltip,
+                        fixed: {enabled: fixedTooltip},
+                        x: {show: showXaxis},
+                        y: {
+                            title: {formatter: seriesName => seriesName + `Ayy`}
+                        },
+                        marker: {show: showMarkers}
+                    },
+                    fill: {
+                        type: `gradient`,
+                        gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.7,
+                            opacityTo: 0.9,
+                            stops: [0, 90, 100]
+                        }
+                    },
+                    yaxis: {min: 0},
+                    series: seriesInformation.seriesData
+                };
+    
+            } else {
+                delete settings[`areaStrokeWidth`];
+                delete settings[`areaCurve`];
+                delete settings[`areaShowMarkers`];
+                delete settings[`areaMarkerSize`];
+                delete settings[`areaTooltip`];
+                delete settings[`areaFixedTooltip`];
+                delete settings[`areaShowXaxis`];
+            }
 
               // Possible new visuals
             /* Candlestick visual */
@@ -1288,110 +1591,3 @@ looker.plugins.visualizations.add({
         doneRendering(); 
     }
 });
-
-
-
-
-/* 
-
-        var gradientLineChart = {
-            chart: {
-                type: 'area',
-                height: 152,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            colors: ["#3f6ad8"],
-            stroke: {
-                width: 2,
-                curve: 'smooth',
-            },
-            markers: {
-                size: 0
-            },
-            tooltip: {
-                fixed: {
-                    enabled: false
-                },
-                x: {
-                    show: false
-                },
-                y: {
-                    title: {
-                        formatter: function (seriesName) {
-                            return '';
-                        }
-                    }
-                },
-                marker: {
-                    show: false
-                }
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.7,
-                    opacityTo: 0.9,
-                    stops: [0, 90, 100]
-                },
-            },
-            series: [{
-                data: sparklineData
-            }],
-            yaxis: {
-                min: 0
-            },
-        };
-
-
-
-
-        var smoothLineChart = {
-            chart: {
-                type: 'line',
-                height: 100,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            colors: ["#3ac47d"],
-            stroke: {
-                width: 3,
-                curve: 'smooth',
-            },
-
-            markers: {
-                size: 0
-            },
-            tooltip: {
-                fixed: {
-                    enabled: true
-                },
-                x: {
-                    show: false
-                },
-                y: {
-                    title: {
-                        formatter: function (seriesName) {
-                            return '';
-                        }
-                    }
-                },
-                marker: {
-                    show: false
-                }
-            },
-            series: [{
-                data: sparklineData
-            }],
-            yaxis: {
-                min: 0
-            },
-        };
-
-
-          
-
-*/
