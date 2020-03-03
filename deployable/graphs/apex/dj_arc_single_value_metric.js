@@ -41,9 +41,9 @@ looker.plugins.visualizations.add({
                 {"Pie chart": "pie"},
                 {"Donut chart": "donut"},
                 {"Radial chart": "radial"},
-                {"Line": "line"}, 
-                {"Area": "area"},
-                {"Multi": "multi"},
+                {"Line chart": "line"}, 
+                {"Area chart": "area"},
+                {"Multi chart": "multi"},
             ],
             default: `none`,
             hidden: false
@@ -512,13 +512,18 @@ looker.plugins.visualizations.add({
 
 
 
+        // Construct a safe way to port the data over a period of time
+            // First if there's a null, and the other measure has data
+            // else if the next line has data, continue
+            // else switch over and finish the rest as the second period
+
 
         // Find out whether it's a pivot
         let changed = false;
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
-        let doNotTruncateData = false;
+        let doNotTruncate = false;
 
         if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
 
