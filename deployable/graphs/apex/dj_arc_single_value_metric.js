@@ -706,7 +706,7 @@ looker.plugins.visualizations.add({
                 }
 
                 console.log(`This is the current`, seriesData[0].data);
-                console.log(`This is the previous`, seriesData[0].data);
+                console.log(`This is the previous`, seriesData[1].data);
             }
         }
 
