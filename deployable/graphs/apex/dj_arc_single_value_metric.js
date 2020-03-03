@@ -682,20 +682,26 @@ looker.plugins.visualizations.add({
                 let backwardsIteration = parseInt(stringFind, 10);
 
 
+                seriesData[0].originalAxis = [];
                 for(let i = datum.length; i > datum.length - backwardsIteration; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value
 
                     seriesData[0].data.push(val);
                     seriesData[0].links.push(links);
+                    seriesData[0].originalAxis.push(xaxisVal);
                 }
 
+                seriesData[0].originalAxis = [];
                 for(let i = backwardsIteration; i >= 0; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value;
 
                     seriesData[1].data.push(val);
                     seriesData[1].links.push(links);
+                    seriesData[1].originalAxis.push(xaxisVal);
                 }
 
                 seriesData[0].data = current.data;
