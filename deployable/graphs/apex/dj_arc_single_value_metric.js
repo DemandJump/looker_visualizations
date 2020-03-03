@@ -673,11 +673,6 @@ looker.plugins.visualizations.add({
                 let previous = {data: [], links: []}; // Previous will always be full, match current's with it
                 let sw = false;
                 let pass = true;
-                
-                    // Construct a safe way to port the data over a period of time
-                // First if there's a null, and the other measure has data
-                // else if the rest of the lines have data
-                // else switch over and finish the rest as the second period
 
 
                 let sql = queryResponse.sql;
@@ -735,7 +730,7 @@ looker.plugins.visualizations.add({
             //         }
             //     });
 
-            // }
+            }
         }
 
 
