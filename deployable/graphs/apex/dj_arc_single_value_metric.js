@@ -705,6 +705,11 @@ looker.plugins.visualizations.add({
                     current.links.push(links);
                 }
 
+                seriesData[0].data = current.data;
+                seriesData[0].links = current.links;
+                seriesData[1].data = previous.data;
+                seriesData[1].links = previous.links;
+
             //     datum.forEach((row, index) => {
             //         let value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
 
