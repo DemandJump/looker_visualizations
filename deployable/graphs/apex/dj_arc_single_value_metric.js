@@ -704,6 +704,9 @@ looker.plugins.visualizations.add({
                     seriesData[1].links.push(links);
                     seriesData[1].originalAxis.push(xaxisVal);
                 }
+
+                console.log(`This is the current`, seriesData[0].data);
+                console.log(`This is the previous`, seriesData[0].data);
             }
         }
 
