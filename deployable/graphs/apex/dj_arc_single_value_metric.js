@@ -745,17 +745,25 @@ looker.plugins.visualizations.add({
                 if (config.nbcStroke) strokeWidth = parseInt(config.nbcStroke, 10);
                 if (config.nbcMarkers) markerSize = parseInt(config.nbcMarkers, 10);
                 
-
                 // Chart configuration
-                configuration.chart.type = `bar`;
-                configuration.chart.height = window.innerHeight;
-                configuration.chart.sparkline = {enabled: true};
-                configuration.tooltip = {enabled: tooltip};
-                configuration.stroke = {width: strokeWidth, curve: curve};
-                configuration.colors = djColors;
-                configuration.markers = {size: markerSize};
-                configuration.series = seriesInformation.seriesData;
-                configuration.yaxis = {min: 0};
+                configuration = {
+                    chart: {
+                        type: `bar`,
+                        height: window.innerHeight,
+                        sparkline: {enabled: true}
+                    },
+                    tooltip: {enabled: tooltip},
+                    stroke: {
+                        width: strokeWidth,
+                        colors: djAlphaColors,
+                        curve: curve
+                    },
+                    colors: djColors,
+                    markers: {size: markerSize},
+                    yaxis: {min: 0},
+                    series: seriesInformation.seriesData
+                };
+
             } else {
                 delete settings[`nbcTooltip`];
                 delete settings[`nbcCurve`];
@@ -872,7 +880,7 @@ looker.plugins.visualizations.add({
                 }
 
 
-                // Grab chart configuration
+                // configuration data
                 let stack = false;
                 let toolbar = false;
                 let horizontal = false;
@@ -888,23 +896,34 @@ looker.plugins.visualizations.add({
                 if (config.fbcCurve) curve = config.fbcCurve;
                 if (config.fbcAlignLegend) alignLegend = config.fbcAlignLegend;
 
-
                 // Chart configuration
-                configuration.chart.type = `bar`;
-                configuration.chart.height = window.innerHeight;
-                configuration.chart.stacked = stack;
-                configuration.chart.toolbar = {show: toolbar};
-                configuration.plotOptions.bar = {horizontal: horizontal};
-                configuration.colors = djColors;
-                configuration.stroke.width = strokeWidth;
-                configuration.stroke.colors = djAlphaColors;
-                configuration.stroke.curve = curve;
-                configuration.tooltip.y = {formatter: val => val + `K`};
-                configuration.fill = {opacity: 0.8};
-                configuration.legend.position = alignLegend;
-                configuration.legend.horizontalAlign = horizontalAlign;
+                configuration = {
+                    chart: {
+                        type: `bar`,
+                        height: window.innerHeight,
+                        stacked: stack,
+                        toolbar: {show: toolbar}
+                    },
+                    plotOptions: {
+                        bar: {horizontal: horizontal},
+                    },
+                    colors: djColors,
+                    stroke: {
+                        width: strokeWidth,
+                        colors: djAlphaColors,
+                        curve: curve
+                    },
+                    tooltip: {
+                        y: {formatter: val => val + `K`}
+                    },
+                    fill: {opacity: 0.8},
+                    legend: {
+                        position: alignLegend,
+                        horizontalAlign: horizontalAlign
+                    },
+                    series: seriesInformation.seriesData
+                };
 
-                configuration.series = seriesInformation.seriesData;
             } else {
                 delete settings[`fbcStack`];
                 delete settings[`fbcToolbar`];
@@ -912,14 +931,305 @@ looker.plugins.visualizations.add({
                 delete settings[`fbcStrokeWidth`];
                 delete settings[`fbcCurve`];
                 delete settings[`fbcAlignLegend`];
+                delete settings[`fbcHorizontalAlign`];
             }
+
+
             // pieChart
+            if (sparkline == `pieChart`) {
+
+                if (!settings[`pcRadius`]) {
+                    changed = true;
+                    settings[`pcRadius`] = {
+                        label: `Pie chart Diameter`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `string`, 
+                        placeholder: `Enter a value`,
+                        default: `100`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`pcStrokeWidth`]) {
+                    changed = true;
+                    settings[`pcStrokeWidth`] = {
+                        label: `Stroke width`,
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `string`,
+                        palceholder: `Enter a value`,
+                        default: `1`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`pcTooltip`]) {
+                    changed = true;
+                    settings[`pcTooltip`] = {
+                        label: `Enable tooltip`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    }
+                }
+
+                if (!settings[`pcFixedTooltip`]) {
+                    changed = true; 
+                    settings[`pcFixedTooltip`] = {
+                        label: `Fixed tooltip`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+
+                // Configuration data
+                let diameter = 100;
+                let strokeWidth = 1;
+                let tooltip = false;
+                let fixedTooltip = false;
+
+                if (config.pcRadius) diameter = parseInt(pcRadius, 10);
+                if (config.pcStrokeWidth) strokeWidth = parseInt(pcStrokeWidth, 10);
+                if (config.pcTooltip) tooltip = config.pcTooltip;
+                if (config.pcFixedTooltip) fixedTooltip = config.pcFixedTooltip;
+
+                // Construct pie chart
+                configuration = {
+                    chart: {
+                        type: `pie`,
+                        width: diameter,
+                        height: diameter,
+                        sparkline: {enabled: true}
+                    },
+                    stroke: {width: strokeWidth},
+                    tooltip: {
+                        enabled: tooltip,
+                        fixed: {enabled: fixedTooltip}
+                    },
+                    series: seriesInformation.seriesData[0].data
+                };
+
+            } else {
+                delete settings[`pcRadius`];
+                delete settings[`pcStrokeWidth`];
+                delete settings[`pcTooltip`];
+                delete settings[`pcFixedTooltip`];
+            }
+
+
             // donutChart
+            if (sparkline == `donutChart`) {
+                
+                if (!settings[`dcDiameter`]) {
+                    changed = true;
+                    settings[`dcDiameter`] = {
+                        label: `Donut chart diameter`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `100`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`dcStrokeWidth`]) {
+                    changed = true;
+                    settings[`dcStrokeWidth`] = {
+                        label: `Stroke width`,
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `1`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`dcTooltip`]) {
+                    changed = true;
+                    settings[`dcTooltip`] = {
+                        label: `Enable tooltip`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`dcFixedTooltip`]) {
+                    changed = true;
+                    settings[`dcFixedTooltip`] = {
+                        label: `Fixed tooltip`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    }
+                }
+
+
+                // Configuration data
+                let diameter = 100;
+                let strokeWidth = 1;
+                let tooltip = false;
+                let fixedTooltip = false;
+
+                if (config.dcDiameter) diameter = config.dcDiameter;
+                if (config.dcStrokeWidth) strokeWidth = config.dcStrokeWidth;
+                if (config.dcTooltip) tooltip = config.dcTooltip;
+                if (config.dcFixedTooltip) fixedTooltip = config.dcFixedTooltip;
+                 
+                // Chart configuration
+                configuration = {
+                    chart: {
+                        type: `donut`,
+                        width: diameter,
+                        height: diameter,
+                        sparkline: {enabled: true},
+                    },
+                    stroke: {width: strokeWidth},
+                    tooltip: {
+                        enabled: tooltip,
+                        fixed: {enabled: fixedTooltip}
+                    }
+                };
+
+            } else {
+                delete settings[`dcDiameter`];
+                delete settings[`dcStrokeWidth`];
+                delete settings[`dcTooltip`];
+                delete settings[`dcFixedTooltip`]
+            }
+
+
             // radialChart
-            // straightLine
-            // straightLineGradient
-            // smoothLine
-            // smoothLineGradient
+            if (sparkline == `radialChart`) {
+
+                if (!settings[`rcDiamter`]) {
+                    changed = true;
+                    settings[`rcDiamter`] = {
+                        label: `Radial chart diameter`,
+                        order: 1,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `150`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`rcDataLabels`]) {
+                    changed = true;
+                    settings[`rcDataLabels`] = {
+                        label: `Enable data labels`,
+                        order: 2,
+                        section: `Sparkline`,
+                        type: `boolean`,
+                        default: false,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`rcDonutHoleMargin`]) {
+                    changed = true;
+                    settings[`rcDonutHoleMargin`] = {
+                        label: `Donut hole margin`,
+                        order: 3,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `0`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`rcDonutHoleSize`]) {
+                    changed = true;
+                    settings[`rcDonutHoleSize`] = { 
+                        label: `Donut hole size`,
+                        order: 4,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a percent`,
+                        default: `50`,
+                        hidden: false
+                    };
+                }
+
+                if (!settings[`rcTrack`]) {
+                    changed = true;
+                    settings[`rcTrack`] = {
+                        label: `Radial track margin`,
+                        order: 5,
+                        section: `Sparkline`,
+                        type: `string`,
+                        placeholder: `Enter a value`,
+                        default: `1`,
+                        hidden: false
+                    };
+                }
+
+                let diameter = 150;
+                let dataLabels = false;
+                let donutHoleMargin = 0;
+                let donutHoleSize = `50%`;
+                let trackMargin = 1;
+
+                if (config.rcDiameter) diameter = config.rcDiameter;
+                if (config.rcDataLabels) dataLabels = config.rcDataLabels;
+                if (config.rcDonutHoleMargin) donutHoleMargin = parseInt(config.rcDonutHoleMargin, 10);
+                if (config.rcDonutHoleSize) donutHoleSize = config.rcDonutHoleSize;
+                if (!donutHoleSize.includes(`%`)) donutHoleSize += '%';
+                if (config.rcTrack) trackMargin = parseInt(config.rcTrack, 10);
+
+                configuration = {
+                    chart: {
+                        type: `radialBar`,
+                        width: diameter,
+                        height: diameter,
+                        sparkline: {enabled: true}
+                    },
+                    dataLabels: {enabled: dataLabels},
+                    plotOptions: {
+                        radialBar: {
+                            hollow: {
+                                margin: donutHoleMargin,
+                                size: donutHoleSize,
+                            },
+                            track: {margin: trackMargin},
+                            dataLabels: {show: dataLabels}
+                        }
+                    }
+                };
+
+            } else {
+                delete settings[`rcDiameter`];
+                delete settings[`rcDataLabels`];
+                delete settings[`rcDonutHoleMargin`];
+                delete settings[`rcDonutHoleSize`];
+                delete settings[`rcTrack`];
+            }
+
+
+            // straightLineGradient > linechart > no gradient
+            if (sparkline == `straightLineGradient`) {
+                
+            }
+            // smoothLineGradient > areachart 
+
+              // Possible new visuals
+            /* Candlestick visual */
+            /* Multi type graph > areachart > type in series */
 
                   /*
                   {"None": "none"},
@@ -1038,7 +1348,7 @@ looker.plugins.visualizations.add({
 
 
 
-        var dashSparkLines1 = { // Smooth line chart
+        var smoothLineChart = {
             chart: {
                 type: 'line',
                 height: 100,
@@ -1082,158 +1392,6 @@ looker.plugins.visualizations.add({
         };
 
 
-
-
-
-        var straightLineChart = {
-          series: [{
-          data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54]
-        }],
-          chart: {
-          type: 'line',
-          width: 100,
-          height: 35,
-          sparkline: {
-            enabled: true
-          }
-        },
-        stroke: {
-            width: 2 
-        },
-        markers: {
-              size: 1.5, // Set size to zero for line chart with no markers
-              strokeColors: '#008EFA',
-        },
-        tooltip: {
-          fixed: {
-            enabled: false
-          },
-          x: {
-            show: false
-          },
-          y: {
-            title: {
-              formatter: function (seriesName) {
-                return ''
-              }
-            }
-          },
-          marker: {
-            show: false
-          }
-        }
-        };
-
-
-
-
-        var plainOlPieChart = {
-          series: [43, 32, 12, 9],
-          chart: {
-          type: 'pie',
-          width: 100,
-          height: 100,
-          sparkline: {
-            enabled: true
-          }
-        },
-        stroke: {
-          width: 1
-        },
-        tooltip: {
-          fixed: {
-            enabled: false
-          },
-        }
-        };
-
-
-
-         
-        var loadingRadial = {
-          series: [43],
-          chart: {
-          type: 'radialBar',
-          width: 100,
-          height: 10,
-          sparkline: {
-            enabled: true
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              margin: 0,
-              size: '50%'
-            },
-            track: {
-              margin: 0
-            },
-            dataLabels: {
-              show: false
-            }
-          }
-        }
-        };
-
-
-
-
-        var multiLoadingRadial = {
-          series: [53, 67, 22, 100],
-          chart: {
-          type: 'radialBar',
-          width: 150,
-          height: 150,
-          sparkline: {
-            enabled: true
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              margin: 0,
-              size: '50%'
-            },
-            track: {
-              margin: 1
-            },
-            dataLabels: {
-              show: false
-            }
-          }
-        }
-        };
-
-
-
-              
-        var normalRadial = {
-          series: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-          chart: {
-          type: 'donut',
-          width: 100,
-          height: 100,
-          sparkline: {
-            enabled: true
-          }
-        },
-        stroke: {
-          width: 1
-        },
-        tooltip: {
-          fixed: {
-            enabled: false
-          },
-        }
-        };
-
-
+          
 
 */
