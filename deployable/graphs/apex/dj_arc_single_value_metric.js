@@ -1628,6 +1628,8 @@ looker.plugins.visualizations.add({
                     };
                 }
 
+
+                // Chart type for each series
                 if (seriesCount == -1) seriesCount = seriesInformation.seriesData.length;
                 if (seriesCount != seriesInformation.seriesData.length) {
                     for(let i = 0; i < seriesCount; i++) delete settings[`seriesType_${i}`];
@@ -1656,7 +1658,6 @@ looker.plugins.visualizations.add({
                     if (config[`seriesType_${index}`]) type = config[`seriesType_${index}`];
                     series.type = type;
                 });
-
 
 
                 // Configuration data
