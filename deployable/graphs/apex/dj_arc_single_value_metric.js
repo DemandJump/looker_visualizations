@@ -468,7 +468,7 @@ looker.plugins.visualizations.add({
         let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
         let djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
         let datum = data;
-        console.log('These are the settings', this.options);
+        console.log('\n\n\n\nThese are the settings', this.options);
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('Data', datum);
@@ -518,11 +518,13 @@ looker.plugins.visualizations.add({
             // else switch over and finish the rest as the second period
 
 
+
         // Find out whether it's a pivot
         let changed = false;
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
+        let pivotC = false; // Period over period 
         let doNotTruncate = false;
 
         if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
@@ -648,6 +650,13 @@ looker.plugins.visualizations.add({
                     }
                 });
             }
+
+            if (pivotC) {
+                // Labels
+                datum.forEach(row => {
+
+                });
+            }
         }
 
         // Pull all the information into a single object
@@ -655,7 +664,8 @@ looker.plugins.visualizations.add({
             pivot: {
                 pivot: pivot,
                 pivotA: pivotA,
-                piovtB: pivotB
+                pivotB: pivotB,
+                pivotC: pivotC
             },
             xaxis: xaxis,
             data: seriesData
@@ -1745,6 +1755,7 @@ looker.plugins.visualizations.add({
                     queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
                     queryResponse.fields.dimension_like = queryResponse.fields.pivots;
                 } 
+                else if (queryResponse.fields.pivots[0].field_group_label == `Period Over Period` || queryResponse.fields.pivots[0].field_group_variant == `Period Selection`) pivotC = true;
                 else pivotB = true;
             }
         }
