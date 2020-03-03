@@ -670,7 +670,7 @@ looker.plugins.visualizations.add({
 
                 // Series Data
                 let current = {data: [], links: []};
-                let previous = {data: [];, links: []}; // Previous will always be full, match current's with it
+                let previous = {data: [], links: []}; // Previous will always be full, match current's with it
                 let sw = false;
                 let pass = true;
                 
