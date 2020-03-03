@@ -703,11 +703,6 @@ looker.plugins.visualizations.add({
                     seriesData[1].links.push(links);
                     seriesData[1].originalAxis.push(xaxisVal);
                 }
-
-                seriesData[0].data = current.data;
-                seriesData[0].links = current.links;
-                seriesData[1].data = previous.data;
-                seriesData[1].links = previous.links;
             }
         }
 
