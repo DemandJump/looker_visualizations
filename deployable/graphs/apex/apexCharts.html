@@ -9,19 +9,26 @@
 
 </head>
 <style>
+    table {
+        width: 100%;
+        display: table;
+        border-collapse: separate;
+        border-spacing: 2px;
+        border-color: grey;
+    }
 </style>
 <body>
     <div class="row">
         <div class="col-md-4" style="position: relative;">
-            <div id="chart-spark1" style="min-height: 160px;"></div>
+            <div id="chart-spark1"></div>
         </div>
 
         <div class="col-md-4" style="position: relative;">
-            <div id="chart-spark2" style="min-height: 160px;"></div>
+            <div id="chart-spark2"></div>
         </div>
 
         <div class="col-md-4" style="position: relative;">
-            <div id="chart-spark3" style="min-height: 160px;"></div>
+            <div id="chart-spark3"></div>
         </div>
     </div>
 
@@ -36,56 +43,56 @@
                 </tr>
             </thead>
 
-        <tbody>
-            <tr>
-                <td>$32,554</td>
-                <td>15%</td>
-                <td style="position: relative;">
-                    <div id="chart-1" style="min-height: 35px;"></div>
-                </td>
+            <tbody>
+                <tr>
+                    <td>$32,554</td>
+                    <td>15%</td>
+                    <td style="position: relative;">
+                        <div id="chart-1" style="min-height: 35px;"></div>
+                    </td>
 
-                <td style="position: relative;">
-                    <div id="chart-5" style="min-height: 35px;"></div>
-                </td>
-            </tr>
+                    <td style="position: relative;">
+                        <div id="chart-5" style="min-height: 35px;"></div>
+                    </td>
+                </tr>
 
-            <tr>
-                <td>$23,533</td>
-                <td>7%</td>
-                <td style="position: relative;">
-                    <div id="chart-2" style="min-height: 35px;"></div>
-                </td>
-                <td style="position: relative;">
-                    <div id="chart-6" style="min-height: 35px;"></div>
-                </td>
-            </tr>
+                <tr>
+                    <td>$23,533</td>
+                    <td>7%</td>
+                    <td style="position: relative;">
+                        <div id="chart-2" style="min-height: 35px;"></div>
+                    </td>
+                    <td style="position: relative;">
+                        <div id="chart-6" style="min-height: 35px;"></div>
+                    </td>
+                </tr>
 
-        <tr>
-            <td>$54,276</td>
-            <td>9%</td>
-            <td style="position: relative;">
-                <div id="chart-3" style="min-height: 38.95px;"></div>
-            </td>
+                <tr>
+                    <td>$54,276</td>
+                    <td>9%</td>
+                    <td style="position: relative;">
+                        <div id="chart-3" style="min-height: 38.95px;"></div>
+                    </td>
 
-            <td style="position: relative;">
-                <div id="chart-7" style="min-height: 51px;"></div>
-            </td>
-        </tr>
+                    <td style="position: relative;">
+                        <div id="chart-7" style="min-height: 51px;"></div>
+                    </td>
+                </tr>
 
-        <tr>
-            <td>$11,533</td>
-            <td>2%</td>
-            <td style="position: relative;">
-                <div id="chart-4" style="min-height: 38.95px;"></div>
-            </td>
+                <tr>
+                    <td>$11,533</td>
+                    <td>2%</td>
+                    <td style="position: relative;">
+                        <div id="chart-4" style="min-height: 38.95px;"></div>
+                    </td>
 
-            <td style="position: relative;">
-                <div id="chart-8" style="min-height: 41px;"></div>
-            </td>
-        </tr>
-        </tbody>
+                    <td style="position: relative;">
+                        <div id="chart-8" style="min-height: 41px;"></div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
-        </div>
+    </div>
 
 
 
@@ -184,6 +191,69 @@
 <script src="./apex-chart/vendors/apex-charts.js"></script>
 
 <script>
+
+var dashSpark1 = {
+            chart: {
+                type: 'area',
+                height: 152,
+                sparkline: {
+                    enabled: true
+                },
+            },
+            colors: ["#3f6ad8"],
+            stroke: {
+                width: 5,
+                curve: 'smooth',
+            },
+
+            markers: {
+                size: 0
+            },
+            tooltip: {
+                fixed: {
+                    enabled: false
+                },
+                x: {
+                    show: false
+                },
+                y: {
+                    title: {
+                        formatter: function (seriesName) {
+                            return '';
+                        }
+                    }
+                },
+                marker: {
+                    show: false
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.9,
+                    stops: [0, 90, 100]
+                },
+            },
+            series: [{
+                data: sparklineData
+            }],
+            yaxis: {
+                min: 0
+            },
+        };
+
+
+
+
+
+
+
+
+
+
+
     window.chartColors = {
         red: '#dc3545',
         orange: '#fd7e14',
@@ -1048,8 +1118,6 @@
         }
         };
 
-        var sparklineChart = new ApexCharts(document.querySelector("#chart-spark1"), sparkLineOptions);
-        sparkLineChart.render();
       
         var optionsSpark2 = {
           series: [{
@@ -1088,8 +1156,6 @@
         }
         };
 
-        var chartSpark2 = new ApexCharts(document.querySelector("#chart-spark2"), optionsSpark2);
-        chartSpark2.render();
       
         var optionsSpark3 = {
           series: [{
@@ -1132,8 +1198,6 @@
         }
         };
 
-        var chartSpark3 = new ApexCharts(document.querySelector("#chart-spark3"), optionsSpark3);
-        chartSpark3.render();
       
         var sparkLineOptions1 = {
           series: [{
@@ -1147,6 +1211,13 @@
             enabled: true
           }
         },
+        stroke: {
+            width: 2
+        },
+        markers: {
+              size: 1.5,
+              strokeColors: '#008EFA',
+        },
         tooltip: {
           fixed: {
             enabled: false
@@ -1167,9 +1238,7 @@
         }
         };
 
-        var sparkLineChart1 = new ApexCharts(document.querySelector("#chart-1"), sparkLineOptions1);
-        sparkLineChart1.render();
-      
+
         var sparkLineOptions2 = {
           series: [{
           data: [12, 14, 2, 47, 42, 15, 47, 75, 65, 19, 14]
@@ -1182,6 +1251,9 @@
             enabled: true
           }
         },
+        stroke: {
+            width: 2
+        },
         tooltip: {
           fixed: {
             enabled: false
@@ -1202,15 +1274,13 @@
         }
         };
 
-        var sparkLineChart2 = new ApexCharts(document.querySelector("#chart-2"), sparkLineOptions2);
-        sparkLineChart2.render();
       
         var sparkLineOptions3 = {
-          series: [43, 32, 12, 9],
+          series: [43, 32, 12, 9, 22],
           chart: {
           type: 'pie',
-          width: 40,
-          height: 40,
+          width: 100,
+          height: 100,
           sparkline: {
             enabled: true
           }
@@ -1225,15 +1295,13 @@
         }
         };
 
-        var sparkLineChart3 = new ApexCharts(document.querySelector("#chart-3"), sparkLineOptions3);
-        sparkLineChart3.render();
       
         var sparkLineOptions4 = {
-          series: [43, 32, 12, 9],
+          series: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
           chart: {
           type: 'donut',
-          width: 40,
-          height: 40,
+          width: 100,
+          height: 100,
           sparkline: {
             enabled: true
           }
@@ -1248,8 +1316,6 @@
         }
         };
 
-        var sparkLineChart4 = new ApexCharts(document.querySelector("#chart-4"), sparkLineOptions4);
-        sparkLineChart4.render();
       
         var sparkLineOptions5 = {
           series: [{
@@ -1294,8 +1360,6 @@
         }
         };
 
-        var sparkLineChart5 = new ApexCharts(document.querySelector("#chart-5"), sparkLineOptions5);
-        sparkLineChart5.render();
       
         var sparkLineOptions6 = {
           series: [{
@@ -1340,15 +1404,13 @@
         }
         };
 
-        var sparkLineChart6 = new ApexCharts(document.querySelector("#chart-6"), sparkLineOptions6);
-        sparkLineChart6.render();
       
         var sparkLineOptions7 = {
-          series: [45],
+          series: [43],
           chart: {
           type: 'radialBar',
-          width: 50,
-          height: 50,
+          width: 100,
+          height: 100,
           sparkline: {
             enabled: true
           }
@@ -1372,15 +1434,13 @@
         }
         };
 
-        var sparkLineChart7 = new ApexCharts(document.querySelector("#chart-7"), sparkLineOptions7);
-        sparkLineChart7.render();
       
         var sparkLineOptions8 = {
-          series: [53, 67],
+          series: [53, 67, 22, 100],
           chart: {
           type: 'radialBar',
-          width: 40,
-          height: 40,
+          width: 150,
+          height: 150,
           sparkline: {
             enabled: true
           }
@@ -1403,6 +1463,39 @@
           }
         }
         };
+
+
+
+        
+        var sparkLineChart = new ApexCharts(document.querySelector("#chart-spark1"), sparkLineOptions);
+        sparkLineChart.render();
+
+        var chartSpark2 = new ApexCharts(document.querySelector("#chart-spark2"), optionsSpark2);
+        chartSpark2.render();
+
+        var chartSpark3 = new ApexCharts(document.querySelector("#chart-spark3"), optionsSpark3);
+        chartSpark3.render();
+        
+        var sparkLineChart1 = new ApexCharts(document.querySelector("#chart-1"), sparkLineOptions1);
+        sparkLineChart1.render();
+      
+        var sparkLineChart2 = new ApexCharts(document.querySelector("#chart-2"), sparkLineOptions2);
+        sparkLineChart2.render();
+        
+        var sparkLineChart3 = new ApexCharts(document.querySelector("#chart-3"), sparkLineOptions3);
+        sparkLineChart3.render();
+        
+        var sparkLineChart4 = new ApexCharts(document.querySelector("#chart-4"), sparkLineOptions4);
+        sparkLineChart4.render();
+        
+        var sparkLineChart5 = new ApexCharts(document.querySelector("#chart-5"), sparkLineOptions5);
+        sparkLineChart5.render();
+        
+        var sparkLineChart6 = new ApexCharts(document.querySelector("#chart-6"), sparkLineOptions6);
+        sparkLineChart6.render();
+        
+        var sparkLineChart7 = new ApexCharts(document.querySelector("#chart-7"), sparkLineOptions7);
+        sparkLineChart7.render();
 
         var sparkLineChart8 = new ApexCharts(document.querySelector("#chart-8"), sparkLineOptions8);
         sparkLineChart8.render();
