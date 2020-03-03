@@ -671,7 +671,6 @@ looker.plugins.visualizations.add({
                 // Series Data
                 let sql = queryResponse.sql;
                 let chop = 0;
-                console.log(`This is the sql `, sql);
                 for(let i = 0; i < sql.length; i++) {
                     if (sql[i] == `,` && sql[i+1] == ` ` && sql[i+2] == `-`) {
                         chop = i+3;
@@ -680,6 +679,8 @@ looker.plugins.visualizations.add({
                 }
                 let stringFind = sql.substr(chop, 11);
                 let backwardsIteration = parseInt(stringFind, 10);
+                console.log(`This is the string find`, stringFind);
+                console.log(`This is the backwards iteration`, backwardsIteration);
 
 
                 seriesData[0].originalAxis = [];
