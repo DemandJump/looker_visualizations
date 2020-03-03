@@ -512,11 +512,6 @@ looker.plugins.visualizations.add({
 
 
 
-        // Construct a safe way to port the data over a period of time
-            // First if there's a null, and the other measure has data
-            // else if the next line has data, continue
-            // else switch over and finish the rest as the second period
-
 
 
         // Find out whether it's a pivot
@@ -654,11 +649,145 @@ looker.plugins.visualizations.add({
             if (pivotC) {
                 // Labels
                 datum.forEach(row => {
+                    let links = [];
+                    if (row[queryResonse.fields.dimension_like[0].name].links) links = row[queryResponse.fields.dimension_like[0].name].links;
 
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: links]});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: links}); 
                 });
-            }
+
+                // Series Object
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+                    let obj = {
+                        name: name,
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
+                    };
+                    seriesData.push(obj); 
+                }
+
+                // Series Data
+                let current = {data: [], links: []};
+                let previous = {data: [];, links: []}; // Previous will always be full, match current's with it
+                let sw = false;
+                let pass = true;
+                
+                    // Construct a safe way to port the data over a period of time
+                // First if there's a null, and the other measure has data
+                // else if the rest of the lines have data
+                // else switch over and finish the rest as the second period
+
+
+                let sql = queryResponse.sql;
+                let chop = 0;
+                console.log(`This is the sql `, sql);
+                for(let i = 0; i < sql.length; i++) {
+                    if (sql[i] == `,` && sql[i+1] == ` ` && sql[i+2] == `-`) {
+                        chop = i+3;
+                        break;
+                    }
+                }
+
+                let stringFind = sql.substr(chop, 11);
+                let backwardsIteration = parseInt(stringFind, 10);
+
+
+                for(let i = datum.length; i > datum.length - backwardsIteration; i--) {
+                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+
+                    previous.data.push(val);
+                    previous.links.push(links);
+                }
+
+                for(let i = backwardsIteration; i >= 0; i--) {
+                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+
+                    current.data.push(val);
+                    current.links.push(links);
+                }
+
+            //     datum.forEach((row, index) => {
+            //         let value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+
+            //         if (value == null || datum[index][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value != null) sw = true;
+            //         else {
+            //             for(let i = index; i < datum.length; i++) {
+            //                 if (datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value == null) continue;
+            //                 else {
+            //                     pass = false;
+            //                     break;
+            //                 }
+            //             }
+
+            //             if (pass) sw = true;
+            //         }
+
+
+
+            //         if (sw) { // load previous period data
+            //             previous.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value);
+            //         } else { // load current period data
+            //             current.push(value);
+            //         }
+            //     });
+
+            // }
         }
 
+
+
+/*
+SELECT * FROM (
+SELECT *, DENSE_RANK() OVER (ORDER BY z___min_rank) as z___pivot_row_rank, RANK() OVER (PARTITION BY z__pivot_col_rank ORDER BY z___min_rank) as z__pivot_col_ordering, CASE WHEN z___min_rank = z___rank THEN 1 ELSE 0 END AS z__is_highest_ranked_cell FROM (
+SELECT *, MIN(z___rank) OVER (PARTITION BY "date_dim.date_date") as z___min_rank FROM (
+SELECT *, RANK() OVER (ORDER BY "date_dim.date_date" DESC, z__pivot_col_rank) AS z___rank FROM (
+SELECT *, DENSE_RANK() OVER (ORDER BY CASE WHEN "date_dim.period_selection" IS NULL THEN 1 ELSE 0 END, "date_dim.period_selection") AS z__pivot_col_rank FROM (
+SELECT
+	CASE
+        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE)
+        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) < CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)
+        THEN 'Current Period'
+        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST((TO_CHAR(TO_DATE(
+      DATEADD(DAY,(-((DATEDIFF(DAY, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE), CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)))*2)),CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE))
+
+    ), 'YYYY-MM-DD')) AS DATE)
+        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) <= CAST((TO_CHAR(TO_DATE(
+      DATEADD(DAY, -1, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE))
+
+    ), 'YYYY-MM-DD')) AS DATE)
+        THEN 'Previous Period'
+      END
+     AS "date_dim.period_selection",
+	TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD') AS "date_dim.date_date",
+	COALESCE(SUM(adperformance_fact."IMPRESSIONS" ), 0) AS "adperformance_fact.impressions"
+FROM ADWORDS.ADPERFORMANCE_FACT  AS adperformance_fact
+INNER JOIN ADWORDS.DATE_DIM  AS date_dim ON (date_dim."DATEKEY") = (adperformance_fact."DATEKEY")
+
+WHERE ((((CASE
+        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE)
+        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) < CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)
+        THEN 'Current Period'
+        WHEN ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) >= CAST((TO_CHAR(TO_DATE(
+      DATEADD(DAY,(-((DATEDIFF(DAY, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE), CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE)))*2)),CAST(DATEADD('day', 45, DATEADD('day', -45, CURRENT_DATE())) AS DATE))
+
+    ), 'YYYY-MM-DD')) AS DATE)
+        AND ((TO_CHAR(TO_DATE(date_dim."DATE" ), 'YYYY-MM-DD'))) <= CAST((TO_CHAR(TO_DATE(
+      DATEADD(DAY, -1, CAST(DATEADD('day', -45, CURRENT_DATE()) AS DATE))
+
+    ), 'YYYY-MM-DD')) AS DATE)
+        THEN 'Previous Period'
+      END) IS NOT NULL))) AND (adperformance_fact."_PID"  = 700)
+GROUP BY 1,TO_DATE(date_dim."DATE" )) ww
+) bb WHERE z__pivot_col_rank <= 16384
+) aa
+) xx
+) zz
+ WHERE (z__pivot_col_rank <= 50 OR z__is_highest_ranked_cell = 1) AND (z___pivot_row_rank <= 500 OR z__pivot_col_ordering = 1) ORDER BY z___pivot_row_rank"
+*/
         // Pull all the information into a single object
         let seriesInformation = {
             pivot: {
