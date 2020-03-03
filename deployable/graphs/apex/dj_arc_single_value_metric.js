@@ -683,7 +683,7 @@ looker.plugins.visualizations.add({
 
 
                 seriesData[0].originalAxis = [];
-                for(let i = datum.length; i > datum.length - backwardsIteration; i--) {
+                for(let i = datum.length - 1; i > datum.length - backwardsIteration; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value
