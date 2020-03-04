@@ -182,15 +182,6 @@ looker.plugins.visualizations.add({
         console.log('This is the config', config);
         console.log('Queryresponse', queryResponse);
         console.log('the data', datum);
-        
-        // Pull pivots inot dimension array
-        let pivot = false; 
-        let pivotA = false;
-        let pivotB = false;
-        ifPivotQuery();
-
-        let allPercents = true;
-        ifPercentQuery();
 
 
         // Configuration settings
@@ -268,6 +259,23 @@ looker.plugins.visualizations.add({
                 }
             }
         }  
+
+                        
+        // Find out whether it's a pivot
+        let changed = false;
+        let pivot = false;
+        let pivotA = false;
+        let pivotB = false;
+        let pivotC = false; // Period over period 
+        let doNotTruncate = false;
+
+        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
+
+        pivotCheck(); // Check for pivots
+        truncate(); // Truncate the data
+    
+        let allPercents = true;
+        ifPercentQuery();
 
 
           // Pull in all the data into the xaxis and series
@@ -380,9 +388,87 @@ looker.plugins.visualizations.add({
                     }
                 });
             }
+            
+            if (pivotC) {
+                // Labels
+                datum.forEach(row => {
+                    let links = [];
+                    if (row[queryResponse.fields.dimension_like[0].name].links) links = row[queryResponse.fields.dimension_like[0].name].links;
+
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: links});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: links}); 
+                });
+
+                // Series Object
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+                    let obj = {
+                        name: name,
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
+                    };
+                    seriesData.push(obj); 
+                }
+
+                // Series Data
+                let sql = queryResponse.sql;
+                let chop = 0;
+                for(let i = 0; i < sql.length; i++) {
+                    if (sql[i] == `,` && sql[i+1] == ` ` && sql[i+2] == `-`) {
+                        chop = i+3;
+                        break;
+                    }
+                }
+                let stringFind = sql.substr(chop, 11);
+                let backwardsIteration = parseInt(stringFind, 10);
+                console.log(`This is the string find`, stringFind);
+                console.log(`This is the backwards iteration`, backwardsIteration);
+
+
+                seriesData[0].originalAxis = [];
+                for(let i = datum.length - 1; i > datum.length - backwardsIteration; i--) {
+                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value
+
+                    seriesData[0].data.push(val);
+                    seriesData[0].links.push(links);
+                    seriesData[0].originalAxis.push(xaxisVal);
+                }
+
+                seriesData[1].originalAxis = [];
+                for(let i = backwardsIteration; i >= 0; i--) {
+                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value;
+
+                    seriesData[1].data.push(val);
+                    seriesData[1].links.push(links);
+                    seriesData[1].originalAxis.push(xaxisVal);
+                }
+
+                console.log(`This is the current`, seriesData[0].data);
+                console.log(`This is the previous`, seriesData[1].data);
+            }
         }
-        console.log('These are the xaxis labels', xaxis);
-        console.log('Series data', seriesData);
+        
+        // Pull all the information into a single object
+        let seriesInformation = {
+            pivot: {
+                pivot: pivot,
+                pivotA: pivotA,
+                pivotB: pivotB,
+                pivotC: pivotC
+            },
+            xaxis: xaxis,
+            data: seriesData
+        };
+        console.log(`This is the series information`, seriesInformation);
+
+
+        // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
+
 
 
 
@@ -553,7 +639,7 @@ looker.plugins.visualizations.add({
          * Functions
         **********************************/
 
-        function ifPivotQuery() {
+        function pivotCheck() {
             if (queryResponse.fields.pivots.length != 0) {
                 pivot = true;
                 if (queryResponse.fields.dimension_like.length == 0) {
@@ -561,7 +647,26 @@ looker.plugins.visualizations.add({
                     queryResponse.fields._dimension_like = queryResponse.fields.dimension_like;
                     queryResponse.fields.dimension_like = queryResponse.fields.pivots;
                 } 
+                else if (queryResponse.fields.pivots[0].field_group_label == `Period Over Period` || queryResponse.fields.pivots[0].field_group_variant == `Period Selection`) pivotC = true;
                 else pivotB = true;
+            }
+        }
+
+
+        function truncate() {
+            if (!doNotTruncate) {
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    let truncate = false;
+                    datum.forEach(row => {
+                        if (row[queryResponse.fields.measure_like[i].name].value > 100) truncate = true;
+                    });
+                    if (truncate) {
+                        datum.forEach(row => {
+                            row[queryResponse.fields.measure_like[i].name].original = row[queryResponse.fields.measure_like[i].name].value;
+                            row[queryResponse.fields.measure_like[i].name].value = Math.trunc(row[queryResponse.fields.measure_like[i].name].value); 
+                        });
+                    }
+                }
             }
         }
 
