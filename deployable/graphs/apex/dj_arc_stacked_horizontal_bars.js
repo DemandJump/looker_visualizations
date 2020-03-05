@@ -321,6 +321,10 @@ looker.plugins.visualizations.add({
                 this.options.secondAxis.hidden = false;
                 this._multipleAxes = true;
                 changed = true;
+                
+                for(let i = 0; i < this.series.length; i++) {
+                    if (this.options[`series_${i}`]) this.options[`series_${i}`].hidden = true;
+                }
             }
         } else {
             if (this._multipleAxes != false) {
@@ -329,6 +333,10 @@ looker.plugins.visualizations.add({
                 this.options.secondAxis.hiddne = true;
                 this._multipleAxes = false;
                 changed = true;
+                
+                for(let i = 0; i < this.series.length; i++) {
+                    if (this.options[`series_${i}`]) this.options[`series_${i}`].hidden = true;
+                }
             }
         }
 
