@@ -144,6 +144,7 @@ looker.plugins.visualizations.add({
     },
     create: function(element, config) { 
         this._custom = `something`;
+        this._stack = false;
         element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -234,8 +235,22 @@ looker.plugins.visualizations.add({
                 this.options.horizontal.hidden = false;
                 this.options.endingShape.hidden = false;
                 this.options.stack.hidden = false;
-                this.options.stackType.hidden = false;
                 this.options.alignLegend.hidden = false;
+                if (config.stack) {
+                    if (config.stack == true) {
+                        if (this._stack != true) {
+                            this._stack = true;
+                            changed = true;
+                            this.options.stackType.hidden = false;
+                        }
+                    } else {
+                        if (this._stack != false) {
+                            this._stack = false;
+                            changed = true;
+                            this.options.stackType.hidden = true;
+                        }
+                    }
+                }
                 changed = true;
             }
 
