@@ -282,13 +282,30 @@ looker.plugins.visualizations.add({
             xaxis: {
                 categories: axisNames,
                 title: {text: xTitle},
-                labels: {formatter: handleAxisFormat(val, `xaxis`)}
+                labels: {
+                    formatter: function(val) {
+                        if (typeof(val) == `number` && horizontal) return formatAxes(val) + ` horizontal`;
+                        else return val;
+                    }
+                }
             },
             yaxis: {
                 title: {text: yTitle},
-                labels: {formatter: handleAxisFormat(val, `yaxis`)}
+                labels: {
+                    formatter: function(val) {
+                        if (typeof(val) == `number` && !horizontal) return formatAxes(val) + ` !horizontal`;
+                        else return val;
+                    }
+                }
             },
-            tooltip: { y: {formatter: handleAxisFormat(val, `tooltip`)} },
+            tooltip: { 
+                y: {
+                    formatter: function(val) {
+                        if (typeof(val) == `number`) return formatAxes(val) + ` tooltip`;
+                        else return val;
+                    }
+                } 
+            },
             plotOptions: {
                 bar: {horizontal: horizontal},
                 endingShape: endingShape, // Arrow, rounded, flat
@@ -585,25 +602,25 @@ looker.plugins.visualizations.add({
 
 
                 seriesData[0].originalAxis = [];
-                for(let i = datum.length - 1; i > datum.length - backwardsIteration; i--) {
+                for(let i = datum.length - 1; i >= datum.length - backwardsIteration; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value
 
-                    seriesData[0].data.push(val);
-                    seriesData[0].links.push(links);
-                    seriesData[0].originalAxis.push(xaxisVal);
+                    seriesData[1].data.unshift(val);
+                    seriesData[1].links.unshift(links);
+                    seriesData[1].originalAxis.unshift(xaxisVal);
                 }
 
                 seriesData[1].originalAxis = [];
-                for(let i = backwardsIteration; i >= 0; i--) {
+                for(let i = datum.length - backwardsIteration - 1; i >= 0; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
                     let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value;
 
-                    seriesData[1].data.push(val);
-                    seriesData[1].links.push(links);
-                    seriesData[1].originalAxis.push(xaxisVal);
+                    seriesData[0].data.unshift(val);
+                    seriesData[0].links.unshift(links);
+                    seriesData[0].originalAxis.unshift(xaxisVal);
                 }
 
                 console.log(`This is the current`, seriesData[0].data);
@@ -612,16 +629,6 @@ looker.plugins.visualizations.add({
 
             // Grab the xaxis names for the labels of the chart
             xaxis.forEach(axis => axisNames.push(axis.name));
-        }
-
-
-        function handleAxisFormat(val, axis) {
-            if(typeof(val) == `number`) {
-                if (xaxis == `xaxis` && horizontal) return formatAxes(val) + `horizontal`;
-                else if (axis == `yaxis` && !horizontal) return formatAxes(val) + `!horizontal`;
-                else return formatAxes(val) + ` tooltip`;
-            }
-            else return val;
         }
 
 
