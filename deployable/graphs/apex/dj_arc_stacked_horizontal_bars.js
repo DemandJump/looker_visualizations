@@ -164,7 +164,7 @@ looker.plugins.visualizations.add({
     },
     create: function(element, config) { 
         this._custom = `something`;
-        this._stack = false;
+        this._stack = `something`;
         this._multipleAxes = false;
         element.innerHTML = `
             <style>
@@ -264,18 +264,16 @@ looker.plugins.visualizations.add({
             }
 
             if (config.stack) {
-                if (config.stack == true) {
-                    if (this._stack != true) {
-                        this._stack = true;
-                        changed = true;
-                        this.options.stackType.hidden = false;
-                    }
-                } else {
-                    if (this._stack != false) {
-                        this._stack = false;
-                        changed = true;
-                        this.options.stackType.hidden = true;
-                    }
+                if (this._stack != `true`) {
+                    this._stack = `true`;
+                    changed = true;
+                    this.options.stackType.hidden = false;
+                }
+            } else {
+                if (this._stack != `false`) {
+                    this._stack = `false`;
+                    changed = true;
+                    this.options.stackType.hidden = true;
                 }
             }
 
