@@ -36,6 +36,15 @@ looker.plugins.visualizations.add({
             default: true,
             hidden: false
         },
+
+        showTitle2: {
+            label: `Show second axis title`,
+            order: 5.1,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+        },
         
         yTitle: {
             label: `Y axis label`,
@@ -286,18 +295,21 @@ looker.plugins.visualizations.add({
         
         if (config.title != ``) title = config.title;
         if (!config.showTitle) config.showTitle = false;
+        if (!config.showTitle2) config.showTitle2 = false;
         if (config.yTitle != ``) yTitle = config.yTitle;
         if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
         if (config.xTitle != ``) xTitle = config.xTitle;
         if (config.multipleAxes) multipleAxes = config.multipleAxes;
         if (config.multipleAxes == true) {
             if (this._multipleAxes != true) {
+                this.options.showTitle2.hidden = false;
                 this.options.yTitle2.hidden = false;
                 this._multipleAxes = true;
                 changed = true;
             }
         } else {
             if (this._multipleAxes != false) {
+                this.options.showTitle2.hidden = false;
                 this.options.yTitle2.hidden = true;
                 this._multipleAxes = false;
                 changed = true;
@@ -370,7 +382,6 @@ looker.plugins.visualizations.add({
         };
         
         if (config.stackType == true) stackLayout[`chart`].stackType = `100%`;
-        if (config.showTitle == true) stackLayout[`title`] = {text: title};
         if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
 
@@ -400,9 +411,9 @@ looker.plugins.visualizations.add({
                 let opposite = false;
 
                 if (config[`series_${index}`]) {
-                    if (config.yTitle2 != ``) title = yTitle2;
                     seriesName = `seriesB`;
                     opposite = true;
+                    if (config.yTitle2 != ``) title = yTitle2;
                 } else if (config.yTitle != ``) title = yTitle;
 
                 let obj = {
@@ -416,8 +427,14 @@ looker.plugins.visualizations.add({
                         }
                     }
                 };
+
+                if (config[`series_${index}`]) if (config.showTitle2 == false) delete obj[`title`];
+                else if (showTitle == false) delete obj[`title`];
+
                 stackLayout.yaxis.push(obj);
             });
+        } else {
+            if (config.showTitle == true) stackLayout[`title`] = {text: title};
         }
 
             // Store global variables and rerender the settings
