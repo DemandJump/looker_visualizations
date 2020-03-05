@@ -308,7 +308,6 @@ looker.plugins.visualizations.add({
             // Grab chart data 
         pivotCheck(); // Find the type of query 
         formatSeriesData(); // Pull the data for the chart
-        findValueFormat();
 
 
         let stackLayout = {
