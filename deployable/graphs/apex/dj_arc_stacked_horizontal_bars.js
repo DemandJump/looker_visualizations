@@ -307,7 +307,7 @@ looker.plugins.visualizations.add({
         }
 
             // Store global variables and rerender the settings
-        if (changed) this.trigger(`registerOfptions`, this.options);
+        if (changed) this.trigger(`registerOptions`, this.options);
 
 
             // Grab chart data 
