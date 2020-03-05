@@ -196,6 +196,7 @@ looker.plugins.visualizations.add({
         let title = ` `;
         let yTitle = ` `;
         let xTitle = ` `;
+        let alignLegend = `center`;
 
         let xaxis = [];
         let seriesData = [];
@@ -204,13 +205,16 @@ looker.plugins.visualizations.add({
 
 
         if (theme == `Horizontal` || theme == `Vertical` || theme == `Horizontal Stack` || theme == `Vertical Stack`) {
-            if (custom != `horizontalOrVertical`) {
-                custom = `horizontalOrVertical`;
-                settings.customSpacing.hidden = true;
-                settings.customLabel.hidden = true;
-                settings.dataLabels.hidden = true;
-                settings.horizontal.hidden = true;
-                settings.endingShape.hidden = true;
+            if (this._custom != `horizontalOrVertical`) {
+                this._custom = `horizontalOrVertical`;
+                this.options.customSpacing.hidden = true;
+                this.options.customLabel.hidden = true;
+                this.options.dataLabels.hidden = true;
+                this.options.horizontal.hidden = true;
+                this.options.endingShape.hidden = true;
+                this.options.stack.hidden = true;
+                this.options.stackType.hidden = true;
+                this.options.alignLegend.hidden = true;
                 changed = true;
             }
 
@@ -224,20 +228,24 @@ looker.plugins.visualizations.add({
         }
 
         if (theme == `Custom`) {
-            if (custom != `Custom`) {
-                custom = `Custom`;
-                settings.customSpacing.hidden = false;
-                settings.customLabel.hidden = false;
-                settings.dataLabels.hidden = false;
-                settings.horizontal.hidden = false;
-                settings.endingShape.hidden = false;
+            if (this._custom != `Custom`) {
+                this._custom = `Custom`;
+                this.options.customSpacing.hidden = false;
+                this.options.customLabel.hidden = false;
+                this.options.dataLabels.hidden = false;
+                this.options.horizontal.hidden = false;
+                this.options.endingShape.hidden = false;
+                this.options.stack.hidden = false;
+                this.options.stackType.hidden = false;
+                this.options.alignLegend.hidden = false;
                 changed = true;
             }
 
             if (config.dataLabels) dataLabels = config.dataLabels;
             if (config.endingShape) endingShape = config.endingShape;
-            if (config.stack) stack = config.stack
+            if (config.stack) stack = config.stack;
             if (config.horizontal) horizontal = config.horizontal;
+            if (config.alignLegend) alignLegend = config.alignLegend;
         }
         
         if (config.title != ``) title = config.title;
@@ -330,7 +338,7 @@ looker.plugins.visualizations.add({
             fill: {opacity: 1},
             legend: {
                 position: 'bottom', // front, back, bottom, top
-                horizontalAlign: 'center',
+                horizontalAlign: alignLegend,
             }
         };
         
