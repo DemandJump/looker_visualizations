@@ -187,7 +187,6 @@ looker.plugins.visualizations.add({
         let pivotA = false;
         let pivotB = false;
         let pivotC = false; // Period over period 
-        let doNotTruncate = false;
 
         let dataLabels = false;
         let horizontal = false;
@@ -211,7 +210,6 @@ looker.plugins.visualizations.add({
                 settings.dataLabels.hidden = true;
                 settings.horizontal.hidden = true;
                 settings.endingShape.hidden = true;
-                settings.doNotTruncate.hidden = true;
                 changed = true;
             }
 
