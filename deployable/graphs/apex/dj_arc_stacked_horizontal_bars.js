@@ -309,10 +309,6 @@ looker.plugins.visualizations.add({
         pivotCheck(); // Find the type of query 
         formatSeriesData(); // Pull the data for the chart
         findValueFormat();
-        function findValueFormat() {
-            // Pass in the series specific valueformat for each of the functions within the chart
-            // Link the specific value format through the name of each series connected > grab the value format of that specific queryResponse measure field
-        }
 
 
         let stackLayout = {
@@ -328,7 +324,7 @@ looker.plugins.visualizations.add({
                 title: {text: xTitle},
                 labels: {
                     formatter: function(val) {
-                        if (typeof(val) == `number` && horizontal) return formatAxes(val);
+                        if (typeof(val) == `number` && horizontal) return formatAxes(val, seriesData[0].value_format);
                         else return val;
                     }
                 }
@@ -337,7 +333,7 @@ looker.plugins.visualizations.add({
                 title: {text: yTitle},
                 labels: {
                     formatter: function(val) {
-                        if (typeof(val) == `number` && !horizontal) return formatAxes(val);
+                        if (typeof(val) == `number` && !horizontal) return formatAxes(val, seriesData[0].value_format);
                         else return val;
                     }
                 }
@@ -345,7 +341,7 @@ looker.plugins.visualizations.add({
             tooltip: { 
                 y: {
                     formatter: function(val) {
-                        if (typeof(val) == `number`) return formatAxes(val);
+                        if (typeof(val) == `number`) return formatAxes(val, seriesData[0].value_format);
                         else return val;
                     }
                 } 
@@ -425,7 +421,7 @@ looker.plugins.visualizations.add({
             // Store global variables and rerender the settings
         if (changed) this.trigger(`registerOptions`, this.options);
 
-        
+
 
 
         // Apex Charts
