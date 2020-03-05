@@ -152,9 +152,9 @@ looker.plugins.visualizations.add({
 
 
         multipleAxes: {
-            label: `Multiple Axes`,
+            label: `Add another axis`,
             order: 1,
-            section: `Axes`,
+            section: `Multiple Axes`,
             type: `boolean`,
             default: false,
             hidden: false
@@ -395,7 +395,7 @@ looker.plugins.visualizations.add({
                     settings[`series_${index}`] = {
                         label: `Keep ${row.name} on right axis`,
                         order: 10 + index,
-                        section: `Axes`,
+                        section: `Multiple Axes`,
                         type: `boolean`, 
                         default: false,
                         hidden: false
