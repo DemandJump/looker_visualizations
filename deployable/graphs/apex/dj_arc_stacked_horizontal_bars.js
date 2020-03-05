@@ -279,22 +279,6 @@ looker.plugins.visualizations.add({
             // Pass in the series specific valueformat for each of the functions within the chart
             // Link the specific value format through the name of each series connected > grab the value format of that specific queryResponse measure field
         }
-    
-
-            // Pull all the information into a single object
-        seriesInformation = {
-            pivot: {
-                pivot: pivot,
-                pivotA: pivotA,
-                pivotB: pivotB,
-                pivotC: pivotC
-            },
-            xaxis: xaxis,
-            axisNames: axisNames,
-            data: seriesData,
-            valueFormat: valueFormat
-        };
-        console.log(`This is the series information`, seriesInformation);
 
 
         let stackLayout = {
@@ -413,12 +397,6 @@ looker.plugins.visualizations.add({
             nodes.push(node);
         }
 
-        let drilldownElementData = {
-            axisElements: axisElements,
-            axisChildrenElements: elem,
-            drilldownNodes: nodes
-        };
-        console.log(`Here is all the axis data`, drilldownElementData);
 
         // Create the axis containers
         let container = d3.select(`.container`)
@@ -446,6 +424,28 @@ looker.plugins.visualizations.add({
             });
         }
 
+
+        let drilldownElementData = {
+            axisElements: axisElements,
+            axisChildrenElements: elem,
+            drilldownNodes: nodes
+        };
+
+        // Pull all the information into a single object
+        seriesInformation = {
+            pivot: {
+                pivot: pivot,
+                pivotA: pivotA,
+                pivotB: pivotB,
+                pivotC: pivotC
+            },
+            xaxis: xaxis,
+            axisNames: axisNames,
+            data: seriesData,
+            valueFormat: valueFormat,
+            drilldownElementData: drilldownElementData
+        };
+        console.log(`Series Information`, seriesInformation);
 
 
         
