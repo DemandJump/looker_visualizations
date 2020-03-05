@@ -441,7 +441,7 @@ looker.plugins.visualizations.add({
             },
             xaxis: xaxis,
             axisNames: axisNames,
-            data: seriesData,
+            seriesData: seriesData,
             valueFormat: valueFormat,
             drilldownElementData: drilldownElementData
         };
@@ -490,9 +490,11 @@ looker.plugins.visualizations.add({
                 // Series data structure
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
                     let name = queryResponse.fields.measure_like[i].label;
+                    let measureName = queryResponse.fields.measure_like[i].name;
+                    let value_format = queryResponse.fields.measure_like[i].value_format;
                     if (queryResponse.fields.measure_like[i].label_short) name = queryResponse.fields.measure_like[i].label_short;
     
-                    let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
+                    let obj = {name: name, className: name.replace(/ /g, `-`), measure: measureName, value_format: value_format, data: [], links: []};
                     seriesData.push(obj);
                 }
     
@@ -551,6 +553,8 @@ looker.plugins.visualizations.add({
                     let obj = {
                         name: name,
                         className: name.replace(/ /g, `-`),
+                        measure: row.name,
+                        value_format: row.value_format,
                         data: obData,
                         links: liData
                     }
@@ -572,6 +576,9 @@ looker.plugins.visualizations.add({
                     let obj = {
                         name: name,
                         className: name.replace(/ /g, `-`),
+                        measure: queryResponse.fields.measure_like[0].name,
+                        pivot: queryResponse.pivots[i].key,
+                        value_format: queryResponse.fields.measure_like[0].value_format,
                         data: [],
                         links: []
                     };
@@ -608,6 +615,9 @@ looker.plugins.visualizations.add({
                     let obj = {
                         name: name,
                         className: name.replace(/ /g, `-`),
+                        measure: queryResponse.fields.measure_like[0].name,
+                        pivot: queryResponse.pivots[i].key,
+                        value_format: queryResponse.fields.measure_like[0].value_format,
                         data: [],
                         links: []
                     };
