@@ -430,7 +430,7 @@ looker.plugins.visualizations.add({
                     }
                 };
 
-                if (config[`series_${index}`]) {
+                if (config[`series_${index}`]) { // If this is true then the axis should be on the right
                     if (config.showTitle2 == false) delete obj[`title`];
                 } else if (config.showTitle == false) delete obj[`title`];
 
@@ -446,11 +446,13 @@ looker.plugins.visualizations.add({
 
 
 
+
         // Apex Charts
         window.Apex = { dataLabels:{enabled: false}, stroke:{width: 2} };
         let columnOrBarChart = new ApexCharts(document.querySelector(`#chart-apex-stack`), stackLayout);
         if (document.getElementById('chart-apex-stack')) columnOrBarChart.render();
 
+        console.log(`This is the stack configuration `, stackLayout)
 
         /******************************** 
          * Drilldown Menu Configuration
