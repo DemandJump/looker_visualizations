@@ -416,7 +416,7 @@ looker.plugins.visualizations.add({
                     title: {text: title},
                     labels: {
                         formatter: function(val) {
-                            if (typeof(val) == `number` && !horizontal) return formatAxes(val);
+                            if (typeof(val) == `number` && !horizontal) return formatAxes(val, row.value_format);
                             else return val;
                         }
                     }
@@ -745,8 +745,10 @@ looker.plugins.visualizations.add({
 
 
         // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
-        function formatAxes(value) {
+        function formatAxes(value, format) {
             let value_format = valueFormat;
+            if (format != undefined) value_format = format;
+            console.log(`Original value format: ${valueFormat}. This is the function's value format`, value_format)
             let response;
             
             if (value_format == `0`) {
