@@ -416,7 +416,10 @@ looker.plugins.visualizations.add({
                     seriesName = `seriesB`;
                     opposite = true;
                     if (config.yTitle2 != ``) title = yTitle2;
-                } else {
+                } 
+                if (config[`series_${index}`] == false) {
+                    seriesName = `seriesA`;
+                    opposite = false;
                     if (config.yTitle != ``) title = yTitle;
                 }
 
@@ -431,7 +434,7 @@ looker.plugins.visualizations.add({
                         }
                     }
                 };
-                console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}`);
+                console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${opposite}`);
 
                 if (config[`series_${index}`]) { // If this is true then the axis should be on the right
                     if (config.showTitle2 == false) delete obj[`title`];
