@@ -776,7 +776,6 @@ looker.plugins.visualizations.add({
         function formatAxes(value, format) {
             let value_format = valueFormat;
             if (format != null) value_format = format;
-            console.log(`Original value format: ${valueFormat}. This is the function's value format`, value_format)
             let response;
             
             if (value_format == `0`) {
