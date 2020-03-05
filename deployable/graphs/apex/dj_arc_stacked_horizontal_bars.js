@@ -606,8 +606,8 @@ looker.plugins.visualizations.add({
                 console.log(`This is the string find`, stringFind);
                 console.log(`This is the backwards iteration`, backwardsIteration);
 
-
                 seriesData[0].originalAxis = [];
+                seriesData[1].originalAxis = [];
                 for(let i = datum.length - 1; i >= datum.length - backwardsIteration; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
@@ -618,7 +618,6 @@ looker.plugins.visualizations.add({
                     seriesData[1].originalAxis.unshift(xaxisVal);
                 }
 
-                seriesData[1].originalAxis = [];
                 for(let i = datum.length - backwardsIteration - 1; i >= 0; i--) {
                     let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
                     let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
