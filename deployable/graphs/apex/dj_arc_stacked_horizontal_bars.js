@@ -187,6 +187,7 @@ looker.plugins.visualizations.add({
         let pivotA = false;
         let pivotB = false;
         let pivotC = false; // Period over period 
+        let valueFormat = `0`;
 
         let dataLabels = false;
         let horizontal = false;
@@ -253,6 +254,11 @@ looker.plugins.visualizations.add({
             // Grab chart data 
         pivotCheck(); // Find the type of query 
         formatSeriesData(); // Pull the data for the chart
+        findValueFormat();
+        function findValueFormat() {
+            // Pass in the series specific valueformat for each of the functions within the chart
+            // Link the specific value format through the name of each series connected > grab the value format of that specific queryResponse measure field
+        }
     
 
             // Pull all the information into a single object
@@ -266,7 +272,7 @@ looker.plugins.visualizations.add({
             xaxis: xaxis,
             axisNames: axisNames,
             data: seriesData,
-            valueFormat: queryResponse.value_format
+            valueFormat: valueFormat
         };
         console.log(`This is the series information`, seriesInformation);
 
@@ -634,7 +640,7 @@ looker.plugins.visualizations.add({
 
         // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
         function formatAxes(value) {
-            let valueFormat = queryResponse.value_format;
+            let value_format = seriesInformation.valueFormat;
             let response;
             
             if (value_format == `0`) {
