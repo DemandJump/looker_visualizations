@@ -383,7 +383,7 @@ looker.plugins.visualizations.add({
             seriesData.forEach((row, index) => {
                 if (!this.options[`series_${index}`]) {
                     changed = true;
-                    settings[`series_${index}`] = {
+                    this.options[`series_${index}`] = {
                         label: `Keep ${row.name} on right axis`,
                         order: 10 + index,
                         section: `Multiple Axes`,
