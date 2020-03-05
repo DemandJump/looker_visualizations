@@ -332,8 +332,10 @@ looker.plugins.visualizations.add({
                 } 
             },
             plotOptions: {
-                bar: {horizontal: horizontal},
-                endingShape: endingShape, // Arrow, rounded, flat
+                bar: {
+                    horizontal: horizontal,
+                    endingShape: endingShape, // Arrow, rounded, flat
+                },
             },
             dataLabels: {
                 enabled: dataLabels,
@@ -355,7 +357,7 @@ looker.plugins.visualizations.add({
         
         if (config.stackType == true) stackLayout[`chart`].stackType = `100%`;
         if (config.showTitle == true) stackLayout[`title`] = {text: title};
-        if (stack == false) stackLayout.plotOptions.columnWidth = `55%`;
+        if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
 
         // Apex Charts
