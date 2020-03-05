@@ -38,11 +38,20 @@ looker.plugins.visualizations.add({
         },
         
         yTitle: {
-            label: `Y axis Label`,
+            label: `Y axis label`,
             order: 3,
             section: `Format`,
             type: `string`,
             placeholder: `Enter y axis label`,
+            hidden: false
+        },
+
+        yTitle2: {
+            label: `Second y axis label`,
+            order: 3.1,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter y axis label`, 
             hidden: false
         },
 
@@ -139,12 +148,24 @@ looker.plugins.visualizations.add({
             ],
             default: `center`,
             hidden: false
-        }
+        },
+
+
+        multipleAxes: {
+            label: `Multiple Axes`,
+            order: 1,
+            section: `Axes`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+        },
+
         
     },
     create: function(element, config) { 
         this._custom = `something`;
         this._stack = false;
+        this._multipleAxes = false;
         element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -187,6 +208,7 @@ looker.plugins.visualizations.add({
         let pivotB = false;
         let pivotC = false; // Period over period 
         let valueFormat = `0`;
+        if (queryResponse.fields.measure_like[0].value_format) valueFormat = queryResponse.fields.measure_like[0].value_format;
 
         let dataLabels = false;
         let horizontal = false;
@@ -194,8 +216,10 @@ looker.plugins.visualizations.add({
         let stack = false;
         let title = ` `;
         let yTitle = ` `;
+        let yTitle2 = ` `;
         let xTitle = ` `;
         let alignLegend = `center`;
+        let multipleAxes = false;
 
         let xaxis = [];
         let seriesData = [];
@@ -265,7 +289,22 @@ looker.plugins.visualizations.add({
         if (config.title != ``) title = config.title;
         if (!config.showTitle) config.showTitle = false;
         if (config.yTitle != ``) yTitle = config.yTitle;
+        if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
         if (config.xTitle != ``) xTitle = config.xTitle;
+        if (config.multipleAxes) multipleAxes = config.multipleAxes;
+        if (config.multipleAxes == true) {
+            if (this._multipleAxes != true) {
+                this.options.yTitle2.hidden = false;
+                this._multipleAxes = true;
+                changed = true;
+            }
+        } else {
+            if (this._multipleAxes != false) {
+                this.options.yTitle2.hidden = true;
+                this._multipleAxes = false;
+                changed = true;
+            }
+        }
 
             // Store global variables and rerender the settings
         if (changed) this.trigger(`registerOfptions`, this.options);
@@ -345,12 +384,54 @@ looker.plugins.visualizations.add({
         if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
 
+        // Iterate through the series and create multiple axes 
+        if (multipleAxes) {
+            stackLayout.yaxis = [];
+
+            // Create the config settings for the chart
+            seriesData.forEach((row, index) => {
+                if (!settings[`series_${index}`]) {
+                    changed = true;
+                    settings[`series_${index}`] = {
+                        label: `Keep ${row.name} on right axis`,
+                        order: 10 + index,
+                        section: `Axes`,
+                        type: `boolean`, 
+                        default: false,
+                        hidden: false
+                    };
+                }
+            });
+
+            // Apply the config settings to the chart
+            seriesData.forEach((row, index) => {
+                let title = yTitle;
+                let seriesName = `seriesA`;
+
+                if (config[`series_${index}`]) {
+                    title = yTitle2;
+                    seriesName = `seriesB`;
+                }
+
+                let obj = {
+                    seriesName: seriesName,
+                    title: {text: title},
+                    labels: {
+                        formatter: function(val) {
+                            if (typeof(val) == `number` && !horizontal) return formatAxes(val);
+                            else return val;
+                        }
+                    }
+                };
+                stackLayout.yaxis.push(obj);
+            });
+        }
+
+
         // Apex Charts
         window.Apex = { dataLabels:{enabled: false}, stroke:{width: 2} };
         let columnOrBarChart = new ApexCharts(document.querySelector(`#chart-apex-stack`), stackLayout);
         if (document.getElementById('chart-apex-stack')) columnOrBarChart.render();
-
-
 
 
         /******************************** 
@@ -667,7 +748,7 @@ looker.plugins.visualizations.add({
 
         // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
         function formatAxes(value) {
-            let value_format = seriesInformation.valueFormat;
+            let value_format = valueFormat;
             let response;
             
             if (value_format == `0`) {
