@@ -238,7 +238,7 @@ looker.plugins.visualizations.add({
                 this.options.alignLegend.hidden = false;
                 changed = true;
             }
-            
+
             if (config.stack) {
                 if (config.stack == true) {
                     if (this._stack != true) {
@@ -625,8 +625,6 @@ looker.plugins.visualizations.add({
                 }
                 let stringFind = sql.substr(chop, 11);
                 let backwardsIteration = parseInt(stringFind, 10);
-                console.log(`This is the string find`, stringFind);
-                console.log(`This is the backwards iteration`, backwardsIteration);
 
                 seriesData[0].originalAxis = [];
                 seriesData[1].originalAxis = [];
@@ -650,8 +648,6 @@ looker.plugins.visualizations.add({
                     seriesData[0].originalAxis.unshift(xaxisVal);
                 }
 
-                console.log(`This is the current`, seriesData[0].data);
-                console.log(`This is the previous`, seriesData[1].data);
             }
 
             // Grab the xaxis names for the labels of the chart
