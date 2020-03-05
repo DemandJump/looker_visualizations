@@ -226,6 +226,8 @@ looker.plugins.visualizations.add({
         let title = ` `;
         let yTitle = ` `;
         let yTitle2 = ` `;
+        let showTitle = config.showTitle;
+        let showTitle2 = config.showTitle2;
         let xTitle = ` `;
         let alignLegend = `center`;
         let multipleAxes = false;
@@ -428,8 +430,9 @@ looker.plugins.visualizations.add({
                     }
                 };
 
-                if (config[`series_${index}`]) if (config.showTitle2 == false) obj[`title`] = ``;
-                else if (config.showTitle == false) obj[`title`] = ``;
+                if (config[`series_${index}`]) {
+                    if (config.showTitle2 == false) delete obj[`title`];
+                } else if (config.showTitle == false) delete obj[`title`];
 
                 stackLayout.yaxis.push(obj);
             });
