@@ -184,11 +184,9 @@ looker.plugins.visualizations.add({
         console.log('the data', datum);
 
 
-        // Configuration settings
+            // Configuration settings
         let theme = 'Horizontal';
         if (config.chooseTheme) theme = config.chooseTheme;
-        let rendered = false;
-        let changed = false;
         let dataLabels = false;
         let horizontal = false;
         // let endingShape = 'flat';
@@ -197,244 +195,38 @@ looker.plugins.visualizations.add({
         if (!config.showTitle) config.showTitle = false;
         let yTitle = ' ';
         let xTitle = ' ';
-        let doNotTruncate = false;
- 
-        if (theme == 'Horizontal' || theme == 'Vertical') {
-            if (this._custom != 'horizontalOrVertical') {
-                this._custom = 'horizontalOrVertical';
-                this.options.customSpacing.hidden = true;
-                this.options.customLabel.hidden = true;
-                this.options.dataLabels.hidden = true;
-                this.options.horizontal.hidden = true;
-                // this.options.endingShape.hidden = true;
-                // this.options.renderedData.hidden = true;
-                this.options.doNotTruncate.hidden = true;
-                changed = true;
-            }
 
-            if (theme == 'Horizontal') horizontal = true;
-            if (theme == 'Vertical') horizontal = false;
-        }
-
-        if (theme == 'Custom') {
-            if (this._custom != 'Custom') {
-                this._custom = 'Custom';
-                this.options.customSpacing.hidden = false;
-                this.options.customLabel.hidden = false;
-                this.options.dataLabels.hidden = false;
-                this.options.horizontal.hidden = false;
-                // this.options.endingShape.hidden = false;
-                // this.options.renderedData.hidden = false;
-                this.options.doNotTruncate.hidden = false;
-                changed = true;
-            }
-
-            if (config.dataLabels) dataLabels = config.dataLabels;
-            // if (config.endingShape) endingShape = config.endingShape;
-            if (config.horizontal) horizontal = config.horizontal;
-            // if (config.renderedData) rendered = config.renderedData;
-            if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
-        }
-
-        if (changed) this.trigger('registerOptions', this.options);
-
-        if (config.title != ``) title = config.title;
-        // if (config.showTitle) showTitle = config.showTitle;
-        if (config.yTitle != ``) yTitle = config.yTitle;
-        if (config.xTitle != ``) xTitle = config.xTitle;
-
-                        
-        // Find out whether it's a pivot
+        let settings = this.options;
+        let changed = false;
         let pivot = false;
         let pivotA = false;
         let pivotB = false;
         let pivotC = false; // Period over period 
         let doNotTruncate = false;
-
-        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
-
-        pivotCheck(); // Check for pivots
-        truncate(); // Truncate the data
-    
-        let allPercents = true;
-        ifPercentQuery();
-
-
-          // Pull in all the data into the xaxis and series
+        let changed = false;
+        
         let xaxis = [];
         let seriesData = [];
-        
-        if (!pivot) {
-            // Series data structure
-            for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                let name = queryResponse.fields.measure_like[i].label;
-                if (queryResponse.fields.measure_like[i].label_short) name = queryResponse.fields.measure_like[i].label_short;
+        let axisNames = [];
 
-                let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
-                seriesData.push(obj);
-            }
+        if (config.title != ``) title = config.title;
+        // if (config.showTitle) showTitle = config.showTitle;
+        if (config.yTitle != ``) yTitle = config.yTitle;
+        if (config.xTitle != ``) xTitle = config.xTitle;
+        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
+ 
+        let custom = this._custom;
+        createThemes(); 
+        this._custom = custom;
+        this.options = settings;
+        if (changed) this.trigger('registerOfptions', this.options);
 
-            // Labels
-            datum.forEach(row => {
-                let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
-                let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-                xaxis.push({name: nameVal, links: lonks});
-            });
 
-            // Series data
-            let series = [];
-            datum.forEach((row, index) => {
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    let value = 0;
-                    let lonks = row[queryResponse.fields.measure_like[i].name].links;
-
-                    if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
-                    seriesData[i].data.push(value);
-                    seriesData[i].links.push(lonks);
-                }
-            });
-
-        } else {
-            if (pivotA) {
-                // Labels
-                queryResponse.pivots.forEach(p => {
-                    let lonks = undefined;
-                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
-                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
-                    } 
-                    else xaxis.push({name: p.key, links: lonks});
-                });
+        pivotCheck(); // Find the type of query 
+        formatSeriesData(); // Pull the data for the chart
     
-                // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-                let series = [];
-                queryResponse.fields.measure_like.forEach((row, index) => {
-                    let obData = [];
-                    let liData = [];
-                    let newSeries = [];
 
-                    for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        let keyname = queryResponse.pivots[i].key;
-                        let value = 0;
-
-                        liData.push(datum[0][row.name][keyname].links);
-                        
-                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
-                        obData.push(value);
-                    }
-
-                    let name = row.label;
-                    if (row.label_short) name = row.label_short;
-
-                    let obj = {
-                        name: name,
-                        className: name.replace(/ /g, `-`),
-                        data: obData,
-                        links: liData
-                    }
-                    seriesData.push(obj);
-                });
-            }
-
-            if (pivotB) {
-                // Labels
-                datum.forEach(row => {
-                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
-                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
-                });
-
-                // Series Object
-                for(let i = 0; i < queryResponse.pivots.length; i++) {
-                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
-                    let obj = {
-                        name: name,
-                        className: name.replace(/ /g, `-`),
-                        data: [],
-                        links: []
-                    };
-                    seriesData.push(obj);
-                }
-
-                // Series data
-                datum.forEach(row => { 
-                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
-                });
-
-                datum.forEach(row => {
-                    for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        let value = 0;
-                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
-                        seriesData[i].data.push(value);
-                    }
-                });
-            }
-            
-            if (pivotC) {
-                // Labels
-                datum.forEach(row => {
-                    let links = [];
-                    if (row[queryResponse.fields.dimension_like[0].name].links) links = row[queryResponse.fields.dimension_like[0].name].links;
-
-                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: links});
-                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: links}); 
-                });
-
-                // Series Object
-                for(let i = 0; i < queryResponse.pivots.length; i++) {
-                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
-                    let obj = {
-                        name: name,
-                        className: name.replace(/ /g, `-`),
-                        data: [],
-                        links: []
-                    };
-                    seriesData.push(obj); 
-                }
-
-                // Series Data
-                let sql = queryResponse.sql;
-                let chop = 0;
-                for(let i = 0; i < sql.length; i++) {
-                    if (sql[i] == `,` && sql[i+1] == ` ` && sql[i+2] == `-`) {
-                        chop = i+3;
-                        break;
-                    }
-                }
-                let stringFind = sql.substr(chop, 11);
-                let backwardsIteration = parseInt(stringFind, 10);
-                console.log(`This is the string find`, stringFind);
-                console.log(`This is the backwards iteration`, backwardsIteration);
-
-
-                seriesData[0].originalAxis = [];
-                for(let i = datum.length - 1; i > datum.length - backwardsIteration; i--) {
-                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
-                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
-                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value
-
-                    seriesData[0].data.push(val);
-                    seriesData[0].links.push(links);
-                    seriesData[0].originalAxis.push(xaxisVal);
-                }
-
-                seriesData[1].originalAxis = [];
-                for(let i = backwardsIteration; i >= 0; i--) {
-                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
-                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
-                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value;
-
-                    seriesData[1].data.push(val);
-                    seriesData[1].links.push(links);
-                    seriesData[1].originalAxis.push(xaxisVal);
-                }
-
-                console.log(`This is the current`, seriesData[0].data);
-                console.log(`This is the previous`, seriesData[1].data);
-            }
-        }
-        
-        // Pull all the information into a single object
+            // Pull all the information into a single object
         let seriesInformation = {
             pivot: {
                 pivot: pivot,
@@ -443,70 +235,42 @@ looker.plugins.visualizations.add({
                 pivotC: pivotC
             },
             xaxis: xaxis,
-            data: seriesData
+            axisNames: axisNames,
+            data: seriesData,
+            valueFormat: queryResponse.value_format
         };
         console.log(`This is the series information`, seriesInformation);
 
 
-
-
-
-
-        let axisNames = [];
-        xaxis.forEach(axis => axisNames.push(axis.name));
-        let height = window.innerHeight - 45;
-        // Stacked Bar
-        let options4 = {
+        let stackLayout = {
             chart: {
-                height: height,
+                height: window.innerHeight - 45,
                 type: 'bar',
                 stacked: 'true',
             },
             colors: djColors,
-            plotOptions: {
-                bar: {
-                    horizontal: horizontal,
-                },
+            series: seriesData,
+            xaxis: {
+                categories: axisNames,
+                title: {text: xTitle},
+                labels: {formatter: handleAxisFormat(val, `xaxis`)}
             },
+            yaxis: {
+                title: {text: yTitle},
+                labels: {formatter: handleAxisFormat(val, `yaxis`)}
+            },
+            tooltip: { y: {formatter: handleAxisFormat(val, `tooltip`)} },
+            plotOptions: {bar: {horizontal: horizontal}},
             dataLabels: {
                 enabled: dataLabels,
-                // offsetX: -4,
                 style: {
-                  fontSize: '12px',
-                  colors: ['#fff']
+                    fontSize: '12px',
+                    colors: ['#fff']
                 }
             },
             stroke: {
                 width: 1,
                 colors: ['#fff']
-            },
-            series: seriesData,
-            xaxis: {
-                categories: axisNames,
-                labels: {
-                    formatter: function (val) {
-                        if (horizontal && typeof(val) == `number`) return formatAxes(val) + `horizontal`;
-                        else return val;
-                    }
-                },
-                title: {text: xTitle},
-            },
-            yaxis: {
-                title: {text: yTitle},
-                labels: {
-                    formatter: function (val) {
-                        if (!horizontal && typeof(val) == `number`) return formatAxes(val) + `!horizontal`;
-                        else return val;
-                    }
-                }
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        if (typeof(val) == `number`) return formatAxes(val) + ` tooltip`;
-                        else return val; 
-                    }
-                }
             },
             fill: {opacity: 1},
             legend: {
@@ -515,8 +279,8 @@ looker.plugins.visualizations.add({
             }
         };
         
-        if (config.stackType == true) options4[`chart`].stackType = `100%`;
-        if (config.showTitle == true) options4[`title`] = {text: title};
+        if (config.stackType == true) stackLayout[`chart`].stackType = `100%`;
+        if (config.showTitle == true) stackLayout[`title`] = {text: title};
 
 
         // Apex Charts
@@ -527,7 +291,7 @@ looker.plugins.visualizations.add({
 
         let chart4 = new ApexCharts(
             document.querySelector("#chart-apex-stack"),
-            options4
+            stackLayout
         );
         // Apex Charts Init
         if (document.getElementById('chart-apex-stack')) chart4.render();
@@ -737,6 +501,231 @@ looker.plugins.visualizations.add({
                 }
             }
         } // End of ifPercentQuery
+
+
+        function createThemes() {
+            if (theme == 'Horizontal' || theme == 'Vertical') {
+                if (custom != 'horizontalOrVertical') {
+                    custom = 'horizontalOrVertical';
+                    settings.customSpacing.hidden = true;
+                    settings.customLabel.hidden = true;
+                    settings.dataLabels.hidden = true;
+                    settings.horizontal.hidden = true;
+                    // settings.endingShape.hidden = true;
+                    // settings.renderedData.hidden = true;
+                    settings.doNotTruncate.hidden = true;
+                    changed = true;
+                }
+    
+                if (theme == 'Horizontal') horizontal = true;
+                if (theme == 'Vertical') horizontal = false;
+            }
+    
+            if (theme == 'Custom') {
+                if (custom != 'Custom') {
+                    custom = 'Custom';
+                    settings.customSpacing.hidden = false;
+                    settings.customLabel.hidden = false;
+                    settings.dataLabels.hidden = false;
+                    settings.horizontal.hidden = false;
+                    // settings.endingShape.hidden = false;
+                    // settings.renderedData.hidden = false;
+                    settings.doNotTruncate.hidden = false;
+                    changed = true;
+                }
+    
+                if (config.dataLabels) dataLabels = config.dataLabels;
+                // if (config.endingShape) endingShape = config.endingShape;
+                if (config.horizontal) horizontal = config.horizontal;
+                // if (config.renderedData) rendered = config.renderedData;
+                if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
+            }
+        }
+
+        
+        formatSeriesData() {
+            if (!pivot) {
+                // Series data structure
+                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                    let name = queryResponse.fields.measure_like[i].label;
+                    if (queryResponse.fields.measure_like[i].label_short) name = queryResponse.fields.measure_like[i].label_short;
+    
+                    let obj = {name: name, className: name.replace(/ /g, `-`), data: [], links: []};
+                    seriesData.push(obj);
+                }
+    
+                // Labels
+                datum.forEach(row => {
+                    let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
+                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                    xaxis.push({name: nameVal, links: lonks});
+                });
+    
+                // Series data
+                let series = [];
+                datum.forEach((row, index) => {
+                    for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+                        let value = 0;
+                        let lonks = row[queryResponse.fields.measure_like[i].name].links;
+    
+                        if (row[queryResponse.fields.measure_like[i].name].value != null) value = row[queryResponse.fields.measure_like[i].name].value;
+                        seriesData[i].data.push(value);
+                        seriesData[i].links.push(lonks);
+                    }
+                });
+            }
+
+            if (pivotA) {
+                // Labels
+                queryResponse.pivots.forEach(p => {
+                    let lonks = undefined;
+                    if (p.metadata[queryResponse.fields.pivots[0].name].links) lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
+                    if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+                        if (p.metadata[queryResponse.fields.pivots[0].name].rendered != null) xaxis.push({name: p.metadata[queryResponse.fields.pivots[0].name].rendered, links: lonks});
+                    } 
+                    else xaxis.push({name: p.key, links: lonks});
+                });
+    
+                // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+                let series = [];
+                queryResponse.fields.measure_like.forEach((row, index) => {
+                    let obData = [];
+                    let liData = [];
+                    let newSeries = [];
+
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let keyname = queryResponse.pivots[i].key;
+                        let value = 0;
+
+                        liData.push(datum[0][row.name][keyname].links);
+                        
+                        if (datum[0][row.name][keyname].value != null) value = datum[0][row.name][keyname].value;
+                        obData.push(value);
+                    }
+
+                    let name = row.label;
+                    if (row.label_short) name = row.label_short;
+
+                    let obj = {
+                        name: name,
+                        className: name.replace(/ /g, `-`),
+                        data: obData,
+                        links: liData
+                    }
+                    seriesData.push(obj);
+                });
+            }
+
+            if (pivotB) {
+                // Labels
+                datum.forEach(row => {
+                    let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: lonks});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: lonks});
+                });
+
+                // Series Object
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+                    let obj = {
+                        name: name,
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
+                    };
+                    seriesData.push(obj);
+                }
+
+                // Series data
+                datum.forEach(row => { 
+                    for(let i = 0; i < queryResponse.pivots.length; i++) seriesData[i].links.push(row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].links);
+                });
+
+                datum.forEach(row => {
+                    for(let i = 0; i < queryResponse.pivots.length; i++) {
+                        let value = 0;
+                        if (row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value != null) value = row[queryResponse.fields.measure_like[0].name][queryResponse.pivots[i].key].value;
+                        seriesData[i].data.push(value);
+                    }
+                });
+            }
+
+            if (pivotC) {
+                // Labels
+                datum.forEach(row => {
+                    let links = [];
+                    if (row[queryResponse.fields.dimension_like[0].name].links) links = row[queryResponse.fields.dimension_like[0].name].links;
+
+                    if (row[queryResponse.fields.dimension_like[0].name].rendered) xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].rendered, links: links});
+                    else xaxis.push({name: row[queryResponse.fields.dimension_like[0].name].value, links: links}); 
+                });
+
+                // Series Object
+                for(let i = 0; i < queryResponse.pivots.length; i++) {
+                    let name = queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+                    let obj = {
+                        name: name,
+                        className: name.replace(/ /g, `-`),
+                        data: [],
+                        links: []
+                    };
+                    seriesData.push(obj); 
+                }
+
+                // Series Data
+                let sql = queryResponse.sql;
+                let chop = 0;
+                for(let i = 0; i < sql.length; i++) {
+                    if (sql[i] == `,` && sql[i+1] == ` ` && sql[i+2] == `-`) {
+                        chop = i+3;
+                        break;
+                    }
+                }
+                let stringFind = sql.substr(chop, 11);
+                let backwardsIteration = parseInt(stringFind, 10);
+                console.log(`This is the string find`, stringFind);
+                console.log(`This is the backwards iteration`, backwardsIteration);
+
+
+                seriesData[0].originalAxis = [];
+                for(let i = datum.length - 1; i > datum.length - backwardsIteration; i--) {
+                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[1].key].value;
+                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value
+
+                    seriesData[0].data.push(val);
+                    seriesData[0].links.push(links);
+                    seriesData[0].originalAxis.push(xaxisVal);
+                }
+
+                seriesData[1].originalAxis = [];
+                for(let i = backwardsIteration; i >= 0; i--) {
+                    let val = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+                    let links = datum[i][queryResponse.fields.measure_like[0].name][queryResponse.pivots[0].key].value;
+                    let xaxisVal = datum[i][queryResponse.fields.dimension_like[0].name].value;
+
+                    seriesData[1].data.push(val);
+                    seriesData[1].links.push(links);
+                    seriesData[1].originalAxis.push(xaxisVal);
+                }
+
+                console.log(`This is the current`, seriesData[0].data);
+                console.log(`This is the previous`, seriesData[1].data);
+            }
+
+            // Grab the xaxis names for the labels of the chart
+            xaxis.forEach(axis => axisNames.push(axis.name));
+        }
+
+
+        function handleAxisFormat(val, axis) {
+            if(typeof(val) == `number`) {
+                if (xaxis == `xaxis` && horizontal) return formatAxes(val) + `horizontal`;
+                else if (axis == `yaxis` && !horizontal) return formatAxes(val) + `!horizontal`;
+                else return formatAxes(val) + ` tooltip`;
+            }
+            else return val;
+        }
 
 
         // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
