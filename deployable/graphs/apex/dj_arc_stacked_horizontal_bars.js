@@ -11,6 +11,8 @@ looker.plugins.visualizations.add({
             values: [
                 {"Horizontal": "Horizontal"},
                 {"Vertical": "Vertical"},
+                {"Horizontal stack": "Horizontal Stack"},
+                {"Vertical stack": "Vertical Stack"},
                 {"Custom": "Custom"}
             ],
             default: `Horizontal`,
@@ -73,15 +75,6 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        stackType: {
-            label: `100% Stack Type`,
-            order: 6,
-            section: `Format`,
-            type: `boolean`,
-            default: false,
-            hidden: false
-        },
-
         dataLabels: {
             label: `Enable data labels`,
             order: 10,
@@ -100,32 +93,32 @@ looker.plugins.visualizations.add({
             hidden: false
         },
         
-        // endingShape: {
-        //     label: `Ending bar shape`,
-        //     order: 12,
-        //     section: `Format`,
-        //     type: `string`,
-        //     display: `select`,
-        //     values: [
-        //         // {'Arrow': 'arrow'},
-        //         {'Rounded': 'rounded'},
-        //         {'Flat': 'flat'},
-        //     ],
-        //     default: `rounded`,
-        //     hidden: false
-        // },
+        endingShape: {
+            label: `Ending bar shape`,
+            order: 12,
+            section: `Format`,
+            type: `string`,
+            display: `select`,
+            values: [
+                // {'Arrow': 'arrow'},
+                {'Rounded': 'rounded'},
+                {'Flat': 'flat'},
+            ],
+            default: `rounded`,
+            hidden: false
+        },
 
-        // renderedData: {
-        //     label: `Use rendered data`,
-        //     order: 13,
-        //     section: `Format`,
-        //     type: `boolean`,
-        //     default: true,
-        //     hidden: false
-        // },
-        
-        doNotTruncate: {
-            label: `Don't Truncate data`,
+        stack: {
+            label: `Stack layout`,
+            order: 13,
+            section: `Format`,
+            type: `boolean`,
+            default: false,
+            hidden: false 
+        },
+
+        stackType: {
+            label: `100% Stack Type`,
             order: 14,
             section: `Format`,
             type: `boolean`,
@@ -133,21 +126,21 @@ looker.plugins.visualizations.add({
             hidden: false
         },
 
-        // legend: {
-        //     label: `Put legend`,
-        //     order: 15,
-        //     section: `Format`,
-        //     type: `string`,
-        //     display: `select`,
-        //     values: [
-        //         {'Front': 'front'},
-        //         {'Back': 'back'},
-        //         {'Bottom': 'bottom'},
-        //         {'Top': 'top'}
-        //     ],
-        //     default: `top`,
-        //     hidden: false
-        // },
+        alignLegend: {
+            label: `Align legend`,
+            order: 15,
+            section: `Format`,
+            type: `string`,
+            display: `select`,
+            values: [
+                {"Center": "center"},
+                {"Left": "left"},
+                {"Right": "right"}
+            ],
+            default: `center`,
+            hidden: false
+        }
+        
     },
     create: function(element, config) { 
         this._custom = `something`;
@@ -174,28 +167,20 @@ looker.plugins.visualizations.add({
             .style('left', '0');
     },
     updateAsync: function(data, element, config, queryResponse, details, doneRendering) {
-        d3.select("#chart-apex-stack").selectAll("*").remove(); // Clear out the data before we add the vis
-        let djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
-        let djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
+        d3.select(`#chart-apex-stack`).selectAll(`*`).remove(); // Clear out the data before we add the vis
+        const djColors = [`#009DE9`, `#3EC173`, `#38E883`, `#4A4AFF`, `#163796`, `#5CF3FF`, `#F9BE3D`, `#E2FF6E`, `#ACEA49`, `#A53057`, `#AC7EB7`, `#5C3BC3`, `#5278CE`, `#A1EDFF`, `#05CE5A`, `#4A8C04`, `#3ABBCF`, `#ECE428`, `#E53057`, `#FF8571`, `#F9DCA0`, `#8FFFC7`, `#DFA1FF`, `#9C5CF7`, `#0D6D6D`, `#35A8DB`, `#92FFFF`, `#A5C0FF`, `#FFB0B0`, `#931655`];
+        const djAlphaColors = [`rgba(0, 157, 233, 0.45)`, `rgba(62, 193, 115, 0.45)`, `rgba(56, 232, 131, 0.45)`, `rgba(74, 74, 255, 0.45)`, `rgba(22, 55, 150, 0.45)`, `rgba(92, 243, 255, 0.45)`, `rgba(249, 190, 61, 0.45)`, `rgba(226, 255, 110, 0.45)`, `rgba(172, 234, 73, 0.45)`, `rgba(165, 48, 87, 0.45)`, `rgba(172, 126, 183, 0.45)`, `rgba(92, 59, 195, 0.45)`, `rgba(82, 120, 206, 0.45)`, `rgba(161, 237, 255, 0.45)`, `rgba(5, 206, 90, 0.45)`, `rgba(74, 140, 4, 0.45)`, `rgba(58, 187, 207, 0.45)`, `rgba(236, 228, 40, 0.45)`, `rgba(229, 48, 87, 0.45)`, `rgba(255, 133, 113, 0.45)`, `rgba(249, 220, 160, 0.45)`, `rgba(143, 255, 199, 0.45)`, `rgba(223, 161, 255, 0.45)`, `rgba(156, 92, 247, 0.45)`, `rgba(13, 109, 109, 0.45)`, `rgba(53, 168, 219, 0.45)`, `rgba(146, 255, 255, 0.45)`, `rgba(165, 192, 255, 0.45)`, `rgba(255, 176, 176, 0.45)`, `rgba(147, 22, 85, 0.45)`];
         let datum = data;
-        console.log('\n\n\n\n\nThese are the settings', this.options);
-        console.log('This is the config', config);
-        console.log('Queryresponse', queryResponse);
-        console.log('the data', datum);
+        console.log(`\n\n\n\n\nThese are the settings`, this.options);
+        console.log(`This is the config`, config);
+        console.log(`Queryresponse`, queryResponse);
+        console.log(`the data`, datum);
 
 
             // Configuration settings
-        let theme = 'Horizontal';
+        let theme = `Horizontal`;
         if (config.chooseTheme) theme = config.chooseTheme;
-        let dataLabels = false;
-        let horizontal = false;
-        // let endingShape = 'flat';
-        let stackType = false;
-        let title = ' ';
-        if (!config.showTitle) config.showTitle = false;
-        let yTitle = ' ';
-        let xTitle = ' ';
-
+        let custom = this._custom;
         let settings = this.options;
         let changed = false;
         let pivot = false;
@@ -203,31 +188,77 @@ looker.plugins.visualizations.add({
         let pivotB = false;
         let pivotC = false; // Period over period 
         let doNotTruncate = false;
-        let changed = false;
-        
+
+        let dataLabels = false;
+        let horizontal = false;
+        let endingShape = `flat`;
+        let stack = false;
+        let title = ` `;
+        let yTitle = ` `;
+        let xTitle = ` `;
+
         let xaxis = [];
         let seriesData = [];
         let axisNames = [];
+        let seriesInformation;
 
+
+        if (theme == `Horizontal` || theme == `Vertical` || theme == `Horizontal Stack` || theme == `Vertical Stack`) {
+            if (custom != `horizontalOrVertical`) {
+                custom = `horizontalOrVertical`;
+                settings.customSpacing.hidden = true;
+                settings.customLabel.hidden = true;
+                settings.dataLabels.hidden = true;
+                settings.horizontal.hidden = true;
+                settings.endingShape.hidden = true;
+                settings.doNotTruncate.hidden = true;
+                changed = true;
+            }
+
+            if (theme == `Horizontal`) horizontal = true;
+            if (theme == `Vertical`) horizontal = false;
+            if (theme == `Vertical Stack`) stack = true;
+            if (theme == `Horizontal Stack`) {
+                horizontal = true;
+                stack = true;
+            }
+        }
+
+        if (theme == `Custom`) {
+            if (custom != `Custom`) {
+                custom = `Custom`;
+                settings.customSpacing.hidden = false;
+                settings.customLabel.hidden = false;
+                settings.dataLabels.hidden = false;
+                settings.horizontal.hidden = false;
+                settings.endingShape.hidden = false;
+                changed = true;
+            }
+
+            if (config.dataLabels) dataLabels = config.dataLabels;
+            if (config.endingShape) endingShape = config.endingShape;
+            if (config.stack) stack = config.stack
+            if (config.horizontal) horizontal = config.horizontal;
+        }
+        
         if (config.title != ``) title = config.title;
-        // if (config.showTitle) showTitle = config.showTitle;
+        if (!config.showTitle) config.showTitle = false;
         if (config.yTitle != ``) yTitle = config.yTitle;
         if (config.xTitle != ``) xTitle = config.xTitle;
-        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
- 
-        let custom = this._custom;
-        createThemes(); 
+
+            // Store global variables and rerender the settings
         this._custom = custom;
         this.options = settings;
-        if (changed) this.trigger('registerOfptions', this.options);
+        if (changed) this.trigger(`registerOfptions`, this.options);
 
 
+            // Grab chart data 
         pivotCheck(); // Find the type of query 
         formatSeriesData(); // Pull the data for the chart
     
 
             // Pull all the information into a single object
-        let seriesInformation = {
+        seriesInformation = {
             pivot: {
                 pivot: pivot,
                 pivotA: pivotA,
@@ -246,7 +277,7 @@ looker.plugins.visualizations.add({
             chart: {
                 height: window.innerHeight - 45,
                 type: 'bar',
-                stacked: 'true',
+                stacked: stack,
             },
             colors: djColors,
             series: seriesData,
@@ -260,7 +291,10 @@ looker.plugins.visualizations.add({
                 labels: {formatter: handleAxisFormat(val, `yaxis`)}
             },
             tooltip: { y: {formatter: handleAxisFormat(val, `tooltip`)} },
-            plotOptions: {bar: {horizontal: horizontal}},
+            plotOptions: {
+                bar: {horizontal: horizontal},
+                endingShape: endingShape, // Arrow, rounded, flat
+            },
             dataLabels: {
                 enabled: dataLabels,
                 style: {
@@ -281,20 +315,13 @@ looker.plugins.visualizations.add({
         
         if (config.stackType == true) stackLayout[`chart`].stackType = `100%`;
         if (config.showTitle == true) stackLayout[`title`] = {text: title};
+        if (stack == false) stackLayout.plotOptions.columnWidth = `55%`;
 
 
         // Apex Charts
-        window.Apex = {
-            dataLabels: {enabled: false},
-            stroke: {width: 2}
-        };
-
-        let chart4 = new ApexCharts(
-            document.querySelector("#chart-apex-stack"),
-            stackLayout
-        );
-        // Apex Charts Init
-        if (document.getElementById('chart-apex-stack')) chart4.render();
+        window.Apex = { dataLabels:{enabled: false}, stroke:{width: 2} };
+        let columnOrBarChart = new ApexCharts(document.querySelector(`#chart-apex-stack`), stackLayout);
+        if (document.getElementById('chart-apex-stack')) columnOrBarChart.render();
 
 
 
@@ -302,15 +329,13 @@ looker.plugins.visualizations.add({
         /******************************** 
          * Drilldown Menu Configuration
         ********************************/
-       d3.select(".container").selectAll("*").remove(); // Clear out the data before we add the vis
             // X axis drilldown menu
-        let axisElements = document.getElementsByClassName("apexcharts-xaxis-texts-g");
-        if (horizontal) axisElements = document.getElementsByClassName("apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g");
+        d3.select(`.container`).selectAll(`*`).remove(); // Clear out the data before we add the vis
+        let axisElements = document.getElementsByClassName(`apexcharts-xaxis-texts-g`);
+        if (horizontal) axisElements = document.getElementsByClassName(`apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g`);
         let elem = axisElements[0].children;
         let ps;
         let nodes = [];
-        // console.log(`This is axis elements`, axisElements);
-        // console.log(`Here are the children`, elem);
 
         xaxis.forEach((axis, index) => {
             if (axis.links == undefined) axis.links = [];
@@ -333,14 +358,10 @@ looker.plugins.visualizations.add({
                 id: `_${elem[i].id}`,
                 originalId: elem[i].id,
                 coordinates: {
-                    x: ps.x,
-                    y: ps.y,
                     width: elemWidth,
                     height: elemHeight,
                     top: ps.top,
                     left: ps.left,
-                    bottom: ps.bottom,
-                    right: ps.right,
                 },
                 xaxis: xaxis[i].name,
                 links: xaxis[i].links,
@@ -348,8 +369,15 @@ looker.plugins.visualizations.add({
             };
             nodes.push(node);
         }
-        // console.log(`These are the xaxis drilldown nodes`, nodes);
 
+        let drilldownElementData = {
+            axisElements: axisElements,
+            axisChildrenElements: elem,
+            drilldownNodes: nodes
+        };
+        console.log(`Here is all the axis data`, drilldownElementData);
+
+        // Create the axis containers
         let container = d3.select(`.container`)
             .append(`div`).attr(`class`, `dimensions`)
                 .selectAll(`.dimension`).data(nodes);
@@ -410,135 +438,6 @@ looker.plugins.visualizations.add({
                         });
                     }
                 }
-            }
-        }
-
-        
-        function ifPercentQuery() {
-            if (!pivot) {
-                for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                    if (datum[0][queryResponse.fields.measure_like[i].name].rendered) {
-                        if (!datum[0][queryResponse.fields.measure_like[i].name].rendered.includes(`%`)) {
-                            allPercents = false;
-                            return;
-                        }
-                    } else { // If there is no rendered value: just to be safe
-                        allPercents = false;
-                        return;
-                    }
-                }
-
-                if (allPercents) {
-                    datum.forEach(row => {
-                        for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-                            let value = row[queryResponse.fields.measure_like[i].name].value;
-                            let percent = value * 100;
-                            let truncate = percent.toFixed(1);
-                            row[queryResponse.fields.measure_like[i].name].original = value;
-                            row[queryResponse.fields.measure_like[i].name].value = truncate;
-                        }
-                    });
-                }
-            } else {
-                if (pivotA) {
-                    queryResponse.fields.measure_like.forEach(mes => {
-                        for(let i = 0; i < queryResponse.pivots.length; i++) {
-                            if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                                if (!datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
-                                    allPercents = false;
-                                    return;
-                                }
-                            } else {
-                                allPercents = false;
-                                return;
-                            }
-                        }
-                    }); 
-
-                    if (allPercents) {
-                        queryResponse.fields.measure_like.forEach(mes => {
-                            for(let i = 0; i < queryResponse.pivots.length; i++) {
-                                let value = datum[0][mes.name][queryResponse.pivots[i].key].value;
-                                let percent = value * 100;
-                                let truncate = percent.toFixed(1);
-                                datum[0][mes.name][queryResponse.pivots[i].key].original = value;
-                                datum[0][mes.name][queryResponse.pivots[i].key].value = truncate;
-                            }
-                        });
-                    }
-
-                }
-
-                if (pivotB) {
-                    for(let i = 0; i < queryResponse.pivots.length; i++) {
-                        queryResponse.fields.measure_like.forEach(mes => {
-                            if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                                if (!datum[0][mes.name][queryResponse.pivots[i].key].rendered.includes(`%`)) {
-                                    allPercents = false;
-                                    return;
-                                }
-                            } else {
-                                allPercents = false;
-                                return;
-                            }
-                        });
-                    }
-
-                    if (allPercents) {
-                        datum.forEach(row => {
-                            for(let i = 0; i < queryResponse.pivots.length; i++) {
-                                for(let mi = 0; mi < queryResponse.fields.measure_like.length; mi++) {
-                                    let value = row[queryResponse.fields.measure_like[mi].name][queryResponse.pivots[i].key].value;
-                                    let percent = value * 100;
-                                    let truncate = percent.toFixed(1);
-                                    row[queryResponse.fields.measure_like[mi].name][queryResponse.pivots[i].key].original = value;
-                                    row[queryResponse.fields.measure_like[mi].name][queryResponse.pibots[i].key].value = truncate;
-                                }
-                            }
-                        });
-                    }
-                    
-                }
-            }
-        } // End of ifPercentQuery
-
-
-        function createThemes() {
-            if (theme == 'Horizontal' || theme == 'Vertical') {
-                if (custom != 'horizontalOrVertical') {
-                    custom = 'horizontalOrVertical';
-                    settings.customSpacing.hidden = true;
-                    settings.customLabel.hidden = true;
-                    settings.dataLabels.hidden = true;
-                    settings.horizontal.hidden = true;
-                    // settings.endingShape.hidden = true;
-                    // settings.renderedData.hidden = true;
-                    settings.doNotTruncate.hidden = true;
-                    changed = true;
-                }
-    
-                if (theme == 'Horizontal') horizontal = true;
-                if (theme == 'Vertical') horizontal = false;
-            }
-    
-            if (theme == 'Custom') {
-                if (custom != 'Custom') {
-                    custom = 'Custom';
-                    settings.customSpacing.hidden = false;
-                    settings.customLabel.hidden = false;
-                    settings.dataLabels.hidden = false;
-                    settings.horizontal.hidden = false;
-                    // settings.endingShape.hidden = false;
-                    // settings.renderedData.hidden = false;
-                    settings.doNotTruncate.hidden = false;
-                    changed = true;
-                }
-    
-                if (config.dataLabels) dataLabels = config.dataLabels;
-                // if (config.endingShape) endingShape = config.endingShape;
-                if (config.horizontal) horizontal = config.horizontal;
-                // if (config.renderedData) rendered = config.renderedData;
-                if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
             }
         }
 
