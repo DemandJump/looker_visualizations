@@ -395,17 +395,20 @@ looker.plugins.visualizations.add({
 
             // Apply the config settings to the chart
             seriesData.forEach((row, index) => {
-                let title = yTitle;
+                let title = row.name;
                 let seriesName = `seriesA`;
+                let opposite = false;
 
                 if (config[`series_${index}`]) {
-                    title = yTitle2;
+                    if (config.yTitle2 != ``) title = yTitle2;
                     seriesName = `seriesB`;
-                }
+                    opposite = true;
+                } else if (config.yTitle != ``) title = yTitle;
 
                 let obj = {
                     seriesName: seriesName,
                     title: {text: title},
+                    ooposite: opposite,
                     labels: {
                         formatter: function(val) {
                             if (typeof(val) == `number` && !horizontal) return formatAxes(val, row.value_format);
