@@ -304,9 +304,6 @@ looker.plugins.visualizations.add({
             }
         }
 
-            // Store global variables and rerender the settings
-        if (changed) this.trigger(`registerOptions`, this.options);
-
 
             // Grab chart data 
         pivotCheck(); // Find the type of query 
@@ -388,7 +385,7 @@ looker.plugins.visualizations.add({
 
             // Create the config settings for the chart
             seriesData.forEach((row, index) => {
-                if (!settings[`series_${index}`]) {
+                if (!this.options[`series_${index}`]) {
                     changed = true;
                     settings[`series_${index}`] = {
                         label: `Keep ${row.name} on right axis`,
@@ -424,6 +421,11 @@ looker.plugins.visualizations.add({
                 stackLayout.yaxis.push(obj);
             });
         }
+
+            // Store global variables and rerender the settings
+        if (changed) this.trigger(`registerOptions`, this.options);
+
+        
 
 
         // Apex Charts
@@ -747,7 +749,7 @@ looker.plugins.visualizations.add({
         // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
         function formatAxes(value, format) {
             let value_format = valueFormat;
-            if (format != undefined) value_format = format;
+            if (format != null) value_format = format;
             console.log(`Original value format: ${valueFormat}. This is the function's value format`, value_format)
             let response;
             
