@@ -180,8 +180,6 @@ looker.plugins.visualizations.add({
             // Configuration settings
         let theme = `Horizontal`;
         if (config.chooseTheme) theme = config.chooseTheme;
-        let custom = this._custom;
-        let settings = this.options;
         let changed = false;
         let pivot = false;
         let pivotA = false;
@@ -254,8 +252,6 @@ looker.plugins.visualizations.add({
         if (config.xTitle != ``) xTitle = config.xTitle;
 
             // Store global variables and rerender the settings
-        this._custom = custom;
-        this.options = settings;
         if (changed) this.trigger(`registerOfptions`, this.options);
 
 
