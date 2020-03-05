@@ -290,7 +290,7 @@ looker.plugins.visualizations.add({
                 title: {text: xTitle},
                 labels: {
                     formatter: function(val) {
-                        if (typeof(val) == `number` && horizontal) return formatAxes(val) + ` horizontal`;
+                        if (typeof(val) == `number` && horizontal) return formatAxes(val);
                         else return val;
                     }
                 }
@@ -299,7 +299,7 @@ looker.plugins.visualizations.add({
                 title: {text: yTitle},
                 labels: {
                     formatter: function(val) {
-                        if (typeof(val) == `number` && !horizontal) return formatAxes(val) + ` !horizontal`;
+                        if (typeof(val) == `number` && !horizontal) return formatAxes(val);
                         else return val;
                     }
                 }
@@ -307,7 +307,7 @@ looker.plugins.visualizations.add({
             tooltip: { 
                 y: {
                     formatter: function(val) {
-                        if (typeof(val) == `number`) return formatAxes(val) + ` tooltip`;
+                        if (typeof(val) == `number`) return formatAxes(val);
                         else return val;
                     }
                 } 
@@ -737,6 +737,8 @@ looker.plugins.visualizations.add({
                 response = value * 100;
                 response = response.toFixed(2).toString() + `%`;
             } // Convert to percent with 2 decimals (.01 becomes 1.00%)
+
+            return response;
         }
 
 
