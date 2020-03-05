@@ -428,8 +428,8 @@ looker.plugins.visualizations.add({
                     }
                 };
 
-                if (config[`series_${index}`]) if (config.showTitle2 == false) delete obj[`title`];
-                else if (showTitle == false) delete obj[`title`];
+                if (config[`series_${index}`]) if (config.showTitle2 == false) obj[`title`] = ``;
+                else if (config.showTitle == false) obj[`title`] = ``;
 
                 stackLayout.yaxis.push(obj);
             });
