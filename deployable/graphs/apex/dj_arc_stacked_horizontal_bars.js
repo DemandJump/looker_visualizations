@@ -442,7 +442,7 @@ looker.plugins.visualizations.add({
         }
 
         
-        formatSeriesData() {
+        function formatSeriesData() {
             if (!pivot) {
                 // Series data structure
                 for(let i = 0; i < queryResponse.fields.measure_like.length; i++) {
