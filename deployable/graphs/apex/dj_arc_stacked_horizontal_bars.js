@@ -407,18 +407,20 @@ looker.plugins.visualizations.add({
             });
 
             // Apply the config settings to the chart
+            let nameA = seriesData[0].name;
+            let nameB = seriesData[1].name;
             seriesData.forEach((row, index) => {
                 let title = row.name;
                 let seriesName = `seriesA`;
                 let opposite = false;
 
                 if (config[`series_${index}`] == true) {
-                    seriesName = `seriesB`;
+                    seriesName = nameA;
                     opposite = true;
                     if (config.yTitle2 != ``) title = yTitle2;
                 } 
                 if (config[`series_${index}`] == false) {
-                    seriesName = `seriesA`;
+                    seriesName = nameB;
                     opposite = false;
                     if (config.yTitle != ``) title = yTitle;
                 }
