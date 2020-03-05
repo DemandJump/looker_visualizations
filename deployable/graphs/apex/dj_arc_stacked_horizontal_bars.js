@@ -236,22 +236,23 @@ looker.plugins.visualizations.add({
                 this.options.endingShape.hidden = false;
                 this.options.stack.hidden = false;
                 this.options.alignLegend.hidden = false;
-                if (config.stack) {
-                    if (config.stack == true) {
-                        if (this._stack != true) {
-                            this._stack = true;
-                            changed = true;
-                            this.options.stackType.hidden = false;
-                        }
-                    } else {
-                        if (this._stack != false) {
-                            this._stack = false;
-                            changed = true;
-                            this.options.stackType.hidden = true;
-                        }
+                changed = true;
+            }
+            
+            if (config.stack) {
+                if (config.stack == true) {
+                    if (this._stack != true) {
+                        this._stack = true;
+                        changed = true;
+                        this.options.stackType.hidden = false;
+                    }
+                } else {
+                    if (this._stack != false) {
+                        this._stack = false;
+                        changed = true;
+                        this.options.stackType.hidden = true;
                     }
                 }
-                changed = true;
             }
 
             if (config.dataLabels) dataLabels = config.dataLabels;
