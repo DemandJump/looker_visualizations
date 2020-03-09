@@ -463,6 +463,7 @@ looker.plugins.visualizations.add({
                     let axisOrientation = false;
                     let show = true;
                     if (index > 1) show = false;
+                    if (index == 1 && config[`series_${index}`] == false) show = false;
     
                     if (config[`series_${index}`] == true) {
                         seriesName = nameB;
