@@ -164,6 +164,7 @@ looker.plugins.visualizations.add({
         this._custom = `lorem ipsum`;
         this._stack = `lorem ipsum`;
         this._multipleAxes = false;
+        this._canMultipleAxis = false;
         element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -238,6 +239,7 @@ looker.plugins.visualizations.add({
                 this.options.stack.hidden = true;
                 this.options.stackType.hidden = true;
                 this.options.alignLegend.hidden = true;
+                if (this.options.multipleAxes) this.options.multipleAxes.hidden = true;
                 changed = true;
             }
 
@@ -260,6 +262,7 @@ looker.plugins.visualizations.add({
                 this.options.endingShape.hidden = false;
                 this.options.stack.hidden = false;
                 this.options.alignLegend.hidden = false;
+                if (this.options.multipleAxes) this.options.multipleAxes.hidden = false;
                 changed = true;
             }
 
@@ -290,16 +293,31 @@ looker.plugins.visualizations.add({
         if (config.yTitle != ``) yTitle = config.yTitle;
         if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
         if (config.xTitle != ``) xTitle = config.xTitle;
-        if (config.multipleAxes) multipleAxes = config.multipleAxes;
-        if (config.multipleAxes == true) {
-            if (this._multipleAxes != true) {
-                this.options.showTitle2.hidden = false;
-                this.options.yTitle2.hidden = false;
-                this._multipleAxes = true;
-                changed = true;
-                
-                for(let i = 0; i < this._series.length; i++) {
-                    if (this.options[`series_${i}`]) this.options[`series_${i}`].hidden = true;
+        if (config.multipleAxes) {
+            multipleAxes = config.multipleAxes;
+            if (horizontal) multipleAxes = false;
+            if (config.multipleAxes == true) {
+                if (this._multipleAxes != true) {
+                    this.options.showTitle2.hidden = false;
+                    this.options.yTitle2.hidden = false;
+                    this._multipleAxes = true;
+                    changed = true;
+                    
+                    for(let i = 0; i < this._series.length; i++) {
+                        if (this.options[`series_${i}`]) this.options[`series_${i}`].hidden = true;
+                    }
+                }
+            } 
+            if (config.multipleAxes == false || horizontal) {
+                if (this._multipleAxes != false) {
+                    this.options.showTitle2.hidden = true;
+                    this.options.yTitle2.hidden = true;
+                    this._multipleAxes = false;
+                    changed = true;
+                    
+                    for(let i = 0; i < this._series.length; i++) {
+                        if (this.options[`series_${i}`]) this.options[`series_${i}`].hidden = true;
+                    }
                 }
             }
         } else {
@@ -308,13 +326,12 @@ looker.plugins.visualizations.add({
                 this.options.yTitle2.hidden = true;
                 this._multipleAxes = false;
                 changed = true;
-                
+
                 for(let i = 0; i < this._series.length; i++) {
                     if (this.options[`series_${i}`]) this.options[`series_${i}`].hidden = true;
                 }
             }
         }
-
 
             // Grab chart data 
         pivotCheck(); // Find the type of query 
@@ -397,7 +414,7 @@ looker.plugins.visualizations.add({
                     delete this.options[`series_${index}`];
                 }
             });
-            
+
         } else {
             if (!this.options[`multipleAxes`]) {
                 changed = true;
