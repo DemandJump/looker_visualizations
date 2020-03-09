@@ -415,7 +415,7 @@ looker.plugins.visualizations.add({
             if (this._series != seriesData.length) {
                 this._series = seriesData.length;
                 changed = true;
-                this.options.secondAxis.values = [];
+                this.options.secondAxis.values = [{'None': 'none'}];
             }
 
             // Create the config settings for the chart
@@ -447,6 +447,8 @@ looker.plugins.visualizations.add({
                 let title = row.name;
                 let seriesName = nameA;
                 let axisOrientation = false;
+                let show = true;
+                if (index > 1) show = false;
 
                 if (config[`series_${index}`] == true) {
                     seriesName = nameB;
@@ -461,6 +463,7 @@ looker.plugins.visualizations.add({
                 let obj = {
                     seriesName: seriesName,
                     opposite: axisOrientation,
+                    show: show,
                     labels: {
                         formatter: function(val) {
                             if (typeof(val) == `number` && !horizontal) return formatAxes(val, row.value_format);
