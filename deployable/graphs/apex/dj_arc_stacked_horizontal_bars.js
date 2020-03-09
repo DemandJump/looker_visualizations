@@ -503,9 +503,17 @@ looker.plugins.visualizations.add({
                     if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
 
                     if (index == 0) {
-                        if (showTitle == false) delete obj[`title`];
+                        console.log(`This is the title of index 0`, showTitle);
+                        if (showTitle == false) {
+                            console.log(`Deleting the title:`, showTitle);
+                            delete obj[`title`];
+                        }
                     } else {
-                        if (showTitle2 == false) delete obj[`title`];
+                        console.log(`Editing title of any other index`, showTitle2);
+                        if (showTitle2 == false) {
+                            console.log(`Deleting title 2`, showTitle2);
+                            delete obj[`title`];
+                        }
                     }
     
                     stackLayout.yaxis.push(obj);
