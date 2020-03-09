@@ -501,7 +501,8 @@ looker.plugins.visualizations.add({
     
                     console.log(`This is showTitle: ${showTitle}, and this is showTitle2: ${showTitle2}`);
                     if (index == 0 && showTitle == true) obj[`title`] = {text: title};
-                    else if (index =! 0 && showTitle2 == true) obj[`title`] = {text: title};
+                    else delete obj[`title`];
+                    if (index =! 0 && showTitle2 == true) obj[`title`] = {text: title};
                     else delete obj[`title`];
     
                     stackLayout.yaxis.push(obj);
