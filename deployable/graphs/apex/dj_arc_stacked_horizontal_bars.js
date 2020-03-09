@@ -412,7 +412,7 @@ looker.plugins.visualizations.add({
         // Iterate through the series and create multiple axes 
         if (multipleAxes) {
             stackLayout.yaxis = [];
-            if (this._series != seriesData.length) {
+            if (this._series != seriesData.length) {]
                 this._series = seriesData.length;
                 changed = true;
                 this.options.secondAxis.values = [];
@@ -433,10 +433,9 @@ looker.plugins.visualizations.add({
                         };
                     }
     
-                    let name = row.name;
                     let object = {};
-                    object[name] = name;
-                    this.options.secondAxis.values.push(object);
+                    object[row.name] = row.name;
+                    this.options.secondAxis.values[index] = object;
                 }
             });
 
