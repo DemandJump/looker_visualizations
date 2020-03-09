@@ -467,7 +467,7 @@ looker.plugins.visualizations.add({
                         }
                     }
                 };
-                console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${opposite}`);
+                console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation   }`);
 
                 if (index == 0 && config.showTitle) obj[`title`] = {text: title};
                 if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
