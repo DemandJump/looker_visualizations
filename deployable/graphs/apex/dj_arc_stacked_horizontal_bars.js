@@ -420,23 +420,24 @@ looker.plugins.visualizations.add({
 
             // Create the config settings for the chart
             seriesData.forEach((row, index) => {
-                if (!this.options[`series_${index}`]) {
-                    changed = true;
-                    this.options[`series_${index}`] = {
-                        label: `Keep ${row.name} on the second axis`,
-                        order: 10 + index,
-                        section: `Multiple Axes`,
-                        type: `boolean`, 
-                        default: false,
-                        hidden: false
-                    };
+                if (index != 0) {
+                    if (!this.options[`series_${index}`]) {
+                        changed = true;
+                        this.options[`series_${index}`] = {
+                            label: `Keep ${row.name} on the second axis`,
+                            order: 10 + index,
+                            section: `Multiple Axes`,
+                            type: `boolean`, 
+                            default: false,
+                            hidden: false
+                        };
+                    }
+    
+                    let name = row.name;
+                    let object = {};
+                    object[name] = name;
+                    this.options.secondAxis.values.push(object);
                 }
-
-                let name = row.name;
-                let object = {};
-                object[name] = name;
-                this.options.secondAxis.values.push(object);
-                if (index == 0) this.options.secondAxis.default = name;
             });
 
             // Apply the config settings to the chart
