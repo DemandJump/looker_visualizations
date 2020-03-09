@@ -500,8 +500,8 @@ looker.plugins.visualizations.add({
                     console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation}`);
     
                     console.log(`This is showTitle: ${showTitle}, and this is showTitle2: ${showTitle2}`);
-                    if (index == 0 && showTitle) obj[`title`] = {text: title};
-                    if (index =! 0 && showTitle2) obj[`title`] = {text: title};
+                    if (index == 0 && showTitle == true) obj[`title`] = {text: title};
+                    if (index =! 0 && showTitle2 == true) obj[`title`] = {text: title};
     
                     stackLayout.yaxis.push(obj);
                 });
