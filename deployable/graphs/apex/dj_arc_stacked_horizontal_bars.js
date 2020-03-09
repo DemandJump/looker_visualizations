@@ -500,6 +500,12 @@ looker.plugins.visualizations.add({
                 });
             } else {
                 if (config.showTitle == true) stackLayout[`title`] = {text: title};
+                seriesData.forEach((row, index) => {
+                    if (this.options[`series_${index}`]) {
+                        changed = true;
+                        delete this.options[`series_${index}`];
+                    }
+                });
             }
         }
 
