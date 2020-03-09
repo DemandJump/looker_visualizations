@@ -165,6 +165,7 @@ looker.plugins.visualizations.add({
         this._stack = `lorem ipsum`;
         this._multipleAxes = false;
         this._canMultipleAxis = false;
+        this._series = 0;
         element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -435,21 +436,24 @@ looker.plugins.visualizations.add({
                 stackLayout.yaxis = [];
     
                 // Create the config settings for the chart
-                seriesData.forEach((row, index) => {
-                    if (index != 0) {
-                        if (!this.options[`series_${index}`]) {
-                            changed = true;
-                            this.options[`series_${index}`] = {
-                                label: `Set ${row.name} on the second axis`,
-                                order: 10 + index,
-                                section: `Multiple Axes`,
-                                type: `boolean`, 
-                                default: false,
-                                hidden: false
-                            };
+                if (seriesData.length != this._series) {
+                    this._series = seriesData.length;
+                    seriesData.forEach((row, index) => {
+                        if (index != 0) {
+                            if (!this.options[`series_${index}`]) {
+                                changed = true;
+                                this.options[`series_${index}`] = {
+                                    label: `Set ${row.name} on the second axis`,
+                                    order: 10 + index,
+                                    section: `Multiple Axes`,
+                                    type: `boolean`, 
+                                    default: false,
+                                    hidden: false
+                                };
+                            }
                         }
-                    }
-                });
+                    });
+                }
     
                 // Apply the config settings to the chart
                 let nameA = seriesData[0].name;
