@@ -164,7 +164,6 @@ looker.plugins.visualizations.add({
         this._custom = `lorem ipsum`;
         this._stack = `lorem ipsum`;
         this._multipleAxes = false;
-        this._canMultipleAxis = false;
         this._series = 0;
         element.innerHTML = `
             <style>
@@ -403,7 +402,7 @@ looker.plugins.visualizations.add({
 
 
         // Erase the different series placement based on the layout
-        if (horizontal || stack || !multipleAxis) {
+        if (horizontal || stack || !multipleAxes) {
             seriesData.forEach((row, index) => {
                 if (this.options[`series_${index}`]) {
                     changed = true;
