@@ -465,15 +465,6 @@ looker.plugins.visualizations.add({
                     let seriesName = nameA;
                     let axisOrientation = false;
                     let show = true;
-                    if (index > 1) show = false;
-                    if (index == 1 && config[`series_${index}`] == false) {
-                        show = false;
-                        passShow = true;
-                    }
-                    if (index > 1 && passShow) {
-                        show = true;
-                        passShow = false;
-                    }
     
                     if (config[`series_${index}`] == true) {
                         seriesName = nameB;
@@ -483,6 +474,18 @@ looker.plugins.visualizations.add({
                         seriesName = nameA;
                         axisOrientation = false;
                         if (config.yTitle != ``) title = yTitle;
+                    }
+
+                    // Configuration to show the axes
+                    if (index > 1) show = false;
+                    if (index == 1 && config[`series_${index}`] == false) {
+                        show = false;
+                        passShow = true;
+                    }
+                    if (index > 1 && passShow) {
+                        show = true;
+                        passShow = false;
+                        if (!axisOrientation) show = false;
                     }
     
                     let obj = {
@@ -496,7 +499,7 @@ looker.plugins.visualizations.add({
                             }
                         }
                     };
-                    console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation   }`);
+                    console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation}`);
     
                     if (index == 0 && config.showTitle) obj[`title`] = {text: title};
                     if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
