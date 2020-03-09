@@ -288,8 +288,6 @@ looker.plugins.visualizations.add({
         }
         
         if (config.title != ``) title = config.title;
-        if (!config.showTitle) config.showTitle = false;
-        if (!config.showTitle2) config.showTitle2 = false;
         if (config.yTitle != ``) yTitle = config.yTitle;
         if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
         if (config.xTitle != ``) xTitle = config.xTitle;
@@ -505,9 +503,9 @@ looker.plugins.visualizations.add({
                     if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
 
                     if (index == 0) {
-                        if (config.showTitle == false) delete obj[`title`];
+                        if (showTitle == false) delete obj[`title`];
                     } else {
-                        if (config.showTitle2 == false) delete obj[`title`];
+                        if (showTitle2 == false) delete obj[`title`];
                     }
     
                     stackLayout.yaxis.push(obj);
