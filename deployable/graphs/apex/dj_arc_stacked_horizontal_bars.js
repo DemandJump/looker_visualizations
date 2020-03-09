@@ -487,10 +487,7 @@ looker.plugins.visualizations.add({
                         }
                     };
                     console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation   }`);
-    
-                    if (index == 0 && config.showTitle) obj[`title`] = {text: title};
-                    if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
-    
+        
                     if (config[`series_${index}`]) {
                         if (config.showTitle2 == false) delete obj[`title`];
                     } else if (config.showTitle == false) delete obj[`title`];
