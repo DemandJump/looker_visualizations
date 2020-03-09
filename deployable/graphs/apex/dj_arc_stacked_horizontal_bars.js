@@ -439,7 +439,7 @@ looker.plugins.visualizations.add({
                     for(let i = 0; i < this._series; i++) delete this.options[`series_${index}`];
                     this._series = seriesData.length;
                 }
-                
+
                 seriesData.forEach((row, index) => {
                     if (index != 0) {
                         if (!this.options[`series_${index}`]) {
@@ -459,13 +459,21 @@ looker.plugins.visualizations.add({
                 // Apply the config settings to the chart
                 let nameA = seriesData[0].name;
                 let nameB = seriesData[1].name;
+                let passShow = false;
                 seriesData.forEach((row, index) => {
                     let title = row.name;
                     let seriesName = nameA;
                     let axisOrientation = false;
                     let show = true;
                     if (index > 1) show = false;
-                    if (index == 1 && config[`series_${index}`] == false) show = false;
+                    if (index == 1 && config[`series_${index}`] == false) {
+                        show = false;
+                        passShow = true;
+                    }
+                    if (index > 1 && passShow) {
+                        show = true;
+                        passShow = false;
+                    }
     
                     if (config[`series_${index}`] == true) {
                         seriesName = nameB;
