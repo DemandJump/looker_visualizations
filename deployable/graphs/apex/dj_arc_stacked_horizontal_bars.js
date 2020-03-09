@@ -442,10 +442,10 @@ looker.plugins.visualizations.add({
 
             // Apply the config settings to the chart
             let nameA = seriesData[0].name;
+            let nameB = seriesData[1].name;
             seriesData.forEach((row, index) => {
-                let nameB = row.name;
-                let title = nameB;
-                let seriesName = `seriesA`;
+                let title = row.name;
+                let seriesName = nameA;
                 let axisOrientation = false;
 
                 if (config[`series_${index}`] == true) {
