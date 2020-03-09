@@ -423,7 +423,7 @@ looker.plugins.visualizations.add({
                 if (!this.options[`series_${index}`]) {
                     changed = true;
                     this.options[`series_${index}`] = {
-                        label: `Keep ${row.name} on right axis`,
+                        label: `Keep ${row.name} on the second axis`,
                         order: 10 + index,
                         section: `Multiple Axes`,
                         type: `boolean`, 
@@ -441,26 +441,24 @@ looker.plugins.visualizations.add({
 
             // Apply the config settings to the chart
             let nameA = seriesData[0].name;
-            let nameB = seriesData[1].name;
             seriesData.forEach((row, index) => {
-                let title = row.name;
+                let nameB = row.name;
+                let title = nameB;
                 let seriesName = `seriesA`;
                 let opposite = false;
 
                 if (config[`series_${index}`] == true) {
-                    seriesName = nameA;
+                    seriesName = nameB;
                     opposite = true;
                     if (config.yTitle2 != ``) title = yTitle2;
-                } 
-                if (config[`series_${index}`] == false) {
-                    seriesName = nameB;
+                } else {
+                    seriesName = nameA;
                     opposite = false;
                     if (config.yTitle != ``) title = yTitle;
                 }
 
                 let obj = {
                     seriesName: seriesName,
-                    title: {text: title},
                     ooposite: opposite,
                     labels: {
                         formatter: function(val) {
@@ -471,7 +469,10 @@ looker.plugins.visualizations.add({
                 };
                 console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${opposite}`);
 
-                if (config[`series_${index}`]) { // If this is true then the axis should be on the right
+                if (index == 0 && config.showTitle) obj[`title`] = {text: title};
+                if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
+
+                if (config[`series_${index}`]) {
                     if (config.showTitle2 == false) delete obj[`title`];
                 } else if (config.showTitle == false) delete obj[`title`];
 
