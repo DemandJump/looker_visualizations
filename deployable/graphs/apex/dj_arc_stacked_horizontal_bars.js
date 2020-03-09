@@ -412,7 +412,7 @@ looker.plugins.visualizations.add({
         // Iterate through the series and create multiple axes 
         if (multipleAxes) {
             stackLayout.yaxis = [];
-            if (this._series != seriesData.length) {]
+            if (this._series != seriesData.length) {
                 this._series = seriesData.length;
                 changed = true;
                 this.options.secondAxis.values = [];
