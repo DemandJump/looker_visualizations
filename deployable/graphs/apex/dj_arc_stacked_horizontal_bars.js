@@ -424,7 +424,7 @@ looker.plugins.visualizations.add({
                     if (!this.options[`series_${index}`]) {
                         changed = true;
                         this.options[`series_${index}`] = {
-                            label: `Keep ${row.name} on the second axis`,
+                            label: `Set ${row.name} on the second axis`,
                             order: 10 + index,
                             section: `Multiple Axes`,
                             type: `boolean`, 
@@ -436,6 +436,7 @@ looker.plugins.visualizations.add({
                     let object = {};
                     object[row.name] = row.name;
                     this.options.secondAxis.values[index] = object;
+                    if (index == 1) this.options.secondAxis.default = row.name;
                 }
             });
 
