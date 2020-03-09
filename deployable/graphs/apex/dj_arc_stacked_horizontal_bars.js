@@ -401,27 +401,22 @@ looker.plugins.visualizations.add({
         if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
 
-        if (horizontal) {
-            seriesData.forEach((row, index) => {
-                if (this,options[`series_${index}`]) {
-                    changed = true;
-                    delete this.options[`series_${index}`];
-                }
-            });
-        }
-        // Iterate through the series and create multiple axes 
-        if (stack) {
-            if (this.options[`multipleAxes`]) {
-                changed = true;
-                delete this.options[`multipleAxes`];
-            }
-
+        // Erase the different series placement based on the layout
+        if (horizontal || stack || !multipleAxis) {
             seriesData.forEach((row, index) => {
                 if (this.options[`series_${index}`]) {
                     changed = true;
                     delete this.options[`series_${index}`];
                 }
             });
+        }
+
+        // Iterate through the series and create multiple axes 
+        if (stack) {
+            if (this.options[`multipleAxes`]) {
+                changed = true;
+                delete this.options[`multipleAxes`];
+            }
 
         } else {
             if (!this.options[`multipleAxes`]) {
@@ -500,12 +495,6 @@ looker.plugins.visualizations.add({
                 });
             } else {
                 if (config.showTitle == true) stackLayout[`title`] = {text: title};
-                seriesData.forEach((row, index) => {
-                    if (this.options[`series_${index}`]) {
-                        changed = true;
-                        delete this.options[`series_${index}`];
-                    }
-                });
             }
         }
 
