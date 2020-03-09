@@ -168,24 +168,11 @@ looker.plugins.visualizations.add({
             default: false,
             hidden: false
         },
-
-        secondAxis: {
-            label: `Select second axis`,
-            order: 2,
-            section: `Multiple Axes`,
-            type: `string`,
-            display: `select`, 
-            values: [{'None': 'none'}],
-            default: `none`,
-            hidden: false
-        }
-
         
     },
     create: function(element, config) { 
         this._custom = `lorem ipsum`;
         this._stack = `lorem ipsum`;
-        this._series = -1;
         this._multipleAxes = false;
         element.innerHTML = `
             <style>
@@ -318,7 +305,6 @@ looker.plugins.visualizations.add({
             if (this._multipleAxes != true) {
                 this.options.showTitle2.hidden = false;
                 this.options.yTitle2.hidden = false;
-                this.options.secondAxis.hidden = false;
                 this._multipleAxes = true;
                 changed = true;
                 
@@ -330,7 +316,6 @@ looker.plugins.visualizations.add({
             if (this._multipleAxes != false) {
                 this.options.showTitle2.hidden = true;
                 this.options.yTitle2.hidden = true;
-                this.options.secondAxis.hiddne = true;
                 this._multipleAxes = false;
                 changed = true;
                 
@@ -412,11 +397,6 @@ looker.plugins.visualizations.add({
         // Iterate through the series and create multiple axes 
         if (multipleAxes) {
             stackLayout.yaxis = [];
-            if (this._series != seriesData.length) {
-                this._series = seriesData.length;
-                changed = true;
-                this.options.secondAxis.values = [{'None': 'none'}];
-            }
 
             // Create the config settings for the chart
             seriesData.forEach((row, index) => {
@@ -432,11 +412,6 @@ looker.plugins.visualizations.add({
                             hidden: false
                         };
                     }
-    
-                    let object = {};
-                    object[row.name] = row.name;
-                    this.options.secondAxis.values[index] = object;
-                    if (index == 1) this.options.secondAxis.default = row.name;
                 }
             });
 
