@@ -445,21 +445,21 @@ looker.plugins.visualizations.add({
                 let nameB = row.name;
                 let title = nameB;
                 let seriesName = `seriesA`;
-                let opposite = false;
+                let axisOrientation = false;
 
                 if (config[`series_${index}`] == true) {
                     seriesName = nameB;
-                    opposite = true;
+                    axisOrientation = true;
                     if (config.yTitle2 != ``) title = yTitle2;
                 } else {
                     seriesName = nameA;
-                    opposite = false;
+                    axisOrientation = false;
                     if (config.yTitle != ``) title = yTitle;
                 }
 
                 let obj = {
                     seriesName: seriesName,
-                    ooposite: opposite,
+                    opposite: axisOrientation,
                     labels: {
                         formatter: function(val) {
                             if (typeof(val) == `number` && !horizontal) return formatAxes(val, row.value_format);
