@@ -499,22 +499,9 @@ looker.plugins.visualizations.add({
                     };
                     console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation}`);
     
-                    if (index == 0 && config.showTitle) obj[`title`] = {text: title};
-                    if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
-
-                    if (index == 0) {
-                        console.log(`This is the title of index 0`, showTitle);
-                        if (showTitle == false) {
-                            console.log(`Deleting the title:`, showTitle);
-                            delete obj[`title`];
-                        }
-                    } else {
-                        console.log(`Editing title of any other index`, showTitle2);
-                        if (showTitle2 == false) {
-                            console.log(`Deleting title 2`, showTitle2);
-                            delete obj[`title`];
-                        }
-                    }
+                    console.log(`This is showTitle: ${showTitle}, and this is showTitle2: ${showTitle2}`);
+                    if (index == 0 && showTitle) obj[`title`] = {text: title};
+                    if (index =! 0 && showTitle2) obj[`title`] = {text: title};
     
                     stackLayout.yaxis.push(obj);
                 });
