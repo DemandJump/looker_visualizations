@@ -401,6 +401,14 @@ looker.plugins.visualizations.add({
         if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
 
+        if (horizontal) {
+            seriesData.forEach((row, index) => {
+                if (this,options[`series_${index}`]) {
+                    changed = true;
+                    delete this.options[`series_${index}`];
+                }
+            });
+        }
         // Iterate through the series and create multiple axes 
         if (stack) {
             if (this.options[`multipleAxes`]) {
