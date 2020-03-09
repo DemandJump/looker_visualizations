@@ -436,8 +436,10 @@ looker.plugins.visualizations.add({
     
                 // Create the config settings for the chart
                 if (seriesData.length != this._series) {
+                    for(let i = 0; i < this._series; i++) delete this.options[`series_${index}`];
                     this._series = seriesData.length;
                 }
+                
                 seriesData.forEach((row, index) => {
                     if (index != 0) {
                         if (!this.options[`series_${index}`]) {
