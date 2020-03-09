@@ -158,16 +158,6 @@ looker.plugins.visualizations.add({
             default: `center`,
             hidden: false
         },
-
-
-        multipleAxes: {
-            label: `Add another axis`,
-            order: 1,
-            section: `Multiple Axes`,
-            type: `boolean`,
-            default: false,
-            hidden: false
-        },
         
     },
     create: function(element, config) { 
@@ -395,70 +385,97 @@ looker.plugins.visualizations.add({
 
 
         // Iterate through the series and create multiple axes 
-        if (multipleAxes) {
-            stackLayout.yaxis = [];
+        if (stack) {
+            if (this.options[`multipleAxes`]) {
+                changed = true;
+                delete this.options[`multipleAxes`];
+            }
 
-            // Create the config settings for the chart
             seriesData.forEach((row, index) => {
-                if (index != 0) {
-                    if (!this.options[`series_${index}`]) {
-                        changed = true;
-                        this.options[`series_${index}`] = {
-                            label: `Set ${row.name} on the second axis`,
-                            order: 10 + index,
-                            section: `Multiple Axes`,
-                            type: `boolean`, 
-                            default: false,
-                            hidden: false
-                        };
-                    }
+                if (this.options[`series_${index}`]) {
+                    changed = true;
+                    delete this.options[`series_${index}`];
                 }
             });
+            
+        } else {
+            if (!this.options[`multipleAxes`]) {
+                changed = true;
+                this.options[`multipleAxes`] = {
+                    label: `Add another axis`,
+                    order: 1,
+                    section: `Multiple Axes`,
+                    type: `boolean`,
+                    default: false,
+                    hidden: false
+                };
+            }
 
-            // Apply the config settings to the chart
-            let nameA = seriesData[0].name;
-            let nameB = seriesData[1].name;
-            seriesData.forEach((row, index) => {
-                let title = row.name;
-                let seriesName = nameA;
-                let axisOrientation = false;
-                let show = true;
-                if (index > 1) show = false;
-
-                if (config[`series_${index}`] == true) {
-                    seriesName = nameB;
-                    axisOrientation = true;
-                    if (config.yTitle2 != ``) title = yTitle2;
-                } else {
-                    seriesName = nameA;
-                    axisOrientation = false;
-                    if (config.yTitle != ``) title = yTitle;
-                }
-
-                let obj = {
-                    seriesName: seriesName,
-                    opposite: axisOrientation,
-                    show: show,
-                    labels: {
-                        formatter: function(val) {
-                            if (typeof(val) == `number` && !horizontal) return formatAxes(val, row.value_format);
-                            else return val;
+            if (multipleAxes) {
+                stackLayout.yaxis = [];
+    
+                // Create the config settings for the chart
+                seriesData.forEach((row, index) => {
+                    if (index != 0) {
+                        if (!this.options[`series_${index}`]) {
+                            changed = true;
+                            this.options[`series_${index}`] = {
+                                label: `Set ${row.name} on the second axis`,
+                                order: 10 + index,
+                                section: `Multiple Axes`,
+                                type: `boolean`, 
+                                default: false,
+                                hidden: false
+                            };
                         }
                     }
-                };
-                console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation   }`);
-
-                if (index == 0 && config.showTitle) obj[`title`] = {text: title};
-                if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
-
-                if (config[`series_${index}`]) {
-                    if (config.showTitle2 == false) delete obj[`title`];
-                } else if (config.showTitle == false) delete obj[`title`];
-
-                stackLayout.yaxis.push(obj);
-            });
-        } else {
-            if (config.showTitle == true) stackLayout[`title`] = {text: title};
+                });
+    
+                // Apply the config settings to the chart
+                let nameA = seriesData[0].name;
+                let nameB = seriesData[1].name;
+                seriesData.forEach((row, index) => {
+                    let title = row.name;
+                    let seriesName = nameA;
+                    let axisOrientation = false;
+                    let show = true;
+                    if (index > 1) show = false;
+    
+                    if (config[`series_${index}`] == true) {
+                        seriesName = nameB;
+                        axisOrientation = true;
+                        if (config.yTitle2 != ``) title = yTitle2;
+                    } else {
+                        seriesName = nameA;
+                        axisOrientation = false;
+                        if (config.yTitle != ``) title = yTitle;
+                    }
+    
+                    let obj = {
+                        seriesName: seriesName,
+                        opposite: axisOrientation,
+                        show: show,
+                        labels: {
+                            formatter: function(val) {
+                                if (typeof(val) == `number` && !horizontal) return formatAxes(val, row.value_format);
+                                else return val;
+                            }
+                        }
+                    };
+                    console.log(`${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation   }`);
+    
+                    if (index == 0 && config.showTitle) obj[`title`] = {text: title};
+                    if (index =! 0 && config.showTitle2) obj[`title`] = {text: title};
+    
+                    if (config[`series_${index}`]) {
+                        if (config.showTitle2 == false) delete obj[`title`];
+                    } else if (config.showTitle == false) delete obj[`title`];
+    
+                    stackLayout.yaxis.push(obj);
+                });
+            } else {
+                if (config.showTitle == true) stackLayout[`title`] = {text: title};
+            }
         }
 
             // Store global variables and rerender the settings
