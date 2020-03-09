@@ -437,22 +437,22 @@ looker.plugins.visualizations.add({
                 // Create the config settings for the chart
                 if (seriesData.length != this._series) {
                     this._series = seriesData.length;
-                    seriesData.forEach((row, index) => {
-                        if (index != 0) {
-                            if (!this.options[`series_${index}`]) {
-                                changed = true;
-                                this.options[`series_${index}`] = {
-                                    label: `Set ${row.name} on the second axis`,
-                                    order: 10 + index,
-                                    section: `Multiple Axes`,
-                                    type: `boolean`, 
-                                    default: false,
-                                    hidden: false
-                                };
-                            }
-                        }
-                    });
                 }
+                seriesData.forEach((row, index) => {
+                    if (index != 0) {
+                        if (!this.options[`series_${index}`]) {
+                            changed = true;
+                            this.options[`series_${index}`] = {
+                                label: `Set ${row.name} on the second axis`,
+                                order: 10 + index,
+                                section: `Multiple Axes`,
+                                type: `boolean`, 
+                                default: false,
+                                hidden: false
+                            };
+                        }
+                    }
+                });
     
                 // Apply the config settings to the chart
                 let nameA = seriesData[0].name;
