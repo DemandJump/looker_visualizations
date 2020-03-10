@@ -486,7 +486,6 @@ looker.plugins.visualizations.add({
     formatSeriesData();
 
     let settings = this.options;
-    hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
     seriesTypes(); // Add the type for each series
     this.options = settings; // Sync the settings so you don't lose the data
 
@@ -637,6 +636,8 @@ looker.plugins.visualizations.add({
     }
 
     // Rebuild the settings
+    settings = this.options;
+    hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
