@@ -414,7 +414,7 @@ looker.plugins.visualizations.add({
 
     // Handles the multiple axis display based on whether it's horizontal or not
     if (horizontal) {
-      if (!stack && !this.options.multipleAxes) {
+      if (!this.options.multipleAxes) {
         changed = true;
         this.options[`multipleAxes`] = {
           label: `Add another axis`,
