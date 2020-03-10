@@ -299,7 +299,7 @@ looker.plugins.visualizations.add({
     let yTitle = ` `;
     let yTitle2 = ` `;
     let showActualTitle = config.showActualTitle;
-    let showTitle = config.showTitle;
+    let showTitle = config.showTitle; // y titles are 1 and 2
     let showTitle2 = config.showTitle2;
     let showTitle3 = config.showTitle3;
     let xTitle = ` `;
@@ -653,8 +653,7 @@ looker.plugins.visualizations.add({
           stackLayout.yaxis.push(obj);
         });
       } else {
-        if (config.showActualTitle == true)
-          stackLayout[`title`] = { text: title };
+        if (showActualTitle) stackLayout[`title`] = { text: title };
       }
     }
 

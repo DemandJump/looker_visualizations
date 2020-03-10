@@ -46,9 +46,36 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showTitle: {
+    showActualTitle: {
       label: `Show title`,
       order: 4,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showTitle: {
+      label: `Show y axis title`,
+      order: 4.1,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showTitle2: {
+      label: `Show second y axis title`,
+      order: 4.2,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showTitle3: {
+      label: `Show x axis title`,
+      order: 4.3,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -336,6 +363,11 @@ looker.plugins.visualizations.add({
     let label = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
+    let yTitle1 = ` `;
+    let showActualTitle = config.showActualTitle;
+    let showTitle = config.showTitle; // y titles are 1 and 2
+    let showTitle2 = config.showTitle2;
+    let showTitle3 = config.showTitle3;
     let curve = `straight`;
     let stack = `overlay`;
     let stacked = false;
@@ -507,7 +539,9 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (config.showTitle) {
+    if (showTitle) stackLayout.yaxis.title = { text: yTitle };
+    if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
+    if (config.showActualTitle) {
       configuration[`title`] = {
         text: title,
         align: `left`
@@ -597,8 +631,7 @@ looker.plugins.visualizations.add({
         stackLayout.yaxis.push(obj);
       });
     } else {
-      if (config.showActualTitle == true)
-        stackLayout[`title`] = { text: title };
+      if (showActualTitle == true) stackLayout[`title`] = { text: title };
     }
 
     // Rebuild the settings
