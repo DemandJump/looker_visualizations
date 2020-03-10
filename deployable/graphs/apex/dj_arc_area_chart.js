@@ -202,10 +202,21 @@ looker.plugins.visualizations.add({
       type: `boolean`,
       default: false,
       hidden: false
+    },
+
+    multipleAxes: {
+        label: `Add another axis`,
+        order: 1,
+        section: `Multiple Axes`,
+        type: `boolean`,
+        default: false,
+        hidden: false
     }
   },
   create: function(element, config) {
     this._custom = ``;
+    this._multipleAxes = false;
+    this._series = 0;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
@@ -334,6 +345,7 @@ looker.plugins.visualizations.add({
     let doNotTruncate = false;
     let fill = `gradient`;
     let height = window.innerHeight - 45;
+    let multipleAxes = false;
 
     if (config.label) label = config.label;
     if (config.title) if (config.title != ``) title = config.title;
@@ -386,6 +398,39 @@ looker.plugins.visualizations.add({
     if (config.yTitle != ``) yTitle = config.yTitle;
     if (config.sideYaxis) sideYaxis = config.sideYaxis;
 
+
+    // Multiple axis display configuration
+    if (config.multipleAxes) {
+        multipleAxes = config.multipleAxes;
+  
+        if (config.multipleAxes == true) {
+          if (this._multipleAxes != true) {
+            this.options.showTitle2.hidden = false;
+            this.options.yTitle2.hidden = false;
+            this._multipleAxes = true;
+            changed = true;
+  
+            for (let i = 0; i < this._series; i++) {
+              if (this.options[`series_${i}`])
+                this.options[`series_${i}`].hidden = true;
+            }
+          }
+        }
+    } else {
+      if (this._multipleAxes != false) {
+        this.options.showTitle2.hidden = true;
+        this.options.yTitle2.hidden = true;
+        this._multipleAxes = false;
+        changed = true;
+
+        for (let i = 0; i < this._series; i++) {
+          if (this.options[`series_${i}`])
+            this.options[`series_${i}`].hidden = true;
+        }
+      }
+    }
+
+
     // Pull in all the data into the xaxis and series
     let format = `category`; // Either datetime or category
     let xaxis = [];
@@ -399,181 +444,6 @@ looker.plugins.visualizations.add({
 
     pivotCheck();
     formatSeriesData();
-
-    // if (!pivot) {
-    //   // let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
-    //   // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-    //   // if (queryResponse.fields.dimension_like[0].label_short == `Year` || queryResponse.fields.dimension_like[0].label == `Year`) format = `yyyy`;
-
-    //   // Series data structure
-    //   for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-    //     let name = queryResponse.fields.measure_like[i].label;
-    //     if (queryResponse.fields.measure_like[i].label_short)
-    //       name = queryResponse.fields.measure_like[i].label_short;
-
-    //     let obj = {
-    //       name: name,
-    //       className: name.replace(/ /g, `-`),
-    //       data: [],
-    //       links: []
-    //     };
-    //     seriesData.push(obj);
-    //   }
-
-    //   // Labels
-    //   datum.forEach(row => {
-    //     let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
-    //     let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-    //     if (lonks == null || lonks == undefined) lonks = [];
-
-    //     if (format == `dateime` && formatDates == true) {
-    //       let sameMonthChecker = checkIfSameMonth();
-    //       if (sameMonthChecker) xaxis.push({ name: nameVal, links: lonks });
-    //       else xaxis.push({ name: convertDateTime(nameVal), links: lonks });
-    //     } else {
-    //       xaxis.push({ name: nameVal, links: lonks });
-    //     }
-    //   });
-
-    //   if (format == `cateogry`) {
-    //     datum.forEach((row, index) => {
-    //       for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-    //         let value = 0;
-    //         let lonks = row[queryResponse.fields.measure_like[i].name].links;
-    //         if (lonks == null || lonks == undefined) lonks = [];
-    //         if (row[queryResponse.fields.measure_like[i].name].value != null)
-    //           value = row[queryResponse.fields.measure_like[i].name].value;
-    //         seriesData[i].data.push(value);
-    //         seriesData[i].links.push(lonks);
-    //       }
-    //     });
-    //   } else {
-    //     datum.forEach((row, index) => {
-    //       for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-    //         let links = row[queryResponse.fields.measure_like[i].name].links;
-    //         if (links == undefined || links == null) links = [];
-    //         let xVal;
-    //         if (
-    //           rendered &&
-    //           row[queryResponse.fields.dimension_like[0].name].rendered
-    //         )
-    //           xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-    //         else xVal = row[queryResponse.fields.dimension_like[0].name].value;
-
-    //         let yVal = 0;
-    //         if (row[queryResponse.fields.measure_like[i].name].value != null)
-    //           yVal = row[queryResponse.fields.measure_like[i].name].value;
-
-    //         let ob = { x: xVal, y: yVal };
-    //         seriesData[i].data.push(ob);
-    //         seriesData[i].links.push(links);
-    //       }
-    //     });
-    //   }
-    // } else {
-    //   if (pivotA) {
-    //     // Labels
-    //     queryResponse.pivots.forEach(p => {
-    //       let lonks = [];
-    //       if (p.metadata[queryResponse.fields.pivots[0].name].links)
-    //         lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
-    //       if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-    //         if (
-    //           p.metadata[queryResponse.fields.pivots[0].name].rendered != null
-    //         )
-    //           xaxis.push({
-    //             name: p.metadata[queryResponse.fields.pivots[0].name].rendered,
-    //             links: lonks
-    //           });
-    //       } else xaxis.push({ name: p.key, links: lonks });
-    //     });
-
-    //     // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-    //     let series = [];
-    //     queryResponse.fields.measure_like.forEach((row, index) => {
-    //       let obData = [];
-    //       let liData = [];
-    //       let newSeries = [];
-    //       for (let i = 0; i < queryResponse.pivots.length; i++) {
-    //         let keyname = queryResponse.pivots[i].key;
-    //         let value = 0;
-
-    //         liData.push(datum[0][row.name][keyname].links);
-
-    //         if (datum[0][row.name][keyname].value != null)
-    //           value = datum[0][row.name][keyname].value;
-    //         obData.push(value);
-    //       }
-
-    //       let name = row.label;
-    //       if (row.label_short) name = row.label_short;
-
-    //       let obj = {
-    //         name: name,
-    //         className: name.replace(/ /g, `-`),
-    //         data: obData,
-    //         links: liData
-    //       };
-    //       seriesData.push(obj);
-    //     });
-    //   }
-
-    //   if (pivotB) {
-    //     // Labels
-    //     datum.forEach(row => {
-    //       let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-    //       if (row[queryResponse.fields.dimension_like[0].name].rendered)
-    //         xaxis.push({
-    //           name: row[queryResponse.fields.dimension_like[0].name].rendered,
-    //           links: lonks
-    //         });
-    //       else
-    //         xaxis.push({
-    //           name: row[queryResponse.fields.dimension_like[0].name].value,
-    //           links: lonks
-    //         });
-    //     });
-
-    //     // Series Object
-    //     for (let i = 0; i < queryResponse.pivots.length; i++) {
-    //       let name =
-    //         queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
-    //       let obj = {
-    //         name: name,
-    //         className: name.replace(/ /g, `-`),
-    //         data: [],
-    //         links: []
-    //       };
-    //       seriesData.push(obj);
-    //     }
-
-    //     // Series data
-    //     datum.forEach(row => {
-    //       for (let i = 0; i < queryResponse.pivots.length; i++)
-    //         seriesData[i].links.push(
-    //           row[queryResponse.fields.measure_like[0].name][
-    //             queryResponse.pivots[i].key
-    //           ].links
-    //         );
-    //     });
-
-    //     datum.forEach(row => {
-    //       for (let i = 0; i < queryResponse.pivots.length; i++) {
-    //         let value = 0;
-    //         if (
-    //           row[queryResponse.fields.measure_like[0].name][
-    //             queryResponse.pivots[i].key
-    //           ].value != null
-    //         )
-    //           value =
-    //             row[queryResponse.fields.measure_like[0].name][
-    //               queryResponse.pivots[i].key
-    //             ].value;
-    //         seriesData[i].data.push(value);
-    //       }
-    //     });
-    //   }
-    // }
 
     // Add the type for each series
     let settings = this.options;
@@ -648,6 +518,94 @@ looker.plugins.visualizations.add({
         text: title,
         align: `left`
       };
+    }
+
+    // Mulltiple axis display and chart configuration
+    if (multipleAxes) {
+        stackLayout.yaxis = [];
+
+        // Create the config settings for the chart
+        if (seriesData.length != this._series) {
+          for (let i = 0; i < this._series; i++)
+            delete this.options[`series_${index}`];
+          this._series = seriesData.length;
+        }
+
+        seriesData.forEach((row, index) => {
+          if (index != 0) {
+            if (!this.options[`series_${index}`]) {
+              changed = true;
+              this.options[`series_${index}`] = {
+                label: `Set ${row.name} on the second axis`,
+                order: 10 + index,
+                section: `Multiple Axes`,
+                type: `boolean`,
+                default: false,
+                hidden: false
+              };
+            }
+          }
+        });
+
+        // Apply the config settings to the chart
+        let nameA = seriesData[0].name;
+        let nameB = seriesData[1].name;
+        let passShow = false;
+        seriesData.forEach((row, index) => {
+          let title = row.name;
+          let seriesName = nameA;
+          let axisOrientation = false;
+          let show = true;
+
+          if (config[`series_${index}`] == true) {
+            seriesName = nameB;
+            axisOrientation = true;
+            if (config.yTitle2 != ``) title = yTitle2;
+          } else {
+            seriesName = nameA;
+            axisOrientation = false;
+            if (config.yTitle != ``) title = yTitle;
+          }
+
+          // Configuration to show the axes
+          if (index > 1) show = false;
+          if (index == 1 && config[`series_${index}`] == false) {
+            show = false;
+            passShow = true;
+          }
+          if (index > 1 && passShow) {
+            show = true;
+            passShow = false;
+            if (!axisOrientation) show = false;
+          }
+
+          let obj = {
+            seriesName: seriesName,
+            opposite: axisOrientation,
+            show: show,
+            labels: {
+              formatter: function(val) {
+                if (typeof val == `number` && !horizontal)
+                  return formatAxes(val, row.value_format);
+                else return val;
+              }
+            }
+          };
+
+          //   Axis based label
+          if (seriesName == nameA) {
+            if (showTitle) obj[`title`] = { text: title };
+          }
+          if (seriesName == nameB) {
+            if (showTitle2) obj[`title`] = { text: title };
+          }
+
+          stackLayout.yaxis.push(obj);
+        });
+      } else {
+        if (config.showActualTitle == true)
+          stackLayout[`title`] = { text: title };
+      }
     }
 
     // Apex Charts
@@ -1236,35 +1194,37 @@ looker.plugins.visualizations.add({
       let response;
       let final = value;
 
-      //   Construct the checker
-      seriesData.forEach(series =>
-        autoSelectFormat.push({
-          value_format: series.value_format,
-          universalCount: 0
-        })
-      );
+      if (!multipleAxes) {
+        //   Construct the checker
+        seriesData.forEach(series =>
+          autoSelectFormat.push({
+            value_format: series.value_format,
+            universalCount: 0
+          })
+        );
 
-      //   Tally the valueFormat
-      autoSelectFormat.forEach((series, index) => {
-        for (let i = 0; i < autoSelectFormat.length; i++) {
-          if (autoSelectFormat[i].value_format == series.value_format)
-            autoSelectFormat[index].universalCount += 1;
-        }
-      });
+        //   Tally the valueFormat
+        autoSelectFormat.forEach((series, index) => {
+          for (let i = 0; i < autoSelectFormat.length; i++) {
+            if (autoSelectFormat[i].value_format == series.value_format)
+              autoSelectFormat[index].universalCount += 1;
+          }
+        });
 
-      //   Use last one that equals the most or matches the most
-      let count = 0;
-      autoSelectFormat.forEach((series, index) => {
-        if (index == 0) {
-          count = series.universalCount;
-          value_format = series.value_format;
-        } else {
-          if (count < series.universalCount) {
+        //   Use last one that equals the most or matches the most
+        let count = 0;
+        autoSelectFormat.forEach((series, index) => {
+          if (index == 0) {
             count = series.universalCount;
             value_format = series.value_format;
+          } else {
+            if (count < series.universalCount) {
+              count = series.universalCount;
+              value_format = series.value_format;
+            }
           }
-        }
-      });
+        });
+      }
 
       if (value_format == `0`) {
         final = value.toFixed(0);
