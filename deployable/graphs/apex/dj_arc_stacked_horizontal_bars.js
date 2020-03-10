@@ -385,7 +385,6 @@ looker.plugins.visualizations.add({
       multipleAxes = config.multipleAxes;
       if (horizontal) multipleAxes = false;
 
-      //   Unhide the multiple axis config if it's on
       if (config.multipleAxes == true) {
         if (this._multipleAxes != true) {
           this.options.showTitle2.hidden = false;
@@ -400,7 +399,6 @@ looker.plugins.visualizations.add({
         }
       }
     } else {
-      //   Else hide the display
       if (this._multipleAxes != false) {
         this.options.showTitle2.hidden = true;
         this.options.yTitle2.hidden = true;
@@ -414,7 +412,20 @@ looker.plugins.visualizations.add({
       }
     }
 
+    // Handles the multiple axis display based on whether it's horizontal or not
     if (horizontal) {
+      if (!stack && !this.options.multipleAxes) {
+        changed = true;
+        this.options[`multipleAxes`] = {
+          label: `Add another axis`,
+          order: 1,
+          section: `Multiple Axes`,
+          type: `boolean`,
+          default: false,
+          hidden: false
+        };
+      }
+
       if (this._multipleAxes != false) {
         this.options.showTitle2.hidden = true;
         this.options.yTitle2.hidden = true;
@@ -428,7 +439,6 @@ looker.plugins.visualizations.add({
         }
       }
     } else {
-      // If it's not horizontal show the setting to turn it back on
       if (this.options.multipleAxes.hidden == true) {
         changed = true;
         this.options.multipleAxes.hidden = false;
