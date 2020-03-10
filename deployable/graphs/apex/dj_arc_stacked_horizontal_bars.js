@@ -379,9 +379,13 @@ looker.plugins.visualizations.add({
     if (config.yTitle != ``) yTitle = config.yTitle;
     if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
     if (config.xTitle != ``) xTitle = config.xTitle;
+
+    // Multiple axis display configuration
     if (config.multipleAxes) {
       multipleAxes = config.multipleAxes;
       if (horizontal) multipleAxes = false;
+
+      //   Unhide the multiple axis config if it's on
       if (config.multipleAxes == true) {
         if (this._multipleAxes != true) {
           this.options.showTitle2.hidden = false;
@@ -389,35 +393,64 @@ looker.plugins.visualizations.add({
           this._multipleAxes = true;
           changed = true;
 
-          for (let i = 0; i < this._series.length; i++) {
-            if (this.options[`series_${i}`])
-              this.options[`series_${i}`].hidden = true;
-          }
-        }
-      }
-      if (config.multipleAxes == false || horizontal) {
-        if (this._multipleAxes != false) {
-          this.options.showTitle2.hidden = true;
-          this.options.yTitle2.hidden = true;
-          this._multipleAxes = false;
-          changed = true;
-
-          for (let i = 0; i < this._series.length; i++) {
+          for (let i = 0; i < this._series; i++) {
             if (this.options[`series_${i}`])
               this.options[`series_${i}`].hidden = true;
           }
         }
       }
     } else {
+      //   Else hide the display
       if (this._multipleAxes != false) {
         this.options.showTitle2.hidden = true;
         this.options.yTitle2.hidden = true;
         this._multipleAxes = false;
         changed = true;
 
-        for (let i = 0; i < this._series.length; i++) {
+        for (let i = 0; i < this._series; i++) {
           if (this.options[`series_${i}`])
             this.options[`series_${i}`].hidden = true;
+        }
+      }
+    }
+
+    if (horizontal) {
+      if (this._multipleAxes != false) {
+        this.options.showTitle2.hidden = true;
+        this.options.yTitle2.hidden = true;
+        this.options.multipleAxes.hidden = true;
+        this._multipleAxes = false;
+        changed = true;
+
+        for (let i = 0; i < this._series; i++) {
+          if (this.options[`series_${i}`])
+            this.options[`series_${i}`].hidden = true;
+        }
+      }
+    } else {
+      // If it's not horizontal show the setting to turn it back on
+      if (this.options.multipleAxes.hidden == true) {
+        changed = true;
+        this.options.multipleAxes.hidden = false;
+
+        if (config.multipleAxes) {
+          if (this._multipleAxes != true) {
+            this.options.showTitle2.hidden = false;
+            this.options.yTitle2.hidden = false;
+            this._multipleAxes = true;
+            for (let i = 0; i < this._series; i++) {
+              this.options[`series_${i}`].hidden = false;
+            }
+          }
+        } else {
+          if (this._multipleAxes != false) {
+            this.options.showTitle2.hidden = true;
+            this.options.yTitle2.hidden = true;
+            this._multipleAxes = false;
+            for (let i = 0; i < this._series; i++) {
+              this.options[`series_${i}`].hidden = true;
+            }
+          }
         }
       }
     }
