@@ -468,18 +468,18 @@ looker.plugins.visualizations.add({
     }
 
     // Pull out the configuration to hide the settings tab if it's horizontal
-    if (horizontal) {
-      if (this.options.multipleAxes) {
-        changed = true;
-        delete this.options.multipleAxes;
-        for (let i = 0; i < this._series; i++) {
-          if (this.options[`series_${i}`]) {
-            changed = true;
-            delete this.options[`series_${i}`];
-          }
-        }
-      }
-    }
+    // if (horizontal) {
+    //   if (this.options.multipleAxes) {
+    //     changed = true;
+    //     delete this.options.multipleAxes;
+    //     for (let i = 0; i < this._series; i++) {
+    //       if (this.options[`series_${i}`]) {
+    //         changed = true;
+    //         delete this.options[`series_${i}`];
+    //       }
+    //     }
+    //   }
+    // }
 
     // Grab chart data
     pivotCheck(); // Find the type of query
@@ -561,10 +561,16 @@ looker.plugins.visualizations.add({
     }
 
     // Iterate through the series and create multiple axes
-    if (stack) {
+    if (stack || horizontal) {
       if (this.options[`multipleAxes`]) {
         changed = true;
         delete this.options[`multipleAxes`];
+      }
+      for (let i = 0; i < this._series; i++) {
+        if (this.options[`series_${i}`]) {
+          changed = true;
+          delete this.options[`series_${i}`];
+        }
       }
     } else {
       if (!this.options[`multipleAxes`]) {
