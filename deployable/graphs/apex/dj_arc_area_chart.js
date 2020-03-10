@@ -627,6 +627,7 @@ looker.plugins.visualizations.add({
           if (showTitle2) obj[`title`] = { text: title };
         }
 
+        console.log(`y axis ${index} configuration`, obj);
         configuration.yaxis.push(obj);
       });
     } else {
@@ -746,6 +747,7 @@ looker.plugins.visualizations.add({
       axisNames: axisData,
       seriesData: seriesData,
       valueFormat: valueFormat,
+      chartConfiguration: configuration,
       drillDownNodes: nodes
     };
     console.log(`Series Information`, seriesInformation);
