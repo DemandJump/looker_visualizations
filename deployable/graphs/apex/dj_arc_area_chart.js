@@ -372,7 +372,7 @@ looker.plugins.visualizations.add({
     let label = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
-    let yTitle1 = ` `;
+    let yTitle2 = ` `;
     let showActualTitle = config.showActualTitle;
     let showTitle = config.showTitle; // y titles are 1 and 2
     let showTitle2 = config.showTitle2;
@@ -435,8 +435,11 @@ looker.plugins.visualizations.add({
       if (stack == `overlay`) stacked = false;
       if (stack == `stack`) stacked = true;
     }
-    if (config.xTitle != ``) xTitle = config.xTitle;
+
+    if (config.title != ``) title = config.title;
     if (config.yTitle != ``) yTitle = config.yTitle;
+    if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
+    if (config.xTitle != ``) xTitle = config.xTitle;
     if (config.sideYaxis) sideYaxis = config.sideYaxis;
 
     // Multiple axis display configuration
