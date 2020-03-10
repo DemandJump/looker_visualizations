@@ -1084,7 +1084,6 @@ looker.plugins.visualizations.add({
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        console.log(`$#,##0.00: format, current response`, response);
         respsone = `$` + response;
       } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
 
@@ -1112,6 +1111,7 @@ looker.plugins.visualizations.add({
         response = response.toFixed(2).toString() + `%`;
       } // Convert to percent with 2 decimals (.01 becomes 1.00%)
 
+      console.log(`Final response:`, response);
       return response;
     }
 
