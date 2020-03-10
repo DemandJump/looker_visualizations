@@ -1241,9 +1241,8 @@ looker.plugins.visualizations.add({
       let value_format = valueFormat;
       let autoSelectFormat = [];
       let response;
-      let final;
+      let final = value;
 
-      if (format != null) value_format = format;
       if (!multipleAxes) {
         //   Construct the checker
         seriesData.forEach(series =>

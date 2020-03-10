@@ -994,12 +994,11 @@ looker.plugins.visualizations.add({
 
     // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
     function formatAxes(value, format) {
-      let value_format = valueFormat;
+      let value_format = format;
       let autoSelectFormat = [];
       let response;
-      let final;
+      let final = value;
 
-      if (format != null) value_format = format;
       if (!multipleAxes) {
         //   Construct the checker
         seriesData.forEach(series =>
@@ -1031,6 +1030,7 @@ looker.plugins.visualizations.add({
           }
         });
       }
+      console.log(`This is the value_format`, value_format);
 
       if (value_format == `0`) {
         final = value.toFixed(0);
