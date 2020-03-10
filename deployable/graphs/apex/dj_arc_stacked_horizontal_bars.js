@@ -995,9 +995,11 @@ looker.plugins.visualizations.add({
     // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
     function formatAxes(value, format) {
       let value_format = valueFormat;
-      if (format != null) value_format = format;
-
       let autoSelectFormat = [];
+      let working;
+      let response;
+
+      if (format != null) value_format = format;
       if (!multipleAxes) {
         //   Construct the checker
         seriesData.forEach(series =>
@@ -1032,7 +1034,6 @@ looker.plugins.visualizations.add({
 
       console.log(`\nThis is the current value format`, value_format);
       console.log(`This is format:`, format);
-      let response;
 
       if (value_format == `0`) {
         response = value.toFixed(0);
@@ -1084,60 +1085,60 @@ looker.plugins.visualizations.add({
       if (value_format == `0.000,,\" M\"`) {
         response = value / 1000000;
         response = response.toFixed(3).toString();
-        response = response + ` M`;
+        response = response + " M";
       } // Number in millions with 3 decimals (1.234 M) // Please note division by 1 million happens automatically
 
       if (value_format == `0.000,\" K\"`) {
         response = value / 1000;
         response = response.toFixed(3).toString();
-        response = response + ` K`;
+        response = response + " K";
       } // Number in thousands with 3 decimals (1.234 K) // Please note division by 1 thousand happens automatically
 
       if (value_format == `$0`) {
         response = value.toFixed(0).toString();
-        response = `$` + response;
+        response = "$" + response;
       } // Dollars with 0 decimals ($123)
 
       if (value_format == `$0.00`) {
         response = value.toFixed(2).toString();
-        respsone = `$` + response;
+        respsone = "$" + response;
       } // Dollars with 2 decimals ($123.00)
 
       if (value_format == `\"€\"0`) {
         response = value.toFixed(0).toString();
-        response = `€` + response;
+        response = "€" + response;
       } // Euros with 0 decimals (€123)
 
       if (value_format == `$#,##0.00`) {
-        response = value
+        working = value
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        respsone = `$` + response;
+        respsone = "$" + working;
       } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
 
       if (value_format == `$#.00;($#.00)`) {
         response = value.toFixed(2);
-        if (respsone < 0) response = `($` + response.toString() + `)`;
-        else response = `$` + response.toString();
+        if (respsone < 0) response = "($" + response.toString() + ")";
+        else response = "$" + response.toString();
       } // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
 
       if (value_format == `0\%`) {
-        response = value.toFixed(0).toString() + `%`;
+        response = value.toFixed(0).toString() + "%";
       } // Display as percent with 0 decimals (1 becomes 1%)
 
       if (value_format == `0.00\%`) {
-        response = value.toFixed(2).toString() + `%`;
+        response = value.toFixed(2).toString() + "%";
       } // Display as percent with 2 decimals (1 becomes 1.00%)
 
       if (value_format == `0%`) {
         response = value * 100;
-        response = response.toFixed(0).toString() + `%`;
+        response = response.toFixed(0).toString() + "%";
       } // Convert to percent with 0 decimals (.01 becomes 1%)
 
       if (value_format == `0.00%`) {
         response = value * 100;
-        response = response.toFixed(2).toString() + `%`;
+        response = response.toFixed(2).toString() + "%";
       } // Convert to percent with 2 decimals (.01 becomes 1.00%)
 
       console.log(`Final response:`, response);
