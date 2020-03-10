@@ -28,8 +28,17 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showTitle: {
+    showActualTitle: {
       label: `Show title`,
+      order: 4.9,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showTitle: {
+      label: `Show y axis title`,
       order: 5,
       section: `Format`,
       type: `boolean`,
@@ -38,7 +47,7 @@ looker.plugins.visualizations.add({
     },
 
     showTitle2: {
-      label: `Show second axis title`,
+      label: `Show second y axis title`,
       order: 5.1,
       section: `Format`,
       type: `boolean`,
@@ -280,6 +289,7 @@ looker.plugins.visualizations.add({
     let title = ` `;
     let yTitle = ` `;
     let yTitle2 = ` `;
+    let showActualTitle = config.showActualTitle;
     let showTitle = config.showTitle;
     let showTitle2 = config.showTitle2;
     let xTitle = ` `;
@@ -582,7 +592,8 @@ looker.plugins.visualizations.add({
           stackLayout.yaxis.push(obj);
         });
       } else {
-        if (config.showTitle == true) stackLayout[`title`] = { text: title };
+        if (config.showActualTitle == true)
+          stackLayout[`title`] = { text: title };
       }
     }
 
