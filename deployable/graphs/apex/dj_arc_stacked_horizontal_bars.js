@@ -1110,11 +1110,11 @@ looker.plugins.visualizations.add({
       } // Euros with 0 decimals (€123)
 
       if (value_format == `$#,##0.00`) {
-        working = value
+        response = value
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        respsone = "$" + working;
+        respsone = "$" + response;
       } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
 
       if (value_format == `$#.00;($#.00)`) {
