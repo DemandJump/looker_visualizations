@@ -1010,10 +1010,10 @@ looker.plugins.visualizations.add({
         );
 
         //   Tally the valueFormat
-        seriesData.forEach((series, index) => {
-          for (let i = 0; i < seriesData.length; i++) {
-            if (seriesData[i].value_format == series.value_format)
-              autoSelectFormat[index] += 1;
+        autoSelectFormat.forEach((series, index) => {
+          for (let i = 0; i < autoSelectFormat.length; i++) {
+            if (autoSelectFormat[i].value_format == series.value_format)
+              autoSelectFormat[index].universalCount += 1;
           }
         });
         console.log(`This is the autoSelectFormat array`, autoSelectFormat);
