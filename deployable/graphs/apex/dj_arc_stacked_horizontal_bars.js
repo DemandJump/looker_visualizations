@@ -619,15 +619,10 @@ looker.plugins.visualizations.add({
           }
 
           // Configuration to show the axes
-          if (index > 1) show = false;
-          if (index == 1 && config[`series_${index}`] == false) {
-            show = false;
+          if (index == 0) show = true;
+          if (config[`seriesAxis_${index}`] && passShow == false) {
             passShow = true;
-          }
-          if (index > 1 && passShow) {
             show = true;
-            passShow = false;
-            if (!axisOrientation) show = false;
           }
 
           let obj = {
