@@ -598,7 +598,7 @@ looker.plugins.visualizations.add({
         }
 
         // Configuration to show the axes
-        if (index == 0) if (index > 1) show = false;
+        if (index > 1) show = false;
         if (index == 1 && config[`seriesAxis_${index}`] == false) {
           show = false;
           passShow = true;
