@@ -612,7 +612,7 @@ looker.plugins.visualizations.add({
           show: show,
           labels: {
             formatter: function(val) {
-              if (typeof val == `number` && !horizontal)
+              if (typeof val == `number`)
                 return formatAxes(val, row.value_format);
               else return val;
             }
