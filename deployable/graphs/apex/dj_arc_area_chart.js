@@ -664,18 +664,22 @@ looker.plugins.visualizations.add({
       },
       xaxis: {
         type: `category`, // category, numeric, datetime
-        title: {
-          text: xTitle
+        title: { text: xTitle },
+        labels: {
+          formatter: function(val) {
+            if (typeof val == `number` && horizontal)
+              return formatAxes(val, seriesData[0].value_format);
+            else return val;
+          }
         }
       },
       yaxis: {
-        title: {
-          text: yTitle
-        },
+        title: { text: yTitle },
         opposite: sideYaxis,
         labels: {
           formatter: function(val) {
-            if (allPercents) return val + `%`;
+            if (typeof val == `number` && !horizontal)
+              return formatAxes(val, seriesData[0].value_format);
             else return val;
           }
         }
@@ -683,7 +687,8 @@ looker.plugins.visualizations.add({
       tooltip: {
         y: {
           formatter: function(val) {
-            if (allPercents) return val + `%`;
+            if (typeof val == `number`)
+              return formatAxes(val, seriesData[0].value_format);
             else return val;
           }
         }
@@ -1261,6 +1266,121 @@ looker.plugins.visualizations.add({
 
       // Grab the xaxis names for the labels of the chart
       xaxis.forEach(axis => axisNames.push(axis.name));
+    }
+
+    // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
+    function formatAxes(value, format) {
+      let value_format = valueFormat;
+      if (format != null) value_format = format;
+      let response;
+
+      if (value_format == `0`) {
+        response = value.toFixed(0);
+      } // Integer (123)
+
+      if (value_format == `*00#`) {
+        value = value.toString();
+        response = value.padStart(3, "0");
+      } // Integer zero-padded to 3 places (001)
+
+      if (value_format == `0.##`) {
+        value = value.toString();
+        if (value.includes(`.`)) {
+          let found = false;
+          let counter = 0;
+          for (let i = 0; i < value.length; i++) {
+            if (found) counter++;
+            if (value[i] == `.`) found = true;
+          }
+          value = parseInt(value, 10);
+          if (counter > 2) response = value.toFixed(2);
+        } else response = value;
+      } // Number up to 2 decimals (1. or 1.2 or 1.23)
+
+      if (value_format == `0.00`) {
+        response = value.toFixed(2);
+      } // Number with exactly 2 decimals (1.23)
+
+      if (value_format == `*00#.00`) {
+        value = value
+          .toFixed(2)
+          .toString()
+          .padStart(3, "0");
+      } // Number zero-padded to 3 places and exactly 2 decimals (001.23)
+
+      if (value_format == `#,##0`) {
+        response = value
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      } // Number with comma between thousands (1,234)
+
+      if (value_format == `#,##0.00`) {
+        response = value
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      } // Number with comma between thousands and 2 decimals (1,234.00)
+
+      if (value_format == `0.000,,\" M\"`) {
+        response = value / 1000000;
+        response = response.toFixed(3).toString();
+        response = response + ` M`;
+      } // Number in millions with 3 decimals (1.234 M) // Please note division by 1 million happens automatically
+
+      if (value_format == `0.000,\" K\"`) {
+        response = value / 1000;
+        response = response.toFixed(3).toString();
+        response = response + ` K`;
+      } // Number in thousands with 3 decimals (1.234 K) // Please note division by 1 thousand happens automatically
+
+      if (value_format == `$0`) {
+        response = value.toFixed(0).toString();
+        response = `$` + response;
+      } // Dollars with 0 decimals ($123)
+
+      if (value_format == `$0.00`) {
+        response = value.toFixed(2).toString();
+        respsone = `$` + response;
+      } // Dollars with 2 decimals ($123.00)
+
+      if (value_format == `\"€\"0`) {
+        response = value.toFixed(0).toString();
+        response = `€` + response;
+      } // Euros with 0 decimals (€123)
+
+      if (value_format == `$#,##0.00`) {
+        response = value
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        respsone = `$` + response;
+      } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
+
+      if (value_format == `$#.00;($#.00)`) {
+        response = value.toFixed(2);
+        if (respsone < 0) response = `($` + response.toString() + `)`;
+        else response = `$` + response.toString();
+      } // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
+
+      if (value_format == `0\%`) {
+        response = value.toFixed(0).toString() + `%`;
+      } // Display as percent with 0 decimals (1 becomes 1%)
+
+      if (value_format == `0.00\%`) {
+        response = value.toFixed(2).toString() + `%`;
+      } // Display as percent with 2 decimals (1 becomes 1.00%)
+
+      if (value_format == `0%`) {
+        response = value * 100;
+        response = response.toFixed(0).toString() + `%`;
+      } // Convert to percent with 0 decimals (.01 becomes 1%)
+
+      if (value_format == `0.00%`) {
+        response = value * 100;
+        response = response.toFixed(2).toString() + `%`;
+      } // Convert to percent with 2 decimals (.01 becomes 1.00%)
+
+      return response;
     }
 
     function seriesTypes() {
