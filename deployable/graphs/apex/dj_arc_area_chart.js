@@ -535,18 +535,12 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (showTitle) stackLayout.yaxis.title = { text: yTitle };
-    if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
-    if (config.showActualTitle) {
-      configuration[`title`] = {
-        text: title,
-        align: `left`
-      };
-    }
+    if (showTitle) configuration.yaxis.title = { text: yTitle };
+    if (showTitle3) configuration.xaxis.title = { text: xTitle };
 
     // Mulltiple axis display and chart configuration
     if (multipleAxes) {
-      stackLayout.yaxis = [];
+      configuration.yaxis = [];
 
       // Create the config settings for the chart
       if (seriesData.length != this._series) {
@@ -624,10 +618,15 @@ looker.plugins.visualizations.add({
           if (showTitle2) obj[`title`] = { text: title };
         }
 
-        stackLayout.yaxis.push(obj);
+        configuration.yaxis.push(obj);
       });
     } else {
-      if (showActualTitle == true) stackLayout[`title`] = { text: title };
+      if (showActualTitle == true) {
+        configuration[`title`] = {
+          text: title,
+          align: `left`
+        };
+      }
     }
 
     // Rebuild the settings
