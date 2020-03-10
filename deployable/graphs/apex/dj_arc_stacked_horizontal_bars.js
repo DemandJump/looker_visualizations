@@ -436,7 +436,6 @@ looker.plugins.visualizations.add({
         }
       },
       yaxis: {
-        title: { text: yTitle },
         labels: {
           formatter: function(val) {
             if (typeof val == `number` && !horizontal)
@@ -478,7 +477,8 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (config.stackType == true) stackLayout[`chart`].stackType = `100%`;
+    if (showTitle) stackLayout.title = { text: yTitle };
+    if (config.stackType) stackLayout[`chart`].stackType = `100%`;
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
     // Erase the different series placement based on the layout
