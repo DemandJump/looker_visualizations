@@ -472,15 +472,49 @@ looker.plugins.visualizations.add({
     }
 
     if (stacked) {
-      if (this.multipleAxes != false) {
-        this.options.showTitle2.hidden = true;
-        this.options.yTitle2.hidden = true;
-        this._multipleAxes = false;
+      if (
+        this.options.showTitle2.hidden != true ||
+        this.options.yTitle2.hidden != true ||
+        this.options.multipleAxes.hidden != true
+      )
         changed = true;
 
-        for (let i = 1; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`])
+      if (this.options.showTitle2.hidden != true)
+        this.options.showTitle2.hidden = true;
+      if (this.options.yTitle2.hidden != true)
+        this.options.yTitle2.hidden = true;
+      if (this.options.multipleAxes.hidden != true)
+        this.options.multipleAxes.hidden = true;
+
+      for (let i = 1; i < this._series; i++) {
+        if (this.options[`seriesAxis_${i}`]) {
+          if (this.options[`seriesAxis_${i}`].hidden != true) {
             this.options[`seriesAxis_${i}`].hidden = true;
+            changed = true;
+          }
+        }
+      }
+    } else {
+      if (
+        this.options.showTitle2.hidden != false ||
+        this.options.yTitle2.hidden != false ||
+        this.options.multipleAxes.hidden != false
+      )
+        changed = true;
+
+      if (this.options.showTitle2.hidden != false)
+        this.options.showTitle2.hidden = false;
+      if (this.options.yTitle2.hidden != false)
+        this.options.yTitle2.hidden = false;
+      if (this.options.multipleAxes.hidden != false)
+        this.options.multipleAxes.hidden = false;
+
+      for (let i = 1; i < this._series; i++) {
+        if (this.options[`seriesAxis_${i}`]) {
+          if (this.options[`seriesAxis_${i}`].hidden != false) {
+            this.options[`seriesAxis_${i}`].hidden = false;
+            changed = true;
+          }
         }
       }
     }
