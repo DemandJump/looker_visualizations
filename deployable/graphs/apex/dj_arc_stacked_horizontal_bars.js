@@ -995,6 +995,7 @@ looker.plugins.visualizations.add({
     // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
     function formatAxes(value, format) {
       let value_format = valueFormat;
+      console.log(`This is the current value format`, value_format);
       if (format != null) value_format = format;
       let response;
 
@@ -1077,6 +1078,7 @@ looker.plugins.visualizations.add({
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        console.log(`$#,##0.00: format, current response`, response);
         respsone = `$` + response;
       } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
 

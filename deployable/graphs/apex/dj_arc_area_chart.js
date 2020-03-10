@@ -400,21 +400,6 @@ looker.plugins.visualizations.add({
     pivotCheck();
     formatSeriesData();
 
-    // Pull all the information into a single object
-    seriesInformation = {
-      pivot: {
-        pivot: pivot,
-        pivotA: pivotA,
-        pivotB: pivotB,
-        pivotC: pivotC
-      },
-      xaxis: xaxis,
-      axisNames: axisData,
-      seriesData: seriesData,
-      valueFormat: valueFormat
-    };
-    console.log(`Series Information`, seriesInformation);
-
     // if (!pivot) {
     //   // let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
     //   // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
@@ -768,6 +753,22 @@ looker.plugins.visualizations.add({
       // .style(`transform`, `rotate(-45)`)
       // .html(d => d.text)
       .on("click", d => drillDown(d.links, d3.event));
+
+    // Pull all the information into a single object
+    seriesInformation = {
+      pivot: {
+        pivot: pivot,
+        pivotA: pivotA,
+        pivotB: pivotB,
+        pivotC: pivotC
+      },
+      xaxis: xaxis,
+      axisNames: axisData,
+      seriesData: seriesData,
+      valueFormat: valueFormat,
+      drillDownNodes: nodes
+    };
+    console.log(`Series Information`, seriesInformation);
 
     // Y axis drilldown menu (data for each series)
     // let circleValues = [];
