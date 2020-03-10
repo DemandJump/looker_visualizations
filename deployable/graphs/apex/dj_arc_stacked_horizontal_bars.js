@@ -413,52 +413,54 @@ looker.plugins.visualizations.add({
     }
 
     // Handles the multiple axis display based on whether it's horizontal or not
-    if (horizontal) {
-      if (this._multipleAxes != false) {
-        this.options.showTitle2.hidden = true;
-        this.options.yTitle2.hidden = true;
-        this.options.multipleAxes.hidden = true;
-        this._multipleAxes = false;
-        changed = true;
+    if (!stack) {
+      if (horizontal) {
+        if (this._multipleAxes != false) {
+          this.options.showTitle2.hidden = true;
+          this.options.yTitle2.hidden = true;
+          this.options.multipleAxes.hidden = true;
+          this._multipleAxes = false;
+          changed = true;
 
-        for (let i = 0; i < this._series; i++) {
-          if (this.options[`series_${i}`])
-            this.options[`series_${i}`].hidden = true;
-        }
-      }
-    } else {
-      if (!stack && !this.options.multipleAxes) {
-        changed = true;
-        this.options[`multipleAxes`] = {
-          label: `Add another axis`,
-          order: 1,
-          section: `Multiple Axes`,
-          type: `boolean`,
-          default: false,
-          hidden: false
-        };
-      }
-
-      if (this.options.multipleAxes.hidden == true) {
-        changed = true;
-        this.options.multipleAxes.hidden = false;
-
-        if (config.multipleAxes) {
-          if (this._multipleAxes != true) {
-            this.options.showTitle2.hidden = false;
-            this.options.yTitle2.hidden = false;
-            this._multipleAxes = true;
-            for (let i = 0; i < this._series; i++) {
-              this.options[`series_${i}`].hidden = false;
-            }
-          }
-        } else {
-          if (this._multipleAxes != false) {
-            this.options.showTitle2.hidden = true;
-            this.options.yTitle2.hidden = true;
-            this._multipleAxes = false;
-            for (let i = 0; i < this._series; i++) {
+          for (let i = 0; i < this._series; i++) {
+            if (this.options[`series_${i}`])
               this.options[`series_${i}`].hidden = true;
+          }
+        }
+      } else {
+        if (!this.options.multipleAxes) {
+          changed = true;
+          this.options[`multipleAxes`] = {
+            label: `Add another axis`,
+            order: 1,
+            section: `Multiple Axes`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+          };
+        }
+
+        if (this.options.multipleAxes.hidden == true) {
+          changed = true;
+          this.options.multipleAxes.hidden = false;
+
+          if (config.multipleAxes) {
+            if (this._multipleAxes != true) {
+              this.options.showTitle2.hidden = false;
+              this.options.yTitle2.hidden = false;
+              this._multipleAxes = true;
+              for (let i = 0; i < this._series; i++) {
+                this.options[`series_${i}`].hidden = false;
+              }
+            }
+          } else {
+            if (this._multipleAxes != false) {
+              this.options.showTitle2.hidden = true;
+              this.options.yTitle2.hidden = true;
+              this._multipleAxes = false;
+              for (let i = 0; i < this._series; i++) {
+                this.options[`series_${i}`].hidden = true;
+              }
             }
           }
         }
