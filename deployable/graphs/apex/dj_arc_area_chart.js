@@ -447,10 +447,11 @@ looker.plugins.visualizations.add({
       multipleAxes = config.multipleAxes;
 
       if (this._multipleAxes != true) {
-        changed = true;
-        this._multipleAxes = true;
+        console.log(`Showing the second y axis label`);
         this.options.showTitle2.hidden = false;
         this.options.yTitle2.hidden = false;
+        this._multipleAxes = true;
+        changed = true;
 
         for (let i = 1; i < this._series; i++) {
           if (this.options[`seriesAxis_${i}`])
