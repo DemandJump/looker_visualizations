@@ -379,7 +379,7 @@ looker.plugins.visualizations.add({
     let showTitle3 = config.showTitle3;
     let curve = `straight`;
     let stack = `overlay`;
-    let stacked = false;
+    let stack = false;
     let dataLabels = false;
     let sideYaxis = false;
     let alignLegend = `center`;
@@ -432,8 +432,8 @@ looker.plugins.visualizations.add({
 
     if (config.stack) {
       stack = config.stack;
-      if (stack == `overlay`) stacked = false;
-      if (stack == `stack`) stacked = true;
+      if (stack == `overlay`) stack = false;
+      if (stack == `stack`) stack = true;
     }
 
     if (config.title != ``) title = config.title;
@@ -471,6 +471,20 @@ looker.plugins.visualizations.add({
       }
     }
 
+    if (stack) {
+      if (this.multipleAxes != false) {
+        this.options.showTitle2.hidden = true;
+        this.options.yTitle2.hidden = true;
+        this._multipleAxes = false;
+        changed = true;
+
+        for (let i = 1; i < this._series; i++) {
+          if (this.options[`seriesAxis_${i}`])
+            this.options[`seriesAxis${i}`].hidden = true;
+        }
+      }
+    }
+
     // Pull in all the data into the xaxis and series
     let xaxis = [];
     let seriesData = [];
@@ -493,7 +507,7 @@ looker.plugins.visualizations.add({
       chart: {
         height: height,
         type: `area`,
-        stacked: stacked,
+        stacked: stack,
         zoom: {
           enabled: true
         }
@@ -548,7 +562,7 @@ looker.plugins.visualizations.add({
     if (showTitle3) configuration.xaxis.title = { text: xTitle };
 
     // Mulltiple axis display and chart configuration
-    if (multipleAxes) {
+    if (multipleAxes && !stacked) {
       configuration.yaxis = [];
 
       // Create the config settings for the chart
