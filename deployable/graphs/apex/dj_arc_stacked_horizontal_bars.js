@@ -1001,7 +1001,6 @@ looker.plugins.visualizations.add({
 
       if (!multipleAxes) {
         //   Construct the checker
-        console.log(`\n\n\n\n One instance of the axis format checker: `);
         seriesData.forEach(series =>
           autoSelectFormat.push({
             value_format: series.value_format,
@@ -1016,7 +1015,6 @@ looker.plugins.visualizations.add({
               autoSelectFormat[index].universalCount += 1;
           }
         });
-        console.log(`This is the autoSelectFormat array`, autoSelectFormat);
 
         //   Use last one that equals the most or matches the most
         let count = 0;
@@ -1025,18 +1023,13 @@ looker.plugins.visualizations.add({
             count = series.universalCount;
             value_format = series.value_format;
           } else {
-            if (count <= series.universalCount) {
+            if (count < series.universalCount) {
               count = series.universalCount;
               value_format = series.value_format;
             }
           }
         });
-        console.log(
-          `Current count: '${count}', and selected format: '${value_format}', These are the final counts:`,
-          autoSelectFormat
-        );
       }
-      console.log(`This is the value_format`, value_format);
 
       if (value_format == `0`) {
         final = value.toFixed(0);

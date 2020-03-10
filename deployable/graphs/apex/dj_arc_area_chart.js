@@ -1238,7 +1238,7 @@ looker.plugins.visualizations.add({
 
     // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
     function formatAxes(value, format) {
-      let value_format = valueFormat;
+      let value_format = format;
       let autoSelectFormat = [];
       let response;
       let final = value;
@@ -1253,10 +1253,10 @@ looker.plugins.visualizations.add({
         );
 
         //   Tally the valueFormat
-        seriesData.forEach((series, index) => {
-          for (let i = 0; i < seriesData.length; i++) {
-            if (seriesData[i].value_format == series.value_format)
-              autoSelectFormat[index] += 1;
+        autoSelectFormat.forEach((series, index) => {
+          for (let i = 0; i < autoSelectFormat.length; i++) {
+            if (autoSelectFormat[i].value_format == series.value_format)
+              autoSelectFormat[index].universalCount += 1;
           }
         });
 
@@ -1267,7 +1267,7 @@ looker.plugins.visualizations.add({
             count = series.universalCount;
             value_format = series.value_format;
           } else {
-            if (count <= series.universalCount) {
+            if (count < series.universalCount) {
               count = series.universalCount;
               value_format = series.value_format;
             }
