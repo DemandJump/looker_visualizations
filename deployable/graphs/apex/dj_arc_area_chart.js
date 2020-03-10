@@ -454,7 +454,7 @@ looker.plugins.visualizations.add({
 
         for (let i = 1; i < this._series; i++) {
           if (this.options[`seriesAxis_${i}`])
-            this.options[`seriesAxis_${i}`].hidden = true;
+            this.options[`seriesAxis_${i}`].hidden = false;
         }
       }
     } else {
@@ -466,7 +466,7 @@ looker.plugins.visualizations.add({
 
         for (let i = 1; i < this._series; i++) {
           if (this.options[`seriesAxis_${i}`])
-            this.options[`seriesAxis_${i}`].hidden = false;
+            this.options[`seriesAxis_${i}`].hidden = true;
         }
       }
     }
