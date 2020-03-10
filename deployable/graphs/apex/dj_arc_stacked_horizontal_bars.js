@@ -572,10 +572,10 @@ looker.plugins.visualizations.add({
           };
 
           //   Axis based label
-          if (seriesName == NameA) {
+          if (seriesName == nameA) {
             if (showTitle) obj[`title`] = { text: title };
           }
-          if (seriesName == NameB) {
+          if (seriesName == nameB) {
             if (showTitle2) obj[`title`] = { text: title };
           }
 
