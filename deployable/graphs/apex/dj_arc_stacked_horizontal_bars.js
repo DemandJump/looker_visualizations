@@ -571,16 +571,13 @@ looker.plugins.visualizations.add({
             }
           };
 
-          console.log(
-            `This ${yTitle} is showTitle: '${showTitle}', and '${yTitle2}' this is showTitle2: ${showTitle2}`
-          );
-          if (index == 0 && showTitle == true) obj[`title`] = { text: title };
-          else delete obj[`title`];
-          if ((index = !0 && showTitle2 == true))
-            obj[`title`] = { text: title };
-          else delete obj[`title`];
-
-          console.log(`Index: ${index}, this is the configuration`, obj);
+          //   Axis based label
+          if (seriesName == NameA) {
+            if (showTitle) obj[`title`] = { text: title };
+          }
+          if (seriesName == NameB) {
+            if (showTitle2) obj[`title`] = { text: title };
+          }
 
           stackLayout.yaxis.push(obj);
         });
