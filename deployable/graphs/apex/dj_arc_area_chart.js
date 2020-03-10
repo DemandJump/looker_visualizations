@@ -443,7 +443,7 @@ looker.plugins.visualizations.add({
     if (config.sideYaxis) sideYaxis = config.sideYaxis;
 
     // Multiple axis display configuration
-    if (config.multipleAxes) {
+    if (config.multipleAxes == true) {
       multipleAxes = config.multipleAxes;
 
       if (this._multipleAxes != true) {
