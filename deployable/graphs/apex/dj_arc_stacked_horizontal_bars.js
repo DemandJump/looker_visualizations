@@ -418,7 +418,7 @@ looker.plugins.visualizations.add({
         if (this._multipleAxes != false) {
           this.options.showTitle2.hidden = true;
           this.options.yTitle2.hidden = true;
-          delete this.options.multipleAxes;
+          this.options.multipleAxes.hidden = true;
           this._multipleAxes = false;
           changed = true;
 
@@ -466,6 +466,20 @@ looker.plugins.visualizations.add({
         }
       }
     }
+
+    // Pull out the configuration to hide the settings tab if it's horizontal
+    if (horizontal) {
+        if (this.options.multipleAxes) {
+            changed = true;
+            delete this.options.multipleAxes;
+            for(let i = 0; i < this._series; i++) {
+                if (this.options[`series_${i}`]) {
+                    changed = true;
+                    delete this.options[`series_${i}`];
+                }
+            }
+    }
+    
 
     // Grab chart data
     pivotCheck(); // Find the type of query
