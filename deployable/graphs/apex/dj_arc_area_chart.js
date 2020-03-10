@@ -129,14 +129,14 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    sideYaxis: {
-      label: `Set y axis on the right`,
-      order: 6,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
+    // sideYaxis: {
+    //   label: `Set y axis on the right`,
+    //   order: 6,
+    //   section: `Format`,
+    //   type: `boolean`,
+    //   default: false,
+    //   hidden: false
+    // },
 
     customSpacing: {
       order: 8,
@@ -453,9 +453,11 @@ looker.plugins.visualizations.add({
         this.options.yTitle2.hidden = false;
 
         for (let i = 0; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`].hidden != true) {
-            this.options[`seriesAxis_${i}`].hidden = true;
-            changed = true;
+          if (this.options[`seriesAxis_${i}`]) {
+            if (this.options[`seriesAxis_${i}`].hidden != true) {
+              this.options[`seriesAxis_${i}`].hidden = true;
+              changed = true;
+            }
           }
         }
       }
@@ -467,9 +469,15 @@ looker.plugins.visualizations.add({
         changed = true;
 
         for (let i = 0; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`].hidden != false) {
-            this.options[`seriesAxis_${i}`].hidden = false;
-            changed = true;
+          console.log(
+            `This is the current setting`,
+            this.options[`seriesAxis_${i}`]
+          );
+          if (this.options[`seriesAxis_${i}`]) {
+            if (this.options[`seriesAxis_${i}`].hidden != false) {
+              this.options[`seriesAxis_${i}`].hidden = false;
+              changed = true;
+            }
           }
         }
       }
@@ -604,17 +612,6 @@ looker.plugins.visualizations.add({
           passShow = true;
           show = true;
         }
-
-        // if (index > 1) show = false;
-        // if (index == 1 && config[`seriesAxis_${index}`] == false) {
-        //   show = false;
-        //   passShow = true;
-        // }
-        // if (index > 1 && passShow) {
-        //   show = true;
-        //   passShow = false;
-        //   if (!axisOrientation) show = false;
-        // }
 
         let obj = {
           seriesName: seriesName,
