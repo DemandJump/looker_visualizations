@@ -614,6 +614,7 @@ looker.plugins.visualizations.add({
           seriesName: seriesName,
           opposite: axisOrientation,
           show: show,
+          name: row.name,
           labels: {
             formatter: function(val) {
               if (typeof val == `number`)
@@ -631,7 +632,7 @@ looker.plugins.visualizations.add({
           if (showTitle2) obj[`title`] = { text: title };
         }
 
-        console.log(`${row.name}: y axis ${index} configuration`, obj);
+        console.log(`y axis ${index} configuration`, obj);
         configuration.yaxis.push(obj);
       });
     } else {
