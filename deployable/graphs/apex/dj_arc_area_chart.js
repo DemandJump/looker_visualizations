@@ -46,6 +46,15 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    yTitle2: {
+      label: `Second y axis label`,
+      order: 1.95,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter y axis label`,
+      hidden: false
+    },
+
     showActualTitle: {
       label: `Show title`,
       order: 4,
