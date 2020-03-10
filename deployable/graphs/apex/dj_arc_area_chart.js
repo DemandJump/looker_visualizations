@@ -471,10 +471,6 @@ looker.plugins.visualizations.add({
       }
     }
 
-    // Some Multi Axis display settings based on stack layout (series positioning config setting)
-    let settings = this.options;
-    hideAxisTab();
-
     // Main chart series data
     let xaxis = [];
     let seriesData = [];
@@ -489,8 +485,9 @@ looker.plugins.visualizations.add({
     pivotCheck();
     formatSeriesData();
 
-    // Add the type for each series
-    seriesTypes();
+    let settings = this.options;
+    hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
+    seriesTypes(); // Add the type for each series
     this.options = settings; // Sync the settings so you don't lose the data
 
     // Building a configuration
