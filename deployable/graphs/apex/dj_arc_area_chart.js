@@ -510,12 +510,8 @@ looker.plugins.visualizations.add({
         text: label,
         align: `left`
       },
-      xaxis: {
-        type: `category`, // category, numeric, datetime
-        title: { text: xTitle }
-      },
+      xaxis: { type: `category` },
       yaxis: {
-        title: { text: yTitle },
         opposite: sideYaxis,
         labels: {
           formatter: function(val) {
