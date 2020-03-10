@@ -436,11 +436,30 @@ looker.plugins.visualizations.add({
     let format = `category`; // Either datetime or category
     let xaxis = [];
     let seriesData = [];
-    let axisNames = [];
+    let axisData = [];
     let seriesInformation;
+    let valueFormat = [];
+    queryResponse.fields.measure_like.forEach(mes =>
+      valueFormat.push(mes.value_format)
+    );
 
     pivotCheck();
     formatSeriesData();
+
+    // Pull all the information into a single object
+    seriesInformation = {
+      pivot: {
+        pivot: pivot,
+        pivotA: pivotA,
+        pivotB: pivotB,
+        pivotC: pivotC
+      },
+      xaxis: xaxis,
+      axisNames: axisData,
+      seriesData: seriesData,
+      valueFormat: valueFormat
+    };
+    console.log(`Series Information`, seriesInformation);
 
     // if (!pivot) {
     //   // let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
@@ -625,13 +644,7 @@ looker.plugins.visualizations.add({
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
-    console.log(`Series data`, seriesData);
-    console.log(`xaxis data`, xaxis);
-
     // Building a configuration
-    let axisData = [];
-    xaxis.forEach(axis => axisData.push(axis.name));
-
     let configuration = {
       chart: {
         height: height,
@@ -1265,7 +1278,7 @@ looker.plugins.visualizations.add({
       }
 
       // Grab the xaxis names for the labels of the chart
-      xaxis.forEach(axis => axisNames.push(axis.name));
+      xaxis.forEach(axis => axisData.push(axis.name));
     }
 
     // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
