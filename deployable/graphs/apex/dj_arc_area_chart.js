@@ -616,21 +616,14 @@ looker.plugins.visualizations.add({
       },
       xaxis: {
         type: `category`, // category, numeric, datetime
-        title: { text: xTitle },
-        labels: {
-          formatter: function(val) {
-            if (typeof val == `number` && horizontal)
-              return formatAxes(val, seriesData[0].value_format);
-            else return val;
-          }
-        }
+        title: { text: xTitle }
       },
       yaxis: {
         title: { text: yTitle },
         opposite: sideYaxis,
         labels: {
           formatter: function(val) {
-            if (typeof val == `number` && !horizontal)
+            if (typeof val == `number`)
               return formatAxes(val, seriesData[0].value_format);
             else return val;
           }
