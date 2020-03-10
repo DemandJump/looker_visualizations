@@ -471,16 +471,17 @@ looker.plugins.visualizations.add({
       }
     }
 
-    settings = this.options;
+    // Some Multi Axis display settings based on stack layout (series positioning config setting)
+    let settings = this.options;
     hideAxisTab();
-    this.options = settings;
 
-    // Pull in all the data into the xaxis and series
+    // Main chart series data
     let xaxis = [];
     let seriesData = [];
     let axisData = [];
     let seriesInformation;
     let valueFormat = [];
+
     queryResponse.fields.measure_like.forEach(mes =>
       valueFormat.push(mes.value_format)
     );
@@ -489,8 +490,8 @@ looker.plugins.visualizations.add({
     formatSeriesData();
 
     // Add the type for each series
-    let settings = this.options;
     seriesTypes();
+    this.options = settings; // Sync the settings so you don't lose the data
 
     // Building a configuration
     let configuration = {
