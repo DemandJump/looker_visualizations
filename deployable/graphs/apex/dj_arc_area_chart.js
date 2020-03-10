@@ -471,53 +471,9 @@ looker.plugins.visualizations.add({
       }
     }
 
-    if (stacked) {
-      if (
-        this.options.showTitle2.hidden != true ||
-        this.options.yTitle2.hidden != true ||
-        this.options.multipleAxes.hidden != true
-      )
-        changed = true;
-
-      if (this.options.showTitle2.hidden != true)
-        this.options.showTitle2.hidden = true;
-      if (this.options.yTitle2.hidden != true)
-        this.options.yTitle2.hidden = true;
-      if (this.options.multipleAxes.hidden != true)
-        this.options.multipleAxes.hidden = true;
-
-      for (let i = 1; i < this._series; i++) {
-        if (this.options[`seriesAxis_${i}`]) {
-          if (this.options[`seriesAxis_${i}`].hidden != true) {
-            this.options[`seriesAxis_${i}`].hidden = true;
-            changed = true;
-          }
-        }
-      }
-    } else {
-      if (
-        this.options.showTitle2.hidden != false ||
-        this.options.yTitle2.hidden != false ||
-        this.options.multipleAxes.hidden != false
-      )
-        changed = true;
-
-      if (this.options.showTitle2.hidden != false)
-        this.options.showTitle2.hidden = false;
-      if (this.options.yTitle2.hidden != false)
-        this.options.yTitle2.hidden = false;
-      if (this.options.multipleAxes.hidden != false)
-        this.options.multipleAxes.hidden = false;
-
-      for (let i = 1; i < this._series; i++) {
-        if (this.options[`seriesAxis_${i}`]) {
-          if (this.options[`seriesAxis_${i}`].hidden != false) {
-            this.options[`seriesAxis_${i}`].hidden = false;
-            changed = true;
-          }
-        }
-      }
-    }
+    settings = this.options;
+    hideAxisTab();
+    this.options = settings;
 
     // Pull in all the data into the xaxis and series
     let xaxis = [];
@@ -1467,6 +1423,76 @@ looker.plugins.visualizations.add({
         } else {
           checker = false;
         }
+      }
+    }
+
+    function hideAxisTab() {
+      if (stacked) {
+        if (settings.showTitle2 || settings.yTitle2 || settings.multipleAxes)
+          changed = true;
+
+        if (settings.showTitle2) delete settings.showTitle2;
+        if (settings.yTitle2) delete settings.yTitle2;
+        if (settings.multipleAxes) delete settings.multipleAxes;
+
+        for (let i = 1; i < this._series; i++) {
+          if (settings[`seriesAxis_${i}`]) {
+            delete settings[`seriesAxis_${i}`];
+            changed = true;
+          }
+        }
+      } else {
+        if (!settings.showTitle2 || !settings.yTitle2 || !settings.multipleAxes)
+          changed = true;
+
+        if (!settings.showTitle2) {
+          settings.showTitle2 = {
+            label: `Show second y axis title`,
+            order: 4.2,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+          };
+        }
+
+        if (!settings.yTitle2) {
+          settings.yTitle2 = {
+            label: `Second y axis label`,
+            order: 1.95,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter y axis label`,
+            hidden: false
+          };
+        }
+
+        if (!settings.multipleAxes) {
+          settings.multipleAxes = {
+            label: `Add another axis`,
+            order: 1,
+            section: `Multiple Axes`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+          };
+        }
+
+        seriesData.forEach((row, index) => {
+          if (index != 0) {
+            if (!settings[`seriesAxis_${index}`]) {
+              changed = true;
+              settings[`seriesAxis_${index}`] = {
+                label: `Set ${row.name} on the second axis`,
+                order: 10 + index,
+                section: `Multiple Axes`,
+                type: `boolean`,
+                default: false,
+                hidden: false
+              };
+            }
+          }
+        });
       }
     }
 
