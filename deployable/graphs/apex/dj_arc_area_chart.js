@@ -1239,51 +1239,85 @@ looker.plugins.visualizations.add({
     // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
     function formatAxes(value, format) {
       let value_format = valueFormat;
-      if (format != null) value_format = format;
+      let autoSelectFormat = [];
       let response;
+      let final;
+
+      if (format != null) value_format = format;
+      if (!multipleAxes) {
+        //   Construct the checker
+        seriesData.forEach(series =>
+          autoSelectFormat.push({
+            value_format: series.value_format,
+            universalCount: 0
+          })
+        );
+
+        //   Tally the valueFormat
+        seriesData.forEach((series, index) => {
+          for (let i = 0; i < seriesData.length; i++) {
+            if (seriesData[i].value_format == series.value_format)
+              autoSelectFormat[index] += 1;
+          }
+        });
+
+        //   Use last one that equals the most or matches the most
+        let count = 0;
+        autoSelectFormat.forEach((series, index) => {
+          if (index == 0) {
+            count = series.universalCount;
+            value_format = series.value_format;
+          } else {
+            if (count <= series.universalCount) {
+              count = series.universalCount;
+              value_format = series.value_format;
+            }
+          }
+        });
+      }
 
       if (value_format == `0`) {
-        response = value.toFixed(0);
+        final = value.toFixed(0);
       } // Integer (123)
 
       if (value_format == `*00#`) {
-        value = value.toString();
-        response = value.padStart(3, "0");
+        response = value.toString();
+        final = response.padStart(3, "0");
       } // Integer zero-padded to 3 places (001)
 
       if (value_format == `0.##`) {
-        value = value.toString();
-        if (value.includes(`.`)) {
+        response = value.toString();
+        if (response.includes(`.`)) {
           let found = false;
           let counter = 0;
-          for (let i = 0; i < value.length; i++) {
+          for (let i = 0; i < response.length; i++) {
             if (found) counter++;
-            if (value[i] == `.`) found = true;
+            if (response[i] == `.`) found = true;
           }
-          value = parseInt(value, 10);
-          if (counter > 2) response = value.toFixed(2);
-        } else response = value;
+          reponse = parseInt(value, 10);
+          if (counter > 2) final = response.toFixed(2);
+        } else final = response;
       } // Number up to 2 decimals (1. or 1.2 or 1.23)
 
       if (value_format == `0.00`) {
-        response = value.toFixed(2);
+        final = value.toFixed(2);
       } // Number with exactly 2 decimals (1.23)
 
       if (value_format == `*00#.00`) {
-        value = value
+        final = value
           .toFixed(2)
           .toString()
           .padStart(3, "0");
       } // Number zero-padded to 3 places and exactly 2 decimals (001.23)
 
       if (value_format == `#,##0`) {
-        response = value
+        final = value
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
       } // Number with comma between thousands (1,234)
 
       if (value_format == `#,##0.00`) {
-        response = value
+        final = value
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -1292,28 +1326,28 @@ looker.plugins.visualizations.add({
       if (value_format == `0.000,,\" M\"`) {
         response = value / 1000000;
         response = response.toFixed(3).toString();
-        response = response + ` M`;
+        final = response + " M";
       } // Number in millions with 3 decimals (1.234 M) // Please note division by 1 million happens automatically
 
       if (value_format == `0.000,\" K\"`) {
         response = value / 1000;
         response = response.toFixed(3).toString();
-        response = response + ` K`;
+        final = response + " K";
       } // Number in thousands with 3 decimals (1.234 K) // Please note division by 1 thousand happens automatically
 
       if (value_format == `$0`) {
         response = value.toFixed(0).toString();
-        response = `$` + response;
+        final = "$" + response;
       } // Dollars with 0 decimals ($123)
 
       if (value_format == `$0.00`) {
         response = value.toFixed(2).toString();
-        respsone = `$` + response;
+        final = "$" + response;
       } // Dollars with 2 decimals ($123.00)
 
       if (value_format == `\"€\"0`) {
         response = value.toFixed(0).toString();
-        response = `€` + response;
+        final = "€" + response;
       } // Euros with 0 decimals (€123)
 
       if (value_format == `$#,##0.00`) {
@@ -1321,34 +1355,41 @@ looker.plugins.visualizations.add({
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        respsone = `$` + response;
+        final = "$" + response;
       } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
 
       if (value_format == `$#.00;($#.00)`) {
         response = value.toFixed(2);
-        if (respsone < 0) response = `($` + response.toString() + `)`;
-        else response = `$` + response.toString();
+        if (response < 0) {
+          response = response.toString();
+          final = "($" + response + ")";
+        } else {
+          response = response.toString();
+          final = "$" + response;
+        }
       } // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
 
       if (value_format == `0\%`) {
-        response = value.toFixed(0).toString() + `%`;
+        response = value.toFixed(0).toString();
+        final = response + "%";
       } // Display as percent with 0 decimals (1 becomes 1%)
 
       if (value_format == `0.00\%`) {
-        response = value.toFixed(2).toString() + `%`;
+        response = value.toFixed(2).toString();
+        final = response + "%";
       } // Display as percent with 2 decimals (1 becomes 1.00%)
 
       if (value_format == `0%`) {
         response = value * 100;
-        response = response.toFixed(0).toString() + `%`;
+        final = response.toFixed(0).toString() + "%";
       } // Convert to percent with 0 decimals (.01 becomes 1%)
 
       if (value_format == `0.00%`) {
         response = value * 100;
-        response = response.toFixed(2).toString() + `%`;
+        final = response.toFixed(2).toString() + "%";
       } // Convert to percent with 2 decimals (.01 becomes 1.00%)
 
-      return response;
+      return final;
     }
 
     function seriesTypes() {
