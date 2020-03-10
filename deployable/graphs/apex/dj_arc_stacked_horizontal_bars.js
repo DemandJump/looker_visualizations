@@ -55,6 +55,15 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    showTitle3: {
+      label: `Show x axis title`,
+      order: 5.4,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
     yTitle: {
       label: `Y axis label`,
       order: 3,
@@ -292,6 +301,7 @@ looker.plugins.visualizations.add({
     let showActualTitle = config.showActualTitle;
     let showTitle = config.showTitle;
     let showTitle2 = config.showTitle2;
+    let showTitle3 = config.showTitle3;
     let xTitle = ` `;
     let alignLegend = `center`;
     let multipleAxes = false;
@@ -426,7 +436,6 @@ looker.plugins.visualizations.add({
       series: seriesData,
       xaxis: {
         categories: axisNames,
-        title: { text: xTitle },
         labels: {
           formatter: function(val) {
             if (typeof val == `number` && horizontal)
@@ -477,7 +486,8 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (showTitle) stackLayout.title = { text: yTitle };
+    if (showTitle) stackLayout.yaxis.title = { text: yTitle };
+    if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
     if (config.stackType) stackLayout[`chart`].stackType = `100%`;
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
