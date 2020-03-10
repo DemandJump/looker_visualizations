@@ -533,7 +533,8 @@ looker.plugins.visualizations.add({
 
     if (showTitle) stackLayout.yaxis.title = { text: yTitle };
     if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
-    if (config.stackType) stackLayout[`chart`].stackType = `100%`;
+    if (config.stackType && theme == `custom`)
+      stackLayout[`chart`].stackType = `100%`;
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
     // Erase the different series placement based on the layout
