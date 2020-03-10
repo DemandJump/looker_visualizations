@@ -585,7 +585,7 @@ looker.plugins.visualizations.add({
         let title = row.name;
         let seriesName = nameA;
         let axisOrientation = false;
-        let show = true;
+        let show = false;
 
         if (config[`seriesAxis_${index}`] == true) {
           seriesName = nameB;
@@ -598,17 +598,21 @@ looker.plugins.visualizations.add({
         }
 
         // Configuration to show the axes
-        if (index > 1) show = false;
-        if (index == 1 && config[`seriesAxis_${index}`] == false) {
-          show = false;
+        if (config[`seriesAxis_${index}`] && passShow == false) {
           passShow = true;
+          show = true;
         }
 
-        if (index > 1 && passShow) {
-          show = true;
-          passShow = false;
-          if (!axisOrientation) show = false;
-        }
+        // if (index > 1) show = false;
+        // if (index == 1 && config[`seriesAxis_${index}`] == false) {
+        //   show = false;
+        //   passShow = true;
+        // }
+        // if (index > 1 && passShow) {
+        //   show = true;
+        //   passShow = false;
+        //   if (!axisOrientation) show = false;
+        // }
 
         let obj = {
           seriesName: seriesName,
