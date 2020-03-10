@@ -330,19 +330,15 @@ looker.plugins.visualizations.add({
     console.log(`Queryresponse`, queryResponse);
     console.log(`The data`, data);
 
-    // Pull pivots inot dimension array
-    let pivot = false;
-    let pivotA = false;
-    let pivotB = false;
-    ifPivotQuery();
-
-    let allPercents = true;
-    ifPercentQuery();
-
-    // Configuration for all charts
+    // Configuration Settings
     let theme = `area`;
     if (config.themes) theme = config.themes;
     let changed = false;
+    let pivot = false;
+    let pivotA = false;
+    let pivotB = false;
+    let pivotC = false;
+
     let title = queryResponse.fields.dimension_like[0].label;
     let rendered = true;
     let label = ` `;
@@ -440,181 +436,186 @@ looker.plugins.visualizations.add({
     let format = `category`; // Either datetime or category
     let xaxis = [];
     let seriesData = [];
+    let axisNames = [];
+    let seriesInformation;
 
-    if (!pivot) {
-      // let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
-      // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
-      // if (queryResponse.fields.dimension_like[0].label_short == `Year` || queryResponse.fields.dimension_like[0].label == `Year`) format = `yyyy`;
+    pivotCheck();
+    formatSeriesData();
 
-      // Series data structure
-      for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-        let name = queryResponse.fields.measure_like[i].label;
-        if (queryResponse.fields.measure_like[i].label_short)
-          name = queryResponse.fields.measure_like[i].label_short;
+    // if (!pivot) {
+    //   // let formatChecker = datum[0][queryResponse.fields.dimension_like[0].name].value;
+    //   // if (formatChecker.length == 10 && formatChecker[4] == '-' && formatChecker[7] == '-') format = `datetime`;
+    //   // if (queryResponse.fields.dimension_like[0].label_short == `Year` || queryResponse.fields.dimension_like[0].label == `Year`) format = `yyyy`;
 
-        let obj = {
-          name: name,
-          className: name.replace(/ /g, `-`),
-          data: [],
-          links: []
-        };
-        seriesData.push(obj);
-      }
+    //   // Series data structure
+    //   for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+    //     let name = queryResponse.fields.measure_like[i].label;
+    //     if (queryResponse.fields.measure_like[i].label_short)
+    //       name = queryResponse.fields.measure_like[i].label_short;
 
-      // Labels
-      datum.forEach(row => {
-        let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
-        let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-        if (lonks == null || lonks == undefined) lonks = [];
+    //     let obj = {
+    //       name: name,
+    //       className: name.replace(/ /g, `-`),
+    //       data: [],
+    //       links: []
+    //     };
+    //     seriesData.push(obj);
+    //   }
 
-        if (format == `dateime` && formatDates == true) {
-          let sameMonthChecker = checkIfSameMonth();
-          if (sameMonthChecker) xaxis.push({ name: nameVal, links: lonks });
-          else xaxis.push({ name: convertDateTime(nameVal), links: lonks });
-        } else {
-          xaxis.push({ name: nameVal, links: lonks });
-        }
-      });
+    //   // Labels
+    //   datum.forEach(row => {
+    //     let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
+    //     let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+    //     if (lonks == null || lonks == undefined) lonks = [];
 
-      if (format == `cateogry`) {
-        datum.forEach((row, index) => {
-          for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let value = 0;
-            let lonks = row[queryResponse.fields.measure_like[i].name].links;
-            if (lonks == null || lonks == undefined) lonks = [];
-            if (row[queryResponse.fields.measure_like[i].name].value != null)
-              value = row[queryResponse.fields.measure_like[i].name].value;
-            seriesData[i].data.push(value);
-            seriesData[i].links.push(lonks);
-          }
-        });
-      } else {
-        datum.forEach((row, index) => {
-          for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-            let links = row[queryResponse.fields.measure_like[i].name].links;
-            if (links == undefined || links == null) links = [];
-            let xVal;
-            if (
-              rendered &&
-              row[queryResponse.fields.dimension_like[0].name].rendered
-            )
-              xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
-            else xVal = row[queryResponse.fields.dimension_like[0].name].value;
+    //     if (format == `dateime` && formatDates == true) {
+    //       let sameMonthChecker = checkIfSameMonth();
+    //       if (sameMonthChecker) xaxis.push({ name: nameVal, links: lonks });
+    //       else xaxis.push({ name: convertDateTime(nameVal), links: lonks });
+    //     } else {
+    //       xaxis.push({ name: nameVal, links: lonks });
+    //     }
+    //   });
 
-            let yVal = 0;
-            if (row[queryResponse.fields.measure_like[i].name].value != null)
-              yVal = row[queryResponse.fields.measure_like[i].name].value;
+    //   if (format == `cateogry`) {
+    //     datum.forEach((row, index) => {
+    //       for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+    //         let value = 0;
+    //         let lonks = row[queryResponse.fields.measure_like[i].name].links;
+    //         if (lonks == null || lonks == undefined) lonks = [];
+    //         if (row[queryResponse.fields.measure_like[i].name].value != null)
+    //           value = row[queryResponse.fields.measure_like[i].name].value;
+    //         seriesData[i].data.push(value);
+    //         seriesData[i].links.push(lonks);
+    //       }
+    //     });
+    //   } else {
+    //     datum.forEach((row, index) => {
+    //       for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+    //         let links = row[queryResponse.fields.measure_like[i].name].links;
+    //         if (links == undefined || links == null) links = [];
+    //         let xVal;
+    //         if (
+    //           rendered &&
+    //           row[queryResponse.fields.dimension_like[0].name].rendered
+    //         )
+    //           xVal = row[queryResponse.fields.dimension_like[0].name].rendered;
+    //         else xVal = row[queryResponse.fields.dimension_like[0].name].value;
 
-            let ob = { x: xVal, y: yVal };
-            seriesData[i].data.push(ob);
-            seriesData[i].links.push(links);
-          }
-        });
-      }
-    } else {
-      if (pivotA) {
-        // Labels
-        queryResponse.pivots.forEach(p => {
-          let lonks = [];
-          if (p.metadata[queryResponse.fields.pivots[0].name].links)
-            lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
-          if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
-            if (
-              p.metadata[queryResponse.fields.pivots[0].name].rendered != null
-            )
-              xaxis.push({
-                name: p.metadata[queryResponse.fields.pivots[0].name].rendered,
-                links: lonks
-              });
-          } else xaxis.push({ name: p.key, links: lonks });
-        });
+    //         let yVal = 0;
+    //         if (row[queryResponse.fields.measure_like[i].name].value != null)
+    //           yVal = row[queryResponse.fields.measure_like[i].name].value;
 
-        // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-        let series = [];
-        queryResponse.fields.measure_like.forEach((row, index) => {
-          let obData = [];
-          let liData = [];
-          let newSeries = [];
-          for (let i = 0; i < queryResponse.pivots.length; i++) {
-            let keyname = queryResponse.pivots[i].key;
-            let value = 0;
+    //         let ob = { x: xVal, y: yVal };
+    //         seriesData[i].data.push(ob);
+    //         seriesData[i].links.push(links);
+    //       }
+    //     });
+    //   }
+    // } else {
+    //   if (pivotA) {
+    //     // Labels
+    //     queryResponse.pivots.forEach(p => {
+    //       let lonks = [];
+    //       if (p.metadata[queryResponse.fields.pivots[0].name].links)
+    //         lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
+    //       if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+    //         if (
+    //           p.metadata[queryResponse.fields.pivots[0].name].rendered != null
+    //         )
+    //           xaxis.push({
+    //             name: p.metadata[queryResponse.fields.pivots[0].name].rendered,
+    //             links: lonks
+    //           });
+    //       } else xaxis.push({ name: p.key, links: lonks });
+    //     });
 
-            liData.push(datum[0][row.name][keyname].links);
+    //     // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
+    //     let series = [];
+    //     queryResponse.fields.measure_like.forEach((row, index) => {
+    //       let obData = [];
+    //       let liData = [];
+    //       let newSeries = [];
+    //       for (let i = 0; i < queryResponse.pivots.length; i++) {
+    //         let keyname = queryResponse.pivots[i].key;
+    //         let value = 0;
 
-            if (datum[0][row.name][keyname].value != null)
-              value = datum[0][row.name][keyname].value;
-            obData.push(value);
-          }
+    //         liData.push(datum[0][row.name][keyname].links);
 
-          let name = row.label;
-          if (row.label_short) name = row.label_short;
+    //         if (datum[0][row.name][keyname].value != null)
+    //           value = datum[0][row.name][keyname].value;
+    //         obData.push(value);
+    //       }
 
-          let obj = {
-            name: name,
-            className: name.replace(/ /g, `-`),
-            data: obData,
-            links: liData
-          };
-          seriesData.push(obj);
-        });
-      }
+    //       let name = row.label;
+    //       if (row.label_short) name = row.label_short;
 
-      if (pivotB) {
-        // Labels
-        datum.forEach(row => {
-          let lonks = row[queryResponse.fields.dimension_like[0].name].links;
-          if (row[queryResponse.fields.dimension_like[0].name].rendered)
-            xaxis.push({
-              name: row[queryResponse.fields.dimension_like[0].name].rendered,
-              links: lonks
-            });
-          else
-            xaxis.push({
-              name: row[queryResponse.fields.dimension_like[0].name].value,
-              links: lonks
-            });
-        });
+    //       let obj = {
+    //         name: name,
+    //         className: name.replace(/ /g, `-`),
+    //         data: obData,
+    //         links: liData
+    //       };
+    //       seriesData.push(obj);
+    //     });
+    //   }
 
-        // Series Object
-        for (let i = 0; i < queryResponse.pivots.length; i++) {
-          let name =
-            queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
-          let obj = {
-            name: name,
-            className: name.replace(/ /g, `-`),
-            data: [],
-            links: []
-          };
-          seriesData.push(obj);
-        }
+    //   if (pivotB) {
+    //     // Labels
+    //     datum.forEach(row => {
+    //       let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+    //       if (row[queryResponse.fields.dimension_like[0].name].rendered)
+    //         xaxis.push({
+    //           name: row[queryResponse.fields.dimension_like[0].name].rendered,
+    //           links: lonks
+    //         });
+    //       else
+    //         xaxis.push({
+    //           name: row[queryResponse.fields.dimension_like[0].name].value,
+    //           links: lonks
+    //         });
+    //     });
 
-        // Series data
-        datum.forEach(row => {
-          for (let i = 0; i < queryResponse.pivots.length; i++)
-            seriesData[i].links.push(
-              row[queryResponse.fields.measure_like[0].name][
-                queryResponse.pivots[i].key
-              ].links
-            );
-        });
+    //     // Series Object
+    //     for (let i = 0; i < queryResponse.pivots.length; i++) {
+    //       let name =
+    //         queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+    //       let obj = {
+    //         name: name,
+    //         className: name.replace(/ /g, `-`),
+    //         data: [],
+    //         links: []
+    //       };
+    //       seriesData.push(obj);
+    //     }
 
-        datum.forEach(row => {
-          for (let i = 0; i < queryResponse.pivots.length; i++) {
-            let value = 0;
-            if (
-              row[queryResponse.fields.measure_like[0].name][
-                queryResponse.pivots[i].key
-              ].value != null
-            )
-              value =
-                row[queryResponse.fields.measure_like[0].name][
-                  queryResponse.pivots[i].key
-                ].value;
-            seriesData[i].data.push(value);
-          }
-        });
-      }
-    }
+    //     // Series data
+    //     datum.forEach(row => {
+    //       for (let i = 0; i < queryResponse.pivots.length; i++)
+    //         seriesData[i].links.push(
+    //           row[queryResponse.fields.measure_like[0].name][
+    //             queryResponse.pivots[i].key
+    //           ].links
+    //         );
+    //     });
+
+    //     datum.forEach(row => {
+    //       for (let i = 0; i < queryResponse.pivots.length; i++) {
+    //         let value = 0;
+    //         if (
+    //           row[queryResponse.fields.measure_like[0].name][
+    //             queryResponse.pivots[i].key
+    //           ].value != null
+    //         )
+    //           value =
+    //             row[queryResponse.fields.measure_like[0].name][
+    //               queryResponse.pivots[i].key
+    //             ].value;
+    //         seriesData[i].data.push(value);
+    //       }
+    //     });
+    //   }
+    // }
 
     // Add the type for each series
     let settings = this.options;
@@ -982,7 +983,7 @@ looker.plugins.visualizations.add({
     /**********************************
      * Functions
      **********************************/
-    function ifPivotQuery() {
+    function pivotCheck() {
       if (queryResponse.fields.pivots.length != 0) {
         pivot = true;
         if (queryResponse.fields.dimension_like.length == 0) {
@@ -990,124 +991,277 @@ looker.plugins.visualizations.add({
           queryResponse.fields._dimension_like =
             queryResponse.fields.dimension_like;
           queryResponse.fields.dimension_like = queryResponse.fields.pivots;
-        } else pivotB = true;
+        } else if (
+          queryResponse.fields.pivots[0].field_group_label ==
+            `Period Over Period` ||
+          queryResponse.fields.pivots[0].field_group_variant ==
+            `Period Selection`
+        )
+          pivotC = true;
+        else pivotB = true;
       }
     }
 
-    function ifPercentQuery() {
-      if (!pivot) {
+    function truncate() {
+      if (!doNotTruncate) {
         for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-          if (datum[0][queryResponse.fields.measure_like[i].name].rendered) {
-            if (
-              !datum[0][
-                queryResponse.fields.measure_like[i].name
-              ].rendered.includes(`%`)
-            ) {
-              allPercents = false;
-              return;
-            }
-          } else {
-            // If there is no rendered value: just to be safe
-            allPercents = false;
-            return;
-          }
-        }
-
-        if (allPercents) {
+          let truncate = false;
           datum.forEach(row => {
-            for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-              let value = row[queryResponse.fields.measure_like[i].name].value;
-              let percent = value * 100;
-              let truncate = percent.toFixed(1);
-              row[queryResponse.fields.measure_like[i].name].original = value;
-              row[queryResponse.fields.measure_like[i].name].value = truncate;
-            }
+            if (row[queryResponse.fields.measure_like[i].name].value > 100)
+              truncate = true;
           });
-        }
-      } else {
-        if (pivotA) {
-          queryResponse.fields.measure_like.forEach(mes => {
-            for (let i = 0; i < queryResponse.pivots.length; i++) {
-              if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                if (
-                  !datum[0][mes.name][
-                    queryResponse.pivots[i].key
-                  ].rendered.includes(`%`)
-                ) {
-                  allPercents = false;
-                  return;
-                }
-              } else {
-                allPercents = false;
-                return;
-              }
-            }
-          });
-
-          if (allPercents) {
-            queryResponse.fields.measure_like.forEach(mes => {
-              for (let i = 0; i < queryResponse.pivots.length; i++) {
-                let value =
-                  datum[0][mes.name][queryResponse.pivots[i].key].value;
-                let percent = value * 100;
-                let truncate = percent.toFixed(1);
-                datum[0][mes.name][
-                  queryResponse.pivots[i].key
-                ].original = value;
-                datum[0][mes.name][
-                  queryResponse.pivots[i].key
-                ].value = truncate;
-              }
-            });
-          }
-        }
-
-        if (pivotB) {
-          for (let i = 0; i < queryResponse.pivots.length; i++) {
-            queryResponse.fields.measure_like.forEach(mes => {
-              if (datum[0][mes.name][queryResponse.pivots[i].key].rendered) {
-                if (
-                  !datum[0][mes.name][
-                    queryResponse.pivots[i].key
-                  ].rendered.includes(`%`)
-                ) {
-                  allPercents = false;
-                  return;
-                }
-              } else {
-                allPercents = false;
-                return;
-              }
-            });
-          }
-
-          if (allPercents) {
+          if (truncate) {
             datum.forEach(row => {
-              for (let i = 0; i < queryResponse.pivots.length; i++) {
-                for (
-                  let mi = 0;
-                  mi < queryResponse.fields.measure_like.length;
-                  mi++
-                ) {
-                  let value =
-                    row[queryResponse.fields.measure_like[mi].name][
-                      queryResponse.pivots[i].key
-                    ].value;
-                  let percent = value * 100;
-                  let truncate = percent.toFixed(1);
-                  row[queryResponse.fields.measure_like[mi].name][
-                    queryResponse.pivots[i].key
-                  ].original = value;
-                  row[queryResponse.fields.measure_like[mi].name][
-                    queryResponse.pibots[i].key
-                  ].value = truncate;
-                }
-              }
+              row[queryResponse.fields.measure_like[i].name].original =
+                row[queryResponse.fields.measure_like[i].name].value;
+              row[queryResponse.fields.measure_like[i].name].value = Math.trunc(
+                row[queryResponse.fields.measure_like[i].name].value
+              );
             });
           }
         }
       }
-    } // End of ifPercentQuery
+    }
+
+    function formatSeriesData() {
+      if (!pivot) {
+        // Series data structure
+        for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+          let name = queryResponse.fields.measure_like[i].label;
+          let measureName = queryResponse.fields.measure_like[i].name;
+          let value_format = queryResponse.fields.measure_like[i].value_format;
+          if (queryResponse.fields.measure_like[i].label_short)
+            name = queryResponse.fields.measure_like[i].label_short;
+
+          let obj = {
+            name: name,
+            className: name.replace(/ /g, `-`),
+            measure: measureName,
+            value_format: value_format,
+            data: [],
+            links: []
+          };
+          seriesData.push(obj);
+        }
+
+        // Labels
+        datum.forEach(row => {
+          let nameVal = row[queryResponse.fields.dimension_like[0].name].value;
+          let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+          xaxis.push({ name: nameVal, links: lonks });
+        });
+
+        // Series data
+        datum.forEach((row, index) => {
+          for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
+            let value = 0;
+            let lonks = row[queryResponse.fields.measure_like[i].name].links;
+
+            if (row[queryResponse.fields.measure_like[i].name].value != null)
+              value = row[queryResponse.fields.measure_like[i].name].value;
+            seriesData[i].data.push(value);
+            seriesData[i].links.push(lonks);
+          }
+        });
+      }
+
+      if (pivotA) {
+        // Labels
+        queryResponse.pivots.forEach(p => {
+          let lonks = undefined;
+          if (p.metadata[queryResponse.fields.pivots[0].name].links)
+            lonks = p.metadata[queryResponse.fields.pivots[0].name].links;
+          if (p.metadata[queryResponse.fields.pivots[0].name].rendered) {
+            if (
+              p.metadata[queryResponse.fields.pivots[0].name].rendered != null
+            )
+              xaxis.push({
+                name: p.metadata[queryResponse.fields.pivots[0].name].rendered,
+                links: lonks
+              });
+          } else xaxis.push({ name: p.key, links: lonks });
+        });
+
+        queryResponse.fields.measure_like.forEach((row, index) => {
+          let obData = [];
+          let liData = [];
+
+          for (let i = 0; i < queryResponse.pivots.length; i++) {
+            let keyname = queryResponse.pivots[i].key;
+            let value = 0;
+
+            liData.push(datum[0][row.name][keyname].links);
+
+            if (datum[0][row.name][keyname].value != null)
+              value = datum[0][row.name][keyname].value;
+            obData.push(value);
+          }
+
+          let name = row.label;
+          if (row.label_short) name = row.label_short;
+
+          let obj = {
+            name: name,
+            className: name.replace(/ /g, `-`),
+            measure: row.name,
+            value_format: row.value_format,
+            data: obData,
+            links: liData
+          };
+          seriesData.push(obj);
+        });
+      }
+
+      if (pivotB) {
+        // Labels
+        datum.forEach(row => {
+          let lonks = row[queryResponse.fields.dimension_like[0].name].links;
+          if (row[queryResponse.fields.dimension_like[0].name].rendered)
+            xaxis.push({
+              name: row[queryResponse.fields.dimension_like[0].name].rendered,
+              links: lonks
+            });
+          else
+            xaxis.push({
+              name: row[queryResponse.fields.dimension_like[0].name].value,
+              links: lonks
+            });
+        });
+
+        // Series Object
+        for (let i = 0; i < queryResponse.pivots.length; i++) {
+          let name =
+            queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+          let obj = {
+            name: name,
+            className: name.replace(/ /g, `-`),
+            measure: queryResponse.fields.measure_like[0].name,
+            pivot: queryResponse.pivots[i].key,
+            value_format: queryResponse.fields.measure_like[0].value_format,
+            data: [],
+            links: []
+          };
+          seriesData.push(obj);
+        }
+
+        // Series data
+        datum.forEach(row => {
+          for (let i = 0; i < queryResponse.pivots.length; i++)
+            seriesData[i].links.push(
+              row[queryResponse.fields.measure_like[0].name][
+                queryResponse.pivots[i].key
+              ].links
+            );
+        });
+
+        datum.forEach(row => {
+          for (let i = 0; i < queryResponse.pivots.length; i++) {
+            let value = 0;
+            if (
+              row[queryResponse.fields.measure_like[0].name][
+                queryResponse.pivots[i].key
+              ].value != null
+            )
+              value =
+                row[queryResponse.fields.measure_like[0].name][
+                  queryResponse.pivots[i].key
+                ].value;
+            seriesData[i].data.push(value);
+          }
+        });
+      }
+
+      if (pivotC) {
+        // Labels
+        datum.forEach(row => {
+          let links = [];
+          if (row[queryResponse.fields.dimension_like[0].name].links)
+            links = row[queryResponse.fields.dimension_like[0].name].links;
+
+          if (row[queryResponse.fields.dimension_like[0].name].rendered)
+            xaxis.push({
+              name: row[queryResponse.fields.dimension_like[0].name].rendered,
+              links: links
+            });
+          else
+            xaxis.push({
+              name: row[queryResponse.fields.dimension_like[0].name].value,
+              links: links
+            });
+        });
+
+        // Series Object
+        for (let i = 0; i < queryResponse.pivots.length; i++) {
+          let name =
+            queryResponse.pivots[i].data[queryResponse.fields.pivots[0].name];
+          let obj = {
+            name: name,
+            className: name.replace(/ /g, `-`),
+            measure: queryResponse.fields.measure_like[0].name,
+            pivot: queryResponse.pivots[i].key,
+            value_format: queryResponse.fields.measure_like[0].value_format,
+            data: [],
+            links: []
+          };
+          seriesData.push(obj);
+        }
+
+        // Series Data
+        let sql = queryResponse.sql;
+        let chop = 0;
+        for (let i = 0; i < sql.length; i++) {
+          if (sql[i] == `,` && sql[i + 1] == ` ` && sql[i + 2] == `-`) {
+            chop = i + 3;
+            break;
+          }
+        }
+        let stringFind = sql.substr(chop, 11);
+        let backwardsIteration = parseInt(stringFind, 10);
+
+        seriesData[0].originalAxis = [];
+        seriesData[1].originalAxis = [];
+        for (
+          let i = datum.length - 1;
+          i >= datum.length - backwardsIteration;
+          i--
+        ) {
+          let val =
+            datum[i][queryResponse.fields.measure_like[0].name][
+              queryResponse.pivots[1].key
+            ].value;
+          let links =
+            datum[i][queryResponse.fields.measure_like[0].name][
+              queryResponse.pivots[1].key
+            ].value;
+          let xaxisVal =
+            datum[i][queryResponse.fields.dimension_like[0].name].value;
+
+          seriesData[1].data.unshift(val);
+          seriesData[1].links.unshift(links);
+          seriesData[1].originalAxis.unshift(xaxisVal);
+        }
+
+        for (let i = datum.length - backwardsIteration - 1; i >= 0; i--) {
+          let val =
+            datum[i][queryResponse.fields.measure_like[0].name][
+              queryResponse.pivots[0].key
+            ].value;
+          let links =
+            datum[i][queryResponse.fields.measure_like[0].name][
+              queryResponse.pivots[0].key
+            ].value;
+          let xaxisVal =
+            datum[i][queryResponse.fields.dimension_like[0].name].value;
+
+          seriesData[0].data.unshift(val);
+          seriesData[0].links.unshift(links);
+          seriesData[0].originalAxis.unshift(xaxisVal);
+        }
+      }
+
+      // Grab the xaxis names for the labels of the chart
+      xaxis.forEach(axis => axisNames.push(axis.name));
+    }
 
     function seriesTypes() {
       seriesData.forEach((series, index) => {
