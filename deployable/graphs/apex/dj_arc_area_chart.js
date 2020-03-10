@@ -446,16 +446,16 @@ looker.plugins.visualizations.add({
     if (config.multipleAxes) {
       multipleAxes = config.multipleAxes;
 
-      if (config.multipleAxes == true) {
-        if (this._multipleAxes != true) {
-          this.options.showTitle2.hidden = false;
-          this.options.yTitle2.hidden = false;
-          this._multipleAxes = true;
-          changed = true;
+      if (this._multipleAxes != true) {
+        changed = true;
+        this._multipleAxes = true;
+        this.options.showTitle2.hidden = false;
+        this.options.yTitle2.hidden = false;
 
-          for (let i = 0; i < this._series; i++) {
-            if (this.options[`seriesAxis_${i}`])
-              this.options[`seriesAxis_${i}`].hidden = true;
+        for (let i = 0; i < this._series; i++) {
+          if (this.options[`seriesAxis_${i}`]) {
+            changed = true;
+            this.options[`seriesAxis_${i}`].hidden = true;
           }
         }
       }
@@ -474,7 +474,6 @@ looker.plugins.visualizations.add({
     }
 
     // Pull in all the data into the xaxis and series
-    let format = `category`; // Either datetime or category
     let xaxis = [];
     let seriesData = [];
     let axisData = [];
@@ -598,6 +597,7 @@ looker.plugins.visualizations.add({
         }
 
         // Configuration to show the axes
+        if (index == 0) show = true;
         if (config[`seriesAxis_${index}`] && passShow == false) {
           passShow = true;
           show = true;
