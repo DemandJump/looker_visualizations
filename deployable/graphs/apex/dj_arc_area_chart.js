@@ -447,7 +447,6 @@ looker.plugins.visualizations.add({
       multipleAxes = config.multipleAxes;
 
       if (this._multipleAxes != true) {
-        console.log(`Showing the second y axis label`);
         this.options.showTitle2.hidden = false;
         this.options.yTitle2.hidden = false;
         this._multipleAxes = true;
@@ -460,7 +459,6 @@ looker.plugins.visualizations.add({
       }
     } else {
       if (this._multipleAxes != false) {
-        console.log(`Hiding the second y axis label`);
         this.options.showTitle2.hidden = true;
         this.options.yTitle2.hidden = true;
         this._multipleAxes = false;
