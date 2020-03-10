@@ -447,8 +447,8 @@ looker.plugins.visualizations.add({
       multipleAxes = config.multipleAxes;
 
       if (this._multipleAxes != true) {
-        this.options.showTitle2.hidden = false;
-        this.options.yTitle2.hidden = false;
+        if (this.options.showTitle2) this.options.showTitle2.hidden = false;
+        if (this.options.yTitle2) this.options.yTitle2.hidden = false;
         this._multipleAxes = true;
         changed = true;
 
@@ -459,8 +459,8 @@ looker.plugins.visualizations.add({
       }
     } else {
       if (this._multipleAxes != false) {
-        this.options.showTitle2.hidden = true;
-        this.options.yTitle2.hidden = true;
+        if (this.options.showTitle2) this.options.showTitle2.hidden = true;
+        if (this.options.yTitle2) this.options.yTitle2.hidden = true;
         this._multipleAxes = false;
         changed = true;
 
