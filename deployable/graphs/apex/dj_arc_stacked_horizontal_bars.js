@@ -418,7 +418,7 @@ looker.plugins.visualizations.add({
         if (this._multipleAxes != false) {
           this.options.showTitle2.hidden = true;
           this.options.yTitle2.hidden = true;
-          this.options.multipleAxes.hidden = true;
+          delete this.options.multipleAxes;
           this._multipleAxes = false;
           changed = true;
 
