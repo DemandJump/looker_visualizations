@@ -570,12 +570,9 @@ looker.plugins.visualizations.add({
               }
             }
           };
-          console.log(
-            `${row.name}: title: ${title}, seriesName: ${seriesName}, opposite: ${axisOrientation}`
-          );
 
           console.log(
-            `This is showTitle: ${showTitle}, and this is showTitle2: ${showTitle2}`
+            `This ${yTitle} is showTitle: '${showTitle}', and '${yTitle2}' this is showTitle2: ${showTitle2}`
           );
           if (index == 0 && showTitle == true) obj[`title`] = { text: title };
           else delete obj[`title`];
