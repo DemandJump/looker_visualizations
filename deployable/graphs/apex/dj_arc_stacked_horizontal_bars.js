@@ -392,7 +392,7 @@ looker.plugins.visualizations.add({
           this._multipleAxes = true;
           changed = true;
 
-          for (let i = 0; i < this._series; i++) {
+          for (let i = 1; i < this._series; i++) {
             if (this.options[`series_${i}`])
               this.options[`series_${i}`].hidden = true;
           }
@@ -405,7 +405,7 @@ looker.plugins.visualizations.add({
         this._multipleAxes = false;
         changed = true;
 
-        for (let i = 0; i < this._series; i++) {
+        for (let i = 1; i < this._series; i++) {
           if (this.options[`series_${i}`])
             this.options[`series_${i}`].hidden = true;
         }

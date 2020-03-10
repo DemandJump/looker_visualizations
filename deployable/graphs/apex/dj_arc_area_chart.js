@@ -452,13 +452,9 @@ looker.plugins.visualizations.add({
         this.options.showTitle2.hidden = false;
         this.options.yTitle2.hidden = false;
 
-        for (let i = 0; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`]) {
-            if (this.options[`seriesAxis_${i}`].hidden != true) {
-              this.options[`seriesAxis_${i}`].hidden = true;
-              changed = true;
-            }
-          }
+        for (let i = 1; i < this._series; i++) {
+          if (this.options[`seriesAxis_${i}`])
+            this.options[`seriesAxis_${i}`].hidden = true;
         }
       }
     } else {
@@ -468,17 +464,9 @@ looker.plugins.visualizations.add({
         this._multipleAxes = false;
         changed = true;
 
-        for (let i = 0; i < this._series; i++) {
-          console.log(
-            `This is the current setting`,
-            this.options[`seriesAxis_${i}`]
-          );
-          if (this.options[`seriesAxis_${i}`]) {
-            if (this.options[`seriesAxis_${i}`].hidden != false) {
-              this.options[`seriesAxis_${i}`].hidden = false;
-              changed = true;
-            }
-          }
+        for (let i = 1; i < this._series; i++) {
+          if (this.options[`seriesAxis_${i}`])
+            this.options[`seriesAxis_${i}`].hidden = false;
         }
       }
     }
@@ -635,7 +623,6 @@ looker.plugins.visualizations.add({
           if (showTitle2) obj[`title`] = { text: title };
         }
 
-        console.log(`y axis ${index} configuration`, obj);
         configuration.yaxis.push(obj);
       });
     } else {
