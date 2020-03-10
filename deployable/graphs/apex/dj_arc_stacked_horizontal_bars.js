@@ -1114,7 +1114,7 @@ looker.plugins.visualizations.add({
           .toFixed(2)
           .toString()
           .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-        respsone = "$" + response;
+        working = "$" + response;
       } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
 
       if (value_format == `$#.00;($#.00)`) {
@@ -1142,7 +1142,8 @@ looker.plugins.visualizations.add({
       } // Convert to percent with 2 decimals (.01 becomes 1.00%)
 
       console.log(`Final response:`, response);
-      return response;
+      console.log(`Final working response:`, working);
+      return working;
     }
 
     function convertDateTime(val) {
