@@ -205,12 +205,12 @@ looker.plugins.visualizations.add({
     },
 
     multipleAxes: {
-        label: `Add another axis`,
-        order: 1,
-        section: `Multiple Axes`,
-        type: `boolean`,
-        default: false,
-        hidden: false
+      label: `Add another axis`,
+      order: 1,
+      section: `Multiple Axes`,
+      type: `boolean`,
+      default: false,
+      hidden: false
     }
   },
   create: function(element, config) {
@@ -398,24 +398,23 @@ looker.plugins.visualizations.add({
     if (config.yTitle != ``) yTitle = config.yTitle;
     if (config.sideYaxis) sideYaxis = config.sideYaxis;
 
-
     // Multiple axis display configuration
     if (config.multipleAxes) {
-        multipleAxes = config.multipleAxes;
-  
-        if (config.multipleAxes == true) {
-          if (this._multipleAxes != true) {
-            this.options.showTitle2.hidden = false;
-            this.options.yTitle2.hidden = false;
-            this._multipleAxes = true;
-            changed = true;
-  
-            for (let i = 0; i < this._series; i++) {
-              if (this.options[`series_${i}`])
-                this.options[`series_${i}`].hidden = true;
-            }
+      multipleAxes = config.multipleAxes;
+
+      if (config.multipleAxes == true) {
+        if (this._multipleAxes != true) {
+          this.options.showTitle2.hidden = false;
+          this.options.yTitle2.hidden = false;
+          this._multipleAxes = true;
+          changed = true;
+
+          for (let i = 0; i < this._series; i++) {
+            if (this.options[`series_${i}`])
+              this.options[`series_${i}`].hidden = true;
           }
         }
+      }
     } else {
       if (this._multipleAxes != false) {
         this.options.showTitle2.hidden = true;
@@ -429,7 +428,6 @@ looker.plugins.visualizations.add({
         }
       }
     }
-
 
     // Pull in all the data into the xaxis and series
     let format = `category`; // Either datetime or category
@@ -448,10 +446,6 @@ looker.plugins.visualizations.add({
     // Add the type for each series
     let settings = this.options;
     seriesTypes();
-
-    // Rebuild the settings
-    this.options = settings;
-    if (changed) this.trigger(`registerOptions`, this.options);
 
     // Building a configuration
     let configuration = {
@@ -522,103 +516,101 @@ looker.plugins.visualizations.add({
 
     // Mulltiple axis display and chart configuration
     if (multipleAxes) {
-        stackLayout.yaxis = [];
+      stackLayout.yaxis = [];
 
-        // Create the config settings for the chart
-        if (seriesData.length != this._series) {
-          for (let i = 0; i < this._series; i++)
-            delete this.options[`series_${index}`];
-          this._series = seriesData.length;
+      // Create the config settings for the chart
+      if (seriesData.length != this._series) {
+        for (let i = 0; i < this._series; i++)
+          delete this.options[`series_${index}`];
+        this._series = seriesData.length;
+      }
+
+      seriesData.forEach((row, index) => {
+        if (index != 0) {
+          if (!this.options[`series_${index}`]) {
+            changed = true;
+            this.options[`series_${index}`] = {
+              label: `Set ${row.name} on the second axis`,
+              order: 10 + index,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+        }
+      });
+
+      // Apply the config settings to the chart
+      let nameA = seriesData[0].name;
+      let nameB = seriesData[1].name;
+      let passShow = false;
+      seriesData.forEach((row, index) => {
+        let title = row.name;
+        let seriesName = nameA;
+        let axisOrientation = false;
+        let show = true;
+
+        if (config[`series_${index}`] == true) {
+          seriesName = nameB;
+          axisOrientation = true;
+          if (config.yTitle2 != ``) title = yTitle2;
+        } else {
+          seriesName = nameA;
+          axisOrientation = false;
+          if (config.yTitle != ``) title = yTitle;
         }
 
-        seriesData.forEach((row, index) => {
-          if (index != 0) {
-            if (!this.options[`series_${index}`]) {
-              changed = true;
-              this.options[`series_${index}`] = {
-                label: `Set ${row.name} on the second axis`,
-                order: 10 + index,
-                section: `Multiple Axes`,
-                type: `boolean`,
-                default: false,
-                hidden: false
-              };
+        // Configuration to show the axes
+        if (index > 1) show = false;
+        if (index == 1 && config[`series_${index}`] == false) {
+          show = false;
+          passShow = true;
+        }
+        if (index > 1 && passShow) {
+          show = true;
+          passShow = false;
+          if (!axisOrientation) show = false;
+        }
+
+        let obj = {
+          seriesName: seriesName,
+          opposite: axisOrientation,
+          show: show,
+          labels: {
+            formatter: function(val) {
+              if (typeof val == `number` && !horizontal)
+                return formatAxes(val, row.value_format);
+              else return val;
             }
           }
-        });
+        };
 
-        // Apply the config settings to the chart
-        let nameA = seriesData[0].name;
-        let nameB = seriesData[1].name;
-        let passShow = false;
-        seriesData.forEach((row, index) => {
-          let title = row.name;
-          let seriesName = nameA;
-          let axisOrientation = false;
-          let show = true;
+        //   Axis based label
+        if (seriesName == nameA) {
+          if (showTitle) obj[`title`] = { text: title };
+        }
+        if (seriesName == nameB) {
+          if (showTitle2) obj[`title`] = { text: title };
+        }
 
-          if (config[`series_${index}`] == true) {
-            seriesName = nameB;
-            axisOrientation = true;
-            if (config.yTitle2 != ``) title = yTitle2;
-          } else {
-            seriesName = nameA;
-            axisOrientation = false;
-            if (config.yTitle != ``) title = yTitle;
-          }
-
-          // Configuration to show the axes
-          if (index > 1) show = false;
-          if (index == 1 && config[`series_${index}`] == false) {
-            show = false;
-            passShow = true;
-          }
-          if (index > 1 && passShow) {
-            show = true;
-            passShow = false;
-            if (!axisOrientation) show = false;
-          }
-
-          let obj = {
-            seriesName: seriesName,
-            opposite: axisOrientation,
-            show: show,
-            labels: {
-              formatter: function(val) {
-                if (typeof val == `number` && !horizontal)
-                  return formatAxes(val, row.value_format);
-                else return val;
-              }
-            }
-          };
-
-          //   Axis based label
-          if (seriesName == nameA) {
-            if (showTitle) obj[`title`] = { text: title };
-          }
-          if (seriesName == nameB) {
-            if (showTitle2) obj[`title`] = { text: title };
-          }
-
-          stackLayout.yaxis.push(obj);
-        });
-      } else {
-        if (config.showActualTitle == true)
-          stackLayout[`title`] = { text: title };
-      }
+        stackLayout.yaxis.push(obj);
+      });
+    } else {
+      if (config.showActualTitle == true)
+        stackLayout[`title`] = { text: title };
     }
 
-    // Apex Charts
-    window.Apex = {
-      dataLabels: { enabled: false },
-      stroke: { width: 2 }
-    };
+    // Rebuild the settings
+    this.options = settings;
+    if (changed) this.trigger(`registerOptions`, this.options);
 
+    // Apex Charts
+    window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let chart = new ApexCharts(
       document.querySelector(`#chart-apex-area`),
       configuration
     );
-    // Apex Charts Init
     if (document.getElementById(`chart-apex-area`)) {
       chart.render();
     }
