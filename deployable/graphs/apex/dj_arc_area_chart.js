@@ -453,9 +453,9 @@ looker.plugins.visualizations.add({
         this.options.yTitle2.hidden = false;
 
         for (let i = 0; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`]) {
-            changed = true;
+          if (this.options[`seriesAxis_${i}`].hidden != true) {
             this.options[`seriesAxis_${i}`].hidden = true;
+            changed = true;
           }
         }
       }
@@ -467,8 +467,10 @@ looker.plugins.visualizations.add({
         changed = true;
 
         for (let i = 0; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`])
-            this.options[`seriesAxis_${i}`].hidden = true;
+          if (this.options[`seriesAxis_${i}`].hidden != false) {
+            this.options[`seriesAxis_${i}`].hidden = false;
+            changed = true;
+          }
         }
       }
     }
