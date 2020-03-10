@@ -454,8 +454,8 @@ looker.plugins.visualizations.add({
           changed = true;
 
           for (let i = 0; i < this._series; i++) {
-            if (this.options[`series_${i}`])
-              this.options[`series_${i}`].hidden = true;
+            if (this.options[`seriesAxis_${i}`])
+              this.options[`seriesAxis_${i}`].hidden = true;
           }
         }
       }
@@ -467,8 +467,8 @@ looker.plugins.visualizations.add({
         changed = true;
 
         for (let i = 0; i < this._series; i++) {
-          if (this.options[`series_${i}`])
-            this.options[`series_${i}`].hidden = true;
+          if (this.options[`seriesAxis_${i}`])
+            this.options[`seriesAxis_${i}`].hidden = true;
         }
       }
     }
@@ -557,15 +557,15 @@ looker.plugins.visualizations.add({
       // Create the config settings for the chart
       if (seriesData.length != this._series) {
         for (let i = 0; i < this._series; i++)
-          delete this.options[`series_${index}`];
+          delete this.options[`seriesAxis_${index}`];
         this._series = seriesData.length;
       }
 
       seriesData.forEach((row, index) => {
         if (index != 0) {
-          if (!this.options[`series_${index}`]) {
+          if (!this.options[`seriesAxis_${index}`]) {
             changed = true;
-            this.options[`series_${index}`] = {
+            this.options[`seriesAxis_${index}`] = {
               label: `Set ${row.name} on the second axis`,
               order: 10 + index,
               section: `Multiple Axes`,
@@ -587,7 +587,7 @@ looker.plugins.visualizations.add({
         let axisOrientation = false;
         let show = true;
 
-        if (config[`series_${index}`] == true) {
+        if (config[`seriesAxis_${index}`] == true) {
           seriesName = nameB;
           axisOrientation = true;
           if (config.yTitle2 != ``) title = yTitle2;
@@ -599,7 +599,7 @@ looker.plugins.visualizations.add({
 
         // Configuration to show the axes
         if (index > 1) show = false;
-        if (index == 1 && config[`series_${index}`] == false) {
+        if (index == 1 && config[`seriesAxis_${index}`] == false) {
           show = false;
           passShow = true;
         }
