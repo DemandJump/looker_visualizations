@@ -598,11 +598,12 @@ looker.plugins.visualizations.add({
         }
 
         // Configuration to show the axes
-        if (index > 1) show = false;
+        if (index == 0) if (index > 1) show = false;
         if (index == 1 && config[`seriesAxis_${index}`] == false) {
           show = false;
           passShow = true;
         }
+
         if (index > 1 && passShow) {
           show = true;
           passShow = false;
@@ -630,7 +631,7 @@ looker.plugins.visualizations.add({
           if (showTitle2) obj[`title`] = { text: title };
         }
 
-        console.log(`y axis ${index} configuration`, obj);
+        console.log(`${row.name}: y axis ${index} configuration`, obj);
         configuration.yaxis.push(obj);
       });
     } else {
