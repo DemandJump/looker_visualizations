@@ -641,7 +641,7 @@ looker.plugins.visualizations.add({
       console.log(`Running an initial iteration`);
       configuration[`animations`] = { enabled: false };
     }
-    console.log(`This is the current iteration ${i}`);
+    console.log(`This is the current iteration ${this._iteration}`);
     this._iteration++;
 
     // Rebuild the settings
