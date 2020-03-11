@@ -57,7 +57,7 @@ looker.plugins.visualizations.add({
 
     showActualTitle: {
       label: `Show title`,
-      order: 4,
+      order: 3.01,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -65,8 +65,8 @@ looker.plugins.visualizations.add({
     },
 
     showTitle: {
-      label: `Show y axis title`,
-      order: 4.1,
+      label: `Show y axis label`,
+      order: 1.941,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -74,8 +74,8 @@ looker.plugins.visualizations.add({
     },
 
     showTitle2: {
-      label: `Show second y axis title`,
-      order: 4.2,
+      label: `Show second y axis label`,
+      order: 1.951,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -83,8 +83,8 @@ looker.plugins.visualizations.add({
     },
 
     showTitle3: {
-      label: `Show x axis title`,
-      order: 4.3,
+      label: `Show x axis label`,
+      order: 1.901,
       section: `Format`,
       type: `boolean`,
       default: true,
