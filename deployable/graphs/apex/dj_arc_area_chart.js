@@ -91,15 +91,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    // alignTitle: {
-    //     label: `Align to the left or right`,
-    //     order: 2,
-    //     section: `Format`,
-    //     type: `boolean`,
-    //     default: false,
-    //     hidden: false
-    // },
-
     label: {
       label: `Label by title`,
       order: 2,
