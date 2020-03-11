@@ -170,6 +170,7 @@ looker.plugins.visualizations.add({
     }
   },
   create: function(element, config) {
+    this._iteration = 0;
     this._custom = `lorem ipsum`;
     this._stack = `lorem ipsum`;
     this._multipleAxes = false;
