@@ -392,7 +392,7 @@ looker.plugins.visualizations.add({
     console.log(
       `This is config stack type: ${config.stackType}, and this is stack: ${stack}, and this is the theme: ${theme}`
     );
-    if (config.stackType && stack && theme == `custom`) {
+    if (config.stackType && stack && theme == `Custom`) {
       stackLayout.chart.stackType = `100%`;
     }
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
