@@ -167,6 +167,15 @@ looker.plugins.visualizations.add({
       values: [{ Center: "center" }, { Left: "left" }, { Right: "right" }],
       default: `center`,
       hidden: false
+    },
+
+    multipleAxes: {
+      label: `Add another axis`,
+      order: 1,
+      section: `Multiple Axes`,
+      type: `boolean`,
+      default: false,
+      hidden: false
     }
   },
   create: function(element, config) {
@@ -967,6 +976,7 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
+      console.log(`Going through multiple axis function`);
       if (seriesData.length != thisSeries) {
         for (let i = 0; i < thisSeries; i++) delete settings[`series_${index}`];
       }
