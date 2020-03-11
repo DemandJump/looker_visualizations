@@ -1054,6 +1054,7 @@ looker.plugins.visualizations.add({
               seriesName: seriesName,
               opposite: axisOrientation,
               show: show,
+              name: row.name,
               labels: {
                 formatter: function(val) {
                   if (typeof val == `number` && !horizontal)
@@ -1071,6 +1072,7 @@ looker.plugins.visualizations.add({
               if (showTitle2) obj[`title`] = { text: title };
             }
 
+            console.log(`iteration: ${index} object`, obj);
             stackLayout.yaxis.push(obj);
           });
         } else {
