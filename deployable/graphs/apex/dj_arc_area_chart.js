@@ -912,8 +912,8 @@ looker.plugins.visualizations.add({
       if (stacked) {
         if (seriesData.length != thisSeries) {
           for (let i = 0; i < thisSeries; i++)
-            if (this.options[`seriesAxis_${index}`])
-              delete this.options[`seriesAxis_${index}`];
+            if (settings[`seriesAxis_${index}`])
+              delete settings[`seriesAxis_${index}`];
         }
         thisSeries = seriesData.length;
       }
@@ -927,9 +927,9 @@ looker.plugins.visualizations.add({
 
         seriesData.forEach((row, index) => {
           if (index != 0) {
-            if (!this.options[`seriesAxis_${index}`]) {
+            if (!settings[`seriesAxis_${index}`]) {
               changed = true;
-              this.options[`seriesAxis_${index}`] = {
+              settings[`seriesAxis_${index}`] = {
                 label: `Set ${row.name} on the second axis`,
                 order: 10 + index,
                 section: `Multiple Axes`,
