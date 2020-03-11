@@ -908,17 +908,19 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
+      console.log(
+        `This is thisSeries: ${thisSeries}, and this is seriesData.length: ${seriesData.length}`
+      );
+      if (seriesData.length != thisSeries) {
+        for (let i = 0; i < thisSeries; i++)
+          if (this.options[`seriesAxis_${index}`])
+            delete this.options[`seriesAxis_${index}`];
+      }
+      thisSeries = seriesData.length;
+
       if (multipleAxes && !stacked) {
         // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
-        console.log(
-          `This is thisSeries: ${thisSeries}, and this is seriesData.length: ${seriesData.length}`
-        );
-        if (seriesData.length != thisSeries) {
-          for (let i = 0; i < thisSeries; i++)
-            delete this.options[`seriesAxis_${index}`];
-        }
-        thisSeries = seriesData.length;
 
         seriesData.forEach((row, index) => {
           if (index != 0) {
