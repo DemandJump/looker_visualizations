@@ -207,6 +207,9 @@ looker.plugins.visualizations.add({
     details,
     doneRendering
   ) {
+    /*********************************************
+     * Initialization and Configuration
+     *********************************************/
     d3.select(`#chart-apex-stack`)
       .selectAll(`*`)
       .remove(); // Clear out the data before we add the vis
@@ -274,201 +277,44 @@ looker.plugins.visualizations.add({
       `rgba(255, 176, 176, 0.45)`,
       `rgba(147, 22, 85, 0.45)`
     ];
-    let datum = data;
     console.log(`\n\n\n\n\nThese are the settings`, this.options);
     console.log(`This is the config`, config);
     console.log(`Queryresponse`, queryResponse);
     console.log(`the data`, datum);
 
-    // Configuration settings
+    let datum = data;
+    let settings = this.options;
     let theme = `Horizontal`;
-    if (config.chooseTheme) theme = config.chooseTheme;
     let changed = false;
     let pivot = false;
     let pivotA = false;
     let pivotB = false;
     let pivotC = false; // Period over period
-    let valueFormat = `0`;
-    if (queryResponse.fields.measure_like[0].value_format)
-      valueFormat = queryResponse.fields.measure_like[0].value_format;
 
     let dataLabels = false;
     let horizontal = false;
     let endingShape = `flat`;
     let stack = false;
     let title = ` `;
+    let xTitle = ` `;
     let yTitle = ` `;
     let yTitle2 = ` `;
-    let showActualTitle = config.showActualTitle;
-    let showTitle = config.showTitle; // y titles are 1 and 2
-    let showTitle2 = config.showTitle2;
-    let showTitle3 = config.showTitle3;
-    let xTitle = ` `;
+    let showActualTitle = false;
+    let showTitle = false;
+    let showTitle2 = false;
+    let showTitle3 = false;
     let alignLegend = `center`;
     let multipleAxes = false;
 
+    initialConfiguration();
+
+    // Grab chart data
     let xaxis = [];
     let seriesData = [];
     let axisNames = [];
     let seriesInformation;
+    let valueFormat = [];
 
-    if (
-      theme == `Horizontal` ||
-      theme == `Vertical` ||
-      theme == `Horizontal Stack` ||
-      theme == `Vertical Stack`
-    ) {
-      if (this._custom != `horizontalOrVertical`) {
-        this._custom = `horizontalOrVertical`;
-        this.options.customSpacing.hidden = true;
-        this.options.customLabel.hidden = true;
-        this.options.dataLabels.hidden = true;
-        this.options.horizontal.hidden = true;
-        this.options.endingShape.hidden = true;
-        this.options.stack.hidden = true;
-        this.options.stackType.hidden = true;
-        this.options.alignLegend.hidden = true;
-        if (this.options.multipleAxes) this.options.multipleAxes.hidden = true;
-        changed = true;
-      }
-
-      if (theme == `Horizontal`) horizontal = true;
-      if (theme == `Vertical`) horizontal = false;
-      if (theme == `Vertical Stack`) stack = true;
-      if (theme == `Horizontal Stack`) {
-        horizontal = true;
-        stack = true;
-      }
-    }
-
-    if (theme == `Custom`) {
-      if (this._custom != `Custom`) {
-        this._custom = `Custom`;
-        this.options.customSpacing.hidden = false;
-        this.options.customLabel.hidden = false;
-        this.options.dataLabels.hidden = false;
-        this.options.horizontal.hidden = false;
-        this.options.endingShape.hidden = false;
-        this.options.stack.hidden = false;
-        this.options.alignLegend.hidden = false;
-        if (this.options.multipleAxes) this.options.multipleAxes.hidden = false;
-        changed = true;
-      }
-
-      if (config.stack) {
-        if (this._stack != `true`) {
-          this._stack = `true`;
-          changed = true;
-          this.options.stackType.hidden = false;
-        }
-      } else {
-        if (this._stack != `false`) {
-          this._stack = `false`;
-          changed = true;
-          this.options.stackType.hidden = true;
-        }
-      }
-
-      if (config.dataLabels) dataLabels = config.dataLabels;
-      if (config.endingShape) endingShape = config.endingShape;
-      if (config.stack) stack = config.stack;
-      if (config.horizontal) horizontal = config.horizontal;
-      if (config.alignLegend) alignLegend = config.alignLegend;
-    }
-
-    if (config.title != ``) title = config.title;
-    if (config.yTitle != ``) yTitle = config.yTitle;
-    if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
-    if (config.xTitle != ``) xTitle = config.xTitle;
-
-    // Multiple axis display configuration
-    if (config.multipleAxes) {
-      multipleAxes = config.multipleAxes;
-      if (horizontal) multipleAxes = false;
-
-      if (config.multipleAxes == true) {
-        if (this._multipleAxes != true) {
-          this.options.showTitle2.hidden = false;
-          this.options.yTitle2.hidden = false;
-          this._multipleAxes = true;
-          changed = true;
-
-          for (let i = 1; i < this._series; i++) {
-            if (this.options[`series_${i}`])
-              this.options[`series_${i}`].hidden = true;
-          }
-        }
-      }
-    } else {
-      if (this._multipleAxes != false) {
-        this.options.showTitle2.hidden = true;
-        this.options.yTitle2.hidden = true;
-        this._multipleAxes = false;
-        changed = true;
-
-        for (let i = 1; i < this._series; i++) {
-          if (this.options[`series_${i}`])
-            this.options[`series_${i}`].hidden = true;
-        }
-      }
-    }
-
-    // Handles the multiple axis display based on whether it's horizontal or not
-    if (!stack) {
-      if (horizontal) {
-        if (this._multipleAxes != false) {
-          this.options.showTitle2.hidden = true;
-          this.options.yTitle2.hidden = true;
-          this.options.multipleAxes.hidden = true;
-          this._multipleAxes = false;
-          changed = true;
-
-          for (let i = 0; i < this._series; i++) {
-            if (this.options[`series_${i}`])
-              this.options[`series_${i}`].hidden = true;
-          }
-        }
-      } else {
-        if (!this.options.multipleAxes) {
-          changed = true;
-          this.options[`multipleAxes`] = {
-            label: `Add another axis`,
-            order: 1,
-            section: `Multiple Axes`,
-            type: `boolean`,
-            default: false,
-            hidden: false
-          };
-        }
-
-        if (this.options.multipleAxes.hidden == true) {
-          changed = true;
-          this.options.multipleAxes.hidden = false;
-
-          if (config.multipleAxes) {
-            if (this._multipleAxes != true) {
-              this.options.showTitle2.hidden = false;
-              this.options.yTitle2.hidden = false;
-              this._multipleAxes = true;
-              for (let i = 0; i < this._series; i++) {
-                this.options[`series_${i}`].hidden = false;
-              }
-            }
-          } else {
-            if (this._multipleAxes != false) {
-              this.options.showTitle2.hidden = true;
-              this.options.yTitle2.hidden = true;
-              this._multipleAxes = false;
-              for (let i = 0; i < this._series; i++) {
-                this.options[`series_${i}`].hidden = true;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    // Grab chart data
     pivotCheck(); // Find the type of query
     formatSeriesData(); // Pull the data for the chart
 
@@ -534,146 +380,35 @@ looker.plugins.visualizations.add({
 
     if (showTitle) stackLayout.yaxis.title = { text: yTitle };
     if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
+    if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
     if (config.stackType && theme == `custom`)
-      stackLayout[`chart`].stackType = `100%`;
+      stackLayout.chart.stackType = `100%`;
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
-    // Erase the different series placement based on the layout
-    if (horizontal || stack || !multipleAxes) {
-      seriesData.forEach((row, index) => {
-        if (this.options[`series_${index}`]) {
-          changed = true;
-          delete this.options[`series_${index}`];
-        }
-      });
-    }
+    // Build multiple axis and some display configuration
+    let multiAxisGlobalVar = this._multipleAxes;
+    let thisSeries = this._series;
+    buildMultipleAxes();
 
-    // Iterate through the series and create multiple axes
-    if (stack || horizontal) {
-      if (this.options[`multipleAxes`]) {
-        changed = true;
-        delete this.options[`multipleAxes`];
-      }
-      for (let i = 0; i < this._series; i++) {
-        if (this.options[`series_${i}`]) {
-          changed = true;
-          delete this.options[`series_${i}`];
-        }
-      }
-    } else {
-      if (!this.options[`multipleAxes`]) {
-        changed = true;
-        this.options[`multipleAxes`] = {
-          label: `Add another axis`,
-          order: 1,
-          section: `Multiple Axes`,
-          type: `boolean`,
-          default: false,
-          hidden: false
-        };
-      }
+    /**********************************************
+     * Display functions and rerender the config
+     **********************************************/
+    multiAxisConfigDisplay();
 
-      if (multipleAxes) {
-        stackLayout.yaxis = [];
-
-        // Create the config settings for the chart
-        if (seriesData.length != this._series) {
-          for (let i = 0; i < this._series; i++)
-            delete this.options[`series_${index}`];
-          this._series = seriesData.length;
-        }
-
-        seriesData.forEach((row, index) => {
-          if (index != 0) {
-            if (!this.options[`series_${index}`]) {
-              changed = true;
-              this.options[`series_${index}`] = {
-                label: `Set ${row.name} on the second axis`,
-                order: 10 + index,
-                section: `Multiple Axes`,
-                type: `boolean`,
-                default: false,
-                hidden: false
-              };
-            }
-          }
-        });
-
-        // Apply the config settings to the chart
-        let nameA = seriesData[0].name;
-        let nameB = seriesData[1].name;
-        let passShow = false;
-        seriesData.forEach((row, index) => {
-          let title = row.name;
-          let seriesName = nameA;
-          let axisOrientation = false;
-          let show = true;
-
-          if (config[`series_${index}`] == true) {
-            seriesName = nameB;
-            axisOrientation = true;
-            if (config.yTitle2 != ``) title = yTitle2;
-          } else {
-            seriesName = nameA;
-            axisOrientation = false;
-            if (config.yTitle != ``) title = yTitle;
-          }
-
-          // Configuration to show the axes
-          if (index == 0) show = true;
-          if (config[`seriesAxis_${index}`] && passShow == false) {
-            passShow = true;
-            show = true;
-          }
-
-          let obj = {
-            seriesName: seriesName,
-            opposite: axisOrientation,
-            show: show,
-            labels: {
-              formatter: function(val) {
-                if (typeof val == `number` && !horizontal)
-                  return formatAxes(val, row.value_format);
-                else return val;
-              }
-            }
-          };
-
-          //   Axis based label
-          if (seriesName == nameA) {
-            if (showTitle) obj[`title`] = { text: title };
-          }
-          if (seriesName == nameB) {
-            if (showTitle2) obj[`title`] = { text: title };
-          }
-
-          stackLayout.yaxis.push(obj);
-        });
-      } else {
-        if (showActualTitle) stackLayout[`title`] = { text: title };
-      }
-    }
-
-    // Turning off animations in the initial iterations
-    if (this._iteration < 2) {
-      console.log(`Running an initial iteration`);
-      stackLayout[`animations`] = { enabled: false };
-    }
-    console.log(`This is the current iteration ${this._iteration}`);
+    this._multipleAxes = multiAxisGlobalVar;
+    this._series = thisSeries;
     this._iteration++;
-
-    // Store global variables and rerender the settings
     if (changed) this.trigger(`registerOptions`, this.options);
 
-    // Apex Charts
+    /*********************
+     * Apex Charts Init
+     *********************/
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let columnOrBarChart = new ApexCharts(
       document.querySelector(`#chart-apex-stack`),
       stackLayout
     );
     if (document.getElementById("chart-apex-stack")) columnOrBarChart.render();
-
-    console.log(`This is the stack configuration `, stackLayout);
 
     /********************************
      * Drilldown Menu Configuration
@@ -775,14 +510,103 @@ looker.plugins.visualizations.add({
       xaxis: xaxis,
       axisNames: axisNames,
       seriesData: seriesData,
-      valueFormat: valueFormat,
-      drilldownElementData: drilldownElementData
+      chartConfiguration: stackLayout,
+      drillDownNodes: drilldownElementData,
+      updateAsync: {
+        queryResponse: queryResponse,
+        data: datum,
+        config: config,
+        settings: this.options,
+        details: details,
+        element: element
+      },
+      iteration: this._iteration
     };
-    console.log(`Series Information`, seriesInformation);
+    console.log(`Series Information`, seriesInformation, `\n\n\n\n`);
 
     /**********************************
-     * Functions
+     * Chart and data function
      **********************************/
+
+    function initialConfiguration() {
+      if (config.chooseTheme) theme = config.chooseTheme;
+
+      if (
+        theme == `Horizontal` ||
+        theme == `Vertical` ||
+        theme == `Horizontal Stack` ||
+        theme == `Vertical Stack`
+      ) {
+        if (this._custom != `horizontalOrVertical`) {
+          this._custom = `horizontalOrVertical`;
+          this.options.customSpacing.hidden = true;
+          this.options.customLabel.hidden = true;
+          this.options.dataLabels.hidden = true;
+          this.options.horizontal.hidden = true;
+          this.options.endingShape.hidden = true;
+          this.options.stack.hidden = true;
+          this.options.stackType.hidden = true;
+          this.options.alignLegend.hidden = true;
+          if (this.options.multipleAxes)
+            this.options.multipleAxes.hidden = true;
+          changed = true;
+        }
+
+        if (theme == `Horizontal`) horizontal = true;
+        if (theme == `Vertical`) horizontal = false;
+        if (theme == `Vertical Stack`) stack = true;
+        if (theme == `Horizontal Stack`) {
+          horizontal = true;
+          stack = true;
+        }
+      }
+
+      if (theme == `Custom`) {
+        if (this._custom != `Custom`) {
+          this._custom = `Custom`;
+          this.options.customSpacing.hidden = false;
+          this.options.customLabel.hidden = false;
+          this.options.dataLabels.hidden = false;
+          this.options.horizontal.hidden = false;
+          this.options.endingShape.hidden = false;
+          this.options.stack.hidden = false;
+          this.options.alignLegend.hidden = false;
+          if (this.options.multipleAxes)
+            this.options.multipleAxes.hidden = false;
+          changed = true;
+        }
+
+        if (config.stack) {
+          if (this._stack != `true`) {
+            this._stack = `true`;
+            changed = true;
+            this.options.stackType.hidden = false;
+          }
+        } else {
+          if (this._stack != `false`) {
+            this._stack = `false`;
+            changed = true;
+            this.options.stackType.hidden = true;
+          }
+        }
+
+        if (config.dataLabels) dataLabels = config.dataLabels;
+        if (config.endingShape) endingShape = config.endingShape;
+        if (config.stack) stack = config.stack;
+        if (config.horizontal) horizontal = config.horizontal;
+        if (config.alignLegend) alignLegend = config.alignLegend;
+      }
+
+      if (config.showActualTitle) showActualTitle = config.showActualTitle;
+      if (config.showTitle) showTitle = config.showTitle; // y titles are 1 and 2
+      if (config.showTitle2) showTitle2 = config.showTitle2;
+      if (config.showTitle3) showTitle3 = config.showTitle3;
+      if (config.title != ``) title = config.title;
+      if (config.yTitle != ``) yTitle = config.yTitle;
+      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
+      if (config.xTitle != ``) xTitle = config.xTitle;
+      if (config.multipleAxes) multipleAxes = config.multipleAxes;
+    }
 
     function pivotCheck() {
       if (queryResponse.fields.pivots.length != 0) {
@@ -800,27 +624,6 @@ looker.plugins.visualizations.add({
         )
           pivotC = true;
         else pivotB = true;
-      }
-    }
-
-    function truncate() {
-      if (!doNotTruncate) {
-        for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-          let truncate = false;
-          datum.forEach(row => {
-            if (row[queryResponse.fields.measure_like[i].name].value > 100)
-              truncate = true;
-          });
-          if (truncate) {
-            datum.forEach(row => {
-              row[queryResponse.fields.measure_like[i].name].original =
-                row[queryResponse.fields.measure_like[i].name].value;
-              row[queryResponse.fields.measure_like[i].name].value = Math.trunc(
-                row[queryResponse.fields.measure_like[i].name].value
-              );
-            });
-          }
-        }
       }
     }
 
@@ -1064,11 +867,227 @@ looker.plugins.visualizations.add({
         }
       }
 
-      // Grab the xaxis names for the labels of the chart
+      // Grab the xaxis names for the labels of the chart, and value format
       xaxis.forEach(axis => axisNames.push(axis.name));
+      queryResponse.fields.measure_like.forEach(mes =>
+        valueFormat.push(mes.value_format)
+      );
     }
 
-    // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
+    /********************************************************
+     * Display and Configuration Functions
+     ********************************************************/
+
+    function multiAxisConfigDisplay() {
+      if (config.multipleAxes) {
+        if (horizontal) multipleAxes = false;
+
+        if (config.multipleAxes == true) {
+          if (multiAxisGlobalVar != true) {
+            settings.showTitle2.hidden = false;
+            settings.yTitle2.hidden = false;
+            multiAxisGlobalVar = true;
+            changed = true;
+
+            for (let i = 1; i < thisSeries; i++) {
+              if (settings[`series_${i}`])
+                settings[`series_${i}`].hidden = true;
+            }
+          }
+        }
+      } else {
+        if (multiAxisGlobalVar != false) {
+          settings.showTitle2.hidden = true;
+          settings.yTitle2.hidden = true;
+          multiAxisGlobalVar = false;
+          changed = true;
+
+          for (let i = 1; i < thisSeries; i++) {
+            if (settings[`series_${i}`]) settings[`series_${i}`].hidden = true;
+          }
+        }
+      }
+
+      // Handles the multiple axis display based on whether it's horizontal or not
+      if (!stack) {
+        if (horizontal) {
+          if (multiAxisGlobalVar != false) {
+            settings.showTitle2.hidden = true;
+            settings.yTitle2.hidden = true;
+            settings.multipleAxes.hidden = true;
+            multiAxisGlobalVar = false;
+            changed = true;
+
+            for (let i = 0; i < thisSeries; i++) {
+              if (settings[`series_${i}`])
+                settings[`series_${i}`].hidden = true;
+            }
+          }
+        } else {
+          if (!settings.multipleAxes) {
+            changed = true;
+            settings[`multipleAxes`] = {
+              label: `Add another axis`,
+              order: 1,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+
+          if (settings.multipleAxes.hidden == true) {
+            changed = true;
+            settings.multipleAxes.hidden = false;
+
+            if (config.multipleAxes) {
+              if (multiAxisGlobalVar != true) {
+                settings.showTitle2.hidden = false;
+                settings.yTitle2.hidden = false;
+                multiAxisGlobalVar = true;
+                for (let i = 0; i < thisSeries; i++) {
+                  settings[`series_${i}`].hidden = false;
+                }
+              }
+            } else {
+              if (multiAxisGlobalVar != false) {
+                settings.showTitle2.hidden = true;
+                settings.yTitle2.hidden = true;
+                multiAxisGlobalVar = false;
+                for (let i = 0; i < thisSeries; i++) {
+                  settings[`series_${i}`].hidden = true;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    function buildMultipleAxes() {
+      // Erase the different series placement based on the layout
+      if (horizontal || stack || !multipleAxes) {
+        seriesData.forEach((row, index) => {
+          if (settings[`series_${index}`]) {
+            changed = true;
+            delete settings[`series_${index}`];
+          }
+        });
+      }
+
+      // Iterate through the series and create multiple axes
+      if (stack || horizontal) {
+        if (settings[`multipleAxes`]) {
+          changed = true;
+          delete settings[`multipleAxes`];
+        }
+        for (let i = 0; i < thisSeries; i++) {
+          if (settings[`series_${i}`]) {
+            changed = true;
+            delete settings[`series_${i}`];
+          }
+        }
+      } else {
+        if (!settings[`multipleAxes`]) {
+          changed = true;
+          settings[`multipleAxes`] = {
+            label: `Add another axis`,
+            order: 1,
+            section: `Multiple Axes`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+          };
+        }
+
+        /******************************************************
+         * Create the config settings for the chart
+         ******************************************************/
+        if (seriesData.length != thisSeries) {
+          for (let i = 0; i < thisSeries; i++)
+            delete settings[`series_${index}`];
+        }
+        thisSeries = seriesData.length;
+
+        if (multipleAxes) {
+          stackLayout.yaxis = [];
+
+          seriesData.forEach((row, index) => {
+            if (index != 0) {
+              if (!settings[`series_${index}`]) {
+                changed = true;
+                settings[`series_${index}`] = {
+                  label: `Set ${row.name} on the second axis`,
+                  order: 10 + index,
+                  section: `Multiple Axes`,
+                  type: `boolean`,
+                  default: false,
+                  hidden: false
+                };
+              }
+            }
+          });
+
+          // Apply the config settings to the chart
+          let nameA = seriesData[0].name;
+          let nameB = seriesData[1].name;
+          let passShow = false;
+          seriesData.forEach((row, index) => {
+            let title = row.name;
+            let seriesName = nameA;
+            let axisOrientation = false;
+            let show = true;
+
+            if (config[`series_${index}`] == true) {
+              seriesName = nameB;
+              axisOrientation = true;
+              if (config.yTitle2 != ``) title = yTitle2;
+            } else {
+              seriesName = nameA;
+              axisOrientation = false;
+              if (config.yTitle != ``) title = yTitle;
+            }
+
+            // Configuration to show the axes
+            if (index == 0) show = true;
+            if (config[`seriesAxis_${index}`] && passShow == false) {
+              passShow = true;
+              show = true;
+            }
+
+            let obj = {
+              seriesName: seriesName,
+              opposite: axisOrientation,
+              show: show,
+              labels: {
+                formatter: function(val) {
+                  if (typeof val == `number` && !horizontal)
+                    return formatAxes(val, row.value_format);
+                  else return val;
+                }
+              }
+            };
+
+            //   Axis based label
+            if (seriesName == nameA) {
+              if (showTitle) obj[`title`] = { text: title };
+            }
+            if (seriesName == nameB) {
+              if (showTitle2) obj[`title`] = { text: title };
+            }
+
+            stackLayout.yaxis.push(obj);
+          });
+        } else {
+          if (showActualTitle) stackLayout[`title`] = { text: title };
+        }
+      }
+    }
+
+    /***********************************
+     * Format Functions
+     ***********************************/
+
     function formatAxes(value, format) {
       let value_format = format;
       let autoSelectFormat = [];

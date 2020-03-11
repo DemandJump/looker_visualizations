@@ -545,6 +545,19 @@ looker.plugins.visualizations.add({
       // .html(d => d.text)
       .on("click", d => drillDown(d.links, d3.event));
 
+    function drillDown(links, event) {
+      LookerCharts.Utils.openDrillMenu({
+        links: links,
+        event: event
+      });
+    }
+
+    let drilldownElementData = {
+      axisElements: axisElements,
+      axisChildrenElements: elem,
+      drilldownNodes: nodes
+    };
+
     // Pull all the information into a single object
     seriesInformation = {
       pivot: {
@@ -558,7 +571,7 @@ looker.plugins.visualizations.add({
       seriesData: seriesData,
       valueFormat: valueFormat,
       chartConfiguration: configuration,
-      drillDownNodes: nodes,
+      drillDownNodes: drilldownElementData,
       updateAsync: {
         queryResponse: queryResponse,
         data: datum,
@@ -570,15 +583,6 @@ looker.plugins.visualizations.add({
       iteration: this._iteration
     };
     console.log(`Series Information`, seriesInformation, `\n\n\n\n`);
-
-    // Deprecated data goes here
-
-    function drillDown(links, event) {
-      LookerCharts.Utils.openDrillMenu({
-        links: links,
-        event: event
-      });
-    }
 
     /**********************************
      * Chart and Data Functions
