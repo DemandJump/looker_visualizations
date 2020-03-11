@@ -966,39 +966,42 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
+      return;
+    }
+    function buildMultipleAxess() {
       // Erase the different series placement based on the layout
-      // if (horizontal || stack || !multipleAxes) {
-      //   seriesData.forEach((row, index) => {
-      //     if (settings[`series_${index}`]) {
-      //       changed = true;
-      //       delete settings[`series_${index}`];
-      //     }
-      //   });
-      // }
+      if (horizontal || stack || !multipleAxes) {
+        seriesData.forEach((row, index) => {
+          if (settings[`series_${index}`]) {
+            changed = true;
+            delete settings[`series_${index}`];
+          }
+        });
+      }
 
-      // // Iterate through the series and create multiple axes
-      // if (stack || horizontal) {
-      //   if (settings[`multipleAxes`]) {
-      //     changed = true;
-      //     delete settings[`multipleAxes`];
-      //   }
-      //   for (let i = 0; i < thisSeries; i++) {
-      //     if (settings[`series_${i}`]) {
-      //       changed = true;
-      //       delete settings[`series_${i}`];
-      //     }
-      //   }
-      // } else {
-      //   if (!settings[`multipleAxes`]) {
-      //     changed = true;
-      //     settings[`multipleAxes`] = {
-      //       label: `Add another axis`,
-      //       order: 1,
-      //       section: `Multiple Axes`,
-      //       type: `boolean`,
-      //       default: false,
-      //       hidden: false
-      //     };
+      // Iterate through the series and create multiple axes
+      if (stack || horizontal) {
+        if (settings[`multipleAxes`]) {
+          changed = true;
+          delete settings[`multipleAxes`];
+        }
+        for (let i = 0; i < thisSeries; i++) {
+          if (settings[`series_${i}`]) {
+            changed = true;
+            delete settings[`series_${i}`];
+          }
+        }
+      } else {
+        if (!settings[`multipleAxes`]) {
+          changed = true;
+          settings[`multipleAxes`] = {
+            label: `Add another axis`,
+            order: 1,
+            section: `Multiple Axes`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+          };
         }
 
         /******************************************************
