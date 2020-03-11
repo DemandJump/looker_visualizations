@@ -1022,8 +1022,7 @@ looker.plugins.visualizations.add({
 
           // Configuration to show the axes
           if (index == 0) show = true;
-          if (config[`seriesAxis_${index}`] && passShow == false) {
-            console.log(`\nAdded show = true to index: ${index}`);
+          if (config[`series_${index}`] && passShow == false) {
             passShow = true;
             show = true;
           }
