@@ -299,7 +299,7 @@ looker.plugins.visualizations.add({
     let horizontal = false;
     let endingShape = `flat`;
     let stack = false;
-    let title = ` `;
+    let title = queryResponse.fields.dimension_like[0].label;
     let xTitle = ` `;
     let yTitle = ` `;
     let yTitle2 = ` `;
@@ -946,7 +946,7 @@ looker.plugins.visualizations.add({
         let nameB = seriesData[1].name;
         let passShow = false;
         seriesData.forEach((row, index) => {
-          let title = row.name;
+          let sTitle = row.name;
           let seriesName = nameA;
           let axisOrientation = false;
           let show = false;
@@ -954,11 +954,11 @@ looker.plugins.visualizations.add({
           if (config[`series_${index}`] == true) {
             seriesName = nameB;
             axisOrientation = true;
-            if (config.yTitle2 != ``) title = yTitle2;
+            if (config.yTitle2 != ``) sTitle = yTitle2;
           } else {
             seriesName = nameA;
             axisOrientation = false;
-            if (config.yTitle != ``) title = yTitle;
+            if (config.yTitle != ``) sTitle = yTitle;
           }
 
           // Configuration to show the axes
@@ -984,10 +984,10 @@ looker.plugins.visualizations.add({
 
           //   Axis based label
           if (seriesName == nameA) {
-            if (showTitle) obj[`title`] = { text: title };
+            if (showTitle) obj[`title`] = { text: sTitle };
           }
           if (seriesName == nameB) {
-            if (showTitle2) obj[`title`] = { text: title };
+            if (showTitle2) obj[`title`] = { text: sTitle };
           }
 
           console.log(`iteration: ${index} object`, obj);
