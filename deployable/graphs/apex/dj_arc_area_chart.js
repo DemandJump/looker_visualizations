@@ -378,6 +378,9 @@ looker.plugins.visualizations.add({
     let showTitle = config.showTitle; // y titles are 1 and 2
     let showTitle2 = config.showTitle2;
     let showTitle3 = config.showTitle3;
+    console.log(
+      `This is the show title: ${showTitle}, this is the second one: ${showTitle2}, and this is the third show title: ${showTitle3}`
+    );
     let curve = `straight`;
     let stack = `overlay`;
     let stacked = false;
@@ -391,7 +394,6 @@ looker.plugins.visualizations.add({
 
     if (config.label) label = config.label;
     if (config.title) if (config.title != ``) title = config.title;
-    if (!config.showTitle) config.showTitle = false;
 
     if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
       if (this._custom != `classic`) {
