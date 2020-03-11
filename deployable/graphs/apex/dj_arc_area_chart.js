@@ -1012,6 +1012,7 @@ looker.plugins.visualizations.add({
     function hideAxisTab() {
       console.log(`This is the stack tf`, stacked);
       if (stacked) {
+        console.log(`Deleting the stack settings`);
         if (settings.showTitle2 || settings.yTitle2 || settings.multipleAxes)
           changed = true;
 
@@ -1026,6 +1027,7 @@ looker.plugins.visualizations.add({
           }
         }
       } else {
+        console.log(`Rebuilding the stack settings`);
         if (!settings.showTitle2 || !settings.yTitle2 || !settings.multipleAxes)
           changed = true;
 
