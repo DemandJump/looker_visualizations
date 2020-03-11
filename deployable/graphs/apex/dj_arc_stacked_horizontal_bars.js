@@ -1001,7 +1001,7 @@ looker.plugins.visualizations.add({
       }
       thisSeries = seriesData.length;
 
-      if (multipleAxes) {
+      if (multipleAxes && !horizontal && !stack) {
         stackLayout.yaxis = [];
 
         seriesData.forEach((row, index) => {
