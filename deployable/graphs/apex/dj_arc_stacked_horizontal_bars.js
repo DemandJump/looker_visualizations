@@ -884,8 +884,28 @@ looker.plugins.visualizations.add({
      ********************************************************/
 
     function multiAxisConfigDisplay() {
-      if (config.multipleAxes) {
-        console.log(`MultipleAxes`, config.multipleAxes);
+      if (horizontal || stack) {
+        if (multiAxisGlobalVar != false) {
+          settings.showTitle2.hidden = true;
+          settings.yTitle2.hidden = true;
+          multiAxisGlobalVar = false;
+          changed = true;
+
+          seriesData.forEach((series, i) => {
+            if (settings[`series_${i}`]) settings[`series_${i}`].hidden = true;
+          });
+        }
+      } else {
+        if (multiAxisGlobalVar != true) {
+          settings.showTitle2.hidden = false;
+          settings.yTitle2.hidden = false;
+          multiAxisGlobalVar = true;
+          changed = true;
+
+          seriesData.forEach((series, i) => {
+            if (settings[`series_${i}`]) settings[`series_${i}`].hidden = false;
+          });
+        }
       }
     }
 
