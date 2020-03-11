@@ -976,7 +976,6 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      console.log(`Going through multiple axis function`);
       if (seriesData.length != thisSeries) {
         for (let i = 0; i < thisSeries; i++) delete settings[`series_${index}`];
       }
@@ -1024,6 +1023,7 @@ looker.plugins.visualizations.add({
           // Configuration to show the axes
           if (index == 0) show = true;
           if (config[`seriesAxis_${index}`] && passShow == false) {
+            console.log(`\nAdded show = true to index: ${index}`);
             passShow = true;
             show = true;
           }
