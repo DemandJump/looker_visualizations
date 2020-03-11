@@ -250,6 +250,7 @@ looker.plugins.visualizations.add({
     }
   },
   create: function(element, config) {
+    this._iteration = 0;
     this._custom = ``;
     this._multipleAxes = false;
     this._series = 0;
@@ -634,6 +635,14 @@ looker.plugins.visualizations.add({
         };
       }
     }
+
+    // Turning off animations in the initial iterations
+    if (this._iteration < 2) {
+      console.log(`Running an initial iteration`);
+      configuration[`animations`] = { enabled: false };
+    }
+    console.log(`This is the current iteration ${i}`);
+    this._iteration++;
 
     // Rebuild the settings
     settings = this.options;
