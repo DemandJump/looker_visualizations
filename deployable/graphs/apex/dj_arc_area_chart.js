@@ -352,7 +352,6 @@ looker.plugins.visualizations.add({
     let datum = data;
     let settings = this.options;
     let theme = `area`;
-    if (config.themes) theme = config.themes;
     let changed = false;
     let pivot = false;
     let pivotA = false;
@@ -360,108 +359,27 @@ looker.plugins.visualizations.add({
     let pivotC = false;
 
     let title = queryResponse.fields.dimension_like[0].label;
-    let label = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
     let yTitle2 = ` `;
-    let showActualTitle = config.showActualTitle;
-    let showTitle = config.showTitle; // y titles are 1 and 2
-    let showTitle2 = config.showTitle2;
-    let showTitle3 = config.showTitle3;
-    console.log(
-      `This is the show title: ${showTitle}, this is the second one: ${showTitle2}, and this is the third show title: ${showTitle3}`
-    );
+    let showActualTitle = false;
+    let showTitle = false;
+    let showTitle2 = false;
+    let showTitle3 = false;
+    let label = ` `;
     let curve = `straight`;
     let stack = `overlay`;
-    let stacked = false;
-    let dataLabels = false;
-    let sideYaxis = false;
-    let alignLegend = `center`;
-    let doNotTruncate = false;
     let fill = `gradient`;
-    let height = window.innerHeight - 45;
+    let alignLegend = `center`;
+    let stacked = false;
     let multipleAxes = false;
 
-    selectTheme();
+    let height = window.innerHeight - 45;
+    let dataLabels = false;
+    let sideYaxis = false;
+    let doNotTruncate = false;
 
-    function selectTheme() {
-      if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
-        if (this._custom != `classic`) {
-          this._custom = `classic`;
-          settings.customSpacing.hidden = true;
-          settings.customLabel.hidden = true;
-          settings.curve.hidden = true;
-          // settings.dataLabels.hidden = true;
-          settings.alignLegend.hidden = true;
-          settings.doNotTruncate.hidden = true;
-          settings.fill.hidden = true;
-          changed = true;
-        }
-
-        if (theme == `classic`) curve = `straight`;
-        if (theme == `smooth`) curve = `smooth`;
-        if (theme == `stepline`) curve = `stepline`;
-      }
-
-      if (theme == `custom`) {
-        if (this._custom != `custom`) {
-          this._custom = `custom`;
-          settings.customSpacing.hidden = false;
-          settings.customLabel.hidden = false;
-          settings.curve.hidden = false;
-          // settings.dataLabels.hidden = false;
-          settings.alignLegend.hidden = false;
-          settings.doNotTruncate.hidden = false;
-          settings.fill.hidden = false;
-          changed = true;
-        }
-
-        if (config.curve) curve = config.curve;
-        if (config.alignLegend) alignLegend = config.alignLegend;
-        if (config.formatDates) formatDates = config.formatDates;
-        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
-        if (config.fill) fill = config.fill;
-      }
-
-      if (config.label) label = config.label;
-      if (config.title != ``) title = config.title;
-      if (config.yTitle != ``) yTitle = config.yTitle;
-      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
-      if (config.xTitle != ``) xTitle = config.xTitle;
-      if (config.sideYaxis) sideYaxis = config.sideYaxis;
-      if (config.stack) stack = config.stack;
-      if (stack == `overlay`) stacked = false;
-      if (stack == `stack`) stacked = true;
-    }
-
-    // Multiple axis display configuration
-    if (config.multipleAxes == true) {
-      multipleAxes = config.multipleAxes;
-
-      if (this._multipleAxes != true) {
-        if (this.options.showTitle2) this.options.showTitle2.hidden = false;
-        if (this.options.yTitle2) this.options.yTitle2.hidden = false;
-        this._multipleAxes = true;
-        changed = true;
-
-        for (let i = 1; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`])
-            this.options[`seriesAxis_${i}`].hidden = false;
-        }
-      }
-    } else {
-      if (this._multipleAxes != false) {
-        if (this.options.showTitle2) this.options.showTitle2.hidden = true;
-        if (this.options.yTitle2) this.options.yTitle2.hidden = true;
-        this._multipleAxes = false;
-        changed = true;
-
-        for (let i = 1; i < this._series; i++) {
-          if (this.options[`seriesAxis_${i}`])
-            this.options[`seriesAxis_${i}`].hidden = true;
-        }
-      }
-    }
+    initialConfiguration();
 
     // Main chart series data
     let xaxis = [];
@@ -470,18 +388,13 @@ looker.plugins.visualizations.add({
     let seriesInformation;
     let valueFormat = [];
 
-    queryResponse.fields.measure_like.forEach(mes =>
-      valueFormat.push(mes.value_format)
-    );
-
     pivotCheck();
     formatSeriesData();
-
-    settings = this.options;
     seriesTypes(); // Add the type for each series
-    this.options = settings; // Sync the settings so you don't lose the data
 
-    // Building a configuration
+    /***************************************
+     * Chart Configuration Settings
+     ***************************************/
     let configuration = {
       chart: {
         height: height,
@@ -539,33 +452,16 @@ looker.plugins.visualizations.add({
 
     if (showTitle) configuration.yaxis.title = { text: yTitle };
     if (showTitle3) configuration.xaxis.title = { text: xTitle };
+    if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
     // Mulltiple axis display and chart configuration
     if (multipleAxes && !stacked) {
       configuration.yaxis = [];
 
       // Create the config settings for the chart
-      if (seriesData.length != this._series) {
-        for (let i = 0; i < this._series; i++)
-          delete this.options[`seriesAxis_${index}`];
-        this._series = seriesData.length;
-      }
-
-      seriesData.forEach((row, index) => {
-        if (index != 0) {
-          if (!this.options[`seriesAxis_${index}`]) {
-            changed = true;
-            this.options[`seriesAxis_${index}`] = {
-              label: `Set ${row.name} on the second axis`,
-              order: 10 + index,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-        }
-      });
+      let thisSeries = this._series;
+      createSeriesAxes();
+      this._series = thisSeries;
 
       // Apply the config settings to the chart
       let nameA = seriesData[0].name;
@@ -627,29 +523,24 @@ looker.plugins.visualizations.add({
       }
     }
 
-    // Turning off animations in the initial iterations
-    if (this._iteration < 2) {
-      console.log(`Running an initial iteration`);
-      configuration[`animations`] = { enabled: false };
-    }
-    console.log(`This is the current iteration ${this._iteration}`);
+    /*****************
+     * Config Display
+     *****************/
     this._iteration++;
-
-    // Rebuild the settings
-    settings = this.options;
+    multiAxes();
     hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
-    // Apex Charts
+    /***********************
+     * Apex Charts
+     ***********************/
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let chart = new ApexCharts(
       document.querySelector(`#chart-apex-area`),
       configuration
     );
-    if (document.getElementById(`chart-apex-area`)) {
-      chart.render();
-    }
+    if (document.getElementById(`chart-apex-area`)) chart.render();
 
     /********************************
      * Drilldown Menu Configuration
@@ -754,187 +645,12 @@ looker.plugins.visualizations.add({
         settings: this.options,
         details: details,
         element: element
-      }
+      },
+      iteration: this._iteration
     };
-    console.log(`Series Information`, seriesInformation);
+    console.log(`Series Information`, seriesInformation, `\n\n\n\n`);
 
-    /*
-    Y axis drilldown menu (data for each series)
-    let circleValues = [];
-    let circleLinks = [];
-    let holder;
-    for(let i = 0; i < xaxis.length; i++) {
-        let seriesLinks = [];
-        seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
-        circleLinks.push(seriesLinks);
-
-        seriesData.forEach((series, index) => {
-            holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
-            if (holder == undefined) {
-                let newNamingConvention = series.name.replace(/ /g, `x`);
-                newNamingConvention.replace(/-/g, `x`);
-                holder = document.getElementsByClassName(`apexcharts-series ${newNamingConvention}`);
-            }
-            let data = {
-                pivot: series.name,
-                column: index,
-                xaxis: circleLinks[i][index].name,
-                data: circleLinks[i][index].data,
-                links: circleLinks[i][index].links,
-                id: `_${holder[0].id}`,
-                originalId: holder[0].id,
-                element: holder
-            };
-            circleValues.push(data);
-        });
-    }
-    console.log(`These are the circle values`, circleValues);
-
-    Y axis Grid Series Container data (each series)
-
-    let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
-    let graphdata = graph[0].getBoundingClientRect();
-
-    let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
-    let fodata = foreignObject[`_groups`][0][0].getBoundingClientRect();
-
-    let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
-    let gridpointA = gridpoints[0].getBoundingClientRect();
-    let gridpointB = gridpoints[1].getBoundingClientRect();
-    let gridSpacing = gridpointB.x - gridpointA.x;
-
-    let seriesContainers = [];
-    let cspacing = gridpointA.left - (gridSpacing / 2);
-
-    xaxis.forEach((axis, index) => {
-        if (index != 0) cspacing += gridSpacing;
-        let seriesValues = [];
-        for(let i = 0; i < seriesData.length; i++) seriesValues.push(circleValues[i + (index * seriesData.length)]);
-        let obj = {
-            index: index,
-            name: axis,
-            coordinates: {
-                x: gridpointA.x,
-                y: gridpointA.y,
-                top: fodata.top,
-                left: gridpointA.left,
-                bottom: gridpointA.bottom,
-                right: gridpointA.right,
-                width: foreignObject[`_groups`][0][0].attributes.width.value,
-                // height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
-                height: graphdata.top,
-                gridSpacing: gridpointB.x - gridpointA.x,
-                spacing: cspacing
-            },
-            seriesData: seriesValues
-        };
-        seriesContainers.push(obj);
-    });
-    // console.log(`Here's the series container data`, seriesContainers);
-
-    let individualSeries = {};
-    let seriesContainer = d3.select(`.container`)
-        .append(`div`).attr(`class`, `measureSeries`)
-            .selectAll(`.series`).data(seriesContainers);
-    let enterSeries = seriesContainer.enter().append(`div`);
-    seriesContainer.merge(enterSeries)
-        .attr(`id`, d => d.index)
-        .attr(`class`, `series`)
-        .style(`width`, `1px`)
-        .style(`height`, d => `${d.coordinates.height}px`)
-        .style(`z-index`, `21`)
-        .style(`position`, `absolute`)
-        .style(`left`, d => `${d.coordinates.spacing - .5}px`)
-        .style(`top`, d => `${d.coordinates.top}px`)
-        .style(`opacity`, `0`)
-        .on(`mouseover`, d => createSeries(d));
-
-    function createSeries(d) {
-        // d3.event.stopPropagation();
-        d3.select(`.container`).selectAll(`.measures`).remove();
-        // d3.select(`.container`).selectAll(`.xaxis`).remove();
-
-        d.seriesData.forEach(row => {
-            let name = row.pivot.replace(/ /g, `-`);
-            let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
-            row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
-        });
-
-        createSeriesDrills(d);
-        // createXAxis(d);
-    }
-
-    function createSeriesDrills(series) {
-        individualSeries[series.index] = series.seriesData;
-        // d3.event.stopPropagation();
-        let seriesSection = d3.select(`.container`)
-            .append(`div`).attr(`class`, `measures`)
-                .selectAll(`.measure`).data(individualSeries[series.index]);
-        let singleSeries = seriesSection.enter().append(`div`);
-        seriesSection.merge(singleSeries)
-            .attr(`class`, `measure`)
-            .style(`width`, data => `${data.coordinates.width -2}px`)
-            .style(`height`, data => `${data.coordinates.height -2}px`)
-            .style(`z-index`, `22`)
-            .style(`position`, `absolute`)
-            .style(`left`, data => `${data.coordinates.left - 3}px`)
-            .style(`top`, data => `${data.coordinates.top}px`)
-            .style(`opacity`, `0`)
-            .style(`background-color`, d => djColors[d.column])
-            .style(`border`, `2px solid white`)
-            .style(`border-radius`, `50%`)
-            .on('click', d => drillDown(d.links, d3.event))
-            .on(`mouseover`, function(d) {
-              d3.select(this).style(`opacity`, `1`);
-            })
-            .on(`mouseout`, function(d) {
-              d3.select(this).style(`opacity`, `0`);
-            });
-    }
-
-    function createXAxis(series) {
-        let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
-        let tooltipCoords = tooltip[0].getBoundingClientRect();
-        console.log(`This is the series`, series);
-
-        let object = [
-            {
-                name: series.name.name,
-                id: `_${tooltip[0].id}`,
-                originalId: tooltip[0].id,
-                coordinates: {
-                    width: tooltipCoords.width,
-                    height: tooltipCoords.height,
-                    top: tooltipCoords.top,
-                    left: tooltipCoords.left,
-                    bottom: tooltipCoords.bottom,
-                    right: tooltipCoords.right,
-                    x: tooltipCoords.x,
-                    y: tooltipCoords.y
-                },
-                links: series.name.links,
-                element: tooltip
-            }
-        ];
-
-        let xaxisSeries = d3.select(`.container`)
-            .append(`div`).attr(`class`, `xaxis`)
-                .selectAll(`.drilldown`).data(object);
-        let xaxisDrilldown = xaxisSeries.enter().append(`div`);
-        xaxisSeries.merge(xaxisDrilldown)
-            .attr(`class`, `drilldown`)
-            .attr(`id`, d => d.id)
-            .style(`width`, d => `${d.coordinates.width}px`)
-            .style(`height`, d => `${d.coordinates.height}px`)
-            .style(`z-index`, `22`)
-            .style(`position`, `absolute`)
-            .style(`left`, d => `${d.coordinates.left}px`)
-            .style(`top`, d => `${d.coordinates.top}px`)
-            .style(`opacity`, `1`)
-            .style(`border`, `1px dashed black`)
-            .on('click', d => drillDown(d.links, d3.event));
-    }
-    */
+    // Deprecated data goes here
 
     function drillDown(links, event) {
       LookerCharts.Utils.openDrillMenu({
@@ -944,8 +660,62 @@ looker.plugins.visualizations.add({
     }
 
     /**********************************
-     * Functions
+     * Chart and Data  Functions
      **********************************/
+    function initialConfiguration() {
+      if (config.themes) theme = config.themes;
+
+      if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
+        if (this._custom != `classic`) {
+          this._custom = `classic`;
+          settings.customSpacing.hidden = true;
+          settings.customLabel.hidden = true;
+          settings.curve.hidden = true;
+          // settings.dataLabels.hidden = true;
+          settings.alignLegend.hidden = true;
+          settings.fill.hidden = true;
+          changed = true;
+        }
+
+        if (theme == `classic`) curve = `straight`;
+        if (theme == `smooth`) curve = `smooth`;
+        if (theme == `stepline`) curve = `stepline`;
+      }
+
+      if (theme == `custom`) {
+        if (this._custom != `custom`) {
+          this._custom = `custom`;
+          settings.customSpacing.hidden = false;
+          settings.customLabel.hidden = false;
+          settings.curve.hidden = false;
+          // settings.dataLabels.hidden = false;
+          settings.alignLegend.hidden = false;
+          settings.fill.hidden = false;
+          changed = true;
+        }
+
+        if (config.curve) curve = config.curve;
+        if (config.alignLegend) alignLegend = config.alignLegend;
+        if (config.formatDates) formatDates = config.formatDates;
+        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
+        if (config.fill) fill = config.fill;
+      }
+
+      if (config.showActualTitle) showActualTitle = config.showActualTitle;
+      if (config.showTitle) showTitle = config.showTitle; // y titles are 1 and 2
+      if (config.showTitle2) showTitle2 = config.showTitle2;
+      if (config.showTitle3) showTitle3 = config.showTitle3;
+      if (config.label) label = config.label;
+      if (config.title != ``) title = config.title;
+      if (config.yTitle != ``) yTitle = config.yTitle;
+      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
+      if (config.xTitle != ``) xTitle = config.xTitle;
+      if (config.sideYaxis) sideYaxis = config.sideYaxis;
+      if (config.stack) stack = config.stack;
+      if (stack == `overlay`) stacked = false;
+      if (stack == `stack`) stacked = true;
+    }
+
     function pivotCheck() {
       if (queryResponse.fields.pivots.length != 0) {
         pivot = true;
@@ -962,27 +732,6 @@ looker.plugins.visualizations.add({
         )
           pivotC = true;
         else pivotB = true;
-      }
-    }
-
-    function truncate() {
-      if (!doNotTruncate) {
-        for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
-          let truncate = false;
-          datum.forEach(row => {
-            if (row[queryResponse.fields.measure_like[i].name].value > 100)
-              truncate = true;
-          });
-          if (truncate) {
-            datum.forEach(row => {
-              row[queryResponse.fields.measure_like[i].name].original =
-                row[queryResponse.fields.measure_like[i].name].value;
-              row[queryResponse.fields.measure_like[i].name].value = Math.trunc(
-                row[queryResponse.fields.measure_like[i].name].value
-              );
-            });
-          }
-        }
       }
     }
 
@@ -1222,11 +971,199 @@ looker.plugins.visualizations.add({
         }
       }
 
-      // Grab the xaxis names for the labels of the chart
+      // Grab the xaxis names for the labels of the chart, and value format
       xaxis.forEach(axis => axisData.push(axis.name));
+      queryResponse.fields.measure_like.forEach(mes =>
+        valueFormat.push(mes.value_format)
+      );
     }
 
-    // Instead change the category labels to an index value that mirros the xaxis data, append the rendered data through to the axis and evaluate it based on that
+    /*******************************
+     * Config Display Settings
+     *******************************/
+
+    function multiAxes() {
+      // Multiple axis display configuration
+      if (config.multipleAxes == true) {
+        multipleAxes = config.multipleAxes;
+
+        if (this._multipleAxes != true) {
+          if (settings.showTitle2) settings.showTitle2.hidden = false;
+          if (settings.yTitle2) settings.yTitle2.hidden = false;
+          this._multipleAxes = true;
+          changed = true;
+
+          for (let i = 1; i < this._series; i++) {
+            if (settings[`seriesAxis_${i}`])
+              settings[`seriesAxis_${i}`].hidden = false;
+          }
+        }
+      } else {
+        if (this._multipleAxes != false) {
+          if (settings.showTitle2) settings.showTitle2.hidden = true;
+          if (settings.yTitle2) settings.yTitle2.hidden = true;
+          this._multipleAxes = false;
+          changed = true;
+
+          for (let i = 1; i < this._series; i++) {
+            if (settings[`seriesAxis_${i}`])
+              settings[`seriesAxis_${i}`].hidden = true;
+          }
+        }
+      }
+    }
+
+    function hideAxisTab() {
+      console.log(`This is the stack tf`, stacked);
+      if (stacked) {
+        if (settings.showTitle2 || settings.yTitle2 || settings.multipleAxes)
+          changed = true;
+
+        if (settings.showTitle2) delete settings.showTitle2;
+        if (settings.yTitle2) delete settings.yTitle2;
+        if (settings.multipleAxes) delete settings.multipleAxes;
+
+        for (let i = 1; i < this._series; i++) {
+          if (settings[`seriesAxis_${i}`]) {
+            delete settings[`seriesAxis_${i}`];
+            changed = true;
+          }
+        }
+      } else {
+        if (!settings.showTitle2 || !settings.yTitle2 || !settings.multipleAxes)
+          changed = true;
+
+        if (!settings.showTitle2) {
+          settings.showTitle2 = {
+            label: `Show second y axis title`,
+            order: 4.2,
+            section: `Format`,
+            type: `boolean`,
+            default: true,
+            hidden: false
+          };
+        }
+
+        if (!settings.yTitle2) {
+          settings.yTitle2 = {
+            label: `Second y axis label`,
+            order: 1.95,
+            section: `Format`,
+            type: `string`,
+            placeholder: `Enter y axis label`,
+            hidden: false
+          };
+        }
+
+        if (!settings.multipleAxes) {
+          settings.multipleAxes = {
+            label: `Add another axis`,
+            order: 1,
+            section: `Multiple Axes`,
+            type: `boolean`,
+            default: false,
+            hidden: false
+          };
+        }
+
+        seriesData.forEach((row, index) => {
+          if (index != 0) {
+            if (!settings[`seriesAxis_${index}`]) {
+              changed = true;
+              settings[`seriesAxis_${index}`] = {
+                label: `Set ${row.name} on the second axis`,
+                order: 10 + index,
+                section: `Multiple Axes`,
+                type: `boolean`,
+                default: false,
+                hidden: false
+              };
+            }
+          }
+        });
+      }
+    }
+
+    function createSeriesAxes() {
+      if (seriesData.length != this._series) {
+        for (let i = 0; i < this._series; i++)
+          delete this.options[`seriesAxis_${index}`];
+        this._series = seriesData.length;
+      }
+
+      seriesData.forEach((row, index) => {
+        if (index != 0) {
+          if (!this.options[`seriesAxis_${index}`]) {
+            changed = true;
+            this.options[`seriesAxis_${index}`] = {
+              label: `Set ${row.name} on the second axis`,
+              order: 10 + index,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+        }
+      });
+    }
+
+    function seriesTypes() {
+      seriesData.forEach((series, index) => {
+        let name = `series_${index}`;
+
+        if (!settings[name]) {
+          changed = true;
+          settings[name] = {
+            label: `Chart type: ${series.name}`,
+            order: index,
+            section: `Type of Chart`,
+            type: `string`,
+            display: `select`,
+            values: [{ Area: "area" }, { Column: "column" }, { Line: "line" }],
+            default: `area`,
+            hidden: false
+          };
+        } else {
+          if (`${series.name} series chart type` != settings[name].label) {
+            settings[name].label = `${series.name} series chart type`;
+            changed = true;
+          }
+
+          let type = `area`;
+          if (config.allArea) {
+            type = `area`;
+          } else if (config.allColumn) {
+            type = `column`;
+          } else if (config.allLine) {
+            type = `line`;
+          } else if (config[name]) {
+            type = config[name];
+          }
+          series.type = type;
+        }
+      });
+
+      // Cleanup extra chart types
+      let seriesAmount = seriesData.length;
+      let checker = true;
+      while (checker) {
+        let name = `series_${seriesAmount}`;
+        if (settings[name]) {
+          changed = true;
+          seriesAmount++;
+
+          delete settings[name];
+        } else {
+          checker = false;
+        }
+      }
+    }
+
+    /************************************
+     * Format functions
+     ************************************/
+
     function formatAxes(value, format) {
       let value_format = format;
       let autoSelectFormat = [];
@@ -1381,128 +1318,6 @@ looker.plugins.visualizations.add({
       return final;
     }
 
-    function seriesTypes() {
-      seriesData.forEach((series, index) => {
-        let name = `series_${index}`;
-
-        if (!settings[name]) {
-          changed = true;
-          settings[name] = {
-            label: `Chart type: ${series.name}`,
-            order: index,
-            section: `Type of Chart`,
-            type: `string`,
-            display: `select`,
-            values: [{ Area: "area" }, { Column: "column" }, { Line: "line" }],
-            default: `area`,
-            hidden: false
-          };
-        } else {
-          if (`${series.name} series chart type` != settings[name].label) {
-            settings[name].label = `${series.name} series chart type`;
-            changed = true;
-          }
-
-          let type = `area`;
-          if (config.allArea) {
-            type = `area`;
-          } else if (config.allColumn) {
-            type = `column`;
-          } else if (config.allLine) {
-            type = `line`;
-          } else if (config[name]) {
-            type = config[name];
-          }
-          series.type = type;
-        }
-      });
-
-      // Cleanup extra chart types
-      let seriesAmount = seriesData.length;
-      let checker = true;
-      while (checker) {
-        let name = `series_${seriesAmount}`;
-        if (settings[name]) {
-          changed = true;
-          seriesAmount++;
-
-          delete settings[name];
-        } else {
-          checker = false;
-        }
-      }
-    }
-
-    function hideAxisTab() {
-      if (stacked) {
-        if (settings.showTitle2 || settings.yTitle2 || settings.multipleAxes)
-          changed = true;
-
-        if (settings.showTitle2) delete settings.showTitle2;
-        if (settings.yTitle2) delete settings.yTitle2;
-        if (settings.multipleAxes) delete settings.multipleAxes;
-
-        for (let i = 1; i < this._series; i++) {
-          if (settings[`seriesAxis_${i}`]) {
-            delete settings[`seriesAxis_${i}`];
-            changed = true;
-          }
-        }
-      } else {
-        if (!settings.showTitle2 || !settings.yTitle2 || !settings.multipleAxes)
-          changed = true;
-
-        if (!settings.showTitle2) {
-          settings.showTitle2 = {
-            label: `Show second y axis title`,
-            order: 4.2,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-          };
-        }
-
-        if (!settings.yTitle2) {
-          settings.yTitle2 = {
-            label: `Second y axis label`,
-            order: 1.95,
-            section: `Format`,
-            type: `string`,
-            placeholder: `Enter y axis label`,
-            hidden: false
-          };
-        }
-
-        if (!settings.multipleAxes) {
-          settings.multipleAxes = {
-            label: `Add another axis`,
-            order: 1,
-            section: `Multiple Axes`,
-            type: `boolean`,
-            default: false,
-            hidden: false
-          };
-        }
-
-        seriesData.forEach((row, index) => {
-          if (index != 0) {
-            if (!settings[`seriesAxis_${index}`]) {
-              changed = true;
-              settings[`seriesAxis_${index}`] = {
-                label: `Set ${row.name} on the second axis`,
-                order: 10 + index,
-                section: `Multiple Axes`,
-                type: `boolean`,
-                default: false,
-                hidden: false
-              };
-            }
-          }
-        });
-      }
-    }
-
     function convertDateTime(val) {
       let day = val.substr(0, 4);
       let month = val.substr(5, 2);
@@ -1543,3 +1358,183 @@ looker.plugins.visualizations.add({
     doneRendering();
   }
 });
+
+// Deprecated data
+
+/*
+    Y axis drilldown menu (data for each series)
+    let circleValues = [];
+    let circleLinks = [];
+    let holder;
+    for(let i = 0; i < xaxis.length; i++) {
+        let seriesLinks = [];
+        seriesData.forEach(series => seriesLinks.push({name: series.name, data: series.data[i], links: series.links[i], axis: xaxis[i]}));
+        circleLinks.push(seriesLinks);
+
+        seriesData.forEach((series, index) => {
+            holder = document.getElementsByClassName(`apexcharts-series ${series.className}`);
+            if (holder == undefined) {
+                let newNamingConvention = series.name.replace(/ /g, `x`);
+                newNamingConvention.replace(/-/g, `x`);
+                holder = document.getElementsByClassName(`apexcharts-series ${newNamingConvention}`);
+            }
+            let data = {
+                pivot: series.name,
+                column: index,
+                xaxis: circleLinks[i][index].name,
+                data: circleLinks[i][index].data,
+                links: circleLinks[i][index].links,
+                id: `_${holder[0].id}`,
+                originalId: holder[0].id,
+                element: holder
+            };
+            circleValues.push(data);
+        });
+    }
+    console.log(`These are the circle values`, circleValues);
+
+    Y axis Grid Series Container data (each series)
+
+    let graph = document.getElementsByClassName(`apexcharts-area-series apexcharts-plot-series`);
+    let graphdata = graph[0].getBoundingClientRect();
+
+    let foreignObject = d3.select(`foreignObject`).attr(`class`, `foreignObject`);
+    let fodata = foreignObject[`_groups`][0][0].getBoundingClientRect();
+
+    let gridpoints = document.getElementsByClassName(`apexcharts-xaxis-tick`);
+    let gridpointA = gridpoints[0].getBoundingClientRect();
+    let gridpointB = gridpoints[1].getBoundingClientRect();
+    let gridSpacing = gridpointB.x - gridpointA.x;
+
+    let seriesContainers = [];
+    let cspacing = gridpointA.left - (gridSpacing / 2);
+
+    xaxis.forEach((axis, index) => {
+        if (index != 0) cspacing += gridSpacing;
+        let seriesValues = [];
+        for(let i = 0; i < seriesData.length; i++) seriesValues.push(circleValues[i + (index * seriesData.length)]);
+        let obj = {
+            index: index,
+            name: axis,
+            coordinates: {
+                x: gridpointA.x,
+                y: gridpointA.y,
+                top: fodata.top,
+                left: gridpointA.left,
+                bottom: gridpointA.bottom,
+                right: gridpointA.right,
+                width: foreignObject[`_groups`][0][0].attributes.width.value,
+                // height: foreignObject[`_groups`][0][0].attributes.height.value - ps.height,
+                height: graphdata.top,
+                gridSpacing: gridpointB.x - gridpointA.x,
+                spacing: cspacing
+            },
+            seriesData: seriesValues
+        };
+        seriesContainers.push(obj);
+    });
+    // console.log(`Here's the series container data`, seriesContainers);
+
+    let individualSeries = {};
+    let seriesContainer = d3.select(`.container`)
+        .append(`div`).attr(`class`, `measureSeries`)
+            .selectAll(`.series`).data(seriesContainers);
+    let enterSeries = seriesContainer.enter().append(`div`);
+    seriesContainer.merge(enterSeries)
+        .attr(`id`, d => d.index)
+        .attr(`class`, `series`)
+        .style(`width`, `1px`)
+        .style(`height`, d => `${d.coordinates.height}px`)
+        .style(`z-index`, `21`)
+        .style(`position`, `absolute`)
+        .style(`left`, d => `${d.coordinates.spacing - .5}px`)
+        .style(`top`, d => `${d.coordinates.top}px`)
+        .style(`opacity`, `0`)
+        .on(`mouseover`, d => createSeries(d));
+
+    function createSeries(d) {
+        // d3.event.stopPropagation();
+        d3.select(`.container`).selectAll(`.measures`).remove();
+        // d3.select(`.container`).selectAll(`.xaxis`).remove();
+
+        d.seriesData.forEach(row => {
+            let name = row.pivot.replace(/ /g, `-`);
+            let holder = document.getElementsByClassName(`apexcharts-series ${name}`);
+            row.coordinates = holder[0].children[holder[0].children.length - 2].children[0].children[0].getBoundingClientRect();
+        });
+
+        createSeriesDrills(d);
+        // createXAxis(d);
+    }
+
+    function createSeriesDrills(series) {
+        individualSeries[series.index] = series.seriesData;
+        // d3.event.stopPropagation();
+        let seriesSection = d3.select(`.container`)
+            .append(`div`).attr(`class`, `measures`)
+                .selectAll(`.measure`).data(individualSeries[series.index]);
+        let singleSeries = seriesSection.enter().append(`div`);
+        seriesSection.merge(singleSeries)
+            .attr(`class`, `measure`)
+            .style(`width`, data => `${data.coordinates.width -2}px`)
+            .style(`height`, data => `${data.coordinates.height -2}px`)
+            .style(`z-index`, `22`)
+            .style(`position`, `absolute`)
+            .style(`left`, data => `${data.coordinates.left - 3}px`)
+            .style(`top`, data => `${data.coordinates.top}px`)
+            .style(`opacity`, `0`)
+            .style(`background-color`, d => djColors[d.column])
+            .style(`border`, `2px solid white`)
+            .style(`border-radius`, `50%`)
+            .on('click', d => drillDown(d.links, d3.event))
+            .on(`mouseover`, function(d) {
+              d3.select(this).style(`opacity`, `1`);
+            })
+            .on(`mouseout`, function(d) {
+              d3.select(this).style(`opacity`, `0`);
+            });
+    }
+
+    function createXAxis(series) {
+        let tooltip = document.getElementsByClassName(`apexcharts-xaxistooltip-text`);
+        let tooltipCoords = tooltip[0].getBoundingClientRect();
+        console.log(`This is the series`, series);
+
+        let object = [
+            {
+                name: series.name.name,
+                id: `_${tooltip[0].id}`,
+                originalId: tooltip[0].id,
+                coordinates: {
+                    width: tooltipCoords.width,
+                    height: tooltipCoords.height,
+                    top: tooltipCoords.top,
+                    left: tooltipCoords.left,
+                    bottom: tooltipCoords.bottom,
+                    right: tooltipCoords.right,
+                    x: tooltipCoords.x,
+                    y: tooltipCoords.y
+                },
+                links: series.name.links,
+                element: tooltip
+            }
+        ];
+
+        let xaxisSeries = d3.select(`.container`)
+            .append(`div`).attr(`class`, `xaxis`)
+                .selectAll(`.drilldown`).data(object);
+        let xaxisDrilldown = xaxisSeries.enter().append(`div`);
+        xaxisSeries.merge(xaxisDrilldown)
+            .attr(`class`, `drilldown`)
+            .attr(`id`, d => d.id)
+            .style(`width`, d => `${d.coordinates.width}px`)
+            .style(`height`, d => `${d.coordinates.height}px`)
+            .style(`z-index`, `22`)
+            .style(`position`, `absolute`)
+            .style(`left`, d => `${d.coordinates.left}px`)
+            .style(`top`, d => `${d.coordinates.top}px`)
+            .style(`opacity`, `1`)
+            .style(`border`, `1px dashed black`)
+            .on('click', d => drillDown(d.links, d3.event));
+    }
+    */
