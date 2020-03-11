@@ -908,15 +908,14 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      console.log(
-        `This is thisSeries: ${thisSeries}, and this is seriesData.length: ${seriesData.length}`
-      );
-      if (seriesData.length != thisSeries) {
-        for (let i = 0; i < thisSeries; i++)
-          if (this.options[`seriesAxis_${index}`])
-            delete this.options[`seriesAxis_${index}`];
+      if (stacked) {
+        if (seriesData.length != thisSeries) {
+          for (let i = 0; i < thisSeries; i++)
+            if (this.options[`seriesAxis_${index}`])
+              delete this.options[`seriesAxis_${index}`];
+        }
+        thisSeries = seriesData.length;
       }
-      thisSeries = seriesData.length;
 
       if (multipleAxes && !stacked) {
         // Clear the yaxis and create the config settings for the chart
@@ -987,6 +986,7 @@ looker.plugins.visualizations.add({
             if (showTitle2) obj[`title`] = { text: title };
           }
 
+          console.log(`This is one axis`, obj);
           configuration.yaxis.push(obj);
         });
       } else {
