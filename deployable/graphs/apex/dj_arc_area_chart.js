@@ -911,6 +911,9 @@ looker.plugins.visualizations.add({
       if (multipleAxes && !stacked) {
         // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
+        console.log(
+          `This is thisSeries: ${thisSeries}, and this is seriesData.length: ${seriesData.length}`
+        );
         if (seriesData.length != thisSeries) {
           for (let i = 0; i < thisSeries; i++)
             delete this.options[`seriesAxis_${index}`];
@@ -1040,9 +1043,6 @@ looker.plugins.visualizations.add({
         if (settings.yTitle2) delete settings.yTitle2;
         if (settings.multipleAxes) delete settings.multipleAxes;
 
-        console.log(
-          `This is the current this._series length: ${this._series}, and this is thisSeries: ${thisSeries} `
-        );
         for (let i = 1; i < thisSeries; i++) {
           if (settings[`seriesAxis_${i}`]) {
             delete settings[`seriesAxis_${i}`];
