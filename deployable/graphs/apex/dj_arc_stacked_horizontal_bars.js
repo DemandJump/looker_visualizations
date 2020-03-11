@@ -277,11 +277,6 @@ looker.plugins.visualizations.add({
       `rgba(255, 176, 176, 0.45)`,
       `rgba(147, 22, 85, 0.45)`
     ];
-    console.log(`\n\n\n\n\nThese are the settings`, this.options);
-    console.log(`This is the config`, config);
-    console.log(`Queryresponse`, queryResponse);
-    console.log(`the data`, datum);
-
     let datum = data;
     let settings = this.options;
     let theme = `Horizontal`;
