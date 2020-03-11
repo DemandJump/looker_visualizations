@@ -892,6 +892,7 @@ looker.plugins.visualizations.add({
         if (multiAxisGlobalVar != false) {
           settings.showTitle2.hidden = true;
           settings.yTitle2.hidden = true;
+          settings.multipleAxes.hidden = true;
           multiAxisGlobalVar = false;
           changed = true;
 
@@ -903,98 +904,13 @@ looker.plugins.visualizations.add({
         if (multiAxisGlobalVar != true) {
           settings.showTitle2.hidden = false;
           settings.yTitle2.hidden = false;
+          settings.multipleAxes.hidden = false;
           multiAxisGlobalVar = true;
           changed = true;
 
           seriesData.forEach((series, i) => {
             if (settings[`series_${i}`]) settings[`series_${i}`].hidden = false;
           });
-        }
-      }
-    }
-
-    function multiAxisConfigDisplayy() {
-      if (config.multipleAxes) {
-        if (horizontal) multipleAxes = false;
-
-        if (config.multipleAxes == true) {
-          if (multiAxisGlobalVar != true) {
-            settings.showTitle2.hidden = false;
-            settings.yTitle2.hidden = false;
-            multiAxisGlobalVar = true;
-            changed = true;
-
-            for (let i = 1; i < thisSeries; i++) {
-              if (settings[`series_${i}`])
-                settings[`series_${i}`].hidden = true;
-            }
-          }
-        }
-      } else {
-        if (multiAxisGlobalVar != false) {
-          settings.showTitle2.hidden = true;
-          settings.yTitle2.hidden = true;
-          multiAxisGlobalVar = false;
-          changed = true;
-
-          for (let i = 1; i < thisSeries; i++) {
-            if (settings[`series_${i}`]) settings[`series_${i}`].hidden = true;
-          }
-        }
-      }
-
-      // Handles the multiple axis display based on whether it's horizontal or not
-      if (!stack) {
-        if (horizontal) {
-          if (multiAxisGlobalVar != false) {
-            settings.showTitle2.hidden = true;
-            settings.yTitle2.hidden = true;
-            settings.multipleAxes.hidden = true;
-            multiAxisGlobalVar = false;
-            changed = true;
-
-            for (let i = 0; i < thisSeries; i++) {
-              if (settings[`series_${i}`])
-                settings[`series_${i}`].hidden = true;
-            }
-          }
-        } else {
-          if (!settings.multipleAxes) {
-            changed = true;
-            settings[`multipleAxes`] = {
-              label: `Add another axis`,
-              order: 1,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-
-          if (settings.multipleAxes.hidden == true) {
-            changed = true;
-            settings.multipleAxes.hidden = false;
-
-            if (config.multipleAxes) {
-              if (multiAxisGlobalVar != true) {
-                settings.showTitle2.hidden = false;
-                settings.yTitle2.hidden = false;
-                multiAxisGlobalVar = true;
-                for (let i = 0; i < thisSeries; i++) {
-                  settings[`series_${i}`].hidden = false;
-                }
-              }
-            } else {
-              if (multiAxisGlobalVar != false) {
-                settings.showTitle2.hidden = true;
-                settings.yTitle2.hidden = true;
-                multiAxisGlobalVar = false;
-                for (let i = 0; i < thisSeries; i++) {
-                  settings[`series_${i}`].hidden = true;
-                }
-              }
-            }
-          }
         }
       }
     }
