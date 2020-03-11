@@ -388,6 +388,10 @@ looker.plugins.visualizations.add({
     if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
     if (showActualTitle) stackLayout[`title`] = { text: title };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
+
+    console.log(
+      `This is config stack type: ${config.stackType}, and this is stack: ${stack}, and this is the theme: ${theme}`
+    );
     if (config.stackType && stack && theme == `custom`) {
       stackLayout.chart.stackType = `100%`;
     }
