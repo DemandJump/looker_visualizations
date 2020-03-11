@@ -895,26 +895,69 @@ looker.plugins.visualizations.add({
     function multiAxisConfigDisplay() {
       if (horizontal || stack) {
         if (multiAxisGlobalVar != false) {
-          settings.showTitle2.hidden = true;
-          settings.yTitle2.hidden = true;
-          settings.multipleAxes.hidden = true;
+          delete settings.showTitle2;
+          delete settings.yTitle2;
+          delete settings.multipleAxes;
+          seriesData.forEach((series, i) => {
+            if (settings[`series_${i}`]) delete settings[`series_${i}`];
+          });
           multiAxisGlobalVar = false;
           changed = true;
-
-          seriesData.forEach((series, i) => {
-            if (settings[`series_${i}`]) settings[`series_${i}`].hidden = true;
-          });
         }
       } else {
         if (multiAxisGlobalVar != true) {
-          settings.showTitle2.hidden = false;
-          settings.yTitle2.hidden = false;
-          settings.multipleAxes.hidden = false;
           multiAxisGlobalVar = true;
-          changed = true;
 
-          seriesData.forEach((series, i) => {
-            if (settings[`series_${i}`]) settings[`series_${i}`].hidden = false;
+          if (!settings.showTitle2) {
+            changed = true;
+            settings[`showTitle2`] = {
+              label: `Show second y axis label`,
+              order: 3.11,
+              section: `Format`,
+              type: `boolean`,
+              default: true,
+              hidden: false
+            };
+          }
+
+          if (!settings.yTitle2) {
+            changed = true;
+            settings[`yTitle2`] = {
+              label: `Second y axis label`,
+              order: 3.1,
+              section: `Format`,
+              type: `string`,
+              placeholder: `Enter y axis label`,
+              hidden: false
+            };
+          }
+
+          if (!settings.multipleAxes) {
+            changed = true;
+            settings[`multipleAxes`] = {
+              label: `Add another axis`,
+              order: 1,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+
+          seriesData.forEach((row, index) => {
+            if (index != 0) {
+              if (!settings[`series_${index}`]) {
+                changed = true;
+                settings[`series_${index}`] = {
+                  label: `Set ${row.name} on the second axis`,
+                  order: 10 + index,
+                  section: `Multiple Axes`,
+                  type: `boolean`,
+                  default: false,
+                  hidden: false
+                };
+              }
+            }
           });
         }
       }
