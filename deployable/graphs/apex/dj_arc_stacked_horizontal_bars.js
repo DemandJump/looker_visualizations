@@ -310,6 +310,8 @@ looker.plugins.visualizations.add({
     let alignLegend = `center`;
     let multipleAxes = false;
 
+    let customGlobal = this._custom;
+    let stackGlobal = this._stack;
     initialConfiguration();
 
     // Grab chart data
@@ -400,9 +402,12 @@ looker.plugins.visualizations.add({
      **********************************************/
     multiAxisConfigDisplay();
 
+    // Save all the global variables
     this._multipleAxes = multiAxisGlobalVar;
     this._series = thisSeries;
     this.options = settings;
+    this._custom = customGlobal;
+    this._stack = this._stack;
     this._iteration++;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -543,18 +548,17 @@ looker.plugins.visualizations.add({
         theme == `Horizontal Stack` ||
         theme == `Vertical Stack`
       ) {
-        if (this._custom != `horizontalOrVertical`) {
-          this._custom = `horizontalOrVertical`;
-          this.options.customSpacing.hidden = true;
-          this.options.customLabel.hidden = true;
-          this.options.dataLabels.hidden = true;
-          this.options.horizontal.hidden = true;
-          this.options.endingShape.hidden = true;
-          this.options.stack.hidden = true;
-          this.options.stackType.hidden = true;
-          this.options.alignLegend.hidden = true;
-          if (this.options.multipleAxes)
-            this.options.multipleAxes.hidden = true;
+        if (customGlobal != `horizontalOrVertical`) {
+          customGlobal = `horizontalOrVertical`;
+          settings.customSpacing.hidden = true;
+          settings.customLabel.hidden = true;
+          settings.dataLabels.hidden = true;
+          settings.horizontal.hidden = true;
+          settings.endingShape.hidden = true;
+          settings.stack.hidden = true;
+          settings.stackType.hidden = true;
+          settings.alignLegend.hidden = true;
+          if (settings.multipleAxes) settings.multipleAxes.hidden = true;
           changed = true;
         }
 
@@ -568,31 +572,30 @@ looker.plugins.visualizations.add({
       }
 
       if (theme == `Custom`) {
-        if (this._custom != `Custom`) {
-          this._custom = `Custom`;
-          this.options.customSpacing.hidden = false;
-          this.options.customLabel.hidden = false;
-          this.options.dataLabels.hidden = false;
-          this.options.horizontal.hidden = false;
-          this.options.endingShape.hidden = false;
-          this.options.stack.hidden = false;
-          this.options.alignLegend.hidden = false;
-          if (this.options.multipleAxes)
-            this.options.multipleAxes.hidden = false;
+        if (customGlobal != `Custom`) {
+          customGlobal = `Custom`;
+          settings.customSpacing.hidden = false;
+          settings.customLabel.hidden = false;
+          settings.dataLabels.hidden = false;
+          settings.horizontal.hidden = false;
+          settings.endingShape.hidden = false;
+          settings.stack.hidden = false;
+          settings.alignLegend.hidden = false;
+          if (settings.multipleAxes) settings.multipleAxes.hidden = false;
           changed = true;
         }
 
         if (config.stack) {
-          if (this._stack != `true`) {
-            this._stack = `true`;
+          if (stackGlobal != `true`) {
+            stackGlobal = `true`;
             changed = true;
-            this.options.stackType.hidden = false;
+            settings.stackType.hidden = false;
           }
         } else {
-          if (this._stack != `false`) {
-            this._stack = `false`;
+          if (stackGlobal != `false`) {
+            stackGlobal = `false`;
             changed = true;
-            this.options.stackType.hidden = true;
+            settings.stackType.hidden = true;
           }
         }
 
