@@ -375,6 +375,7 @@ looker.plugins.visualizations.add({
 
     if (showTitle) stackLayout.yaxis.title = { text: yTitle };
     if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
+    if (showActualTitle) stackLayout[`title`] = { text: title };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
     if (config.stackType && theme == `custom`)
       stackLayout.chart.stackType = `100%`;
@@ -966,124 +967,82 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      // Erase the different series placement based on the layout
-      if (horizontal || stack || !multipleAxes) {
-        // seriesData.forEach((row, index) => {
-        //   if (settings[`series_${index}`]) {
-        //     changed = true;
-        //     delete settings[`series_${index}`];
-        //   }
-        // });
+      if (seriesData.length != thisSeries) {
+        for (let i = 0; i < thisSeries; i++) delete settings[`series_${index}`];
       }
+      thisSeries = seriesData.length;
 
-      // Iterate through the series and create multiple axes
-      if (stack || horizontal) {
-        // if (settings[`multipleAxes`]) {
-        //   changed = true;
-        //   delete settings[`multipleAxes`];
-        // }
-        // for (let i = 0; i < thisSeries; i++) {
-        //   if (settings[`series_${i}`]) {
-        //     changed = true;
-        //     delete settings[`series_${i}`];
-        //   }
-        // }
-      } else {
-        // if (!settings[`multipleAxes`]) {
-        //   changed = true;
-        //   settings[`multipleAxes`] = {
-        //     label: `Add another axis`,
-        //     order: 1,
-        //     section: `Multiple Axes`,
-        //     type: `boolean`,
-        //     default: false,
-        //     hidden: false
-        //   };
-        }
+      if (multipleAxes) {
+        stackLayout.yaxis = [];
 
-        /******************************************************
-         * Create the config settings for the chart
-         ******************************************************/
-        if (seriesData.length != thisSeries) {
-          for (let i = 0; i < thisSeries; i++)
-            delete settings[`series_${index}`];
-        }
-        thisSeries = seriesData.length;
+        seriesData.forEach((row, index) => {
+          if (index != 0) {
+            if (!settings[`series_${index}`]) {
+              changed = true;
+              settings[`series_${index}`] = {
+                label: `Set ${row.name} on the second axis`,
+                order: 10 + index,
+                section: `Multiple Axes`,
+                type: `boolean`,
+                default: false,
+                hidden: false
+              };
+            }
+          }
+        });
 
-        if (multipleAxes) {
-          stackLayout.yaxis = [];
+        // Apply the config settings to the chart
+        let nameA = seriesData[0].name;
+        let nameB = seriesData[1].name;
+        let passShow = false;
+        seriesData.forEach((row, index) => {
+          let title = row.name;
+          let seriesName = nameA;
+          let axisOrientation = false;
+          let show = true;
 
-          seriesData.forEach((row, index) => {
-            if (index != 0) {
-              if (!settings[`series_${index}`]) {
-                changed = true;
-                settings[`series_${index}`] = {
-                  label: `Set ${row.name} on the second axis`,
-                  order: 10 + index,
-                  section: `Multiple Axes`,
-                  type: `boolean`,
-                  default: false,
-                  hidden: false
-                };
+          if (config[`series_${index}`] == true) {
+            seriesName = nameB;
+            axisOrientation = true;
+            if (config.yTitle2 != ``) title = yTitle2;
+          } else {
+            seriesName = nameA;
+            axisOrientation = false;
+            if (config.yTitle != ``) title = yTitle;
+          }
+
+          // Configuration to show the axes
+          if (index == 0) show = true;
+          if (config[`seriesAxis_${index}`] && passShow == false) {
+            passShow = true;
+            show = true;
+          }
+
+          let obj = {
+            seriesName: seriesName,
+            opposite: axisOrientation,
+            show: show,
+            name: row.name,
+            labels: {
+              formatter: function(val) {
+                if (typeof val == `number` && !horizontal)
+                  return formatAxes(val, row.value_format);
+                else return val;
               }
             }
-          });
+          };
 
-          // Apply the config settings to the chart
-          let nameA = seriesData[0].name;
-          let nameB = seriesData[1].name;
-          let passShow = false;
-          seriesData.forEach((row, index) => {
-            let title = row.name;
-            let seriesName = nameA;
-            let axisOrientation = false;
-            let show = true;
+          //   Axis based label
+          if (seriesName == nameA) {
+            if (showTitle) obj[`title`] = { text: title };
+          }
+          if (seriesName == nameB) {
+            if (showTitle2) obj[`title`] = { text: title };
+          }
 
-            if (config[`series_${index}`] == true) {
-              seriesName = nameB;
-              axisOrientation = true;
-              if (config.yTitle2 != ``) title = yTitle2;
-            } else {
-              seriesName = nameA;
-              axisOrientation = false;
-              if (config.yTitle != ``) title = yTitle;
-            }
-
-            // Configuration to show the axes
-            if (index == 0) show = true;
-            if (config[`seriesAxis_${index}`] && passShow == false) {
-              passShow = true;
-              show = true;
-            }
-
-            let obj = {
-              seriesName: seriesName,
-              opposite: axisOrientation,
-              show: show,
-              name: row.name,
-              labels: {
-                formatter: function(val) {
-                  if (typeof val == `number` && !horizontal)
-                    return formatAxes(val, row.value_format);
-                  else return val;
-                }
-              }
-            };
-
-            //   Axis based label
-            if (seriesName == nameA) {
-              if (showTitle) obj[`title`] = { text: title };
-            }
-            if (seriesName == nameB) {
-              if (showTitle2) obj[`title`] = { text: title };
-            }
-
-            console.log(`iteration: ${index} object`, obj);
-            stackLayout.yaxis.push(obj);
-          });
-        } else {
-          if (showActualTitle) stackLayout[`title`] = { text: title };
-        }
+          console.log(`iteration: ${index} object`, obj);
+          stackLayout.yaxis.push(obj);
+        });
       }
     }
 
