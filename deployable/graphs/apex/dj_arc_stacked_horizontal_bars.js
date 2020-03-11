@@ -402,6 +402,7 @@ looker.plugins.visualizations.add({
 
     this._multipleAxes = multiAxisGlobalVar;
     this._series = thisSeries;
+    this.options = settings;
     this._iteration++;
     if (changed) this.trigger(`registerOptions`, this.options);
 
