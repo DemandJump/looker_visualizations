@@ -204,15 +204,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    doNotTruncate: {
-      label: `Don't Truncate data`,
-      order: 13,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
     allArea: {
       label: `All area chart types`,
       order: 40,
@@ -287,6 +278,9 @@ looker.plugins.visualizations.add({
     details,
     doneRendering
   ) {
+    /*********************************************
+     * Initialization and Configuration
+     *********************************************/
     d3.select("#chart-apex-area")
       .selectAll("*")
       .remove(); // Clear out the data before we add the vis
@@ -355,12 +349,7 @@ looker.plugins.visualizations.add({
       `rgba(147, 22, 85, 0.45)`
     ];
     let datum = data;
-    console.log(`\n\n\n\nThese are the settings`, this.options);
-    console.log(`This is the config`, config);
-    console.log(`Queryresponse`, queryResponse);
-    console.log(`The data`, data);
-
-    // Configuration Settings
+    let settings = this.options;
     let theme = `area`;
     if (config.themes) theme = config.themes;
     let changed = false;
@@ -391,9 +380,6 @@ looker.plugins.visualizations.add({
     let fill = `gradient`;
     let height = window.innerHeight - 45;
     let multipleAxes = false;
-
-    if (config.label) label = config.label;
-    if (config.title) if (config.title != ``) title = config.title;
 
     if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
       if (this._custom != `classic`) {
@@ -439,6 +425,7 @@ looker.plugins.visualizations.add({
       if (stack == `stack`) stacked = true;
     }
 
+    if (config.label) label = config.label;
     if (config.title != ``) title = config.title;
     if (config.yTitle != ``) yTitle = config.yTitle;
     if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
@@ -757,7 +744,15 @@ looker.plugins.visualizations.add({
       seriesData: seriesData,
       valueFormat: valueFormat,
       chartConfiguration: configuration,
-      drillDownNodes: nodes
+      drillDownNodes: nodes,
+      updateAsync: {
+        queryResponse: queryResponse,
+        data: datum,
+        config: config,
+        settings: this.options,
+        details: details,
+        element: element
+      }
     };
     console.log(`Series Information`, seriesInformation);
 
