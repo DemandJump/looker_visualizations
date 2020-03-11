@@ -388,8 +388,9 @@ looker.plugins.visualizations.add({
     if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
     if (showActualTitle) stackLayout[`title`] = { text: title };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
-    if (config.stackType && theme == `custom`)
+    if (config.stackType && theme == `custom`) {
       stackLayout.chart.stackType = `100%`;
+    }
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
 
     // Build multiple axis and some display configuration
