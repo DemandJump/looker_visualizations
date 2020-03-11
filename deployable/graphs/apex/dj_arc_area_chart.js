@@ -444,9 +444,11 @@ looker.plugins.visualizations.add({
       }
     };
 
+    if (showActualTitle) configuration[`title`] = { text: title };
     if (showTitle) configuration.yaxis.title = { text: yTitle };
     if (showTitle3) configuration.xaxis.title = { text: xTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
+
     let thisSeries = this._series;
     buildMultipleAxes();
     this._series = thisSeries;
@@ -989,13 +991,6 @@ looker.plugins.visualizations.add({
 
           configuration.yaxis.push(obj);
         });
-      } else {
-        if (showActualTitle == true) {
-          configuration[`title`] = {
-            text: title,
-            align: `left`
-          };
-        }
       }
     }
 
