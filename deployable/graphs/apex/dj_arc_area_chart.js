@@ -400,9 +400,7 @@ looker.plugins.visualizations.add({
         height: height,
         type: `area`,
         stacked: stacked,
-        zoom: {
-          enabled: true
-        }
+        zoom: { enabled: true }
       },
       series: seriesData,
       labels: axisData,
@@ -415,12 +413,8 @@ looker.plugins.visualizations.add({
           colors: ["#fff"]
         }
       },
-      stroke: {
-        curve: curve // straight, smooth, stepline
-      },
-      fill: {
-        type: fill
-      },
+      stroke: { curve: curve },
+      fill: { type: fill },
       subtitle: {
         text: label,
         align: `left`
@@ -453,88 +447,22 @@ looker.plugins.visualizations.add({
     if (showTitle) configuration.yaxis.title = { text: yTitle };
     if (showTitle3) configuration.xaxis.title = { text: xTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
+    let thisSeries = this._series;
+    buildMultipleAxes();
+    this._series = thisSeries;
 
-    // Mulltiple axis display and chart configuration
-    if (multipleAxes && !stacked) {
-      configuration.yaxis = [];
-
-      // Create the config settings for the chart
-      let thisSeries = this._series;
-      createSeriesAxes();
-      this._series = thisSeries;
-
-      // Apply the config settings to the chart
-      let nameA = seriesData[0].name;
-      let nameB = seriesData[1].name;
-      let passShow = false;
-      seriesData.forEach((row, index) => {
-        let title = row.name;
-        let seriesName = nameA;
-        let axisOrientation = false;
-        let show = false;
-
-        if (config[`seriesAxis_${index}`] == true) {
-          seriesName = nameB;
-          axisOrientation = true;
-          if (config.yTitle2 != ``) title = yTitle2;
-        } else {
-          seriesName = nameA;
-          axisOrientation = false;
-          if (config.yTitle != ``) title = yTitle;
-        }
-
-        // Configuration to show the axes
-        if (index == 0) show = true;
-        if (config[`seriesAxis_${index}`] && passShow == false) {
-          passShow = true;
-          show = true;
-        }
-
-        let obj = {
-          seriesName: seriesName,
-          opposite: axisOrientation,
-          show: show,
-          name: row.name,
-          labels: {
-            formatter: function(val) {
-              if (typeof val == `number`)
-                return formatAxes(val, row.value_format);
-              else return val;
-            }
-          }
-        };
-
-        //   Axis based label
-        if (seriesName == nameA) {
-          if (showTitle) obj[`title`] = { text: title };
-        }
-        if (seriesName == nameB) {
-          if (showTitle2) obj[`title`] = { text: title };
-        }
-
-        configuration.yaxis.push(obj);
-      });
-    } else {
-      if (showActualTitle == true) {
-        configuration[`title`] = {
-          text: title,
-          align: `left`
-        };
-      }
-    }
-
-    /*****************
+    /******************
      * Config Display
-     *****************/
+     ******************/
     this._iteration++;
     multiAxes();
     hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
-    /***********************
-     * Apex Charts
-     ***********************/
+    /**********************************************
+     * Apex Chart Initialization
+     **********************************************/
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let chart = new ApexCharts(
       document.querySelector(`#chart-apex-area`),
@@ -660,8 +588,9 @@ looker.plugins.visualizations.add({
     }
 
     /**********************************
-     * Chart and Data  Functions
+     * Chart and Data Functions
      **********************************/
+
     function initialConfiguration() {
       if (config.themes) theme = config.themes;
 
@@ -976,6 +905,73 @@ looker.plugins.visualizations.add({
       queryResponse.fields.measure_like.forEach(mes =>
         valueFormat.push(mes.value_format)
       );
+    }
+
+    function buildMultipleAxes() {
+      if (multipleAxes && !stacked) {
+        // Clear the yaxis and create the config settings for the chart
+        configuration.yaxis = [];
+        createSeriesAxes();
+
+        // Apply the config settings to the chart
+        let nameA = seriesData[0].name;
+        let nameB = seriesData[1].name;
+        let passShow = false;
+        seriesData.forEach((row, index) => {
+          let title = row.name;
+          let seriesName = nameA;
+          let axisOrientation = false;
+          let show = false;
+
+          if (config[`seriesAxis_${index}`] == true) {
+            seriesName = nameB;
+            axisOrientation = true;
+            if (config.yTitle2 != ``) title = yTitle2;
+          } else {
+            seriesName = nameA;
+            axisOrientation = false;
+            if (config.yTitle != ``) title = yTitle;
+          }
+
+          // Configuration to show the axes
+          if (index == 0) show = true;
+          if (config[`seriesAxis_${index}`] && passShow == false) {
+            passShow = true;
+            show = true;
+          }
+
+          let obj = {
+            seriesName: seriesName,
+            opposite: axisOrientation,
+            show: show,
+            name: row.name,
+            labels: {
+              formatter: function(val) {
+                if (typeof val == `number`)
+                  return formatAxes(val, row.value_format);
+                else return val;
+              }
+            }
+          };
+
+          //   Axis based label
+          if (seriesName == nameA) {
+            if (showTitle) obj[`title`] = { text: title };
+          }
+          if (seriesName == nameB) {
+            if (showTitle2) obj[`title`] = { text: title };
+          }
+
+          configuration.yaxis.push(obj);
+        });
+      } else {
+        if (showActualTitle == true) {
+          configuration[`title`] = {
+            text: title,
+            align: `left`
+          };
+        }
+      }
     }
 
     /*******************************
