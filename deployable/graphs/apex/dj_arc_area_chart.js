@@ -640,6 +640,7 @@ looker.plugins.visualizations.add({
       if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
       if (config.xTitle != ``) xTitle = config.xTitle;
       if (config.sideYaxis) sideYaxis = config.sideYaxis;
+      if (config.multipleAxes) multipleAxes = config.multipleAxes;
       if (config.stack) stack = config.stack;
       if (stack == `overlay`) stacked = false;
       if (stack == `stack`) stacked = true;
@@ -1008,9 +1009,7 @@ looker.plugins.visualizations.add({
 
     function multiAxes() {
       // Multiple axis display configuration
-      if (config.multipleAxes == true) {
-        multipleAxes = config.multipleAxes;
-
+      if (multipleAxes) {
         if (this._multipleAxes != true) {
           if (settings.showTitle2) settings.showTitle2.hidden = false;
           if (settings.yTitle2) settings.yTitle2.hidden = false;
