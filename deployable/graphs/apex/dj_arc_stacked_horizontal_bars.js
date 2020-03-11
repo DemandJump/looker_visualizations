@@ -657,7 +657,7 @@ looker.plugins.visualizations.add({
     // Turning off animations in the initial iterations
     if (this._iteration < 2) {
       console.log(`Running an initial iteration`);
-      configuration[`animations`] = { enabled: false };
+      stackLayout[`animations`] = { enabled: false };
     }
     console.log(`This is the current iteration ${this._iteration}`);
     this._iteration++;
