@@ -1086,14 +1086,11 @@ looker.plugins.visualizations.add({
     }
 
     function createSeriesAxes() {
-      console.log(
-        `This is thisSeries: ${thisSeries}, and this is the current seriesData length: ${seriesData.length}`
-      );
       if (seriesData.length != thisSeries) {
         for (let i = 0; i < thisSeries; i++)
           delete this.options[`seriesAxis_${index}`];
-        thisSeries = seriesData.length;
       }
+      thisSeries = seriesData.length;
 
       seriesData.forEach((row, index) => {
         if (index != 0) {
