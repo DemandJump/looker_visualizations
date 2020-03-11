@@ -1020,7 +1020,10 @@ looker.plugins.visualizations.add({
         if (settings.yTitle2) delete settings.yTitle2;
         if (settings.multipleAxes) delete settings.multipleAxes;
 
-        for (let i = 1; i < this._series; i++) {
+        console.log(
+          `This is the current this._series length: ${this._series}, and this is thisSeries: ${thisSeries} `
+        );
+        for (let i = 1; i < thisSeries; i++) {
           if (settings[`seriesAxis_${i}`]) {
             delete settings[`seriesAxis_${i}`];
             changed = true;
