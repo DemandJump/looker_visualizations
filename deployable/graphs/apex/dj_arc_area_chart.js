@@ -1090,6 +1090,9 @@ looker.plugins.visualizations.add({
         for (let i = 0; i < thisSeries; i++)
           delete this.options[`seriesAxis_${index}`];
         thisSeries = seriesData.length;
+        console.log(
+          `This is thisSeries: ${thisSeries}, and this is the current seriesData length: ${seriesData.length}`
+        );
       }
 
       seriesData.forEach((row, index) => {
