@@ -284,6 +284,7 @@ looker.plugins.visualizations.add({
     d3.select("#chart-apex-area")
       .selectAll("*")
       .remove(); // Clear out the data before we add the vis
+
     let djColors = [
       `#009DE9`,
       `#3EC173`,
@@ -381,56 +382,57 @@ looker.plugins.visualizations.add({
     let height = window.innerHeight - 45;
     let multipleAxes = false;
 
-    if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
-      if (this._custom != `classic`) {
-        this._custom = `classic`;
-        this.options.customSpacing.hidden = true;
-        this.options.customLabel.hidden = true;
-        this.options.curve.hidden = true;
-        // this.options.dataLabels.hidden = true;
-        this.options.alignLegend.hidden = true;
-        this.options.doNotTruncate.hidden = true;
-        this.options.fill.hidden = true;
-        changed = true;
+    selectTheme();
+
+    function selectTheme() {
+      if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
+        if (this._custom != `classic`) {
+          this._custom = `classic`;
+          settings.customSpacing.hidden = true;
+          settings.customLabel.hidden = true;
+          settings.curve.hidden = true;
+          // settings.dataLabels.hidden = true;
+          settings.alignLegend.hidden = true;
+          settings.doNotTruncate.hidden = true;
+          settings.fill.hidden = true;
+          changed = true;
+        }
+
+        if (theme == `classic`) curve = `straight`;
+        if (theme == `smooth`) curve = `smooth`;
+        if (theme == `stepline`) curve = `stepline`;
       }
 
-      if (theme == `classic`) curve = `straight`;
-      if (theme == `smooth`) curve = `smooth`;
-      if (theme == `stepline`) curve = `stepline`;
-    }
+      if (theme == `custom`) {
+        if (this._custom != `custom`) {
+          this._custom = `custom`;
+          settings.customSpacing.hidden = false;
+          settings.customLabel.hidden = false;
+          settings.curve.hidden = false;
+          // settings.dataLabels.hidden = false;
+          settings.alignLegend.hidden = false;
+          settings.doNotTruncate.hidden = false;
+          settings.fill.hidden = false;
+          changed = true;
+        }
 
-    if (theme == `custom`) {
-      if (this._custom != `custom`) {
-        this._custom = `custom`;
-        this.options.customSpacing.hidden = false;
-        this.options.customLabel.hidden = false;
-        this.options.curve.hidden = false;
-        // this.options.dataLabels.hidden = false;
-        this.options.alignLegend.hidden = false;
-        this.options.doNotTruncate.hidden = false;
-        this.options.fill.hidden = false;
-        changed = true;
+        if (config.curve) curve = config.curve;
+        if (config.alignLegend) alignLegend = config.alignLegend;
+        if (config.formatDates) formatDates = config.formatDates;
+        if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
+        if (config.fill) fill = config.fill;
       }
 
-      if (config.curve) curve = config.curve;
-      if (config.alignLegend) alignLegend = config.alignLegend;
-      if (config.formatDates) formatDates = config.formatDates;
-      if (config.doNotTruncate) doNotTruncate = config.doNotTruncate;
-      if (config.fill) fill = config.fill;
-    }
-
-    if (config.stack) {
-      stack = config.stack;
+      if (config.label) label = config.label;
+      if (config.title != ``) title = config.title;
+      if (config.yTitle != ``) yTitle = config.yTitle;
+      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
+      if (config.xTitle != ``) xTitle = config.xTitle;
+      if (config.sideYaxis) sideYaxis = config.sideYaxis;
+      if (config.stack) stack = config.stack;
       if (stack == `overlay`) stacked = false;
       if (stack == `stack`) stacked = true;
     }
-
-    if (config.label) label = config.label;
-    if (config.title != ``) title = config.title;
-    if (config.yTitle != ``) yTitle = config.yTitle;
-    if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
-    if (config.xTitle != ``) xTitle = config.xTitle;
-    if (config.sideYaxis) sideYaxis = config.sideYaxis;
 
     // Multiple axis display configuration
     if (config.multipleAxes == true) {
@@ -475,7 +477,7 @@ looker.plugins.visualizations.add({
     pivotCheck();
     formatSeriesData();
 
-    let settings = this.options;
+    settings = this.options;
     seriesTypes(); // Add the type for each series
     this.options = settings; // Sync the settings so you don't lose the data
 
