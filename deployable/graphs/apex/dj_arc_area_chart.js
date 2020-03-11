@@ -911,7 +911,27 @@ looker.plugins.visualizations.add({
       if (multipleAxes && !stacked) {
         // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
-        createSeriesAxes();
+        if (seriesData.length != thisSeries) {
+          for (let i = 0; i < thisSeries; i++)
+            delete this.options[`seriesAxis_${index}`];
+        }
+        thisSeries = seriesData.length;
+
+        seriesData.forEach((row, index) => {
+          if (index != 0) {
+            if (!this.options[`seriesAxis_${index}`]) {
+              changed = true;
+              this.options[`seriesAxis_${index}`] = {
+                label: `Set ${row.name} on the second axis`,
+                order: 10 + index,
+                section: `Multiple Axes`,
+                type: `boolean`,
+                default: false,
+                hidden: false
+              };
+            }
+          }
+        });
 
         // Apply the config settings to the chart
         let nameA = seriesData[0].name;
@@ -1083,30 +1103,6 @@ looker.plugins.visualizations.add({
           }
         });
       }
-    }
-
-    function createSeriesAxes() {
-      if (seriesData.length != thisSeries) {
-        for (let i = 0; i < thisSeries; i++)
-          delete this.options[`seriesAxis_${index}`];
-      }
-      thisSeries = seriesData.length;
-
-      seriesData.forEach((row, index) => {
-        if (index != 0) {
-          if (!this.options[`seriesAxis_${index}`]) {
-            changed = true;
-            this.options[`seriesAxis_${index}`] = {
-              label: `Set ${row.name} on the second axis`,
-              order: 10 + index,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-        }
-      });
     }
 
     function seriesTypes() {
