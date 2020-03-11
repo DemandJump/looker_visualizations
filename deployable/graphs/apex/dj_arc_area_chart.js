@@ -918,9 +918,6 @@ looker.plugins.visualizations.add({
         thisSeries = seriesData.length;
       }
 
-      console.log(
-        `This is multiple axes: ${multipleAxes}, and this is stacked: ${stacked}`
-      );
       if (multipleAxes && !stacked) {
         // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
@@ -990,7 +987,6 @@ looker.plugins.visualizations.add({
             if (showTitle2) obj[`title`] = { text: title };
           }
 
-          console.log(`This is one axis`, obj);
           configuration.yaxis.push(obj);
         });
       } else {
