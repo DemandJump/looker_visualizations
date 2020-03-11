@@ -917,6 +917,9 @@ looker.plugins.visualizations.add({
         thisSeries = seriesData.length;
       }
 
+      console.log(
+        `This is multiple axes: ${multipleAxes}, and this is stacked: ${stacked}`
+      );
       if (multipleAxes && !stacked) {
         // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
@@ -1035,9 +1038,7 @@ looker.plugins.visualizations.add({
     }
 
     function hideAxisTab() {
-      console.log(`This is the stack tf`, stacked);
       if (stacked) {
-        console.log(`Deleting the stack settings`);
         if (settings.showTitle2 || settings.yTitle2 || settings.multipleAxes)
           changed = true;
 
@@ -1052,7 +1053,6 @@ looker.plugins.visualizations.add({
           }
         }
       } else {
-        console.log(`Rebuilding the stack settings`);
         if (!settings.showTitle2 || !settings.yTitle2 || !settings.multipleAxes)
           changed = true;
 
@@ -1112,7 +1112,6 @@ looker.plugins.visualizations.add({
         let name = `series_${index}`;
 
         if (!settings[name]) {
-          console.log(`rebuilding series setting`);
           changed = true;
           settings[name] = {
             label: `Chart type: ${series.name}`,
@@ -1147,14 +1146,12 @@ looker.plugins.visualizations.add({
       // Cleanup extra chart types
       let seriesAmount = seriesData.length;
       let checker = true;
-      console.log(`\nGoing through series deletion`);
       while (checker) {
         let name = `series_${seriesAmount}`;
         if (settings[name]) {
           changed = true;
           seriesAmount++;
 
-          console.log(`deleting a series`);
           delete settings[name];
         } else {
           checker = false;
