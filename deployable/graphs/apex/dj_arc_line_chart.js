@@ -1,7 +1,154 @@
 looker.plugins.visualizations.add({
   id: "dj_arc_line_chart",
   label: "Demandjump line chart",
-  options: {},
+  options: {
+    customLabel: {
+      order: 1,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: "Chart Labels:" }],
+      hidden: false
+    },
+
+    title: {
+      label: `Title of chart`,
+      order: 2,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter a title`,
+      default: ``,
+      hidden: false
+    },
+
+    showTitle: {
+      label: `Show title`,
+      order: 3,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    subtitle: {
+      label: `Subtitle of chart`,
+      order: 4,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter a subtitle`,
+      default: ``,
+      hidden: false
+    },
+
+    showSubtitle: {
+      label: `Show subtitle`,
+      order: 5,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    yTitle: {
+      label: `Y axis label`,
+      order: 6,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter y axis label`,
+      default: ``,
+      hidden: false
+    },
+
+    showTitleY: {
+      label: `Show y axis label`,
+      order: 7,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    yTitle2: {
+      label: `Second y axis label`,
+      order: 8,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter y axis label`,
+      default: ``,
+      hidden: false
+    },
+
+    showTitleY2: {
+      label: `Show second y axis label`,
+      order: 9,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    customSpacing: {
+      order: 12,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: " " }],
+      hidden: false
+    },
+
+    customLabel: {
+      order: 13,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: "Custom configuration:" }],
+      hidden: false
+    },
+
+    alignYaxis: {
+      label: `Set y axis on the right`,
+      order: 14,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    dataLabels: {
+      label: `Enable data labels`,
+      order: 15,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    legend: {
+      label: `Display legend`,
+      order: 16,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    alignLegend: {
+      label: `Align legend`,
+      order: 17,
+      section: `Format`,
+      type: `string`,
+      display: `select`,
+      values: [{ Center: "center" }, { Left: "left" }, { Right: "right" }],
+      default: `center`,
+      hidden: false
+    },
+
+    showToolbar: {
+      label: `Show toolbar`,
+      order: 18,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    }
+  },
   create: function(element, config) {
     this._iteration = 0;
     this._custom = ``;
@@ -121,6 +268,30 @@ looker.plugins.visualizations.add({
     let subtitle = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
+    let yTitle2 = ` `;
+
+    let showTitle = false;
+    let showSubtitle = false;
+    let showTitleX = false;
+    let showTitleY = false;
+    let showTitleY2 = false;
+
+    if (config.title != ``) title = config.title;
+    if (config.subtitle != ``) subtitle = config.subtitle;
+    if (config.xTitle != ``) xTitle = config.xTitle;
+    if (config.yTitle != ``) yTitle = config.yTitle;
+    if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
+    if (config.alignLegend) alignLegend = config.alignLegend;
+
+    if (config.showTitle) showTitle = config.showTitle;
+    if (config.showSubtitle) showSubtitle = config.showSubtitle;
+    if (config.showTitleX) showTitleX = config.showTitleX;
+    if (config.showTitleY) showTitleY = config.showtitleY;
+    if (config.showTitleY2) showTitleY2 = config.showTitleY2;
+    if (config.legend) legend = config.legend;
+    if (config.dataLabels) dataLabels = config.dataLabels;
+    if (config.alignYaxis) alignYaxis = config.alignYaxis;
+    if (config.showToolbar) showToolbar = config.showToolbar;
 
     let xaxis = [];
     let seriesData = [];
@@ -162,19 +333,8 @@ looker.plugins.visualizations.add({
           opacity: 0.5
         }
       },
-      title: {
-        text: title,
-        align: `left`
-      },
-      subtitle: {
-        text: subtitle,
-        align: `left`
-      },
-      xaxis: {
-        text: { title: xTitle }
-      },
+      xaxis: { type: `category` },
       yaxis: {
-        text: { title: yTitle },
         opposite: alignYaxis,
         labels: {
           formatter: function(val) {
@@ -192,12 +352,32 @@ looker.plugins.visualizations.add({
             else return val;
           }
         }
-      },
-      legend: {
-        position: `bottom`,
-        horizontalAlign: alignLegend
       }
     };
+
+    if (showTitle) {
+      configuration[`title`] = {
+        text: title,
+        align: `left`
+      };
+    }
+
+    if (showSubtitle) {
+      configuration[`subtitle`] = {
+        text: subtitle,
+        align: `left`
+      };
+    }
+
+    if (showTitleX) configuration[`xaxis`].text = { title: xTitle };
+    if (showTitleY) configuration[`yaxis`].text = { title: yTitle };
+
+    if (legend) {
+      configuration[`legend`] = {
+        position: `bottom`,
+        horizontalAlign: alignLegend
+      };
+    }
     // Turning off animations in the initial iterations
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
