@@ -580,7 +580,7 @@ looker.plugins.visualizations.add({
         details: details,
         element: element
       },
-      iteration: this._iteration
+      iteration: this._iteration - 1
     };
     console.log(`Series Information`, seriesInformation, `\n\n\n\n`);
 
