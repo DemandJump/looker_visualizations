@@ -300,9 +300,9 @@ looker.plugins.visualizations.add({
     let showToolbar = true;
     let curve = `smooth`;
     let dataLabels = false;
-    let grid = true;
+    let grid = false;
     let markers = true;
-    let legend = true;
+    let legend = false;
     let alignLegend = `center`;
     let alignYaxis = false;
     let multipleAxes = false;
@@ -437,7 +437,7 @@ looker.plugins.visualizations.add({
     multiAxisDisplay();
 
     function multiAxisDisplay() {
-      if (multipleAxes) {
+      if (multipleAxes && seriesData.length > 1) {
         if (multiAxis != true) {
           multiAxis = true;
           changed = true;
