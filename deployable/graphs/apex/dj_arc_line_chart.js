@@ -86,6 +86,25 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    xTitle: {
+      label: `X axis label`,
+      order: 10,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter x axis label`,
+      default: ``,
+      hidden: false
+    },
+
+    showTitleX: {
+      label: `Show x axis label`,
+      order: 11,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
     customSpacing: {
       order: 12,
       section: `Format`,
@@ -388,6 +407,9 @@ looker.plugins.visualizations.add({
       };
     }
 
+    console.log(
+      `yTitle: ${showTitleY}, xTitle: ${showTitleX}, and yTitle2: ${showTitleY2}`
+    );
     if (showTitleX) configuration[`xaxis`].text = { title: xTitle };
     if (showTitleY) configuration[`yaxis`].text = { title: yTitle };
 
