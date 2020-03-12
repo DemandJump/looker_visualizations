@@ -227,7 +227,7 @@ looker.plugins.visualizations.add({
     this._series = 0;
     this._mutliAxis = false;
     this._rebuildSeriesTypes = false;
-    this._seriesSelect = `line`;
+    this._seriesSelect = ``;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -1060,8 +1060,9 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
-      if (config.allLine) {
+      if (config.allLine == `true`) {
         if (seriesSelect != `line`) {
+          console.log(`rebuilding line config`);
           seriesSelect = `line`;
           changed = true;
           settings.allLine.hidden = false;
@@ -1075,8 +1076,9 @@ looker.plugins.visualizations.add({
             settings[`series_${index}`].hidden = true;
           });
         }
-      } else if (config.allColumn) {
+      } else if (config.allColumn == `true`) {
         if (seriesSelect != `column`) {
+          console.log(`rebuilding column config`);
           seriesSelect = `column`;
           changed = true;
           settings.allColumn.hidden = false;
@@ -1090,8 +1092,9 @@ looker.plugins.visualizations.add({
             settings[`series_${index}`].hidden = true;
           });
         }
-      } else if (config.allArea) {
+      } else if (config.allArea == `true`) {
         if (seriesSelect != `area`) {
+          console.log(`rebuilding area config`);
           seriesSelect = `area`;
           changed = true;
           settings.allArea.hidden = false;
@@ -1107,6 +1110,7 @@ looker.plugins.visualizations.add({
         }
       } else {
         if (seriesSelect != `custom`) {
+          console.log(`rebuilding custom config`);
           seriesSelect = `custom`;
           changed = true;
           settings.allLine.hidden = false;
