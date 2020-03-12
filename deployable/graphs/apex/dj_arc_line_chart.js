@@ -176,6 +176,50 @@ looker.plugins.visualizations.add({
       type: `boolean`,
       default: false,
       hidden: false
+    },
+
+    // Series Type Section
+    allColumn: {
+      label: `All column chart types`,
+      order: 0.1,
+      section: `Type of Chart`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    allLine: {
+      label: `All line chart types`,
+      order: 0.2,
+      section: `Type of Chart`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    allArea: {
+      label: `All area chart types`,
+      order: 0.3,
+      section: `Type of Chart`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    seriesSpacing: {
+      order: 0.4,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: " " }],
+      hidden: false
+    },
+
+    seriesLabel: {
+      order: 0.5,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: "Chart Type Configuration:" }],
+      hidden: false
     }
   },
   create: function(element, config) {
@@ -183,6 +227,7 @@ looker.plugins.visualizations.add({
     this._series = 0;
     this._mutliAxis = false;
     this._rebuildSeriesTypes = false;
+    this._seriesSelect = `line`;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -283,6 +328,7 @@ looker.plugins.visualizations.add({
     let thisSeries = this._series;
     let multiAxis = this._mutliAxis;
     let rebuildSeriesTypes = this._rebuildSeriesTypes;
+    let seriesSelect = this._seriesSelect;
     let changed = false;
     let pivot = false;
     let pivotA = false;
@@ -386,26 +432,6 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (showTitle) {
-      configuration[`title`] = {
-        text: title,
-        align: `left`
-      };
-    }
-
-    if (showSubtitle) {
-      configuration[`subtitle`] = {
-        text: subtitle,
-        align: `left`
-      };
-    }
-
-    console.log(
-      `yTitle: ${showTitleY}, xTitle: ${showTitleX}, and yTitle2: ${showTitleY2}`
-    );
-    if (showTitleX) configuration[`xaxis`].title = { text: xTitle };
-    if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
-
     if (grid) {
       configuration[`grid`] = {
         row: {
@@ -422,11 +448,26 @@ looker.plugins.visualizations.add({
       };
     }
 
+    if (showTitle) {
+      configuration[`title`] = {
+        text: title,
+        align: `left`
+      };
+    }
+    if (showSubtitle) {
+      configuration[`subtitle`] = {
+        text: subtitle,
+        align: `left`
+      };
+    }
+    if (showTitleX) configuration[`xaxis`].title = { text: xTitle };
+    if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
     buildMultipleAxes();
     multiAxisDisplay();
     seriesTypes();
+    selectSeries();
 
     /****************************************************
      * Store global variables and rerender the data
@@ -435,6 +476,7 @@ looker.plugins.visualizations.add({
     this._series = seriesData.length;
     this._mutliAxis = multiAxis;
     this._rebuildSeriesTypes = rebuildSeriesTypes;
+    this._seriesSelect = seriesSelect;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -904,69 +946,6 @@ looker.plugins.visualizations.add({
      * Config Display functions
      ************************************/
 
-    function seriesTypes() {
-      seriesData.forEach((series, index) => {
-        let name = `series_${index}`;
-
-        if (!settings[name]) {
-          changed = true;
-          settings[name] = {
-            label: `Chart type: ${series.name}`,
-            order: index,
-            section: `Type of Chart`,
-            type: `string`,
-            display: `select`,
-            values: [
-              { Line: "line" },
-              { Scatter: "scatter" },
-              { Column: "column" },
-              { Area: "area" }
-            ],
-            default: `line`,
-            hidden: false
-          };
-        } else {
-          if (`${series.name} series chart type` != settings[name].label) {
-            settings[name].label = `${series.name} series chart type`;
-            changed = true;
-          }
-
-          let type = `line`;
-          if (config.allLine) type = `line`;
-          else if (config.scatter) type = `scatter`;
-          else if (config.allColumn) type = `column`;
-          else if (config.allArea) type = `area`;
-          else if (config[name]) type = config[name];
-
-          series.type = type;
-        }
-      });
-
-      if (rebuildSeriesTypes) {
-        changed = true;
-        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
-        seriesData.forEach((s, i) => {
-          if (!settings[`series_${i}`]) {
-            settings[`series_${i}`] = {
-              label: `Chart type: ${s.name}`,
-              order: i,
-              section: `Type of Chart`,
-              type: `string`,
-              display: `select`,
-              values: [
-                { Line: "line" },
-                { Scatter: "scatter" },
-                { Column: "column" },
-                { Area: "area" }
-              ],
-              default: `line`,
-              hidden: false
-            };
-          }
-        });
-      }
-    }
-
     function multiAxisDisplay() {
       if (multipleAxes && seriesData.length > 1) {
         if (multiAxis != true) {
@@ -1021,6 +1000,110 @@ looker.plugins.visualizations.add({
         });
         // thisSeries = seriesData.length; // We go through the series then change this value
         rebuildSeriesTypes = true;
+      }
+    }
+
+    function seriesTypes() {
+      seriesData.forEach((series, index) => {
+        let name = `series_${index}`;
+
+        if (!settings[name]) {
+          changed = true;
+          settings[name] = {
+            label: `Chart type: ${series.name}`,
+            order: index,
+            section: `Type of Chart`,
+            type: `string`,
+            display: `select`,
+            values: [{ Line: "line" }, { Column: "column" }, { Area: "area" }],
+            default: `line`,
+            hidden: false
+          };
+        } else {
+          if (`${series.name} series chart type` != settings[name].label) {
+            settings[name].label = `${series.name} series chart type`;
+            changed = true;
+          }
+
+          let type = `line`;
+          if (config.allLine) type = `line`;
+          else if (config.allColumn) type = `column`;
+          else if (config.allArea) type = `area`;
+          else if (config[name]) type = config[name];
+
+          series.type = type;
+        }
+      });
+
+      if (rebuildSeriesTypes) {
+        changed = true;
+        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`series_${i}`]) {
+            settings[`series_${i}`] = {
+              label: `Chart type: ${s.name}`,
+              order: i,
+              section: `Type of Chart`,
+              type: `string`,
+              display: `select`,
+              values: [
+                { Line: "line" },
+                { Column: "column" },
+                { Area: "area" }
+              ],
+              default: `line`,
+              hidden: false
+            };
+          }
+        });
+      }
+    }
+
+    function selectSeries() {
+      if (config.allLine) {
+        if (seriesSelect != `line`) {
+          seriesSelect = `line`;
+          changed = true;
+          settings.allLine.hidden = false;
+          settings.allColumn.hidden = true;
+          settings.allArea.hidden = true;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
+        }
+      } else if (config.allColumn) {
+        if (seriesSelect != `column`) {
+          seriesSelect = `column`;
+          changed = true;
+          settings.allColumn.hidden = false;
+          settings.allArea.hidden = true;
+          settings.allLine.hidden = true;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
+        }
+      } else if (config.allArea) {
+        if (seriesSelect != `area`) {
+          seriesSelect = `area`;
+          changed = true;
+          settings.allArea.hidden = false;
+          settings.allColumn.hidden = true;
+          settings.allLine.hidden = true;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
+        }
+      } else {
+        if (seriesSelect != `custom`) {
+          seriesSelect = `custom`;
+          changed = true;
+          settings.allLine.hidden = false;
+          settings.allColumn.hidden = false;
+          settings.allArea.hidden = false;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = false)
+          );
+        }
       }
     }
 

@@ -197,7 +197,7 @@ looker.plugins.visualizations.add({
 
     allArea: {
       label: `All area chart types`,
-      order: 40,
+      order: 0.1,
       section: `Type of Chart`,
       type: `boolean`,
       default: true,
@@ -206,7 +206,7 @@ looker.plugins.visualizations.add({
 
     allColumn: {
       label: `All column chart types`,
-      order: 41,
+      order: 0.2,
       section: `Type of Chart`,
       type: `boolean`,
       default: false,
@@ -215,12 +215,28 @@ looker.plugins.visualizations.add({
 
     allLine: {
       label: `All line chart types`,
-      order: 42,
+      order: 0.3,
       section: `Type of Chart`,
       type: `boolean`,
       default: false,
       hidden: false
     },
+
+    seriesSpacing: {
+      order: 0.4,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: " " }],
+      hidden: false
+    },
+
+    seriesLabel: {
+      order: 0.5,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: "Chart Type Configuration:" }],
+      hidden: false
+    }
 
     multipleAxes: {
       label: `Add another axis`,
@@ -237,6 +253,7 @@ looker.plugins.visualizations.add({
     this._multipleAxes = false;
     this._series = 0;
     this._rebuildSeriesTypes = false;
+    this._seriesSelect = `area`;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
@@ -346,6 +363,7 @@ looker.plugins.visualizations.add({
     let thisSeries = this._series;
     let multiAxisGlobalVar = this._multipleAxes;
     let rebuildSeriesTypes = this._rebuildSeriesTypes;
+    let seriesSelect = this._seriesSelect;
     let theme = `area`;
     let changed = false;
     let pivot = false;
@@ -450,11 +468,13 @@ looker.plugins.visualizations.add({
      ******************/
     multiAxes();
     hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
+    selectSeries();
 
     this._iteration++;
     this._series = seriesData.length;
     this._multipleAxes = multiAxisGlobalVar;
     this._rebuildSeriesTypes = rebuildSeriesTypes;
+    this._seriesSelect = seriesSelect;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -1179,6 +1199,55 @@ looker.plugins.visualizations.add({
             };
           }
         });
+      }
+    }
+
+
+    function selectSeries() {
+      if (config.allLine) {
+        if (seriesSelect != `line`) {
+          seriesSelect = `line`;
+          changed = true;
+          settings.allLine.hidden = false;
+          settings.allColumn.hidden = true;
+          settings.allArea.hidden = true;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
+        }
+      } else if (config.allColumn) {
+        if (seriesSelect != `column`) {
+          seriesSelect = `column`;
+          changed = true;
+          settings.allColumn.hidden = false;
+          settings.allArea.hidden = true;
+          settings.allLine.hidden = true;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
+        }
+      } else if (config.allArea) {
+        if (seriesSelect != `area`) {
+          seriesSelect = `area`;
+          changed = true;
+          settings.allArea.hidden = false;
+          settings.allColumn.hidden = true;
+          settings.allLine.hidden = true;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
+        }
+      } else {
+        if (seriesSelect != `custom`) {
+          seriesSelect = `custom`;
+          changed = true;
+          settings.allLine.hidden = false;
+          settings.allColumn.hidden = false;
+          settings.allArea.hidden = false;
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = false)
+          );
+        }
       }
     }
 
