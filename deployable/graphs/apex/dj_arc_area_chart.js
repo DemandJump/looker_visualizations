@@ -922,7 +922,7 @@ looker.plugins.visualizations.add({
       if (refactorSeries) {
         for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
         seriesData.forEach((s, i) => {
-          if (!settings[`seriesAxis_${i}`] && index != 0) {
+          if (!settings[`seriesAxis_${i}`] && i != 0) {
             changed = true;
             settings[`seriesAxis_${i}`] = {
               label: `Set ${s.name} on the second axis`,
