@@ -236,6 +236,7 @@ looker.plugins.visualizations.add({
     this._custom = ``;
     this._multipleAxes = false;
     this._series = 0;
+    this._rebuildSeriesTypes = false;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
@@ -344,6 +345,7 @@ looker.plugins.visualizations.add({
     let settings = this.options;
     let thisSeries = this._series;
     let multiAxisGlobalVar = this._multipleAxes;
+    let rebuildSeriesTypes = this._rebuildSeriesTypes;
     let theme = `area`;
     let changed = false;
     let pivot = false;
@@ -446,11 +448,13 @@ looker.plugins.visualizations.add({
     /******************
      * Config Display
      ******************/
-    this._iteration++;
-    this._series = thisSeries;
-    this._multipleAxes = multiAxisGlobalVar;
     multiAxes();
     hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
+
+    this._iteration++;
+    this._series = seriesData.length;
+    this._multipleAxes = multiAxisGlobalVar;
+    this._rebuildSeriesTypes = rebuildSeriesTypes;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -936,7 +940,8 @@ looker.plugins.visualizations.add({
             };
           }
         });
-        thisSeries = seriesData.length;
+        // thisSeries = seriesData.length;
+        rebuildSeriesTypes = true;
       }
 
       if (multipleAxes && !stacked && seriesData.length > 1) {
@@ -1153,18 +1158,27 @@ looker.plugins.visualizations.add({
       });
 
       // Cleanup extra chart types
-      let seriesAmount = seriesData.length;
-      let checker = true;
-      while (checker) {
-        let name = `series_${seriesAmount}`;
-        if (settings[name]) {
-          changed = true;
-          seriesAmount++;
-
-          delete settings[name];
-        } else {
-          checker = false;
-        }
+      if (rebuildSeriesTypes) {
+        changed = true;
+        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`series_${i}`]) {
+            settings[`series_${i}`] = {
+              label: `Chart type: ${s.name}`,
+              order: i,
+              section: `Type of Chart`,
+              type: `string`,
+              display: `select`,
+              values: [
+                { Area: "area" },
+                { Column: "column" },
+                { Line: "line" }
+              ],
+              default: `line`,
+              hidden: false
+            };
+          }
+        });
       }
     }
 

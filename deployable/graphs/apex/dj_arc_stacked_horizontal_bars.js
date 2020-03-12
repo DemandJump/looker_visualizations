@@ -183,6 +183,7 @@ looker.plugins.visualizations.add({
     this._custom = `lorem ipsum`;
     this._stack = `lorem ipsum`;
     this._multipleAxes = false;
+    this._rebuildSeriesTypes = false;
     this._series = 0;
     element.innerHTML = `
             <style>
@@ -288,6 +289,11 @@ looker.plugins.visualizations.add({
     ];
     let datum = data;
     let settings = this.options;
+    let rebuildSeriesTypes = this._rebuildSeriesTypes;
+    let customGlobal = this._custom;
+    let stackGlobal = this._stack;
+    let multiAxisGlobalVar = this._multipleAxes;
+    let thisSeries = this._series;
     let theme = `Horizontal`;
     let changed = false;
     let pivot = false;
@@ -310,8 +316,6 @@ looker.plugins.visualizations.add({
     let alignLegend = `center`;
     let multipleAxes = false;
 
-    let customGlobal = this._custom;
-    let stackGlobal = this._stack;
     initialConfiguration();
 
     // Grab chart data
@@ -388,18 +392,10 @@ looker.plugins.visualizations.add({
     if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
     if (showActualTitle) stackLayout[`title`] = { text: title };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
-
-    console.log(
-      `This is config stack type: ${config.stackType}, and this is stack: ${stack}, and this is the theme: ${theme}`
-    );
     if (config.stackType && stack && theme == `Custom`) {
       stackLayout.chart.stackType = `100%`;
     }
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
-
-    // Build multiple axis and some display configuration
-    let multiAxisGlobalVar = this._multipleAxes;
-    let thisSeries = this._series;
     buildMultipleAxes();
 
     /**********************************************
@@ -408,12 +404,13 @@ looker.plugins.visualizations.add({
     multiAxisConfigDisplay();
 
     // Save all the global variables
-    this._multipleAxes = multiAxisGlobalVar;
-    this._series = thisSeries;
-    this.options = settings;
+    this._iteration++;
     this._custom = customGlobal;
     this._stack = this._stack;
-    this._iteration++;
+    this._multipleAxes = multiAxisGlobalVar;
+    this._series = seriesData.length;
+    this._rebuildSeriesTypes = rebuildSeriesTypes;
+    this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
     /*********************
@@ -993,7 +990,8 @@ looker.plugins.visualizations.add({
             };
           }
         });
-        thisSeries = seriesData.length;
+        // thisSeries = seriesData.length;
+        rebuildSeriesTypes = true;
       }
 
       if (multipleAxes && !horizontal && !stack && seriesData.length > 1) {

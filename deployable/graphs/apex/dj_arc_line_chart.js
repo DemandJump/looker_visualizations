@@ -947,7 +947,7 @@ looker.plugins.visualizations.add({
         for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
         seriesData.forEach((s, i) => {
           if (!settings[`series_${i}`]) {
-            settings[name] = {
+            settings[`series_${i}`] = {
               label: `Chart type: ${s.name}`,
               order: i,
               section: `Type of Chart`,
