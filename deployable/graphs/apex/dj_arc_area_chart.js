@@ -342,6 +342,8 @@ looker.plugins.visualizations.add({
     ];
     let datum = data;
     let settings = this.options;
+    let thisSeries = this._series;
+    let multiAxisGlobalVar = this._multipleAxes;
     let theme = `area`;
     let changed = false;
     let pivot = false;
@@ -438,16 +440,15 @@ looker.plugins.visualizations.add({
     if (showActualTitle) configuration[`title`] = { text: title };
     if (showTitle) configuration.yaxis.title = { text: yTitle };
     if (showTitle3) configuration.xaxis.title = { text: xTitle };
-    if (this._iteration < 2) configuration[`animations`] = { enabled: false };
-
-    let thisSeries = this._series;
     buildMultipleAxes();
-    this._series = thisSeries;
+    if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
     /******************
      * Config Display
      ******************/
     this._iteration++;
+    this._series = thisSeries;
+    this._multipleAxes = multiAxisGlobalVar;
     multiAxes();
     hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
     this.options = settings;
@@ -906,11 +907,33 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      if (stacked) {
-        if (seriesData.length != thisSeries) {
-          for (let i = 0; i < thisSeries; i++)
-            if (settings[`seriesAxis_${i}`]) delete settings[`seriesAxis_${i}`];
-        }
+      // If you're querying new data
+      let refactorSeries = false;
+      if (seriesData.length != thisSeries) refactorSeries = true;
+      seriesData.forEach((series, index) => {
+        if (
+          index != 0 &&
+          settings[`seriesAxis_${index}`].label !=
+            `Set ${series.name} on the second axis`
+        )
+          refactorSeries = true;
+      });
+
+      if (refactorSeries) {
+        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`seriesAxis_${i}`] && index != 0) {
+            changed = true;
+            settings[`seriesAxis_${i}`] = {
+              label: `Set ${s.name} on the second axis`,
+              order: 10 + i,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+        });
         thisSeries = seriesData.length;
       }
 
@@ -994,11 +1017,11 @@ looker.plugins.visualizations.add({
 
     function multiAxes() {
       // Multiple axis display configuration
-      if (multipleAxes) {
-        if (this._multipleAxes != true) {
+      if (multipleAxes && seriesData.length > 1) {
+        if (multiAxisGlobalVar != true) {
           if (settings.showTitle2) settings.showTitle2.hidden = false;
           if (settings.yTitle2) settings.yTitle2.hidden = false;
-          this._multipleAxes = true;
+          multiAxisGlobalVar = true;
           changed = true;
 
           for (let i = 1; i < this._series; i++) {
@@ -1007,10 +1030,10 @@ looker.plugins.visualizations.add({
           }
         }
       } else {
-        if (this._multipleAxes != false) {
+        if (multiAxisGlobalVar != false) {
           if (settings.showTitle2) settings.showTitle2.hidden = true;
           if (settings.yTitle2) settings.yTitle2.hidden = true;
-          this._multipleAxes = false;
+          multiAxisGlobalVar = false;
           changed = true;
 
           for (let i = 1; i < this._series; i++) {

@@ -905,7 +905,7 @@ looker.plugins.visualizations.add({
           changed = true;
         }
       } else {
-        if (multiAxisGlobalVar != true) {
+        if (multiAxisGlobalVar != true && seriesData.length > 1) {
           multiAxisGlobalVar = true;
 
           if (!settings.showTitle2) {
@@ -964,10 +964,35 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      if (seriesData.length != thisSeries) {
-        for (let i = 0; i < thisSeries; i++) delete settings[`series_${index}`];
+      // If you're querying new data
+      let refactorSeries = false;
+      if (seriesData.length != thisSeries) refactorSeries = true;
+      seriesData.forEach((series, index) => {
+        if (
+          index != 0 &&
+          settings[`seriesAxis_${index}`].label !=
+            `Set ${series.name} on the second axis`
+        )
+          refactorSeries = true;
+      });
+
+      if (refactorSeries) {
+        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`seriesAxis_${i}`] && index != 0) {
+            changed = true;
+            settings[`seriesAxis_${i}`] = {
+              label: `Set ${s.name} on the second axis`,
+              order: 10 + i,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+        });
+        thisSeries = seriesData.length;
       }
-      thisSeries = seriesData.length;
 
       if (multipleAxes && !horizontal && !stack && seriesData.length > 1) {
         stackLayout.yaxis = [];

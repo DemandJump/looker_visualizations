@@ -459,8 +459,6 @@ looker.plugins.visualizations.add({
       // If you're querying new data
       let refactorSeries = false;
       if (seriesData.length != thisSeries) refactorSeries = true;
-      console.log(`These are the settings`, settings);
-      console.log(`This is the series data`, seriesData);
       seriesData.forEach((series, index) => {
         if (
           index != 0 &&
@@ -471,14 +469,9 @@ looker.plugins.visualizations.add({
       });
 
       if (refactorSeries) {
-        for (let i = 0; i < 10; i++) {
-          console.log(`Deleting series iteration ${i}`);
-          delete settings[`seriesAxis_${i}`];
-        }
-        console.log(`Finsihed deletion iteration`);
-
+        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
         seriesData.forEach((s, i) => {
-          if (!settings[`seriesAxis_${i}`]) {
+          if (!settings[`seriesAxis_${i}`] && index != 0) {
             changed = true;
             settings[`seriesAxis_${i}`] = {
               label: `Set ${s.name} on the second axis`,
