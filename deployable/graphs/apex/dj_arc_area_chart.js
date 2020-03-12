@@ -1202,7 +1202,6 @@ looker.plugins.visualizations.add({
       }
     }
 
-
     function selectSeries() {
       if (config.allLine) {
         if (seriesSelect != `line`) {
