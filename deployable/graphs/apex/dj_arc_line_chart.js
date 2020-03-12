@@ -190,6 +190,7 @@ looker.plugins.visualizations.add({
   create: function(element, config) {
     this._iteration = 0;
     this._series = 0;
+    this._mutliAxis = false;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -288,6 +289,7 @@ looker.plugins.visualizations.add({
     let datum = data;
     let settings = this.options;
     let thisSeries = this._series;
+    let multiAxis = this._mutliAxis;
     let changed = false;
     let pivot = false;
     let pivotA = false;
@@ -363,7 +365,7 @@ looker.plugins.visualizations.add({
       labels: axisNames,
       colors: djColors,
       stroke: { curve: curve },
-      markers: { size: 1 },
+      // markers: { size: 1 },
       dataLabels: {
         enabled: dataLabels,
         style: {
@@ -429,17 +431,72 @@ looker.plugins.visualizations.add({
       };
     }
 
-    // Recreate the y axis to format multiple axes to sync with multiple series
     buildMultipleAxes();
-
-    // Turning off animations in the initial iterations
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
+
+    multiAxisDisplay();
+
+    function multiAxisDisplay() {
+      if (multipleAxes) {
+        if (multiAxis != true) {
+          multiAxis = true;
+          changed = true;
+          settings.yTitle2.hidden = false;
+          settings.showTitleY2.hidden = false;
+          seriesData.forEach((s, i) => {
+            if (index != 0) settings[`seriesAxis_${i}`].hidden = false;
+          });
+        }
+      } else {
+        if (multiAxis != false) {
+          multiAxis = false;
+          changed = true;
+          settings.yTitle2.hidden = true;
+          settings.showTitleY2.hidden = true;
+        }
+      }
+
+      // If you're querying new data
+      let refactorSeries = false;
+      if (seriesData.length != thisSeries) refactorSeries = true;
+      seriesData.forEach((series, index) => {
+        if (
+          settings[`seriesAxis_${index}`].label !=
+          `Set ${series.name} on the second axis`
+        )
+          refactorSeries = true;
+      });
+
+      if (refactorSeries) {
+        for (let i = 0; i < 10; i++) {
+          console.log(`Deleting series iteration ${i}`);
+          delete settings[`seriesAxis_${i}`];
+        }
+        console.log(`Finsihed deletion iteration`);
+
+        seriesData.forEach((s, i) => {
+          if (!settings[`seriesAxis_${i}`]) {
+            changed = true;
+            settings[`seriesAxis_${i}`] = {
+              label: `Set ${s.name} on the second axis`,
+              order: 10 + i,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+        });
+        thisSeries = seriesData.length;
+      }
+    }
 
     /****************************************************
      * Store global variables and rerender the data
      ****************************************************/
     this._iteration++;
     this._series = thisSeries;
+    this._mutliAxis = multiAxis;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 

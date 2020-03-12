@@ -909,8 +909,7 @@ looker.plugins.visualizations.add({
       if (stacked) {
         if (seriesData.length != thisSeries) {
           for (let i = 0; i < thisSeries; i++)
-            if (settings[`seriesAxis_${index}`])
-              delete settings[`seriesAxis_${index}`];
+            if (settings[`seriesAxis_${i}`]) delete settings[`seriesAxis_${i}`];
         }
         thisSeries = seriesData.length;
       }
