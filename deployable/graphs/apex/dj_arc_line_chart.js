@@ -444,7 +444,7 @@ looker.plugins.visualizations.add({
           settings.yTitle2.hidden = false;
           settings.showTitleY2.hidden = false;
           seriesData.forEach((s, i) => {
-            if (index != 0) settings[`seriesAxis_${i}`].hidden = false;
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
           });
         }
       } else {
