@@ -159,15 +159,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showToolbar: {
-      label: `Show toolbar`,
-      order: 18,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
     styleGrid: {
       label: `Style grid`,
       order: 19,
@@ -297,7 +288,6 @@ looker.plugins.visualizations.add({
     let pivotC = false; // Period over period
 
     let height = window.innerHeight - 45;
-    let showToolbar = true;
     let curve = `smooth`;
     let dataLabels = false;
     let grid = false;
@@ -344,7 +334,6 @@ looker.plugins.visualizations.add({
     if (config.legend) legend = config.legend;
     if (config.dataLabels) dataLabels = config.dataLabels;
     if (config.alignYaxis) alignYaxis = config.alignYaxis;
-    if (config.showToolbar) showToolbar = config.showToolbar;
     if (config.styleGrid) grid = config.styleGrid;
     if (config.multipleAxes) multipleAxes = config.multipleAxes;
 
@@ -358,7 +347,7 @@ looker.plugins.visualizations.add({
         height: height,
         toolbar: {
           autoSelected: `pan`,
-          show: showToolbar
+          show: true
         }
       },
       series: seriesData,
