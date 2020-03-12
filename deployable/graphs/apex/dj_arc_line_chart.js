@@ -339,7 +339,7 @@ looker.plugins.visualizations.add({
     if (config.showTitle) showTitle = config.showTitle;
     if (config.showSubtitle) showSubtitle = config.showSubtitle;
     if (config.showTitleX) showTitleX = config.showTitleX;
-    if (config.showTitleY) showTitleY = config.showtitleY;
+    if (config.showTitleY) showTitleY = config.showTitleY;
     if (config.showTitleY2) showTitleY2 = config.showTitleY2;
     if (config.legend) legend = config.legend;
     if (config.dataLabels) dataLabels = config.dataLabels;
