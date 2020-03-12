@@ -1067,9 +1067,13 @@ looker.plugins.visualizations.add({
           settings.allLine.hidden = false;
           settings.allColumn.hidden = true;
           settings.allArea.hidden = true;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+          seriesData.forEach((series, index) => {
+            console.log(
+              `Config ${seriesSelect}, setting:`,
+              settings[`series_${index}`]
+            );
+            settings[`series_${index}`].hidden = true;
+          });
         }
       } else if (config.allColumn) {
         if (seriesSelect != `column`) {
@@ -1078,9 +1082,13 @@ looker.plugins.visualizations.add({
           settings.allColumn.hidden = false;
           settings.allArea.hidden = true;
           settings.allLine.hidden = true;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+          seriesData.forEach((series, index) => {
+            console.log(
+              `Config ${seriesSelect}, setting:`,
+              settings[`series_${index}`]
+            );
+            settings[`series_${index}`].hidden = true;
+          });
         }
       } else if (config.allArea) {
         if (seriesSelect != `area`) {
@@ -1089,9 +1097,13 @@ looker.plugins.visualizations.add({
           settings.allArea.hidden = false;
           settings.allColumn.hidden = true;
           settings.allLine.hidden = true;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+          seriesData.forEach((series, index) => {
+            console.log(
+              `Config ${seriesSelect}, setting:`,
+              settings[`series_${index}`]
+            );
+            settings[`series_${index}`].hidden = true;
+          });
         }
       } else {
         if (seriesSelect != `custom`) {
