@@ -149,6 +149,16 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    styleGrid: {
+      label: `Style grid`,
+      order: 19,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    // Multiple Axes Section
     multipleAxes: {
       label: `Add another axis`,
       order: 1,
@@ -314,6 +324,7 @@ looker.plugins.visualizations.add({
     if (config.dataLabels) dataLabels = config.dataLabels;
     if (config.alignYaxis) alignYaxis = config.alignYaxis;
     if (config.showToolbar) showToolbar = config.showToolbar;
+    if (config.styleGrid) grid = config.styleGrid;
     if (config.multipleAxes) multipleAxes = config.multipleAxes;
 
     /************************
@@ -339,12 +350,6 @@ looker.plugins.visualizations.add({
         style: {
           fontSize: ".75rem",
           colors: ["#fff"]
-        }
-      },
-      grid: {
-        row: {
-          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-          opacity: 0.5
         }
       },
       xaxis: { type: `category` },
@@ -385,6 +390,15 @@ looker.plugins.visualizations.add({
 
     if (showTitleX) configuration[`xaxis`].text = { title: xTitle };
     if (showTitleY) configuration[`yaxis`].text = { title: yTitle };
+
+    if (grid) {
+      configuration[`grid`] = {
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      };
+    }
 
     if (legend) {
       configuration[`legend`] = {
@@ -803,17 +817,7 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      if (stacked) {
-        if (seriesData.length != thisSeries) {
-          for (let i = 0; i < thisSeries; i++)
-            if (settings[`seriesAxis_${index}`])
-              delete settings[`seriesAxis_${index}`];
-        }
-        thisSeries = seriesData.length;
-      }
-
-      if (multipleAxes && !stacked) {
-        // Clear the yaxis and create the config settings for the chart
+      if (multipleAxes) {
         configuration.yaxis = [];
 
         seriesData.forEach((row, index) => {
@@ -837,7 +841,7 @@ looker.plugins.visualizations.add({
         let nameB = seriesData[1].name;
         let passShow = false;
         seriesData.forEach((row, index) => {
-          let title = row.name;
+          let yaxisTitle = row.name;
           let seriesName = nameA;
           let axisOrientation = false;
           let show = false;
@@ -845,11 +849,11 @@ looker.plugins.visualizations.add({
           if (config[`seriesAxis_${index}`] == true) {
             seriesName = nameB;
             axisOrientation = true;
-            if (config.yTitle2 != ``) title = yTitle2;
+            if (config.yTitle2 != ``) yaxisTitle = yTitle2;
           } else {
             seriesName = nameA;
             axisOrientation = false;
-            if (config.yTitle != ``) title = yTitle;
+            if (config.yTitle != ``) yaxisTitle = yTitle;
           }
 
           // Configuration to show the axes
@@ -874,9 +878,9 @@ looker.plugins.visualizations.add({
           };
 
           if (seriesName == nameA)
-            if (showTitle) obj[`title`] = { text: title };
+            if (showTitleY) obj[`title`] = { text: yaxisTitle };
           if (seriesName == nameB)
-            if (showTitle2) obj[`title`] = { text: title };
+            if (showTitleY2) obj[`title`] = { text: yaxisTitle };
 
           configuration.yaxis.push(obj);
         });
