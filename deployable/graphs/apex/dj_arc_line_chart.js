@@ -603,6 +603,164 @@ looker.plugins.visualizations.add({
       );
     }
 
+    /************************************
+     * Format functions
+     ************************************/
+
+    function formatAxes(value, format) {
+      let value_format = format;
+      let autoSelectFormat = [];
+      let response;
+      let final = value;
+
+      if (!multipleAxes) {
+        //   Construct the checker
+        seriesData.forEach(series =>
+          autoSelectFormat.push({
+            value_format: series.value_format,
+            universalCount: 0
+          })
+        );
+
+        //   Tally the valueFormat
+        autoSelectFormat.forEach((series, index) => {
+          for (let i = 0; i < autoSelectFormat.length; i++) {
+            if (autoSelectFormat[i].value_format == series.value_format)
+              autoSelectFormat[index].universalCount += 1;
+          }
+        });
+
+        //   Use last one that equals the most or matches the most
+        let count = 0;
+        autoSelectFormat.forEach((series, index) => {
+          if (index == 0) {
+            count = series.universalCount;
+            value_format = series.value_format;
+          } else {
+            if (count < series.universalCount) {
+              count = series.universalCount;
+              value_format = series.value_format;
+            }
+          }
+        });
+      }
+
+      if (value_format == `0`) {
+        final = value.toFixed(0);
+      } // Integer (123)
+
+      if (value_format == `*00#`) {
+        response = value.toString();
+        final = response.padStart(3, "0");
+      } // Integer zero-padded to 3 places (001)
+
+      if (value_format == `0.##`) {
+        response = value.toString();
+        if (response.includes(`.`)) {
+          let found = false;
+          let counter = 0;
+          for (let i = 0; i < response.length; i++) {
+            if (found) counter++;
+            if (response[i] == `.`) found = true;
+          }
+          reponse = parseInt(value, 10);
+          if (counter > 2) final = response.toFixed(2);
+        } else final = response;
+      } // Number up to 2 decimals (1. or 1.2 or 1.23)
+
+      if (value_format == `0.00`) {
+        final = value.toFixed(2);
+      } // Number with exactly 2 decimals (1.23)
+
+      if (value_format == `*00#.00`) {
+        final = value
+          .toFixed(2)
+          .toString()
+          .padStart(3, "0");
+      } // Number zero-padded to 3 places and exactly 2 decimals (001.23)
+
+      if (value_format == `#,##0`) {
+        final = value
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      } // Number with comma between thousands (1,234)
+
+      if (value_format == `#,##0.00`) {
+        final = value
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      } // Number with comma between thousands and 2 decimals (1,234.00)
+
+      if (value_format == `0.000,,\" M\"`) {
+        response = value / 1000000;
+        response = response.toFixed(3).toString();
+        final = response + " M";
+      } // Number in millions with 3 decimals (1.234 M) // Please note division by 1 million happens automatically
+
+      if (value_format == `0.000,\" K\"`) {
+        response = value / 1000;
+        response = response.toFixed(3).toString();
+        final = response + " K";
+      } // Number in thousands with 3 decimals (1.234 K) // Please note division by 1 thousand happens automatically
+
+      if (value_format == `$0`) {
+        response = value.toFixed(0).toString();
+        final = "$" + response;
+      } // Dollars with 0 decimals ($123)
+
+      if (value_format == `$0.00`) {
+        response = value.toFixed(2).toString();
+        final = "$" + response;
+      } // Dollars with 2 decimals ($123.00)
+
+      if (value_format == `\"€\"0`) {
+        response = value.toFixed(0).toString();
+        final = "€" + response;
+      } // Euros with 0 decimals (€123)
+
+      if (value_format == `$#,##0.00`) {
+        response = value
+          .toFixed(2)
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        final = "$" + response;
+      } // Dollars with comma btwn thousands and 2 decimals ($1,234.00)
+
+      if (value_format == `$#.00;($#.00)`) {
+        response = value.toFixed(2);
+        if (response < 0) {
+          response = response.toString();
+          final = "($" + response + ")";
+        } else {
+          response = response.toString();
+          final = "$" + response;
+        }
+      } // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
+
+      if (value_format == `0\%`) {
+        response = value.toFixed(0).toString();
+        final = response + "%";
+      } // Display as percent with 0 decimals (1 becomes 1%)
+
+      if (value_format == `0.00\%`) {
+        response = value.toFixed(2).toString();
+        final = response + "%";
+      } // Display as percent with 2 decimals (1 becomes 1.00%)
+
+      if (value_format == `0%`) {
+        response = value * 100;
+        final = response.toFixed(0).toString() + "%";
+      } // Convert to percent with 0 decimals (.01 becomes 1%)
+
+      if (value_format == `0.00%`) {
+        response = value * 100;
+        final = response.toFixed(2).toString() + "%";
+      } // Convert to percent with 2 decimals (.01 becomes 1.00%)
+
+      return final;
+    }
+
     /**************** Done! *****************/
     doneRendering();
   }
