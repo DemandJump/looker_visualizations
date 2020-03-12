@@ -401,8 +401,8 @@ looker.plugins.visualizations.add({
     console.log(
       `yTitle: ${showTitleY}, xTitle: ${showTitleX}, and yTitle2: ${showTitleY2}`
     );
-    if (showTitleX) configuration[`xaxis`].text = { title: xTitle };
-    if (showTitleY) configuration[`yaxis`].text = { title: yTitle };
+    if (showTitleX) configuration[`xaxis`].title = { text: xTitle };
+    if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
 
     if (grid) {
       configuration[`grid`] = {
@@ -449,12 +449,14 @@ looker.plugins.visualizations.add({
       let refactorSeries = false;
       if (seriesData.length != thisSeries) refactorSeries = true;
       seriesData.forEach((series, index) => {
-        if (
-          index != 0 &&
-          settings[`seriesAxis_${index}`].label !=
-            `Set ${series.name} on the second axis`
-        )
-          refactorSeries = true;
+        if (settings[`seriesAxis_${index}`]) {
+          if (
+            index != 0 &&
+            settings[`seriesAxis_${index}`].label !=
+              `Set ${series.name} on the second axis`
+          )
+            refactorSeries = true;
+        }
       });
 
       if (refactorSeries) {

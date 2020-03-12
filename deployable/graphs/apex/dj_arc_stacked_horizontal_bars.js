@@ -968,20 +968,22 @@ looker.plugins.visualizations.add({
       let refactorSeries = false;
       if (seriesData.length != thisSeries) refactorSeries = true;
       seriesData.forEach((series, index) => {
-        if (
-          index != 0 &&
-          settings[`seriesAxis_${index}`].label !=
-            `Set ${series.name} on the second axis`
-        )
-          refactorSeries = true;
+        if (settings[`series_${index}`]) {
+          if (
+            index != 0 &&
+            settings[`series_${index}`].label !=
+              `Set ${series.name} on the second axis`
+          )
+            refactorSeries = true;
+        }
       });
 
       if (refactorSeries) {
-        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
+        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
         seriesData.forEach((s, i) => {
-          if (!settings[`seriesAxis_${i}`] && i != 0) {
+          if (!settings[`series_${i}`] && i != 0) {
             changed = true;
-            settings[`seriesAxis_${i}`] = {
+            settings[`series_${i}`] = {
               label: `Set ${s.name} on the second axis`,
               order: 10 + i,
               section: `Multiple Axes`,

@@ -911,12 +911,14 @@ looker.plugins.visualizations.add({
       let refactorSeries = false;
       if (seriesData.length != thisSeries) refactorSeries = true;
       seriesData.forEach((series, index) => {
-        if (
-          index != 0 &&
-          settings[`seriesAxis_${index}`].label !=
-            `Set ${series.name} on the second axis`
-        )
-          refactorSeries = true;
+        if (settings[`seriesAxis_${index}`]) {
+          if (
+            index != 0 &&
+            settings[`seriesAxis_${index}`].label !=
+              `Set ${series.name} on the second axis`
+          )
+            refactorSeries = true;
+        }
       });
 
       if (refactorSeries) {
