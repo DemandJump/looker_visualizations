@@ -969,7 +969,7 @@ looker.plugins.visualizations.add({
       }
       thisSeries = seriesData.length;
 
-      if (multipleAxes && !horizontal && !stack) {
+      if (multipleAxes && !horizontal && !stack && seriesData.length > 1) {
         stackLayout.yaxis = [];
 
         seriesData.forEach((row, index) => {

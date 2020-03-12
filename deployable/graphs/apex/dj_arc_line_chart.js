@@ -813,7 +813,7 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      if (multipleAxes) {
+      if (multipleAxes && seriesData.length > 1) {
         configuration.yaxis = [];
 
         seriesData.forEach((row, index) => {

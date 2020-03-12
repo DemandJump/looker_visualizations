@@ -915,7 +915,7 @@ looker.plugins.visualizations.add({
         thisSeries = seriesData.length;
       }
 
-      if (multipleAxes && !stacked) {
+      if (multipleAxes && !stacked && seriesData.length > 1) {
         // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
 
