@@ -370,7 +370,7 @@ looker.plugins.visualizations.add({
         enabled: dataLabels,
         style: {
           fontSize: ".75rem",
-          colors: ["#fff"]
+          colors: ["#111"]
         }
       },
       xaxis: { type: `category` },
