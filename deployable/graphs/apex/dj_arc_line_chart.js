@@ -878,6 +878,7 @@ looker.plugins.visualizations.add({
         seriesData.forEach((row, index) => {
           if (index != 0) {
             if (!settings[`seriesAxis_${index}`]) {
+              console.log(`Rebuilding seriesAxis_${index}`);
               changed = true;
               settings[`seriesAxis_${index}`] = {
                 label: `Set ${row.name} on the second axis`,
@@ -951,6 +952,7 @@ looker.plugins.visualizations.add({
         if (multiAxis != true) {
           multiAxis = true;
           changed = true;
+          console.log(`showing multi axis data`);
           settings.yTitle2.hidden = false;
           settings.showTitleY2.hidden = false;
           seriesData.forEach((s, i) => {
@@ -961,6 +963,7 @@ looker.plugins.visualizations.add({
         if (multiAxis != false) {
           multiAxis = false;
           changed = true;
+          console.log(`hiding multi axis data`);
           settings.yTitle2.hidden = true;
           settings.showTitleY2.hidden = true;
           seriesData.forEach((s, i) => {
@@ -988,6 +991,7 @@ looker.plugins.visualizations.add({
         seriesData.forEach((s, i) => {
           if (!settings[`seriesAxis_${i}`] && i != 0) {
             changed = true;
+            console.log(`Refactoring seriesAxis_${i}`);
             settings[`seriesAxis_${i}`] = {
               label: `Set ${s.name} on the second axis`,
               order: 10 + i,
@@ -1009,6 +1013,7 @@ looker.plugins.visualizations.add({
 
         if (!settings[name]) {
           changed = true;
+          console.log(`Rebuilding series type series_${index}`);
           settings[name] = {
             label: `Chart type: ${series.name}`,
             order: index + 1,
@@ -1020,9 +1025,10 @@ looker.plugins.visualizations.add({
             hidden: false
           };
         } else {
-          if (`${series.name} series chart type` != settings[name].label) {
+          if (`Chart type: ${series.name}` != settings[name].label) {
             settings[name].label = `${series.name} series chart type`;
             changed = true;
+            console.log(`rebuilding based on chart type conditional`);
           }
 
           let type = `line`;
@@ -1037,6 +1043,9 @@ looker.plugins.visualizations.add({
 
       if (rebuildSeriesTypes) {
         changed = true;
+        console.log(
+          `rebuild series type true for series type function: rebuilding series_`
+        );
         for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
         seriesData.forEach((s, i) => {
           if (!settings[`series_${i}`]) {
