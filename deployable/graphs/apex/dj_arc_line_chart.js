@@ -182,6 +182,7 @@ looker.plugins.visualizations.add({
     this._iteration = 0;
     this._series = 0;
     this._mutliAxis = false;
+    this._rebuildSeriesTypes = false;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -281,6 +282,7 @@ looker.plugins.visualizations.add({
     let settings = this.options;
     let thisSeries = this._series;
     let multiAxis = this._mutliAxis;
+    let rebuildSeriesTypes = this._rebuildSeriesTypes;
     let changed = false;
     let pivot = false;
     let pivotA = false;
@@ -420,70 +422,19 @@ looker.plugins.visualizations.add({
       };
     }
 
-    buildMultipleAxes();
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
+    buildMultipleAxes();
     multiAxisDisplay();
-
-    function multiAxisDisplay() {
-      if (multipleAxes && seriesData.length > 1) {
-        if (multiAxis != true) {
-          multiAxis = true;
-          changed = true;
-          settings.yTitle2.hidden = false;
-          settings.showTitleY2.hidden = false;
-          seriesData.forEach((s, i) => {
-            if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
-          });
-        }
-      } else {
-        if (multiAxis != false) {
-          multiAxis = false;
-          changed = true;
-          settings.yTitle2.hidden = true;
-          settings.showTitleY2.hidden = true;
-        }
-      }
-
-      // If you're querying new data
-      let refactorSeries = false;
-      if (seriesData.length != thisSeries) refactorSeries = true;
-      seriesData.forEach((series, index) => {
-        if (settings[`seriesAxis_${index}`]) {
-          if (
-            index != 0 &&
-            settings[`seriesAxis_${index}`].label !=
-              `Set ${series.name} on the second axis`
-          )
-            refactorSeries = true;
-        }
-      });
-
-      if (refactorSeries) {
-        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
-        seriesData.forEach((s, i) => {
-          if (!settings[`seriesAxis_${i}`] && i != 0) {
-            changed = true;
-            settings[`seriesAxis_${i}`] = {
-              label: `Set ${s.name} on the second axis`,
-              order: 10 + i,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-        });
-        thisSeries = seriesData.length;
-      }
-    }
+    seriesTypes();
 
     /****************************************************
      * Store global variables and rerender the data
      ****************************************************/
     this._iteration++;
-    this._series = thisSeries;
+    this._series = seriesData.length;
     this._mutliAxis = multiAxis;
+    this._rebuildSeriesTypes = rebuildSeriesTypes;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -946,6 +897,130 @@ looker.plugins.visualizations.add({
 
           configuration.yaxis.push(obj);
         });
+      }
+    }
+
+    /************************************
+     * Config Display functions
+     ************************************/
+
+    function seriesTypes() {
+      seriesData.forEach((series, index) => {
+        let name = `series_${index}`;
+
+        if (!settings[name]) {
+          changed = true;
+          settings[name] = {
+            label: `Chart type: ${series.name}`,
+            order: index,
+            section: `Type of Chart`,
+            type: `string`,
+            display: `select`,
+            values: [
+              { Line: "line" },
+              { Scatter: "scatter" },
+              { Column: "column" },
+              { Area: "area" }
+            ],
+            default: `line`,
+            hidden: false
+          };
+        } else {
+          if (`${series.name} series chart type` != settings[name].label) {
+            settings[name].label = `${series.name} series chart type`;
+            changed = true;
+          }
+
+          let type = `line`;
+          if (config.allLine) type = `line`;
+          else if (config.scatter) type = `scatter`;
+          else if (config.allColumn) type = `column`;
+          else if (config.allArea) type = `area`;
+          else if (config[name]) type = config[name];
+
+          series.type = type;
+        }
+      });
+
+      if (rebuildSeriesTypes) {
+        changed = true;
+        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`series_${i}`]) {
+            settings[name] = {
+              label: `Chart type: ${s.name}`,
+              order: i,
+              section: `Type of Chart`,
+              type: `string`,
+              display: `select`,
+              values: [
+                { Line: "line" },
+                { Scatter: "scatter" },
+                { Column: "column" },
+                { Area: "area" }
+              ],
+              default: `line`,
+              hidden: false
+            };
+          }
+        });
+      }
+    }
+
+    function multiAxisDisplay() {
+      if (multipleAxes && seriesData.length > 1) {
+        if (multiAxis != true) {
+          multiAxis = true;
+          changed = true;
+          settings.yTitle2.hidden = false;
+          settings.showTitleY2.hidden = false;
+          seriesData.forEach((s, i) => {
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
+          });
+        }
+      } else {
+        if (multiAxis != false) {
+          multiAxis = false;
+          changed = true;
+          settings.yTitle2.hidden = true;
+          settings.showTitleY2.hidden = true;
+          seriesData.forEach((s, i) => {
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = true;
+          });
+        }
+      }
+
+      // If you're querying new data
+      let refactorSeries = false;
+      if (seriesData.length != thisSeries) refactorSeries = true;
+      seriesData.forEach((series, index) => {
+        if (settings[`seriesAxis_${index}`]) {
+          if (
+            index != 0 &&
+            settings[`seriesAxis_${index}`].label !=
+              `Set ${series.name} on the second axis`
+          )
+            refactorSeries = true;
+        }
+      });
+
+      if (refactorSeries) {
+        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`seriesAxis_${i}`] && i != 0) {
+            changed = true;
+            settings[`seriesAxis_${i}`] = {
+              label: `Set ${s.name} on the second axis`,
+              order: 10 + i,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: false
+            };
+          }
+        });
+        // thisSeries = seriesData.length; // We go through the series then change this value
+        rebuildSeriesTypes = true;
       }
     }
 
