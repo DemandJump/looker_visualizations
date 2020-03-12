@@ -459,10 +459,13 @@ looker.plugins.visualizations.add({
       // If you're querying new data
       let refactorSeries = false;
       if (seriesData.length != thisSeries) refactorSeries = true;
+      console.log(`These are the settings`, settings);
+      console.log(`This is the series data`, seriesData);
       seriesData.forEach((series, index) => {
         if (
+          index != 0 &&
           settings[`seriesAxis_${index}`].label !=
-          `Set ${series.name} on the second axis`
+            `Set ${series.name} on the second axis`
         )
           refactorSeries = true;
       });
