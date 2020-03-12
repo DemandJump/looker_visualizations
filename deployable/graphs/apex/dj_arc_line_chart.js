@@ -113,15 +113,14 @@ looker.plugins.visualizations.add({
     let curve = `smooth`;
     let dataLabels = false;
     let grid = true;
+    let markers = true;
     let legend = true;
     let alignLegend = `center`;
+    let alignYaxis = false;
     let title = ` `;
     let subtitle = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
-
-    pivotCheck(); // Check for pivots
-    formatSeriesData();
 
     let xaxis = [];
     let seriesData = [];
@@ -129,24 +128,26 @@ looker.plugins.visualizations.add({
     let seriesInformation;
     let valueFormat = [];
 
+    pivotCheck(); // Check for pivots
+    formatSeriesData();
+
     /************************
      * Chart Config
      ************************/
-
     let configuration = {
       chart: {
         id: `lineChart`,
         type: `line`,
-        height: window.innerHeight - 45,
+        height: height,
         toolbar: {
           autoSelected: `pan`,
-          show: true
+          show: showToolbar
         }
       },
-      series: [],
-      labels: [],
+      series: seriesData,
+      labels: axisNames,
       colors: djColors,
-      stroke: { curve: `smooth` },
+      stroke: { curve: curve },
       markers: { size: 1 },
       dataLabels: {
         enabled: dataLabels,
@@ -162,19 +163,19 @@ looker.plugins.visualizations.add({
         }
       },
       title: {
-        text: `Product Trends by Month`,
+        text: title,
         align: `left`
       },
       subtitle: {
-        text: ``,
+        text: subtitle,
         align: `left`
       },
       xaxis: {
-        text: { title: `` }
+        text: { title: xTitle }
       },
       yaxis: {
-        text: { title: `` },
-        opposite: false,
+        text: { title: yTitle },
+        opposite: alignYaxis,
         labels: {
           formatter: function(val) {
             if (typeof val == `number`)
@@ -194,11 +195,18 @@ looker.plugins.visualizations.add({
       },
       legend: {
         position: `bottom`,
-        horizontalAlign: `center`
+        horizontalAlign: alignLegend
       }
     };
     // Turning off animations in the initial iterations
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
+
+    /****************************************************
+     * Store global variables and rerender the data
+     ****************************************************/
+    this._iteration++;
+    this.options = settings;
+    if (changed) this.trigger(`registerOptions`, this.options);
 
     /*********************
      * Apex Charts
@@ -210,7 +218,97 @@ looker.plugins.visualizations.add({
     );
     lineChart.render();
 
-    // Pull all the information into a single object
+    /********************************
+     * Drilldown Menu Configuration
+     ********************************/
+    d3.select(`.container`)
+      .selectAll(`*`)
+      .remove(); // Clear out the data before we add the vis
+    let axisElements = document.getElementsByClassName(
+      `apexcharts-xaxis-texts-g`
+    );
+    if (horizontal)
+      axisElements = document.getElementsByClassName(
+        `apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g`
+      );
+    let elem = axisElements[0].children;
+    let ps;
+    let nodes = [];
+
+    xaxis.forEach((axis, index) => {
+      if (axis.links == undefined) axis.links = [];
+      for (let i = 0; i < seriesData.length; i++) {
+        if (seriesData[i].links[index] !== undefined) {
+          for (let j = 0; j < seriesData[i].links[index].length; j++) {
+            if (!seriesData[i].links[index][j][`type_label`])
+              seriesData[i].links[index][j][
+                `type_label`
+              ] = `Drill into ${seriesData[i].name}`;
+            axis.links.push(seriesData[i].links[index][j]);
+          }
+        }
+      }
+    });
+
+    for (let i = 0; i < xaxis.length; i++) {
+      ps = elem[i].getBoundingClientRect();
+      let elemWidth = ps.width;
+      let elemHeight = ps.height;
+      let node = {
+        index: i,
+        id: `_${elem[i].id}`,
+        originalId: elem[i].id,
+        coordinates: {
+          width: elemWidth,
+          height: elemHeight,
+          top: ps.top,
+          left: ps.left
+        },
+        xaxis: xaxis[i].name,
+        links: xaxis[i].links,
+        element: elem[i]
+      };
+      nodes.push(node);
+    }
+
+    // Create the axis containers
+    let container = d3
+      .select(`.container`)
+      .append(`div`)
+      .attr(`class`, `dimensions`)
+      .selectAll(`.dimension`)
+      .data(nodes);
+    let enter = container.enter().append(`span`);
+    container
+      .merge(enter)
+      .attr(`class`, `dimension`)
+      .attr(`id`, d => d.id)
+      .style(`width`, d => `${d.coordinates.width}px`)
+      .style(`height`, d => `${d.coordinates.height}px`)
+      .style(`position`, `absolute`)
+      .style(`top`, d => `${d.coordinates.top}px`)
+      .style(`left`, d => `${d.coordinates.left}px`)
+      .style(`background-color`, `transparent`)
+      .style(`opacity`, `0`)
+      .style(`z-index`, `4`)
+      .on("click", d => drillDown(d.links, d3.event));
+
+    function drillDown(links, event) {
+      LookerCharts.Utils.openDrillMenu({
+        links: links,
+        event: event
+      });
+    }
+
+    let drilldownElementData = {
+      axisElements: axisElements,
+      axisChildrenElements: elem,
+      drilldownNodes: nodes
+    };
+
+    /***************************
+     * Metadata about the chart
+     ***************************/
     seriesInformation = {
       pivot: {
         pivot: pivot,
@@ -223,7 +321,7 @@ looker.plugins.visualizations.add({
       axisNames: axisNames,
       valueFormat: valueFormat,
       chartConfiguration: configuration,
-      // drillDownNodes: drilldownElementData,
+      drillDownNodes: drilldownElementData,
       updateAsync: {
         queryResponse: queryResponse,
         data: datum,
@@ -232,15 +330,13 @@ looker.plugins.visualizations.add({
         details: details,
         element: element
       },
-      iteration: this._iteration
+      iteration: this._iteration - 1
     };
-    this._iteration++;
     console.log(`Series Information`, seriesInformation, `\n\n\n\n`);
 
     /**********************************
      * Chart and data function
      **********************************/
-
     function pivotCheck() {
       if (queryResponse.fields.pivots.length != 0) {
         pivot = true;
