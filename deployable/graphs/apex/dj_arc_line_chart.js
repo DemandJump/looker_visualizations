@@ -180,7 +180,7 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
-                            <canvas id="line-chart"></canvas>
+                            <div id="line-chart"></div>
                         </div>
                     </div>
                 </div>
@@ -426,7 +426,7 @@ looker.plugins.visualizations.add({
      *********************/
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let lineChart = new ApexCharts(
-      document.querySelector("#chart-line"),
+      document.querySelector("#line-chart"),
       configuration
     );
     lineChart.render();
