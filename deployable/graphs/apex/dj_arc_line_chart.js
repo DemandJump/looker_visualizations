@@ -181,7 +181,7 @@ looker.plugins.visualizations.add({
     // Series Type Section
     allColumn: {
       label: `All column chart types`,
-      order: -0.5,
+      order: 0.1,
       section: `Type of Chart`,
       type: `boolean`,
       default: false,
@@ -190,7 +190,7 @@ looker.plugins.visualizations.add({
 
     allLine: {
       label: `All line chart types`,
-      order: -0.4,
+      order: 0.2,
       section: `Type of Chart`,
       type: `boolean`,
       default: false,
@@ -199,7 +199,7 @@ looker.plugins.visualizations.add({
 
     allArea: {
       label: `All area chart types`,
-      order: -0.3,
+      order: 0.3,
       section: `Type of Chart`,
       type: `boolean`,
       default: true,
@@ -207,7 +207,7 @@ looker.plugins.visualizations.add({
     },
 
     seriesSpacing: {
-      order: -0.2,
+      order: 0.4,
       section: `Format`,
       type: `sentence_maker`,
       words: [{ type: "separator", text: " " }],
@@ -215,7 +215,7 @@ looker.plugins.visualizations.add({
     },
 
     seriesLabel: {
-      order: -0.1,
+      order: 0.5,
       section: `Format`,
       type: `sentence_maker`,
       words: [{ type: "separator", text: "Chart Type Configuration:" }],
@@ -1011,7 +1011,7 @@ looker.plugins.visualizations.add({
           changed = true;
           settings[name] = {
             label: `Chart type: ${series.name}`,
-            order: index,
+            order: index + 1,
             section: `Type of Chart`,
             type: `string`,
             display: `select`,
@@ -1042,7 +1042,7 @@ looker.plugins.visualizations.add({
           if (!settings[`series_${i}`]) {
             settings[`series_${i}`] = {
               label: `Chart type: ${s.name}`,
-              order: i,
+              order:  + 1i,
               section: `Type of Chart`,
               type: `string`,
               display: `select`,
