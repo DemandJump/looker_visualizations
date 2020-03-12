@@ -1011,7 +1011,7 @@ looker.plugins.visualizations.add({
           changed = true;
           settings[name] = {
             label: `Chart type: ${series.name}`,
-            order: index + 1,
+            order: index + 1f,
             section: `Type of Chart`,
             type: `string`,
             display: `select`,
@@ -1042,7 +1042,7 @@ looker.plugins.visualizations.add({
           if (!settings[`series_${i}`]) {
             settings[`series_${i}`] = {
               label: `Chart type: ${s.name}`,
-              order:  + 1i,
+              order: i + 1,
               section: `Type of Chart`,
               type: `string`,
               display: `select`,
