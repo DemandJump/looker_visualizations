@@ -1069,6 +1069,9 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
+      console.log(
+        `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea}`
+      );
       if (config.allLine == `true`) {
         if (seriesSelect != `line`) {
           console.log(`rebuilding line config`);
