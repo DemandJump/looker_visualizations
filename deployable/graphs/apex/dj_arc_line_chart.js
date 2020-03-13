@@ -129,14 +129,14 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    dataLabels: {
-      label: `Enable data labels`,
-      order: 15,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
+    // dataLabels: {
+    //   label: `Enable data labels`,
+    //   order: 15,
+    //   section: `Format`,
+    //   type: `boolean`,
+    //   default: false,
+    //   hidden: false
+    // },
 
     styleGrid: {
       label: `Style grid`,
@@ -397,7 +397,7 @@ looker.plugins.visualizations.add({
     if (config.showTitleX) showTitleX = config.showTitleX;
     if (config.showTitleY) showTitleY = config.showTitleY;
     if (config.showTitleY2) showTitleY2 = config.showTitleY2;
-    if (config.dataLabels) dataLabels = config.dataLabels;
+    // if (config.dataLabels) dataLabels = config.dataLabels;
     if (config.alignYaxis) alignYaxis = config.alignYaxis;
     if (config.styleGrid) grid = config.styleGrid;
     if (config.curve) curve = config.curve;
