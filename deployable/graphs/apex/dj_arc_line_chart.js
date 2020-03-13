@@ -946,7 +946,7 @@ looker.plugins.visualizations.add({
                 section: `Multiple Axes`,
                 type: `boolean`,
                 default: false,
-                hidden: false
+                hidden: true
               };
             }
           }
@@ -1067,7 +1067,7 @@ looker.plugins.visualizations.add({
               section: `Multiple Axes`,
               type: `boolean`,
               default: false,
-              hidden: false
+              hidden: true
             };
           }
         });
