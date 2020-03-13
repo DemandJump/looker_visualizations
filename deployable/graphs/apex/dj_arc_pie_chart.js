@@ -161,7 +161,7 @@ looker.plugins.visualizations.add({
         }
       },
       legend: {
-        horizontalAlign: alignLegend,
+        horizontalAlign: `center`,
         onItemClick: { toggleDataSeries: true },
         onItemHover: { highlightDataSeries: true }
       }
