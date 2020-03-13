@@ -1183,9 +1183,10 @@ looker.plugins.visualizations.add({
           settings.allLine.hidden = false;
           settings.allColumn.hidden = false;
           settings.allArea.hidden = false;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = false)
-          );
+          seriesData.forEach((series, index) => {
+            settings[`series_${index}`].hidden = false;
+            console.log(`This is the new setting`, settings[`series_${index}`]);
+          });
         }
       }
     }
