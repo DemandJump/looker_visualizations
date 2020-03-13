@@ -2,14 +2,14 @@ looker.plugins.visualizations.add({
   id: `dj_arc_pie_chart`,
   label: `Demandjump pie chart`,
   options: {
-    collections: {
+    theme: {
       label: `Choose a theme`,
       order: 1,
       section: `Format`,
       type: `string`,
       display: `select`,
-      values: [{ Classic: "classic" }, { Doughnut: "doughnut" }],
-      default: `classic`,
+      values: [{ Classic: "pie" }, { Donut: "donut" }],
+      default: `pie`,
       hidden: false
     },
 
@@ -106,6 +106,8 @@ looker.plugins.visualizations.add({
       `#931655`
     ];
     let datum = data;
+    let diameter = window.innerHeight - 45;
+    if (diameter > window.innerWidth - 45) diameter = window.innerWidth - 45;
     let settings = this.options;
     let changed = false;
     let pivot = false;
@@ -114,12 +116,12 @@ looker.plugins.visualizations.add({
     let pivotC = false;
     let throwPivotError = false;
 
+    let type = `pie`;
     let seriesData = [];
     let xaxis = [];
     let xaxisNames = [];
 
-    let diameter = window.innerHeight - 45;
-    if (diameter > window.innerWidth - 45) diameter = window.innerWidth - 45;
+    if (config.theme) type = config.theme;
 
     // Grab the type of query, then the series data
     pivotCheck();
@@ -136,7 +138,7 @@ looker.plugins.visualizations.add({
     var configuration = {
       chart: {
         width: diameter,
-        type: `pie`
+        type: type
       },
       series: seriesData[0].data,
       labels: xaxisNames,
@@ -230,6 +232,7 @@ looker.plugins.visualizations.add({
           series.data.push(value);
           series.links.push(links);
         });
+        seriesData.push(series);
       } else {
         throwPivotError = true;
       }
