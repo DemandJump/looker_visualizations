@@ -50,7 +50,7 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body" id="card-body">
-                            <canvas id="pie-chart"></canvas>
+                            <div id="pie-chart"></div>
                         </div>
                     </div>
                 </div>
@@ -178,6 +178,29 @@ looker.plugins.visualizations.add({
       //     }
       //   ]
     };
+
+    if (config.theme == `pie`) {
+      configuration[`plotOptions`].pie = {
+        expandOnClick: true,
+        dataLabels: { minAngleToShowLabel: 10 }
+      };
+    }
+
+    if (config.theme == `donut`) {
+      configuration[`plotOptions`].donut = {
+        size: `50%`,
+        background: `transparent`,
+        labels: {
+          show: true,
+          name: {
+            show: true,
+            fontSize: `12px`,
+            fontFamily: `Roboto`,
+            fontWeight: 400
+          }
+        }
+      };
+    }
 
     // Apex Charts
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
