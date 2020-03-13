@@ -1133,6 +1133,8 @@ looker.plugins.visualizations.add({
           settings.allLine.hidden = false;
           settings.allColumn.hidden = true;
           settings.allArea.hidden = true;
+          for (let i = 0; i < seriesData.length; i++)
+            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
           seriesData.forEach(
             (series, index) => (settings[`series_${index}`].hidden = true)
           );
@@ -1144,6 +1146,8 @@ looker.plugins.visualizations.add({
           settings.allColumn.hidden = false;
           settings.allArea.hidden = true;
           settings.allLine.hidden = true;
+          for (let i = 0; i < seriesData.length; i++)
+            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
           seriesData.forEach(
             (series, index) => (settings[`series_${index}`].hidden = true)
           );
@@ -1155,6 +1159,8 @@ looker.plugins.visualizations.add({
           settings.allArea.hidden = false;
           settings.allColumn.hidden = true;
           settings.allLine.hidden = true;
+          for (let i = 0; i < seriesData.length; i++)
+            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
           seriesData.forEach(
             (series, index) => (settings[`series_${index}`].hidden = true)
           );
@@ -1166,6 +1172,8 @@ looker.plugins.visualizations.add({
           settings.allLine.hidden = false;
           settings.allColumn.hidden = false;
           settings.allArea.hidden = false;
+          for (let i = 0; i < seriesData.length; i++)
+            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
           seriesData.forEach(
             (series, index) => (settings[`series_${index}`].hidden = false)
           );
