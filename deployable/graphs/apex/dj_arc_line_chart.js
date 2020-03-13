@@ -162,21 +162,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    fill: {
-      label: `Gradient type`,
-      order: 18,
-      section: `Format`,
-      type: `string`,
-      display: `select`,
-      values: [
-        { Solid: "solid" },
-        { Gradient: "gradient" },
-        { Pattern: "pattern" }
-      ],
-      default: `solid`,
-      hidden: false
-    },
-
     alignLegend: {
       label: `Align legend`,
       order: 19,
@@ -373,7 +358,6 @@ looker.plugins.visualizations.add({
 
     let height = window.innerHeight - 45;
     let curve = `smooth`;
-    let fill = `solid`;
     let dataLabels = false;
     let grid = false;
     let markers = true;
@@ -439,7 +423,6 @@ looker.plugins.visualizations.add({
         width: 3,
         curve: curve
       },
-      fill: { type: fill },
       // markers: { size: 1 },
       dataLabels: {
         enabled: dataLabels,
