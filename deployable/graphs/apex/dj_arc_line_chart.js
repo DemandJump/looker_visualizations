@@ -208,30 +208,33 @@ looker.plugins.visualizations.add({
     },
 
     // Series Type Section
-    allColumn: {
-      label: `All column chart types`,
+    allChartTypes: {
+      label: `All chart types`,
       order: 0.1,
-      section: `Type of Chart`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
-    allLine: {
-      label: `All line chart types`,
-      order: 0.2,
-      section: `Type of Chart`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
-    allArea: {
-      label: `All area chart types`,
-      order: 0.3,
-      section: `Type of Chart`,
-      type: `boolean`,
-      default: true,
+      section: `Type of chart`,
+      type: `string`,
+      display: `radio`,
+      values: [
+        {
+          Line: {
+            value: "line",
+            description: "Set all charts to a line layout"
+          }
+        },
+        {
+          Column: {
+            value: "column",
+            description: "Set all charts to a column layout"
+          }
+        },
+        {
+          Area: {
+            value: "area",
+            description: "Set all charts to an Area layout"
+          }
+        }
+      ],
+      default: `line`,
       hidden: false
     },
 
@@ -1126,57 +1129,33 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
-      if (config.allLine) {
+      if (config.allChartTypes == `line`) {
         if (seriesSelect != `line`) {
           seriesSelect = `line`;
           changed = true;
-          settings.allLine.hidden = false;
-          settings.allColumn.hidden = true;
-          settings.allArea.hidden = true;
           for (let i = 0; i < seriesData.length; i++)
-            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+            settings[`series_${i}`].hidden = true;
         }
-      } else if (config.allColumn) {
+      } else if (config.allChartTypes == `column`) {
         if (seriesSelect != `column`) {
           seriesSelect = `column`;
           changed = true;
-          settings.allColumn.hidden = false;
-          settings.allArea.hidden = true;
-          settings.allLine.hidden = true;
           for (let i = 0; i < seriesData.length; i++)
-            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+            settings[`series_${i}`].hidden = true;
         }
-      } else if (config.allArea) {
+      } else if (config.allChartTypes == `area`) {
         if (seriesSelect != `area`) {
           seriesSelect = `area`;
           changed = true;
-          settings.allArea.hidden = false;
-          settings.allColumn.hidden = true;
-          settings.allLine.hidden = true;
           for (let i = 0; i < seriesData.length; i++)
-            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+            settings[`series_${i}`].hidden = true;
         }
       } else {
         if (seriesSelect != `custom`) {
           seriesSelect = `custom`;
           changed = true;
-          settings.allLine.hidden = false;
-          settings.allColumn.hidden = false;
-          settings.allArea.hidden = false;
           for (let i = 0; i < seriesData.length; i++)
-            console.log(`Seriesdata iteration: ${i}`, settings[`series_${i}`]);
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = false)
-          );
+            settings[`series_${i}`].hidden = false;
         }
       }
     }
