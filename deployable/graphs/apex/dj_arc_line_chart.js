@@ -999,12 +999,10 @@ looker.plugins.visualizations.add({
      ************************************/
 
     function multiAxisDisplay() {
-      console.log(`This is mulitpleAxes`, multipleAxes);
       if (multipleAxes && seriesData.length > 1) {
         if (multiAxis != true) {
           multiAxis = true;
           changed = true;
-          console.log(`showing multi axis data`);
           settings.yTitle2.hidden = false;
           settings.showTitleY2.hidden = false;
           seriesData.forEach((s, i) => {
@@ -1015,7 +1013,6 @@ looker.plugins.visualizations.add({
         if (multiAxis != false) {
           multiAxis = false;
           changed = true;
-          console.log(`hiding multi axis data`);
           settings.yTitle2.hidden = true;
           settings.showTitleY2.hidden = true;
           seriesData.forEach((s, i) => {
@@ -1033,7 +1030,6 @@ looker.plugins.visualizations.add({
         seriesData.forEach((s, i) => {
           if (!settings[`seriesAxis_${i}`] && i != 0) {
             changed = true;
-            console.log(`Refactoring seriesAxis_${i}`);
             settings[`seriesAxis_${i}`] = {
               label: `Set ${s.name} on the second axis`,
               order: 10 + i,
@@ -1055,7 +1051,6 @@ looker.plugins.visualizations.add({
 
         if (!settings[name]) {
           changed = true;
-          console.log(`Rebuilding series type series_${index}`);
           settings[name] = {
             label: `Chart type: ${series.name}`,
             order: index + 1,
@@ -1070,7 +1065,6 @@ looker.plugins.visualizations.add({
           if (`Chart type: ${series.name}` != settings[name].label) {
             settings[name].label = `${series.name} series chart type`;
             changed = true;
-            console.log(`rebuilding based on chart type conditional`);
           }
 
           let type = `line`;
@@ -1078,21 +1072,12 @@ looker.plugins.visualizations.add({
           else if (config.allChartTypes == `column`) type = `column`;
           else if (config.allChartTypes == `area`) type = `area`;
           else if (config[name]) type = config[name];
-          console.log(
-            `This is the type: ${type}, and this is the config`,
-            config.allChartTypes
-          );
-
           series.type = type;
         }
       });
 
-      console.log(`RebuildSereisTypes: `, rebuildSeriesTypes);
       if (rebuildSeriesTypes == true) {
         changed = true;
-        console.log(
-          `rebuild series type true for series type function: rebuilding series_`
-        );
         for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
         seriesData.forEach((s, i) => {
           if (!settings[`series_${i}`]) {
