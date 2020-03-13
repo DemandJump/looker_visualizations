@@ -387,7 +387,7 @@ looker.plugins.visualizations.add({
     let dataLabels = false;
     let grid = false;
     let markers = true;
-    let legend = false;
+    let legend = true;
     let alignLegend = `center`;
     let alignYaxis = false;
     let multipleAxes = false;
@@ -435,7 +435,7 @@ looker.plugins.visualizations.add({
     let configuration = {
       chart: {
         id: `lineChart`,
-        type: `bar`,
+        type: `line`,
         height: height,
         toolbar: {
           autoSelected: `pan`,
@@ -489,7 +489,9 @@ looker.plugins.visualizations.add({
     if (legend) {
       configuration[`legend`] = {
         position: `bottom`,
-        horizontalAlign: alignLegend
+        horizontalAlign: alignLegend,
+        onItemClick: { toggleDataSeries: true },
+        onItemHover: { highlightDataSeries: true }
       };
     }
 
