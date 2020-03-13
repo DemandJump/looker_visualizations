@@ -1133,10 +1133,9 @@ looker.plugins.visualizations.add({
           settings.allLine.hidden = false;
           settings.allColumn.hidden = true;
           settings.allArea.hidden = true;
-          seriesData.forEach((series, index) => {
-            settings[`series_${index}`].hidden = true;
-            console.log(`This is the alL setting`, settings[`series_${index}`]);
-          });
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
         }
       } else if (config.allColumn) {
         if (seriesSelect != `column`) {
@@ -1145,10 +1144,9 @@ looker.plugins.visualizations.add({
           settings.allColumn.hidden = false;
           settings.allArea.hidden = true;
           settings.allLine.hidden = true;
-          seriesData.forEach((series, index) => {
-            settings[`series_${index}`].hidden = true;
-            console.log(`This is the alc setting`, settings[`series_${index}`]);
-          });
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
         }
       } else if (config.allArea) {
         if (seriesSelect != `area`) {
@@ -1157,10 +1155,9 @@ looker.plugins.visualizations.add({
           settings.allArea.hidden = false;
           settings.allColumn.hidden = true;
           settings.allLine.hidden = true;
-          seriesData.forEach((series, index) => {
-            settings[`series_${index}`].hidden = true;
-            console.log(`This is the ala setting`, settings[`series_${index}`]);
-          });
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = true)
+          );
         }
       } else {
         if (seriesSelect != `custom`) {
@@ -1169,9 +1166,9 @@ looker.plugins.visualizations.add({
           settings.allLine.hidden = false;
           settings.allColumn.hidden = false;
           settings.allArea.hidden = false;
-          seriesData.forEach((series, index) => {
-            settings[`series_${index}`].hidden = false;
-          });
+          seriesData.forEach(
+            (series, index) => (settings[`series_${index}`].hidden = false)
+          );
         }
       }
     }
