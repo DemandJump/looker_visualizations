@@ -1040,7 +1040,7 @@ looker.plugins.visualizations.add({
         }
       });
 
-      if (refactorSeries) {
+      if (refactorSeries == true) {
         for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
         seriesData.forEach((s, i) => {
           if (!settings[`seriesAxis_${i}`] && i != 0) {
@@ -1095,7 +1095,8 @@ looker.plugins.visualizations.add({
         }
       });
 
-      if (rebuildSeriesTypes) {
+      console.log(`RebuildSereisTypes: `, rebuildSeriesTypes);
+      if (rebuildSeriesTypes == true) {
         changed = true;
         console.log(
           `rebuild series type true for series type function: rebuilding series_`
@@ -1124,7 +1125,7 @@ looker.plugins.visualizations.add({
 
     function selectSeries() {
       console.log(
-        `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea}`
+        `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea} and this is seriesSelect: ${seriesSelect}`
       );
       if (config.allLine == `true`) {
         if (seriesSelect != `line`) {
