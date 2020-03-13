@@ -406,7 +406,7 @@ looker.plugins.visualizations.add({
     let configuration = {
       chart: {
         id: `lineChart`,
-        type: `line`,
+        type: `bar`,
         height: height,
         toolbar: {
           autoSelected: `pan`,
@@ -518,6 +518,8 @@ looker.plugins.visualizations.add({
     let ps;
     let nodes = [];
 
+    console.log(`This is axisElements`, axisElements);
+    console.log(`This is elem`, ekem);
     xaxis.forEach((axis, index) => {
       if (axis.links == undefined) axis.links = [];
       for (let i = 0; i < seriesData.length; i++) {
