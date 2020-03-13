@@ -1129,7 +1129,7 @@ looker.plugins.visualizations.add({
       console.log(
         `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea} and this is seriesSelect: ${seriesSelect}`
       );
-      if (config.allLine == `true`) {
+      if (config.allLine) {
         console.log(`Entered line conditional`);
         if (seriesSelect != `line`) {
           console.log(`rebuilding line config`);
@@ -1143,7 +1143,7 @@ looker.plugins.visualizations.add({
             console.log(`This is the alL setting`, settings[`series_${index}`]);
           });
         }
-      } else if (config.allColumn == `true`) {
+      } else if (config.allColumn) {
         console.log(`Entered column conditional`);
         if (seriesSelect != `column`) {
           console.log(`rebuilding column config`);
@@ -1157,7 +1157,7 @@ looker.plugins.visualizations.add({
             console.log(`This is the alc setting`, settings[`series_${index}`]);
           });
         }
-      } else if (config.allArea == `true`) {
+      } else if (config.allArea) {
         console.log(`Entered area conditional`);
         if (seriesSelect != `area`) {
           console.log(`rebuilding area config`);
