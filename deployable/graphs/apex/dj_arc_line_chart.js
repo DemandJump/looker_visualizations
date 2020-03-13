@@ -549,9 +549,6 @@ looker.plugins.visualizations.add({
     let elem = axisElements[0].children;
     let ps;
     let nodes = [];
-    console.log(`This is axisElements`, axisElements);
-    console.log(`Here are the children`, elem);
-    console.log(`This is xaxis`, xaxis);
 
     xaxis.forEach((axis, index) => {
       if (axis.links == undefined) axis.links = [];
@@ -569,7 +566,6 @@ looker.plugins.visualizations.add({
     });
 
     for (let i = 0; i < xaxis.length; i++) {
-      console.log(`this is elem[i]`, elem[i]);
       ps = elem[i].getBoundingClientRect();
       let elemWidth = ps.width;
       let elemHeight = ps.height;
@@ -833,24 +829,6 @@ looker.plugins.visualizations.add({
       }
 
       if (pivotC) {
-        // Labels
-        datum.forEach(row => {
-          let links = [];
-          if (row[queryResponse.fields.dimension_like[0].name].links)
-            links = row[queryResponse.fields.dimension_like[0].name].links;
-
-          if (row[queryResponse.fields.dimension_like[0].name].rendered)
-            xaxis.push({
-              name: row[queryResponse.fields.dimension_like[0].name].rendered,
-              links: links
-            });
-          else
-            xaxis.push({
-              name: row[queryResponse.fields.dimension_like[0].name].value,
-              links: links
-            });
-        });
-
         // Series Object
         for (let i = 0; i < queryResponse.pivots.length; i++) {
           let name =
@@ -917,6 +895,25 @@ looker.plugins.visualizations.add({
           seriesData[0].data.unshift(val);
           seriesData[0].links.unshift(links);
           seriesData[0].originalAxis.unshift(xaxisVal);
+        }
+
+        // Labels
+        for (let i = 0; i < seriesData[0].data.length; i++) {
+          let links = [];
+          if (datum[i][queryResponse.fields.dimension_like[0].name].links)
+            links = datum[i][queryResponse.fields.dimension_like[0].name].links;
+
+          if (datum[i][queryResponse.fields.dimension_like[0].name].rendered)
+            xaxis.push({
+              name:
+                datum[i][queryResponse.fields.dimension_like[0].name].rendered,
+              links: links
+            });
+          else
+            xaxis.push({
+              name: datum[i][queryResponse.fields.dimension_like[0].name].value,
+              links: links
+            });
         }
 
         xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
