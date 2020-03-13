@@ -1099,9 +1099,9 @@ looker.plugins.visualizations.add({
           }
 
           let type = `line`;
-          if (config.allLine) type = `line`;
-          else if (config.allColumn) type = `column`;
-          else if (config.allArea) type = `area`;
+          if (config.allChartTypes) type = `line`;
+          else if (config.allChartTypes) type = `column`;
+          else if (config.allChartTypes) type = `area`;
           else if (config[name]) type = config[name];
 
           series.type = type;
