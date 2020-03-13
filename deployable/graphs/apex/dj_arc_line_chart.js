@@ -232,6 +232,12 @@ looker.plugins.visualizations.add({
             value: "area",
             description: "Set all charts to an Area layout"
           }
+        },
+        {
+          Custom: {
+            value: "custom",
+            description: "Change the chart types individually"
+          }
         }
       ],
       default: `line`,
@@ -1129,33 +1135,27 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
-      if (config.allChartTypes == `line`) {
-        if (seriesSelect != `line`) {
-          seriesSelect = `line`;
+      if (
+        config.allChartTypes == `line` ||
+        config.allChartTypes == `column` ||
+        config.allChartTypes == `area`
+      ) {
+        if (seriesSelect != `all`) {
+          seriesSelect = `all`;
           changed = true;
-          for (let i = 0; i < seriesData.length; i++)
+          for (let i = 0; i < seriesData.length; i++) {
             settings[`series_${i}`].hidden = true;
-        }
-      } else if (config.allChartTypes == `column`) {
-        if (seriesSelect != `column`) {
-          seriesSelect = `column`;
-          changed = true;
-          for (let i = 0; i < seriesData.length; i++)
-            settings[`series_${i}`].hidden = true;
-        }
-      } else if (config.allChartTypes == `area`) {
-        if (seriesSelect != `area`) {
-          seriesSelect = `area`;
-          changed = true;
-          for (let i = 0; i < seriesData.length; i++)
-            settings[`series_${i}`].hidden = true;
+            console.log(`iteration: ${i}`, settings[`series_${i}`]);
+          }
         }
       } else {
         if (seriesSelect != `custom`) {
           seriesSelect = `custom`;
           changed = true;
-          for (let i = 0; i < seriesData.length; i++)
-            settings[`series_${i}`].hidden = false;
+          for (let i = 0; i < seriesData.length; i++) {
+            settings[`series_${i}`].hidden = true;
+            console.log(`iteration: ${i}`, settings[`series_${i}`]);
+          }
         }
       }
     }
