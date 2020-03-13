@@ -120,9 +120,36 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    alignYaxis: {
+      label: `Set y axis on the right`,
+      order: 14,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    dataLabels: {
+      label: `Enable data labels`,
+      order: 15,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    styleGrid: {
+      label: `Style grid`,
+      order: 16,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
     curve: {
       label: `Line behavior`,
-      order: 14,
+      order: 17,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -137,7 +164,7 @@ looker.plugins.visualizations.add({
 
     fill: {
       label: `Gradient type`,
-      order: 14.5,
+      order: 18,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -147,42 +174,6 @@ looker.plugins.visualizations.add({
         { Pattern: "pattern" }
       ],
       default: `solid`,
-      hidden: false
-    },
-
-    alignYaxis: {
-      label: `Set y axis on the right`,
-      order: 15,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
-    dataLabels: {
-      label: `Enable data labels`,
-      order: 16,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
-    // legend: {
-    //   label: `Display legend`,
-    //   order: 17,
-    //   section: `Format`,
-    //   type: `boolean`,
-    //   default: true,
-    //   hidden: false
-    // },
-
-    styleGrid: {
-      label: `Style grid`,
-      order: 18,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
       hidden: false
     },
 
