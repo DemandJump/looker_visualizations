@@ -211,7 +211,7 @@ looker.plugins.visualizations.add({
     allChartTypes: {
       label: `All chart types`,
       order: 0.1,
-      section: `Type of chart`,
+      section: `Type of Chart`,
       type: `string`,
       display: `radio`,
       values: [
