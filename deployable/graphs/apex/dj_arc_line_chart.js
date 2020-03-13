@@ -549,6 +549,8 @@ looker.plugins.visualizations.add({
     let elem = axisElements[0].children;
     let ps;
     let nodes = [];
+    console.log(`This is axisElements`, axisElements);
+    console.log(`Here are the children`, elem);
 
     xaxis.forEach((axis, index) => {
       if (axis.links == undefined) axis.links = [];
