@@ -136,6 +136,21 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    fill: {
+      label: `Gradient type`,
+      order: 14.5,
+      section: `Format`,
+      type: `string`,
+      display: `select`,
+      values: [
+        { Gradient: "gradient" },
+        { Solid: "solid" },
+        { Pattern: "pattern" }
+      ],
+      default: `gradient`,
+      hidden: false
+    },
+
     alignYaxis: {
       label: `Set y axis on the right`,
       order: 15,
@@ -360,6 +375,7 @@ looker.plugins.visualizations.add({
 
     let height = window.innerHeight - 45;
     let curve = `smooth`;
+    let fill = `solid`;
     let dataLabels = false;
     let grid = false;
     let markers = true;
@@ -422,6 +438,7 @@ looker.plugins.visualizations.add({
       labels: axisNames,
       colors: djColors,
       stroke: { curve: curve },
+      fill: { type: fill },
       // markers: { size: 1 },
       dataLabels: {
         enabled: dataLabels,
