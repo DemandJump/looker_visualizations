@@ -436,7 +436,7 @@ looker.plugins.visualizations.add({
       labels: axisNames,
       colors: djColors,
       stroke: {
-        width: 2,
+        width: 3,
         curve: curve
       },
       fill: { type: fill },
