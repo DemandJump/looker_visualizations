@@ -1041,19 +1041,6 @@ looker.plugins.visualizations.add({
         refactorSeries = true;
       }
 
-      seriesData.forEach((s, i) => {
-        if (settings[`seriesAxis_${i}`]) {
-          if (
-            i != 0 &&
-            settings[`seriesAxis_${i}`].label !=
-              `Set ${s.name} on the second axis`
-          ) {
-            console.log(`Naming convention off`);
-            refactorSeries = true;
-          }
-        }
-      });
-
       if (refactorSeries == true) {
         for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
         seriesData.forEach((s, i) => {
