@@ -121,9 +121,24 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    curve: {
+      label: `Line behavior`,
+      order: 14,
+      section: `Format`,
+      type: `string`,
+      display: `select`,
+      values: [
+        { Straight: "straight" },
+        { Smooth: "smooth" },
+        { Step: "stepline" }
+      ],
+      default: `straight`,
+      hidden: false
+    },
+
     alignYaxis: {
       label: `Set y axis on the right`,
-      order: 14,
+      order: 15,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -132,16 +147,25 @@ looker.plugins.visualizations.add({
 
     dataLabels: {
       label: `Enable data labels`,
-      order: 15,
+      order: 16,
       section: `Format`,
       type: `boolean`,
       default: false,
       hidden: false
     },
 
-    legend: {
-      label: `Display legend`,
-      order: 16,
+    // legend: {
+    //   label: `Display legend`,
+    //   order: 17,
+    //   section: `Format`,
+    //   type: `boolean`,
+    //   default: true,
+    //   hidden: false
+    // },
+
+    styleGrid: {
+      label: `Style grid`,
+      order: 18,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -150,21 +174,12 @@ looker.plugins.visualizations.add({
 
     alignLegend: {
       label: `Align legend`,
-      order: 17,
+      order: 19,
       section: `Format`,
       type: `string`,
       display: `select`,
       values: [{ Center: "center" }, { Left: "left" }, { Right: "right" }],
       default: `center`,
-      hidden: false
-    },
-
-    styleGrid: {
-      label: `Style grid`,
-      order: 19,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
       hidden: false
     },
 
@@ -379,10 +394,10 @@ looker.plugins.visualizations.add({
     if (config.showTitleX) showTitleX = config.showTitleX;
     if (config.showTitleY) showTitleY = config.showTitleY;
     if (config.showTitleY2) showTitleY2 = config.showTitleY2;
-    if (config.legend) legend = config.legend;
     if (config.dataLabels) dataLabels = config.dataLabels;
     if (config.alignYaxis) alignYaxis = config.alignYaxis;
     if (config.styleGrid) grid = config.styleGrid;
+    if (config.curve) curve = config.curve;
     if (config.multipleAxes) multipleAxes = config.multipleAxes;
 
     /************************
