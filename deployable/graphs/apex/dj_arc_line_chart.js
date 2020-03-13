@@ -143,11 +143,11 @@ looker.plugins.visualizations.add({
       type: `string`,
       display: `select`,
       values: [
-        { Gradient: "gradient" },
         { Solid: "solid" },
+        { Gradient: "gradient" },
         { Pattern: "pattern" }
       ],
-      default: `gradient`,
+      default: `solid`,
       hidden: false
     },
 
@@ -996,6 +996,7 @@ looker.plugins.visualizations.add({
      ************************************/
 
     function multiAxisDisplay() {
+      console.log(`This is mulitpleAxes`, multipleAxes);
       if (multipleAxes && seriesData.length > 1) {
         if (multiAxis != true) {
           multiAxis = true;
@@ -1022,15 +1023,21 @@ looker.plugins.visualizations.add({
 
       // If you're querying new data
       let refactorSeries = false;
-      if (seriesData.length != thisSeries) refactorSeries = true;
-      seriesData.forEach((series, index) => {
-        if (settings[`seriesAxis_${index}`]) {
+      if (seriesData.length != thisSeries) {
+        console.log(`Refactore series thisSeries refactor`);
+        refactorSeries = true;
+      }
+
+      seriesData.forEach((s, i) => {
+        if (settings[`seriesAxis_${i}`]) {
           if (
-            index != 0 &&
-            settings[`seriesAxis_${index}`].label !=
-              `Set ${series.name} on the second axis`
-          )
+            i != 0 &&
+            settings[`seriesAxis_${i}`].label !=
+              `Set ${s.name} on the second axis`
+          ) {
+            console.log(`Naming convention off`);
             refactorSeries = true;
+          }
         }
       });
 
