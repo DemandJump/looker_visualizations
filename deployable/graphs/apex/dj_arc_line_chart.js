@@ -437,7 +437,7 @@ looker.plugins.visualizations.add({
         type: `line`,
         height: height,
         toolbar: {
-          autoSelected: `pan`,
+          autoSelected: `zoom`,
           show: true
         }
       },
@@ -1084,6 +1084,10 @@ looker.plugins.visualizations.add({
           else if (config.allChartTypes) type = `column`;
           else if (config.allChartTypes) type = `area`;
           else if (config[name]) type = config[name];
+          console.log(
+            `This is the type: ${type}, and this is the config`,
+            config.allChartTypes
+          );
 
           series.type = type;
         }
