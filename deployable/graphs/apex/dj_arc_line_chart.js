@@ -1129,10 +1129,8 @@ looker.plugins.visualizations.add({
       console.log(
         `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea} and this is seriesSelect: ${seriesSelect}`
       );
-      if (config.allLine) {
-        console.log(`Entered line conditional`);
+      if (config.allLine == true) {
         if (seriesSelect != `line`) {
-          console.log(`rebuilding line config`);
           seriesSelect = `line`;
           changed = true;
           settings.allLine.hidden = false;
@@ -1143,10 +1141,8 @@ looker.plugins.visualizations.add({
             console.log(`This is the alL setting`, settings[`series_${index}`]);
           });
         }
-      } else if (config.allColumn) {
-        console.log(`Entered column conditional`);
+      } else if (config.allColumn == true) {
         if (seriesSelect != `column`) {
-          console.log(`rebuilding column config`);
           seriesSelect = `column`;
           changed = true;
           settings.allColumn.hidden = false;
@@ -1157,10 +1153,8 @@ looker.plugins.visualizations.add({
             console.log(`This is the alc setting`, settings[`series_${index}`]);
           });
         }
-      } else if (config.allArea) {
-        console.log(`Entered area conditional`);
+      } else if (config.allArea == true) {
         if (seriesSelect != `area`) {
-          console.log(`rebuilding area config`);
           seriesSelect = `area`;
           changed = true;
           settings.allArea.hidden = false;
@@ -1173,15 +1167,13 @@ looker.plugins.visualizations.add({
         }
       } else {
         if (seriesSelect != `custom`) {
-          console.log(`rebuilding custom config`);
           seriesSelect = `custom`;
           changed = true;
           settings.allLine.hidden = false;
           settings.allColumn.hidden = false;
           settings.allArea.hidden = false;
           seriesData.forEach((series, index) => {
-            settings[`series_${index}`].hidden = true;
-            console.log(`This is the new setting`, settings[`series_${index}`]);
+            settings[`series_${index}`].hidden = false;
           });
         }
       }
