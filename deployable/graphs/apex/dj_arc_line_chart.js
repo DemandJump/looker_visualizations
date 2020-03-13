@@ -988,7 +988,7 @@ looker.plugins.visualizations.add({
           changed = true;
           settings.yTitle2.hidden = false;
           settings.showTitleY2.hidden = false;
-          settings.alignYaxis.hidden = false;
+          settings.alignYaxis.hidden = true;
           seriesData.forEach((s, i) => {
             if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
           });
@@ -999,7 +999,7 @@ looker.plugins.visualizations.add({
           changed = true;
           settings.yTitle2.hidden = true;
           settings.showTitleY2.hidden = true;
-          settings.alignYaxis.hidden = true;
+          settings.alignYaxis.hidden = false;
           seriesData.forEach((s, i) => {
             if (i != 0) settings[`seriesAxis_${i}`].hidden = true;
           });
