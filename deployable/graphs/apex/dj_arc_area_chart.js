@@ -426,8 +426,11 @@ looker.plugins.visualizations.add({
           colors: ["#fff"]
         }
       },
-      stroke: { curve: curve },
       fill: { type: fill },
+      stroke: {
+        width: 3,
+        curve: curve
+      },
       subtitle: {
         text: label,
         align: `left`
