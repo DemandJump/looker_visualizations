@@ -264,7 +264,6 @@ looker.plugins.visualizations.add({
     this._iteration = 0;
     this._series = 0;
     this._mutliAxis = false;
-    this._rebuildSeriesTypes = false;
     this._seriesSelect = ``;
     element.innerHTML = `
             <style>
@@ -373,7 +372,7 @@ looker.plugins.visualizations.add({
     let settings = this.options;
     let thisSeries = this._series;
     let multiAxis = this._mutliAxis;
-    let rebuildSeriesTypes = this._rebuildSeriesTypes;
+    let rebuildSeriesTypes = false;
     let seriesSelect = this._seriesSelect;
     let changed = false;
     let pivot = false;
@@ -522,7 +521,6 @@ looker.plugins.visualizations.add({
     this._iteration++;
     this._series = seriesData.length;
     this._mutliAxis = multiAxis;
-    this._rebuildSeriesTypes = rebuildSeriesTypes;
     this._seriesSelect = seriesSelect;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
@@ -1034,12 +1032,7 @@ looker.plugins.visualizations.add({
 
       // If you're querying new data
       let refactorSeries = false;
-      if (seriesData.length != thisSeries) {
-        console.log(
-          `Refactore series:::: seriesData: ${seriesData.length}, and thisSeries: ${thisSeries}`
-        );
-        refactorSeries = true;
-      }
+      if (seriesData.length != thisSeries) refactorSeries = true;
 
       if (refactorSeries == true) {
         for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
