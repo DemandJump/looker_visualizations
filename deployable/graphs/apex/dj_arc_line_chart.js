@@ -1023,7 +1023,9 @@ looker.plugins.visualizations.add({
       // If you're querying new data
       let refactorSeries = false;
       if (seriesData.length != thisSeries) {
-        console.log(`Refactore series thisSeries refactor`);
+        console.log(
+          `Refactore series:::: seriesData: ${seriesData.length}, and thisSeries: ${thisSeries}`
+        );
         refactorSeries = true;
       }
 
@@ -1128,6 +1130,7 @@ looker.plugins.visualizations.add({
         `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea} and this is seriesSelect: ${seriesSelect}`
       );
       if (config.allLine == `true`) {
+        console.log(`Entered line conditional`);
         if (seriesSelect != `line`) {
           console.log(`rebuilding line config`);
           seriesSelect = `line`;
@@ -1141,6 +1144,7 @@ looker.plugins.visualizations.add({
           });
         }
       } else if (config.allColumn == `true`) {
+        console.log(`Entered column conditional`);
         if (seriesSelect != `column`) {
           console.log(`rebuilding column config`);
           seriesSelect = `column`;
@@ -1154,6 +1158,7 @@ looker.plugins.visualizations.add({
           });
         }
       } else if (config.allArea == `true`) {
+        console.log(`Entered area conditional`);
         if (seriesSelect != `area`) {
           console.log(`rebuilding area config`);
           seriesSelect = `area`;
@@ -1175,7 +1180,7 @@ looker.plugins.visualizations.add({
           settings.allColumn.hidden = false;
           settings.allArea.hidden = false;
           seriesData.forEach((series, index) => {
-            settings[`series_${index}`].hidden = false;
+            settings[`series_${index}`].hidden = true;
             console.log(`This is the new setting`, settings[`series_${index}`]);
           });
         }
