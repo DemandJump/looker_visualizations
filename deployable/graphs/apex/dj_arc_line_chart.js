@@ -232,7 +232,7 @@ looker.plugins.visualizations.add({
       order: 0.5,
       section: `Format`,
       type: `sentence_maker`,
-      words: [{ type: "separator", text: "Chart Type Configuration:" }],
+      words: [{ type: "separator", text: "Chart Labels:" }],
       hidden: false
     }
   },
