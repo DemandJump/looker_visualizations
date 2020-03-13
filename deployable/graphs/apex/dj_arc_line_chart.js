@@ -519,7 +519,7 @@ looker.plugins.visualizations.add({
     let nodes = [];
 
     console.log(`This is axisElements`, axisElements);
-    console.log(`This is elem`, ekem);
+    console.log(`This is elem`, elem);
     xaxis.forEach((axis, index) => {
       if (axis.links == undefined) axis.links = [];
       for (let i = 0; i < seriesData.length; i++) {
