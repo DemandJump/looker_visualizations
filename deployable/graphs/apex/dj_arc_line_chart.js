@@ -1136,7 +1136,7 @@ looker.plugins.visualizations.add({
           seriesSelect = `custom`;
           changed = true;
           for (let i = 0; i < seriesData.length; i++) {
-            settings[`series_${i}`].hidden = true;
+            settings[`series_${i}`].hidden = false;
             console.log(`iteration: ${i}`, settings[`series_${i}`]);
           }
         }
