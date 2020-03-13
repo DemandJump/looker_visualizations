@@ -59,7 +59,7 @@ looker.plugins.visualizations.add({
             <div class="row">
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
-                        <div class="card-body" id="card-body">
+                        <div class="card-body" id="card-body" style="text-align: center;">
                             <div id="pie-chart"></div>
                         </div>
                     </div>
