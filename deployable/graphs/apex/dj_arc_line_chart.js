@@ -1126,10 +1126,7 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
-      console.log(
-        `allLine: ${config.allLine}, allColumn: ${config.allColumn}, allArea: ${config.allArea} and this is seriesSelect: ${seriesSelect}`
-      );
-      if (config.allLine == true) {
+      if (config.allLine) {
         if (seriesSelect != `line`) {
           seriesSelect = `line`;
           changed = true;
@@ -1141,7 +1138,7 @@ looker.plugins.visualizations.add({
             console.log(`This is the alL setting`, settings[`series_${index}`]);
           });
         }
-      } else if (config.allColumn == true) {
+      } else if (config.allColumn) {
         if (seriesSelect != `column`) {
           seriesSelect = `column`;
           changed = true;
@@ -1153,7 +1150,7 @@ looker.plugins.visualizations.add({
             console.log(`This is the alc setting`, settings[`series_${index}`]);
           });
         }
-      } else if (config.allArea == true) {
+      } else if (config.allArea) {
         if (seriesSelect != `area`) {
           seriesSelect = `area`;
           changed = true;
