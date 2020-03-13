@@ -1135,11 +1135,8 @@ looker.plugins.visualizations.add({
           settings.allColumn.hidden = true;
           settings.allArea.hidden = true;
           seriesData.forEach((series, index) => {
-            console.log(
-              `Config ${seriesSelect}, setting:`,
-              settings[`series_${index}`]
-            );
             settings[`series_${index}`].hidden = true;
+            console.log(`This is the alL setting`, settings[`series_${index}`]);
           });
         }
       } else if (config.allColumn == `true`) {
@@ -1151,11 +1148,8 @@ looker.plugins.visualizations.add({
           settings.allArea.hidden = true;
           settings.allLine.hidden = true;
           seriesData.forEach((series, index) => {
-            console.log(
-              `Config ${seriesSelect}, setting:`,
-              settings[`series_${index}`]
-            );
             settings[`series_${index}`].hidden = true;
+            console.log(`This is the alc setting`, settings[`series_${index}`]);
           });
         }
       } else if (config.allArea == `true`) {
@@ -1167,11 +1161,8 @@ looker.plugins.visualizations.add({
           settings.allColumn.hidden = true;
           settings.allLine.hidden = true;
           seriesData.forEach((series, index) => {
-            console.log(
-              `Config ${seriesSelect}, setting:`,
-              settings[`series_${index}`]
-            );
             settings[`series_${index}`].hidden = true;
+            console.log(`This is the ala setting`, settings[`series_${index}`]);
           });
         }
       } else {
