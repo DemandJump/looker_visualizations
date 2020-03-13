@@ -435,7 +435,10 @@ looker.plugins.visualizations.add({
       series: seriesData,
       labels: axisNames,
       colors: djColors,
-      stroke: { curve: curve },
+      stroke: {
+        width: 2,
+        curve: curve
+      },
       fill: { type: fill },
       // markers: { size: 1 },
       dataLabels: {
