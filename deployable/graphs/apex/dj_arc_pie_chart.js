@@ -164,7 +164,8 @@ looker.plugins.visualizations.add({
         horizontalAlign: `center`,
         onItemClick: { toggleDataSeries: true },
         onItemHover: { highlightDataSeries: true }
-      }
+      },
+      plotOptions: {}
       //   responsive: [
       //     {
       //       breakpoint: 480,
