@@ -20,18 +20,9 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showTitle: {
-      label: `Show title`,
-      order: 3,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
     subtitle: {
       label: `Subtitle of chart`,
-      order: 4,
+      order: 3,
       section: `Format`,
       type: `string`,
       placeholder: `Enter a subtitle`,
@@ -39,18 +30,9 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showSubtitle: {
-      label: `Show subtitle`,
-      order: 5,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
     yTitle: {
       label: `Y axis label`,
-      order: 6,
+      order: 4,
       section: `Format`,
       type: `string`,
       placeholder: `Enter y axis label`,
@@ -58,8 +40,28 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showTitleY: {
-      label: `Show y axis label`,
+    yTitle2: {
+      label: `Second y axis label`,
+      order: 5,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter y axis label`,
+      default: ``,
+      hidden: false
+    },
+
+    xTitle: {
+      label: `X axis label`,
+      order: 6,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter x axis label`,
+      default: ``,
+      hidden: false
+    },
+
+    showTitle: {
+      label: `Show title`,
       order: 7,
       section: `Format`,
       type: `boolean`,
@@ -67,32 +69,29 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    yTitle2: {
-      label: `Second y axis label`,
+    showSubtitle: {
+      label: `Show subtitle`,
       order: 8,
-      section: `Format`,
-      type: `string`,
-      placeholder: `Enter y axis label`,
-      default: ``,
-      hidden: false
-    },
-
-    showTitleY2: {
-      label: `Show second y axis label`,
-      order: 9,
       section: `Format`,
       type: `boolean`,
       default: true,
       hidden: false
     },
 
-    xTitle: {
-      label: `X axis label`,
+    showTitleY: {
+      label: `Show y axis label`,
+      order: 9,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+    showTitleY2: {
+      label: `Show second y axis label`,
       order: 10,
       section: `Format`,
-      type: `string`,
-      placeholder: `Enter x axis label`,
-      default: ``,
+      type: `boolean`,
+      default: true,
       hidden: false
     },
 
