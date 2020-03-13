@@ -50,7 +50,7 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body" id="card-body">
-                            <canvas id="chart-area"></canvas>
+                            <canvas id="pie-chart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -182,10 +182,10 @@ looker.plugins.visualizations.add({
     // Apex Charts
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let chart = new ApexCharts(
-      document.querySelector(`#chart-apex-area`),
+      document.querySelector(`#pie-chart`),
       configuration
     );
-    if (document.getElementById(`chart-apex-area`)) chart.render();
+    if (document.getElementById(`pie-chart`)) chart.render();
 
     /************************************
      * Data functions
