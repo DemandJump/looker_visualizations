@@ -392,9 +392,6 @@ looker.plugins.visualizations.add({
     // Grab the user config data
     if (config.title != ``) title = config.title;
     if (config.subtitle != ``) subtitle = config.subtitle;
-    if (config.xTitle != ``) xTitle = config.xTitle;
-    if (config.yTitle != ``) yTitle = config.yTitle;
-    if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
     if (config.alignLegend) alignLegend = config.alignLegend;
 
     if (config.showTitle) showTitle = config.showTitle;
@@ -678,7 +675,6 @@ looker.plugins.visualizations.add({
         });
 
         // Series data
-        let series = [];
         datum.forEach((row, index) => {
           for (let i = 0; i < queryResponse.fields.measure_like.length; i++) {
             let value = 0;
@@ -690,6 +686,9 @@ looker.plugins.visualizations.add({
             seriesData[i].links.push(lonks);
           }
         });
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
+        yTitle = queryResponse.fields.measure_like[0].field_group_variant;
       }
 
       if (pivotA) {
@@ -710,11 +709,9 @@ looker.plugins.visualizations.add({
         });
 
         // Series construct > the measure and the pivot for each key including data across all labels for each series(measure)
-        let series = [];
         queryResponse.fields.measure_like.forEach((row, index) => {
           let obData = [];
           let liData = [];
-          let newSeries = [];
 
           for (let i = 0; i < queryResponse.pivots.length; i++) {
             let keyname = queryResponse.pivots[i].key;
@@ -740,6 +737,8 @@ looker.plugins.visualizations.add({
           };
           seriesData.push(obj);
         });
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
       }
 
       if (pivotB) {
@@ -799,6 +798,9 @@ looker.plugins.visualizations.add({
             seriesData[i].data.push(value);
           }
         });
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
+        yTitle = queryResponse.fields.measure_like[0].field_group_variant;
       }
 
       if (pivotC) {
@@ -887,6 +889,8 @@ looker.plugins.visualizations.add({
           seriesData[0].links.unshift(links);
           seriesData[0].originalAxis.unshift(xaxisVal);
         }
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
       }
 
       // Grab the xaxis names for the labels of the chart, and value format
@@ -894,6 +898,10 @@ looker.plugins.visualizations.add({
       queryResponse.fields.measure_like.forEach(mes =>
         valueFormat.push(mes.value_format)
       );
+
+      if (config.xTitle != ``) xTitle = config.xTitle;
+      if (config.yTitle != ``) yTitle = config.yTitle;
+      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
     }
 
     function buildMultipleAxes() {

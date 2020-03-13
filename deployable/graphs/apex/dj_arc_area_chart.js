@@ -658,9 +658,6 @@ looker.plugins.visualizations.add({
       if (config.showTitle3) showTitle3 = config.showTitle3;
       if (config.label) label = config.label;
       if (config.title != ``) title = config.title;
-      if (config.yTitle != ``) yTitle = config.yTitle;
-      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
-      if (config.xTitle != ``) xTitle = config.xTitle;
       if (config.sideYaxis) sideYaxis = config.sideYaxis;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
       if (config.stack) stack = config.stack;
@@ -727,6 +724,9 @@ looker.plugins.visualizations.add({
             seriesData[i].links.push(lonks);
           }
         });
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
+        yTitle = queryResponse.fields.measure_like[0].field_group_variant;
       }
 
       if (pivotA) {
@@ -774,6 +774,8 @@ looker.plugins.visualizations.add({
           };
           seriesData.push(obj);
         });
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
       }
 
       if (pivotB) {
@@ -833,6 +835,9 @@ looker.plugins.visualizations.add({
             seriesData[i].data.push(value);
           }
         });
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
+        yTitle = queryResponse.fields.measure_like[0].field_group_variant;
       }
 
       if (pivotC) {
@@ -921,6 +926,8 @@ looker.plugins.visualizations.add({
           seriesData[0].links.unshift(links);
           seriesData[0].originalAxis.unshift(xaxisVal);
         }
+
+        xTitle = queryResponse.fields.dimension_like[0].field_group_variant;
       }
 
       // Grab the xaxis names for the labels of the chart, and value format
@@ -928,6 +935,10 @@ looker.plugins.visualizations.add({
       queryResponse.fields.measure_like.forEach(mes =>
         valueFormat.push(mes.value_format)
       );
+
+      if (config.yTitle != ``) yTitle = config.yTitle;
+      if (config.yTitle2 != ``) yTitle2 = config.yTitle2;
+      if (config.xTitle != ``) xTitle = config.xTitle;
     }
 
     function buildMultipleAxes() {
