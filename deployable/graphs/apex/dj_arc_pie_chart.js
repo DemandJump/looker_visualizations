@@ -65,7 +65,7 @@ looker.plugins.visualizations.add({
     details,
     doneRendering
   ) {
-    let node = document.getElementById(`chart-area`);
+    let node = document.getElementById(`pie-chart`);
     while (node.firstChild) node.firstChild.remove();
 
     console.log(`These are the settings`, this.options);
