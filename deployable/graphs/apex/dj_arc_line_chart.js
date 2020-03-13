@@ -1080,9 +1080,9 @@ looker.plugins.visualizations.add({
           }
 
           let type = `line`;
-          if (config.allChartTypes) type = `line`;
-          else if (config.allChartTypes) type = `column`;
-          else if (config.allChartTypes) type = `area`;
+          if (config.allChartTypes == `line`) type = `line`;
+          else if (config.allChartTypes == `column`) type = `column`;
+          else if (config.allChartTypes == `area`) type = `area`;
           else if (config[name]) type = config[name];
           console.log(
             `This is the type: ${type}, and this is the config`,
