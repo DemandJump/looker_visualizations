@@ -209,7 +209,7 @@ looker.plugins.visualizations.add({
 
     // Series Type Section
     allChartTypes: {
-      label: `All chart types`,
+      label: `All chart types:`,
       order: 0.1,
       section: `Type of Chart`,
       type: `string`,
@@ -551,6 +551,7 @@ looker.plugins.visualizations.add({
     let nodes = [];
     console.log(`This is axisElements`, axisElements);
     console.log(`Here are the children`, elem);
+    console.log(`This is xaxis`, xaxis);
 
     xaxis.forEach((axis, index) => {
       if (axis.links == undefined) axis.links = [];
@@ -568,6 +569,7 @@ looker.plugins.visualizations.add({
     });
 
     for (let i = 0; i < xaxis.length; i++) {
+      console.log(`this is elem[i]`, elem[i]);
       ps = elem[i].getBoundingClientRect();
       let elemWidth = ps.width;
       let elemHeight = ps.height;
