@@ -18,22 +18,32 @@ looker.plugins.visualizations.add({
       order: 2,
       section: `Format`,
       type: `string`,
-      placeholder: `Enter chart title here`,
+      placeholder: `Enter a title`,
+      hidden: false
+    },
+
+    subtitle: {
+      label: `Subtitle of chart`,
+      order: 3,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter a subtitle`,
+      default: ``,
       hidden: false
     },
 
     showTitle: {
       label: `Show title`,
-      order: 2.5,
+      order: 4,
       section: `Format`,
       type: `boolean`,
       default: true,
       hidden: false
     },
 
-    aspectRatio: {
-      label: `Maintain`,
-      order: 3,
+    showSubtitle: {
+      label: `Show subtitle`,
+      order: 5,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -117,6 +127,16 @@ looker.plugins.visualizations.add({
     let throwPivotError = false;
 
     let type = `pie`;
+    let title = ` `;
+    let subtitle = ` `;
+    let showTitle = false;
+    let showSubtitle = false;
+
+    if (config.title != ``) title = config.title;
+    if (config.subtitle != ``) subtitle = config.subtitle;
+    if (config.showTitle == true) showtitle = config.showTitle;
+    if (config.showSubtitle == true) showSubtitle = config.showSubtitle;
+
     let seriesData = [];
     let xaxis = [];
     let xaxisNames = [];
@@ -161,23 +181,12 @@ looker.plugins.visualizations.add({
         }
       },
       legend: {
-        horizontalAlign: `center`,
-        onItemClick: { toggleDataSeries: true },
-        onItemHover: { highlightDataSeries: true }
+        position: `bottom`,
+        horizontalAlign: `center`
+        // onItemClick: { toggleDataSeries: true },
+        // onItemHover: { highlightDataSeries: true }
       },
       plotOptions: {}
-      //   responsive: [
-      //     {
-      //       breakpoint: 480,
-      //       options: {
-      //         chart: { width: 200 },
-      //         legend: {
-      //           position: `bottom`,
-      //           horizontalAlign: `center`
-      //         }
-      //       }
-      //     }
-      //   ]
     };
 
     if (config.theme == `pie`) {
@@ -189,17 +198,17 @@ looker.plugins.visualizations.add({
 
     if (config.theme == `donut`) {
       configuration[`plotOptions`].donut = {
-        size: `50%`,
-        background: `transparent`,
-        labels: {
-          show: true,
-          name: {
-            show: true,
-            fontSize: `12px`,
-            fontFamily: `Roboto`,
-            fontWeight: 400
-          }
-        }
+        size: `25%`,
+        background: `transparent`
+        // labels: {
+        //   show: true,
+        //   name: {
+        //     show: true,
+        //     fontSize: `12px`,
+        //     fontFamily: `Roboto`,
+        //     fontWeight: 400
+        //   }
+        // }
       };
     }
 
