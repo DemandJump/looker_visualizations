@@ -166,13 +166,14 @@ looker.plugins.visualizations.add({
         align: `left`
       },
       tooltip: {
-        y: {
-          formatter: function(val) {
-            if (typeof val == `number`)
-              return formatAxes(val, seriesData[0].value_format);
-            else return val;
-          }
-        }
+        enabled: true
+        //   y: {
+        //     formatter: function(val) {
+        //       if (typeof val == `number`)
+        //         return formatAxes(val, seriesData[0].value_format);
+        //       else return val;
+        //     }
+        //   }
       },
       legend: {
         position: `bottom`,
