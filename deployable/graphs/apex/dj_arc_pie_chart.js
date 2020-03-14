@@ -73,13 +73,9 @@ looker.plugins.visualizations.add({
     details,
     doneRendering
   ) {
-    let node = document.getElementById(`pie-chart`);
-    while (node.firstChild) node.firstChild.remove();
-
-    console.log(`These are the settings`, this.options);
-    console.log(`This is the config`, config);
-    console.log(`Queryresponse`, queryResponse);
-    console.log(`Data`, data);
+    d3.select(`#pie-chart`)
+      .selectAll(`*`)
+      .remove();
 
     let djColors = [
       `#009DE9`,
@@ -224,6 +220,20 @@ looker.plugins.visualizations.add({
       configuration
     );
     if (document.getElementById(`pie-chart`)) chart.render();
+
+    let seriesInformation = {
+      seriesData: seriesData,
+      xaxis: xaxis,
+      xaxisNames: xaxisNames,
+      queryResponse: {
+        config: config,
+        settings: this.options,
+        queryResponse: queryResponse,
+        element: element,
+        details: details
+      }
+    };
+    console.log(`Here's the series information`, seriesInformation);
 
     /************************************
      * Data functions
