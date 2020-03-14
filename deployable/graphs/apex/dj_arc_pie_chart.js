@@ -173,7 +173,20 @@ looker.plugins.visualizations.add({
         onItemClick: { toggleDataSeries: true },
         onItemHover: { highlightDataSeries: true }
       },
-      plotOptions: {}
+      plotOptions: {},
+      responsive: [
+        {
+          breakpoint: diameter,
+          options: {
+            chart: {
+              width: diameter
+            },
+            legend: {
+              position: `bottom`
+            }
+          }
+        }
+      ]
     };
 
     if (config.theme == `pie`) {
