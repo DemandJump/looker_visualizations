@@ -157,23 +157,10 @@ looker.plugins.visualizations.add({
       series: seriesData[0].data,
       labels: xaxisNames,
       colors: djColors,
-      title: {
-        text: `title`,
-        align: `left`
-      },
-      subtitle: {
-        text: `subtitle`,
-        align: `left`
-      },
       tooltip: {
         enabled: true,
         y: {
           formatter: function(val) {
-            console.log(
-              `This is val: ${val}, this is type: ${typeof val}, this is valueformat: ${
-                seriesData[0].value_format
-              }`
-            );
             if (typeof val == `number`)
               return formatAxes(val, seriesData[0].value_format);
             else return val;
@@ -209,6 +196,20 @@ looker.plugins.visualizations.add({
             fontWeight: 400
           }
         }
+      };
+    }
+
+    if (showTitle) {
+      configuration[`title`] = {
+        text: `title`,
+        align: `left`
+      };
+    }
+
+    if (showSubtitle) {
+      configuration[`subtitle`] = {
+        text: `subtitle`,
+        align: `left`
       };
     }
 
@@ -248,6 +249,7 @@ looker.plugins.visualizations.add({
         let series = {
           name: queryResponse.fields.dimension_like[0].label_short,
           measure: queryResponse.fields.measure_like[0].label_short,
+          value_format: queryResponse.fields.measure_like[0].value_format,
           data: [],
           links: []
         };
