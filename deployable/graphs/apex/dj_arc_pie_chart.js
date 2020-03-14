@@ -57,13 +57,7 @@ looker.plugins.visualizations.add({
             * { font-family: 'Roboto' !important; }
             </style>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="main-card mb-3 card">
-                        <div class="card-body" id="card-body" style="text-align: center;">
-                            <div id="pie-chart"></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="pie-chart"></div>
             </div>
             `;
   },
@@ -277,41 +271,8 @@ looker.plugins.visualizations.add({
 
     function formatAxes(value, format) {
       let value_format = format;
-      let autoSelectFormat = [];
       let response;
       let final = value;
-
-      if (!multipleAxes) {
-        //   Construct the checker
-        seriesData.forEach(series =>
-          autoSelectFormat.push({
-            value_format: series.value_format,
-            universalCount: 0
-          })
-        );
-
-        //   Tally the valueFormat
-        autoSelectFormat.forEach((series, index) => {
-          for (let i = 0; i < autoSelectFormat.length; i++) {
-            if (autoSelectFormat[i].value_format == series.value_format)
-              autoSelectFormat[index].universalCount += 1;
-          }
-        });
-
-        //   Use last one that equals the most or matches the most
-        let count = 0;
-        autoSelectFormat.forEach((series, index) => {
-          if (index == 0) {
-            count = series.universalCount;
-            value_format = series.value_format;
-          } else {
-            if (count < series.universalCount) {
-              count = series.universalCount;
-              value_format = series.value_format;
-            }
-          }
-        });
-      }
 
       if (value_format == `0`) {
         final = value.toFixed(0);
