@@ -128,7 +128,7 @@ looker.plugins.visualizations.add({
 
     if (config.title != ``) title = config.title;
     if (config.subtitle != ``) subtitle = config.subtitle;
-    if (config.showTitle == true) showtitle = config.showTitle;
+    if (config.showTitle == true) showTitle = config.showTitle;
     if (config.showSubtitle == true) showSubtitle = config.showSubtitle;
 
     let seriesData = [];
@@ -214,14 +214,14 @@ looker.plugins.visualizations.add({
 
     if (showTitle) {
       configuration[`title`] = {
-        text: `title`,
+        text: title,
         align: `left`
       };
     }
 
     if (showSubtitle) {
       configuration[`subtitle`] = {
-        text: `subtitle`,
+        text: subtitle,
         align: `left`
       };
     }
