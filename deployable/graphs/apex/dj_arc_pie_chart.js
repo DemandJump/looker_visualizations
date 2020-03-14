@@ -176,9 +176,9 @@ looker.plugins.visualizations.add({
       },
       legend: {
         position: `bottom`,
-        horizontalAlign: `center`
-        // onItemClick: { toggleDataSeries: true },
-        // onItemHover: { highlightDataSeries: true }
+        horizontalAlign: `center`,
+        onItemClick: { toggleDataSeries: true },
+        onItemHover: { highlightDataSeries: true }
       },
       plotOptions: {}
     };
@@ -193,16 +193,16 @@ looker.plugins.visualizations.add({
     if (config.theme == `donut`) {
       configuration[`plotOptions`].donut = {
         size: `25%`,
-        background: `transparent`
-        // labels: {
-        //   show: true,
-        //   name: {
-        //     show: true,
-        //     fontSize: `12px`,
-        //     fontFamily: `Roboto`,
-        //     fontWeight: 400
-        //   }
-        // }
+        background: `transparent`,
+        labels: {
+          show: true,
+          name: {
+            show: true,
+            fontSize: `12px`,
+            fontFamily: `Roboto`,
+            fontWeight: 400
+          }
+        }
       };
     }
 
