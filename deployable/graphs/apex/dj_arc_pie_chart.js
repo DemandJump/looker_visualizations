@@ -55,9 +55,13 @@ looker.plugins.visualizations.add({
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
             * { font-family: 'Roboto' !important; }
+            .pieContainer { display: inline-block; text-align: center; }
+            .pieContainer > div { margin: auto; }
             </style>
             <div class="row">
-                <div id="pie-chart"></div>
+                <div class="pieContainer">
+                    <div id="pie-chart"></div>
+                </div>
             </div>
             `;
   },
@@ -121,7 +125,7 @@ looker.plugins.visualizations.add({
     let throwPivotError = false;
 
     let type = `pie`;
-    let title = ` `;
+    let title = queryResponse.fields.dimension_like[0].field_group_variant;
     let subtitle = ` `;
     let showTitle = false;
     let showSubtitle = false;
@@ -173,20 +177,7 @@ looker.plugins.visualizations.add({
         onItemClick: { toggleDataSeries: true },
         onItemHover: { highlightDataSeries: true }
       },
-      plotOptions: {},
-      responsive: [
-        {
-          breakpoint: diameter,
-          options: {
-            chart: {
-              width: diameter
-            },
-            legend: {
-              position: `bottom`
-            }
-          }
-        }
-      ]
+      plotOptions: {}
     };
 
     if (config.theme == `pie`) {
