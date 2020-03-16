@@ -732,6 +732,7 @@ looker.plugins.visualizations.add({
       if (config.showTitleY) showTitleY = config.showTitleY; // y titles are 1 and 2
       if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
       if (config.alignYaxis) alignYaxis = config.alignYaxis;
+      if (config.grid) grid = config.grid;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
     }
 
