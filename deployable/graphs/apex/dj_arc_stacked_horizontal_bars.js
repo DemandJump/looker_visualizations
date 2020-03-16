@@ -21,46 +21,10 @@ looker.plugins.visualizations.add({
 
     title: {
       label: `Title of chart`,
-      order: 4,
+      order: 2,
       section: `Format`,
       type: `string`,
       placeholder: `Enter chart title here`,
-      hidden: false
-    },
-
-    showActualTitle: {
-      label: `Show title`,
-      order: 4.01,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
-    showTitle: {
-      label: `Show y axis label`,
-      order: 3.01,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
-    showTitle2: {
-      label: `Show second y axis label`,
-      order: 3.11,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
-    showTitle3: {
-      label: `Show x axis label`,
-      order: 2.01,
-      section: `Format`,
-      type: `boolean`,
-      default: true,
       hidden: false
     },
 
@@ -84,10 +48,46 @@ looker.plugins.visualizations.add({
 
     xTitle: {
       label: `X axis label`,
-      order: 2,
+      order: 4,
       section: `Format`,
       type: `string`,
       placeholder: `Enter x axis label`,
+      hidden: false
+    },
+
+    showActualTitle: {
+      label: `Show title`,
+      order: 5,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showTitleY: {
+      label: `Show y axis label`,
+      order: 6,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showSecondTitleY: {
+      label: `Show second y axis label`,
+      order: 6.1,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showTitleX: {
+      label: `Show x axis label`,
+      order: 7,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
       hidden: false
     },
 
@@ -127,7 +127,7 @@ looker.plugins.visualizations.add({
 
     endingShape: {
       label: `Ending bar shape`,
-      order: 12,
+      order: 14,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -142,7 +142,7 @@ looker.plugins.visualizations.add({
 
     stack: {
       label: `Stack layout`,
-      order: 13,
+      order: 12,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -151,7 +151,7 @@ looker.plugins.visualizations.add({
 
     stackType: {
       label: `100% Stack Type`,
-      order: 14,
+      order: 13,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -310,9 +310,9 @@ looker.plugins.visualizations.add({
     let yTitle = ` `;
     let yTitle2 = ` `;
     let showActualTitle = false;
-    let showTitle = false;
-    let showTitle2 = false;
-    let showTitle3 = false;
+    let showTitleY = false;
+    let showSecondTitleY = false;
+    let showTitleX = false;
     let alignLegend = `center`;
     let multipleAxes = false;
 
@@ -388,8 +388,8 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (showTitle) stackLayout.yaxis.title = { text: yTitle };
-    if (showTitle3) stackLayout.xaxis.title = { text: xTitle };
+    if (showTitleY) stackLayout.yaxis.title = { text: yTitle };
+    if (showTitleX) stackLayout.xaxis.title = { text: xTitle };
     if (showActualTitle) stackLayout[`title`] = { text: title };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
     if (config.stackType && stack && theme == `Custom`) {
@@ -609,9 +609,9 @@ looker.plugins.visualizations.add({
       }
 
       if (config.showActualTitle) showActualTitle = config.showActualTitle;
-      if (config.showTitle) showTitle = config.showTitle; // y titles are 1 and 2
-      if (config.showTitle2) showTitle2 = config.showTitle2;
-      if (config.showTitle3) showTitle3 = config.showTitle3;
+      if (config.showTitleY) showTitleY = config.showTitleY; // y titles are 1 and 2
+      if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
+      if (config.showTitleX) showTitleX = config.showTitleX;
       if (config.title != ``) title = config.title;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
     }
@@ -917,7 +917,7 @@ looker.plugins.visualizations.add({
     function multiAxisConfigDisplay() {
       if (horizontal || stack) {
         if (multiAxisGlobalVar != false) {
-          delete settings.showTitle2;
+          delete settings.showSecondTitleY;
           delete settings.yTitle2;
           delete settings.multipleAxes;
           seriesData.forEach((series, i) => {
@@ -930,9 +930,9 @@ looker.plugins.visualizations.add({
         if (multiAxisGlobalVar != true && seriesData.length > 1) {
           multiAxisGlobalVar = true;
 
-          if (!settings.showTitle2) {
+          if (!settings.showSecondTitleY) {
             changed = true;
-            settings[`showTitle2`] = {
+            settings[`showSecondTitleY`] = {
               label: `Show second y axis label`,
               order: 3.11,
               section: `Format`,
@@ -1081,10 +1081,10 @@ looker.plugins.visualizations.add({
 
           //   Axis based label
           if (seriesName == nameA) {
-            if (showTitle) obj[`title`] = { text: sTitle };
+            if (showTitleY) obj[`title`] = { text: sTitle };
           }
           if (seriesName == nameB) {
-            if (showTitle2) obj[`title`] = { text: sTitle };
+            if (showSecondTitleY) obj[`title`] = { text: sTitle };
           }
 
           console.log(`iteration: ${index} object`, obj);
