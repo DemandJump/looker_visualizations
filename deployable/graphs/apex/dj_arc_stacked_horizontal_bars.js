@@ -1064,7 +1064,7 @@ looker.plugins.visualizations.add({
           let axisOrientation = false;
           let show = false;
 
-          if (config[`series_${index}`] == true) {
+          if (config[`seriesAxis_${index}`] == true) {
             seriesName = nameB;
             axisOrientation = true;
             if (config.yTitle2 != ``) sTitle = yTitle2;
@@ -1076,7 +1076,7 @@ looker.plugins.visualizations.add({
 
           // Configuration to show the axes
           if (index == 0) show = true;
-          if (config[`series_${index}`] && passShow == false) {
+          if (config[`seriesAxis_${index}`] && passShow == false) {
             passShow = true;
             show = true;
           }
@@ -1219,11 +1219,11 @@ looker.plugins.visualizations.add({
               type: `string`,
               display: `select`,
               values: [
-                { Line: "line" },
                 { Column: "column" },
-                { Area: "area" }
+                { Area: "area" },
+                { Line: "line" }
               ],
-              default: `line`,
+              default: `column`,
               hidden: false
             };
           }
