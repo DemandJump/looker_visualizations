@@ -153,7 +153,7 @@ looker.plugins.visualizations.add({
     /**** Chart Configuration ****/
     var configuration = {
       chart: {
-        height: diameter,
+        // height: diameter,
         width: diameter,
         type: type
       },
