@@ -497,7 +497,6 @@ looker.plugins.visualizations.add({
         width: 1,
         colors: ["#fff"]
       },
-      fill: { opacity: 1 },
       legend: {
         position: "bottom", // front, back, bottom, top
         horizontalAlign: alignLegend
