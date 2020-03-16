@@ -1138,7 +1138,7 @@ looker.plugins.visualizations.add({
 
       // For 100% stack type
       if (config.stack) {
-        if (fullStack != true) {
+        if (fullstack != true) {
           fullstack = true;
           changed = true;
           this.settings.stackType.hidden = false;
