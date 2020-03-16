@@ -206,7 +206,7 @@ looker.plugins.visualizations.add({
         { Solid: "solid" },
         { Pattern: "pattern" }
       ],
-      default: `gradient`,
+      default: `solid`,
       hidden: false
     },
 
