@@ -263,7 +263,7 @@ looker.plugins.visualizations.add({
           }
         }
       ],
-      default: `line`,
+      default: `column`,
       hidden: false
     },
 
