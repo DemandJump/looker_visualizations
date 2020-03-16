@@ -159,6 +159,7 @@ looker.plugins.visualizations.add({
       series: seriesData[0].data,
       labels: xaxisNames,
       colors: djColors,
+      fill: { type: `gradient` },
       tooltip: {
         enabled: true,
         y: {
