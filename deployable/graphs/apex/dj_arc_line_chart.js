@@ -86,7 +86,7 @@ looker.plugins.visualizations.add({
       default: true,
       hidden: false
     },
-    showTitleY2: {
+    showSecondTitleY: {
       label: `Show second y axis label`,
       order: 10,
       section: `Format`,
@@ -396,7 +396,7 @@ looker.plugins.visualizations.add({
     if (config.showSubtitle) showSubtitle = config.showSubtitle;
     if (config.showTitleX) showTitleX = config.showTitleX;
     if (config.showTitleY) showTitleY = config.showTitleY;
-    if (config.showTitleY2) showTitleY2 = config.showTitleY2;
+    if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
     // if (config.dataLabels) dataLabels = config.dataLabels;
     if (config.alignYaxis) alignYaxis = config.alignYaxis;
     if (config.styleGrid) grid = config.styleGrid;
@@ -963,7 +963,7 @@ looker.plugins.visualizations.add({
           if (seriesName == nameA)
             if (showTitleY) obj[`title`] = { text: yaxisTitle };
           if (seriesName == nameB)
-            if (showTitleY2) obj[`title`] = { text: yaxisTitle };
+            if (showSecondTitleY) obj[`title`] = { text: yaxisTitle };
 
           configuration.yaxis.push(obj);
         });
@@ -980,7 +980,7 @@ looker.plugins.visualizations.add({
           multiAxis = true;
           changed = true;
           settings.yTitle2.hidden = false;
-          settings.showTitleY2.hidden = false;
+          settings.showSecondTitleY.hidden = false;
           settings.alignYaxis.hidden = true;
           seriesData.forEach((s, i) => {
             if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
@@ -991,7 +991,7 @@ looker.plugins.visualizations.add({
           multiAxis = false;
           changed = true;
           settings.yTitle2.hidden = true;
-          settings.showTitleY2.hidden = true;
+          settings.showSecondTitleY.hidden = true;
           settings.alignYaxis.hidden = false;
           seriesData.forEach((s, i) => {
             if (i != 0) settings[`seriesAxis_${i}`].hidden = true;

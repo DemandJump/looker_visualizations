@@ -1114,7 +1114,7 @@ looker.plugins.visualizations.add({
           multiAxis = true;
           changed = true;
           settings.yTitle2.hidden = false;
-          settings.showTitleY2.hidden = false;
+          settings.showSecondTitleY.hidden = false;
           settings.alignYaxis.hidden = true;
           settings.stack.hidden = false;
           seriesData.forEach((s, i) => {
@@ -1126,7 +1126,7 @@ looker.plugins.visualizations.add({
           multiAxis = false;
           changed = true;
           settings.yTitle2.hidden = true;
-          settings.showTitleY2.hidden = true;
+          settings.showSecondTitleY.hidden = true;
           settings.alignYaxis.hidden = false;
           settings.stack.hidden = false;
           seriesData.forEach((s, i) => {
