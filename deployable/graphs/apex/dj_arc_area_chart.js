@@ -1399,7 +1399,7 @@ looker.plugins.visualizations.add({
         }
       } // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
 
-      if (value_format == `0\%` || value_format == `#,##0%`) {
+      if (value_format == `0\%`) {
         response = value.toFixed(0).toString();
         final = response + "%";
       } // Display as percent with 0 decimals (1 becomes 1%)
@@ -1409,7 +1409,7 @@ looker.plugins.visualizations.add({
         final = response + "%";
       } // Display as percent with 2 decimals (1 becomes 1.00%)
 
-      if (value_format == `0%`) {
+      if (value_format == `0%` || value_format == `#,##0%`) {
         response = value * 100;
         final = response.toFixed(0).toString() + "%";
       } // Convert to percent with 0 decimals (.01 becomes 1%)
