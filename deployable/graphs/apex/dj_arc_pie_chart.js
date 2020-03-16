@@ -152,7 +152,8 @@ looker.plugins.visualizations.add({
     /**** Chart Configuration ****/
     var configuration = {
       chart: {
-        width: diameter,
+        height: diameter,
+        width: `100%`,
         type: type
       },
       series: seriesData[0].data,
@@ -391,7 +392,7 @@ looker.plugins.visualizations.add({
         }
       } // Dollars with 2 decimals, positive values displayed normally, negative values wrapped in parenthesis
 
-      if (value_format == `0\%`) {
+      if (value_format == `0\%` || value_format == `#,##0%`) {
         response = value.toFixed(0).toString();
         final = response + "%";
       } // Display as percent with 0 decimals (1 becomes 1%)
