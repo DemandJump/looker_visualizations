@@ -153,21 +153,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    endingShape: {
-      label: `Ending bar shape`,
-      order: 14,
-      section: `Format`,
-      type: `string`,
-      display: `select`,
-      values: [
-        // {'Arrow': 'arrow'},
-        { Rounded: "rounded" },
-        { Flat: "flat" }
-      ],
-      default: `rounded`,
-      hidden: false
-    },
-
     stack: {
       label: `Stack layout`,
       order: 12,
@@ -186,23 +171,53 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    alignYaxis: {
+      label: `Set y axis on the right`,
+      order: 14,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    endingShape: {
+      label: `Ending bar shape`,
+      order: 15,
+      section: `Format`,
+      type: `string`,
+      display: `select`,
+      values: [
+        // {'Arrow': 'arrow'},
+        { Rounded: "rounded" },
+        { Flat: "flat" }
+      ],
+      default: `rounded`,
+      hidden: false
+    },
+
+    fill: {
+      label: `Gradient type`,
+      order: 16,
+      section: `Format`,
+      type: `string`,
+      display: `select`,
+      values: [
+        { Gradient: "gradient" },
+        { Solid: "solid" },
+        { Pattern: "pattern" }
+      ],
+      default: `gradient`,
+      hidden: false
+    },
+
     alignLegend: {
       label: `Align legend`,
-      order: 15,
+      order: 17,
       section: `Format`,
       type: `string`,
       display: `select`,
       values: [{ Center: "center" }, { Left: "left" }, { Right: "right" }],
       default: `center`,
-      hidden: false
-    },
-
-    alignYaxis: {
-      label: `Set y axis on the right`,
-      order: 16,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
       hidden: false
     },
 
@@ -410,6 +425,7 @@ looker.plugins.visualizations.add({
     let showTitleX = false;
     let showTitleY = false;
     let showSecondTitleY = false;
+    let fill = `solid`;
     let alignLegend = `center`;
     let alignYaxis = false;
     let multipleAxes = false;
@@ -434,6 +450,7 @@ looker.plugins.visualizations.add({
       },
       colors: djColors,
       series: seriesData,
+      fill: { type: fill },
       xaxis: {
         categories: axisNames,
         labels: {
@@ -733,6 +750,7 @@ looker.plugins.visualizations.add({
       if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
       if (config.alignYaxis) alignYaxis = config.alignYaxis;
       if (config.grid) grid = config.grid;
+      if (config.fill) fill = config.fill;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
     }
 
