@@ -230,6 +230,7 @@ looker.plugins.visualizations.add({
       seriesData: seriesData,
       xaxis: xaxis,
       xaxisNames: xaxisNames,
+      chartConfiguration: configuration,
       queryResponse: {
         config: config,
         settings: this.options,
