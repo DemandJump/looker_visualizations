@@ -154,7 +154,6 @@ looker.plugins.visualizations.add({
     var configuration = {
       chart: {
         height: diameter,
-        width: `100%`,
         type: type
       },
       series: seriesData[0].data,
