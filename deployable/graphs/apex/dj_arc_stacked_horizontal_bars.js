@@ -396,6 +396,7 @@ looker.plugins.visualizations.add({
     let dataLabels = false;
     let horizontal = false;
     let endingShape = `flat`;
+    let grid = false;
     let stack = false;
     let title = ` `;
     let subtitle = ` `;
