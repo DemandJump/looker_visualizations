@@ -111,8 +111,8 @@ looker.plugins.visualizations.add({
       `#931655`
     ];
     let datum = data;
-    let diameter = window.innerHeight - 45;
-    if (diameter > window.innerWidth - 45) diameter = window.innerWidth - 45;
+    let diameter = window.innerHeight;
+    if (diameter > window.innerWidth) diameter = window.innerWidth;
     let settings = this.options;
     let changed = false;
     let pivot = false;
