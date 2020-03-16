@@ -1249,13 +1249,10 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
-      if (
-        config.allChartTypes == `line` ||
-        config.allChartTypes == `column` ||
-        config.allChartTypes == `area`
-      ) {
+      if (config.allChartTypes == `column` || config.allChartTypes == `area`) {
         if (seriesSelect != `all`) {
           seriesSelect = `all`;
+          console.log(`Hiding the chart typing`);
           changed = true;
           for (let i = 0; i < seriesData.length; i++)
             settings[`series_${i}`].hidden = true;
