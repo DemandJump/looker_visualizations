@@ -1141,13 +1141,13 @@ looker.plugins.visualizations.add({
         if (fullstack != true) {
           fullstack = true;
           changed = true;
-          this.settings.stackType.hidden = false;
+          settings.stackType.hidden = false;
         }
       } else {
         if (fullstack != false) {
           fullstack = false;
           changed = true;
-          this.settings.stackType.hidden = true;
+          settings.stackType.hidden = true;
         }
       }
 
