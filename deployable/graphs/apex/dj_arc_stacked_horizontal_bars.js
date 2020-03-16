@@ -238,12 +238,12 @@ looker.plugins.visualizations.add({
       type: `string`,
       display: `radio`,
       values: [
-        {
-          Line: {
-            value: "line",
-            description: "Set all charts to a line layout"
-          }
-        },
+        // {
+        //   Line: {
+        //     value: "line",
+        //     description: "Set all charts to a line layout"
+        //   }
+        // },
         {
           Column: {
             value: "column",
