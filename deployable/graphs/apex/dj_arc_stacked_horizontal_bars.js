@@ -28,6 +28,16 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    subtitle: {
+      label: `Subtitle of chart`,
+      order: 2.5,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter a subtitle`,
+      default: ``,
+      hidden: false
+    },
+
     yTitle: {
       label: `Y axis label`,
       order: 3,
@@ -58,6 +68,15 @@ looker.plugins.visualizations.add({
     showActualTitle: {
       label: `Show title`,
       order: 5,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showSubtitle: {
+      label: `Show subtitle`,
+      order: 5.5,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -104,6 +123,15 @@ looker.plugins.visualizations.add({
       section: `Format`,
       type: `sentence_maker`,
       words: [{ type: "separator", text: "Custom configuration:" }],
+      hidden: false
+    },
+
+    styleGrid: {
+      label: `Style grid`,
+      order: 9.4,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
       hidden: false
     },
 
@@ -169,6 +197,15 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    alignYaxis: {
+      label: `Set y axis on the right`,
+      order: 16,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
     multipleAxes: {
       label: `Add another axis`,
       order: 1,
@@ -176,15 +213,69 @@ looker.plugins.visualizations.add({
       type: `boolean`,
       default: false,
       hidden: false
+    },
+
+    // Series Type Section
+    allChartTypes: {
+      label: `All chart types:`,
+      order: 0.1,
+      section: `Type of Chart`,
+      type: `string`,
+      display: `radio`,
+      values: [
+        {
+          Line: {
+            value: "line",
+            description: "Set all charts to a line layout"
+          }
+        },
+        {
+          Column: {
+            value: "column",
+            description: "Set all charts to a column layout"
+          }
+        },
+        {
+          Area: {
+            value: "area",
+            description: "Set all charts to an Area layout"
+          }
+        },
+        {
+          Custom: {
+            value: "custom",
+            description: "Change the chart types individually"
+          }
+        }
+      ],
+      default: `line`,
+      hidden: false
+    },
+
+    seriesSpacing: {
+      order: 0.4,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: " " }],
+      hidden: false
+    },
+
+    seriesLabel: {
+      order: 0.5,
+      section: `Format`,
+      type: `sentence_maker`,
+      words: [{ type: "separator", text: "Chart Labels:" }],
+      hidden: false
     }
   },
   create: function(element, config) {
     this._iteration = 0;
     this._custom = `lorem ipsum`;
     this._stack = `lorem ipsum`;
-    this._multipleAxes = false;
-    this._rebuildSeriesTypes = false;
+    this._multiAxis = false;
+    this._seriesSelect = ``;
     this._series = 0;
+    this._fullstack = false;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -289,11 +380,12 @@ looker.plugins.visualizations.add({
     ];
     let datum = data;
     let settings = this.options;
-    let rebuildSeriesTypes = this._rebuildSeriesTypes;
-    let customGlobal = this._custom;
-    let stackGlobal = this._stack;
-    let multiAxisGlobalVar = this._multipleAxes;
     let thisSeries = this._series;
+    let multiAxis = this._multiAxis;
+    let rebuildSeriesTypes = false;
+    let globalTheme = this._theme;
+    let stackGlobal = this._stack;
+    let fullstack = this._fullstack;
     let theme = `Horizontal`;
     let changed = false;
     let pivot = false;
@@ -305,15 +397,19 @@ looker.plugins.visualizations.add({
     let horizontal = false;
     let endingShape = `flat`;
     let stack = false;
-    let title = queryResponse.fields.dimension_like[0].label;
+    let title = ` `;
+    let subtitle = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
     let yTitle2 = ` `;
+
     let showActualTitle = false;
+    let showSubtitle = false;
+    let showTitleX = false;
     let showTitleY = false;
     let showSecondTitleY = false;
-    let showTitleX = false;
     let alignLegend = `center`;
+    let alignYaxis = false;
     let multipleAxes = false;
 
     initialConfiguration();
@@ -347,6 +443,7 @@ looker.plugins.visualizations.add({
         }
       },
       yaxis: {
+        opposite: alignYaxis,
         labels: {
           formatter: function(val) {
             if (typeof val == `number` && !horizontal)
@@ -388,28 +485,44 @@ looker.plugins.visualizations.add({
       }
     };
 
+    if (grid) {
+      configuration[`grid`] = {
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      };
+    }
+
+    if (showActualTitle) configuration[`title`] = { text: title };
+    if (showSubtitle) configuration[`subtitle`] = { text: subtitle };
     if (showTitleY) stackLayout.yaxis.title = { text: yTitle };
     if (showTitleX) stackLayout.xaxis.title = { text: xTitle };
-    if (showActualTitle) stackLayout[`title`] = { text: title };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
-    if (config.stackType && stack && theme == `Custom`) {
-      stackLayout.chart.stackType = `100%`;
-    }
     if (stack == false) stackLayout.plotOptions.bar.columnWidth = `55%`;
+    if (config.stackType && stack && theme == `Custom`)
+      stackLayout.chart.stackType = `100%`;
+
+    // Configuration display functions
     buildMultipleAxes();
+    multiAxisDisplay();
+
+    // Series type functions
+    seriesTypes();
+    selectSeries();
 
     /**********************************************
      * Display functions and rerender the config
      **********************************************/
-    multiAxisConfigDisplay();
 
     // Save all the global variables
     this._iteration++;
-    this._custom = customGlobal;
-    this._stack = this._stack;
-    this._multipleAxes = multiAxisGlobalVar;
     this._series = seriesData.length;
-    this._rebuildSeriesTypes = rebuildSeriesTypes;
+    this._multiAxis = multiAxis;
+    this._seriesSelect = seriesSelect;
+    this._theme = globalTheme;
+    this._stack = stackGlobal;
+    this.fullstack = fullstack;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -550,8 +663,8 @@ looker.plugins.visualizations.add({
         theme == `Horizontal Stack` ||
         theme == `Vertical Stack`
       ) {
-        if (customGlobal != `horizontalOrVertical`) {
-          customGlobal = `horizontalOrVertical`;
+        if (globalTheme != `horizontalOrVertical`) {
+          globalTheme = `horizontalOrVertical`;
           settings.customSpacing.hidden = true;
           settings.customLabel.hidden = true;
           settings.dataLabels.hidden = true;
@@ -574,8 +687,8 @@ looker.plugins.visualizations.add({
       }
 
       if (theme == `Custom`) {
-        if (customGlobal != `Custom`) {
-          customGlobal = `Custom`;
+        if (globalTheme != `Custom`) {
+          globalTheme = `Custom`;
           settings.customSpacing.hidden = false;
           settings.customLabel.hidden = false;
           settings.dataLabels.hidden = false;
@@ -608,11 +721,15 @@ looker.plugins.visualizations.add({
         if (config.alignLegend) alignLegend = config.alignLegend;
       }
 
+      if (config.title != ``) title = config.title;
+      if (config.subtitle) subtitle = config.subtitle;
+
       if (config.showActualTitle) showActualTitle = config.showActualTitle;
+      if (config.showSubtitle) showSubtitle = config.showSubtitle;
+      if (config.showTitleX) showTitleX = config.showTitleX;
       if (config.showTitleY) showTitleY = config.showTitleY; // y titles are 1 and 2
       if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
-      if (config.showTitleX) showTitleX = config.showTitleX;
-      if (config.title != ``) title = config.title;
+      if (config.alignYaxis) alignYaxis = config.alignYaxis;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
     }
 
@@ -914,119 +1031,15 @@ looker.plugins.visualizations.add({
      * Display and Configuration Functions
      ********************************************************/
 
-    function multiAxisConfigDisplay() {
-      if (horizontal || stack) {
-        if (multiAxisGlobalVar != false) {
-          delete settings.showSecondTitleY;
-          delete settings.yTitle2;
-          delete settings.multipleAxes;
-          seriesData.forEach((series, i) => {
-            if (settings[`series_${i}`]) delete settings[`series_${i}`];
-          });
-          multiAxisGlobalVar = false;
-          changed = true;
-        }
-      } else {
-        if (multiAxisGlobalVar != true && seriesData.length > 1) {
-          multiAxisGlobalVar = true;
-
-          if (!settings.showSecondTitleY) {
-            changed = true;
-            settings[`showSecondTitleY`] = {
-              label: `Show second y axis label`,
-              order: 3.11,
-              section: `Format`,
-              type: `boolean`,
-              default: true,
-              hidden: false
-            };
-          }
-
-          if (!settings.yTitle2) {
-            changed = true;
-            settings[`yTitle2`] = {
-              label: `Second y axis label`,
-              order: 3.1,
-              section: `Format`,
-              type: `string`,
-              placeholder: `Enter y axis label`,
-              hidden: false
-            };
-          }
-
-          if (!settings.multipleAxes) {
-            changed = true;
-            settings[`multipleAxes`] = {
-              label: `Add another axis`,
-              order: 1,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-
-          seriesData.forEach((row, index) => {
-            if (index != 0) {
-              if (!settings[`series_${index}`]) {
-                changed = true;
-                settings[`series_${index}`] = {
-                  label: `Set ${row.name} on the second axis`,
-                  order: 10 + index,
-                  section: `Multiple Axes`,
-                  type: `boolean`,
-                  default: false,
-                  hidden: false
-                };
-              }
-            }
-          });
-        }
-      }
-    }
-
     function buildMultipleAxes() {
-      // If you're querying new data
-      let refactorSeries = false;
-      if (seriesData.length != thisSeries) refactorSeries = true;
-      seriesData.forEach((series, index) => {
-        if (settings[`series_${index}`]) {
-          if (
-            index != 0 &&
-            settings[`series_${index}`].label !=
-              `Set ${series.name} on the second axis`
-          )
-            refactorSeries = true;
-        }
-      });
-
-      if (refactorSeries) {
-        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
-        seriesData.forEach((s, i) => {
-          if (!settings[`series_${i}`] && i != 0) {
-            changed = true;
-            settings[`series_${i}`] = {
-              label: `Set ${s.name} on the second axis`,
-              order: 10 + i,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-        });
-        // thisSeries = seriesData.length;
-        rebuildSeriesTypes = true;
-      }
-
       if (multipleAxes && !horizontal && !stack && seriesData.length > 1) {
         stackLayout.yaxis = [];
 
         seriesData.forEach((row, index) => {
           if (index != 0) {
-            if (!settings[`series_${index}`]) {
+            if (!settings[`seriesAxis_${index}`]) {
               changed = true;
-              settings[`series_${index}`] = {
+              settings[`seriesAxis_${index}`] = {
                 label: `Set ${row.name} on the second axis`,
                 order: 10 + index,
                 section: `Multiple Axes`,
@@ -1090,6 +1103,150 @@ looker.plugins.visualizations.add({
           console.log(`iteration: ${index} object`, obj);
           stackLayout.yaxis.push(obj);
         });
+      }
+    }
+
+    function multiAxisDisplay() {
+      if (multipleAxes && seriesData.length > 1 && !horizontal && !stack) {
+        if (multiAxis != true) {
+          multiAxis = true;
+          changed = true;
+          settings.yTitle2.hidden = false;
+          settings.showTitleY2.hidden = false;
+          settings.alignYaxis.hidden = true;
+          settings.stack.hidden = false;
+          seriesData.forEach((s, i) => {
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
+          });
+        }
+      } else {
+        if (multiAxis != false) {
+          multiAxis = false;
+          changed = true;
+          settings.yTitle2.hidden = true;
+          settings.showTitleY2.hidden = true;
+          settings.alignYaxis.hidden = false;
+          settings.stack.hidden = false;
+          seriesData.forEach((s, i) => {
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = true;
+          });
+        }
+      }
+
+      // For 100% stack type
+      if (config.stack) {
+        if (fullStack != true) {
+          fullstack = true;
+          changed = true;
+          this.settings.stackType.hidden = false;
+        }
+      } else {
+        if (fullstack != false) {
+          fullstack = false;
+          changed = true;
+          this.settings.stackType.hidden = true;
+        }
+      }
+
+      // If you're querying new data
+      let refactorSeries = false;
+      if (seriesData.length != thisSeries) refactorSeries = true;
+
+      if (refactorSeries == true) {
+        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`seriesAxis_${i}`] && i != 0) {
+            changed = true;
+            settings[`seriesAxis_${i}`] = {
+              label: `Set ${s.name} on the second axis`,
+              order: 10 + i,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: true
+            };
+          }
+        });
+        // thisSeries = seriesData.length; // We go through the series then change this value
+        rebuildSeriesTypes = true;
+      }
+    }
+
+    function seriesTypes() {
+      seriesData.forEach((series, index) => {
+        let name = `series_${index}`;
+
+        if (!settings[name]) {
+          changed = true;
+          settings[name] = {
+            label: `Chart type: ${series.name}`,
+            order: index + 1,
+            section: `Type of Chart`,
+            type: `string`,
+            display: `select`,
+            values: [{ Column: "column" }, { Line: "line" }, { Area: "area" }],
+            default: `column`,
+            hidden: false
+          };
+        } else {
+          if (`Chart type: ${series.name}` != settings[name].label) {
+            settings[name].label = `${series.name} series chart type`;
+            changed = true;
+          }
+
+          // Select the series types
+          let type = `column`;
+          if (config.allChartTypes == `column`) type = `column`;
+          else if (config.allChartTypes == `area`) type = `area`;
+          else if (config.allChartTypes == `line`) type = `line`;
+          else if (config[name]) type = config[name];
+          series.type = type;
+        }
+      });
+
+      if (rebuildSeriesTypes == true) {
+        changed = true;
+        for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`series_${i}`]) {
+            settings[`series_${i}`] = {
+              label: `Chart type: ${s.name}`,
+              order: i + 1,
+              section: `Type of Chart`,
+              type: `string`,
+              display: `select`,
+              values: [
+                { Line: "line" },
+                { Column: "column" },
+                { Area: "area" }
+              ],
+              default: `line`,
+              hidden: false
+            };
+          }
+        });
+      }
+    }
+
+    function selectSeries() {
+      if (
+        config.allChartTypes == `line` ||
+        config.allChartTypes == `column` ||
+        config.allChartTypes == `area`
+      ) {
+        if (seriesSelect != `all`) {
+          seriesSelect = `all`;
+          changed = true;
+          for (let i = 0; i < seriesData.length; i++)
+            settings[`series_${i}`].hidden = true;
+        }
+      } else {
+        if (seriesSelect != `custom`) {
+          seriesSelect = `custom`;
+          changed = true;
+          for (let i = 0; i < seriesData.length; i++)
+            settings[`series_${i}`].hidden = false;
+        }
       }
     }
 

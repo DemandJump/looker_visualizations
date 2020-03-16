@@ -375,7 +375,7 @@ looker.plugins.visualizations.add({
     let showSubtitle = false;
     let showTitleX = false;
     let showTitleY = false;
-    let showTitleY2 = false;
+    let showSecondTitleY = false;
 
     let xaxis = [];
     let seriesData = [];
@@ -471,24 +471,17 @@ looker.plugins.visualizations.add({
       };
     }
 
-    if (showTitle) {
-      configuration[`title`] = {
-        text: title,
-        align: `left`
-      };
-    }
-    if (showSubtitle) {
-      configuration[`subtitle`] = {
-        text: subtitle,
-        align: `left`
-      };
-    }
+    if (showTitle) configuration[`title`] = { text: title };
+    if (showSubtitle) configuration[`subtitle`] = { text: subtitle };
     if (showTitleX) configuration[`xaxis`].title = { text: xTitle };
     if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
+    // Configuration display functions
     buildMultipleAxes();
     multiAxisDisplay();
+
+    // Series type functions
     seriesTypes();
     selectSeries();
 
@@ -1094,19 +1087,15 @@ looker.plugins.visualizations.add({
         if (seriesSelect != `all`) {
           seriesSelect = `all`;
           changed = true;
-          for (let i = 0; i < seriesData.length; i++) {
+          for (let i = 0; i < seriesData.length; i++)
             settings[`series_${i}`].hidden = true;
-            console.log(`iteration: ${i}`, settings[`series_${i}`]);
-          }
         }
       } else {
         if (seriesSelect != `custom`) {
           seriesSelect = `custom`;
           changed = true;
-          for (let i = 0; i < seriesData.length; i++) {
+          for (let i = 0; i < seriesData.length; i++)
             settings[`series_${i}`].hidden = false;
-            console.log(`iteration: ${i}`, settings[`series_${i}`]);
-          }
         }
       }
     }
