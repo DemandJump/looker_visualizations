@@ -1237,8 +1237,8 @@ looker.plugins.visualizations.add({
               display: `select`,
               values: [
                 { Column: "column" },
-                { Area: "area" },
-                { Line: "line" }
+                { Area: "area" }
+                // { Line: "line" }
               ],
               default: `column`,
               hidden: false
