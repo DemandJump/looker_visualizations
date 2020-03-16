@@ -386,6 +386,7 @@ looker.plugins.visualizations.add({
     let globalTheme = this._theme;
     let stackGlobal = this._stack;
     let fullstack = this._fullstack;
+    let seriesSelect = this._seriesSelect;
     let theme = `Horizontal`;
     let changed = false;
     let pivot = false;
@@ -487,7 +488,7 @@ looker.plugins.visualizations.add({
     };
 
     if (grid) {
-      configuration[`grid`] = {
+      stackLayout[`grid`] = {
         row: {
           colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
           opacity: 0.5
@@ -495,8 +496,8 @@ looker.plugins.visualizations.add({
       };
     }
 
-    if (showActualTitle) configuration[`title`] = { text: title };
-    if (showSubtitle) configuration[`subtitle`] = { text: subtitle };
+    if (showActualTitle) stackLayout[`title`] = { text: title };
+    if (showSubtitle) stackLayout[`subtitle`] = { text: subtitle };
     if (showTitleY) stackLayout.yaxis.title = { text: yTitle };
     if (showTitleX) stackLayout.xaxis.title = { text: xTitle };
     if (this._iteration < 2) stackLayout[`animations`] = { enabled: false };
