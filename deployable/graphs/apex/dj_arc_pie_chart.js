@@ -8,7 +8,7 @@ looker.plugins.visualizations.add({
       section: `Format`,
       type: `string`,
       display: `select`,
-      values: [{ Classic: "pie" }, { Donut: "donut" }],
+      values: [{ Classic: "pie" }, { Donut: "donut" }, { Radial: "radialBar" }],
       default: `pie`,
       hidden: false
     },
