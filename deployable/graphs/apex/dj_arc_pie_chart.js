@@ -37,7 +37,7 @@ looker.plugins.visualizations.add({
       order: 4,
       section: `Format`,
       type: `boolean`,
-      default: true,
+      default: false,
       hidden: false
     },
 
@@ -46,7 +46,7 @@ looker.plugins.visualizations.add({
       order: 5,
       section: `Format`,
       type: `boolean`,
-      default: true,
+      default: false,
       hidden: false
     }
   },
@@ -57,6 +57,7 @@ looker.plugins.visualizations.add({
             * { font-family: 'Roboto' !important; }
             .pieContainer { display: inline-block; text-align: center; }
             .pieContainer > div { margin: auto; }
+            .row, .pieContainer { text-align: center; }
             </style>
             <div class="row">
                 <div class="pieContainer">
@@ -161,9 +162,10 @@ looker.plugins.visualizations.add({
         enabled: true,
         y: {
           formatter: function(val) {
-            if (typeof val == `number`)
+            if (typeof val == `number`) {
+              console.log(`Formatting the tooltip: `, val);
               return formatAxes(val, seriesData[0].value_format);
-            else return val;
+            } else return val;
           }
         }
       },
