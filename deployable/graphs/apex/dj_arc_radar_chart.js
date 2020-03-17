@@ -38,9 +38,18 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    markers: {
+      label: `Enable markers`,
+      order: 6,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
     dataLabels: {
       label: `Enable datalabels`,
-      order: 6,
+      order: 7,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -49,7 +58,7 @@ looker.plugins.visualizations.add({
 
     styleGrid: {
       label: `Style grid`,
-      order: 7,
+      order: 8,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -164,6 +173,7 @@ looker.plugins.visualizations.add({
 
     let grid = false;
     let dataLabels = false;
+    let markers = true;
 
     if (config.showTitle) showTitle = config.showTitle;
     if (config.showSubtitle) subtitle = config.showSubtitle;
@@ -217,6 +227,7 @@ looker.plugins.visualizations.add({
 
     if (showTitle) configuration[`title`] = { text: title };
     if (showSubtitle) configuration[`subtitle`] = { text: subtitle };
+    if (!config.markers) configuration[`markers`] = { size: 0 };
     if (grid) {
       configuration[`plotOptions`] = {
         radar: {
