@@ -162,7 +162,7 @@ looker.plugins.visualizations.add({
     let configuration = {
       chart: {
         type: `radar`,
-        height: window.innerHeight
+        height: window.innerHeight - 45
       },
       colors: djColors,
       series: seriesData,
