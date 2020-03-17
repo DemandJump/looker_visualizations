@@ -194,7 +194,11 @@ looker.plugins.visualizations.add({
     let configuration = {
       chart: {
         type: `radar`,
-        height: window.innerHeight - 45
+        height: window.innerHeight - 45,
+        toolbar: {
+          autoSelected: `zoom`,
+          show: true
+        }
       },
       colors: djColors,
       series: seriesData,
