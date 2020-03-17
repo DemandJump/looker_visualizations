@@ -488,9 +488,25 @@ looker.plugins.visualizations.add({
       },
       dataLabels: {
         enabled: dataLabels,
+        textAnchor: `middle`,
         style: {
-          fontSize: "12px",
-          colors: ["#fff"]
+          fontsize: `12px`,
+          fontfamily: `Roboto`,
+          fontweight: `bold`
+        },
+        background: {
+          enabled: true,
+          foreColor: `#fff`,
+          padding: 4,
+          borderRadius: 2,
+          borderWidth: 1,
+          borderColor: `#fff`,
+          opacity: 0.9
+        },
+        formatter: function(val) {
+          if (typeof val == `number`)
+            return formatAxes(val, seriesData[0].value_format);
+          else return val;
         }
       },
       stroke: {

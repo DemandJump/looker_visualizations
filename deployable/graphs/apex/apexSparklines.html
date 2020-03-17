@@ -503,7 +503,22 @@
           }
         },
         dataLabels: {
-          enabled: false
+          enabled: true,
+          textAnchor: `middle`,
+          style: {
+            fontsize: `12px`,
+            fontfamily: `Roboto`,
+            fontweight: `bold`,
+          },
+          background: {
+            enabled: true,
+            foreColor: `#fff`,
+            padding: 4,
+            borderRadius: 2,
+            borderWidth: 1,
+            borderColor: `#fff`,
+            opacity: 0.9,
+          }
         },
         stroke: {
           curve: 'straight'
