@@ -97,9 +97,9 @@ looker.plugins.visualizations.add({
       type: `boolean`,
       default: true,
       hidden: false
-      showTitleX: {
     },
 
+    showTitleX: {
       label: `Show x axis label`,
       order: 11,
       section: `Format`,
@@ -445,7 +445,7 @@ looker.plugins.visualizations.add({
     if (showTitleX) configuration[`xaxis`].title = { text: xTitle };
     if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
-    
+
     /******************
      * Config Display
      ******************/
@@ -636,7 +636,7 @@ looker.plugins.visualizations.add({
 
       if (stack == `overlay`) stacked = false;
       if (stack == `stack`) stacked = true;
-      
+
       if (config.title != ``) title = config.title;
       if (config.label) label = config.label;
 
@@ -1043,7 +1043,8 @@ looker.plugins.visualizations.add({
       // Multiple axis display configuration
       if (multipleAxes && seriesData.length > 1) {
         if (multiAxis != true) {
-          if (settings.showSecondTitleY) settings.showSecondTitleY.hidden = false;
+          if (settings.showSecondTitleY)
+            settings.showSecondTitleY.hidden = false;
           if (settings.yTitle2) settings.yTitle2.hidden = false;
           multiAxis = true;
           changed = true;
@@ -1055,7 +1056,8 @@ looker.plugins.visualizations.add({
         }
       } else {
         if (multiAxis != false) {
-          if (settings.showSecondTitleY) settings.showSecondTitleY.hidden = true;
+          if (settings.showSecondTitleY)
+            settings.showSecondTitleY.hidden = true;
           if (settings.yTitle2) settings.yTitle2.hidden = true;
           multiAxis = false;
           changed = true;
@@ -1070,7 +1072,11 @@ looker.plugins.visualizations.add({
 
     function hideAxisTab() {
       if (stacked) {
-        if (settings.showSecondTitleY || settings.yTitle2 || settings.multipleAxes)
+        if (
+          settings.showSecondTitleY ||
+          settings.yTitle2 ||
+          settings.multipleAxes
+        )
           changed = true;
 
         if (settings.showSecondTitleY) delete settings.showSecondTitleY;
@@ -1084,7 +1090,11 @@ looker.plugins.visualizations.add({
           }
         }
       } else {
-        if (!settings.showSecondTitleY || !settings.yTitle2 || !settings.multipleAxes)
+        if (
+          !settings.showSecondTitleY ||
+          !settings.yTitle2 ||
+          !settings.multipleAxes
+        )
           changed = true;
 
         if (!settings.showSecondTitleY) {
