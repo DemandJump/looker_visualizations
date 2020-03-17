@@ -974,7 +974,7 @@ looker.plugins.visualizations.add({
         let nameB = seriesData[1].name;
         let passShow = false;
         seriesData.forEach((row, index) => {
-          let title = row.name;
+          let ttl = row.name;
           let seriesName = nameA;
           let axisOrientation = false;
           let show = false;
@@ -982,11 +982,11 @@ looker.plugins.visualizations.add({
           if (config[`seriesAxis_${index}`] == true) {
             seriesName = nameB;
             axisOrientation = true;
-            if (config.yTitle2 != ``) title = yTitle2;
+            if (config.yTitle2 != ``) ttl = yTitle2;
           } else {
             seriesName = nameA;
             axisOrientation = false;
-            if (config.yTitle != ``) title = yTitle;
+            if (config.yTitle != ``) ttl = yTitle;
           }
 
           // Configuration to show the axes
@@ -1012,10 +1012,10 @@ looker.plugins.visualizations.add({
 
           //   Axis based label
           if (seriesName == nameA) {
-            if (showTitleY) obj[`title`] = { text: title };
+            if (showTitleY) obj[`title`] = { text: ttl };
           }
           if (seriesName == nameB) {
-            if (showSecondTitleY) obj[`title`] = { text: title };
+            if (showSecondTitleY) obj[`title`] = { text: ttl };
           }
 
           configuration.yaxis.push(obj);
