@@ -384,7 +384,6 @@ looker.plugins.visualizations.add({
 
     pivotCheck();
     formatSeriesData();
-    seriesTypes(); // Add the type for each series
 
     /***************************************
      * Chart Configuration Settings
@@ -449,10 +448,12 @@ looker.plugins.visualizations.add({
     /******************
      * Config Display
      ******************/
+    // Configuration display functions
     buildMultipleAxes();
-    multiAxes();
+    multiAxisDisplay();
 
-    hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
+    // Series type functions
+    seriesTypes();
     selectSeries();
 
     this._iteration++;
@@ -928,41 +929,7 @@ looker.plugins.visualizations.add({
     }
 
     function buildMultipleAxes() {
-      // If you're querying new data
-      let refactorSeries = false;
-      if (seriesData.length != thisSeries) refactorSeries = true;
-      seriesData.forEach((series, index) => {
-        if (settings[`seriesAxis_${index}`]) {
-          if (
-            index != 0 &&
-            settings[`seriesAxis_${index}`].label !=
-              `Set ${series.name} on the second axis`
-          )
-            refactorSeries = true;
-        }
-      });
-
-      if (refactorSeries) {
-        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
-        seriesData.forEach((s, i) => {
-          if (!settings[`seriesAxis_${i}`] && i != 0) {
-            changed = true;
-            settings[`seriesAxis_${i}`] = {
-              label: `Set ${s.name} on the second axis`,
-              order: 10 + i,
-              section: `Multiple Axes`,
-              type: `boolean`,
-              default: false,
-              hidden: false
-            };
-          }
-        });
-        // thisSeries = seriesData.length;
-        rebuildSeriesTypes = true;
-      }
-
       if (multipleAxes && !stacked && seriesData.length > 1) {
-        // Clear the yaxis and create the config settings for the chart
         configuration.yaxis = [];
 
         seriesData.forEach((row, index) => {
@@ -1070,81 +1037,52 @@ looker.plugins.visualizations.add({
       }
     }
 
-    function hideAxisTab() {
-      if (stacked) {
-        if (
-          settings.showSecondTitleY ||
-          settings.yTitle2 ||
-          settings.multipleAxes
-        )
+    function multiAxisDisplay() {
+      if (multipleAxes && seriesData.length > 1) {
+        if (multiAxis != true) {
+          multiAxis = true;
           changed = true;
-
-        if (settings.showSecondTitleY) delete settings.showSecondTitleY;
-        if (settings.yTitle2) delete settings.yTitle2;
-        if (settings.multipleAxes) delete settings.multipleAxes;
-
-        for (let i = 1; i < thisSeries; i++) {
-          if (settings[`seriesAxis_${i}`]) {
-            delete settings[`seriesAxis_${i}`];
-            changed = true;
-          }
+          settings.yTitle2.hidden = false;
+          settings.showSecondTitleY.hidden = false;
+          settings.alignYaxis.hidden = true;
+          seriesData.forEach((s, i) => {
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
+          });
         }
       } else {
-        if (
-          !settings.showSecondTitleY ||
-          !settings.yTitle2 ||
-          !settings.multipleAxes
-        )
+        if (multiAxis != false) {
+          multiAxis = false;
           changed = true;
-
-        if (!settings.showSecondTitleY) {
-          settings.showSecondTitleY = {
-            label: `Show second y axis title`,
-            order: 4.2,
-            section: `Format`,
-            type: `boolean`,
-            default: true,
-            hidden: false
-          };
+          settings.yTitle2.hidden = true;
+          settings.showSecondTitleY.hidden = true;
+          settings.alignYaxis.hidden = false;
+          seriesData.forEach((s, i) => {
+            if (i != 0) settings[`seriesAxis_${i}`].hidden = true;
+          });
         }
+      }
 
-        if (!settings.yTitle2) {
-          settings.yTitle2 = {
-            label: `Second y axis label`,
-            order: 1.95,
-            section: `Format`,
-            type: `string`,
-            placeholder: `Enter y axis label`,
-            hidden: false
-          };
-        }
+      // If you're querying new data
+      let refactorSeries = false;
+      if (seriesData.length != thisSeries) refactorSeries = true;
 
-        if (!settings.multipleAxes) {
-          settings.multipleAxes = {
-            label: `Add another axis`,
-            order: 1,
-            section: `Multiple Axes`,
-            type: `boolean`,
-            default: false,
-            hidden: false
-          };
-        }
-
-        seriesData.forEach((row, index) => {
-          if (index != 0) {
-            if (!settings[`seriesAxis_${index}`]) {
-              changed = true;
-              settings[`seriesAxis_${index}`] = {
-                label: `Set ${row.name} on the second axis`,
-                order: 10 + index,
-                section: `Multiple Axes`,
-                type: `boolean`,
-                default: false,
-                hidden: false
-              };
-            }
+      if (refactorSeries == true) {
+        for (let i = 0; i < thisSeries; i++) delete settings[`seriesAxis_${i}`];
+        seriesData.forEach((s, i) => {
+          if (!settings[`seriesAxis_${i}`] && i != 0) {
+            changed = true;
+            settings[`seriesAxis_${i}`] = {
+              label: `Set ${s.name} on the second axis`,
+              order: 10 + i,
+              section: `Multiple Axes`,
+              type: `boolean`,
+              default: false,
+              hidden: true
+            };
           }
         });
+        // thisSeries = seriesData.length; // We go through the series then change this value
+        rebuildSeriesTypes = true;
       }
     }
 
@@ -1160,32 +1098,26 @@ looker.plugins.visualizations.add({
             section: `Type of Chart`,
             type: `string`,
             display: `select`,
-            values: [{ Area: "area" }, { Column: "column" }, { Line: "line" }],
-            default: `area`,
+            values: [{ Line: "line" }, { Column: "column" }, { Area: "area" }],
+            default: `line`,
             hidden: false
           };
         } else {
-          if (`${series.name} series chart type` != settings[name].label) {
+          if (`Chart type: ${series.name}` != settings[name].label) {
             settings[name].label = `${series.name} series chart type`;
             changed = true;
           }
 
           let type = `area`;
-          if (config.allArea) {
-            type = `area`;
-          } else if (config.allColumn) {
-            type = `column`;
-          } else if (config.allLine) {
-            type = `line`;
-          } else if (config[name]) {
-            type = config[name];
-          }
+           if (config.allChartTypes == `area`) type = `area`;
+          else if (config.allChartTypes == `column`) type = `column`;
+          else if (config.allChartTypes == `line`) type = `line`;
+          else if (config[name]) type = config[name];
           series.type = type;
         }
       });
 
-      // Cleanup extra chart types
-      if (rebuildSeriesTypes) {
+      if (rebuildSeriesTypes == true) {
         changed = true;
         for (let i = 0; i < thisSeries; i++) delete settings[`series_${i}`];
         seriesData.forEach((s, i) => {
@@ -1197,11 +1129,11 @@ looker.plugins.visualizations.add({
               type: `string`,
               display: `select`,
               values: [
-                { Area: "area" },
+                { Area: "area" }
                 { Column: "column" },
-                { Line: "line" }
+                { Line: "line" },
               ],
-              default: `line`,
+              default: `area`,
               hidden: false
             };
           }
@@ -1210,49 +1142,23 @@ looker.plugins.visualizations.add({
     }
 
     function selectSeries() {
-      if (config.allLine) {
-        if (seriesSelect != `line`) {
-          seriesSelect = `line`;
+      if (
+        config.allChartTypes == `line` ||
+        config.allChartTypes == `column` ||
+        config.allChartTypes == `area`
+      ) {
+        if (seriesSelect != `all`) {
+          seriesSelect = `all`;
           changed = true;
-          settings.allLine.hidden = false;
-          settings.allColumn.hidden = true;
-          settings.allArea.hidden = true;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
-        }
-      } else if (config.allColumn) {
-        if (seriesSelect != `column`) {
-          seriesSelect = `column`;
-          changed = true;
-          settings.allColumn.hidden = false;
-          settings.allArea.hidden = true;
-          settings.allLine.hidden = true;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
-        }
-      } else if (config.allArea) {
-        if (seriesSelect != `area`) {
-          seriesSelect = `area`;
-          changed = true;
-          settings.allArea.hidden = false;
-          settings.allColumn.hidden = true;
-          settings.allLine.hidden = true;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = true)
-          );
+          for (let i = 0; i < seriesData.length; i++)
+            settings[`series_${i}`].hidden = true;
         }
       } else {
         if (seriesSelect != `custom`) {
           seriesSelect = `custom`;
           changed = true;
-          settings.allLine.hidden = false;
-          settings.allColumn.hidden = false;
-          settings.allArea.hidden = false;
-          seriesData.forEach(
-            (series, index) => (settings[`series_${index}`].hidden = false)
-          );
+          for (let i = 0; i < seriesData.length; i++)
+            settings[`series_${i}`].hidden = false;
         }
       }
     }
