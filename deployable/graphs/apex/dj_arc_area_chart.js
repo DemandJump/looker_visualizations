@@ -119,15 +119,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    alignYaxis: {
-      label: `Set y axis on the right`,
-      order: 13,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
     // Custom config
     customSpacing: {
       order: 14,
@@ -142,6 +133,15 @@ looker.plugins.visualizations.add({
       section: `Format`,
       type: `sentence_maker`,
       words: [{ type: "separator", text: "Custom configuration:" }],
+      hidden: false
+    },
+
+    alignYaxis: {
+      label: `Set y axis on the right`,
+      order: 15.4,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
       hidden: false
     },
 
@@ -636,6 +636,7 @@ looker.plugins.visualizations.add({
         if (config.fill) fill = config.fill;
       }
 
+      if (config.stack) stack = config.stack;
       if (stack == `overlay`) stacked = false;
       if (stack == `stack`) stacked = true;
 
