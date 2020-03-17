@@ -371,8 +371,7 @@ looker.plugins.visualizations.add({
 
     let height = window.innerHeight - 45;
     let dataLabels = false;
-    let sideYaxis = false;
-    let doNotTruncate = false;
+    let alignYaxis = false;
 
     initialConfiguration();
 
@@ -415,7 +414,7 @@ looker.plugins.visualizations.add({
 
       xaxis: { type: `category` },
       yaxis: {
-        opposite: sideYaxis,
+        opposite: alignYaxis,
         labels: {
           formatter: function(val) {
             if (typeof val == `number`)
@@ -649,7 +648,7 @@ looker.plugins.visualizations.add({
       if (config.showTitleY) showTitleY = config.showTitleY; // y titles are 1 and 2
       if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
 
-      if (config.sideYaxis) sideYaxis = config.sideYaxis;
+      if (config.alignYaxis) alignYaxis = config.alignYaxis;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
     }
 
