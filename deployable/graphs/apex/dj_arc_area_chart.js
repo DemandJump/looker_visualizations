@@ -213,9 +213,9 @@ looker.plugins.visualizations.add({
       display: `radio`,
       values: [
         {
-          Line: {
-            value: "line",
-            description: "Set all charts to a line layout"
+          Area: {
+            value: "area",
+            description: "Set all charts to an Area layout"
           }
         },
         {
@@ -225,9 +225,9 @@ looker.plugins.visualizations.add({
           }
         },
         {
-          Area: {
-            value: "area",
-            description: "Set all charts to an Area layout"
+          Line: {
+            value: "line",
+            description: "Set all charts to a line layout"
           }
         },
         {
@@ -237,7 +237,7 @@ looker.plugins.visualizations.add({
           }
         }
       ],
-      default: `line`,
+      default: `area`,
       hidden: false
     },
 
