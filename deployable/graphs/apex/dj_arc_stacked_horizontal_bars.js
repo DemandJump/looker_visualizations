@@ -493,7 +493,7 @@ looker.plugins.visualizations.add({
           fontsize: `12px`,
           fontfamily: `Roboto`,
           fontweight: `bold`
-        },
+        }
         // background: {
         //   enabled: true,
         //   foreColor: `#fff`,
@@ -503,11 +503,11 @@ looker.plugins.visualizations.add({
         //   borderColor: `#fff`,
         //   opacity: 0.9
         // },
-        formatter: function(val) {
-          if (typeof val == `number`)
-            return formatAxes(val, seriesData[0].value_format);
-          else return val;
-        }
+        // formatter: function(val) {
+        //   if (typeof val == `number`)
+        //     return formatAxes(val, seriesData[0].value_format);
+        //   else return val;
+        // }
       },
       stroke: {
         width: 1,
