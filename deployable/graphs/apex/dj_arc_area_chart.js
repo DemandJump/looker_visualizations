@@ -108,15 +108,6 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    // alignLabel: {
-    //     label: `Align to the left or right `,
-    //     order: 4,
-    //     section: `Format`,
-    //     type: `boolean`,
-    //     default: false,
-    //     hidden: false
-    // },
-
     stack: {
       label: `Series positioning`,
       order: 12,
@@ -128,14 +119,14 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    // sideYaxis: {
-    //   label: `Set y axis on the right`,
-    //   order: 13,
-    //   section: `Format`,
-    //   type: `boolean`,
-    //   default: false,
-    //   hidden: false
-    // },
+    alignYaxis: {
+      label: `Set y axis on the right`,
+      order: 13,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
 
     // Custom config
     customSpacing: {
