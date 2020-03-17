@@ -1109,7 +1109,7 @@ looker.plugins.visualizations.add({
           }
 
           let type = `area`;
-           if (config.allChartTypes == `area`) type = `area`;
+          if (config.allChartTypes == `area`) type = `area`;
           else if (config.allChartTypes == `column`) type = `column`;
           else if (config.allChartTypes == `line`) type = `line`;
           else if (config[name]) type = config[name];
@@ -1129,9 +1129,9 @@ looker.plugins.visualizations.add({
               type: `string`,
               display: `select`,
               values: [
-                { Area: "area" }
+                { Area: "area" },
                 { Column: "column" },
-                { Line: "line" },
+                { Line: "line" }
               ],
               default: `area`,
               hidden: false
