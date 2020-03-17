@@ -728,12 +728,18 @@ looker.plugins.visualizations.add({
           settings.dataLabels.hidden = false;
           settings.horizontal.hidden = false;
           settings.endingShape.hidden = false;
-          settings.stack.hidden = false;
+          // settings.stack.hidden = false;
           settings.alignLegend.hidden = false;
           if (settings.multipleAxes) settings.multipleAxes.hidden = false;
           changed = true;
         }
 
+        // stack display
+        if (globalTheme == `Custom`) {
+          if (config.allChartTypes == `column`) settings.stack.hidden = false;
+        }
+
+        // 100% stack type display
         if (config.stack) {
           if (stackGlobal != `true`) {
             stackGlobal = `true`;
