@@ -508,42 +508,9 @@ looker.plugins.visualizations.add({
      ************************************/
 
     function formatAxes(value, format) {
-      let value_format = format;
-      let autoSelectFormat = [];
+      let value_format = seriesData[0].value_format;
       let response;
       let final = value;
-
-      if (!multipleAxes) {
-        //   Construct the checker
-        seriesData.forEach(series =>
-          autoSelectFormat.push({
-            value_format: series.value_format,
-            universalCount: 0
-          })
-        );
-
-        //   Tally the valueFormat
-        autoSelectFormat.forEach((series, index) => {
-          for (let i = 0; i < autoSelectFormat.length; i++) {
-            if (autoSelectFormat[i].value_format == series.value_format)
-              autoSelectFormat[index].universalCount += 1;
-          }
-        });
-
-        //   Use last one that equals the most or matches the most
-        let count = 0;
-        autoSelectFormat.forEach((series, index) => {
-          if (index == 0) {
-            count = series.universalCount;
-            value_format = series.value_format;
-          } else {
-            if (count < series.universalCount) {
-              count = series.universalCount;
-              value_format = series.value_format;
-            }
-          }
-        });
-      }
 
       if (value_format == `0`) {
         final = value.toFixed(0);
