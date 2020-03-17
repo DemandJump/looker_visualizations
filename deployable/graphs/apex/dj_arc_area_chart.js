@@ -467,6 +467,9 @@ looker.plugins.visualizations.add({
     /******************
      * Config Display
      ******************/
+    console.log(`\n\n\n\nThis is the seriesData`, seriesData);
+    console.log(`This is the settings`, settings);
+    console.log(`This is the config`, config);
     // Configuration display functions
     buildMultipleAxes();
     multiAxisDisplay();
