@@ -497,7 +497,7 @@ looker.plugins.visualizations.add({
         background: {
           enabled: true,
           foreColor: `#fff`,
-          padding: 4,
+          padding: 3,
           borderRadius: 2,
           borderWidth: 1,
           borderColor: `#fff`,
