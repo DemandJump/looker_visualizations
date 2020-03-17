@@ -49,7 +49,7 @@ looker.plugins.visualizations.add({
                 <div class="col-md-6">
                     <div class="main-card mb-3 card">
                         <div class="card-body">
-                            <canvas id="radar-chart"></canvas>
+                            <div id="radar-chart"></div>
                         </div>
                     </div>
                 </div>
