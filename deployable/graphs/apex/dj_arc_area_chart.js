@@ -204,6 +204,16 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    // Multiple Axes Section
+    multipleAxes: {
+      label: `Add another axis`,
+      order: 1,
+      section: `Multiple Axes`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
     // Series Type Section
     allChartTypes: {
       label: `All chart types:`,
