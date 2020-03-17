@@ -135,18 +135,9 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    dataLabels: {
-      label: `Enable data labels`,
-      order: 10,
-      section: `Format`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
     horizontal: {
       label: `Plot graph horizontally`,
-      order: 11,
+      order: 10,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -155,7 +146,7 @@ looker.plugins.visualizations.add({
 
     stack: {
       label: `Stack layout`,
-      order: 12,
+      order: 11,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -164,7 +155,7 @@ looker.plugins.visualizations.add({
 
     stackType: {
       label: `100% Stack Type`,
-      order: 13,
+      order: 12,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -173,6 +164,15 @@ looker.plugins.visualizations.add({
 
     alignYaxis: {
       label: `Set y axis on the right`,
+      order: 13,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    dataLabels: {
+      label: `Enable data labels`,
       order: 14,
       section: `Format`,
       type: `boolean`,
