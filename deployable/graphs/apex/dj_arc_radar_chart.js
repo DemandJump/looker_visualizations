@@ -22,7 +22,7 @@ looker.plugins.visualizations.add({
 
     showTitle: {
       label: `Show title`,
-      order: 7,
+      order: 4,
       section: `Format`,
       type: `boolean`,
       default: false,
@@ -31,7 +31,25 @@ looker.plugins.visualizations.add({
 
     showSubtitle: {
       label: `Show subtitle`,
-      order: 8,
+      order: 5,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    dataLabels: {
+      label: `Enable datalabels`,
+      order: 6,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
+    styleGrid: {
+      label: `Style grid`,
+      order: 7,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -141,12 +159,16 @@ looker.plugins.visualizations.add({
 
     let title = ` `;
     let subtitle = ` `;
-
     let showTitle = false;
     let showSubtitle = false;
 
+    let grid = false;
+    let dataLabels = false;
+
     if (config.showTitle) showTitle = config.showTitle;
     if (config.showSubtitle) subtitle = config.showSubtitle;
+    if (config.styleGrid) grid = config.styleGrid;
+    if (config.dataLabels) dataLabels = config.dataLabels;
 
     // Main chart series data
     let xaxis = [];
@@ -185,6 +207,7 @@ looker.plugins.visualizations.add({
           }
         }
       },
+      dataLabels: { enabled: dataLabels },
       legend: {
         horizontalAlign: `center`,
         onItemClick: { toggleDataSeries: true },
@@ -194,6 +217,16 @@ looker.plugins.visualizations.add({
 
     if (showTitle) configuration[`title`] = { text: title };
     if (showSubtitle) configuration[`subtitle`] = { text: subtitle };
+    if (grid) {
+      configuration[`plotOptions`] = {
+        radar: {
+          polygons: {
+            strokeColor: "#e9e9e9",
+            fill: { colors: ["#f3f3f3", "#fff"] }
+          }
+        }
+      };
+    }
 
     /***********************
      * Series information

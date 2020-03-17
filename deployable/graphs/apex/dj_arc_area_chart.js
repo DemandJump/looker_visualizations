@@ -184,9 +184,18 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
+    styleGrid: {
+      label: `Style grid`,
+      order: 19,
+      section: `Format`,
+      type: `boolean`,
+      default: false,
+      hidden: false
+    },
+
     alignLegend: {
       label: `Align legend`,
-      order: 19,
+      order: 20,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -368,6 +377,7 @@ looker.plugins.visualizations.add({
     let alignLegend = `center`;
     let stacked = false;
     let multipleAxes = false;
+    let grid = false;
 
     let height = window.innerHeight - 45;
     let dataLabels = false;
@@ -438,6 +448,15 @@ looker.plugins.visualizations.add({
         onItemHover: { highlightDataSeries: true }
       }
     };
+
+    if (grid) {
+      configuration[`grid`] = {
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      };
+    }
 
     if (showTitle) configuration[`title`] = { text: title };
     if (showSubtitle) configuration[`subtitle`] = { text: label };
@@ -650,6 +669,7 @@ looker.plugins.visualizations.add({
 
       if (config.alignYaxis) alignYaxis = config.alignYaxis;
       if (config.multipleAxes) multipleAxes = config.multipleAxes;
+      if (config.styleGrid) grid = config.styleGrid;
     }
 
     function pivotCheck() {
