@@ -13,33 +13,32 @@ looker.plugins.visualizations.add({
         { Smooth: "smooth" },
         { Step: "stepline" },
         { Custom: "custom" }
-        // {'Theme two': 'negative'}
       ],
-      default: `area`,
+      default: `classic`,
       hidden: false
     },
 
     title: {
       label: `Title of chart`,
-      order: 3,
+      order: 2,
       section: `Format`,
       type: `string`,
       placeholder: `Enter chart title here`,
       hidden: false
     },
 
-    xTitle: {
-      label: `X axis label`,
-      order: 1.9,
+    label: {
+      label: `Subtitle of chart`,
+      order: 3,
       section: `Format`,
       type: `string`,
-      placeholder: `Enter chart title here`,
+      placeholder: `Enter a subtitle`,
       hidden: false
     },
 
     yTitle: {
       label: `Y axis label`,
-      order: 1.94,
+      order: 4,
       section: `Format`,
       type: `string`,
       placeholder: `Enter chart title here`,
@@ -48,16 +47,34 @@ looker.plugins.visualizations.add({
 
     yTitle2: {
       label: `Second y axis label`,
-      order: 1.95,
+      order: 5,
       section: `Format`,
       type: `string`,
       placeholder: `Enter y axis label`,
       hidden: false
     },
 
+    xTitle: {
+      label: `X axis label`,
+      order: 6,
+      section: `Format`,
+      type: `string`,
+      placeholder: `Enter chart title here`,
+      hidden: false
+    },
+
     showActualTitle: {
       label: `Show title`,
-      order: 3.01,
+      order: 7,
+      section: `Format`,
+      type: `boolean`,
+      default: true,
+      hidden: false
+    },
+
+    showSubtitle: {
+      label: `Show subtitle`,
+      order: 8,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -66,7 +83,7 @@ looker.plugins.visualizations.add({
 
     showTitle: {
       label: `Show y axis label`,
-      order: 1.941,
+      order: 9,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -75,7 +92,7 @@ looker.plugins.visualizations.add({
 
     showTitle2: {
       label: `Show second y axis label`,
-      order: 1.951,
+      order: 10,
       section: `Format`,
       type: `boolean`,
       default: true,
@@ -84,19 +101,10 @@ looker.plugins.visualizations.add({
 
     showTitle3: {
       label: `Show x axis label`,
-      order: 1.901,
+      order: 11,
       section: `Format`,
       type: `boolean`,
       default: true,
-      hidden: false
-    },
-
-    label: {
-      label: `Label by title`,
-      order: 2,
-      section: `Format`,
-      type: `string`,
-      placeholder: `Enter the label of the visual`,
       hidden: false
     },
 
@@ -111,7 +119,7 @@ looker.plugins.visualizations.add({
 
     stack: {
       label: `Series positioning`,
-      order: 5,
+      order: 12,
       section: `Format`,
       type: `string`,
       display: `radio`,
@@ -122,15 +130,16 @@ looker.plugins.visualizations.add({
 
     // sideYaxis: {
     //   label: `Set y axis on the right`,
-    //   order: 6,
+    //   order: 13,
     //   section: `Format`,
     //   type: `boolean`,
     //   default: false,
     //   hidden: false
     // },
 
+    // Custom config
     customSpacing: {
-      order: 8,
+      order: 14,
       section: `Format`,
       type: `sentence_maker`,
       words: [{ type: "separator", text: " " }],
@@ -138,16 +147,25 @@ looker.plugins.visualizations.add({
     },
 
     customLabel: {
-      order: 9,
+      order: 15,
       section: `Format`,
       type: `sentence_maker`,
       words: [{ type: "separator", text: "Custom configuration:" }],
       hidden: false
     },
 
+    // dataLabels: {
+    //     label: `Enable data labels`,
+    //     order: 16,
+    //     section: `Format`,
+    //     type: `boolean`,
+    //     default: false,
+    //     hidden: false
+    // },
+
     curve: {
       label: `Line behavior`,
-      order: 10,
+      order: 17,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -160,29 +178,9 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    // dataLabels: {
-    //     label: `Enable data labels`,
-    //     order: 12,
-    //     section: `Format`,
-    //     type: `boolean`,
-    //     default: false,
-    //     hidden: false
-    // },
-
-    alignLegend: {
-      label: `Align legend`,
-      order: 11,
-      section: `Format`,
-      type: `string`,
-      display: `select`,
-      values: [{ Left: "left" }, { Center: "center" }, { Right: "right" }],
-      default: `center`,
-      hidden: false
-    },
-
     fill: {
       label: `Gradient type`,
-      order: 12,
+      order: 18,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -195,30 +193,51 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    allArea: {
-      label: `All area chart types`,
+    alignLegend: {
+      label: `Align legend`,
+      order: 19,
+      section: `Format`,
+      type: `string`,
+      display: `select`,
+      values: [{ Left: "left" }, { Center: "center" }, { Right: "right" }],
+      default: `center`,
+      hidden: false
+    },
+
+    // Series Type Section
+    allChartTypes: {
+      label: `All chart types:`,
       order: 0.1,
       section: `Type of Chart`,
-      type: `boolean`,
-      default: true,
-      hidden: false
-    },
-
-    allColumn: {
-      label: `All column chart types`,
-      order: 0.2,
-      section: `Type of Chart`,
-      type: `boolean`,
-      default: false,
-      hidden: false
-    },
-
-    allLine: {
-      label: `All line chart types`,
-      order: 0.3,
-      section: `Type of Chart`,
-      type: `boolean`,
-      default: false,
+      type: `string`,
+      display: `radio`,
+      values: [
+        {
+          Line: {
+            value: "line",
+            description: "Set all charts to a line layout"
+          }
+        },
+        {
+          Column: {
+            value: "column",
+            description: "Set all charts to a column layout"
+          }
+        },
+        {
+          Area: {
+            value: "area",
+            description: "Set all charts to an Area layout"
+          }
+        },
+        {
+          Custom: {
+            value: "custom",
+            description: "Change the chart types individually"
+          }
+        }
+      ],
+      default: `line`,
       hidden: false
     },
 
@@ -234,16 +253,7 @@ looker.plugins.visualizations.add({
       order: 0.5,
       section: `Format`,
       type: `sentence_maker`,
-      words: [{ type: "separator", text: "Chart Type Configuration:" }],
-      hidden: false
-    },
-
-    multipleAxes: {
-      label: `Add another axis`,
-      order: 1,
-      section: `Multiple Axes`,
-      type: `boolean`,
-      default: false,
+      words: [{ type: "separator", text: "Chart Labels:" }],
       hidden: false
     }
   },
