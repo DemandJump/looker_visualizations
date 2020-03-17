@@ -1039,7 +1039,10 @@ looker.plugins.visualizations.add({
           settings.showSecondTitleY.hidden = false;
           settings.alignYaxis.hidden = true;
           seriesData.forEach((s, i) => {
-            if (i != 0) settings[`seriesAxis_${i}`].hidden = false;
+            if (i != 0) {
+              if (settings[`seriesAxis_${i}`])
+                settings[`seriesAxis_${i}`].hidden = false;
+            }
           });
         }
       } else {
@@ -1050,7 +1053,10 @@ looker.plugins.visualizations.add({
           settings.showSecondTitleY.hidden = true;
           settings.alignYaxis.hidden = false;
           seriesData.forEach((s, i) => {
-            if (i != 0) settings[`seriesAxis_${i}`].hidden = true;
+            if (i != 0) {
+              if (settings[`seriesAxis_${i}`])
+                settings[`seriesAxis_${i}`].hidden = true;
+            }
           });
         }
       }
