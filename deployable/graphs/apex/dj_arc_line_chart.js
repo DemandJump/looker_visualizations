@@ -477,6 +477,9 @@ looker.plugins.visualizations.add({
     if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
 
+    /******************
+     * Config Display
+     ******************/
     // Configuration display functions
     buildMultipleAxes();
     multiAxisDisplay();
@@ -485,9 +488,6 @@ looker.plugins.visualizations.add({
     seriesTypes();
     selectSeries();
 
-    /****************************************************
-     * Store global variables and rerender the data
-     ****************************************************/
     this._iteration++;
     this._series = seriesData.length;
     this._mutliAxis = multiAxis;

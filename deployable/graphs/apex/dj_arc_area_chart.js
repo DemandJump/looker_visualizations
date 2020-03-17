@@ -63,7 +63,7 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showActualTitle: {
+    showTitle: {
       label: `Show title`,
       order: 7,
       section: `Format`,
@@ -81,7 +81,7 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showTitle: {
+    showTitleY: {
       label: `Show y axis label`,
       order: 9,
       section: `Format`,
@@ -90,16 +90,16 @@ looker.plugins.visualizations.add({
       hidden: false
     },
 
-    showTitle2: {
+    showSecondTitleY: {
       label: `Show second y axis label`,
       order: 10,
       section: `Format`,
       type: `boolean`,
       default: true,
       hidden: false
+      showTitleX: {
     },
 
-    showTitle3: {
       label: `Show x axis label`,
       order: 11,
       section: `Format`,
@@ -259,11 +259,10 @@ looker.plugins.visualizations.add({
   },
   create: function(element, config) {
     this._iteration = 0;
-    this._custom = ``;
-    this._multipleAxes = false;
     this._series = 0;
-    this._rebuildSeriesTypes = false;
+    this._multiAxis = false;
     this._seriesSelect = `area`;
+    this._custom = ``;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:100, 300,400,500&display=swap');
@@ -336,44 +335,13 @@ looker.plugins.visualizations.add({
       `#FFB0B0`,
       `#931655`
     ];
-    let djAlphaColors = [
-      `rgba(0, 157, 233, 0.45)`,
-      `rgba(62, 193, 115, 0.45)`,
-      `rgba(56, 232, 131, 0.45)`,
-      `rgba(74, 74, 255, 0.45)`,
-      `rgba(22, 55, 150, 0.45)`,
-      `rgba(92, 243, 255, 0.45)`,
-      `rgba(249, 190, 61, 0.45)`,
-      `rgba(226, 255, 110, 0.45)`,
-      `rgba(172, 234, 73, 0.45)`,
-      `rgba(165, 48, 87, 0.45)`,
-      `rgba(172, 126, 183, 0.45)`,
-      `rgba(92, 59, 195, 0.45)`,
-      `rgba(82, 120, 206, 0.45)`,
-      `rgba(161, 237, 255, 0.45)`,
-      `rgba(5, 206, 90, 0.45)`,
-      `rgba(74, 140, 4, 0.45)`,
-      `rgba(58, 187, 207, 0.45)`,
-      `rgba(236, 228, 40, 0.45)`,
-      `rgba(229, 48, 87, 0.45)`,
-      `rgba(255, 133, 113, 0.45)`,
-      `rgba(249, 220, 160, 0.45)`,
-      `rgba(143, 255, 199, 0.45)`,
-      `rgba(223, 161, 255, 0.45)`,
-      `rgba(156, 92, 247, 0.45)`,
-      `rgba(13, 109, 109, 0.45)`,
-      `rgba(53, 168, 219, 0.45)`,
-      `rgba(146, 255, 255, 0.45)`,
-      `rgba(165, 192, 255, 0.45)`,
-      `rgba(255, 176, 176, 0.45)`,
-      `rgba(147, 22, 85, 0.45)`
-    ];
     let datum = data;
     let settings = this.options;
     let thisSeries = this._series;
-    let multiAxisGlobalVar = this._multipleAxes;
-    let rebuildSeriesTypes = this._rebuildSeriesTypes;
+    let multiAxis = this._multiAxis;
     let seriesSelect = this._seriesSelect;
+    let customGlobal = this._custom;
+    let rebuildSeriesTypes = false;
     let theme = `area`;
     let changed = false;
     let pivot = false;
@@ -381,15 +349,18 @@ looker.plugins.visualizations.add({
     let pivotB = false;
     let pivotC = false;
 
-    let title = queryResponse.fields.dimension_like[0].label;
+    let title = ` `;
+    let label = ` `;
     let xTitle = ` `;
     let yTitle = ` `;
     let yTitle2 = ` `;
-    let showActualTitle = false;
+
     let showTitle = false;
-    let showTitle2 = false;
-    let showTitle3 = false;
-    let label = ` `;
+    let showSubtitle = false;
+    let showTitleX = false;
+    let showTitleY = false;
+    let showSecondTitleY = false;
+
     let curve = `straight`;
     let stack = `overlay`;
     let fill = `gradient`;
@@ -441,10 +412,7 @@ looker.plugins.visualizations.add({
         width: 3,
         curve: curve
       },
-      subtitle: {
-        text: label,
-        align: `left`
-      },
+
       xaxis: { type: `category` },
       yaxis: {
         opposite: sideYaxis,
@@ -472,24 +440,26 @@ looker.plugins.visualizations.add({
       }
     };
 
-    if (showActualTitle) configuration[`title`] = { text: title };
-    if (showTitle) configuration.yaxis.title = { text: yTitle };
-    if (showTitle3) configuration.xaxis.title = { text: xTitle };
-    buildMultipleAxes();
+    if (showTitle) configuration[`title`] = { text: title };
+    if (showSubtitle) configuration[`subtitle`] = { text: label };
+    if (showTitleX) configuration[`xaxis`].title = { text: xTitle };
+    if (showTitleY) configuration[`yaxis`].title = { text: yTitle };
     if (this._iteration < 2) configuration[`animations`] = { enabled: false };
-
+    
     /******************
      * Config Display
      ******************/
+    buildMultipleAxes();
     multiAxes();
+
     hideAxisTab(); // Some Multi Axis display settings based on stack layout (series positioning config setting)
     selectSeries();
 
     this._iteration++;
     this._series = seriesData.length;
-    this._multipleAxes = multiAxisGlobalVar;
-    this._rebuildSeriesTypes = rebuildSeriesTypes;
+    this._multiAxis = multiAxis;
     this._seriesSelect = seriesSelect;
+    this._custom = customGlobal;
     this.options = settings;
     if (changed) this.trigger(`registerOptions`, this.options);
 
@@ -629,8 +599,8 @@ looker.plugins.visualizations.add({
       if (config.themes) theme = config.themes;
 
       if (theme == `classic` || theme == `smooth` || theme == `stepline`) {
-        if (this._custom != `classic`) {
-          this._custom = `classic`;
+        if (customGlobal != `classic`) {
+          customGlobal = `classic`;
           settings.customSpacing.hidden = true;
           settings.customLabel.hidden = true;
           settings.curve.hidden = true;
@@ -646,8 +616,8 @@ looker.plugins.visualizations.add({
       }
 
       if (theme == `custom`) {
-        if (this._custom != `custom`) {
-          this._custom = `custom`;
+        if (customGlobal != `custom`) {
+          customGlobal = `custom`;
           settings.customSpacing.hidden = false;
           settings.customLabel.hidden = false;
           settings.curve.hidden = false;
@@ -664,17 +634,20 @@ looker.plugins.visualizations.add({
         if (config.fill) fill = config.fill;
       }
 
-      if (config.showActualTitle) showActualTitle = config.showActualTitle;
-      if (config.showTitle) showTitle = config.showTitle; // y titles are 1 and 2
-      if (config.showTitle2) showTitle2 = config.showTitle2;
-      if (config.showTitle3) showTitle3 = config.showTitle3;
-      if (config.label) label = config.label;
-      if (config.title != ``) title = config.title;
-      if (config.sideYaxis) sideYaxis = config.sideYaxis;
-      if (config.multipleAxes) multipleAxes = config.multipleAxes;
-      if (config.stack) stack = config.stack;
       if (stack == `overlay`) stacked = false;
       if (stack == `stack`) stacked = true;
+      
+      if (config.title != ``) title = config.title;
+      if (config.label) label = config.label;
+
+      if (config.showTitle) showTitle = config.showTitle;
+      if (config.showSubtitle) showSubtitle = config.showSubtitle;
+      if (config.showTitleX) showTitleX = config.showTitleX;
+      if (config.showTitleY) showTitleY = config.showTitleY; // y titles are 1 and 2
+      if (config.showSecondTitleY) showSecondTitleY = config.showSecondTitleY;
+
+      if (config.sideYaxis) sideYaxis = config.sideYaxis;
+      if (config.multipleAxes) multipleAxes = config.multipleAxes;
     }
 
     function pivotCheck() {
@@ -1051,10 +1024,10 @@ looker.plugins.visualizations.add({
 
           //   Axis based label
           if (seriesName == nameA) {
-            if (showTitle) obj[`title`] = { text: title };
+            if (showTitleY) obj[`title`] = { text: title };
           }
           if (seriesName == nameB) {
-            if (showTitle2) obj[`title`] = { text: title };
+            if (showSecondTitleY) obj[`title`] = { text: title };
           }
 
           configuration.yaxis.push(obj);
@@ -1069,10 +1042,10 @@ looker.plugins.visualizations.add({
     function multiAxes() {
       // Multiple axis display configuration
       if (multipleAxes && seriesData.length > 1) {
-        if (multiAxisGlobalVar != true) {
-          if (settings.showTitle2) settings.showTitle2.hidden = false;
+        if (multiAxis != true) {
+          if (settings.showSecondTitleY) settings.showSecondTitleY.hidden = false;
           if (settings.yTitle2) settings.yTitle2.hidden = false;
-          multiAxisGlobalVar = true;
+          multiAxis = true;
           changed = true;
 
           for (let i = 1; i < this._series; i++) {
@@ -1081,10 +1054,10 @@ looker.plugins.visualizations.add({
           }
         }
       } else {
-        if (multiAxisGlobalVar != false) {
-          if (settings.showTitle2) settings.showTitle2.hidden = true;
+        if (multiAxis != false) {
+          if (settings.showSecondTitleY) settings.showSecondTitleY.hidden = true;
           if (settings.yTitle2) settings.yTitle2.hidden = true;
-          multiAxisGlobalVar = false;
+          multiAxis = false;
           changed = true;
 
           for (let i = 1; i < this._series; i++) {
@@ -1097,10 +1070,10 @@ looker.plugins.visualizations.add({
 
     function hideAxisTab() {
       if (stacked) {
-        if (settings.showTitle2 || settings.yTitle2 || settings.multipleAxes)
+        if (settings.showSecondTitleY || settings.yTitle2 || settings.multipleAxes)
           changed = true;
 
-        if (settings.showTitle2) delete settings.showTitle2;
+        if (settings.showSecondTitleY) delete settings.showSecondTitleY;
         if (settings.yTitle2) delete settings.yTitle2;
         if (settings.multipleAxes) delete settings.multipleAxes;
 
@@ -1111,11 +1084,11 @@ looker.plugins.visualizations.add({
           }
         }
       } else {
-        if (!settings.showTitle2 || !settings.yTitle2 || !settings.multipleAxes)
+        if (!settings.showSecondTitleY || !settings.yTitle2 || !settings.multipleAxes)
           changed = true;
 
-        if (!settings.showTitle2) {
-          settings.showTitle2 = {
+        if (!settings.showSecondTitleY) {
+          settings.showSecondTitleY = {
             label: `Show second y axis title`,
             order: 4.2,
             section: `Format`,
