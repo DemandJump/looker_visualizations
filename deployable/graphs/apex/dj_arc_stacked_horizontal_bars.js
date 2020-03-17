@@ -70,7 +70,7 @@ looker.plugins.visualizations.add({
       order: 5,
       section: `Format`,
       type: `boolean`,
-      default: true,
+      default: false,
       hidden: false
     },
 

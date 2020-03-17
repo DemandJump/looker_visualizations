@@ -68,7 +68,7 @@ looker.plugins.visualizations.add({
       order: 7,
       section: `Format`,
       type: `boolean`,
-      default: true,
+      default: false,
       hidden: false
     },
 
@@ -1006,37 +1006,6 @@ looker.plugins.visualizations.add({
     /*******************************
      * Config Display Settings
      *******************************/
-
-    function multiAxes() {
-      // Multiple axis display configuration
-      if (multipleAxes && seriesData.length > 1) {
-        if (multiAxis != true) {
-          if (settings.showSecondTitleY)
-            settings.showSecondTitleY.hidden = false;
-          if (settings.yTitle2) settings.yTitle2.hidden = false;
-          multiAxis = true;
-          changed = true;
-
-          for (let i = 1; i < this._series; i++) {
-            if (settings[`seriesAxis_${i}`])
-              settings[`seriesAxis_${i}`].hidden = false;
-          }
-        }
-      } else {
-        if (multiAxis != false) {
-          if (settings.showSecondTitleY)
-            settings.showSecondTitleY.hidden = true;
-          if (settings.yTitle2) settings.yTitle2.hidden = true;
-          multiAxis = false;
-          changed = true;
-
-          for (let i = 1; i < this._series; i++) {
-            if (settings[`seriesAxis_${i}`])
-              settings[`seriesAxis_${i}`].hidden = true;
-          }
-        }
-      }
-    }
 
     function multiAxisDisplay() {
       if (multipleAxes && seriesData.length > 1) {
