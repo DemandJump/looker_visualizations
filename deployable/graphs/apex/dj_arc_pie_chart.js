@@ -51,6 +51,7 @@ looker.plugins.visualizations.add({
     }
   },
   create: function(element, config) {
+    this._iteration = 0;
     element.innerHTML = `
             <style>
             @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
@@ -218,6 +219,8 @@ looker.plugins.visualizations.add({
       };
     }
 
+    if (this._iteration < 2) configuration[`animations`] = { enabled: false };
+
     // Apex Charts
     window.Apex = { dataLabels: { enabled: false }, stroke: { width: 2 } };
     let chart = new ApexCharts(
@@ -237,8 +240,11 @@ looker.plugins.visualizations.add({
         queryResponse: queryResponse,
         element: element,
         details: details
-      }
+      },
+      iteration: this._iteration
     };
+
+    this._iteration++;
     console.log(`Here's the series information`, seriesInformation);
 
     /************************************

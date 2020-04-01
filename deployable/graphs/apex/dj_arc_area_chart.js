@@ -4,7 +4,7 @@ looker.plugins.visualizations.add({
   options: {
     themes: {
       label: `Choose a theme`,
-      order: 1,
+      order: 0.1,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -630,6 +630,8 @@ looker.plugins.visualizations.add({
           // settings.dataLabels.hidden = true;
           settings.alignLegend.hidden = true;
           settings.fill.hidden = true;
+          settings.alignYaxis.hidden = true;
+          settings.styleGrid.hidden = true;
           changed = true;
         }
 
@@ -647,6 +649,8 @@ looker.plugins.visualizations.add({
           // settings.dataLabels.hidden = false;
           settings.alignLegend.hidden = false;
           settings.fill.hidden = false;
+          settings.alignYaxis.hidden = true;
+          settings.styleGrid.hidden = true;
           changed = true;
         }
 

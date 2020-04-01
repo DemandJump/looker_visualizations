@@ -126,38 +126,6 @@ looker.plugins.visualizations.add({
       `#FFB0B0`,
       `#931655`
     ];
-    let djAlphaColors = [
-      `rgba(0, 157, 233, 0.45)`,
-      `rgba(62, 193, 115, 0.45)`,
-      `rgba(56, 232, 131, 0.45)`,
-      `rgba(74, 74, 255, 0.45)`,
-      `rgba(22, 55, 150, 0.45)`,
-      `rgba(92, 243, 255, 0.45)`,
-      `rgba(249, 190, 61, 0.45)`,
-      `rgba(226, 255, 110, 0.45)`,
-      `rgba(172, 234, 73, 0.45)`,
-      `rgba(165, 48, 87, 0.45)`,
-      `rgba(172, 126, 183, 0.45)`,
-      `rgba(92, 59, 195, 0.45)`,
-      `rgba(82, 120, 206, 0.45)`,
-      `rgba(161, 237, 255, 0.45)`,
-      `rgba(5, 206, 90, 0.45)`,
-      `rgba(74, 140, 4, 0.45)`,
-      `rgba(58, 187, 207, 0.45)`,
-      `rgba(236, 228, 40, 0.45)`,
-      `rgba(229, 48, 87, 0.45)`,
-      `rgba(255, 133, 113, 0.45)`,
-      `rgba(249, 220, 160, 0.45)`,
-      `rgba(143, 255, 199, 0.45)`,
-      `rgba(223, 161, 255, 0.45)`,
-      `rgba(156, 92, 247, 0.45)`,
-      `rgba(13, 109, 109, 0.45)`,
-      `rgba(53, 168, 219, 0.45)`,
-      `rgba(146, 255, 255, 0.45)`,
-      `rgba(165, 192, 255, 0.45)`,
-      `rgba(255, 176, 176, 0.45)`,
-      `rgba(147, 22, 85, 0.45)`
-    ];
     let datum = data;
     let settings = this.options;
     let changed = false;
@@ -232,6 +200,7 @@ looker.plugins.visualizations.add({
     if (showTitle) configuration[`title`] = { text: title };
     if (showSubtitle) configuration[`subtitle`] = { text: subtitle };
     if (!config.markers) configuration[`markers`] = { size: 0 };
+    if (this._iteration < 2) configuration[`animations`] = { enabled: false };
     if (grid) {
       configuration[`plotOptions`] = {
         radar: {

@@ -4,7 +4,7 @@ looker.plugins.visualizations.add({
   options: {
     chooseTheme: {
       label: `Choose a theme`,
-      order: 1,
+      order: 0.1,
       section: `Format`,
       type: `string`,
       display: `select`,
@@ -705,8 +705,11 @@ looker.plugins.visualizations.add({
           settings.horizontal.hidden = true;
           settings.endingShape.hidden = true;
           settings.stack.hidden = true;
-          settings.stackType.hidden = true;
           settings.alignLegend.hidden = true;
+          settings.alignYaxis.hidden = true;
+          settings.styleGrid.hidden = true;
+          settings.fill.hidden = true;
+          settings.stackType.hidden = true;
           if (settings.multipleAxes) settings.multipleAxes.hidden = true;
           changed = true;
         }
@@ -730,6 +733,9 @@ looker.plugins.visualizations.add({
           settings.endingShape.hidden = false;
           settings.stack.hidden = false;
           settings.alignLegend.hidden = false;
+          settings.alignYaxis.hidden = true;
+          settings.styleGrid.hidden = true;
+          settings.fill.hidden = true;
           if (settings.multipleAxes) settings.multipleAxes.hidden = false;
           changed = true;
         }
@@ -1171,7 +1177,7 @@ looker.plugins.visualizations.add({
       }
 
       // For 100% stack type
-      if (config.stack) {
+      if (config.stack && theme == `Custom`) {
         if (fullstack != true) {
           fullstack = true;
           changed = true;
